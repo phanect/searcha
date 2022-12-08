@@ -1,68 +1,89 @@
 import { memo } from "react";
-import { useAtom, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { flexRender } from "@tanstack/react-table";
 import type { Row, Cell } from "@tanstack/react-table";
 
-import { styled } from "@mui/material/styles";
 import ErrorIcon from "@mui/icons-material/ErrorOutline";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 
-import StyledCell from "./Styled/StyledCell";
+import StyledCell from "@src/components/Table/Styled/StyledCell";
 import { InlineErrorFallback } from "@src/components/ErrorFallback";
 import RichTooltip from "@src/components/RichTooltip";
+import StyledDot from "@src/components/Table/Styled/StyledDot";
 
 import {
   tableScope,
   selectedCellAtom,
   contextMenuTargetAtom,
 } from "@src/atoms/tableScope";
+import { TABLE_PADDING } from "@src/components/Table";
 import type { TableRow } from "@src/types/table";
+import type { IRenderedTableCellProps } from "./withRenderTableCell";
 
-const Dot = styled("div")(({ theme }) => ({
-  position: "absolute",
-  right: -5,
-  top: "50%",
-  transform: "translateY(-50%)",
-  zIndex: 1,
-
-  width: 12,
-  height: 12,
-
-  borderRadius: "50%",
-  backgroundColor: theme.palette.error.main,
-
-  boxShadow: `0 0 0 4px var(--cell-background-color)`,
-  "[role='row']:hover &": {
-    boxShadow: `0 0 0 4px var(--row-hover-background-color)`,
-  },
-}));
-
-export interface ICellValidationProps {
+export interface ITableCellProps {
+  /** Current row with context from TanStack Table state */
   row: Row<TableRow>;
+  /** Current cell with context from TanStack Table state */
   cell: Cell<TableRow, any>;
+  /** Virtual cell index (column index) */
   index: number;
+  /** User has clicked or navigated to this cell */
   isSelectedCell: boolean;
+  /** User has double-clicked or pressed Enter and this cell is selected */
+  focusInsideCell: boolean;
+  /**
+   * Used to disable `aria-description` that says “Press Enter to edit”
+   * for Auditing and Metadata cells. Need to find another way to do this.
+   */
   isReadOnlyCell: boolean;
+  /** Determines if EditorCell can be displayed */
   canEditCells: boolean;
+  /**
+   * Pass current row height as a prop so we don’t access `tableSchema` here.
+   * If that atom is listened to here, all table cells will re-render whenever
+   * `tableSchema` changes, which is unnecessary.
+   */
   rowHeight: number;
-  lastFrozen?: string;
-  left?: number;
+  /** If true, renders a shadow */
+  isLastFrozen: boolean;
+  /** Pass width as a prop to get local column sizing state */
+  width: number;
+  /**
+   * If provided, cell is pinned/frozen, and this value is used for
+   * `position: sticky`.
+   */
+  left: number;
+  isPinned: boolean;
 }
 
-export const CellValidation = memo(function MemoizedCellValidation({
+/**
+ * Renders the container div for each cell with accessibility attributes for
+ * keyboard navigation.
+ *
+ * - Performs regex & missing value check and renders associated UI
+ * - Provides children with value from `cell.getValue()` so they can work with
+ *   memoization
+ * - Provides helpers as props to aid with memoization, so children components
+ *   don’t have to read atoms, which may cause unnecessary re-renders of many
+ *   cell components
+ * - Renders `ErrorBoundary`
+ */
+export const TableCell = memo(function TableCell({
   row,
   cell,
   index,
   isSelectedCell,
+  focusInsideCell,
   isReadOnlyCell,
   canEditCells,
   rowHeight,
-  lastFrozen,
+  isLastFrozen,
+  width,
   left,
-}: ICellValidationProps) {
-  const [selectedCell, setSelectedCell] = useAtom(selectedCellAtom, tableScope);
-  const focusInsideCell = selectedCell?.focusInside ?? false;
+  isPinned,
+}: ITableCellProps) {
+  const setSelectedCell = useSetAtom(selectedCellAtom, tableScope);
   const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, tableScope);
 
   const value = cell.getValue();
@@ -81,7 +102,7 @@ export const CellValidation = memo(function MemoizedCellValidation({
         title="Invalid data"
         message="This row will not be saved until all the required fields contain valid data"
         placement="right"
-        render={({ openTooltip }) => <Dot onClick={openTooltip} />}
+        render={({ openTooltip }) => <StyledDot onClick={openTooltip} />}
       />
     );
   } else if (isMissing) {
@@ -91,10 +112,24 @@ export const CellValidation = memo(function MemoizedCellValidation({
         title="Required field"
         message="This row will not be saved until all the required fields contain valid data"
         placement="right"
-        render={({ openTooltip }) => <Dot onClick={openTooltip} />}
+        render={({ openTooltip }) => <StyledDot onClick={openTooltip} />}
       />
     );
   }
+
+  const tableCellComponentProps: IRenderedTableCellProps = {
+    ...cell.getContext(),
+    value,
+    focusInsideCell,
+    setFocusInsideCell: (focusInside: boolean) =>
+      setSelectedCell({
+        path: row.original._rowy_ref.path,
+        columnKey: cell.column.id,
+        focusInside,
+      }),
+    disabled: !canEditCells || cell.column.columnDef.meta?.editable === false,
+    rowHeight,
+  };
 
   return (
     <StyledCell
@@ -102,7 +137,7 @@ export const CellValidation = memo(function MemoizedCellValidation({
       data-row-id={row.id}
       data-col-id={cell.column.id}
       data-frozen={cell.column.getIsPinned() || undefined}
-      data-frozen-last={lastFrozen === cell.column.id || undefined}
+      data-frozen-last={isLastFrozen || undefined}
       role="gridcell"
       tabIndex={isSelectedCell && !focusInsideCell ? 0 : -1}
       aria-colindex={index + 1}
@@ -118,9 +153,10 @@ export const CellValidation = memo(function MemoizedCellValidation({
       }
       aria-invalid={isInvalid || isMissing}
       style={{
-        width: cell.column.getSize(),
+        width,
         height: rowHeight,
-        left,
+        position: isPinned ? "sticky" : "absolute",
+        left: left - (isPinned ? TABLE_PADDING : 0),
         backgroundColor:
           cell.column.id === "_rowy_column_actions" ? "transparent" : undefined,
         borderBottomWidth:
@@ -157,22 +193,10 @@ export const CellValidation = memo(function MemoizedCellValidation({
     >
       {renderedValidationTooltip}
       <ErrorBoundary fallbackRender={InlineErrorFallback}>
-        {flexRender(cell.column.columnDef.cell, {
-          ...cell.getContext(),
-          focusInsideCell: isSelectedCell && focusInsideCell,
-          setFocusInsideCell: (focusInside: boolean) =>
-            setSelectedCell({
-              path: row.original._rowy_ref.path,
-              columnKey: cell.column.id,
-              focusInside,
-            }),
-          disabled:
-            !canEditCells || cell.column.columnDef.meta?.editable === false,
-          rowHeight,
-        })}
+        {flexRender(cell.column.columnDef.cell, tableCellComponentProps)}
       </ErrorBoundary>
     </StyledCell>
   );
 });
 
-export default CellValidation;
+export default TableCell;
