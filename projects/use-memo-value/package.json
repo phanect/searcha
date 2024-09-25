@@ -11,34 +11,12 @@
     "email": "jamie.kyle@discordapp.com"
   }],
   "license": "UNLICENSED",
-  "repository": "discord/use-memo-value",
-  "keywords": [
-    "react",
-    "hook",
-    "use",
-    "memo",
-    "memoized",
-    "value",
-    "object",
-    "array",
-    "shallow",
-    "equal",
-    "shallowequal",
-    "compare",
-    "comparator",
-    "comparison"
-  ],
-  "source": "src/useMemoValue.ts",
+  "private": true,
   "main": "dist/useMemoValue.js",
   "module": "dist/useMemoValue.module.js",
-  "unpkg": "dist/useMemoValue.umd.js",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "rm -rf dist && microbundle --inline none --name useMemoValue",
-    "test": "TS_NODE_PROJECT=./tsconfig.test.json ava",
-    "prepublishOnly": "npm run -s build"
+    "test": "TS_NODE_PROJECT=./tsconfig.test.json ava"
   },
   "dependencies": {
     "shallowequal": "^0.1.0 || ^0.2.0 || ^1.0.0"

@@ -10,16 +10,10 @@
     "url": "https://github.com/notsidney"
   }],
   "license": "UNLICENSED",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "module": "dist/multiselect.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
