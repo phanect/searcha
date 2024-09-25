@@ -1,7 +1,16 @@
 {
+  "name": "@phanect/searcha-monorepo",
+  "version": "0.0.0",
+  "description": "Have a data list? Make it searchable!",
   "author": {
     "name": "Jumpei Ogawa",
     "url": "https://phanective.org"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -dX --exclude=\"!.env\" --force",
+    "refresh": "pnpm clean && rm --force ./pnpm-lock.yaml && pnpm install && pnpm build"
+  }
 }
