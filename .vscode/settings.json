@@ -1,0 +1,21 @@
+{
+  "javascript.preferences.importModuleSpecifierEnding": "js",
+  "javascript.preferences.quoteStyle": "double",
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "astro",
+    "json",
+    "jsonc",
+    "json5",
+  ],
+  "eslint.probe": [
+    "javascriptreact",
+    "typescriptreact",
+    "html",
+    "vue",
+  ],
+  "eslint.useFlatConfig": true,
+}

@@ -3,5 +3,11 @@
   "version": "0.0.0",
   "description": "Convert your dataset to websites or internal wikis",
   "author": "Jumpei Ogawa (https://phanective.org)",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -dX --exclude=\"!.env\" --force",
+    "refresh": "npm run clean && rm --force ./yarn.lock && npm install && npm run build"
+  }
 }
