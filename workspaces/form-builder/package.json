@@ -1,25 +1,18 @@
 {
   "name": "@rowy/form-builder",
   "version": "0.8.0",
-  "publishConfig": {
-    "access": "public"
-  },
   "author": "Jumpei Ogawa (https://phanective.org)",
   "contributors": [
     "Sidney Alcantara (https://github.com/notsidney)"
   ],
   "license": "UNLICENSED",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "private": true,
   "module": "dist/form-builder.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "start": "tsdx watch",
     "build": "node generate-exports && git add src/index.ts && tsdx build",
-    "prepublishOnly": "node generate-exports && git add src/index.ts && tsdx build",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",

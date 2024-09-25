@@ -6,13 +6,7 @@
     "Sidney Alcantara (https://github.com/notsidney)"
   ],
   "license": "UNLICENSED",
-  "publishConfig": {
-    "access": "public"
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "private": true,
   "module": "dist/multiselect.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
