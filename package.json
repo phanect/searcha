@@ -6,5 +6,11 @@
     "name": "Jumpei Ogawa",
     "url": "https://phanective.org"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -dX --exclude=\"!.env\" --force",
+    "refresh": "pnpm clean && rm --force ./pnpm-lock.yaml && pnpm install && pnpm build"
+  }
 }
