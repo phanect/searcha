@@ -1,9 +1,6 @@
 {
   "name": "@rowy/form-builder",
   "version": "0.8.0",
-  "publishConfig": {
-    "access": "public"
-  },
   "author": {
     "name": "Jumpei Ogawa",
     "url": "https://phanective.org"
@@ -13,17 +10,13 @@
     "url": "https://github.com/notsidney"
   }],
   "license": "UNLICENSED",
+  "private": true,
   "module": "dist/form-builder.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
   "scripts": {
     "start": "tsdx watch",
     "build": "node ./.mise/tasks/build/barrel.ts && git add src/index.ts && tsdx build",
-    "prepublishOnly": "node ./.mise/tasks/build/barrel.ts && git add src/index.ts && tsdx build",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
