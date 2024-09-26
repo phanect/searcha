@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { isEmpty, isDate } from "lodash-es";
 
 import {

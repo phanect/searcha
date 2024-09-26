@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { IFieldComponentProps } from "@rowy/form-builder";
+import { IFieldComponentProps } from "@phanect/datasheet-form-builder";
 
 import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
 

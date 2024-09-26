@@ -1,5 +1,5 @@
 {
-  "name": "@rowy/form-builder",
+  "name": "@phanect/datasheet-form-builder",
   "version": "0.8.0",
   "author": "Jumpei Ogawa (https://phanective.org)",
   "contributors": [
@@ -50,7 +50,7 @@
     "@mui/icons-material": "^5.4.1",
     "@mui/material": "^5.4.1",
     "@mui/x-date-pickers": "^5.0.9",
-    "@rowy/multiselect": "workspace:*",
+    "@phanect/datasheet-multiselect": "workspace:*",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-docs": "^6.3.8",
     "@storybook/addon-info": "^5.3.21",
@@ -81,7 +81,7 @@
     "@mui/icons-material": "^5.4.1",
     "@mui/material": "^5.4.1",
     "@mui/x-date-pickers": "^5.0.9",
-    "@rowy/multiselect": "workspace:*",
+    "@phanect/datasheet-multiselect": "workspace:*",
     "react": "^17.0.2"
   }
 }

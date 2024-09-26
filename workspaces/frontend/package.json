@@ -1,5 +1,5 @@
 {
-  "name": "rowy",
+  "name": "@phanect/datasheet",
   "version": "3.0.0",
   "homepage": "https://rowy.io",
   "repository": {
@@ -35,8 +35,9 @@
     "@mui/lab": "^5.0.0-alpha.76",
     "@mui/material": "^5.10.16",
     "@mui/x-date-pickers": "^5.0.0-alpha.4",
-    "@rowy/form-builder": "workspace:*",
-    "@rowy/multiselect": "workspace:*",
+    "@phanect/datasheet-form-builder": "workspace:*",
+    "@phanect/datasheet-multiselect": "workspace:*",
+    "@phanect/use-memo-value": "workspace:*",
     "@tanstack/react-table": "^8.5.15",
     "@tinymce/tinymce-react": "^3",
     "@uiw/react-md-editor": "^3.14.1",
@@ -93,7 +94,6 @@
     "use-algolia": "^1.5.3",
     "use-async-memo": "^1.2.4",
     "use-debounce": "^9.0.4",
-    "use-memo-value": "workspace:*",
     "web-vitals": "^2.1.4",
     "workbox-webpack-plugin": "^6.5.4"
   },

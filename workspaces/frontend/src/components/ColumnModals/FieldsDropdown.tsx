@@ -1,4 +1,4 @@
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 import { Box, ListItemIcon, Typography } from "@mui/material";
 
 import { FIELDS } from "@src/components/fields";

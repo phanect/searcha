@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSnackbar } from "notistack";
-import { FieldType } from "@rowy/form-builder";
+import { FieldType } from "@phanect/datasheet-form-builder";
 
 import { Button, Menu, MenuItem } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";

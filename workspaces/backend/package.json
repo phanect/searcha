@@ -1,5 +1,5 @@
 {
-  "name": "rowy-backend",
+  "name": "@phanect/datasheet-backend",
   "description": "cloud run instance for running Rowy's backend functionality",
   "version": "1.9.3",
   "author": "Jumpei Ogawa (https://phanective.org)",

@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 
-import MultiSelect, { MultiSelectProps } from "@rowy/multiselect";
+import MultiSelect, { MultiSelectProps } from "@phanect/datasheet-multiselect";
 import { Stack, StackProps, Typography, Chip } from "@mui/material";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
