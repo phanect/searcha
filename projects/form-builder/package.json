@@ -1,20 +1,18 @@
 {
-  "version": "0.8.0",
   "name": "@rowy/form-builder",
+  "version": "0.8.0",
   "publishConfig": {
     "access": "public"
   },
   "author": "Sidney Alcantara",
   "license": "MIT",
+  "module": "dist/form-builder.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "scripts": {
     "start": "tsdx watch",
     "build": "node ./.mise/tasks/build/barrel.ts && git add src/index.ts && tsdx build",
@@ -23,13 +21,6 @@
     "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
-  },
-  "peerDependencies": {
-    "@mui/icons-material": "^5.4.1",
-    "@mui/material": "^5.4.1",
-    "@mui/x-date-pickers": "^5.0.9",
-    "@rowy/multiselect": "^0.2.3",
-    "react": "^17.0.2"
   },
   "husky": {
     "hooks": {
@@ -42,7 +33,22 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/form-builder.esm.js",
+  "dependencies": {
+    "@hookform/resolvers": "^2.6.0",
+    "@types/lodash-es": "^4.17.6",
+    "array-move": "^3.0.1",
+    "date-fns": "^2.22.1",
+    "dompurify": "^3.3.1",
+    "lodash-es": "^4.17.21",
+    "mdi-material-ui": "^7.2.0",
+    "react-color-palette": "^6.2.0",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0.0",
+    "react-element-scroll-hook": "^1.1.0",
+    "react-hook-form": "^7.10.0",
+    "use-debounce": "^8.0.0",
+    "yup": "^0.32.9"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@emotion/react": "^11.4.0",
@@ -75,20 +81,14 @@
     "tss-react": "3",
     "typescript": "^4.3.5"
   },
-  "dependencies": {
-    "@hookform/resolvers": "^2.6.0",
-    "@types/lodash-es": "^4.17.6",
-    "array-move": "^3.0.1",
-    "date-fns": "^2.22.1",
-    "dompurify": "^3.3.1",
-    "lodash-es": "^4.17.21",
-    "mdi-material-ui": "^7.2.0",
-    "react-color-palette": "^6.2.0",
-    "react-dnd": "^14.0.2",
-    "react-dnd-html5-backend": "^14.0.0",
-    "react-element-scroll-hook": "^1.1.0",
-    "react-hook-form": "^7.10.0",
-    "use-debounce": "^8.0.0",
-    "yup": "^0.32.9"
+  "peerDependencies": {
+    "@mui/icons-material": "^5.4.1",
+    "@mui/material": "^5.4.1",
+    "@mui/x-date-pickers": "^5.0.9",
+    "@rowy/multiselect": "^0.2.3",
+    "react": "^17.0.2"
+  },
+  "engines": {
+    "node": ">=10"
   }
 }
