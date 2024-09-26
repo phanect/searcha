@@ -20,7 +20,6 @@
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "test": "vitest run",
     "analyze": "source-map-explorer ./build/static/js/*.js",
-    "prepare": "husky install",
     "target": "firebase target:apply hosting rowy",
     "deploy": "firebase deploy --only hosting",
     "typedoc": "typedoc --options typedoc.json"
@@ -119,8 +118,6 @@
     "craco-swc": "^0.5.1",
     "cross-env": "^7.0.3",
     "happy-dom": "^9.20.3",
-    "husky": ">=7.0.4",
-    "lint-staged": ">=12.3.7",
     "monaco-editor": "^0.33.0",
     "source-map-explorer": "^2.5.2",
     "typedoc": "^0.23.21",
@@ -146,8 +143,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": "eslint --cache --fix"
   }
 }

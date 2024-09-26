@@ -19,11 +19,6 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o docs"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
   "size-limit": [
     {
       "path": "dist/test.cjs.production.min.js",
@@ -51,7 +46,6 @@
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
     "dompurify": "2.3.0",
-    "husky": "^4",
     "react": "^17.0.2",
     "react-div-100vh": "^0.6.0",
     "react-dom": "^17.0.2",
