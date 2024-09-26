@@ -7,6 +7,12 @@
     "exec": {
       "npmClient": "pnpm",
       "stream": true
+    },
+    "version": {
+      "exact": true,
+      "gitTagCommand": "ls",
+      "message": "chore: %s",
+      "syncWorkspaceLock": true
     }
   }
 }

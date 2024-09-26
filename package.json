@@ -30,11 +30,13 @@
     "deploy": "lerna exec --parallel -- pnpm run --if-present deploy",
     "adminize": "esno ./scripts/adminize.ts",
     "clean": "git clean -dX --exclude=\"!.env\" --force",
-    "refresh": "pnpm run clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm run build"
+    "refresh": "pnpm run clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm run build",
+    "versions": "lerna version && ./scripts/versions-lockfile.sh"
   },
   "devDependencies": {
     "@lerna-lite/cli": "^3.9.1",
     "@lerna-lite/exec": "^3.9.1",
+    "@lerna-lite/version": "^3.9.1",
     "@phanect/configs": "latest",
     "@phanect/lint": "latest",
     "@phanect/lint-react": "latest",
