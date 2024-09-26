@@ -1,7 +1,7 @@
 import { Theme, ThemeOptions, alpha } from "@mui/material/styles";
 import { colord } from "colord";
 import type {} from "@mui/lab/themeAugmentation";
-import { MultiSelectProps } from "@rowy/multiselect";
+import { MultiSelectProps } from "@phanect/searcha-multiselect";
 import { toRem } from "./typography";
 
 import ModalTransition from "@src/components/Modal/ModalTransition";

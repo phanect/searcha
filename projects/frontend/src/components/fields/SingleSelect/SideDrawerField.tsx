@@ -1,6 +1,6 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { getFieldId } from "@src/components/SideDrawer/utils";
 import { sanitiseValue } from "./utils";
 

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef } from "react";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { useSnackbar } from "notistack";

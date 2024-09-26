@@ -12,7 +12,7 @@ import {
   Checkbox,
   FormHelperText,
 } from "@mui/material";
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import WarningIcon from "@mui/icons-material/WarningAmberOutlined";
 

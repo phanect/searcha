@@ -1,6 +1,6 @@
 import { sortBy } from "lodash-es";
 
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { Grid } from "@mui/material";
 import { Leaf as LeafIcon } from "@src/assets/icons";
 

@@ -1,4 +1,4 @@
-import { FormDialog } from "@rowy/form-builder";
+import { FormDialog } from "@phanect/searcha-form-builder";
 export default function ParamsDialog({
   column,
   handleRun,

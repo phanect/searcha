@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, PrimitiveAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
 import { useSnackbar } from "notistack";

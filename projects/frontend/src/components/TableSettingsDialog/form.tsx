@@ -1,6 +1,6 @@
 import { find } from "lodash-es";
 import { useAtom } from "jotai";
-import { Field, FieldType } from "@rowy/form-builder";
+import { Field, FieldType } from "@phanect/searcha-form-builder";
 import {
   projectIdAtom,
   projectScope,

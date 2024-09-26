@@ -4,7 +4,7 @@ import { camelCase } from "lodash-es";
 import {
   ShortTextComponent,
   IShortTextComponentProps,
-} from "@rowy/form-builder";
+} from "@phanect/searcha-form-builder";
 
 export interface ITableIdProps extends IShortTextComponentProps {
   watchedField?: string;

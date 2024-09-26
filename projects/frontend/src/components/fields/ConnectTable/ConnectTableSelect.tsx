@@ -7,7 +7,7 @@ import { atomWithStorage } from "jotai/utils";
 import { useSnackbar } from "notistack";
 
 import { Button } from "@mui/material";
-import MultiSelect, { MultiSelectProps } from "@rowy/multiselect";
+import MultiSelect, { MultiSelectProps } from "@phanect/searcha-multiselect";
 import Loading from "@src/components/Loading";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 

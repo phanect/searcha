@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 
 import {
   compatibleRowyRunVersionAtom,

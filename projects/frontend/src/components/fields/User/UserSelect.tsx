@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAtom } from "jotai";
 
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import {
   AutocompleteProps,
   Avatar,

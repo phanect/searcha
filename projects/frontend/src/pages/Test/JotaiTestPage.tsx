@@ -12,7 +12,7 @@ import {
 } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 import { Button } from "@mui/material";
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { useSnackbar } from "notistack";
 import { useFirestoreDocWithAtom } from "hooks/useFirestoreDocWithAtom";
 
