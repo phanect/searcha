@@ -12,7 +12,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "start": "tsdx watch",
-    "build": "node generate-exports && tsdx build",
+    "build": "esno scripts/build-index.ts && tsdx build",
     "lint": "tsdx lint",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -59,12 +59,14 @@
     "@storybook/addons": "^6.3.8",
     "@storybook/react": "^6.3.8",
     "@types/dompurify": "^2.2.2",
+    "@types/node": "^22.7.3",
     "@types/react": "^17.0.13",
     "@types/react-color": "^3.0.4",
     "@types/react-dom": "^17.0.8",
     "@types/yup": "^0.29.12",
     "babel-loader": "^8.2.2",
     "eslint-plugin-prettier": "^3",
+    "esno": "^4.7.0",
     "husky": "^4.2.5",
     "react": "^17",
     "react-docgen-typescript-loader": "^3.7.2",

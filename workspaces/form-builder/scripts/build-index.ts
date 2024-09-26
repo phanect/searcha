@@ -1,8 +1,8 @@
-const fs = require('fs');
+import fs from "node:fs";
 
 process.chdir('./src');
 
-const output = [];
+const output: string[] = [];
 
 function scanDir(dir) {
   const items = fs.readdirSync(dir);
