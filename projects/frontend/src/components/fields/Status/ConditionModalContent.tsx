@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 
 export default function ConditionModalContent({
   condition,

@@ -1,5 +1,5 @@
 {
-  "name": "use-memo-value",
+  "name": "@phanect/use-memo-value",
   "version": "1.0.1",
   "description": "Reuse the previous version of a value unless it has changed",
   "author": {

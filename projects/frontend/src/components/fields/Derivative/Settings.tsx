@@ -3,7 +3,7 @@ import { ISettingsProps } from "@src/components/fields/types";
 import { useAtom, useSetAtom } from "jotai";
 
 import { Grid, InputLabel, FormHelperText } from "@mui/material";
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";

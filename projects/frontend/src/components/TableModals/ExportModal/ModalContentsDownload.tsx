@@ -6,7 +6,7 @@ import { saveAs } from "file-saver";
 import { getDocs } from "firebase/firestore";
 import JSZip from "jszip";
 
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 
 import {
   DialogActions,

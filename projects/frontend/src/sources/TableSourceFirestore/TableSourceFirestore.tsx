@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { cloneDeep, set } from "lodash-es";
 import {
   FirestoreError,

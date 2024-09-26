@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import { FieldType, FormDialog } from "@rowy/form-builder";
+import { FieldType, FormDialog } from "@phanect/datasheet-form-builder";
 
 import {
   Button,

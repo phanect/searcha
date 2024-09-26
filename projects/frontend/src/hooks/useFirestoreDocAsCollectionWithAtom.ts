@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, PrimitiveAtom, useSetAtom } from "jotai";
 import { orderBy } from "lodash-es";
 import { useSnackbar } from "notistack";

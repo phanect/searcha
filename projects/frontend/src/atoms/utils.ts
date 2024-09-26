@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { useAtomsDebugValue } from "jotai/devtools";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { isEqual } from "lodash-es";
 
 export function DebugAtoms(

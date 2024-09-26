@@ -1,4 +1,4 @@
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 import { Box, ListItemIcon, Typography } from "@mui/material";
 import Fuse from 'fuse.js';
 

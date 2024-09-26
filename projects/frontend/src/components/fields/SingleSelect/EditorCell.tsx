@@ -1,6 +1,6 @@
 import { IEditorCellProps } from "@src/components/fields/types";
 
-import MultiSelectComponent from "@rowy/multiselect";
+import MultiSelectComponent from "@phanect/datasheet-multiselect";
 
 import { sanitiseValue } from "./utils";
 

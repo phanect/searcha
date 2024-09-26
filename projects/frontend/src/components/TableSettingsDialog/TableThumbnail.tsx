@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { IFieldComponentProps } from "@rowy/form-builder";
+import { IFieldComponentProps } from "@phanect/datasheet-form-builder";
 
 import { Button, Grid, IconButton, InputLabel, useTheme } from "@mui/material";
 
