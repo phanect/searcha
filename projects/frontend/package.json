@@ -6,6 +6,15 @@
     "type": "git",
     "url": "https://github.com/rowyio/rowy.git"
   },
+  "author": {
+    "name": "Jumpei Ogawa",
+    "url": "https://phanective.org"
+  },
+  "contributors": [{
+    "name": "Rowy, Inc.",
+    "url": "https://rowy.io"
+  }],
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "start": "vite --port 7699",

@@ -1,8 +1,15 @@
 {
   "name": "@rowy/multiselect",
   "version": "0.4.1",
-  "author": "Sidney Alcantara",
-  "license": "MIT",
+  "author": {
+    "name": "Jumpei Ogawa",
+    "url": "https://phanective.org"
+  },
+  "contributors": [{
+    "name": "Sidney Alcantara",
+    "url": "https://github.com/notsidney"
+  }],
+  "license": "UNLICENSED",
   "publishConfig": {
     "access": "public"
   },
