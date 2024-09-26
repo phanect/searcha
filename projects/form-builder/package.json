@@ -18,7 +18,6 @@
     "start": "tsdx watch",
     "build": "node ./.mise/tasks/build/barrel.ts && git add src/index.ts && tsdx build",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
