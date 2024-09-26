@@ -17,7 +17,6 @@ export const EXTERNAL_LINKS = {
 
   rowyRun: meta.repository.url.replace("rowy.git", "backend"),
   rowyRunGitHub: meta.repository.url.replace("rowy.git", "backend"),
-  // prettier-ignore
   rowyRunDeploy: `https://deploy.cloud.run/?git_repo=${meta.repository.url.replace(".git", "Run")}.git`,
 
   rowyAppHostName: "rowy.app",

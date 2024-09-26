@@ -44,7 +44,6 @@ import { formatSubTableName } from "@src/utils/table";
 import { TableToolsType } from "@src/types/table";
 import { RowSelectionState } from "@tanstack/react-table";
 
-// prettier-ignore
 const BuildLogsSnack = lazy(() => import("@src/components/TableModals/CloudLogsModal/BuildLogs/BuildLogsSnack" /* webpackChunkName: "TableModals-BuildLogsSnack" */));
 
 export interface ITablePageProps {

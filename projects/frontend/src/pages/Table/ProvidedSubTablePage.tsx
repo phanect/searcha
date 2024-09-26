@@ -24,7 +24,6 @@ import { ROUTES } from "@src/constants/routes";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
 
-// prettier-ignore
 const TablePage = lazy(() => import("./TablePage" /* webpackChunkName: "TablePage" */));
 
 /**
