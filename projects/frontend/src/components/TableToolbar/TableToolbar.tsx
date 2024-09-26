@@ -44,15 +44,11 @@ import FilterIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { RowSelectionState } from "@tanstack/react-table";
 
-// prettier-ignore
 const Sort = lazy(() => import("./Sort" /* webpackChunkName: "Filters" */));
 
-// prettier-ignore
 const Filters = lazy(() => import("./Filters" /* webpackChunkName: "Filters" */));
-// prettier-ignore
 const ImportData = lazy(() => import("./ImportData/ImportData" /* webpackChunkName: "ImportData" */));
 
-// prettier-ignore
 const ReExecute = lazy(() => import("./ReExecute" /* webpackChunkName: "ReExecute" */));
 
 export const TABLE_TOOLBAR_HEIGHT = 44;

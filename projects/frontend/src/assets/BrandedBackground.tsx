@@ -13,7 +13,6 @@ export default function BrandedBackground() {
           body {
             background-size: 100%;
             background-image: ${
-              // prettier-ignore
               [
                 `radial-gradient(circle   at  85% 100%, ${theme.palette.background.paper} 20%, ${alpha(theme.palette.background.paper, 0)})`,
                 `radial-gradient(80%  80% at  15% 100%, ${alpha("#FA0", 0.1)} 25%, ${alpha("#F0A", 0.1)} 50%, ${alpha("#F0A", 0)} 100%)`,

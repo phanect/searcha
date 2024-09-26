@@ -27,12 +27,6 @@
       "pre-commit": "pretty-quick --staged; tsdx lint"
     }
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "dependencies": {
     "@hookform/resolvers": "^2.6.0",
     "@types/lodash-es": "^4.17.6",
@@ -69,7 +63,6 @@
     "@types/react-dom": "^17.0.8",
     "@types/yup": "^0.29.12",
     "babel-loader": "^8.2.2",
-    "eslint-plugin-prettier": "^3",
     "husky": "^4.2.5",
     "react": "^17",
     "react-docgen-typescript-loader": "^3.7.2",
