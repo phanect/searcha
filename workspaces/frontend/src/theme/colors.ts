@@ -61,27 +61,21 @@ export const colorsLight = (
       if (i === 0) return "none";
 
       if (i === 1)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.03).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.1).toHslString()}`;
 
       if (i < 4)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.04).toHslString()}, 0 1px 3px 0 ${shadowBase.alpha(0.1).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.06).toHslString()}`;
 
       if (i < 8)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.05).toHslString()}, 0 4px 6px -1px ${shadowBase.alpha(0.1).toHslString()}, 0 2px 4px ${shadowBase.alpha(0.06).toHslString()}`;
 
       if (i < 16)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.06).toHslString()}, 0 10px 15px -3px ${shadowBase.alpha(0.1).toHslString()}, 0 4px 6px ${shadowBase.alpha(0.05).toHslString()}, 0 30px 40px ${shadowBase.alpha(0.05).toHslString()}`;
 
       if (i < 24)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.08).toHslString()}, 0 20px 25px -5px ${shadowBase.alpha(0.1).toHslString()}, 0 10px 10px ${shadowBase.alpha(0.04).toHslString()}, 0 40px 60px ${shadowBase.alpha(0.06).toHslString()}`;
 
       else
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.08).toHslString()}, 0 25px 50px -12px ${shadowBase.alpha(0.25).toHslString()}, 0 50px 80px ${shadowBase.alpha(0.06).toHslString()}`;
     }) as Shadows,
 
@@ -166,27 +160,21 @@ export const colorsDark = (
       if (i === 0) return "none";
 
       if (i === 1)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.03 * 4).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.1 * 4).toHslString()}`;
 
       if (i < 4)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.04 * 4).toHslString()}, 0 1px 3px 0 ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.06 * 4).toHslString()}`;
 
       if (i < 8)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.05 * 4).toHslString()}, 0 4px 6px -1px ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 2px 4px ${shadowBase.alpha(0.06 * 4).toHslString()}`;
 
       if (i < 16)
-        // prettier-ignore
         return `0 0 0 1px ${shadowBase.alpha(0.06 * 4).toHslString()}, 0 10px 15px -3px ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 4px 6px ${shadowBase.alpha(0.05 * 4).toHslString()}, 0 30px 40px ${shadowBase.alpha(0.05 * 4).toHslString()}`;
 
       if (i < 24)
-          // prettier-ignore
           return `0 0 0 1px ${shadowBase.alpha(0.08 * 4).toHslString()}, 0 20px 25px -5px ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 10px 10px ${shadowBase.alpha(0.04 * 4).toHslString()}, 0 40px 60px ${shadowBase.alpha(0.06 * 4).toHslString()}`;
 
         else
-          // prettier-ignore
           return `0 0 0 1px ${shadowBase.alpha(0.08 * 4).toHslString()}, 0 25px 50px -12px ${shadowBase.alpha(0.25 * 4).toHslString()}, 0 50px 80px ${shadowBase.alpha(0.06 * 4).toHslString()}`;
     }) as Shadows,
 

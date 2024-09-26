@@ -5,7 +5,6 @@ import { merge, unset } from "lodash-es";
 import { FormControlLabel, Checkbox, Collapse } from "@mui/material";
 import Loading from "@src/components/Loading";
 
-// prettier-ignore
 const ThemeColorPicker = lazy(() => import("@src/components/Settings/ThemeColorPicker") /* webpackChunkName: "ThemeColorPicker" */);
 
 export default function Personalization({

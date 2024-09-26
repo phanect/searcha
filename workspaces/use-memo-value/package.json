@@ -15,7 +15,6 @@
   "scripts": {
     "dev": "tsup --watch --no-clean",
     "build": "tsup",
-    "format": "prettier --write '**'",
     "test": "vitest run"
   },
   "dependencies": {
@@ -30,7 +29,6 @@
     "@types/shallowequal": "^1.1.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.6",
-    "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "ts-node": "^8.9.0",
