@@ -4,8 +4,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Sidney Alcantara",
-  "license": "MIT",
+  "author": "Jumpei Ogawa (https://phanective.org)",
+  "contributors": [
+    "Sidney Alcantara (https://github.com/notsidney)"
+  ],
+  "license": "UNLICENSED",
   "files": [
     "dist",
     "src"
