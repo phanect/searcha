@@ -115,19 +115,11 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-router-hash-link": "^2.4.5",
     "@types/seedrandom": "^3.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
     "@vitejs/plugin-react": "^4.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "craco-alias": "^3.0.1",
     "craco-swc": "^0.5.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.28.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-local-rules": "^1.1.0",
-    "eslint-plugin-no-relative-import-paths": "^1.2.0",
-    "eslint-plugin-tsdoc": "^0.2.16",
     "happy-dom": "^9.20.3",
     "husky": ">=7.0.4",
     "lint-staged": ">=12.3.7",
@@ -144,42 +136,6 @@
   },
   "resolutions": {
     "@types/react": "^18"
-  },
-  "eslintConfig": {
-    "plugins": [
-      "eslint-plugin-no-relative-import-paths",
-      "eslint-plugin-tsdoc",
-      "eslint-plugin-local-rules"
-    ],
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "prettier"
-    ],
-    "rules": {
-      "no-relative-import-paths/no-relative-import-paths": [
-        "error",
-        {
-          "allowSameFolder": true
-        }
-      ],
-      "no-restricted-imports": [
-        "error",
-        {
-          "patterns": [
-            {
-              "group": [
-                "lodash",
-                "lodash/*"
-              ],
-              "message": "Use lodash-es instead"
-            }
-          ]
-        }
-      ],
-      "tsdoc/syntax": "warn",
-      "local-rules/no-jotai-use-atom-without-scope": "error"
-    }
   },
   "browserslist": {
     "production": [

@@ -13,7 +13,6 @@
   "scripts": {
     "dev": "tsdx watch",
     "build": "esno scripts/build-index.ts && tsdx build",
-    "lint": "tsdx lint",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

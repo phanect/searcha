@@ -12,8 +12,6 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "nodemon",
-    "lint": "eslint '**/*.js'",
-    "fix": "eslint --fix '**/*.js'",
     "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
     "deploy": "./deploy.sh --project"
   },
