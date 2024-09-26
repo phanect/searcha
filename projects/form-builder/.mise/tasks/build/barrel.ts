@@ -1,10 +1,10 @@
-const fs = require('fs');
+import fs from "node:fs";
 
 process.chdir('./src');
 
-const output = [];
+const output: string[] = [];
 
-function scanDir(dir) {
+function scanDir(dir: string) {
   const items = fs.readdirSync(dir);
 
   for (const item of items) {
@@ -20,7 +20,7 @@ function scanDir(dir) {
     // Get component/file name
     let component = item.split('.')[0];
     const path = component === 'index' ? dir : `${dir}/${component}`;
-    if (component === 'index') component = dir.split('/').pop();
+    if (component === 'index') component = dir.split('/').pop() ?? dir;
 
     // Check if file has default export
     const file = fs.readFileSync(dir + '/' + item);
