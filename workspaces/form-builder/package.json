@@ -14,7 +14,6 @@
     "start": "tsdx watch",
     "build": "node generate-exports && git add src/index.ts && tsdx build",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
