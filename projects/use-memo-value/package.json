@@ -2,8 +2,15 @@
   "name": "use-memo-value",
   "version": "1.0.1",
   "description": "Reuse the previous version of a value unless it has changed",
-  "author": "Jamie Kyle <jamie.kyle@discordapp.com>",
-  "license": "MIT",
+  "author": {
+    "name": "Jumpei Ogawa",
+    "url": "https://phanective.org"
+  },
+  "contributors": [{
+    "name": "Jamie Kyle",
+    "email": "jamie.kyle@discordapp.com"
+  }],
+  "license": "UNLICENSED",
   "repository": "discord/use-memo-value",
   "keywords": [
     "react",

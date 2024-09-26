@@ -4,8 +4,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Sidney Alcantara",
-  "license": "MIT",
+  "author": {
+    "name": "Jumpei Ogawa",
+    "url": "https://phanective.org"
+  },
+  "contributors": [{
+    "name": "Sidney Alcantara",
+    "url": "https://github.com/notsidney"
+  }],
+  "license": "UNLICENSED",
   "module": "dist/form-builder.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
