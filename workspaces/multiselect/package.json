@@ -1,21 +1,18 @@
 {
-  "version": "0.4.1",
-  "license": "MIT",
   "name": "@rowy/multiselect",
+  "version": "0.4.1",
+  "author": "Sidney Alcantara",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
-  "author": "Sidney Alcantara",
-  "module": "dist/multiselect.esm.js",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
-  "engines": {
-    "node": ">=10"
-  },
+  "module": "dist/multiselect.esm.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -25,12 +22,6 @@
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o docs"
-  },
-  "peerDependencies": {
-    "@mui/icons-material": "^5.0.0",
-    "@mui/material": "^5.0.0",
-    "react": ">= 17",
-    "tss-react": "^3.0.0"
   },
   "husky": {
     "hooks": {
@@ -83,5 +74,13 @@
     "tss-react": "^3.6.2",
     "typescript": "^4.4.2"
   },
-  "dependencies": {}
+  "peerDependencies": {
+    "@mui/icons-material": "^5.0.0",
+    "@mui/material": "^5.0.0",
+    "react": ">= 17",
+    "tss-react": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=10"
+  }
 }
