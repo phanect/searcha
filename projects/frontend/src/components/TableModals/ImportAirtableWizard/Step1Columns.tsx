@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAtom } from "jotai";
-import useMemoValue from "use-memo-value";
+import useMemoValue from "@phanect/use-memo-value";
 import { find, findIndex, camelCase, isEqual } from "lodash-es";
 
 import {

@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 
 import { DialogContentText, Stack, Typography } from "@mui/material";
 
-import { FormDialog, FormFields } from "@rowy/form-builder";
+import { FormDialog, FormFields } from "@phanect/datasheet-form-builder";
 import { tableSettings } from "./form";
 import TableName from "./TableName";
 import TableId from "./TableId";

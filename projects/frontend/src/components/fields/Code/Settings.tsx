@@ -1,5 +1,5 @@
 import { ISettingsProps } from "@src/components/fields/types";
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 
 const languages = [
   "javascript",

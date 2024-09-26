@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/PersonAddOutlined";
 
-import MultiSelect from "@rowy/multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 import Modal from "@src/components/Modal";
 
 import {
