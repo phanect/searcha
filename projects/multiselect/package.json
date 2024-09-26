@@ -18,7 +18,6 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "lint": "tsdx lint",
-    "prepare": "tsdx build; build-storybook -c .storybook -o docs; git add docs",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
