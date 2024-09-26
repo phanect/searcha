@@ -17,12 +17,10 @@
     "dev": "vite",
     "startWithEmulators": "VITE_APP_FIREBASE_EMULATORS=true vite",
     "emulators": "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "test": "vitest run",
-    "analyze": "source-map-explorer ./build/static/js/*.js",
     "target": "firebase target:apply hosting rowy",
-    "deploy": "firebase deploy --only hosting",
-    "typedoc": "typedoc --options typedoc.json"
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -95,7 +93,6 @@
     "use-debounce": "^9.0.4"
   },
   "devDependencies": {
-    "@craco/craco": "^6.4.3",
     "@phanect/configs": "latest",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
@@ -112,13 +109,8 @@
     "@types/react-router-hash-link": "^2.4.5",
     "@types/seedrandom": "^3.0.2",
     "@vitejs/plugin-react": "^4.0.0",
-    "craco-alias": "^3.0.1",
-    "craco-swc": "^0.5.1",
-    "cross-env": "^7.0.3",
     "happy-dom": "^9.20.3",
     "monaco-editor": "^0.33.0",
-    "source-map-explorer": "^2.5.2",
-    "typedoc": "^0.23.21",
     "typescript": "^5.6.2",
     "vite": "^5.4.9",
     "vite-tsconfig-paths": "^5.0.1",

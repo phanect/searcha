@@ -14,21 +14,9 @@
   "scripts": {
     "dev": "tsup --watch --no-clean",
     "build": "tsup",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o docs"
   },
-  "size-limit": [
-    {
-      "path": "dist/test.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/test.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
