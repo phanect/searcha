@@ -1,6 +1,4 @@
-import { memo } from "react";
-import useScrollInfo from "react-element-scroll-hook";
-
+import { memo, useRef } from "react";
 import { styled, Divider, DividerProps } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
 
@@ -36,23 +34,22 @@ export default function FadeList({
   bottomDividerSx = [],
   listSx,
 }: IFadeListProps) {
-  const [scrollInfo, setRef] = useScrollInfo();
+  const ref = useRef<HTMLUListElement>(null);
 
   return (
     <>
       {!disableTopDivider &&
-        scrollInfo.y.percentage !== null &&
-        scrollInfo.y.percentage > 0 && (
+        (ref.current?.scrollTop ?? 0) > 0 && (
           <Divider sx={[...spreadSx(dividerSx), ...spreadSx(topDividerSx)]} />
         )}
 
-      <MemoizedList ref={setRef} sx={listSx}>
+      <MemoizedList ref={ ref } sx={listSx}>
         {children}
       </MemoizedList>
 
       {!disableBottomDivider &&
-        scrollInfo.y.percentage !== null &&
-        scrollInfo.y.percentage < 1 && (
+        ref.current &&
+        (ref.current.scrollTop < ref.current.scrollHeight - ref.current.clientHeight) && (
           <Divider
             sx={[...spreadSx(dividerSx), ...spreadSx(bottomDividerSx)]}
           />
