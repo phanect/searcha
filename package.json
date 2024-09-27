@@ -9,5 +9,11 @@
   "scripts": {
     "clean": "git clean -dX --exclude=\"!.env\" --force",
     "refresh": "npm run clean && rm --force ./yarn.lock && npm install && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }

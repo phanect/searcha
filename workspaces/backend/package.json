@@ -17,9 +17,6 @@
     "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
     "deploy": "./deploy.sh --project"
   },
-  "engines": {
-    "node": "18"
-  },
   "dependencies": {
     "@google-cloud/logging": "^10.3.1",
     "@google-cloud/secret-manager": "^4.1.4",
@@ -37,7 +34,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "@types/node": "20.11.24",
+    "@types/node": "^22.7.4",
     "firebase-tools": "^11.25.2",
     "google-auth-library": "^8.8.0",
     "husky": "^4.3.8",
