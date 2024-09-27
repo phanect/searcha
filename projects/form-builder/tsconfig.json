@@ -1,24 +1,24 @@
 {
-  "include": ["src", "types"],
+  "extends": [
+    "@phanect/configs/ts/frontend",
+    "@phanect/configs/ts/addons/jsx",
+    "@phanect/configs/ts/addons/npm"
+  ],
   "compilerOptions": {
-    "module": "esnext",
-    "lib": ["dom", "esnext"],
     "importHelpers": true,
-    "declaration": true,
-    "sourceMap": true,
-    "rootDir": "./src",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "baseUrl": "./",
     "paths": {
-      "@": ["./"],
-      "*": ["src/*", "node_modules/*"]
-    },
-    "jsx": "react",
-    "esModuleInterop": true
-  }
+      "@": [ "./*" ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.mjs",
+    "**/*.jsx"
+  ],
+  "exclude": [
+    "./node_modules",
+    "./dist"
+  ]
 }
