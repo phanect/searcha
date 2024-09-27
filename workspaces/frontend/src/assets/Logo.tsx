@@ -8,6 +8,7 @@ export type ILogoProps = {
 export default function Logo({ size = 1.5, ...props }: ILogoProps) {
   const theme = useTheme();
 
+  // TODO delete this?
   return (
     <svg
       width={Math.round(68 * size)}
