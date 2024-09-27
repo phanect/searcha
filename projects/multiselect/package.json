@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "tsdx watch",
     "build": "tsdx build",
+    "lint": "tsc --noEmit",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -26,6 +27,7 @@
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.0.0",
+    "@phanect/configs": "latest",
     "@storybook/addon-actions": "6.3.8",
     "@storybook/addon-docs": "6.3.8",
     "@storybook/addon-essentials": "^6.3.8",

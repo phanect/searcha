@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "tsdx watch",
     "build": "jiti ./.mise/tasks/build/barrel.ts && tsdx build",
+    "lint": "tsc --noEmit",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -42,6 +43,7 @@
     "@mui/icons-material": "^5.4.1",
     "@mui/material": "^5.4.1",
     "@mui/x-date-pickers": "^5.0.9",
+    "@phanect/configs": "latest",
     "@phanect/searcha-multiselect": "workspace:*",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-docs": "^6.3.8",

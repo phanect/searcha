@@ -10,17 +10,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint",
+    "lint": "pnpm run --if-present lint && eslint",
     "fix": "eslint --fix",
     "clean": "git clean -dX --exclude=\"!.env\" --force",
     "refresh": "pnpm clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm build"
   },
   "devDependencies": {
+    "@phanect/configs": "latest",
     "@phanect/lint": "latest",
     "@phanect/lint-react": "latest",
     "@types/node": "^24.12.0",
     "eslint": "^9.11.0",
-    "jiti": "^2.6.1"
+    "jiti": "^2.6.1",
+    "typescript": "^5.6.2"
   },
   "engines": {
     "node": "24.x",

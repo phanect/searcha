@@ -16,12 +16,14 @@
   "module": "dist/useMemoValue.module.js",
   "scripts": {
     "build": "rm -rf dist && microbundle --inline none --name useMemoValue",
+    "lint": "tsc --noEmit",
     "test": "TS_NODE_PROJECT=./tsconfig.test.json ava"
   },
   "dependencies": {
     "shallowequal": "^0.1.0 || ^0.2.0 || ^1.0.0"
   },
   "devDependencies": {
+    "@phanect/configs": "latest",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/shallowequal": "^1.1.1",
     "ava": "^3.7.1",
