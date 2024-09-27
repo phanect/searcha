@@ -4,12 +4,6 @@
     "@phanect/configs/ts/addons/jsx",
     "@phanect/configs/ts/addons/npm"
   ],
-  "compilerOptions": {
-    "importHelpers": true,
-    "paths": {
-      "@": [ "./*" ]
-    }
-  },
   "include": [
     "**/*.ts",
     "**/*.tsx",

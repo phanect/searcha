@@ -16,7 +16,7 @@
     "dev": "vite --port 7699",
     "startWithEmulators": "VITE_APP_FIREBASE_EMULATORS=true vite --port 7699",
     "emulators": "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit",
-    "build": "tsc && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "test": "vitest",
     "analyze": "source-map-explorer ./build/static/js/*.js",
     "prepare": "husky install",
@@ -99,6 +99,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.4.3",
+    "@phanect/configs": "latest",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^14.0.4",

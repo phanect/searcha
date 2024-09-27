@@ -1,32 +1,25 @@
 {
+  "extends": [
+    "@phanect/configs/ts/frontend",
+    "@phanect/configs/ts/addons/jsx",
+    "@phanect/configs/ts/addons/vite"
+  ],
   "compilerOptions": {
-    "target": "es2021",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["vite/client", "vite-plugin-svgr/client"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "newLine": "lf",
-    "noEmit": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src",
+    "types": [ "vite-plugin-svgr/client" ],
     "paths": {
-      "@root/*": [ "../*" ],
-      "@src/*": [ "./*" ]
+      "@root/*": [ "./*" ],
+      "@src/*": [ "./src/*" ]
     }
   },
-  "include": ["src"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.mjs",
+    "**/*.jsx"
+  ],
+  "exclude": [
+    "./node_modules/**",
+    "./dist/**"
+  ]
 }
