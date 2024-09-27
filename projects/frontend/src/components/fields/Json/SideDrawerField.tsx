@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import stringify from "json-stable-stringify-without-jsonify";
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import ReactJson, { InteractionProps } from "react-json-view";
+import ReactJson, { InteractionProps } from "@microlink/react-json-view";
 import CodeEditor from "@src/components/CodeEditor";
 import { Typography, Tooltip } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";

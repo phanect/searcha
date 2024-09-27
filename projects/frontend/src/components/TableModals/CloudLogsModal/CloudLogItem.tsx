@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { get } from "lodash-es";
-import ReactJson from "react-json-view";
+import ReactJson from "@microlink/react-json-view";
 import { struct } from "pb-util";
 import stringify from "json-stable-stringify-without-jsonify";
 
