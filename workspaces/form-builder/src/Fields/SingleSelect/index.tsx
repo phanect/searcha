@@ -9,7 +9,7 @@ const Component = lazy(
   () =>
     import(
       './SingleSelectComponent'
-    ) /* webpackChunkName: FormBuilder-SingleSelect */
+    )
 );
 
 export const SingleSelectConfig: IFieldConfig = {

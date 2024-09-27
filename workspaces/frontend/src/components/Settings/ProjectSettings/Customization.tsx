@@ -5,7 +5,7 @@ import { merge, unset } from "lodash-es";
 import { FormControlLabel, Checkbox, Collapse } from "@mui/material";
 import Loading from "@src/components/Loading";
 
-const ThemeColorPicker = lazy(() => import("@src/components/Settings/ThemeColorPicker") /* webpackChunkName: "ThemeColorPicker" */);
+const ThemeColorPicker = lazy(() => import("@src/components/Settings/ThemeColorPicker"));
 
 export default function Customization({
   publicSettings,

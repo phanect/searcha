@@ -6,7 +6,7 @@ import DisplayCell from "./DisplayCell";
 import { Id as IdIcon } from "@src/assets/icons";
 
 const SideDrawerField = lazy(
-  () => import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Id" */)
+  () => import("./SideDrawerField")
 );
 
 export const config: IFieldConfig = {

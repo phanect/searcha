@@ -9,7 +9,7 @@ const Component = lazy(
   () =>
     import(
       './ContentParagraphComponent'
-    ) /* webpackChunkName: FormBuilder-ContentParagraph */
+    )
 );
 
 export const ContentParagraphConfig: IFieldConfig = {

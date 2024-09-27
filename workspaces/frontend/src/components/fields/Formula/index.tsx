@@ -8,7 +8,7 @@ import Settings, { settingsValidator } from "./Settings";
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-Formula" */
+      "./SideDrawerField"
     )
 );
 

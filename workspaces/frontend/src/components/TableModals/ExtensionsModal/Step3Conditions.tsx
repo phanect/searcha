@@ -9,7 +9,7 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 const CodeEditor = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import("@src/components/CodeEditor")
 );
 
 const additionalVariables = [

@@ -6,7 +6,7 @@ import EyeOff from 'mdi-material-ui/EyeOff';
 
 import Settings from './HiddenSettings';
 const Component = lazy(
-  () => import('./HiddenComponent') /* webpackChunkName: FormBuilder-Hidden */
+  () => import('./HiddenComponent')
 );
 
 export const HiddenConfig: IFieldConfig = {

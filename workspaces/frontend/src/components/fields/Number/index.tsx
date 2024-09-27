@@ -9,7 +9,7 @@ import { filterOperators } from "./Filter";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Number" */)
+    import("./SideDrawerField")
 );
 
 export const config: IFieldConfig = {

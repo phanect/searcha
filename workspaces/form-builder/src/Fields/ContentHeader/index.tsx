@@ -9,7 +9,7 @@ const Component = lazy(
   () =>
     import(
       './ContentHeaderComponent'
-    ) /* webpackChunkName: FormBuilder-ContentHeader */
+    )
 );
 
 export const ContentHeaderConfig: IFieldConfig = {

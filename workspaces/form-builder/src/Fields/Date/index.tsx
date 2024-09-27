@@ -5,7 +5,7 @@ import { FieldType } from '../../constants/fields';
 import Calendar from 'mdi-material-ui/Calendar';
 
 const Component = lazy(
-  () => import('./DateComponent') /* webpackChunkName: FormBuilder-Date */
+  () => import('./DateComponent')
 );
 
 export const DateConfig: IFieldConfig = {

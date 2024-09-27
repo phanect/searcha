@@ -10,7 +10,7 @@ const Component = lazy(
   () =>
     import(
       './MultiSelectComponent'
-    ) /* webpackChunkName: FormBuilder-MultiSelect */
+    )
 );
 
 export const MultiSelectConfig: IFieldConfig = {

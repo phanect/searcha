@@ -9,11 +9,11 @@ import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCell
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-CreatedBy" */
+      "./SideDrawerField"
     )
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-CreatedBy" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

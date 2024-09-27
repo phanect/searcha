@@ -10,11 +10,11 @@ import { filterOperators, valueFormatter } from "./filters";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-Color" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Color" */)
+    import("./SideDrawerField")
 );
 
 export const config: IFieldConfig = {

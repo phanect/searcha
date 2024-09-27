@@ -6,7 +6,7 @@ import RadioboxMarked from 'mdi-material-ui/RadioboxMarked';
 
 import Settings from './RadioSettings';
 const Component = lazy(
-  () => import('./RadioComponent') /* webpackChunkName: FormBuilder-Radio */
+  () => import('./RadioComponent')
 );
 
 export const RadioConfig: IFieldConfig = {

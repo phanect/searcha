@@ -8,10 +8,10 @@ import EditorCell from "./EditorCell";
 
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-User" */)
+    import("./SideDrawerField")
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-User" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

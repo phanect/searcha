@@ -6,7 +6,7 @@ import Palette from 'mdi-material-ui/Palette';
 
 import Settings from './ColorSettings';
 const Component = lazy(
-  () => import('./ColorComponent') /* webpackChunkName: FormBuilder-Color */
+  () => import('./ColorComponent')
 );
 
 export const ColorConfig: IFieldConfig = {

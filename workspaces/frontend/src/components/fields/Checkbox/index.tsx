@@ -8,12 +8,12 @@ import DisplayCell from "./DisplayCell";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-Checkbox" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-Checkbox" */
+      "./SideDrawerField"
     )
 );
 
