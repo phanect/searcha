@@ -1,7 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useAtom } from "jotai";
-import { useVirtual, defaultRangeExtractor } from "react-virtual";
-import type { Range } from "react-virtual";
+import { useVirtualizer, defaultRangeExtractor, type Range } from "@tanstack/react-virtual";
 
 import {
   tableScope,
@@ -35,14 +34,14 @@ export function useVirtualization(
 
   // Virtualize rows
   const {
-    virtualItems: virtualRows,
-    totalSize: totalHeight,
+    getVirtualItems: getVirtualRows,
+    getTotalSize: getTotalHeight,
     scrollToIndex: scrollToRowIndex,
-  } = useVirtual({
-    parentRef: containerRef,
-    size: tableRows.length,
+  } = useVirtualizer({
+    count: tableRows.length,
     overscan: 5,
     paddingEnd: TABLE_PADDING,
+    getScrollElement: () => containerRef.current,
     estimateSize: useCallback(
       (index: number) =>
         (tableSchema.rowHeight || DEFAULT_ROW_HEIGHT) +
@@ -53,16 +52,16 @@ export function useVirtualization(
 
   // Virtualize columns
   const {
-    virtualItems: virtualCols,
-    totalSize: totalWidth,
+    getVirtualItems: getVirtualCols,
+    getTotalSize: getTotalWidth,
     scrollToIndex: scrollToColIndex,
-  } = useVirtual({
-    parentRef: containerRef,
+  } = useVirtualizer({
     horizontal: true,
-    size: leafColumns.length,
+    count: leafColumns.length,
     overscan: 5,
     paddingStart: TABLE_PADDING,
     paddingEnd: TABLE_PADDING,
+    getScrollElement: () => containerRef.current,
     estimateSize: useCallback(
       (index: number) => {
         const columnDef = leafColumns[index].columnDef;
@@ -93,6 +92,11 @@ export function useVirtualization(
       [leafColumns]
     ),
   });
+
+  const virtualRows = getVirtualRows();
+  const virtualCols = getVirtualCols();
+  const totalWidth = getTotalWidth();
+  const totalHeight = getTotalHeight();
 
   // Scroll to selected cell
   useEffect(() => {
