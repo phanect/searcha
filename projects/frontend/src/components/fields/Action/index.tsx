@@ -6,14 +6,14 @@ import ActionIcon from "@mui/icons-material/TouchAppOutlined";
 import DisplayCell from "./DisplayCell";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-Action" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Action" */)
+    import("./SideDrawerField")
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Action" */)
+  () => import("./Settings")
 );
 export const config: IFieldConfig = {
   type: FieldType.action,

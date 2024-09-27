@@ -7,16 +7,16 @@ import DisplayCell from "./DisplayCell";
 
 const EditorCell = lazy(
   () =>
-    import("./EditorCell" /* webpackChunkName: "EditorCell-ConnectService" */)
+    import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-Connector" */
+      "./SideDrawerField"
     )
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Connector" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

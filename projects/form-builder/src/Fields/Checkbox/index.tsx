@@ -6,7 +6,7 @@ import CheckboxMarked from 'mdi-material-ui/CheckboxMarked';
 
 const Component = lazy(
   () =>
-    import('./CheckboxComponent') /* webpackChunkName: FormBuilder-Checkbox */
+    import('./CheckboxComponent')
 );
 
 export const CheckboxConfig: IFieldConfig = {

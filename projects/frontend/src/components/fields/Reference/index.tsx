@@ -12,7 +12,7 @@ import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCell
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-Reference" */
+      "./SideDrawerField"
     )
 );
 

@@ -8,7 +8,7 @@ import Settings from './ShortTextSettings';
 import validation from './ShortTextValidation';
 const Component = lazy(
   () =>
-    import('./ShortTextComponent') /* webpackChunkName: FormBuilder-ShortText */
+    import('./ShortTextComponent')
 );
 
 export const ShortTextConfig: IFieldConfig = {

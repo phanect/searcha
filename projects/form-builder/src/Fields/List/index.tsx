@@ -7,7 +7,7 @@ import FormatListNumbered from 'mdi-material-ui/FormatListNumbered';
 
 import Settings from './ListSettings';
 const Component = lazy(
-  () => import('./ListComponent') /* webpackChunkName: FormBuilder-List */
+  () => import('./ListComponent')
 );
 
 export const ListConfig: IFieldConfig = {

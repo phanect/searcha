@@ -32,7 +32,7 @@ import { SyncAtomValue } from "@src/atoms/utils";
 import { ROUTES } from "@src/constants/routes";
 import useDocumentTitle from "@src/hooks/useDocumentTitle";
 
-const TablePage = lazy(() => import("./TablePage" /* webpackChunkName: "TablePage" */));
+const TablePage = lazy(() => import("./TablePage"));
 
 /**
  * Wraps `TablePage` with the data for a top-level table.

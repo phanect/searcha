@@ -23,7 +23,7 @@ import derivativeDefs from "./derivative.d.ts?raw";
 
 const CodeEditor = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import("@src/components/CodeEditor")
 );
 
 const diagnosticsOptions = {

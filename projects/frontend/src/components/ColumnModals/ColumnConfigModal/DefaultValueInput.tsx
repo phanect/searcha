@@ -22,7 +22,7 @@ import { ColumnConfig } from "@src/types/table";
 
 const CodeEditorComponent = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import("@src/components/CodeEditor")
 );
 
 const diagnosticsOptions = {
@@ -54,7 +54,7 @@ function CodeEditor({ type, column, handleChange }: ICodeEditorProps) {
   } else if (column.config?.defaultValue?.script) {
     dynamicValueFn = `const dynamicValueFn: DefaultValue = async ({row,ref,db,storage,auth,logging})=>{
   logging.log("dynamicValueFn started")
-  
+
   ${column.config?.defaultValue.script}
 }`;
   } else {

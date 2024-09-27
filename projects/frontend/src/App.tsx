@@ -25,31 +25,31 @@ import TableGroupRedirectPage from "./pages/TableGroupRedirectPage";
 import SignOutPage from "@src/pages/Auth/SignOutPage";
 import ProvidedArraySubTablePage from "./pages/Table/ProvidedArraySubTablePage";
 
-const AuthPage = lazy(() => import("@src/pages/Auth/AuthPage" /* webpackChunkName: "AuthPage" */));
-const SignUpPage = lazy(() => import("@src/pages/Auth/SignUpPage" /* webpackChunkName: "SignUpPage" */));
-const JwtAuthPage = lazy(() => import("@src/pages/Auth/JwtAuthPage" /* webpackChunkName: "JwtAuthPage" */));
-const ImpersonatorAuthPage = lazy(() => import("@src/pages/Auth/ImpersonatorAuthPage" /* webpackChunkName: "ImpersonatorAuthPage" */));
+const AuthPage = lazy(() => import("@src/pages/Auth/AuthPage"));
+const SignUpPage = lazy(() => import("@src/pages/Auth/SignUpPage"));
+const JwtAuthPage = lazy(() => import("@src/pages/Auth/JwtAuthPage"));
+const ImpersonatorAuthPage = lazy(() => import("@src/pages/Auth/ImpersonatorAuthPage"));
 
-const SetupPage = lazy(() => import("@src/pages/SetupPage" /* webpackChunkName: "SetupPage" */));
+const SetupPage = lazy(() => import("@src/pages/SetupPage"));
 
-const Navigation = lazy(() => import("@src/layouts/Navigation" /* webpackChunkName: "Navigation" */));
-const TableSettingsDialog = lazy(() => import("@src/components/TableSettingsDialog" /* webpackChunkName: "TableSettingsDialog" */));
+const Navigation = lazy(() => import("@src/layouts/Navigation"));
+const TableSettingsDialog = lazy(() => import("@src/components/TableSettingsDialog"));
 const ProjectSettingsDialog = lazy(
   () =>
     import(
-      "@src/components/ProjectSettingsDialog" /* webpackChunkName: "ProjectSettingsDialog" */
+      "@src/components/ProjectSettingsDialog"
     )
 );
 
-const TablesPage = lazy(() => import("@src/pages/TablesPage" /* webpackChunkName: "TablesPage" */));
-const ProvidedTablePage = lazy(() => import("@src/pages/Table/ProvidedTablePage" /* webpackChunkName: "ProvidedTablePage" */));
-const ProvidedSubTablePage = lazy(() => import("@src/pages/Table/ProvidedSubTablePage" /* webpackChunkName: "ProvidedSubTablePage" */));
-const TableTutorialPage = lazy(() => import("@src/pages/Table/TableTutorialPage" /* webpackChunkName: "TableTutorialPage" */));
+const TablesPage = lazy(() => import("@src/pages/TablesPage"));
+const ProvidedTablePage = lazy(() => import("@src/pages/Table/ProvidedTablePage"));
+const ProvidedSubTablePage = lazy(() => import("@src/pages/Table/ProvidedSubTablePage"));
+const TableTutorialPage = lazy(() => import("@src/pages/Table/TableTutorialPage"));
 
-const UserSettingsPage = lazy(() => import("@src/pages/Settings/UserSettingsPage" /* webpackChunkName: "UserSettingsPage" */));
-const ProjectSettingsPage = lazy(() => import("@src/pages/Settings/ProjectSettingsPage" /* webpackChunkName: "ProjectSettingsPage" */));
-const MembersPage = lazy(() => import("@src/pages/Settings/MembersPage" /* webpackChunkName: "MembersPage" */));
-const DebugPage = lazy(() => import("@src/pages/Settings/DebugPage" /* webpackChunkName: "DebugPage" */));
+const UserSettingsPage = lazy(() => import("@src/pages/Settings/UserSettingsPage"));
+const ProjectSettingsPage = lazy(() => import("@src/pages/Settings/ProjectSettingsPage"));
+const MembersPage = lazy(() => import("@src/pages/Settings/MembersPage"));
+const DebugPage = lazy(() => import("@src/pages/Settings/DebugPage"));
 
 export default function App() {
   const [currentUser] = useAtom(currentUserAtom, projectScope);
