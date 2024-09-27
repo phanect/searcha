@@ -28,7 +28,7 @@ import {
 //import typeDefs from "./types.d.ts?raw";
 const CodeEditor = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import("@src/components/CodeEditor")
 );
 
 // external service requirement

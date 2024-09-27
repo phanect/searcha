@@ -8,18 +8,18 @@ import { filterOperators } from "./Filter";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-MultiSelect" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-MultiSelect" */
+      "./SideDrawerField"
     )
 );
 const Settings = lazy(
   () =>
     import(
-      "../SingleSelect/Settings" /* webpackChunkName: "Settings-SingleSelect" */
+      "../SingleSelect/Settings"
     )
 );
 

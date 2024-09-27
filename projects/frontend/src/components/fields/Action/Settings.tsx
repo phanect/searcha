@@ -55,7 +55,7 @@ const diagnosticsOptions = {
 
 const CodeEditor = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import("@src/components/CodeEditor")
 );
 
 const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {

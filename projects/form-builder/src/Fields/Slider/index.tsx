@@ -6,7 +6,7 @@ import GestureSwipeHorizontal from 'mdi-material-ui/GestureSwipeHorizontal';
 
 import Settings from './SliderSettings';
 const Component = lazy(
-  () => import('./SliderComponent') /* webpackChunkName: FormBuilder-Slider */
+  () => import('./SliderComponent')
 );
 
 export const SliderConfig: IFieldConfig = {

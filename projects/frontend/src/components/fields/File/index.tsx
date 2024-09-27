@@ -7,11 +7,11 @@ import DisplayCell from "./DisplayCell";
 import ContextMenuActions from "./ContextMenuActions";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-File" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-File" */)
+    import("./SideDrawerField")
 );
 
 export const config: IFieldConfig = {

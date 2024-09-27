@@ -8,12 +8,12 @@ import DisplayCell from "./DisplayCell";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Code" */)
+  () => import("./Settings")
 );
 
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Code" */)
+    import("./SideDrawerField")
 );
 
 export const config: IFieldConfig = {

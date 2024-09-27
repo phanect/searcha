@@ -9,10 +9,10 @@ import { filterOperators } from "./Filter";
 
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Status" */)
+    import("./SideDrawerField")
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Status" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

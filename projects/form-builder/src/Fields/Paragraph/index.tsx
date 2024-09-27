@@ -7,7 +7,7 @@ import FormTextarea from 'mdi-material-ui/FormTextarea';
 import Settings from './ParagraphSettings';
 const Component = lazy(
   () =>
-    import('./ParagraphComponent') /* webpackChunkName: FormBuilder-Paragraph */
+    import('./ParagraphComponent')
 );
 
 export const ParagraphConfig: IFieldConfig = {

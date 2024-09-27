@@ -37,7 +37,7 @@ import TableSourcePreview from "./TableSourcePreview";
 
 const CodeEditor = lazy(
   () =>
-    import("@src/components/CodeEditor" /* webpackChunkName: "CodeEditor" */)
+    import("@src/components/CodeEditor")
 );
 
 const diagnosticsOptions = {

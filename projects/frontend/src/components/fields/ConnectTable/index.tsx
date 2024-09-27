@@ -6,16 +6,16 @@ import { ConnectTable as ConnectTableIcon } from "@src/assets/icons";
 import DisplayCell from "./DisplayCell";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-ConnectTable" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-ConnectTable" */
+      "./SideDrawerField"
     )
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-ConnectTable" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

@@ -3,13 +3,13 @@ import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { tableScope, tableModalAtom } from "@src/atoms/tableScope";
 
-const CloudLogsModal = lazy(() => import("./CloudLogsModal" /* webpackChunkName: "TableModals-CloudLogsModal" */));
-const ExtensionsModal = lazy(() => import("./ExtensionsModal" /* webpackChunkName: "TableModals-ExtensionsModal" */));
-const ExportModal = lazy(() => import("./ExportModal" /* webpackChunkName: "TableModals-ExportModal" */));
-const WebhooksModal = lazy(() => import("./WebhooksModal" /* webpackChunkName: "TableModals-WebhooksModal" */));
-const ImportExistingWizard = lazy(() => import("./ImportExistingWizard" /* webpackChunkName: "TableModals-ImportExistingWizard" */));
-const ImportCsvWizard = lazy(() => import("./ImportCsvWizard" /* webpackChunkName: "TableModals-ImportCsvWizard" */));
-const ImportAirtableWizard = lazy(() => import("./ImportAirtableWizard" /* webpackChunkName: "TableModals-ImportAirtableWizard" */));
+const CloudLogsModal = lazy(() => import("./CloudLogsModal"));
+const ExtensionsModal = lazy(() => import("./ExtensionsModal"));
+const ExportModal = lazy(() => import("./ExportModal"));
+const WebhooksModal = lazy(() => import("./WebhooksModal"));
+const ImportExistingWizard = lazy(() => import("./ImportExistingWizard"));
+const ImportCsvWizard = lazy(() => import("./ImportCsvWizard"));
+const ImportAirtableWizard = lazy(() => import("./ImportAirtableWizard"));
 
 export interface ITableModalProps {
   onClose: () => void;

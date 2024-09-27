@@ -10,21 +10,21 @@ import { filterOperators, valueFormatter } from "./filters";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-DateTime" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-DateTime" */
+      "./SideDrawerField"
     )
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-DateTime" */)
+  () => import("./Settings")
 );
 const FilterCustomInput = lazy(
   () =>
     import(
-      "./FilterCustomInput" /* webpackChunkName: "FilterCustomInput-DateTime" */
+      "./FilterCustomInput"
     )
 );
 
