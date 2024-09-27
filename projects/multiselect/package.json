@@ -26,6 +26,7 @@
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.0.0",
+    "@phanect/configs": "latest",
     "@storybook/addon-actions": "6.3.8",
     "@storybook/addon-docs": "6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
