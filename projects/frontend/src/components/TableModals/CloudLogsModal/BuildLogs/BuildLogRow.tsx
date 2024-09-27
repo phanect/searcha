@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import { styled, Typography } from "@mui/material";
-import Ansi from "ansi-to-react";
+import { AnsiHtml } from "fancy-ansi/react";
 
 import { TIME_FORMAT } from "@src/constants/dates";
 
@@ -50,18 +50,19 @@ export default function BuildLogRow({ logRecord, index }: IBuildLogRowProps) {
           userSelect: "text",
         }}
       >
-        <Ansi
+        <AnsiHtml
           className={logRecord.level === "info" ? "color-nfo" : "color-error"}
-        >
-          {format(logRecord.timestamp, TIME_FORMAT + ":ss")}
-        </Ansi>
+          text={ format(logRecord.timestamp, TIME_FORMAT + ":ss") }
+        />
         {"  "}
-        <Ansi>
-          {logRecord.log
-            .replaceAll("\\n", "\n")
-            .replaceAll("\\t", "\t")
-            .replaceAll("\\", "")}
-        </Ansi>
+        <AnsiHtml
+          text={
+            logRecord.log
+              .replaceAll("\\n", "\n")
+              .replaceAll("\\t", "\t")
+              .replaceAll("\\", "")
+          }
+        />
       </Typography>
     </Root>
   );
