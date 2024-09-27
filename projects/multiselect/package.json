@@ -53,8 +53,5 @@
     "@mui/material": "^5.0.0",
     "react": ">= 17",
     "tss-react": "^3.0.0"
-  },
-  "engines": {
-    "node": ">=10"
   }
 }
