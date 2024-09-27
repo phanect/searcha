@@ -9,7 +9,7 @@ const Component = lazy(
   () =>
     import(
       './ContentImageComponent'
-    ) /* webpackChunkName: FormBuilder-ContentImage */
+    )
 );
 
 export const ContentImageConfig: IFieldConfig = {

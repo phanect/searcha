@@ -6,7 +6,7 @@ import CalendarClock from 'mdi-material-ui/CalendarClock';
 
 const Component = lazy(
   () =>
-    import('./DateTimeComponent') /* webpackChunkName: FormBuilder-DateTime */
+    import('./DateTimeComponent')
 );
 
 export const DateTimeConfig: IFieldConfig = {

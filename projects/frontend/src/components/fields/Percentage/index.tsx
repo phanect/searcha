@@ -11,12 +11,12 @@ import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCell
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-Percentage" */
+      "./SideDrawerField"
     )
 );
 
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Percentage" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

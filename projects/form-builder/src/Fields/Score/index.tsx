@@ -6,7 +6,7 @@ import Numeric10Box from 'mdi-material-ui/Numeric10Box';
 
 import Settings from './ScoreSettings';
 const Component = lazy(
-  () => import('./ScoreComponent') /* webpackChunkName: FormBuilder-Score */
+  () => import('./ScoreComponent')
 );
 
 export const ScoreConfig: IFieldConfig = {

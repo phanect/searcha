@@ -8,11 +8,11 @@ import ContextMenuActions from "./ContextMenuActions";
 
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Json" */)
+    import("./SideDrawerField")
 );
 
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Json" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

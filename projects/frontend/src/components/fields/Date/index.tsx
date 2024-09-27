@@ -10,14 +10,14 @@ import { filterOperators, valueFormatter } from "./filters";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 
 const EditorCell = lazy(
-  () => import("./EditorCell" /* webpackChunkName: "EditorCell-Date" */)
+  () => import("./EditorCell")
 );
 const SideDrawerField = lazy(
   () =>
-    import("./SideDrawerField" /* webpackChunkName: "SideDrawerField-Date" */)
+    import("./SideDrawerField")
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Date" */)
+  () => import("./Settings")
 );
 
 export const config: IFieldConfig = {

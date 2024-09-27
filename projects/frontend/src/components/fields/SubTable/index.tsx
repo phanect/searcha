@@ -8,11 +8,11 @@ import DisplayCell from "./DisplayCell";
 const SideDrawerField = lazy(
   () =>
     import(
-      "./SideDrawerField" /* webpackChunkName: "SideDrawerField-SubTable" */
+      "./SideDrawerField"
     )
 );
 const Settings = lazy(
-  () => import("./Settings" /* webpackChunkName: "Settings-Subtable" */)
+  () => import("./Settings")
 );
 export const config: IFieldConfig = {
   type: FieldType.subTable,
