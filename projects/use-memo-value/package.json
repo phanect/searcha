@@ -12,10 +12,13 @@
   }],
   "license": "UNLICENSED",
   "private": true,
+  "type": "module",
   "main": "dist/useMemoValue.js",
-  "module": "dist/useMemoValue.module.js",
+  "module": "dist/useMemoValue.js",
+  "types": "dist/useMemoValue.d.ts",
   "scripts": {
-    "build": "rm -rf dist && microbundle --inline none --name useMemoValue",
+    "dev": "tsdown --watch --no-clean",
+    "build": "tsdown",
     "lint": "tsc --noEmit",
     "test": "TS_NODE_PROJECT=./tsconfig.test.json ava"
   },
@@ -29,10 +32,10 @@
     "ava": "^3.7.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.6",
-    "microbundle": "^0.11.0",
     "react": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "ts-node": "^8.9.0",
+    "tsdown": "^0.21.0",
     "typescript": "^5.6.2"
   },
   "peerDependencies": {
