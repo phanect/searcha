@@ -7,12 +7,13 @@
   ],
   "license": "UNLICENSED",
   "private": true,
-  "module": "dist/multiselect.esm.js",
+  "type": "module",
+  "module": "dist/index.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "dev": "tsdx watch",
-    "build": "tsdx build",
+    "dev": "tsup --watch --no-clean",
+    "build": "tsup",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
@@ -41,7 +42,6 @@
     }
   ],
   "devDependencies": {
-    "@babel/core": "^7.14.6",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.0",
@@ -65,9 +65,9 @@
     "react-div-100vh": "^0.6.0",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
-    "tsdx": "0.14.1",
     "tslib": "^2.3.0",
     "tss-react": "^3.6.2",
+    "tsup": "^8.3.0",
     "typescript": "^5.6.2"
   },
   "peerDependencies": {

@@ -12,6 +12,7 @@
   ],
   "license": "UNLICENSED",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite --port 7699",
     "startWithEmulators": "VITE_APP_FIREBASE_EMULATORS=true vite --port 7699",
