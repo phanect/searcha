@@ -10,7 +10,6 @@ import {
   FormHelperText,
   Checkbox,
 } from "@mui/material";
-import MultiSelect from "@phanect/datasheet-multiselect";
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import {

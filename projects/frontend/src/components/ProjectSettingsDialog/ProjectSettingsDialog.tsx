@@ -6,7 +6,6 @@ import {
   ProjectSettingsDialogTab,
   rowyRunAtom,
   secretNamesAtom,
-  updateSecretNamesAtom,
 } from "@src/atoms/projectScope";
 import Modal from "@src/components/Modal";
 import { Box, Button, Paper, Tab, Tooltip, Typography } from "@mui/material";
@@ -32,7 +31,6 @@ export default function ProjectSettingsDialog() {
     open: false,
   });
   const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [updateSecretNames] = useAtom(updateSecretNamesAtom, projectScope);
 
   if (!open) return null;
 
@@ -41,7 +39,7 @@ export default function ProjectSettingsDialog() {
   };
 
   const handleTabChange = (
-    event: SyntheticEvent,
+    _: SyntheticEvent,
     newTab: ProjectSettingsDialogTab
   ) => {
     setProjectSettingsDialog({ tab: newTab });

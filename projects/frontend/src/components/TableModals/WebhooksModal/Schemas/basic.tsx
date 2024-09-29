@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import { TableSettings } from "@src/types/table";
-import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 
 const requestType = [
   "declare type WebHookRequest {",
@@ -88,9 +87,7 @@ export const webhookBasic = {
   condition: {
     additionalVariables,
     extraLibs: conditionExtraLibs,
-    template: (
-      table: TableSettings
-    ) => `const condition: Condition = async({ref, req, db, logging}) => {
+    template: () => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
 
@@ -98,7 +95,7 @@ export const webhookBasic = {
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
   },
-  Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => {
+  Auth: () => {
     return (
       <Typography color="text.disabled">
         <WarningIcon aria-label="Warning" style={{ verticalAlign: "bottom" }} />

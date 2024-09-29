@@ -4,7 +4,6 @@ import { matchSorter } from "match-sorter";
 
 import {
   tableScope,
-  tableRowsAtom,
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
 import { useMonaco } from "@monaco-editor/react";
@@ -51,7 +50,6 @@ export default function useMonacoCustomizations({
 }: IUseMonacoCustomizationsProps) {
   const theme = useTheme();
   const monaco = useMonaco();
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
   const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
   const [secretNames] = useAtom(secretNamesAtom, projectScope);
 
@@ -130,7 +128,7 @@ export default function useMonacoCustomizations({
     const { dispose } = monaco.languages.registerCodeActionProvider(
       "javascript",
       {
-        provideCodeActions: (model, range, context, token) => {
+        provideCodeActions: (model, _, context, __) => {
           const consoleLogReplacements = context.markers
             .filter((error) => {
               return error.message.includes("Rowy Cloud Logging");
@@ -219,20 +217,16 @@ export default function useMonacoCustomizations({
         },
       }
     );
-    monaco.editor.onWillDisposeModel((model) => {
+    monaco.editor.onWillDisposeModel(() => {
       // dispose code action provider when model is disposed
       // this makes sure code actions are not displayed multiple times
       dispose();
     });
   };
   const addJsonFieldDefinition = async (
-    columnKey: string,
+    _: string,
     interfaceName: string
   ) => {
-    const samples = tableRows
-      .map((row) => row[columnKey])
-      .filter((entry) => entry !== undefined)
-      .map((entry) => JSON.stringify(entry));
     monaco?.languages.typescript.typescriptDefaults.addExtraLib(
       `type ${interfaceName} = any;`
     );

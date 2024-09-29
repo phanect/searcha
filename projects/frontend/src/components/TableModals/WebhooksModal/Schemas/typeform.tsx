@@ -70,9 +70,7 @@ export const webhookTypeform = {
   condition: {
     additionalVariables: null,
     extraLibs: null,
-    template: (
-      table: TableSettings
-    ) => `const condition: Condition = async({ref, req, db, logging}) => {
+    template: () => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
 

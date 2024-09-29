@@ -139,7 +139,7 @@ export default function CodeEditor({
             }
             if (onFocus) editor.onDidFocusEditorWidget(onFocus);
             if (onBlur) editor.onDidBlurEditorWidget(onBlur);
-            const autoTypings = await AutoTypings.create(editor, {
+            await AutoTypings.create(editor, {
               monaco: monaco,
               sourceCache: new LocalStorageCache(),
               debounceDuration: 500, // ms

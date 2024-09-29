@@ -1,5 +1,5 @@
 import MultiSelect from "@phanect/datasheet-multiselect";
-import { Box, ListItemIcon, Typography } from "@mui/material";
+import { ListItemIcon, Typography } from "@mui/material";
 import Fuse from 'fuse.js';
 
 import { FIELDS } from "@src/components/fields";
@@ -70,9 +70,9 @@ export default function FieldsDropdown({
     const fuse = new Fuse(options, {
       keys: [{name:'label', weight: 2}, 'keywords'],
       includeScore: true,
-      threshold: 0.4, 
+      threshold: 0.4,
     });
-  
+
     const results = fuse.search(inputConfig?.inputValue);
     return results.length > 0 ? results.map((result) => result.item) : options;
   }

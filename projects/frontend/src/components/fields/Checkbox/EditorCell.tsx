@@ -5,7 +5,7 @@ import { get } from "lodash-es";
 import { FormControlLabel, Switch } from "@mui/material";
 import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
 
-const replacer = (data: any) => (m: string, key: string) => {
+const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
   const defaultValue = key.split(":")[1] || "";
   return get(data, objKey, defaultValue);

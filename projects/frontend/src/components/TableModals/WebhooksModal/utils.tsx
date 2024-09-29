@@ -79,13 +79,6 @@ export const conditionExtraLibs = [
   ) => Promise<any>;`,
 ];
 
-const additionalVariables = [
-  {
-    key: "req",
-    description: "webhook request",
-  },
-];
-
 export type WebhookType = typeof webhookTypes[number];
 
 export const webhookNames: Record<WebhookType, string> = {

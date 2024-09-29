@@ -7,11 +7,9 @@ import { Grid, InputLabel, Stack, FormHelperText, Box } from "@mui/material";
 
 import {
   tableColumnsOrderedAtom,
-  tableRowsDbAtom,
   tableSchemaAtom,
   tableScope,
   tableSettingsAtom,
-  updateFieldAtom,
 } from "@src/atoms/tableScope";
 
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
@@ -24,7 +22,6 @@ import {
   defaultFn,
   listenerFieldTypes,
   outputFieldTypes,
-  serializeRef,
 } from "./util";
 import PreviewTable from "./PreviewTable";
 import { getFieldProp } from "..";

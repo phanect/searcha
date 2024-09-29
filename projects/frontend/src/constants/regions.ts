@@ -377,5 +377,3 @@ export const FIRESTORE_LOCATIONS = [
     city: "Sydney",
   },
 ];
-
-const CLOUD_FUNCTIONS_REGIONS = [];

@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { Typography, Link, TextField, Alert, Box } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { TableSettings } from "@src/types/table";
 import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import {
   projectScope,
@@ -20,9 +19,7 @@ export const webhookStripe = {
   parser: {
     additionalVariables: null,
     extraLibs: null,
-    template: (
-      table: TableSettings
-    ) => `const stripeParser: Parser = async ({ req, db, ref, logging }) => {
+    template: () => `const stripeParser: Parser = async ({ req, db, ref, logging }) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("stripeParser started")
 
@@ -44,9 +41,7 @@ export const webhookStripe = {
   condition: {
     additionalVariables: null,
     extraLibs: null,
-    template: (
-      table: TableSettings
-    ) => `const condition: Condition = async({ref, req, db, logging}) => {
+    template: () => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
 
@@ -57,7 +52,7 @@ export const webhookStripe = {
   Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => {
     const [secretNames] = useAtom(secretNamesAtom, projectScope);
     const [updateSecretNames] = useAtom(updateSecretNamesAtom, projectScope);
-    const [{ open, tab }, setProjectSettingsDialog] = useAtom(
+    const [, setProjectSettingsDialog] = useAtom(
       projectSettingsDialogAtom,
       projectScope
     );

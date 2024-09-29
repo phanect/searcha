@@ -5,7 +5,6 @@ import { useSnackbar } from "notistack";
 import {
   ListItem,
   ListItemAvatar,
-  Avatar,
   ListItemText,
   Tooltip,
   IconButton,

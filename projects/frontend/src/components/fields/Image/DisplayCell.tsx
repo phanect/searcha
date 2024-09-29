@@ -78,7 +78,7 @@ export default function Image_({ value, tabIndex }: IDisplayCellProps) {
     >
       <Grid container spacing={0.5} wrap="nowrap">
         {Array.isArray(value) &&
-          value.map((file: FileValue, i) => (
+          value.map((file: FileValue) => (
             <Grid item key={file.downloadURL}>
               {
                 <ButtonBase
