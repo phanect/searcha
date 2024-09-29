@@ -1,6 +1,5 @@
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "@src/components/ErrorFallback";
-// import SwrProvider from "@src/contexts/SwrContext";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider as JotaiProvider, Atom } from "jotai";

@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import { useSnackbar } from "notistack";
 
 import Navigation from "@src/layouts/Navigation";
@@ -68,7 +68,7 @@ const typographyVariants = [
 
 export default function TestView() {
   const theme = useTheme();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [tab, setTab] = useState(0);
   const handleTabChange = (_: any, newTab: any) => setTab(newTab);

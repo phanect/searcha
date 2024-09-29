@@ -48,7 +48,7 @@ export const config: IFieldConfig = {
   },
   settings: Settings,
   csvImportParser: (value) => new Date(value),
-  csvExportFormatter: (value: any, config?: any) => {
+  csvExportFormatter: (value: any) => {
     if (typeof value === "number") {
       return format(new Date(value), DATE_TIME_FORMAT);
     } else {

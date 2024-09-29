@@ -233,7 +233,6 @@ export default function TablePage({
               <Suspense fallback={null}>
                 <BuildLogsSnack
                   onClose={snackLogContext.closeSnackLog}
-                  onOpenPanel={alert}
                 />
               </Suspense>
             )}

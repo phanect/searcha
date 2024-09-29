@@ -271,7 +271,6 @@ export const bulkAddRowsAtom = atom(
     if (!tableSettings) throw new Error("Cannot read table settings");
     const currentUser = get(currentUserAtom);
     if (!currentUser) throw new Error("Cannot read current user");
-    const auditChange = get(auditChangeAtom);
     const tableColumnsOrdered = get(tableColumnsOrderedAtom);
 
     // Create initial values for all rows to be added

@@ -20,7 +20,6 @@ export interface IContextMenuActions {
 
 export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
-  reset
 ) => {
   const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
   const [tableRows] = useAtom(tableRowsAtom, tableScope);

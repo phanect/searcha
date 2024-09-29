@@ -24,7 +24,6 @@ import {
   tableSettingsAtom,
   tableSchemaAtom,
   updateTableSchemaAtom,
-  tableModalAtom,
 } from "@src/atoms/tableScope";
 import { emptyWebhookObject, IWebhook, WebhookType } from "./utils";
 import { runRoutes } from "@src/constants/runRoutes";

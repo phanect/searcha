@@ -10,7 +10,6 @@ import {
   tableFiltersAtom,
   tableSortsAtom,
   tableRowsAtom,
-  auditChangeAtom,
 } from "@src/atoms/tableScope";
 
 import TableSourceFirestore from "@src/sources/TableSourceFirestore";
@@ -32,7 +31,6 @@ function TableTestPage() {
   const setTableSorts = useSetAtom(tableSortsAtom, tableScope);
 
   const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const [auditChange] = useAtom(auditChangeAtom, tableScope);
 
   console.log(tableId, tableSettings, tableSchema);
 

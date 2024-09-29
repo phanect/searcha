@@ -5,7 +5,7 @@ export const sanitiseValue = (value: any) => {
   else return value as string[];
 };
 
-export const replacer = (data: any) => (m: string, key: string) => {
+export const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
   const defaultValue = key.split(":")[1] || "";
   return get(data, objKey, defaultValue);

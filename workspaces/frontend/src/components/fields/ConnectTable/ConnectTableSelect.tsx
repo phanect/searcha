@@ -31,7 +31,7 @@ export type ConnectTableValue = {
   snapshot: Record<string, any>;
 };
 
-const replacer = (data: any) => (m: string, key: string) => {
+const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
   const defaultValue = key.split(":")[1] || "";
   return get(data, objKey, defaultValue);

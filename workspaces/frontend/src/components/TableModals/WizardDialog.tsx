@@ -18,7 +18,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-import { SlideTransitionMui } from "@src/components/Modal/SlideTransition";
 import ScrollableDialogContent from "@src/components/Modal/ScrollableDialogContent";
 
 import { spreadSx } from "@src/utils/ui";

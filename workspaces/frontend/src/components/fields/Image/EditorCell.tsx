@@ -22,7 +22,6 @@ import {
   Droppable,
   Draggable,
   DropResult,
-  ResponderProvided,
 } from "react-beautiful-dnd";
 
 export default function Image_({
@@ -58,7 +57,7 @@ export default function Image_({
   const { getRootProps, getInputProps, isDragActive } = dropzoneState;
   const dropzoneProps = getRootProps();
 
-  const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
 
     if (!destination) {

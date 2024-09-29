@@ -1,5 +1,5 @@
 import MultiSelect from "@phanect/datasheet-multiselect";
-import { Box, ListItemIcon, Typography } from "@mui/material";
+import { ListItemIcon, Typography } from "@mui/material";
 
 import { FIELDS } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";

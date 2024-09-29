@@ -177,7 +177,7 @@ export const tableRowsAtom = atom<TableRow[]>((get) => {
   rowsDb.forEach((row, i) => rowsDbMap.set(row._rowy_ref.path, i));
 
   // Loop through rowsLocal, which is usually the smaller of the two arrays
-  const rowsLocalToMerge = rowsLocal.map((row, i) => {
+  const rowsLocalToMerge = rowsLocal.map((row) => {
     // If row is in rowsDb, merge the two
     // and remove from rowsDb to prevent duplication
     if (rowsDbMap.has(row._rowy_ref.path)) {

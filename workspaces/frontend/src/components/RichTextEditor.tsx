@@ -303,7 +303,7 @@ export default function RichTextEditor({
             "formatselect | bold italic forecolor | link | fullscreen | bullist numlist outdent indent | image | removeformat code | help",
           body_id: id,
           file_picker_types: "image",
-          file_picker_callback: async (callback, value, meta) => {
+          file_picker_callback: async (callback) => {
             const input = document.createElement("input");
             input.setAttribute("type", "file");
             input.setAttribute("accept", IMAGE_MIME_TYPES.join(","));

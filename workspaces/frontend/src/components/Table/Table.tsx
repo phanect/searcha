@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState, useEffect, useCallback } from "react";
-// import useStateRef from "react-usestateref"; // testing with useStateWithRef
 import { useAtom, useSetAtom } from "jotai";
 import { useThrottledCallback } from "use-debounce";
 import {
@@ -21,7 +20,6 @@ import TableBody from "./TableBody";
 import FinalColumn from "./FinalColumn/FinalColumn";
 import ContextMenu from "./ContextMenu";
 import EmptyState from "@src/components/EmptyState";
-// import BulkActions from "./BulkActions";
 
 import {
   tableScope,
@@ -118,7 +116,7 @@ export default function Table({
   const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
   const [tableRows] = useAtom(tableRowsAtom, tableScope);
   const [tableNextPage] = useAtom(tableNextPageAtom, tableScope);
-  const [tablePage, setTablePage] = useAtom(tablePageAtom, tableScope);
+  const [, setTablePage] = useAtom(tablePageAtom, tableScope);
   const setReactTable = useSetAtom(reactTableAtom, tableScope);
 
   const updateColumn = useSetAtom(updateColumnAtom, tableScope);
@@ -285,7 +283,7 @@ export default function Table({
   const { handler: hotKeysHandler } = useHotKeys([
     ["mod+C", handleCopy],
     ["mod+X", handleCut],
-    ["mod+V", (e) => handlePaste], // So the event isn't passed to the handler
+    ["mod+V", () => handlePaste], // So the event isn't passed to the handler
   ]);
 
   // Handle prompt to save local column sizes if user `canEditColumns`
