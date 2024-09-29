@@ -33,7 +33,6 @@ import {
   addRowAtom,
   deleteRowAtom,
   updateFieldAtom,
-  tableFiltersPopoverAtom,
   _updateRowDbAtom,
   tableIdAtom,
 } from "@src/atoms/tableScope";
@@ -58,10 +57,6 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
   const deleteRow = useSetAtom(deleteRowAtom, tableScope);
   const updateField = useSetAtom(updateFieldAtom, tableScope);
   const [updateRowDb] = useAtom(_updateRowDbAtom, tableScope);
-  const openTableFiltersPopover = useSetAtom(
-    tableFiltersPopoverAtom,
-    tableScope
-  );
   const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
   const [tableId] = useAtom(tableIdAtom, tableScope);
 

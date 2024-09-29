@@ -27,12 +27,10 @@ import {
 
 export interface IBuildLogsSnackProps {
   onClose: () => void;
-  onOpenPanel: () => void;
 }
 
 export default function BuildLogsSnack({
   onClose,
-  onOpenPanel,
 }: IBuildLogsSnackProps) {
   const snackLogContext = useSnackLogContext();
   const { latestLog } = useBuildLogs();

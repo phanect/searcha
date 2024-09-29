@@ -21,7 +21,7 @@ import { useActionParams } from "./FormDialog/Context";
 import { runRoutes } from "@src/constants/runRoutes";
 import { getTableSchemaPath } from "@src/utils/table";
 
-const replacer = (data: any) => (m: string, key: string) => {
+const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
   const defaultValue = key.split(":")[1] || "";
   return get(data, objKey, defaultValue);

@@ -1,10 +1,9 @@
 import useSWR from "swr";
 import { useAtom } from "jotai";
-import { startCase, upperCase } from "lodash-es";
+import { startCase } from "lodash-es";
 import { ITableModalProps } from "@src/components/TableModals";
 
 import {
-  LinearProgress,
   ToggleButtonGroup,
   ToggleButton,
   Stack,
@@ -29,7 +28,6 @@ import CloudLogList from "./CloudLogList";
 import BuildLogs from "./BuildLogs";
 import EmptyState from "@src/components/EmptyState";
 import CloudLogSeverityIcon, {
-  SEVERITY_LEVELS,
   SEVERITY_LEVELS_ROWY,
 } from "./CloudLogSeverityIcon";
 
@@ -337,7 +335,7 @@ export default function CloudLogsModal({ onClose }: ITableModalProps) {
                     aria-label={"Column"}
                     options={Object.entries(tableSchema.columns ?? {})
                       .filter(
-                        ([key, config]) =>
+                        ([, config]) =>
                           config?.config?.defaultValue?.type === "dynamic" ||
                           [
                             FieldType.action,

@@ -36,7 +36,7 @@ import HelpMenu from "./HelpMenu";
 import { INavDrawerContentsProps } from "./NavDrawerContents";
 
 import { projectScope, getStartedChecklistAtom } from "@src/atoms/projectScope";
-import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
+import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import useGetStartedCompletion from "@src/components/GetStartedChecklist/useGetStartedCompletion";
 

@@ -14,7 +14,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import { fieldSx } from "@src/components/SideDrawer/utils";
 import { projectScope, jsonEditorAtom } from "@src/atoms/projectScope";
 import config from ".";
 

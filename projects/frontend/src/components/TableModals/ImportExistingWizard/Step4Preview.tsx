@@ -42,7 +42,7 @@ export default function Step4Preview({ config }: IStepProps) {
             zIndex: 1,
           }}
         >
-          {Object.entries(config).map(([field, { name, type }]) => (
+          {Object.entries(config).map(([, { name, type }]) => (
             <ColumnWrapper item>
               <Column label={name} type={type} />
             </ColumnWrapper>

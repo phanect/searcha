@@ -25,8 +25,6 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
-  ResponderProvided,
 } from "react-beautiful-dnd";
 
 export default function File_({

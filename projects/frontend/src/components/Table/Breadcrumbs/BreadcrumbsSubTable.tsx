@@ -14,14 +14,12 @@ export interface IBreadcrumbsSubTableProps {
   rootTableSettings: TableSettings;
   subTableSettings: TableSettings;
   rootTableLink: string;
-  parentLabel?: string;
 }
 
 export default function BreadcrumbsSubTable({
   rootTableSettings,
   subTableSettings,
   rootTableLink,
-  parentLabel,
 }: IBreadcrumbsSubTableProps) {
   const [userRoles] = useAtom(userRolesAtom, projectScope);
   const [searchParams] = useSearchParams();

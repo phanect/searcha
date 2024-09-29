@@ -48,7 +48,7 @@ export default function Sort() {
 
   return (
     <SortPopover>
-      {({ handleClose }) => (
+      {() => (
         <Grid container spacing={2} sx={{ p: 3 }}>
           <Grid item xs={5.5}>
             <ColumnSelect

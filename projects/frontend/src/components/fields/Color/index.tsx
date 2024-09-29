@@ -5,7 +5,6 @@ import { toColor } from "react-color-palette";
 
 import ColorIcon from "@mui/icons-material/Colorize";
 import DisplayCell from "./DisplayCell";
-import { filterOperators, valueFormatter } from "./filters";
 
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 

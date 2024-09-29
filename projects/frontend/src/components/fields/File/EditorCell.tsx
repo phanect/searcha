@@ -20,7 +20,6 @@ import {
   Droppable,
   Draggable,
   DropResult,
-  ResponderProvided,
 } from "react-beautiful-dnd";
 
 export default function File_({
@@ -45,7 +44,7 @@ export default function File_({
   const { isDragActive, getRootProps, getInputProps } = dropzoneState;
   const dropzoneProps = getRootProps();
 
-  const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
 
     if (!destination) {

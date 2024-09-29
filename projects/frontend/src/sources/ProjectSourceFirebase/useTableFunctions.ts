@@ -358,7 +358,7 @@ export function useTableFunctions() {
             secretNames: secrets,
           });
         })
-        .catch((e) => {
+        .catch(() => {
           setSecretNames({
             loading: false,
             secretNames: clearSecretNames ? null : secretNames.secretNames,

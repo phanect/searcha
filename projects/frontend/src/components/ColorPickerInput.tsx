@@ -32,13 +32,11 @@ const useResponsiveWidth = (): [
 export interface IColorPickerProps {
   value: Color;
   onChangeComplete: (color: Color) => void;
-  disabled?: boolean;
 }
 
 export default function ColorPickerInput({
   value,
   onChangeComplete,
-  disabled = false,
 }: IColorPickerProps) {
   const [localValue, setLocalValue] = useState(value);
   const [width, setRef] = useResponsiveWidth();

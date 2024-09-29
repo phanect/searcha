@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { RESET } from "jotai/utils";
+import { useAtom } from "jotai";
 import { ITableModalProps } from "@src/components/TableModals/TableModals";
 import {
   query as firestoreQuery,
