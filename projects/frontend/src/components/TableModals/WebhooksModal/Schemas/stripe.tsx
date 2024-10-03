@@ -25,10 +25,10 @@ export const webhookStripe = {
     ) => `const stripeParser: Parser = async ({ req, db, ref, logging }) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("stripeParser started")
-  
+
   // Import NPM package needed, some packages may not work in Webhooks
   // const {default: lodash} = await import("lodash");
-  
+
   const event = req.body
   switch (event.type) {
     case "payment_intent.succeeded":
@@ -49,7 +49,7 @@ export const webhookStripe = {
     ) => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
-  
+
   return true;
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,

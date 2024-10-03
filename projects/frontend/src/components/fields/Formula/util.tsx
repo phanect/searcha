@@ -69,7 +69,7 @@ export const outputFieldTypes = Object.values(FieldType).filter(
 
 export const defaultFn = `const formula:Formula = async ({ row, ref })=> {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
-  
+
   // Example:
   // return row.a + row.b;
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY

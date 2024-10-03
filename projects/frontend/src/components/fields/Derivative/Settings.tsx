@@ -66,10 +66,10 @@ export default function Settings({
     : config?.script
     ? `const derivative:Derivative = async ({row,ref,db,storage,auth,logging})=>{
   logging.log("derivative started")
-  
+
   // Import any NPM package needed
   // const lodash = require('lodash');
-  
+
   ${config.script.replace(/utilFns.getSecret/g, "rowy.secrets.get")}
 }`
     : `// Import any NPM package needed
