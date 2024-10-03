@@ -1,11 +1,11 @@
-import fs from "node:fs";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 
 process.chdir('./src');
 
 const output: string[] = [];
 
-function scanDir(dir) {
-  const items = fs.readdirSync(dir);
+async function scanDir(dir) {
+  const items = await readdir(dir);
 
   for (const item of items) {
     // This is the generated file
@@ -23,7 +23,7 @@ function scanDir(dir) {
     if (component === 'index') component = dir.split('/').pop();
 
     // Check if file has default export
-    const file = fs.readFileSync(dir + '/' + item);
+    const file = await readFile(dir + '/' + item);
     // Check if not field index file
     if (file.indexOf('export default') > -1 && item.split('.')[0] !== 'index')
       output.push(`export { default as ${component} } from '${path}';`);
@@ -32,5 +32,5 @@ function scanDir(dir) {
   }
 }
 
-scanDir('.');
-fs.writeFileSync('index.ts', output.join('\n'));
+await scanDir('.');
+await writeFile('index.ts', output.join('\n'));
