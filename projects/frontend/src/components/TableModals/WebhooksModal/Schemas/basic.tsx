@@ -64,10 +64,10 @@ export const webhookBasic = {
     ) => `const basicParser: Parser = async({req, db, ref, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("basicParser started")
-  
+
   // Import NPM package needed, some packages may not work in Webhooks
   // const {default: lodash} = await import("lodash");
-  
+
   // Optionally return an object to be added as a new row to the table
   // Example: add the webhook body as row
   const {body} = req;
@@ -93,7 +93,7 @@ export const webhookBasic = {
     ) => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
-  
+
   return true;
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
