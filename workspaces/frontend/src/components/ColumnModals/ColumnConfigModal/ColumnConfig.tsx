@@ -141,7 +141,7 @@ export default function ColumnConfigModal({
             {/* {
             <ConfigForm
               type={type}
-              
+
               config={newConfig}
             />
           } */}

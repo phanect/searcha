@@ -14,19 +14,19 @@ export type Comparator<T> = (a: T, b: T) => boolean
  * @param comparator An function to compare the current value to its previous value, defaults to "shallowEqual"
  */
 export default function useMemoValue<T>(
-	value: T,
-	comparator: Comparator<T> = shallowEqual,
+  value: T,
+  comparator: Comparator<T> = shallowEqual,
 ): T {
-	let ref = useRef(FIRST_RUN as T)
-	let nextValue = ref.current
+  let ref = useRef(FIRST_RUN as T)
+  let nextValue = ref.current
 
-	useEffect(() => {
-		ref.current = nextValue
-	})
+  useEffect(() => {
+    ref.current = nextValue
+  })
 
-	if (ref.current === FIRST_RUN || !comparator(value, ref.current)) {
-		nextValue = value
-	}
+  if (ref.current === FIRST_RUN || !comparator(value, ref.current)) {
+    nextValue = value
+  }
 
-	return nextValue
+  return nextValue
 }
