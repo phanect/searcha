@@ -107,7 +107,6 @@
     "@types/react": "^18.0.25",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-detect-offline": "^2.4.1",
-    "@types/react-div-100vh": "^0.4.0",
     "@types/react-dom": "^18.0.9",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-router-hash-link": "^2.4.5",
