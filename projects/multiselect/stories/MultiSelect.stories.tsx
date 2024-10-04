@@ -13,7 +13,7 @@ import { top100Films } from './data';
 const theme = createTheme({
   components: {
     MuiTextField: {
-      defeaultProps: {
+      defaultProps: {
         variant: 'filled',
         size: 'small',
       },
