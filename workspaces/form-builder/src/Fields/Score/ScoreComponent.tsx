@@ -1,4 +1,4 @@
-import type { ReactNode, ReactNodeArray } from 'react';
+import type { ReactNode } from 'react';
 import { IFieldComponentProps } from '../../types';
 
 import { FormControl, Box, Typography } from '@mui/material';
@@ -32,7 +32,7 @@ export default function ScoreComponent({
   maxLabel,
   step = 1,
 }: IScoreComponentProps) {
-  const buttons: ReactNodeArray = [];
+  const buttons: ReactNode[] = [];
   for (let i = min; i <= max; i += step)
     buttons.push(
       <ToggleButton
