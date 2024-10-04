@@ -95,8 +95,7 @@
     "use-algolia": "^1.5.3",
     "use-async-memo": "^1.2.4",
     "use-debounce": "^9.0.4",
-    "web-vitals": "^2.1.4",
-    "workbox-webpack-plugin": "^6.5.4"
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@phanect/configs": "latest",
@@ -120,7 +119,6 @@
     "cross-env": "^7.0.3",
     "happy-dom": "^9.20.3",
     "monaco-editor": "^0.33.0",
-    "raw-loader": "^4.0.2",
     "ts-jest": "^28.0.2",
     "typescript": "^5.6.2",
     "vite": "^5.4.9",
