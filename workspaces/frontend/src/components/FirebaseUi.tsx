@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from "react";
 import { useAtom } from "jotai";
 
-import * as firebaseui from "firebaseui";
+import { auth } from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -212,7 +212,7 @@ const useStyles = makeStyles()((theme) => ({
 
 export interface IFirebaseUiProps {
   className?: string;
-  uiConfig?: firebaseui.auth.Config;
+  uiConfig?: auth.Config;
 }
 
 export default function FirebaseUi(props: IFirebaseUiProps) {
@@ -229,7 +229,7 @@ export default function FirebaseUi(props: IFirebaseUiProps) {
     [publicSettings.signInOptions]
   );
 
-  const uiConfig: firebaseui.auth.Config = useMemo(
+  const uiConfig: auth.Config = useMemo(
     () => ({
       ...defaultUiConfig,
       ...props.uiConfig,
@@ -239,14 +239,14 @@ export default function FirebaseUi(props: IFirebaseUiProps) {
   );
 
   useEffect(() => {
-    let firebaseUiWidget: firebaseui.auth.AuthUI;
+    let firebaseUiWidget: auth.AuthUI;
     let userSignedIn = false;
     let unregisterAuthObserver: ReturnType<typeof onAuthStateChanged>;
 
     // Get or Create a firebaseUI instance.
     firebaseUiWidget =
-      firebaseui.auth.AuthUI.getInstance() ||
-      new firebaseui.auth.AuthUI(firebaseAuth);
+      auth.AuthUI.getInstance() ||
+      new auth.AuthUI(firebaseAuth);
 
     if (uiConfig.signInFlow === "popup") firebaseUiWidget.reset();
 

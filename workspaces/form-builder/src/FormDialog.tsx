@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type BaseSyntheticEvent, type ReactNode } from 'react';
 import { useForm, UseFormProps } from 'react-hook-form';
 import type { FieldValues, Control, UseFormReturn } from 'react-hook-form';
 import _isEmpty from 'lodash-es/isEmpty';
@@ -31,22 +31,22 @@ export interface IFormDialogProps {
   values?: FieldValues;
   onSubmit: (
     values: FieldValues,
-    event?: React.BaseSyntheticEvent<object, any, any>
+    event?: BaseSyntheticEvent<object, any, any>
   ) => void;
   customComponents?: CustomComponents;
   UseFormProps?: UseFormProps;
 
   onClose: (reason: 'submit' | 'cancel') => void;
-  title: React.ReactNode;
-  formHeader?: React.ReactNode;
-  formFooter?: React.ReactNode;
+  title: ReactNode;
+  formHeader?: ReactNode;
+  formFooter?: ReactNode;
 
   customBody?: (props: {
     control: Control<FieldValues>;
     useFormMethods: UseFormReturn<FieldValues>;
     setOmittedFields: ReturnType<typeof useFormSettings>['setOmittedFields'];
-  }) => React.ReactNode;
-  customActions?: React.ReactNode;
+  }) => ReactNode;
+  customActions?: ReactNode;
   SubmitButtonProps?: Partial<ButtonProps>;
   CancelButtonProps?: Partial<ButtonProps>;
   hideCancelButton?: boolean;
@@ -54,8 +54,8 @@ export interface IFormDialogProps {
   hideSubmitError?: boolean;
   SubmitErrorProps?: Partial<ISubmitErrorProps>;
   CloseConfirmProps?: Partial<{
-    title: React.ReactNode;
-    body: React.ReactNode;
+    title: ReactNode;
+    body: ReactNode;
     confirmButtonProps: Partial<ButtonProps>;
     cancelButtonProps: Partial<ButtonProps>;
   }>;

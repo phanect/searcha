@@ -1,11 +1,11 @@
-import { forwardRef, cloneElement } from "react";
+import { forwardRef, cloneElement, type ForwardRefExoticComponent, type ReactText, type RefAttributes } from "react";
 import { useTheme, Slide } from "@mui/material";
 import { Transition } from "react-transition-group";
 import { TransitionProps } from "react-transition-group/Transition";
 import { TransitionProps as MuiTransitionProps } from "@mui/material/transitions";
 
-export const ModalTransition: React.ForwardRefExoticComponent<
-  Pick<TransitionProps, React.ReactText> & React.RefAttributes<any>
+export const ModalTransition: ForwardRefExoticComponent<
+  Pick<TransitionProps, ReactText> & RefAttributes<any>
 > = forwardRef(function ModalTransition(
   { children, ...props }: TransitionProps,
   ref: React.Ref<any>

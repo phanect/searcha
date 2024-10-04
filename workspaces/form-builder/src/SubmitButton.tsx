@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { Button, ButtonProps } from '@mui/material';
+import type { ReactNode } from "react";
 
 export interface ISubmitButtonProps extends ButtonProps {
-  label?: React.ReactNode;
+  label?: ReactNode;
 }
 
 export default function SubmitButton({ label, ...props }: ISubmitButtonProps) {

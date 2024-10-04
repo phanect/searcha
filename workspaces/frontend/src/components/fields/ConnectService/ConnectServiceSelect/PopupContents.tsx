@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import clsx from "clsx";
 import { useDebouncedCallback } from "use-debounce";
 import { get } from "lodash-es";
@@ -127,7 +127,7 @@ export default function PopupContents({
             const isSelected =
               selectedValues.indexOf(get(hit, primaryKey)) !== -1;
             return (
-              <React.Fragment key={get(hit, primaryKey)}>
+              <Fragment key={get(hit, primaryKey)}>
                 <MenuItem
                   dense
                   onClick={isSelected ? deselect(hit) : select(hit)}
@@ -166,7 +166,7 @@ export default function PopupContents({
                   />
                 </MenuItem>
                 <Divider className={classes.divider} />
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </List>

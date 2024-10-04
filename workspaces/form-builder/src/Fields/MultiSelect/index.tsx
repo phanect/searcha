@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
-import * as yup from 'yup';
+import { string } from 'yup';
 
 import OrderBoolAscendingVariant from 'mdi-material-ui/OrderBoolAscendingVariant';
 
@@ -25,7 +25,7 @@ export const MultiSelectConfig: IFieldConfig = {
   validation: (config: Record<string, any>) => {
     const validation: any[][] = [
       ['array'],
-      ['of', yup.string().trim()],
+      ['of', string().trim()],
       ['ensure'],
       ['compact'],
     ];

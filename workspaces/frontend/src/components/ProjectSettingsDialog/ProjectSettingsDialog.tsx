@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, type SyntheticEvent } from "react";
 import { useAtom } from "jotai";
 import {
   projectScope,
@@ -22,7 +22,7 @@ export default function ProjectSettingsDialog() {
     projectScope
   );
   const [secretNames] = useAtom(secretNamesAtom, projectScope);
-  const [secretDetailsModal, setSecretDetailsModal] = React.useState<{
+  const [secretDetailsModal, setSecretDetailsModal] = useState<{
     open: boolean;
     loading?: boolean;
     mode?: "add" | "edit" | "delete";
@@ -41,7 +41,7 @@ export default function ProjectSettingsDialog() {
   };
 
   const handleTabChange = (
-    event: React.SyntheticEvent,
+    event: SyntheticEvent,
     newTab: ProjectSettingsDialogTab
   ) => {
     setProjectSettingsDialog({ tab: newTab });

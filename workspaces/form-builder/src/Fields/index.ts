@@ -1,5 +1,4 @@
-import _find from 'lodash-es/find';
-import _get from 'lodash-es/get';
+import { find, get } from "lodash-es";
 import { IFieldConfig } from '../types';
 
 import ShortText from './ShortText';
@@ -44,6 +43,6 @@ export const FieldConfigs = [
 
 /** Returns specific property of field config */
 export const getFieldProp = (prop: keyof IFieldConfig, fieldType: string) => {
-  const field = _find(FieldConfigs, { type: fieldType });
-  return _get(field, prop);
+  const field = find(FieldConfigs, { type: fieldType });
+  return get(field, prop);
 };

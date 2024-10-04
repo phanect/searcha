@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { IFieldComponentProps } from '../../types';
 
 import {
@@ -18,8 +18,8 @@ export interface ISliderComponentProps
     Omit<SliderProps, 'name' | 'onBlur' | 'onChange' | 'ref' | 'value'> {
   units?: string;
   unitsPlural?: string;
-  minLabel?: React.ReactNode;
-  maxLabel?: React.ReactNode;
+  minLabel?: ReactNode;
+  maxLabel?: ReactNode;
 }
 
 const valueWithUnits = (value: number, units?: string, unitsPlural?: string) =>

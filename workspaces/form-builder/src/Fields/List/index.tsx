@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
-import * as yup from 'yup';
+import { string } from 'yup';
 
 import FormatListNumbered from 'mdi-material-ui/FormatListNumbered';
 
@@ -22,7 +22,7 @@ export const ListConfig: IFieldConfig = {
   validation: (config: Record<string, any>) => {
     const validation: any[][] = [
       ['array'],
-      ['of', yup.string().trim()],
+      ['of', string().trim()],
       ['ensure'],
       ['compact'],
     ];

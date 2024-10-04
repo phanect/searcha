@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense, type PropsWithChildren } from "react";
 import { useAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { useLocation, Outlet } from "react-router-dom";
@@ -22,7 +22,7 @@ import {
 import { ROUTE_TITLES } from "@src/constants/routes";
 import { useDocumentTitle } from "@src/hooks/useDocumentTitle";
 
-export default function Navigation({ children }: React.PropsWithChildren<{}>) {
+export default function Navigation({ children }: PropsWithChildren<{}>) {
   const [projectId] = useAtom(projectIdAtom, projectScope);
 
   const [open, setOpen] = useAtom(navOpenAtom, projectScope);
