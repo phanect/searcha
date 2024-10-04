@@ -1,13 +1,13 @@
-import { forwardRef, cloneElement } from "react";
+import { forwardRef, cloneElement, type ForwardRefExoticComponent, type ReactText, type RefAttributes } from "react";
 import { useTheme } from "@mui/material";
 import { Transition } from "react-transition-group";
 import { TransitionProps } from "react-transition-group/Transition";
 import { TransitionProps as MuiTransitionProps } from "@mui/material/transitions";
 
-export const SlideTransition: React.ForwardRefExoticComponent<
-  Pick<TransitionProps, React.ReactText> & React.RefAttributes<any>
+export const SlideTransition: ForwardRefExoticComponent<
+  Pick<TransitionProps, ReactText> & RefAttributes<any>
 > = forwardRef(
-  ({ children, ...props }: TransitionProps, ref: React.Ref<any>) => {
+  ({ children, ...props }: TransitionProps, ref: Ref<any>) => {
     const theme = useTheme();
 
     if (!children) return null;

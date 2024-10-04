@@ -6,7 +6,7 @@ import {
   EmailAuthProvider,
   PhoneAuthProvider,
 } from "firebase/auth";
-import * as firebaseui from "firebaseui";
+import { auth } from "firebaseui";
 
 import twitterLogo from "@src/assets/logos/twitter.svg";
 import facebookLogo from "@src/assets/logos/facebook.svg";
@@ -57,11 +57,11 @@ export const authOptions = {
     provider: PhoneAuthProvider.PROVIDER_ID,
   },
   anonymous: {
-    provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
+    provider: auth.AnonymousAuthProvider.PROVIDER_ID,
   },
 };
 
-export const defaultUiConfig: firebaseui.auth.Config = {
+export const defaultUiConfig: auth.Config = {
   signInFlow: "popup",
   signInSuccessUrl: "/",
   signInOptions: [authOptions.google],
@@ -71,5 +71,5 @@ export const defaultUiConfig: firebaseui.auth.Config = {
 
 export const getSignInOptions = (
   selected: Array<keyof typeof authOptions>
-): firebaseui.auth.Config["signInOptions"] =>
+): auth.Config["signInOptions"] =>
   selected.map((option) => authOptions[option]);

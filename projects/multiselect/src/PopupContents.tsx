@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 import {
@@ -196,7 +196,7 @@ export default function PopupContents<T>({
       <Autocomplete
         noOptionsText={`No ${labelPlural || label || 'options'}`}
         renderOption={(props, option, { selected }) => {
-          let icon: React.ReactNode = itemIcons?.multiple ??
+          let icon: ReactNode = itemIcons?.multiple ??
             themeCheckboxProps.icon ?? <CheckUnselectedIcon />;
           if (multiple) {
             if (selected)

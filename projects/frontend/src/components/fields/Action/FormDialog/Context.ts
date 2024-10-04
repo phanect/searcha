@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import { createContext, useContext } from "react";
 import { IActionParams, CONFIRMATION_EMPTY_STATE } from "./props";
-const ActionParamsContext = React.createContext<IActionParams>(
+const ActionParamsContext = createContext<IActionParams>(
   CONFIRMATION_EMPTY_STATE
 );
 export default ActionParamsContext;

@@ -1,9 +1,9 @@
-import React from 'react';
+import type { ImgHTMLAttributes } from 'react';
 import { IFieldComponentProps } from '../../types';
 
 export interface IContentImageComponentProps
   extends IFieldComponentProps,
-    Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src'> {
+    Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
   src: string | { downloadURL: string }[];
 }
 

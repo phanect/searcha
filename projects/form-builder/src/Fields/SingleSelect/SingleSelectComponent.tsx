@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { IFieldComponentProps } from '../../types';
 import MultiSelect, { MultiSelectProps } from '@phanect/datasheet-multiselect';
 
@@ -15,7 +15,7 @@ export interface ISingleSelectComponentProps
     Partial<
       Omit<MultiSelectProps<string>, 'value' | 'onChange' | 'options' | 'label'>
     > {
-  options: (string | { value: string; label: React.ReactNode })[];
+  options: (string | { value: string; label: ReactNode })[];
 }
 
 export default function SingleSelectComponent({

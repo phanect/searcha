@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode, ReactNodeArray } from 'react';
 import { IFieldComponentProps } from '../../types';
 
 import { FormControl, Box, Typography } from '@mui/material';
@@ -11,8 +11,8 @@ import FieldAssistiveText from '../../FieldAssistiveText';
 export interface IScoreComponentProps extends IFieldComponentProps {
   min?: number;
   max?: number;
-  minLabel?: React.ReactNode;
-  maxLabel?: React.ReactNode;
+  minLabel?: ReactNode;
+  maxLabel?: ReactNode;
   step?: number;
 }
 
@@ -32,7 +32,7 @@ export default function ScoreComponent({
   maxLabel,
   step = 1,
 }: IScoreComponentProps) {
-  const buttons: React.ReactNodeArray = [];
+  const buttons: ReactNodeArray = [];
   for (let i = min; i <= max; i += step)
     buttons.push(
       <ToggleButton

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type FocusEvent } from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 import { TextField, AutocompleteChangeReason } from '@mui/material';
@@ -92,7 +92,7 @@ export default function MultiSelect<T = string>({
   };
 
   // Close the popup when tabbing out
-  const handlePaperFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+  const handlePaperFocus = (e: FocusEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) handleClose();
   };
 

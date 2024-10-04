@@ -1,4 +1,4 @@
-import React, { useState, createElement } from "react";
+import { useState, createElement, type Dispatch, type SetStateAction } from "react";
 import { use100vh } from "react-div-100vh";
 import { SwitchTransition } from "react-transition-group";
 import type { ISetupStep } from "./SetupStep";
@@ -32,7 +32,7 @@ const BASE_WIDTH = 1024;
 export interface ISetupLayoutProps {
   steps: ISetupStep[];
   completion: Record<string, boolean>;
-  setCompletion: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  setCompletion: Dispatch<SetStateAction<Record<string, boolean>>>;
   continueButtonLoading?: boolean | string;
   onContinue?: (
     completion: Record<string, boolean>

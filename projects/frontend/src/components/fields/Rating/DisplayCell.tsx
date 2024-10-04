@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 import { IDisplayCellProps } from "@src/components/fields/types";
 
 import MuiRating, { RatingProps as MuiRatingProps } from "@mui/material/Rating";
@@ -12,7 +12,7 @@ export const Rating = forwardRef(function Rating(
     disabled,
     onChange,
   }: IDisplayCellProps & Pick<MuiRatingProps, "onChange">,
-  ref: React.Ref<HTMLElement>
+  ref: Ref<HTMLElement>
 ) {
   // Set max and precision from config
   const {
