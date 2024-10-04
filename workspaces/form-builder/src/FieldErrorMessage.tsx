@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { FormHelperText, FormHelperTextProps } from '@mui/material';
 
 export default function FieldErrorMessage(props: FormHelperTextProps) {

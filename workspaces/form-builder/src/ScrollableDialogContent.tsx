@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import useScrollInfo from 'react-element-scroll-hook';
 
 import {

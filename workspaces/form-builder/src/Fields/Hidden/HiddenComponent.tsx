@@ -1,4 +1,3 @@
-import React from 'react';
 import { IFieldComponentProps } from '../../types';
 
 export default function HiddenComponent({

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { Grid, TextField, IconButton } from '@mui/material';

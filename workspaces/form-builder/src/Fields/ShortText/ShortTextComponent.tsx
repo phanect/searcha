@@ -1,4 +1,3 @@
-import React from 'react';
 import { IFieldComponentProps } from '../../types';
 
 import { TextField, TextFieldProps, Grid, FormHelperText } from '@mui/material';
