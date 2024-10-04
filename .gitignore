@@ -51,8 +51,8 @@ pnpm-debug.log*
 *.tgz
 
 # npm is the package manager for this project.
+package-lock.json
 yarn.lock
-pnpm-lock.yaml
 bun.lockb
 npm-shrinkwrap.json
 
