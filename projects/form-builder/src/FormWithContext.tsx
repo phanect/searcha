@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   useForm,
   UseFormProps,
@@ -13,6 +12,7 @@ import AutoSave from './AutoSave';
 import SubmitButton, { ISubmitButtonProps } from './SubmitButton';
 import SubmitError, { ISubmitErrorProps } from './SubmitError';
 
+import type { BaseSyntheticEvent, ReactNode } from "react";
 import { Fields, CustomComponents } from './types';
 
 export interface IFormWithContextProps {
@@ -20,7 +20,7 @@ export interface IFormWithContextProps {
   values?: FieldValues;
   onSubmit: (
     values: FieldValues,
-    event?: React.BaseSyntheticEvent<object, any, any>
+    event?: BaseSyntheticEvent<object, any, any>
   ) => void;
   customComponents?: CustomComponents;
   UseFormProps?: UseFormProps;
@@ -31,8 +31,8 @@ export interface IFormWithContextProps {
   hideSubmitError?: boolean;
   SubmitErrorProps?: Partial<ISubmitErrorProps>;
 
-  formHeader?: React.ReactNode;
-  formFooter?: React.ReactNode;
+  formHeader?: ReactNode;
+  formFooter?: ReactNode;
 }
 
 export default function FormWithContext({

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { createElement, Suspense } from 'react';
 import { Controller } from 'react-hook-form';
 
 import { Grid } from '@mui/material';
@@ -95,7 +95,7 @@ export default function FieldWrapper({
         style={styleOverrides}
       >
         <Suspense fallback={<FieldSkeleton />}>
-          {React.createElement(fieldComponent, {
+          {createElement(fieldComponent, {
             ...props,
             // Stub Controller render props
             ...controllerRenderPropsStub,
@@ -119,7 +119,7 @@ export default function FieldWrapper({
         style={styleOverrides}
       >
         <Suspense fallback={<FieldSkeleton />}>
-          {React.createElement(fieldComponent, {
+          {createElement(fieldComponent, {
             ...props,
             // Stub Controller render props
             ...controllerRenderPropsStub,
@@ -144,7 +144,7 @@ export default function FieldWrapper({
           control={control}
           name={name!}
           render={(renderProps) =>
-            React.createElement(fieldComponent, {
+            createElement(fieldComponent, {
               ...props,
               ...renderProps,
               name: name!, // Fix TypeScript error

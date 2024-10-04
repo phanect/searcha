@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { forwardRef, useState, type ReactElement, type Ref } from 'react';
 
 import { makeStyles } from 'tss-react/mui';
 import {
@@ -18,9 +18,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 
 import { AddItemProps } from './props';
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & { children?: ReactElement<any, any> },
+  ref: Ref<unknown>
 ) {
   return <Grow ref={ref} {...props} />;
 });

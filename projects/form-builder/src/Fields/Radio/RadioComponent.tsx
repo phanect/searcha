@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { IFieldComponentProps } from '../../types';
 
 import {
@@ -18,7 +18,7 @@ import FieldAssistiveText from '../../FieldAssistiveText';
 export interface IRadioComponentProps
   extends IFieldComponentProps,
     Omit<RadioGroupProps, 'name' | 'onChange' | 'value' | 'onBlur' | 'ref'> {
-  options: (string | { value: string; label: React.ReactNode })[];
+  options: (string | { value: string; label: ReactNode })[];
 }
 
 export default function RadioComponent({
@@ -56,7 +56,7 @@ export default function RadioComponent({
 
       <RadioGroup {...props} onChange={onChange} onBlur={onBlur} value={value}>
         {options.map((item) => {
-          let option: { label: React.ReactNode; value: string } = {
+          let option: { label: ReactNode; value: string } = {
             label: '',
             value: '',
           };
@@ -64,7 +64,7 @@ export default function RadioComponent({
           if (typeof item === 'string') option = { label: item, value: item };
 
           return (
-            <React.Fragment key={option.value}>
+            <Fragment key={option.value}>
               <FormControlLabel
                 key={option.value}
                 value={option.value}
@@ -101,7 +101,7 @@ export default function RadioComponent({
                 }}
               />
               <Divider sx={{ ml: 3 + 2 }} />
-            </React.Fragment>
+            </Fragment>
           );
         })}
       </RadioGroup>

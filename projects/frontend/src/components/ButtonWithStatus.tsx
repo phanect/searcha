@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 
 import { Button, ButtonProps } from "@mui/material";
 import { alpha } from "@mui/material/styles";
@@ -9,7 +9,7 @@ export interface IButtonWithStatusProps extends ButtonProps {
 
 export const ButtonWithStatus = forwardRef(function ButtonWithStatus_(
   { active = false, className, sx, ...props }: IButtonWithStatusProps,
-  ref: React.Ref<HTMLButtonElement>
+  ref: Ref<HTMLButtonElement>
 ) {
   return (
     <Button

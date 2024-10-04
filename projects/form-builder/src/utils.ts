@@ -1,10 +1,6 @@
+import { isEqual, mapValues, pickBy, set, values } from "lodash-es";
 import * as yup from 'yup';
 import { ObjectShape } from 'yup/lib/object';
-import _pickBy from 'lodash-es/pickBy';
-import _isEqual from 'lodash-es/isEqual';
-import _set from 'lodash-es/set';
-import _values from 'lodash-es/values';
-import _mapValues from 'lodash-es/mapValues';
 import { getFieldProp } from './Fields';
 
 import { FieldValues } from 'react-hook-form';
@@ -45,7 +41,7 @@ export const getDefaultValues = (
     if (defaultValue === undefined) continue;
 
     // Use lodash set to support nested fields, e.g. `cloudBuild.branch`
-    _set(defaultValues, field.name, defaultValue);
+    set(defaultValues, field.name, defaultValue);
   }
 
   return { ...defaultValues, ...mergeValues };
@@ -89,7 +85,7 @@ export const getValidationSchema = (
     // Append custom validation from the form’s field config to the default validation
     // Wrap in lodash values function to support { 0: [], 1: [] } object for Firestore
     // Also support nested { 0: { 0: [], 1: … }, […] } with miixed types
-    const sanitizedValidation = _values(_mapValues(field.validation, _values));
+    const sanitizedValidation = values(mapValues(field.validation, values));
     if (sanitizedValidation.length > 0)
       validation = [...validation, ...sanitizedValidation];
 
@@ -103,7 +99,7 @@ export const getValidationSchema = (
     }, yup);
 
     // Use lodash set to support nested fields, e.g. `cloudBuild.branch`
-    _set(objectShape, field.name, schema);
+    set(objectShape, field.name, schema);
   }
 
   // Recursively ensure all nested fields are Yup schemas
@@ -129,7 +125,7 @@ export const diffChanges = (
   current: { [key: string]: any },
   changed: { [key: string]: any }
 ) => {
-  return _pickBy(changed, (val, key) => !_isEqual(val, current[key]));
+  return pickBy(changed, (val, key) => !isEqual(val, current[key]));
 };
 
 /**
