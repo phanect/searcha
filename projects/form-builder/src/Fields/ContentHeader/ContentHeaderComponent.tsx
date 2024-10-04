@@ -1,4 +1,3 @@
-import React from 'react';
 import { IFieldComponentProps } from '../../types';
 
 import { Box, Typography, TypographyProps, Divider } from '@mui/material';

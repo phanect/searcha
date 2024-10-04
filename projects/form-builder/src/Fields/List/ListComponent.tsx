@@ -1,4 +1,3 @@
-import React from 'react';
 import arrayMove from 'array-move';
 import { IFieldComponentProps } from '../../types';
 import { DndProvider } from 'react-dnd';

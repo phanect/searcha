@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Modal from "@src/components/Modal";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { capitalize } from "lodash-es";

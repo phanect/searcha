@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { InputLabel, InputLabelProps } from '@mui/material';
 
 export interface IFieldLabelProps

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Control, UseFormReturn, useWatch } from 'react-hook-form';
 import useFormSettings from './useFormSettings';
 
