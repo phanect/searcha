@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm, UseFormProps, FieldValues } from 'react-hook-form';
 import _isEmpty from 'lodash-es/isEmpty';
 
@@ -9,13 +8,14 @@ import SubmitButton, { ISubmitButtonProps } from './SubmitButton';
 import SubmitError, { ISubmitErrorProps } from './SubmitError';
 
 import { Fields, CustomComponents } from './types';
+import type { BaseSyntheticEvent, ReactNode } from "react";
 
 export interface IFormProps {
   fields: Fields;
   values?: FieldValues;
   onSubmit: (
     values: FieldValues,
-    event?: React.BaseSyntheticEvent<object, any, any>
+    event?: BaseSyntheticEvent<object, any, any>
   ) => void;
   customComponents?: CustomComponents;
   UseFormProps?: UseFormProps;
@@ -26,8 +26,8 @@ export interface IFormProps {
   hideSubmitError?: boolean;
   SubmitErrorProps?: Partial<ISubmitErrorProps>;
 
-  formHeader?: React.ReactNode;
-  formFooter?: React.ReactNode;
+  formHeader?: ReactNode;
+  formFooter?: ReactNode;
 }
 
 export default function Form({

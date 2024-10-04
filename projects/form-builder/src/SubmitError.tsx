@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Typography, TypographyProps } from '@mui/material';
 
 export interface ISubmitErrorProps extends TypographyProps {}

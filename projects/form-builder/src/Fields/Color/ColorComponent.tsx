@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { IFieldComponentProps } from '../../types';
 import { ColorPicker, toColor } from 'react-color-palette';
 import 'react-color-palette/lib/css/styles.css';
