@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   stories: ['../stories/**/*.stories.@(ts|tsx|js|jsx)'],
   addons: [
     '@storybook/addon-essentials',
@@ -15,3 +15,5 @@ module.exports = {
     },
   },
 };
+
+export default config;
