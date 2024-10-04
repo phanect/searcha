@@ -92,8 +92,7 @@
     "tss-react": "^4.4.4",
     "use-algolia": "^1.5.3",
     "use-async-memo": "^1.2.4",
-    "use-debounce": "^9.0.4",
-    "web-vitals": "^2.1.4"
+    "use-debounce": "^9.0.4"
   },
   "devDependencies": {
     "@craco/craco": "^6.4.3",
