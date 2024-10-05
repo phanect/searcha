@@ -14,7 +14,7 @@ export default function SaveState({ state }: ISaveStateProps) {
   useEffect(() => {
     if (state !== "unsaved") {
       setShowHelpMessage(false);
-      return;
+      return undefined;
     }
 
     const timeout = setTimeout(() => setShowHelpMessage(true), 3000);

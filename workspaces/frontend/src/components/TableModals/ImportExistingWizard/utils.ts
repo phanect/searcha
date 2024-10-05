@@ -43,7 +43,7 @@ export const REGEX_URL =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 export const REGEX_HTML = /<\/?[a-z][\s\S]*>/;
 
-const inferTypeFromValue = (value: any) => {
+const inferTypeFromValue = (value: any): FieldType | void => {
   // by default the type of value is string, so trying to convert it to JSON/Object.
   try {
     value = JSON.parse(value);

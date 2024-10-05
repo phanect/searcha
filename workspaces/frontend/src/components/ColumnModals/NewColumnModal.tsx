@@ -19,7 +19,7 @@ import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { analytics, logEvent } from "@src/analytics";
 
-const AUDIT_FIELD_TYPES = [
+const AUDIT_FIELD_TYPES: FieldType[] = [
   FieldType.createdBy,
   FieldType.createdAt,
   FieldType.updatedBy,

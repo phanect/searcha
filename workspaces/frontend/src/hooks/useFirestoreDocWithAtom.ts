@@ -77,7 +77,7 @@ export function useFirestoreDocWithAtom<T = TableRow>(
 
   useEffect(() => {
     // If path is invalid and no memoizedDocRef was created, don’t continue
-    if (!memoizedDocRef) return;
+    if (!memoizedDocRef) return undefined;
 
     // Suspend data atom until we get the first snapshot
     let suspended = false;
@@ -135,7 +135,7 @@ export function useFirestoreDocWithAtom<T = TableRow>(
   useEffect(() => {
     // If path is invalid and no memoizedDocRef was created,
     // don’t set update and delete atoms
-    if (!memoizedDocRef) return;
+    if (!memoizedDocRef) return undefined;
 
     // If `updateDataAtom` was passed,
     // set the atom’s value to a function that updates the document

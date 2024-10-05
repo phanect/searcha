@@ -37,7 +37,7 @@ export const ShortTextValidation = (config: Record<string, any>) => {
       // https://github.com/jquense/yup/issues/298#issuecomment-559017330
       validation.push([
         'transform',
-        (value: any) => {
+        (value: unknown) => {
           if ((typeof value === 'string' && value === '') || Number.isNaN(value))
             return null;
           return value;

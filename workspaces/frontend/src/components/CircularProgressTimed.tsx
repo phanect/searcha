@@ -23,7 +23,7 @@ export default function CircularProgressTimed({
   useEffect(() => {
     if (complete) {
       setCount(0);
-      return;
+      return undefined;
     }
 
     const interval = setInterval(() => {

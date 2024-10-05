@@ -81,7 +81,7 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
   const actionGroups: IContextMenuItem[][] = [];
 
   const handleDuplicate = () => {
-    const _duplicate = () => {
+    const _duplicate = async (): Promise<void> => {
       if (row._rowy_ref.arrayTableData !== undefined) {
         if (!updateRowDb) return;
 

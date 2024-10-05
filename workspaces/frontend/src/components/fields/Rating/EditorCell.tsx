@@ -13,7 +13,7 @@ export default function Rating({
     const el = ref.current;
     if (!el) return;
     const inputs = el.querySelectorAll("input");
-    for (const input of inputs)
+    for (const input of Array.from(inputs))
       input.setAttribute("tabindex", tabIndex.toString());
   }, [tabIndex]);
 

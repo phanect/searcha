@@ -15,7 +15,8 @@ export default function NavItem(props: MenuItemProps<NavItemComponent>) {
   if ("to" in props && props.to !== undefined) {
     component = Link;
     if (
-      typeof props.to === "string" ? props.to.includes("#") : !!props.to.hash
+      (typeof props.to === "string" && props.to.includes("#")) ||
+      (typeof props.to === "object" && !!props.to.hash)
     ) {
       component = HashLink;
     }

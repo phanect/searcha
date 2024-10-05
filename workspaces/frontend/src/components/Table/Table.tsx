@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import type {
   ColumnPinningState,
+  DisplayColumnDef,
   VisibilityState,
 } from "@tanstack/react-table";
 import { DropResult } from "react-beautiful-dnd";
@@ -141,7 +142,7 @@ export default function Table({
   // Get column defs from table schema
   // Also add end column for admins (canAddColumns || canEditCells)
   const columns = useMemo(() => {
-    const _columns = tableColumnsOrdered
+    const _columns: DisplayColumnDef<TableRow, unknown>[] = tableColumnsOrdered
       // Hide column for all users using table schema
       .filter((column) => !column.hidden)
       .map((columnConfig) =>

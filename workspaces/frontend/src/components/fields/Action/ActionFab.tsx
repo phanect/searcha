@@ -95,7 +95,7 @@ export default function ActionFab({
     actionParams,
   });
 
-  const handleActionScript = async (data: any) => {
+  const handleActionScript = async (data: unknown) => {
     if (!rowyRun) return;
     const resp = await rowyRun({
       route: runRoutes.actionScript,
@@ -103,8 +103,8 @@ export default function ActionFab({
     });
     return resp;
   };
-  const handleCallableAction = async (data: any) => {
-    const resp: any = await httpsCallable(firebaseFunctions, callableName, {
+  const handleCallableAction = async (data: unknown) => {
+    const resp = await httpsCallable(firebaseFunctions, callableName, {
       timeout: 550000,
     })(data);
     return resp.data;

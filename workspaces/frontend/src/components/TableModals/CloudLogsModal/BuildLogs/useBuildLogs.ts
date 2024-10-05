@@ -35,7 +35,7 @@ export default function useBuildLogs() {
   );
 
   useEffect(() => {
-    if (!logsQuery) return;
+    if (!logsQuery) return undefined;
 
     const unsubscribe = onSnapshot(logsQuery, (snapshot) => {
       setLogs(snapshot.docs.map((doc) => doc.data()));
