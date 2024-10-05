@@ -42,7 +42,10 @@ export const FieldConfigs: IFieldConfig[] = [
 ];
 
 /** Returns specific property of field config */
-export const getFieldProp = (prop: keyof IFieldConfig, fieldType: string) => {
+export const getFieldProp = <Prop extends keyof IFieldConfig>(
+  prop: Prop,
+  fieldType: string,
+): IFieldConfig[Prop] | undefined => {
   const field = find(FieldConfigs, { type: fieldType });
   return field?.[prop];
 };
