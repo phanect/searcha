@@ -50,7 +50,7 @@ export function useFormSettings({
   const [omittedFields, setOmittedFields] = useReducer(reducer, []);
 
   const fieldsWithOmissions = useMemo(
-    () => fields.filter(({ name }) => omittedFields.indexOf(name ?? '') === -1),
+    () => fields.filter(({ name }) => !omittedFields.includes(name ?? "")),
     [omittedFields, fields]
   );
 
