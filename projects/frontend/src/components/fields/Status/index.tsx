@@ -3,7 +3,7 @@ import { IFieldConfig, FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { Status as StatusIcon } from "@src/assets/icons";
-import DisplayCell from "./DisplayCell";
+import { StatusDisplayCell } from "./DisplayCell";
 import EditorCell from "./EditorCell";
 import { filterOperators } from "./Filter";
 
@@ -24,7 +24,7 @@ export const config: IFieldConfig = {
   initializable: true,
   icon: <StatusIcon />,
   description: "Displays field value as custom status text.",
-  TableCell: withRenderTableCell(DisplayCell, EditorCell, "popover", {
+  TableCell: withRenderTableCell(StatusDisplayCell, EditorCell, "popover", {
     disablePadding: true,
     transparentPopover: true,
   }),
