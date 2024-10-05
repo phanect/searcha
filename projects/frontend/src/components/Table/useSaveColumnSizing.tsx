@@ -38,12 +38,12 @@ export function useSaveColumnSizing(
   );
 
   // Debounce for saving to schema
-  const [debouncedColumnSizing] = useDebounce(columnSizing, DEBOUNCE_DELAY, {
+  const [debouncedColumnSizing] = useDebounce<ColumnSizingState>(columnSizing, DEBOUNCE_DELAY, {
     equalityFn: isEqual,
   });
   // Offer to save when column sizing changes, depending on user settings
   useEffect(() => {
-    if (!canEditColumns || isEmpty(debouncedColumnSizing)) return;
+    if (!canEditColumns || isEmpty(debouncedColumnSizing)) return undefined;
     // If the user has disabled the popup, return early
     if (defaultTableSettings?.saveColumnSizingPopupDisabled) {
       // If the user has `automaticallyApplyColumnSizing` set to true, apply the column width before returning
@@ -55,7 +55,7 @@ export function useSaveColumnSizing(
         };
         updateTable();
       }
-      return;
+      return undefined;
     }
 
     const snackbarId = enqueueSnackbar("Save column sizes for all users?", {

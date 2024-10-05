@@ -132,7 +132,7 @@ export function emptyWebhookObject(
     endpoint: generateId(),
     type,
     parser: webhookSchemas[type].parser?.template(table),
-    conditions: webhookSchemas[type].condition?.template(table),
+    conditions: webhookSchemas[type].condition?.template(),
     lastEditor: user,
   };
 }

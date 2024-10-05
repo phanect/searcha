@@ -32,8 +32,8 @@ export const config: IFieldConfig = {
   SideDrawerField,
   csvImportParser: (value: string) => {
     try {
-      const obj = JSON.parse(value);
-      if ("hex" in obj) {
+      const obj: unknown = JSON.parse(value);
+      if (obj && typeof obj === "object" && "hex" in obj && typeof obj.hex === "string") {
         return ColorService.convert("hex", obj.hex);
       }
       throw new Error();

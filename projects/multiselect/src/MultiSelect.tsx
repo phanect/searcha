@@ -77,7 +77,7 @@ export default function MultiSelect<T = string>({
   onClose,
   TextFieldProps = {},
   ...props
-}: MultiSelectProps<T>) {
+}: MultiSelectProps<T>): JSX.Element {
   const { classes, cx } = useStyles();
 
   // Must control popup open state here to programmatically close it

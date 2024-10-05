@@ -71,7 +71,7 @@ export const FinalColumn = memo(function FinalColumn({
   const addRowIdType = tableSchema.idType || "decrement";
 
   const handleDuplicate = () => {
-    const _duplicate = () => {
+    const _duplicate = async (): Promise<void> => {
       if (row.original._rowy_ref.arrayTableData !== undefined) {
         if (!updateRowDb) return;
 

@@ -17,7 +17,7 @@ export default function useKeyPressWithAtom(
 
   // Add event listeners
   useEffect(() => {
-    if (!setAtom) return;
+    if (!setAtom) return undefined;
 
     // If pressed key is our target key then set to true
     const downHandler = ({ key }: KeyboardEvent) => {

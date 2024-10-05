@@ -5,10 +5,12 @@ import {
   StyledEngineProvider,
   createTheme,
   ThemeProvider,
+  type AutocompleteChangeReason,
 } from '@mui/material';
 
-import MultiSelect from '../src';
+import MultiSelect, { type MultiSelectProps } from '../src';
 import { top100Films } from './data';
+import type { Meta, StoryFn } from "@storybook/react";
 
 const theme = createTheme({
   components: {
@@ -27,7 +29,7 @@ const theme = createTheme({
   },
 });
 
-export default {
+const meta: Meta<typeof MultiSelect> = {
   title: 'MultiSelect',
   component: MultiSelect,
   decorators: [
@@ -51,11 +53,15 @@ export default {
     clearable: true,
   },
 };
+export default meta;
 
-export const Multiple = (args) => {
+export const Multiple: StoryFn<typeof MultiSelect> = (args) => {
   const [value, setValue] = useState<string[]>(['The Godfather']);
 
-  const handleChange = (value, reason) => {
+  const handleChange: MultiSelectProps<string>["onChange"] = (
+    value: string[],
+    reason: AutocompleteChangeReason
+  ) => {
     setValue(value);
     action('Value changed')(value, reason);
   };
@@ -73,10 +79,13 @@ export const Multiple = (args) => {
 };
 Multiple.args = { max: 3 };
 
-export const Single = (args) => {
+export const Single: StoryFn<typeof MultiSelect> = (args) => {
   const [value, setValue] = useState<string>('The Godfather');
 
-  const handleChange = (value, reason) => {
+  const handleChange: MultiSelectProps<string>["onChange"] = (
+    value: string | null,
+    reason: AutocompleteChangeReason
+  ) => {
     setValue(value);
     action('Value changed')(value, reason);
   };

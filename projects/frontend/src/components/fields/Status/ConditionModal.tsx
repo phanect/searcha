@@ -1,20 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 import Modal from "@src/components/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { default as Content } from "./ConditionModalContent";
-import { EMPTY_STATE } from "./Settings";
+import { EMPTY_STATE, type IConditionModal } from "./Settings";
 
-// TODO: TYPES
+type ConditionModalProps = {
+  modal: IConditionModal;
+  setModal: Dispatch<SetStateAction<IConditionModal>>;
+  conditions: IConditionModal["condition"][];
+  setConditions: Dispatch<SetStateAction<IConditionModal["condition"][]>>
+};
+
 export default function ConditionModal({
   modal,
   setModal,
   conditions,
   setConditions,
-}: any) {
+}: ConditionModalProps) {
   const handleClose = () => setModal(EMPTY_STATE);
   const handleSave = () => {
-    let _conditions = [...conditions];
-    _conditions[modal.index] = modal.condition;
+    let _conditions: IConditionModal["condition"][] = [...conditions];
+    if (typeof modal.index === "number") {
+      _conditions[modal.index] = modal.condition;
+    }
     setConditions(_conditions);
     setModal(EMPTY_STATE);
   };
@@ -39,7 +47,7 @@ export default function ConditionModal({
   };
   const handleRemove = () => {
     const _newConditions = conditions.filter(
-      (c: any, index: any) => index !== modal.index
+      (_, index) => index !== modal.index
     );
     setConditions(_newConditions);
     setModal(EMPTY_STATE);

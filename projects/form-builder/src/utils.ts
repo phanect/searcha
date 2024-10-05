@@ -61,7 +61,7 @@ export const getValidationSchema = (
   for (const field of fields) {
     if (!field || !field.name) continue;
 
-    let validation: any[][] = [];
+    let validation: unknown[][] = [];
 
     if (customComponents?.[field.type]) {
       // Get default validation from customComponents
@@ -124,8 +124,8 @@ export const getValidationSchema = (
 export const diffChanges = (
   current: { [key: string]: any },
   changed: { [key: string]: any }
-) => {
-  return pickBy(changed, (val, key) => !isEqual(val, current[key]));
+): { [key: string]: any } => {
+  return pickBy<{ [key: string]: any }>(changed, (val, key) => !isEqual(val, current[key]));
 };
 
 /**

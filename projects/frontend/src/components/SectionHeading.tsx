@@ -11,8 +11,8 @@ export interface ISectionHeadingProps extends Omit<StackProps, "children"> {
   children: string;
 }
 
-export const SectionHeading = forwardRef(function SectionHeading_(
-  { children, sx, ...props }: ISectionHeadingProps,
+export const SectionHeading = forwardRef<typeof Stack, ISectionHeadingProps>(function SectionHeading_(
+  { children, sx, component, ...props },
   ref
 ) {
   const sectionLink = camelCase(children);
@@ -23,6 +23,7 @@ export const SectionHeading = forwardRef(function SectionHeading_(
       direction="row"
       alignItems="flex-end"
       id={sectionLink}
+      component={ component }
       {...props}
       sx={{
         pb: 0.5,
