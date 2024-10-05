@@ -8,7 +8,7 @@ import {
 } from "@src/components/TableModals/ImportExistingWizard/utils";
 import { isValid as isValidDate, parseISO } from "date-fns";
 
-export const inferTypeFromValue = (value: any) => {
+export const inferTypeFromValue = (value: any): FieldType | void => {
   if (Array.isArray(value) && typeof value[0] === "string")
     return FieldType.multiSelect;
   if (typeof value === "boolean") return FieldType.checkbox;

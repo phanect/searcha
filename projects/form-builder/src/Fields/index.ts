@@ -20,7 +20,7 @@ import ContentSubHeader from './ContentSubHeader';
 import ContentParagraph from './ContentParagraph';
 import ContentImage from './ContentImage';
 
-export const FieldConfigs = [
+export const FieldConfigs: IFieldConfig[] = [
   ShortText,
   Paragraph,
   Date,

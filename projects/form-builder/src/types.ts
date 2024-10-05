@@ -6,8 +6,8 @@ export type Field = {
   type: FieldType | string;
   name?: string;
 
-  label?: string;
-  assistiveText?: string;
+  label?: string | JSX.Element;
+  assistiveText?: string | JSX.Element;
 
   conditional?: 'check' | 'option';
   displayCondition?: string;
@@ -31,9 +31,9 @@ export interface IFieldComponentProps extends UseControllerReturn {
   name: string;
   useFormMethods: UseFormReturn;
 
-  label: string;
+  label: string | JSX.Element;
   errorMessage?: string;
-  assistiveText?: string;
+  assistiveText?: string | JSX.Element;
 
   required?: boolean;
   disabled?: boolean;
@@ -63,8 +63,8 @@ export interface IFieldConfig<
   group: 'input' | 'content';
   icon: React.ReactNode;
   dataType: string;
-  defaultValue: any;
+  defaultValue: unknown;
   component: CustomComponent<P>;
   settings: Fields;
-  validation: (config: Record<string, any>) => any[][];
+  validation: (config: Record<string, unknown>) => unknown[][];
 }

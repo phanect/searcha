@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 
 import { DialogContentText, Stack, Typography } from "@mui/material";
 
-import { FormDialog, FormFields } from "@phanect/datasheet-form-builder";
+import { FormDialog, FormFields, type CustomComponents } from "@phanect/datasheet-form-builder";
 import { tableSettings } from "./form";
 import TableName from "./TableName";
 import TableId from "./TableId";
@@ -44,7 +44,7 @@ import TableThumbnail from "./TableThumbnail";
 import TableDetails from "./TableDetails";
 import { useContext } from "react";
 
-const customComponents = {
+const customComponents: CustomComponents = {
   tableName: {
     component: TableName,
     defaultValue: "",

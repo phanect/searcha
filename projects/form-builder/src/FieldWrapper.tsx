@@ -40,7 +40,7 @@ export default function FieldWrapper({
     return null;
   }
 
-  let fieldComponent: CustomComponent;
+  let fieldComponent: CustomComponent | undefined;
   // Pass defaultValue into the Controller for conditionally displayed fields
   let defaultValue: any = defaultValueProp;
 
@@ -144,8 +144,8 @@ export default function FieldWrapper({
             createElement(fieldComponent, {
               ...props,
               ...renderProps,
-              name: name!, // Fix TypeScript error
-              label: label!, // Fix TypeScript error
+              name,
+              label,
               errorMessage: renderProps.fieldState.error?.message,
             })
           }

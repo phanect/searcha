@@ -64,7 +64,7 @@ export const TableSourceFirestore2 = memo(function TableSourceFirestore() {
     available: false,
   });
   useEffect(() => {
-    if (!tableSchemaDocRef) return;
+    if (!tableSchemaDocRef) return undefined;
 
     setUpdateTableSchema(
       () => (update: TableSchema, deleteFields?: string[]) => {

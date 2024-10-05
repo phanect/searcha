@@ -19,7 +19,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { AddItemProps } from './props';
 
 const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children?: ReactElement<any, any> },
+  props: TransitionProps & { children: ReactElement },
   ref: Ref<unknown>
 ) {
   return <Grow ref={ref} {...props} />;
@@ -46,7 +46,7 @@ export default function AddItem({
   AddButtonProps,
   AddDialogProps,
   disabled = false,
-}: AddItemProps) {
+}: AddItemProps): JSX.Element {
   const { classes } = useStyles();
 
   const themeProps: any = useThemeProps({ props: {}, name: 'RowyMultiSelect' });

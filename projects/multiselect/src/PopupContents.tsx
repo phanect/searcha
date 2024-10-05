@@ -151,7 +151,7 @@ export default function PopupContents<T>({
   AutocompleteProps,
   AddButtonProps,
   AddDialogProps,
-}: PopupContentsProps<T>) {
+}: PopupContentsProps<T>): JSX.Element {
   const { classes, cx } = useStyles();
   const themeCheckboxProps: any = useThemeProps({
     props: {},

@@ -145,7 +145,7 @@ export const compatibleRowyRunVersionAtom = atom(async (get) => {
   };
 });
 
-type RowyRunLatestUpdate = {
+export type RowyRunLatestUpdate = {
   lastChecked: string;
   rowy: null | Record<string, any>;
   rowyRun: null | Record<string, any>;

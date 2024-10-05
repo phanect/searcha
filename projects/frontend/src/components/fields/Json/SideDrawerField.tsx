@@ -18,7 +18,7 @@ import { fieldSx } from "@src/components/SideDrawer/utils";
 import { ProjectScopeContext, jsonEditorAtom } from "@src/atoms/projectScope";
 import config from ".";
 
-const isValidJson = (val: any) => {
+const isValidJson = (val: unknown) => {
   try {
     if (typeof val === "string") JSON.parse(val);
     else JSON.stringify(val);

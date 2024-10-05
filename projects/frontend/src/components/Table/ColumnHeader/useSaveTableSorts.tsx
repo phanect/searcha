@@ -43,7 +43,7 @@ function useSaveTableSorts(canEditColumns: boolean) {
           },
         });
       }
-      if (!canEditColumns) return;
+      if (!canEditColumns) return undefined;
       // If the user has disabled the popup, return early
       if (defaultTableSettings?.saveSortsPopupDisabled) {
         // If the user has `automaticallyApplySorts` set to true, apply the sorting before returning
@@ -51,7 +51,7 @@ function useSaveTableSorts(canEditColumns: boolean) {
           const updateTable = async () => await updateTableSchema({ sorts });
           updateTable();
         }
-        return;
+        return undefined;
       }
       if (snackbarId) {
         closeSnackbar(snackbarId);

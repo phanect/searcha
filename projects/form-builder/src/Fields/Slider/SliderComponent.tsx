@@ -26,7 +26,7 @@ const valueWithUnits = (value: number, units?: string, unitsPlural?: string) =>
   `${value} ${(value !== 1 ? unitsPlural || '' : units) || ''}`.trim();
 
 export default function SliderComponent({
-  field: { onChange, onBlur, value, ref },
+  field: { onChange, onBlur, value },
   fieldState,
   formState,
 

@@ -7,10 +7,17 @@ import {
   ProjectScopeContext,
   rowyRunAtom,
   rowyRunLatestUpdateAtom,
+  type RowyRunLatestUpdate,
 } from "@src/atoms/projectScope";
 import meta from "@root/package.json";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { runRoutes } from "@src/constants/runRoutes";
+
+// This type only supports properties required for this file.
+// Add properties if required.
+type GitHubRelease = {
+  tag_name: string;
+};
 
 // https://docs.github.com/en/rest/reference/repos#get-the-latest-release
 const UPDATE_ENDPOINTS = {
@@ -42,7 +49,7 @@ export default function useUpdateCheck() {
   const checkForUpdates = useCallback(async () => {
     setLoading(true);
 
-    const newState = {
+    const newState: RowyRunLatestUpdate = {
       lastChecked: new Date().toISOString(),
       rowy: null,
       rowyRun: null,
@@ -54,10 +61,10 @@ export default function useUpdateCheck() {
     const [resRowy, resRowyRun, deployedRowyRun] = await Promise.all([
       fetch(UPDATE_ENDPOINTS.rowy, {
         headers: { Accept: "application/vnd.github.v3+json" },
-      }).then((r) => r.json()),
+      }).then((r) => r.json() as Promise<GitHubRelease>),
       fetch(UPDATE_ENDPOINTS.rowyRun, {
         headers: { Accept: "application/vnd.github.v3+json" },
-      }).then((r) => r.json()),
+      }).then((r) => r.json() as Promise<GitHubRelease>),
       rowyRun({ route: runRoutes.version }),
     ]);
 

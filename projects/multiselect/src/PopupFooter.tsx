@@ -39,7 +39,7 @@ export default function PopupFooter({
   clearText,
   selectAllText,
   doneText,
-}: PopupFooterProps) {
+}: PopupFooterProps): JSX.Element {
   const { classes } = useStyles();
 
   const clearButton = (
@@ -132,5 +132,5 @@ export default function PopupFooter({
       </Grid>
     );
 
-  return null;
+  return <></>;
 }

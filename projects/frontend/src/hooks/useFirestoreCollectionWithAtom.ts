@@ -175,7 +175,7 @@ export function useFirestoreCollectionWithAtom<
   // Create listener
   useEffect(() => {
     // If path is invalid and no memoizedQuery was created, don’t continue
-    if (!memoizedQuery) return;
+    if (!memoizedQuery) return undefined;
 
     // Suspend data atom until we get the first snapshot
     // Don’t suspend if we’re getting the next page
@@ -260,7 +260,7 @@ export function useFirestoreCollectionWithAtom<
   useEffect(() => {
     // If path is invalid and no collectionRef was created,
     // don’t set update and delete atoms
-    if (!queryValid) return;
+    if (!queryValid) return undefined;
 
     // If `options?.updateDocAtom` was passed,
     // set the atom’s value to a function that updates a doc in the collection
