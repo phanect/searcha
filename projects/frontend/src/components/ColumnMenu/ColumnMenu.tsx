@@ -143,21 +143,14 @@ export default function ColumnMenu({
   const userDocHiddenFields =
     userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields ?? [];
 
-  let referencedColumns: string[] = [];
-  let referencedExtensions: string[] = [];
-  Object.entries(tableSchema?.columns ?? {}).forEach(([key, c], index) => {
-    if (
+  const referencedColumns = Object.values(tableSchema?.columns ?? {})
+    .filter((c) => (
       c.config?.listenerFields?.includes(column.key) ||
       c.config?.requiredFields?.includes(column.key)
-    ) {
-      referencedColumns.push(c.name);
-    }
-  });
-  tableSchema?.extensionObjects?.forEach((extension) => {
-    if (extension.requiredFields.includes(column.key)) {
-      referencedExtensions.push(extension.name);
-    }
-  });
+    ));
+  const referencedExtensions = tableSchema?.extensionObjects
+    ?.filter((extension) => extension.requiredFields.includes(column.key)) ?? [];
+
   const requireRebuild =
     referencedColumns.length || referencedExtensions.length;
 
