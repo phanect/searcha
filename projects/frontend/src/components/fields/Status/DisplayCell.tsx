@@ -5,7 +5,7 @@ import { ButtonBase } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 import getLabel from "./utils/getLabelHelper";
 
-export const StatusSingleSelect = forwardRef(function StatusSingleSelect({
+export const StatusDisplayCell = forwardRef(function StatusDisplayCell({
   column,
   value,
   showPopoverCell,
@@ -67,5 +67,3 @@ export const StatusSingleSelect = forwardRef(function StatusSingleSelect({
     </ButtonBase>
   );
 });
-
-export default StatusSingleSelect;
