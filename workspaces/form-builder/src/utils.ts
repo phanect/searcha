@@ -1,9 +1,9 @@
 import { isEqual, mapValues, pickBy, set, values } from "lodash-es";
 import * as yup from 'yup';
-import { ObjectShape } from 'yup/lib/object';
 import { getFieldProp } from './Fields';
 
 import { FieldValues } from 'react-hook-form';
+import type { ObjectShape } from "yup";
 import { Fields, CustomComponents } from './types';
 
 /**
