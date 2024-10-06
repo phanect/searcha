@@ -1,7 +1,7 @@
 import { lazy } from 'react';
-import { IFieldConfig } from '../../types';
+import type { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
-import { string } from 'yup';
+import { array, string } from 'yup';
 
 import OrderBoolAscendingVariant from 'mdi-material-ui/OrderBoolAscendingVariant';
 
@@ -22,25 +22,18 @@ export const MultiSelectConfig: IFieldConfig = {
   defaultValue: [],
   component: Component as any,
   settings: Settings,
-  validation: (config: Record<string, any>) => {
-    const validation: any[][] = [
-      ['array'],
-      ['of', string().trim()],
-      ['ensure'],
-      ['compact'],
-    ];
+  validation: (config) => {
+    let schema = array(string().trim())
+      .ensure()
+      .compact();
 
     if (config.required === true)
-      validation.push(['min', 1, 'Please make at least one selection']);
+      schema = schema.min(1, 'Please make at least one selection');
 
     if (typeof config.max === 'number')
-      validation.push([
-        'max',
-        config.max,
-        `Please make at most ${config.max} selections`,
-      ]);
+      schema = schema.max(config.max, `Please make at most ${config.max} selections`);
 
-    return validation;
+    return schema;
   },
 };
 export default MultiSelectConfig;

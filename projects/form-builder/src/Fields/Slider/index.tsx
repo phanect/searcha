@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { number } from "yup";
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
 
@@ -18,24 +19,22 @@ export const SliderConfig: IFieldConfig = {
   defaultValue: 0,
   component: Component,
   settings: Settings,
-  validation: (config: Record<string, any>) => {
-    const validation: any[][] = [['number']];
+  validation: (config) => {
+    let schema = number();
 
     if (typeof config.min === 'number')
-      validation.push([
-        'min',
+      schema = schema.min(
         config.min,
         'Please use the slider to set the value',
-      ]);
+      );
 
     if (typeof config.max === 'number')
-      validation.push([
-        'max',
+      schema = schema.max(
         config.max,
         'Please use the slider to set the value',
-      ]);
+      );
 
-    return validation;
+    return schema;
   },
 };
 export default SliderConfig;

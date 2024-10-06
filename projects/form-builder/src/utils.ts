@@ -1,10 +1,14 @@
-import { isEqual, mapValues, pickBy, set, values } from "lodash-es";
-import * as yup from 'yup';
+import { isEqual, pickBy, set } from "lodash-es";
 import { getFieldProp } from './Fields';
 
 import { FieldValues } from 'react-hook-form';
-import type { ObjectShape } from "yup";
-import { Fields, CustomComponents } from './types';
+import {
+  object,
+  type Flags,
+  type ObjectShape,
+  type Schema,
+} from "yup";
+import type { Fields, CustomComponents } from './types';
 
 /**
  * Creates a single object with all default values of the fields
@@ -61,58 +65,32 @@ export const getValidationSchema = (
   for (const field of fields) {
     if (!field || !field.name) continue;
 
-    let validation: unknown[][] = [];
+    let schema: Schema<unknown, unknown, unknown, Flags> | undefined;
 
     if (customComponents?.[field.type]) {
       // Get default validation from customComponents
-      validation = customComponents[field.type].validation ?? [];
+      schema = customComponents[field.type].validation;
     } else {
       // Get default validation from built-in components
-      const validationFunction = getFieldProp('validation', field.type);
-      if (validationFunction) validation = validationFunction(field);
+      const schemaFn = getFieldProp('validation', field.type);
+      if (schemaFn) schema = schemaFn(field);
     }
 
     // If we intentionally don’t validate this field, e.g. content fields:
-    if (validation.length === 0) continue;
+    if (!schema) continue;
 
     // Add the required validation message for all field types
     if (field.required === true)
-      validation.splice(1, 0, [
-        'required',
-        `${field.label || field.name} is required`,
-      ]);
+      schema = schema.required(`${field.label || field.name} is required`);
 
-    // Append custom validation from the form’s field config to the default validation
-    // Wrap in lodash values function to support { 0: [], 1: [] } object for Firestore
-    // Also support nested { 0: { 0: [], 1: … }, […] } with miixed types
-    const sanitizedValidation = values(mapValues(field.validation, values));
-    if (sanitizedValidation.length > 0)
-      validation = [...validation, ...sanitizedValidation];
-
-    // Reduce the array of arrays to the Yup schema for this field
-    const schema = validation.reduce((a, c) => {
-      const [type, ...args] = c;
-      // Check the method exists in Yup & call with args
-      if (type in a) return (a[type as keyof typeof a] as any)(...args);
-      // Otherwise, return the current schema
-      return a;
-    }, yup);
+    if (field.validation)
+      schema = schema.concat(field.validation);
 
     // Use lodash set to support nested fields, e.g. `cloudBuild.branch`
     set(objectShape, field.name, schema);
   }
 
-  // Recursively ensure all nested fields are Yup schemas
-  // wrapped in Yup object schemas
-  const recursiveObjectShape = (object: Record<string, any>) => {
-    for (const [key, value] of Object.entries(object)) {
-      if (yup.BaseSchema.prototype.isPrototypeOf(value)) continue;
-      object[key] = yup.object().shape(recursiveObjectShape(value) as any);
-    }
-    return object;
-  };
-
-  return yup.object().shape(recursiveObjectShape(objectShape));
+  return object().shape(objectShape);
 };
 
 /**

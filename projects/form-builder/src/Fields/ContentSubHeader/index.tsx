@@ -21,6 +21,5 @@ export const ContentSubHeaderConfig: IFieldConfig = {
   defaultValue: undefined,
   component: Component,
   settings: Settings,
-  validation: () => [],
 };
 export default ContentSubHeaderConfig;

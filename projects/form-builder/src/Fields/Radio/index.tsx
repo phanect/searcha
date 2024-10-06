@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { string } from "yup";
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
 
@@ -18,6 +19,6 @@ export const RadioConfig: IFieldConfig = {
   defaultValue: '',
   component: Component as any,
   settings: Settings,
-  validation: () => [['string'], ['trim']],
+  validation: () => string().trim(),
 };
 export default RadioConfig;

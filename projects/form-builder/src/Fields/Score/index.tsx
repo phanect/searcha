@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { number } from "yup";
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
 
@@ -18,6 +19,6 @@ export const ScoreConfig: IFieldConfig = {
   defaultValue: undefined,
   component: Component,
   settings: Settings,
-  validation: () => [['number']],
+  validation: () => number(),
 };
 export default ScoreConfig;
