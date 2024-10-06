@@ -13,7 +13,7 @@ import FieldAssistiveText from '../../FieldAssistiveText';
 export interface IDateComponentProps
   extends IFieldComponentProps,
     Omit<
-      DatePickerProps<Date, Date>,
+      DatePickerProps<Date, true>,
       'label' | 'name' | 'onChange' | 'value' | 'ref'
     > {
   TextFieldProps: TextFieldProps;
@@ -40,49 +40,45 @@ export default function DateComponent({
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
-        inputFormat="yyyy-MM-dd"
-        mask="____-__-__"
+        format="yyyy-MM-dd"
         {...props}
         value={transformedValue}
         onChange={onChange}
         onClose={onBlur}
         inputRef={ref}
-        // https://github.com/mui-org/material-ui/issues/10341#issuecomment-770784016
-        PopperProps={{ disablePortal: true }}
-        renderInput={(props) => (
-          <TextField
-            {...props}
-            {...TextFieldProps}
-            fullWidth
-            onBlur={onBlur}
-            error={props.error || !!errorMessage}
-            FormHelperTextProps={{ component: 'div' } as any}
-            helperText={
-              (errorMessage || assistiveText) && (
-                <>
-                  {errorMessage}
+        slotProps={{
+          // https://github.com/mui-org/material-ui/issues/10341#issuecomment-770784016
+          popper: {
+            disablePortal: true
+          },
+          textField: {
+            ...TextFieldProps,
+            fullWidth: true,
+            onBlur,
+            error: TextFieldProps.error || !!errorMessage,
+            FormHelperTextProps: { component: 'div' } as any,
+            helperText: (errorMessage || assistiveText) && (
+              <>
+                {errorMessage}
 
-                  <FieldAssistiveText
-                    style={{ margin: 0 }}
-                    disabled={!!props.disabled}
-                  >
-                    {assistiveText}
-                  </FieldAssistiveText>
-                </>
-              )
-            }
-            data-type="date"
-            data-label={props.label ?? ''}
-            inputProps={{
-              ...props.inputProps,
+                <FieldAssistiveText
+                  style={{ margin: 0 }}
+                  disabled={!!TextFieldProps.disabled}
+                >
+                  {assistiveText}
+                </FieldAssistiveText>
+              </>
+            ),
+            inputProps: {
+              ...TextFieldProps.inputProps,
               required: false,
-            }}
-            sx={{
+            },
+            sx: {
               '& .MuiInputBase-input': { fontVariantNumeric: 'tabular-nums' },
               ...TextFieldProps?.sx,
-            }}
-          />
-        )}
+            },
+          },
+        }}
       />
     </LocalizationProvider>
   );

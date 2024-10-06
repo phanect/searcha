@@ -1,7 +1,6 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 import { DatePicker } from "@mui/x-date-pickers";
-import { TextField } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import { getFieldId } from "@src/components/SideDrawer/utils";
@@ -29,34 +28,33 @@ export default function Date_({
 
   return (
     <DatePicker
-      renderInput={(props) => (
-        <TextField
-          {...props}
-          fullWidth
-          label=""
-          hiddenLabel
-          aria-label={column.name as string}
-          sx={{
+      slotProps={{
+        textField: {
+          fullWidth: true,
+          label: "",
+          hiddenLabel: true,
+          "aria-label": column.name,
+          sx: {
             "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
             "& .MuiInputAdornment-root": { m: 0 },
-          }}
+          },
           // Touch mode: make the whole field clickable
-          onClick={props.inputProps?.onClick as any}
-          onBlur={onSubmit}
-          id={getFieldId(column.key)}
-        />
-      )}
+          onClick: props.inputProps?.onClick,
+          onBlur: onSubmit,
+          id: getFieldId(column.key),
+        },
+        openPickerButton: {
+          size: "small",
+          sx: { width: 32, height: 32 },
+        },
+      }}
       label={column.name}
       value={transformedValue}
       onChange={handleChange}
       onAccept={onSubmit}
-      inputFormat={format}
+      format={format}
       mask={format.replace(/[A-Za-z]/g, "_")}
-      OpenPickerButtonProps={{
-        size: "small",
-        sx: { width: 32, height: 32 },
-      }}
-      components={{ OpenPickerIcon: ChevronDown }}
+      slots={{ openPickerIcon: ChevronDown }}
       disableOpenPicker={false}
       disabled={disabled}
     />
