@@ -63,7 +63,7 @@ export const getValidationSchema = (
 
     let validation: any[][] = [];
 
-    if (!!customComponents && field.type in customComponents) {
+    if (customComponents?.[field.type]) {
       // Get default validation from customComponents
       validation = customComponents[field.type].validation ?? [];
     } else {
