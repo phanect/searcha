@@ -5,7 +5,7 @@ export const ContentImageSettings: IFieldConfig['settings'] = [
   {
     name: 'src',
     label: 'Image Source',
-    type: 'image',
+    type: FieldType.image,
     required: true,
     defaultValue: undefined,
   },

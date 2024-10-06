@@ -11,6 +11,7 @@ export enum FieldType {
   slider = 'slider',
   list = 'list',
   color = 'color',
+  image = "image",
   score = 'score',
   hidden = 'hidden',
 
@@ -18,4 +19,10 @@ export enum FieldType {
   contentSubHeader = 'contentSubHeader',
   contentParagraph = 'contentParagraph',
   contentImage = 'contentImage',
+
+  tableId = "tableId",
+  tableName = "tableName",
+  tableDetails = "tableDetails",
+  tableThumbnail = "tableThumbnail",
+  suggestedRules = "suggestedRules"
 }
