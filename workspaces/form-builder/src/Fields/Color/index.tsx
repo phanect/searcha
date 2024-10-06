@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { object } from "yup";
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
 
@@ -18,6 +19,6 @@ export const ColorConfig: IFieldConfig = {
   defaultValue: null,
   component: Component,
   settings: Settings,
-  validation: () => [['object'], ['nullable']],
+  validation: () => object().nullable(),
 };
 export default ColorConfig;

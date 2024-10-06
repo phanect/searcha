@@ -91,7 +91,8 @@
     "tss-react": "^4.4.4",
     "use-algolia": "^1.5.3",
     "use-async-memo": "^1.2.4",
-    "use-debounce": "^10.0.3"
+    "use-debounce": "^10.0.3",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@phanect/configs": "latest",

@@ -18,6 +18,5 @@ export const HiddenConfig: IFieldConfig = {
   defaultValue: '',
   component: Component,
   settings: Settings,
-  validation: () => [],
 };
 export default HiddenConfig;

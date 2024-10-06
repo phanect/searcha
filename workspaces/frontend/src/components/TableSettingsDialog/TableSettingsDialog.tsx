@@ -4,6 +4,7 @@ import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { find, sortBy, get, isEmpty } from "lodash-es";
 import { Controller } from "react-hook-form";
+import { string } from "yup";
 
 import { DialogContentText, Stack, Typography } from "@mui/material";
 
@@ -48,17 +49,17 @@ const customComponents: CustomComponents = {
   tableName: {
     component: TableName,
     defaultValue: "",
-    validation: [["string"]],
+    validation: string(),
   },
   tableId: {
     component: TableId,
     defaultValue: "",
-    validation: [["string"]],
+    validation: string(),
   },
   suggestedRules: {
     component: SuggestedRules,
     defaultValue: "",
-    validation: [["string"]],
+    validation: string(),
   },
   tableThumbnail: {
     component: TableThumbnail,
