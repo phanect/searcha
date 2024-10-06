@@ -211,7 +211,7 @@ export const tableSettings = (
     // Step 2: Display
     {
       step: "display",
-      type: "tableName",
+      type: FieldType.tableName,
       name: "name",
       label: "Table name",
       required: true,
@@ -222,7 +222,7 @@ export const tableSettings = (
     },
     {
       step: "display",
-      type: "tableId",
+      type: FieldType.tableId,
       name: "id",
       label: "Table ID",
       required: true,
@@ -264,13 +264,13 @@ export const tableSettings = (
     },
     {
       step: "display",
-      type: "tableDetails",
+      type: FieldType.tableDetails,
       name: "details",
       label: "Details (optional)",
     },
     {
       step: "display",
-      type: "tableThumbnail",
+      type: FieldType.tableThumbnail,
       name: "thumbnailFile",
       label: "Thumbnail image (optional)",
     },
@@ -323,7 +323,7 @@ export const tableSettings = (
     },
     {
       step: "accessControls",
-      type: "suggestedRules",
+      type: FieldType.suggestedRules,
       name: "_suggestedRules",
       label: "Suggested Firestore Rules",
       watchedField: "collection",

@@ -3,7 +3,7 @@ import { FieldType } from './constants/fields';
 import { GridProps } from '@mui/material';
 
 export type Field = {
-  type: FieldType | string;
+  type: FieldType;
   name?: string;
 
   label?: string | JSX.Element;
@@ -58,7 +58,7 @@ export type CustomComponents<
 export interface IFieldConfig<
   P extends IFieldComponentProps = IFieldComponentProps
 > {
-  type: string;
+  type: FieldType;
   name: string;
   group: 'input' | 'content';
   icon: React.ReactNode;
