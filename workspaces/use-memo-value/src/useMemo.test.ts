@@ -1,9 +1,9 @@
-import test from "ava"
+import { expect, test } from "vitest";
 import { renderHook, act } from "@testing-library/react-hooks"
 import { useState } from "react"
 import useMemoValue from "./useMemoValue"
 
-test("basics", t => {
+test("basics", () => {
   let { result } = renderHook(() => {
     let [rawValue, setRawValue] = useState({ name: "starting value" })
     let memoValue = useMemoValue(rawValue)
@@ -11,20 +11,20 @@ test("basics", t => {
   })
 
   // init
-  t.is(result.current.rawValue, result.current.memoValue)
+  expect(result.current.rawValue).toBe(result.current.memoValue)
 
   // update to same value
   act(() => result.current.setRawValue({ name: "starting value" }))
-  t.not(result.current.rawValue, result.current.memoValue)
-  t.is(result.current.memoValue.name, "starting value")
+  expect(result.current.rawValue).not.toBe(result.current.memoValue)
+  expect(result.current.memoValue.name).toBe("starting value")
 
   // update to new value
   act(() => result.current.setRawValue({ name: "changed value" }))
-  t.is(result.current.rawValue, result.current.memoValue)
-  t.is(result.current.memoValue.name, "changed value")
+  expect(result.current.rawValue).toBe(result.current.memoValue)
+  expect(result.current.memoValue.name).toBe("changed value")
 })
 
-test("comparator", t => {
+test("comparator", () => {
   let fooComparatorCalled = 0
   let barComparatorCalled = 0
 
@@ -46,43 +46,43 @@ test("comparator", t => {
   })
 
   // init
-  t.is(result.current.memoValue.foo, 1)
-  t.is(result.current.memoValue.bar, 1)
-  t.is(fooComparatorCalled, 0)
-  t.is(barComparatorCalled, 0)
+  expect(result.current.memoValue.foo).toBe(1)
+  expect(result.current.memoValue.bar).toBe(1)
+  expect(fooComparatorCalled).toBe(0)
+  expect(barComparatorCalled).toBe(0)
 
   // change something comparator cares about
   act(() => result.current.setRawValue({ foo: 2, bar: 2 }))
-  t.is(result.current.memoValue.foo, 2)
-  t.is(result.current.memoValue.bar, 2)
-  t.is(fooComparatorCalled, 1)
-  t.is(barComparatorCalled, 0)
+  expect(result.current.memoValue.foo).toBe(2)
+  expect(result.current.memoValue.bar).toBe(2)
+  expect(fooComparatorCalled).toBe(1)
+  expect(barComparatorCalled).toBe(0)
 
   // change something comparator doesn't care about
   act(() => result.current.setRawValue({ foo: 2, bar: 3 }))
-  t.is(result.current.memoValue.foo, 2)
-  t.is(result.current.memoValue.bar, 2)
-  t.is(fooComparatorCalled, 2)
-  t.is(barComparatorCalled, 0)
+  expect(result.current.memoValue.foo).toBe(2)
+  expect(result.current.memoValue.bar).toBe(2)
+  expect(fooComparatorCalled).toBe(2)
+  expect(barComparatorCalled).toBe(0)
 
   // switch comparators
   act(() => result.current.setComparator(() => barComparator))
-  t.is(result.current.memoValue.foo, 2)
-  t.is(result.current.memoValue.bar, 3)
-  t.is(fooComparatorCalled, 2)
-  t.is(barComparatorCalled, 1)
+  expect(result.current.memoValue.foo).toBe(2)
+  expect(result.current.memoValue.bar).toBe(3)
+  expect(fooComparatorCalled).toBe(2)
+  expect(barComparatorCalled).toBe(1)
 
   // change something comparator cares about
   act(() => result.current.setRawValue({ foo: 2, bar: 4 }))
-  t.is(result.current.memoValue.foo, 2)
-  t.is(result.current.memoValue.bar, 4)
-  t.is(fooComparatorCalled, 2)
-  t.is(barComparatorCalled, 2)
+  expect(result.current.memoValue.foo).toBe(2)
+  expect(result.current.memoValue.bar).toBe(4)
+  expect(fooComparatorCalled).toBe(2)
+  expect(barComparatorCalled).toBe(2)
 
   // change something comparator doesn't care about
   act(() => result.current.setRawValue({ foo: 3, bar: 4 }))
-  t.is(result.current.memoValue.foo, 2)
-  t.is(result.current.memoValue.bar, 4)
-  t.is(fooComparatorCalled, 2)
-  t.is(barComparatorCalled, 3)
+  expect(result.current.memoValue.foo).toBe(2)
+  expect(result.current.memoValue.bar).toBe(4)
+  expect(fooComparatorCalled).toBe(2)
+  expect(barComparatorCalled).toBe(3)
 })
