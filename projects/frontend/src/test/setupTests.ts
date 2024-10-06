@@ -2,4 +2,5 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
+// `@testing-library/jest-dom` is required even if we use Vitest.
 import "@testing-library/jest-dom";
