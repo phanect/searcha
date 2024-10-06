@@ -15,7 +15,7 @@ import {
 import ColorPickerInput from "@src/components/ColorPickerInput";
 import { ISettingsProps } from "@src/components/fields/types";
 
-import { Color, toColor } from "react-color-palette";
+import { IColor, ColorService } from "react-color-palette";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import { resultColorsScale, defaultColors } from "@src/utils/color";
 
@@ -43,7 +43,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
     );
   };
 
-  const handleColorChange = (index: number, color: Color): void => {
+  const handleColorChange = (index: number, color: IColor): void => {
     onChange("colors")(
       colors.map((value, idx) => (index === idx ? color.hex : value))
     );
@@ -153,7 +153,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                 {colorHex && (
                   <div>
                     <ColorPickerInput
-                      value={toColor("hex", colorHex)}
+                      value={ColorService.convert("hex", colorHex)}
                       onChangeComplete={(color) =>
                         handleColorChange(index, color)
                       }

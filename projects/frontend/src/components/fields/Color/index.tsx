@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { IFieldConfig, FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
-import { toColor } from "react-color-palette";
+import { ColorService } from "react-color-palette";
 
 import ColorIcon from "@mui/icons-material/Colorize";
 import DisplayCell from "./DisplayCell";
@@ -34,7 +34,7 @@ export const config: IFieldConfig = {
     try {
       const obj = JSON.parse(value);
       if ("hex" in obj) {
-        return toColor("hex", obj.hex);
+        return ColorService.convert("hex", obj.hex);
       }
       throw new Error();
     } catch (error) {

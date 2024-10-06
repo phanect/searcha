@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import { Chip, Typography } from "@mui/material";
 import Modal from "@src/components/Modal";
 import ColorPickerInput from "@src/components/ColorPickerInput";
-import { toColor } from "react-color-palette";
+import { ColorService } from "react-color-palette";
 import { SelectColorThemeOptions } from ".";
 
 interface CustomizeColor {
@@ -54,7 +54,7 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
           {/* Light Theme Customize Color */}
           <Box gridColumn="span 3">
             <ColorPickerInput
-              value={toColor("hex", color.light)}
+              value={ColorService.convert("hex", color.light)}
               onChangeComplete={(value) =>
                 handleChange({ ...color, ...{ light: value.hex } })
               }
@@ -79,7 +79,7 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
           {/* Dark Theme Customize Color */}
           <Box gridColumn="span 3">
             <ColorPickerInput
-              value={toColor("hex", color.dark)}
+              value={ColorService.convert("hex", color.dark)}
               onChangeComplete={(value) =>
                 handleChange({ ...color, ...{ dark: value.hex } })
               }

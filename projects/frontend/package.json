@@ -74,7 +74,7 @@
     "quicktype-core": "^6.0.71",
     "react": "^19.2.4",
     "react-beautiful-dnd": "^13.1.0",
-    "react-color-palette": "^6.2.0",
+    "react-color-palette": "^7.3.0",
     "react-div-100vh": "^0.7.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
