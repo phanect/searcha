@@ -3,7 +3,6 @@ import { IEditorCellProps } from "@src/components/fields/types";
 import { setSeconds } from "date-fns";
 
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { TextField } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import {
@@ -33,14 +32,25 @@ export default function DateTime({
 
   return (
     <DateTimePicker
-      renderInput={(props) => (
-        <TextField
-          {...props}
-          fullWidth
-          label=""
-          hiddenLabel
-          aria-label={column.name as string}
-          sx={{
+      slotProps={{
+        openPickerButton: {
+          size: "small",
+          className: "row-hover-iconButton end",
+          edge: false,
+          tabIndex,
+        },
+        popper: {
+          onClick: (e) => e.stopPropagation(),
+        },
+        tabs: {
+          hidden: false,
+        },
+        textField: {
+          fullWidth: true,
+          label: "",
+          hiddenLabel: true,
+          "aria-label": column.name,
+          sx: {
             width: "100%",
             height: "100%",
 
@@ -67,28 +77,22 @@ export default function DateTime({
               pb: 1 / 8,
             },
             "& .MuiInputAdornment-root": { m: 0 },
-          }}
-          autoFocus
-          onKeyDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-          inputProps={{ ...props.inputProps, tabIndex }}
-        />
-      )}
+          },
+          autoFocus: true,
+          onKeyDown: (e) => e.stopPropagation(),
+          onClick: (e) => e.stopPropagation(),
+          inputProps: {
+            tabIndex,
+          },
+        },
+      }}
       label={column.name}
       value={transformedValue}
       onChange={(date) => handleDateChange(date ? setSeconds(date, 0) : null)}
-      inputFormat={format}
-      OpenPickerButtonProps={{
-        size: "small",
-        className: "row-hover-iconButton end",
-        edge: false,
-        tabIndex,
-      }}
-      components={{ OpenPickerIcon: ChevronDown }}
+      format={format}
+      slots={{ openPickerIcon: ChevronDown }}
       disableOpenPicker={false}
       disabled={disabled}
-      PopperProps={{ onClick: (e) => e.stopPropagation() }}
-      hideTabs={false}
     />
   );
 }

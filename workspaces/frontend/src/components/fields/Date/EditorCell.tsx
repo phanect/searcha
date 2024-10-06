@@ -2,7 +2,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { IEditorCellProps } from "@src/components/fields/types";
 
 import { DatePicker } from "@mui/x-date-pickers";
-import { TextField } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import { transformValue, sanitizeValue } from "./utils";
@@ -28,14 +27,16 @@ export default function Date_({
 
   return (
     <DatePicker
-      renderInput={(props) => (
-        <TextField
-          {...props}
-          fullWidth
-          label=""
-          hiddenLabel
-          aria-label={column.name as string}
-          sx={{
+      slotProps={{
+        popper: {
+          onClick: (e) => e.stopPropagation(),
+        },
+        textField: {
+          fullWidth: true,
+          label: "",
+          hiddenLabel: true,
+          "aria-label": column.name,
+          sx: {
             width: "100%",
             height: "100%",
 
@@ -62,28 +63,29 @@ export default function Date_({
               pb: 1 / 8,
             },
             "& .MuiInputAdornment-root": { m: 0 },
-          }}
-          autoFocus
-          onKeyDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-          inputProps={{ ...props.inputProps, tabIndex }}
-        />
-      )}
+          },
+          autoFocus: true,
+          onKeyDown: (e) => e.stopPropagation(),
+          onClick: (e) => e.stopPropagation(),
+          inputProps: {
+            tabIndex,
+          },
+        },
+        openPickerButton: {
+          size: "small",
+          className: "row-hover-iconButton end",
+          edge: false,
+          tabIndex,
+        },
+      }}
       label={column.name}
       value={transformedValue}
       onChange={handleDateChange}
-      inputFormat={format}
+      format={format}
       mask={format.replace(/[A-Za-z]/g, "_")}
-      OpenPickerButtonProps={{
-        size: "small",
-        className: "row-hover-iconButton end",
-        edge: false,
-        tabIndex,
-      }}
-      components={{ OpenPickerIcon: ChevronDown }}
+      slots={{ openPickerIcon: ChevronDown }}
       disableOpenPicker={false}
       disabled={disabled}
-      PopperProps={{ onClick: (e) => e.stopPropagation() }}
     />
   );
 }

@@ -478,7 +478,7 @@ export const components = (theme: Theme): ThemeOptions => {
                 } !important`,
               },
           },
-          inputSizeSmall: {
+          sizeSmall: {
             padding: theme.spacing(0.75, 1.5),
             height: toRem(20),
           },

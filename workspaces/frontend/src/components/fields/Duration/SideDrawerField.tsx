@@ -1,6 +1,6 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import { Box, Stack, TextField } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { ChevronDown } from "@src/assets/icons";
 
@@ -43,63 +43,68 @@ export default function Duration({
 
       <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
         <DateTimePicker
-          renderInput={(props) => (
-            <TextField
-              {...props}
-              label="Start"
-              fullWidth
-              hiddenLabel
-              aria-label={column.name as string}
-              sx={{
+          slotProps={{
+            textField: {
+              label: "Start",
+              fullWidth: true,
+              hiddenLabel: true,
+              "aria-label": column.name,
+              sx: {
                 "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
                 "& .MuiInputAdornment-root": { m: 0 },
-              }}
+              },
               // Touch mode: make the whole field clickable
-              onClick={props.inputProps?.onClick as any}
-              onBlur={onSubmit}
-            />
-          )}
+              onClick: props.inputProps?.onClick,
+              onBlur: onSubmit,
+            },
+            openPickerButton: {
+              size: "small",
+            },
+            tabs: {
+              hidden: false,
+            },
+          }}
           label={column.name + ": Start"}
           value={startValue}
           onChange={handleChange("start")}
           onAccept={onSubmit}
-          inputFormat={format}
+          format={format}
           mask={format.replace(/[A-Za-z]/g, "_")}
-          OpenPickerButtonProps={{ size: "small" }}
-          components={{ OpenPickerIcon: ChevronDown }}
+          slots={{ openPickerIcon: ChevronDown }}
           disableOpenPicker={false}
           disabled={disabled}
-          hideTabs={false}
         />
 
         <DateTimePicker
-          renderInput={(props) => (
-            <TextField
-              {...props}
-              fullWidth
-              label="End"
-              hiddenLabel
-              aria-label={column.name as string}
-              sx={{
+          slotProps={{
+            textField: {
+              fullWidth: true,
+              label: "End",
+              hiddenLabel: true,
+              "aria-label": column.name,
+              sx: {
                 "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
                 "& .MuiInputAdornment-root": { m: 0 },
-              }}
-              // Touch mode: make the whole field clickable
-              onClick={props.inputProps?.onClick as any}
-              onBlur={onSubmit}
-            />
-          )}
+              },
+              onClick: props.inputProps?.onClick,
+              onBlur: onSubmit,
+            },
+            openPickerButton: {
+              size: "small",
+            },
+            tabs: {
+              hidden: false,
+            },
+          }}
           label={column.name + ": End"}
           value={endValue}
           onChange={handleChange("end")}
           onAccept={onSubmit}
-          inputFormat={format}
+          format={format}
           mask={format.replace(/[A-Za-z]/g, "_")}
-          OpenPickerButtonProps={{ size: "small" }}
-          components={{ OpenPickerIcon: ChevronDown }}
+          slots={{ openPickerIcon: ChevronDown }}
           disableOpenPicker={false}
           disabled={disabled}
-          hideTabs={false}
         />
       </Stack>
     </>
