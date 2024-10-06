@@ -53,6 +53,7 @@ export type CustomComponents<
 > = Record<string, {
   component: CustomComponent<P>;
   defaultValue?: any;
+  // TODO rename to `schema`
   validation?: Schema;
 }>;
 

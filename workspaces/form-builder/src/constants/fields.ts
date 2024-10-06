@@ -1,3 +1,4 @@
+// TODO Replace with union type
 export enum FieldType {
   shortText = "shortText",
   paragraph = "paragraph",

@@ -14,6 +14,7 @@ declare module "@mui/material/styles/createTypography" {
   };
 }
 
+// TODO Change fonts
 export const BODY_FONT = "Inter, system-ui, sans-serif";
 export const HEADING_FONT = "Space Grotesk, " + BODY_FONT;
 export const MONO_FONT = "JetBrains Mono, ui-monospace, monospace";
