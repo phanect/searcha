@@ -1,6 +1,9 @@
 import { UseFormReturn, UseControllerReturn } from 'react-hook-form';
 import { FieldType } from './constants/fields';
 import { GridProps } from '@mui/material';
+import type { Flags, Schema } from "yup";
+
+export type SchemaFunction = (config: Record<string, unknown>) => Schema<unknown, unknown, unknown, Flags>;
 
 export type Field = {
   type: FieldType;
@@ -13,7 +16,7 @@ export type Field = {
   displayCondition?: string;
   required?: boolean;
   disabled?: boolean;
-  validation?: any[][];
+  validation?: Schema;
 
   defaultValue?: any;
   gridCols?:
@@ -51,7 +54,7 @@ export type CustomComponents<
   [type: string]: {
     component: CustomComponent<P>;
     defaultValue?: any;
-    validation?: any[][];
+    validation?: Schema;
   };
 };
 
@@ -66,5 +69,5 @@ export interface IFieldConfig<
   defaultValue: unknown;
   component: CustomComponent<P>;
   settings: Fields;
-  validation: (config: Record<string, unknown>) => unknown[][];
+  validation?: SchemaFunction;
 }

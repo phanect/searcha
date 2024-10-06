@@ -21,6 +21,5 @@ export const ContentImageConfig: IFieldConfig = {
   defaultValue: undefined,
   component: Component as any,
   settings: Settings,
-  validation: () => [],
 };
 export default ContentImageConfig;

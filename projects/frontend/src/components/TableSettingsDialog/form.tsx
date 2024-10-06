@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { find } from "lodash-es";
 import { useAtom } from "jotai";
+import { string } from "yup";
 import { Field, FieldType } from "@phanect/datasheet-form-builder";
 import {
   ProjectScopeContext,
@@ -149,17 +150,15 @@ export const tableSettings = (
             sx: { "& .MuiInputBase-input": { fontFamily: "mono" } },
           },
           // https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
-          validation: [
-            ["matches", /^[^\s]+$/, "Collection name cannot have spaces"],
-            ["matches", /^[^.]+$/, "Collection name cannot have dots"],
-            ["notOneOf", [".", ".."], "Collection name cannot be . or .."],
-            [
-              "test",
+          validation: string()
+            .matches(/^[^\s]+$/, "Collection name cannot have spaces")
+            .matches(/^[^.]+$/, "Collection name cannot have dots")
+            .notOneOf([".", ".."], "Collection name cannot be . or ..")
+            .test(
               "double-underscore",
               "Collection name cannot begin and end with __",
-              (value: any) => !value.startsWith("__") && !value.endsWith("__"),
-            ],
-          ],
+              (value) => !value?.startsWith("__") && !value?.endsWith("__"),
+            ),
         }
       : {
           step: "collection",
@@ -195,17 +194,15 @@ export const tableSettings = (
           ),
           sx: { "& .MuiInputBase-input": { fontFamily: "mono" } },
           // https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
-          validation: [
-            ["matches", /^[^\s]+$/, "Collection name cannot have spaces"],
-            ["matches", /^[^.]+$/, "Collection name cannot have dots"],
-            ["notOneOf", [".", ".."], "Collection name cannot be . or .."],
-            [
-              "test",
+          validation: string()
+            .matches(/^[^\s]+$/, "Collection name cannot have spaces")
+            .matches(/^[^.]+$/, "Collection name cannot have dots")
+            .notOneOf([".", ".."], "Collection name cannot be . or ..")
+            .test(
               "double-underscore",
               "Collection name cannot begin and end with __",
-              (value: any) => !value.startsWith("__") && !value.endsWith("__"),
-            ],
-          ],
+              (value) => !value?.startsWith("__") && !value?.endsWith("__"),
+            ),
         },
 
     // Step 2: Display
@@ -232,19 +229,18 @@ export const tableSettings = (
       }.`,
       disabled: mode === "update",
       gridCols: { xs: 12, sm: 6 },
-      validation: [
-        ["matches", /^[^/]+$/g, "ID cannot have /"],
-        ...(mode === "create"
-          ? [
-              [
-                "test",
-                "unique",
-                "Another table exists with this ID",
-                (value: any) => !find(tables, ["value", value]),
-              ],
-            ]
-          : []),
-      ],
+      validation: string()
+        .matches(/^[^/]+$/g, "ID cannot have /")
+        .test("unique", "Another table exists with this ID",
+          (value) => {
+            // Do not test on non-create mode
+            if (mode !== "create") {
+              return true;
+            }
+
+            return !find(tables, ["value", value]);
+          }
+        ),
     },
     {
       step: "display",

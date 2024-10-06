@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { date } from "yup";
 import { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
 
@@ -18,10 +19,8 @@ export const DateTimeConfig: IFieldConfig = {
   defaultValue: null,
   component: Component as any,
   settings: [],
-  validation: () => [
-    ['date'],
-    ['typeError', 'Please enter a valid date'],
-    ['nullable'],
-  ],
+  validation: () => date()
+    .typeError("Please enter a valid date")
+    .nullable()
 };
 export default DateTimeConfig;

@@ -1,10 +1,11 @@
 import { lazy } from 'react';
-import { IFieldConfig } from '../../types';
+import type { IFieldConfig } from '../../types';
 import { FieldType } from '../../constants/fields';
 
 import FormTextarea from 'mdi-material-ui/FormTextarea';
 
 import Settings from './ParagraphSettings';
+import { string } from "yup";
 const Component = lazy(
   () =>
     import('./ParagraphComponent')
@@ -20,16 +21,15 @@ export const ParagraphConfig: IFieldConfig = {
   component: Component,
   settings: Settings,
   validation: (config) => {
-    const validation: any[][] = [['string'], ['trim']];
+    let schema = string().trim();
 
     if (typeof config.maxCharacters === 'number')
-      validation.push([
-        'max',
+      schema = schema.max(
         config.maxCharacters,
         'You have reached the character limit',
-      ]);
+      );
 
-    return validation;
+    return schema;
   },
 };
 export default ParagraphConfig;
