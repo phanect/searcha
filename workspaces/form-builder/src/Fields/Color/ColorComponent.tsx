@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { IFieldComponentProps } from '../../types';
-import { ColorPicker, toColor } from 'react-color-palette';
-import 'react-color-palette/lib/css/styles.css';
+import { ColorPicker, ColorService } from 'react-color-palette';
+import 'react-color-palette/css';
 
 import {
   TextField,
@@ -106,11 +106,10 @@ export default function ColorComponent({
           transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <ColorPicker
-            width={240}
             height={180}
-            color={value?.hex ? value : toColor('hex', '#fff')}
+            color={value?.hex ? value : ColorService.convert('hex', '#fff')}
             onChange={onChange}
-            alpha={enableAlpha}
+            hideAlpha={!enableAlpha}
           />
         </Popover>
       )}

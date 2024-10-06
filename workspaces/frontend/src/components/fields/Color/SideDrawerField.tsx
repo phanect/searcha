@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
-import { ColorPicker, toColor } from "react-color-palette";
-import "react-color-palette/lib/css/styles.css";
+import { ColorPicker, ColorService } from "react-color-palette";
+import "react-color-palette/css";
 
 import { ButtonBase, Box, Collapse } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
@@ -85,14 +85,11 @@ export default function Color({
         onBlur={onSubmit}
       >
         <ColorPicker
-          width={440}
           height={180}
-          color={
-            value?.hex ? toColor("hex", value.hex) : toColor("hex", "#fff")
-          }
+          color={ ColorService.convert("hex", value?.hex ?? "#fff") }
           onChange={onChange}
           onChangeComplete={onSubmit}
-          alpha
+          hideAlpha={ false }
         />
       </Collapse>
     </>

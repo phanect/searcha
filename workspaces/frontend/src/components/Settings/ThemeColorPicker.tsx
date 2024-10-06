@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { colord } from "colord";
-import { ColorPicker, toColor } from "react-color-palette";
-import "react-color-palette/lib/css/styles.css";
+import { ColorPicker, ColorService } from "react-color-palette";
+import "react-color-palette/css";
 
 import { Grid, Typography, Stack, Box, Button } from "@mui/material";
 import PassIcon from "@mui/icons-material/Check";
@@ -35,9 +35,8 @@ export default function ThemeColorPicker({
             Light theme
           </Typography>
           <ColorPicker
-            width={244}
             height={140}
-            color={toColor("hex", light)}
+            color={ColorService.convert("hex", light)}
             onChange={(c) => setLight(c.hex)}
           />
 
@@ -83,9 +82,8 @@ export default function ThemeColorPicker({
             Dark theme
           </Typography>
           <ColorPicker
-            width={244}
             height={140}
-            color={toColor("hex", dark)}
+            color={ColorService.convert("hex", dark)}
             onChange={(c: any) => setDark(c.hex)}
           />
 
