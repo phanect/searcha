@@ -19,6 +19,7 @@ import ContentHeader from './ContentHeader';
 import ContentSubHeader from './ContentSubHeader';
 import ContentParagraph from './ContentParagraph';
 import ContentImage from './ContentImage';
+import type { FieldType } from "../constants/fields.ts";
 
 export const FieldConfigs: IFieldConfig[] = [
   ShortText,
@@ -44,7 +45,7 @@ export const FieldConfigs: IFieldConfig[] = [
 /** Returns specific property of field config */
 export const getFieldProp = <Prop extends keyof IFieldConfig>(
   prop: Prop,
-  fieldType: string,
+  fieldType: FieldType,
 ): IFieldConfig[Prop] | undefined => {
   const field = find(FieldConfigs, { type: fieldType });
   return field?.[prop];
