@@ -8,7 +8,7 @@ import PassIcon from "@mui/icons-material/Check";
 import FailIcon from "@mui/icons-material/Error";
 
 import { PRIMARY, DARK_PRIMARY } from "@src/theme/colors";
-import themes from "theme";
+import themes from "@src/theme/index.ts";
 
 export interface IThemeColorPickerProps {
   currentLight?: string;

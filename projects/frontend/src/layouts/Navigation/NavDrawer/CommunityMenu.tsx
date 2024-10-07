@@ -12,7 +12,7 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import SocialLogo from "@src/components/SocialLogo";
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
-import { logEvent, analytics } from "analytics";
+import { logEvent, analytics } from "@src/analytics";
 
 export default function HelpMenu({
   anchorEl,

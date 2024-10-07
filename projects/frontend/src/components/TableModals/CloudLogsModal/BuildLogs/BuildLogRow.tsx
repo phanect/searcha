@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { styled, Typography } from "@mui/material";
 import Ansi from "ansi-to-react";
 
-import { TIME_FORMAT } from "constants/dates";
+import { TIME_FORMAT } from "@src/constants/dates";
 
 const Root = styled("div")(({ theme }) => ({
   ...(theme.typography.caption as any),
