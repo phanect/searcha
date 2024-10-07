@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "clean": "git clean -dX --exclude=\"!.env\" --force",
-    "refresh": "pnpm run clean && rm --force ./pnpm-lock.yaml && pnpm install && pnpm run build"
+    "refresh": "pnpm run clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm run build"
   },
   "devDependencies": {
     "@types/node": "^22.5.5"
