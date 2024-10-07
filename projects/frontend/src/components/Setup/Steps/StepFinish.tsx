@@ -22,7 +22,7 @@ import { analytics, logEvent } from "@src/analytics";
 import { projectScope } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { ROUTES } from "@src/constants/routes";
-import { SETTINGS } from "config/dbPaths";
+import { SETTINGS } from "@src/config/dbPaths.ts";
 
 export default {
   id: "finish",

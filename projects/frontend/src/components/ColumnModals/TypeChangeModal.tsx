@@ -9,7 +9,7 @@ import { Alert, AlertTitle, Typography } from "@mui/material";
 import { tableScope, updateColumnAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
-import { analytics, logEvent } from "analytics";
+import { analytics, logEvent } from "@src/analytics";
 
 export default function TypeChangeModal({
   onClose,

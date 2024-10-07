@@ -12,7 +12,7 @@ import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
 
 import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
 import { ROUTES } from "@src/constants/routes";
-import { logEvent, analytics } from "analytics";
+import { logEvent, analytics } from "@src/analytics";
 
 export default function LearningMenu({
   anchorEl,

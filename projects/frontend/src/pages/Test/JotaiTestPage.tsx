@@ -14,7 +14,7 @@ import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 import { Button } from "@mui/material";
 import MultiSelect from "@phanect/datasheet-multiselect";
 import { useSnackbar } from "notistack";
-import { useFirestoreDocWithAtom } from "hooks/useFirestoreDocWithAtom";
+import { useFirestoreDocWithAtom } from "@src/hooks/useFirestoreDocWithAtom";
 
 import {
   GoogleAuthProvider,
