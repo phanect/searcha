@@ -2,6 +2,14 @@
   "name": "@phanect/datasheet-monorepo",
   "version": "0.0.0",
   "description": "Convert your dataset to websites or internal wikis",
+  "homepage": "https://github.com/phanect/datasheet",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/phanect/datasheet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/phanect/datasheet/issues"
+  },
   "author": "Jumpei Ogawa (https://phanective.org)",
   "license": "UNLICENSED",
   "private": true,
