@@ -1,23 +1,25 @@
 import { mapValues } from "lodash-es";
-import meta from "@root/package.json";
+
+const homepage = "https://datasheet.phanective.org";
+const rowyRun = "https://github.com/phanect/rowy-backend";
 
 export const EXTERNAL_LINKS = {
-  homepage: meta.homepage,
-  privacy: meta.homepage + "/privacy",
-  terms: meta.homepage + "/terms",
-  templates: meta.homepage + "/templates",
-  docs: meta.homepage.replace("//", "//docs."),
-  demo: meta.homepage.replace("//", "//demo."),
-  playground: meta.homepage.replace("//", "//demo."),
+  homepage,
+  privacy: homepage + "/privacy",
+  terms: homepage + "/terms",
+  templates: homepage + "/templates",
+  docs: homepage.replace("//", "//docs."),
+  demo: homepage.replace("//", "//demo."),
+  playground: homepage.replace("//", "//demo."),
 
-  gitHub: meta.repository.url.replace(".git", ""),
+  gitHub: "https://github.com/phanect/datasheet",
   discord: "https://rowy.io/discord",
   twitter: "https://twitter.com/rowyio",
   productHunt: "https://www.producthunt.com/products/rowy-2",
 
-  rowyRun: meta.repository.url.replace("rowy.git", "backend"),
-  rowyRunGitHub: meta.repository.url.replace("rowy.git", "backend"),
-  rowyRunDeploy: `https://deploy.cloud.run/?git_repo=${meta.repository.url.replace(".git", "Run")}.git`,
+  rowyRun,
+  rowyRunGitHub: rowyRun,
+  rowyRunDeploy: `https://deploy.cloud.run/?git_repo=${ rowyRun }.git`,
 
   rowyAppHostName: "rowy.app",
 
