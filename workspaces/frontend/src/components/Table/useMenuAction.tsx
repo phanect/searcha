@@ -204,7 +204,7 @@ export function useMenuAction(
         switch (cellDataType) {
           case "number":
             parsed = Number(text);
-            if (isNaN(parsed)) throw new Error(`${text} is not a number`);
+            if (Number.isNaN(parsed)) throw new Error(`${text} is not a number`);
             break;
           case "string":
             parsed = text;
