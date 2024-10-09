@@ -251,7 +251,7 @@ export function useMenuAction(
             } else {
               parsedValue = Number(clipboardText);
             }
-            if (isNaN(parsedValue))
+            if (Number.isNaN(parsedValue))
               throw new Error(`${clipboardText} is not a percentage`);
             break;
           case FieldType.date:

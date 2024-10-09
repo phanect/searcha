@@ -6,6 +6,6 @@ export const transformValue = (value: any): Date | null => {
 };
 
 export const sanitizeValue = (value: Date | null) => {
-  if (isNaN(value?.valueOf() ?? 0)) return undefined;
+  if (Number.isNaN(value?.valueOf() ?? 0)) return undefined;
   return value;
 };

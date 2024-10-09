@@ -36,7 +36,7 @@ export const config: IFieldConfig = {
   csvImportParser: (value: string) => {
     try {
       const parsed = parseInt(value);
-      if (isNaN(parsed)) {
+      if (Number.isNaN(parsed)) {
         throw new Error("Invalid slider value!");
       }
       return parsed;

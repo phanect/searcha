@@ -38,7 +38,7 @@ export const ShortTextValidation = (config: Record<string, any>) => {
       validation.push([
         'transform',
         (value: any) => {
-          if ((typeof value === 'string' && value === '') || isNaN(value))
+          if ((typeof value === 'string' && value === '') || Number.isNaN(value))
             return null;
           return value;
         },
