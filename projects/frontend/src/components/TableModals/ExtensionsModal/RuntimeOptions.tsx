@@ -94,7 +94,7 @@ export default function RuntimeOptions({
                 ),
               }}
               onChange={(e) =>
-                !isNaN(Number(e.target.value)) &&
+                !Number.isNaN(Number(e.target.value)) &&
                 handleUpdate({
                   timeoutSeconds: Number(e.target.value),
                 })
