@@ -42,8 +42,6 @@ export default function DateTime({
             "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
             "& .MuiInputAdornment-root": { m: 0 },
           },
-          // Touch mode: make the whole field clickable
-          onClick: props.inputProps?.onClick,
           onBlur: onSubmit,
           id: getFieldId(column.key),
         },
@@ -60,7 +58,6 @@ export default function DateTime({
       onChange={(date: any) => handleChange(date ? setSeconds(date, 0) : null)}
       onAccept={onSubmit}
       format={format}
-      mask={format.replace(/[A-Za-z]/g, "_")}
       slots={{ openPickerIcon: ChevronDown }}
       disableOpenPicker={false}
       disabled={disabled}
