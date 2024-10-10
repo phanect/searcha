@@ -53,7 +53,7 @@ export type ConfirmDialogProps = {
  *
  * @example Basic usage:
  * ```
- * const confirm = useSetAtom(confirmDialogAtom, projectScope);
+ * const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
  * confirm({ handleConfirm: () => ... });
  * ```
  */
@@ -78,7 +78,7 @@ export type RowyRunModalState = {
  *
  * @example Basic usage:
  * ```
- * const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+ * const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
  * openRowyRunModal({ feature: ... , version: ... });
  * ```
  *
@@ -110,7 +110,7 @@ export type TableSettingsDialogState = {
  *
  * @example Basic usage:
  * ```
- * const openTableSettingsDialog = useSetAtom(tableSettingsDialogAtom, projectScope);
+ * const openTableSettingsDialog = useSetAtom(tableSettingsDialogAtom, { store: projectScopeStore });
  * openTableSettingsDialog({ data: ... });
  * ```
  *
