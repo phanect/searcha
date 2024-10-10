@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useAtom } from "jotai";
 
 import {
@@ -13,8 +13,8 @@ import TabPanel from "@mui/lab/TabPanel";
 
 import { Import as ImportIcon } from "@src/assets/icons";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
 import ImportFromCsv from "@src/components/TableToolbar/ImportData/ImportFromCsv";
 import ImportFromAirtable from "@src/components/TableToolbar/ImportData/ImportFromAirtable";
@@ -32,8 +32,10 @@ export enum ImportMethod {
 }
 
 export default function ImportData({ render, PopoverProps }: IImportDataProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const importMethodRef = useRef(ImportMethod.csv);
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);

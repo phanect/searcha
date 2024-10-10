@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { useSetAtom } from "jotai";
 import { colord } from "colord";
 
@@ -8,7 +8,7 @@ import IconSlash, {
   ICON_SLASH_STROKE_DASHOFFSET,
 } from "@src/components/IconSlash";
 
-import { tableScope, tableSortsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
 import useSaveTableSorts from "./useSaveTableSorts";
 
 export const SORT_STATES = ["none", "desc", "asc"] as const;
@@ -30,7 +30,8 @@ export const ColumnHeaderSort = memo(function ColumnHeaderSort({
   tabIndex,
   canEditColumns,
 }: IColumnHeaderSortProps) {
-  const setTableSorts = useSetAtom(tableSortsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
 
   const nextSort =
     SORT_STATES[SORT_STATES.indexOf(currentSort) + 1] ?? SORT_STATES[0];

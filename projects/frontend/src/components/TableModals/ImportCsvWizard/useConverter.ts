@@ -1,4 +1,5 @@
-import { projectScope } from "@src/atoms/projectScope";
+import { useContext } from "react";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { FieldType } from "@src/constants/fields";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import {
@@ -20,7 +21,8 @@ const needsUploadTypes = (type: FieldType) =>
   [FieldType.image, FieldType.file].includes(type);
 
 export default function useConverter() {
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const referenceConverter = (value: string): Reference | null => {
     if (!value) return null;

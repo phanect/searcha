@@ -1,8 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { useSetAtom } from "jotai";
 import { Column } from "@tanstack/react-table";
 
-import { tableScope, selectedCellAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, selectedCellAtom } from "@src/atoms/tableScope";
 import { TableRow } from "@src/types/table";
 import { COLLECTION_PAGE_SIZE } from "@src/config/db";
 
@@ -22,7 +22,8 @@ export function useKeyboardNavigation({
   tableRows,
   leafColumns,
 }: IUseKeyboardNavigationProps) {
-  const setSelectedCell = useSetAtom(selectedCellAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {

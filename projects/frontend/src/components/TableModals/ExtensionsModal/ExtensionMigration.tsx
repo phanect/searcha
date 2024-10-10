@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { deleteField } from "firebase/firestore";
 
@@ -10,9 +10,9 @@ import GoIcon from "@mui/icons-material/ChevronRight";
 
 import Modal from "@src/components/Modal";
 
-import { projectScope, currentUserAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   updateTableSchemaAtom,
@@ -29,10 +29,12 @@ export default function ExtensionMigration({
   handleClose,
   handleUpgradeComplete,
 }: IExtensionMigrationProps) {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
   const [isSaved, setIsSaved] = useState(false);
   const [isUpgrading, setIsUpgrading] = useState(false);

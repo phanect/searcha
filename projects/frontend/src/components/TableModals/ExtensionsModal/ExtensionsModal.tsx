@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual, isUndefined } from "lodash-es";
 import { ITableModalProps } from "@src/components/TableModals";
@@ -10,13 +10,13 @@ import ExtensionModal from "./ExtensionModal";
 import ExtensionMigration from "./ExtensionMigration";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   currentUserAtom,
   rowyRunAtom,
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   updateTableSchemaAtom,
@@ -39,12 +39,14 @@ import {
 import RuntimeOptions from "./RuntimeOptions";
 
 export default function ExtensionsModal({ onClose }: ITableModalProps) {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
   const [localExtensionsObjects, setLocalExtensionsObjects] = useState(
     tableSchema.extensionObjects ?? []

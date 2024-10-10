@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
-
+import { useContext } from "react";
 import { styled } from "@mui/material/styles";
 import RichTooltip from "@src/components/RichTooltip";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   tableOutOfOrderDismissedAtom,
 } from "@src/atoms/projectScope";
 
@@ -24,9 +24,10 @@ const Dot = styled("div")(({ theme }) => ({
 }));
 
 export default function OutOfOrderIndicator() {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [dismissed, setDismissed] = useAtom(
     tableOutOfOrderDismissedAtom,
-    projectScope
+    { store: projectScopeStore },
   );
 
   return (

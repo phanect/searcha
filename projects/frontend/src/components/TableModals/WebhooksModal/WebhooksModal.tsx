@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
@@ -12,7 +12,7 @@ import WebhookList from "./WebhookList";
 import WebhookModal from "./WebhookModal";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   currentUserAtom,
   rowyRunAtom,
   compatibleRowyRunVersionAtom,
@@ -20,7 +20,7 @@ import {
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   updateTableSchemaAtom,
@@ -31,17 +31,19 @@ import { analytics, logEvent } from "@src/analytics";
 import { getTableSchemaPath } from "@src/utils/table";
 
 export default function WebhooksModal({ onClose }: ITableModalProps) {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const currentWebhooks = (tableSchema.webhooks ?? []) as IWebhook[];

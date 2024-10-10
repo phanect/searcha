@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import { find, camelCase } from "lodash-es";
 
@@ -13,7 +14,7 @@ import {
 import ReadOnlyIcon from "@mui/icons-material/EditOffOutlined";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   tablesAtom,
 } from "@src/atoms/projectScope";
@@ -26,8 +27,9 @@ import { ROUTES } from "@src/constants/routes";
 export default function BreadcrumbsTableRoot(props: StackProps) {
   const { id } = useParams();
 
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tables] = useAtom(tablesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
 
   const tableSettings = find(tables, ["id", id]);
   if (!tableSettings) return null;

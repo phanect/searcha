@@ -1,5 +1,6 @@
 import { useAtom, useSetAtom } from "jotai";
 import { find, groupBy, sortBy } from "lodash-es";
+import { useContext } from "react";
 
 import { ListItemIcon, ListItemText, Divider } from "@mui/material";
 import { Tables as TablesIcon } from "@src/assets/icons";
@@ -10,7 +11,7 @@ import SettingsNav from "./SettingsNav";
 import NavTableSection from "./NavTableSection";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   userSettingsAtom,
   tablesAtom,
@@ -33,12 +34,13 @@ export default function NavDrawerContents({
   isPermanent,
   tempExpanded,
 }: INavDrawerContentsProps) {
-  const [tables] = useAtom(tablesAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
-    projectScope
+    { store: projectScopeStore },
   );
 
   const favorites = Array.isArray(userSettings.favoriteTables)

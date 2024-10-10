@@ -1,5 +1,6 @@
 import { useAtom, useSetAtom } from "jotai";
 import { find, groupBy, sortBy } from "lodash-es";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -31,7 +32,7 @@ import HomeWelcomePrompt from "@src/components/Tables/HomeWelcomePrompt";
 import EmptyState from "@src/components/EmptyState";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   userSettingsAtom,
   updateUserSettingsAtom,
@@ -48,14 +49,16 @@ import { useScrollToHash } from "@src/hooks/useScrollToHash";
 const SEARCH_KEYS = ["id", "name", "section", "description"];
 
 export default function TablesPage() {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
-  const [tables] = useAtom(tablesAtom, projectScope);
-  const [view, setView] = useAtom(tablesViewAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [view, setView] = useAtom(tablesViewAtom, { store: projectScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
-    projectScope
+    { store: projectScopeStore },
   );
   useScrollToHash();
 

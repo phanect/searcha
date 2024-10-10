@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   currentUserAtom,
   userRolesAtom,
@@ -33,21 +33,23 @@ function CurrentUser({ currentUser }: { currentUser: User }) {
 }
 
 function JotaiTest() {
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [publicSettings] = useAtom(publicSettingsAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [publicSettings] = useAtom(publicSettingsAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
 
   const [count, setCount] = useState(0);
   const { enqueueSnackbar } = useSnackbar();
 
   useFirestoreDocWithAtom(
     publicSettingsAtom,
-    projectScope,
+    { store: projectScopeStore },
     "_rowy_/publicSettings"
   );
 

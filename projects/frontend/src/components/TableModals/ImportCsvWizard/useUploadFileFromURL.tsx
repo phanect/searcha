@@ -1,10 +1,10 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useContext, useRef } from "react";
 import { useSetAtom } from "jotai";
 import { SnackbarKey, useSnackbar } from "notistack";
 import Button from "@mui/material/Button";
 
 import useUploader from "@src/hooks/useFirebaseStorageUploader";
-import { tableScope, updateFieldAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
 import { TableRowRef } from "@src/types/table";
 import SnackbarProgress from "@src/components/SnackbarProgress";
 
@@ -18,7 +18,8 @@ type UploadParamTypes = {
 
 export default function useUploadFileFromURL() {
   const { upload } = useUploader();
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const jobs = useRef<UploadParamTypes[]>([]);
 

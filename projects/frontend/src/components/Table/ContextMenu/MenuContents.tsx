@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { getFieldProp } from "@src/components/fields";
 import { find } from "lodash-es";
@@ -17,7 +17,7 @@ import FilterIcon from "@mui/icons-material/FilterList";
 import ContextMenuItem, { IContextMenuItem } from "./ContextMenuItem";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   userRolesAtom,
   altPressAtom,
@@ -25,7 +25,7 @@ import {
   updateUserSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   tableRowsAtom,
@@ -45,20 +45,23 @@ interface IMenuContentsProps {
 }
 
 export default function MenuContents({ onClose }: IMenuContentsProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [altPress] = useAtom(altPressAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const [selectedCell] = useAtom(selectedCellAtom, tableScope);
-  const addRow = useSetAtom(addRowAtom, tableScope);
-  const deleteRow = useSetAtom(deleteRowAtom, tableScope);
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
-  const [updateRowDb] = useAtom(_updateRowDbAtom, tableScope);
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
+  const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
+  const [updateRowDb] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
 
   const addRowIdType = tableSchema.idType || "decrement";
 

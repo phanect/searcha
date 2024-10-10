@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom } from "jotai";
 import { Helmet } from "react-helmet-async";
 import { Outlet } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
 import Favicon from "@src/assets/Favicon";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   themeAtom,
   themeOverriddenAtom,
   customizedThemesAtom,
@@ -20,9 +20,11 @@ import {
 export default function RowyThemeProvider({
   children,
 }: React.PropsWithChildren<{}>) {
-  const [theme, setTheme] = useAtom(themeAtom, projectScope);
-  const [themeOverridden] = useAtom(themeOverriddenAtom, projectScope);
-  const [customizedThemes] = useAtom(customizedThemesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [theme, setTheme] = useAtom(themeAtom, { store: projectScopeStore });
+  const [themeOverridden] = useAtom(themeOverriddenAtom, { store: projectScopeStore });
+  const [customizedThemes] = useAtom(customizedThemesAtom, { store: projectScopeStore });
 
   // Infer theme based on system settings
   const prefersDarkTheme = useMediaQuery("(prefers-color-scheme: dark)", {

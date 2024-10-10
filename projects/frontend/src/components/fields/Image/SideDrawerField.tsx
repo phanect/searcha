@@ -1,5 +1,5 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useSetAtom } from "jotai";
 import { assignIn } from "lodash-es";
 
@@ -21,7 +21,7 @@ import { FileValue } from "@src/types/table";
 import Thumbnail from "@src/components/Thumbnail";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import useFileUpload from "@src/components/fields/File/useFileUpload";
 import { IMAGE_MIME_TYPES } from ".";
@@ -93,7 +93,8 @@ export default function Image_({
   value,
   disabled,
 }: ISideDrawerFieldProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const {
     loading,

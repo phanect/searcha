@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import type { IRenderedTableCellProps } from "@src/components/Table/TableCell/withRenderTableCell";
 
@@ -8,13 +8,13 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import MenuIcon from "@mui/icons-material/MoreHoriz";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   altPressAtom,
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   addRowAtom,
   deleteRowAtom,
@@ -26,17 +26,20 @@ export const FinalColumn = memo(function FinalColumn({
   row,
   focusInsideCell,
 }: IRenderedTableCellProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [updateRowDb] = useAtom(_updateRowDbAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
 
-  const addRow = useSetAtom(addRowAtom, tableScope);
-  const deleteRow = useSetAtom(deleteRowAtom, tableScope);
-  const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, tableScope);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [updateRowDb] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [altPress] = useAtom(altPressAtom, projectScope);
+  const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
+  const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
+  const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, { store: tableScopeStore });
+
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
 
   const handleDelete = () => {
     const _delete = () =>

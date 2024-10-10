@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useContext, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import {
@@ -20,7 +20,7 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { baseFunction } from "./utils";
 import { ISettingsProps } from "@src/components/fields/types";
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
@@ -49,8 +49,9 @@ const diagnosticsOptions = {
 };
 
 export default function Settings({ config, onChange }: ISettingsProps) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   useEffect(() => {
     if (!projectSettings.rowyRunUrl)
       openRowyRunModal({ feature: "Connector fields" });

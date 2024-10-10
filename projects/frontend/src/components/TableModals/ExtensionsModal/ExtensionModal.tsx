@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import useStateRef from "react-usestateref";
@@ -12,7 +12,7 @@ import Step2RequiredFields from "./Step2RequiredFields";
 import Step3Conditions from "./Step3Conditions";
 import Step4Body from "./Step4Body";
 
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { extensionNames, IExtension } from "./utils";
 
 type StepValidation = Record<"condition" | "extensionBody", boolean>;
@@ -39,7 +39,8 @@ export default function ExtensionModal({
   mode,
   extensionObject: initialObject,
 }: IExtensionModalProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const [extensionObject, setExtensionObject] =
     useState<IExtension>(initialObject);

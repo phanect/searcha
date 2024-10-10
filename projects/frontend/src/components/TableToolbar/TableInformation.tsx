@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 
@@ -6,13 +7,14 @@ import InfoIcon from "@mui/icons-material/InfoOutlined";
 
 import {
   sideDrawerAtom,
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
 
 export default function TableInformation() {
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [sideDrawer, setSideDrawer] = useAtom(sideDrawerAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [sideDrawer, setSideDrawer] = useAtom(sideDrawerAtom, { store: tableScopeStore });
 
   return (
     <TableToolbarButton

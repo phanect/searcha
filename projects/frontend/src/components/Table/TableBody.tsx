@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { useAtom } from "jotai";
 import {
   Column,
@@ -13,7 +13,7 @@ import TableCell from "./TableCell";
 import { RowsSkeleton } from "./TableSkeleton";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   selectedCellAtom,
   tableNextPageAtom,
@@ -62,9 +62,10 @@ export const TableBody = memo(function TableBody({
   lastFrozen,
   columnSizing,
 }: ITableBodyProps) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [selectedCell] = useAtom(selectedCellAtom, tableScope);
-  const [tableNextPage] = useAtom(tableNextPageAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
 
   const {
     virtualRows,

@@ -17,7 +17,7 @@ import ActionsMenu from "./ActionsMenu";
 import DeleteMenu from "./DeleteMenu";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   tableSettingsDialogAtom,
   tablesAtom,
   projectRolesAtom,
@@ -42,6 +42,7 @@ import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
 import { uploadTableThumbnail } from "./utils";
 import TableThumbnail from "./TableThumbnail";
 import TableDetails from "./TableDetails";
+import { useContext } from "react";
 
 const customComponents = {
   tableName: {
@@ -68,19 +69,20 @@ const customComponents = {
 };
 
 export default function TableSettingsDialog() {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [{ open, mode, data }, setTableSettingsDialog] = useAtom(
     tableSettingsDialogAtom,
-    projectScope
+    { store: projectScopeStore }
   );
   const clearDialog = () => setTableSettingsDialog({ open: false });
 
-  const [projectRoles] = useAtom(projectRolesAtom, projectScope);
-  const [tables] = useAtom(tablesAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [firebaseStorage] = useAtom(firebaseStorageAtom, projectScope);
+  const [projectRoles] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [firebaseStorage] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
 
   const navigate = useNavigate();
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const snackLogContext = useSnackLogContext();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -102,8 +104,8 @@ export default function TableSettingsDialog() {
     }
   );
 
-  const [createTable] = useAtom(createTableAtom, projectScope);
-  const [updateTable] = useAtom(updateTableAtom, projectScope);
+  const [createTable] = useAtom(createTableAtom, { store: projectScopeStore });
+  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
 
   if (!open) return null;
 

@@ -1,6 +1,7 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { Avatar, AvatarGroup, ButtonBase, Stack, Tooltip } from "@mui/material";
-import { allUsersAtom, projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import { IDisplayCellProps } from "@src/components/fields/types";
 import { ChevronDown } from "@src/assets/icons/ChevronDown";
 import { UserDataType } from "./UserSelect";
@@ -11,7 +12,8 @@ export default function User({
   disabled,
   tabIndex,
 }: IDisplayCellProps) {
-  const [users] = useAtom(allUsersAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
 
   let userValue: UserDataType[] = [];
   let emails = new Set();

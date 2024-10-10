@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@mui/material";
@@ -10,11 +11,12 @@ import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import EmptyState from "@src/components/EmptyState";
 
 import { ROUTES } from "@src/constants/routes";
-import { projectScope, currentUserAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks.ts";
 
 export default function NotFound() {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   if (currentUser)
     return (

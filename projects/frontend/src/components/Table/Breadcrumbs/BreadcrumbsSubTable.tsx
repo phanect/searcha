@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import { camelCase } from "lodash-es";
 
@@ -6,7 +7,7 @@ import { Stack, Breadcrumbs, Link, Typography, Tooltip } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ReadOnlyIcon from "@mui/icons-material/EditOffOutlined";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
 import { TableSettings } from "@src/types/table";
 
@@ -21,7 +22,9 @@ export default function BreadcrumbsSubTable({
   subTableSettings,
   rootTableLink,
 }: IBreadcrumbsSubTableProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
   const [searchParams] = useSearchParams();
   const splitSubTableId = subTableSettings.id.split("/");
 

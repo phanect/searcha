@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useContext } from "react";
 import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
@@ -10,7 +10,7 @@ import WizardDialog from "@src/components/TableModals/WizardDialog";
 import { useTheme, useMediaQuery, Typography, Button } from "@mui/material";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   addColumnAtom,
@@ -46,15 +46,16 @@ export interface IStepProps {
 }
 
 export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const addColumn = useSetAtom(addColumnAtom, tableScope);
-  const bulkAddRows = useSetAtom(bulkAddRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
+  const bulkAddRows = useSetAtom(bulkAddRowsAtom, { store: tableScopeStore });
   const [{ airtableData, tableId, baseId, apiKey }] = useAtom(
     importAirtableAtom,
-    tableScope
+    { store: tableScopeStore }
   );
-  const setTableModal = useSetAtom(tableModalAtom, tableScope);
+  const setTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import { useAtom } from "jotai";
 import { ITableModalProps } from "@src/components/TableModals/TableModals";
 import {
@@ -19,9 +19,9 @@ import Modal from "@src/components/Modal";
 import ExportDetails from "./ModalContentsExport";
 import DownloadDetails from "./ModalContentsDownload";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableFiltersAtom,
   tableSortsAtom,
@@ -39,10 +39,12 @@ export interface IExportModalContentsProps {
 export default function Export({ onClose }: ITableModalProps) {
   const [mode, setMode] = useState<"Export" | "Download">("Export");
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableFilters] = useAtom(tableFiltersAtom, tableScope);
-  const [tableSorts] = useAtom(tableSortsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
 
   const tableCollection = tableSettings.collection;
   const isCollectionGroup = tableSettings.tableType === "collectionGroup";

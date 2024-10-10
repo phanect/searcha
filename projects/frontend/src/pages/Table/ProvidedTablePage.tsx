@@ -1,5 +1,5 @@
-import { lazy, Suspense } from "react";
-import { useAtom, Provider } from "jotai";
+import { lazy, Suspense, useContext } from "react";
+import { useAtom } from "jotai";
 import { DebugAtoms } from "@src/atoms/utils";
 import { useParams, useOutlet, Link } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
@@ -13,18 +13,19 @@ import TableSourceFirestore from "@src/sources/TableSourceFirestore";
 import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
 import EmptyState from "@src/components/EmptyState";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
 import OfflineIcon from "@mui/icons-material/CloudOff";
 import { Tables as TablesIcon } from "@src/assets/icons";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   currentUserAtom,
   projectSettingsAtom,
   tablesAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
@@ -48,10 +49,12 @@ const TablePage = lazy(() => import("./TablePage"));
 export default function ProvidedTablePage() {
   const { id } = useParams();
   const outlet = useOutlet();
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [tables] = useAtom(tablesAtom, projectScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
   const isOffline = useOffline();
 
   const tableSettings = find(tables, ["id", id]);
@@ -114,37 +117,38 @@ export default function ProvidedTablePage() {
           </>
         }
       >
-        <Provider
-          key={tableScope.description + "/" + id}
-          scope={tableScope}
-          initialValues={[
-            [currentUserAtom, currentUser],
-            [tableIdAtom, id],
-            [tableSettingsAtom, tableSettings],
-          ]}
+        <TableScopeContext.Provider
+          key={"tableScopeStore/" + id}
+          value={tableScopeStore}
         >
-          <DebugAtoms scope={tableScope} />
-          <SyncAtomValue
-            atom={tableSettingsAtom}
-            scope={tableScope}
-            value={tableSettings}
-          />
+          <HydrateAtoms initialValues={[
+            [ currentUserAtom, currentUser ],
+            [ tableIdAtom, id ],
+            [ tableSettingsAtom, tableSettings ],
+          ]}>
+            <DebugAtoms store={ tableScopeStore } />
+            <SyncAtomValue
+              atom={tableSettingsAtom}
+              store={ tableScopeStore }
+              value={tableSettings}
+            />
 
-          <TableSourceFirestore />
-          <Suspense
-            fallback={
-              <>
-                <TableToolbarSkeleton />
-                <TableSkeleton />
-              </>
-            }
-          >
-            <main>
-              <TablePage enableRowSelection disableModals={Boolean(outlet)} />
-            </main>
-          </Suspense>
-          <Suspense fallback={null}>{outlet}</Suspense>
-        </Provider>
+            <TableSourceFirestore />
+            <Suspense
+              fallback={
+                <>
+                  <TableToolbarSkeleton />
+                  <TableSkeleton />
+                </>
+              }
+            >
+              <main>
+                <TablePage enableRowSelection disableModals={Boolean(outlet)} />
+              </main>
+            </Suspense>
+            <Suspense fallback={null}>{outlet}</Suspense>
+          </HydrateAtoms>
+        </TableScopeContext.Provider>
       </Suspense>
     </ErrorBoundary>
   );

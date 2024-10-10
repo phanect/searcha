@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { Control, useWatch } from "react-hook-form";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
@@ -12,7 +12,7 @@ import Modal from "@src/components/Modal";
 import DiffEditor from "@src/components/CodeEditor/DiffEditor";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   confirmDialogAtom,
   tableSettingsDialogSchemaAtom,
   tableSettingsDialogAtom,
@@ -30,13 +30,14 @@ export default function ImportSettings({
   control,
   useFormMethods,
 }: IImportSettingsProps) {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [open, setOpen] = useState(false);
 
   const [newSettings, setNewSettings] = useState("");
   const [valid, setValid] = useState(true);
 
   const { _suggestedRules, ...values } = useWatch({ control });
-  const [tableSchema] = useAtom(tableSettingsDialogSchemaAtom, projectScope);
+  const [tableSchema] = useAtom(tableSettingsDialogSchemaAtom, { store: projectScopeStore });
 
   const formattedJson = stringify(
     { ...values, _schema: merge(tableSchema, values._schema) },
@@ -58,10 +59,10 @@ export default function ImportSettings({
     closeMenu();
   };
 
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   const { setValue } = useFormMethods;
-  const [tableSettingsDialog] = useAtom(tableSettingsDialogAtom, projectScope);
+  const [tableSettingsDialog] = useAtom(tableSettingsDialogAtom, { store: projectScopeStore });
 
   const handleImport = () => {
     logEvent(analytics, "import_tableSettings");

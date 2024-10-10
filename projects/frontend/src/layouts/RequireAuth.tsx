@@ -1,23 +1,24 @@
-import { useAtom, Atom } from "jotai";
+import { useAtom, Atom, type createStore } from "jotai";
+import { useContext } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 
 import Loading from "@src/components/Loading";
 
-import { projectScope, currentUserAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
 
 export interface IRequireAuthProps {
   children: React.ReactElement;
   atom?: Atom<any>;
-  scope?: Parameters<typeof useAtom>[1];
+  store?: ReturnType<typeof createStore>;
 }
 
 export default function RequireAuth({
   children,
   atom = currentUserAtom,
-  scope = projectScope,
+  store = useContext(ProjectScopeContext),
 }: IRequireAuthProps) {
-  const [currentUser] = useAtom(atom, scope);
+  const [currentUser] = useAtom(atom, { store });
   const location = useLocation();
 
   if (currentUser === undefined)

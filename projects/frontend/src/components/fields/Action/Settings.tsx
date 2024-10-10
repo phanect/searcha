@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect, useContext } from "react";
 import { get } from "lodash-es";
 import stringify from "json-stable-stringify-without-jsonify";
 import { Link } from "react-router-dom";
@@ -32,14 +32,14 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import FormFieldSnippets from "./FormFieldSnippets";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   projectRolesAtom,
   projectSettingsAtom,
   compatibleRowyRunVersionAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
-import { tableScope, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 import actionDefs from "./action.d.ts?raw";
@@ -59,16 +59,19 @@ const CodeEditor = lazy(
 );
 
 const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [roles] = useAtom(projectRolesAtom, projectScope);
-  const [settings] = useAtom(projectSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [roles] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [settings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore },
   );
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   useEffect(() => {
     if (!settings.rowyRunUrl) openRowyRunModal({ feature: "Action fields" });
   }, [settings.rowyRunUrl]);

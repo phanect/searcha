@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import { Button, Stack, Tooltip, Typography } from "@mui/material";
@@ -21,7 +21,7 @@ import RowHeight from "./RowHeight";
 import TableInformation from "./TableInformation";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   userRolesAtom,
   compatibleRowyRunVersionAtom,
@@ -30,7 +30,7 @@ import {
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   tableModalAtom,
@@ -87,10 +87,12 @@ function RowSelectedToolBar({
   selectedRows: RowSelectionState;
   resetSelectedRows: () => void;
 }) {
-  const [serverDocCount] = useAtom(serverDocCountAtom, tableScope);
-  const deleteRow = useSetAtom(deleteRowAtom, tableScope);
-  const [altPress] = useAtom(altPressAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [serverDocCount] = useAtom(serverDocCountAtom, { store: tableScopeStore });
+  const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const handleDelete = async () => {
     await deleteRow({ path: Object.keys(selectedRows) });
@@ -138,17 +140,19 @@ export default function TableToolbar({
   selectedRows?: RowSelectionState;
   resetSelectedRows?: () => void;
 }) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const openTableModal = useSetAtom(tableModalAtom, tableScope);
-  const [tableSorts] = useAtom(tableSortsAtom, tableScope);
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
   const hasDerivatives =
     Object.values(tableSchema.columns ?? {}).filter(
       (column) => column.type === FieldType.derivative

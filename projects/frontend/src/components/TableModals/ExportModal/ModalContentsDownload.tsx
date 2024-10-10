@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { get, find, isString } from "lodash-es";
@@ -18,7 +18,7 @@ import {
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
@@ -65,8 +65,9 @@ export default function Export({
   query,
   closeModal,
 }: IExportModalContentsProps) {
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const snackbarProgressRef = useRef<ISnackbarProgressRef>();
 

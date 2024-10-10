@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import {
@@ -12,13 +12,14 @@ import { Typography, Button, TextField } from "@mui/material";
 import AuthLayout from "@src/layouts/AuthLayout";
 import FirebaseUi from "@src/components/FirebaseUi";
 
-import { projectScope, rowyRunAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 import { runRoutes } from "@src/constants/runRoutes";
 
 export default function ImpersonatorAuthPage() {
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
 

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useThrottledCallback } from "use-debounce";
 import {
@@ -22,7 +22,7 @@ import ContextMenu from "./ContextMenu";
 import EmptyState from "@src/components/EmptyState";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   reactTableAtom,
   tableColumnsOrderedAtom,
@@ -35,7 +35,7 @@ import {
   tableIdAtom,
   serverDocCountAtom,
 } from "@src/atoms/tableScope";
-import { projectScope, userSettingsAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
 import { getFieldType, getFieldProp } from "@src/components/fields";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
 import { useMenuAction } from "./useMenuAction";
@@ -111,21 +111,24 @@ export default function Table({
   emptyState,
   selectedRows,
 }: ITableProps) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [serverDocCount] = useAtom(serverDocCountAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const [tableNextPage] = useAtom(tableNextPageAtom, tableScope);
-  const [, setTablePage] = useAtom(tablePageAtom, tableScope);
-  const setReactTable = useSetAtom(reactTableAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
 
-  const setSelectedCell = useSetAtom(selectedCellAtom, tableScope);
-  const updateColumn = useSetAtom(updateColumnAtom, tableScope);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [serverDocCount] = useAtom(serverDocCountAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
+  const [, setTablePage] = useAtom(tablePageAtom, { store: tableScopeStore });
+  const setReactTable = useSetAtom(reactTableAtom, { store: tableScopeStore });
+
+  const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });
+  const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
 
   // Get user settings and tableId for applying sort sorting
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const setTableSorts = useSetAtom(tableSortsAtom, tableScope);
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
 
   // Store a **state** and reference to the container element
   // so the state can re-render `TableBody`, preventing virtualization
@@ -279,7 +282,7 @@ export default function Table({
     tableRows,
     leafColumns,
   });
-  const [selectedCell] = useAtom(selectedCellAtom, tableScope);
+  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
   const { handleCopy, handlePaste, handleCut } = useMenuAction(selectedCell);
   const { handler: hotKeysHandler } = useHotKeys([
     ["mod+C", handleCopy],

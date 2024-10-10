@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom } from "jotai";
 import { matchSorter } from "match-sorter";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
 import { useMonaco } from "@monaco-editor/react";
@@ -18,7 +18,7 @@ import firebaseStorageDefs from "./firebaseStorage.d.ts?raw";
 import utilsDefs from "./utils.d.ts?raw";
 import rowyUtilsDefs from "./rowy.d.ts?raw";
 import extensionsDefs from "./extensions.d.ts?raw";
-import { projectScope, secretNamesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, secretNamesAtom } from "@src/atoms/projectScope";
 import { getFieldProp } from "@src/components/fields";
 
 export interface IUseMonacoCustomizationsProps {
@@ -50,8 +50,10 @@ export default function useMonacoCustomizations({
 }: IUseMonacoCustomizationsProps) {
   const theme = useTheme();
   const monaco = useMonaco();
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
-  const [secretNames] = useAtom(secretNamesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [secretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
 
   useEffect(() => {
     return () => {

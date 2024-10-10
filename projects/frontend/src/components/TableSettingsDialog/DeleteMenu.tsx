@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
@@ -13,7 +13,7 @@ import {
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   confirmDialogAtom,
   updateTableAtom,
   deleteTableAtom,
@@ -33,10 +33,11 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
   const handleClose = () => setAnchorEl(null);
 
   const navigate = useNavigate();
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const [updateTable] = useAtom(updateTableAtom, projectScope);
+  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
   const handleResetStructure = async () => {
     const snack = enqueueSnackbar("Resetting columns…", { persist: true });
     await updateTable!(
@@ -48,7 +49,7 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
     enqueueSnackbar("Columns reset");
   };
 
-  const [deleteTable] = useAtom(deleteTableAtom, projectScope);
+  const [deleteTable] = useAtom(deleteTableAtom, { store: projectScopeStore });
   const handleDelete = async () => {
     const snack = enqueueSnackbar("Deleting table…", { persist: true });
     await deleteTable!(data!.id);

@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { find, get } from "lodash-es";
 import { useSnackbar } from "notistack";
@@ -8,14 +9,14 @@ import EvalIcon from "@mui/icons-material/PlayCircleOutline";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
   rowyRunAtom,
   projectIdAtom,
   projectSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   tableRowsAtom,
@@ -34,16 +35,18 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
   reset
 ) => {
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];

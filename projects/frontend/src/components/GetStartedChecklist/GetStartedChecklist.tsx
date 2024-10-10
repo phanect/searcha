@@ -1,4 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { Typography, Button } from "@mui/material";
@@ -12,7 +13,7 @@ import SteppedAccordion from "@src/components/SteppedAccordion";
 import GetStartedProgress from "./GetStartedProgress";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   getStartedChecklistAtom,
   tableSettingsDialogAtom,
 } from "@src/atoms/projectScope";
@@ -33,10 +34,11 @@ export default function GetStartedChecklist({
   navPermanent,
   ...props
 }: IGetStartedChecklistProps) {
-  const [open, setOpen] = useAtom(getStartedChecklistAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [open, setOpen] = useAtom(getStartedChecklistAtom, { store: projectScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   const [completedSteps] = useGetStartedCompletion();

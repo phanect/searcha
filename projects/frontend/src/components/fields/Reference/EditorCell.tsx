@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { doc, deleteField } from "firebase/firestore";
 
@@ -8,14 +8,15 @@ import EditorCellTextField from "@src/components/Table/TableCell/EditorCellTextF
 import { InputAdornment, Tooltip } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/ErrorOutline";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 
 export default function Reference({
   value,
   ...props
 }: IEditorCellProps<ReturnType<typeof doc>>) {
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const [localValue, setLocalValue] = useState(
     Boolean(value) && "path" in value && typeof value.path === "string"

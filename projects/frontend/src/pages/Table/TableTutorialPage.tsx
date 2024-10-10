@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import { useAtom, useSetAtom, Provider } from "jotai";
+import { Suspense, useContext } from "react";
+import { useAtom, useSetAtom } from "jotai";
 import { DebugAtoms } from "@src/atoms/utils";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -13,10 +13,11 @@ import TableSkeleton from "@src/components/Table/TableSkeleton";
 import TableTutorial from "@src/components/TableTutorial";
 import EmptyState from "@src/components/EmptyState";
 import TableModals from "@src/components/TableModals";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
 
-import { projectScope, currentUserAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
   tableSchemaAtom,
@@ -35,11 +36,15 @@ import {
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import * as csvData from "@src/components/TableTutorial/data";
 
+const tableScopeStore = useContext(TableScopeContext);
+
 /**
  * Wraps `TablePage` with the data for a top-level table.
  */
 export default function TableTutorialPage() {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -51,58 +56,59 @@ export default function TableTutorialPage() {
           </>
         }
       >
-        <Provider
-          key={tableScope.description + "/" + TUTORIAL_COLLECTION}
-          scope={tableScope}
-          initialValues={[
-            [currentUserAtom, currentUser],
-            [tableIdAtom, TUTORIAL_COLLECTION],
-            [tableSettingsAtom, TUTORIAL_TABLE_SETTINGS],
-            [tableSchemaAtom, TUTORIAL_TABLE_SCHEMA],
-          ]}
+        <TableScopeContext.Provider
+          key={"tableScopeStore/" + TUTORIAL_COLLECTION}
+          value={ tableScopeStore }
         >
-          <DebugAtoms scope={tableScope} />
-          <TableSourceTutorial />
-          <Suspense
-            fallback={
-              <>
-                <TableToolbarSkeleton />
-                <TableSkeleton />
-              </>
-            }
-          >
-            <Box
-              component="main"
-              sx={{
-                ".empty-state--full-screen, #empty-table": {
-                  height: `calc(100vh - ${TOP_BAR_HEIGHT}px - min(50vh, 440px)) !important`,
-                },
-                ".table-container > .rdg": {
-                  paddingBottom:
-                    "max(env(safe-area-inset-bottom), min(50vh, 440px))",
-                  width: "100%",
-
-                  ".rdg-row, .rdg-header-row": {
-                    marginRight: `env(safe-area-inset-right)`,
-                  },
-                },
-              }}
+          <HydrateAtoms initialValues={[
+            [ currentUserAtom, currentUser ],
+            [ tableIdAtom, TUTORIAL_COLLECTION ],
+            [ tableSettingsAtom, TUTORIAL_TABLE_SETTINGS ],
+            [ tableSchemaAtom, TUTORIAL_TABLE_SCHEMA ],
+          ]}>
+            <DebugAtoms store={ tableScopeStore } />
+            <TableSourceTutorial />
+            <Suspense
+              fallback={
+                <>
+                  <TableToolbarSkeleton />
+                  <TableSkeleton />
+                </>
+              }
             >
-              <Content />
-              <TableTutorial />
-            </Box>
-          </Suspense>
-        </Provider>
+              <Box
+                component="main"
+                sx={{
+                  ".empty-state--full-screen, #empty-table": {
+                    height: `calc(100vh - ${TOP_BAR_HEIGHT}px - min(50vh, 440px)) !important`,
+                  },
+                  ".table-container > .rdg": {
+                    paddingBottom:
+                      "max(env(safe-area-inset-bottom), min(50vh, 440px))",
+                    width: "100%",
+
+                    ".rdg-row, .rdg-header-row": {
+                      marginRight: `env(safe-area-inset-right)`,
+                    },
+                  },
+                }}
+              >
+                <Content />
+                <TableTutorial />
+              </Box>
+            </Suspense>
+          </HydrateAtoms>
+        </TableScopeContext.Provider>
       </Suspense>
     </ErrorBoundary>
   );
 }
 
 function Content() {
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const openTableModal = useSetAtom(tableModalAtom, tableScope);
-  const setImportCsv = useSetAtom(importCsvAtom, tableScope);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+  const setImportCsv = useSetAtom(importCsvAtom, { store: tableScopeStore });
 
   if (tableColumnsOrdered.length === 0 || tableRows.length === 0) {
     return (

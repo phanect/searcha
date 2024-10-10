@@ -1,7 +1,7 @@
-import { memo, useEffect } from "react";
+import { memo, useContext, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { firebaseConfigAtom } from "./init";
 
 import { useAuthUser } from "./useAuthUser";
@@ -13,9 +13,11 @@ import { useTableFunctions } from "./useTableFunctions";
  * all atoms in src/atoms/projectScope/project.
  */
 export const ProjectSourceFirebase = memo(function ProjectSourceFirebase() {
+  const projectScopeStore = useContext(ProjectScopeContext);
+
   // Set projectId from Firebase project
-  const [firebaseConfig] = useAtom(firebaseConfigAtom, projectScope);
-  const setProjectId = useSetAtom(projectIdAtom, projectScope);
+  const [firebaseConfig] = useAtom(firebaseConfigAtom, { store: projectScopeStore });
+  const setProjectId = useSetAtom(projectIdAtom, { store: projectScopeStore });
   useEffect(() => {
     setProjectId(firebaseConfig.projectId || "");
   }, [firebaseConfig.projectId, setProjectId]);

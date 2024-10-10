@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { IDisplayCellProps } from "@src/components/fields/types";
 import { useAtom } from "jotai";
 
@@ -6,7 +7,7 @@ import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 
 import Thumbnail from "@src/components/Thumbnail";
 
-import { tableSchemaAtom, tableScope } from "@src/atoms/tableScope";
+import { tableSchemaAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import { FileValue } from "@src/types/table";
 
@@ -63,7 +64,8 @@ export const deleteImgHoverSx = {
 };
 
 export default function Image_({ value, tabIndex }: IDisplayCellProps) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const rowHeight = tableSchema.rowHeight ?? DEFAULT_ROW_HEIGHT;
   let thumbnailSize = "100x100";

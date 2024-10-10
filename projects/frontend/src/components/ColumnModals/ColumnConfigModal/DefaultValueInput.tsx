@@ -1,4 +1,4 @@
-import { lazy, Suspense, createElement, useState } from "react";
+import { lazy, Suspense, createElement, useState, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import Checkbox from "@mui/material/Checkbox";
@@ -13,7 +13,7 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 import defaultValueDefs from "./defaultValue.d.ts?raw";
 import {
-  projectScope,
+  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
   projectSettingsAtom,
   rowyRunModalAtom,
@@ -38,9 +38,10 @@ interface ICodeEditorProps {
 }
 
 function CodeEditor({ type, column, handleChange }: ICodeEditorProps) {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   const functionBodyOnly = compatibleRowyRunVersion!({ maxVersion: "1.3.10" });
@@ -99,8 +100,9 @@ export default function DefaultValueInput({
   handleChange,
   column,
 }: IDefaultValueInputProps) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
 
   const _type =
     column.type !== FieldType.derivative

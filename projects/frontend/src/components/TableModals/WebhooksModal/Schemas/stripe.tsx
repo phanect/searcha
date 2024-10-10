@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { Typography, Link, TextField, Alert, Box } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import {
-  projectScope,
+  ProjectScopeContext,
   secretNamesAtom,
   updateSecretNamesAtom,
   projectSettingsDialogAtom,
@@ -50,11 +51,12 @@ export const webhookStripe = {
 }`,
   },
   Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => {
-    const [secretNames] = useAtom(secretNamesAtom, projectScope);
-    const [updateSecretNames] = useAtom(updateSecretNamesAtom, projectScope);
+    const projectScopeStore = useContext(ProjectScopeContext);
+    const [secretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
+    const [updateSecretNames] = useAtom(updateSecretNamesAtom, { store: projectScopeStore });
     const [, setProjectSettingsDialog] = useAtom(
       projectSettingsDialogAtom,
-      projectScope
+      { store: projectScopeStore }
     );
 
     return (

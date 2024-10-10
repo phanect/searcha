@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { IEditorCellProps } from "@src/components/fields/types";
 import { useSetAtom } from "jotai";
 import { get } from "lodash-es";
 
 import { FormControlLabel, Switch } from "@mui/material";
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 
 const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
@@ -20,7 +21,8 @@ export default function Checkbox({
   disabled,
   tabIndex,
 }: IEditorCellProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const handleChange = () => {
     if (column?.config?.confirmation) {

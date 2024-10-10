@@ -1,13 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { find, get, isDate, isFunction } from "lodash-es";
 
 import {
+  TableScopeContext,
+  tableSchemaAtom,
+  tableRowsAtom,
+  updateFieldAtom,
   SelectedCell,
   tableRowsAtom,
   tableSchemaAtom,
-  tableScope,
   updateFieldAtom,
 } from "@src/atoms/tableScope";
 import { getFieldProp, getFieldType } from "@src/components/fields";
@@ -20,7 +23,7 @@ import { DATE_FORMAT, DATE_TIME_FORMAT } from "@src/constants/dates";
 import { getDurationString } from "@src/components/fields/Duration/utils";
 import { doc } from "firebase/firestore";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 
 export const SUPPORTED_TYPES_COPY = new Set<FieldType>([
   // TEXT
@@ -112,13 +115,16 @@ export function useMenuAction(
   selectedCell: SelectedCell | null,
   handleClose?: Function
 ) {
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
   const { enqueueSnackbar } = useSnackbar();
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
   const [cellValue, setCellValue] = useState<any>();
   const [selectedCol, setSelectedCol] = useState<ColumnConfig>();
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const handleCopy = useCallback(async () => {
     try {

@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import { differenceInDays } from "date-fns";
 import { compare } from "compare-versions";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   rowyRunAtom,
   rowyRunLatestUpdateAtom,
 } from "@src/atoms/projectScope";
@@ -29,11 +29,12 @@ const UPDATE_ENDPOINTS = {
  * @returns [latestUpdate, checkForUpdates, loading]
  */
 export default function useUpdateCheck() {
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
   // Store latest release from GitHub
   const [latestUpdate, setLatestUpdate] = useAtom(
     rowyRunLatestUpdateAtom,
-    projectScope
+    { store: projectScopeStore }
   );
   const [loading, setLoading] = useState(false);
 

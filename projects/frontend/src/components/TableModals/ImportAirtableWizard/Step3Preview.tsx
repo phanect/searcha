@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { find } from "lodash-es";
 
@@ -6,7 +7,7 @@ import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
 import { IStepProps } from ".";
-import { tableScope, tableSchemaAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
 import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
 
 const Spacer = styled(Grid)(({ theme }) => ({
@@ -23,7 +24,8 @@ const ColumnWrapper = styled(Grid)(() => ({
 }));
 
 export default function Step3Preview({ airtableData, config }: IStepProps) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const columns = config.pairs.map(({ fieldKey, columnKey }) => ({
     fieldKey,

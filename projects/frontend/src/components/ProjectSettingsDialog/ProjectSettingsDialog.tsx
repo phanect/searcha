@@ -1,7 +1,7 @@
-import { useState, type SyntheticEvent } from "react";
+import { useContext, useState, type SyntheticEvent } from "react";
 import { useAtom } from "jotai";
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsDialogAtom,
   ProjectSettingsDialogTab,
   rowyRunAtom,
@@ -16,11 +16,13 @@ import SecretDetailsModal from "./SecretDetailsModal";
 import { runRoutes } from "@src/constants/runRoutes";
 
 export default function ProjectSettingsDialog() {
+  const projectScopeStore = useContext(ProjectScopeContext);
+
   const [{ open, tab }, setProjectSettingsDialog] = useAtom(
     projectSettingsDialogAtom,
-    projectScope
+    { store: projectScopeStore }
   );
-  const [secretNames] = useAtom(secretNamesAtom, projectScope);
+  const [secretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
   const [secretDetailsModal, setSecretDetailsModal] = useState<{
     open: boolean;
     loading?: boolean;
@@ -30,7 +32,7 @@ export default function ProjectSettingsDialog() {
   }>({
     open: false,
   });
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
 
   if (!open) return null;
 

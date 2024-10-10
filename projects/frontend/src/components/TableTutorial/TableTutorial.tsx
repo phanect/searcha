@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ import StepsProgress from "@src/components/StepsProgress";
 import { TUTORIAL_STEPS } from "./Steps";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   confirmDialogAtom,
   navOpenAtom,
   updateUserSettingsAtom,
@@ -30,9 +30,10 @@ import {
 } from "@src/layouts/Navigation/NavDrawer";
 
 export default function TableTutorial() {
-  const [navOpen] = useAtom(navOpenAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [navOpen] = useAtom(navOpenAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const navigate = useNavigate();
 
   const [completed, setCompleted] = useState(

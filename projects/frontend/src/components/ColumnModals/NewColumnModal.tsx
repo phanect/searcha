@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { camelCase } from "lodash-es";
 import { IColumnModalProps } from ".";
@@ -8,9 +8,9 @@ import { TextField, Typography, Button } from "@mui/material";
 import Modal from "@src/components/Modal";
 import FieldsDropdown from "./FieldsDropdown";
 
-import { projectScope, updateTableAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, updateTableAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   addColumnAtom,
   columnModalAtom,
@@ -29,10 +29,12 @@ const AUDIT_FIELD_TYPES = [
 export default function NewColumnModal({
   onClose,
 }: Pick<IColumnModalProps, "onClose">) {
-  const [updateTable] = useAtom(updateTableAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const addColumn = useSetAtom(addColumnAtom, tableScope);
-  const [columnModal, setColumnModal] = useAtom(columnModalAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
+  const [columnModal, setColumnModal] = useAtom(columnModalAtom, { store: tableScopeStore });
 
   const [columnLabel, setColumnLabel] = useState("");
   const [fieldKey, setFieldKey] = useState("");

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useSnackbar } from "notistack";
 import { get } from "lodash-es";
 import { useAtom, useSetAtom } from "jotai";
@@ -12,11 +12,11 @@ import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import { firebaseFunctionsAtom } from "@src/sources/ProjectSourceFirebase";
 import {
-  projectScope,
+  ProjectScopeContext,
   confirmDialogAtom,
   rowyRunAtom,
 } from "@src/atoms/projectScope";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import { useActionParams } from "./FormDialog/Context";
 import { runRoutes } from "@src/constants/runRoutes";
 import { getTableSchemaPath } from "@src/utils/table";
@@ -62,10 +62,13 @@ export default function ActionFab({
   disabled,
   ...props
 }: IActionFabProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [firebaseFunctions] = useAtom(firebaseFunctionsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [firebaseFunctions] = useAtom(firebaseFunctionsAtom, { store: projectScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
   const { requestParams } = useActionParams();

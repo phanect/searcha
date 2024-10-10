@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { useSetAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { flexRender } from "@tanstack/react-table";
@@ -13,7 +13,7 @@ import RichTooltip from "@src/components/RichTooltip";
 import StyledDot from "@src/components/Table/Styled/StyledDot";
 
 import {
-  tableScope,
+  TableScopeContext,
   selectedCellAtom,
   contextMenuTargetAtom,
 } from "@src/atoms/tableScope";
@@ -83,8 +83,10 @@ export const TableCell = memo(function TableCell({
   left,
   isPinned,
 }: ITableCellProps) {
-  const setSelectedCell = useSetAtom(selectedCellAtom, tableScope);
-  const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });
+  const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, { store: tableScopeStore });
 
   const value = cell.getValue();
   const required = cell.column.columnDef.meta?.config?.required;

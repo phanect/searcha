@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useAtom } from "jotai";
 import { Link } from "react-router-dom";
 
@@ -20,7 +20,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircleOutlined";
 import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   userSettingsAtom,
   themeAtom,
@@ -33,12 +33,13 @@ export default function UserMenu(props: IconButtonProps) {
   const [open, setOpen] = useState(false);
   const [themeSubMenu, setThemeSubMenu] = useState<HTMLElement | null>(null);
 
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [theme, setTheme] = useAtom(themeAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [theme, setTheme] = useAtom(themeAtom, { store: projectScopeStore });
   const [themeOverridden, setThemeOverridden] = useAtom(
     themeOverriddenAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   const displayName = userSettings.user?.displayName;

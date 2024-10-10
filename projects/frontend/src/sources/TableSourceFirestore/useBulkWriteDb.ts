@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { chunk, set } from "lodash-es";
 import { doc, writeBatch, deleteField } from "firebase/firestore";
 
-import { projectScope } from "@src/atoms/projectScope";
-import { tableScope, _bulkWriteDbAtom } from "@src/atoms/tableScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { TableScopeContext, _bulkWriteDbAtom } from "@src/atoms/tableScope";
 import { BulkWriteFunction } from "@src/types/table";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 
@@ -12,9 +12,11 @@ import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
  * Sets the value of _bulkWriteDb atom
  */
 export default function useBulkWriteDb() {
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
   // Set _bulkWriteDb function
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
-  const setBulkWriteDb = useSetAtom(_bulkWriteDbAtom, tableScope);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const setBulkWriteDb = useSetAtom(_bulkWriteDbAtom, { store: tableScopeStore });
   useEffect(() => {
     setBulkWriteDb(
       () =>

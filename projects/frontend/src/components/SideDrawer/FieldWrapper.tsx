@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
 import { useAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -19,7 +19,7 @@ import { InlineErrorFallback } from "@src/components/ErrorFallback";
 import FieldSkeleton from "./FieldSkeleton";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   altPressAtom,
 } from "@src/atoms/projectScope";
@@ -52,8 +52,9 @@ export default function FieldWrapper({
   hidden,
   index,
 }: IFieldWrapperProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [altPress] = useAtom(altPressAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   return (
     <div>

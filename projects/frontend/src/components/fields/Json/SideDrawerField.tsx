@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import stringify from "json-stable-stringify-without-jsonify";
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
@@ -15,7 +15,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import { fieldSx } from "@src/components/SideDrawer/utils";
-import { projectScope, jsonEditorAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, jsonEditorAtom } from "@src/atoms/projectScope";
 import config from ".";
 
 const isValidJson = (val: any) => {
@@ -37,7 +37,8 @@ export default function Json({
 }: ISideDrawerFieldProps) {
   const theme = useTheme();
 
-  const [editor, setEditor] = useAtom(jsonEditorAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [editor, setEditor] = useAtom(jsonEditorAtom, { store: projectScopeStore });
   const [codeValid, setCodeValid] = useState(true);
 
   const baseValue =

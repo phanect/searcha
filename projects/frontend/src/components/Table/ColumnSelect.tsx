@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
-
+import { useContext } from "react";
 import MultiSelect, { MultiSelectProps } from "@phanect/datasheet-multiselect";
 import { Stack, StackProps, Typography, Chip } from "@mui/material";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
-import { projectScope, altPressAtom } from "@src/atoms/projectScope";
-import { tableScope, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
+import { ProjectScopeContext, altPressAtom } from "@src/atoms/projectScope";
+import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
 import { ColumnConfig } from "@src/types/table";
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
@@ -29,7 +29,8 @@ export default function ColumnSelect({
   showFieldNames,
   ...props
 }: IColumnSelectProps & Omit<MultiSelectProps<string>, "options">) {
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const options =
     props.options ||
     (filterColumns
@@ -91,7 +92,8 @@ export function ColumnItem({
   children,
   ...props
 }: IColumnItemProps) {
-  const [altPress] = useAtom(altPressAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
 
   const isNew = option.index === undefined && !option.type;
 

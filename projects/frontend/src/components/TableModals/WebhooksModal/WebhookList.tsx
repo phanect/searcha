@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { format, formatRelative } from "date-fns";
 
@@ -22,9 +23,9 @@ import EmptyState from "@src/components/EmptyState";
 
 import { webhookNames, IWebhook } from "./utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
-import { projectScope, projectSettingsAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectSettingsAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableModalAtom,
   cloudLogFiltersAtom,
@@ -43,10 +44,12 @@ export default function WebhookList({
   handleEdit,
   handleDelete,
 }: IWebhookListProps) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const setModal = useSetAtom(tableModalAtom, tableScope);
-  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
 
   const baseUrl = `${projectSettings.services?.hooks}/wh/${tableSettings.collection}/`;
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { merge } from "lodash-es";
@@ -13,7 +13,7 @@ import Step3Types from "./Step3Types";
 import Step4Preview from "./Step4Preview";
 
 import {
-  tableScope,
+  TableScopeContext,
   updateTableSchemaAtom,
   tableFiltersAtom,
   tableSortsAtom,
@@ -37,11 +37,12 @@ export interface IStepProps {
 }
 
 export default function ImportExistingWizard({ onClose }: ITableModalProps) {
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
-  const setTableFilters = useSetAtom(tableFiltersAtom, tableScope);
-  const setTableSorts = useSetAtom(tableSortsAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const setTableModal = useSetAtom(tableModalAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const setTableFilters = useSetAtom(tableFiltersAtom, { store: tableScopeStore });
+  const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const setTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));

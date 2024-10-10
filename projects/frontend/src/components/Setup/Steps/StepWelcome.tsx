@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import type {
   ISetupStep,
   ISetupStepBodyProps,
@@ -13,7 +14,7 @@ import {
 } from "@mui/material";
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 
 export default {
   id: "welcome",
@@ -33,7 +34,8 @@ export default {
 } as ISetupStep;
 
 function StepWelcome({ isComplete, setComplete }: ISetupStepBodyProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   return (
     <>

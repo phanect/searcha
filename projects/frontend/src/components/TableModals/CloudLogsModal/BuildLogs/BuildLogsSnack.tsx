@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { throttle } from "lodash-es";
 import { useAtom, useSetAtom } from "jotai";
 
@@ -14,9 +14,9 @@ import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { isTargetInsideBox } from "@src/utils/ui";
 import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import useBuildLogs from "./useBuildLogs";
-import { projectScope, navOpenAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, navOpenAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableModalAtom,
   cloudLogFiltersAtom,
 } from "@src/atoms/tableScope";
@@ -34,9 +34,11 @@ export default function BuildLogsSnack({
 }: IBuildLogsSnackProps) {
   const snackLogContext = useSnackLogContext();
   const { latestLog } = useBuildLogs();
-  const setModal = useSetAtom(tableModalAtom, tableScope);
-  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, tableScope);
-  const [navOpen] = useAtom(navOpenAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
+  const [navOpen] = useAtom(navOpenAtom, { store: projectScopeStore });
 
   const latestActiveLog =
     latestLog?.startTimeStamp > snackLogContext.latestBuildTimestamp - 5000 ||

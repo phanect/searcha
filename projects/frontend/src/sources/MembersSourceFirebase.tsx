@@ -1,8 +1,8 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 
 import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
 import {
-  projectScope,
+  ProjectScopeContext,
   allUsersAtom,
   updateUserAtom,
 } from "@src/atoms/projectScope";
@@ -12,7 +12,9 @@ import { USERS } from "@src/config/dbPaths";
  * When rendered, provides atom values for top-level tables
  */
 const MembersSourceFirebase = memo(function MembersSourceFirebase() {
-  useFirestoreCollectionWithAtom(allUsersAtom, projectScope, USERS, {
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  useFirestoreCollectionWithAtom(allUsersAtom, { store: projectScopeStore }, USERS, {
     updateDocAtom: updateUserAtom,
   });
 

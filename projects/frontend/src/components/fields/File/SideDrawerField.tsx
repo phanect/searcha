@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useSetAtom } from "jotai";
 import { format } from "date-fns";
 
@@ -15,7 +16,7 @@ import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { FileValue } from "@src/types/table";
 import useFileUpload from "./useFileUpload";
 import { FileIcon } from ".";
@@ -33,7 +34,8 @@ export default function File_({
   value,
   disabled,
 }: ISideDrawerFieldProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { loading, progress, handleDelete, localFiles, dropzoneState } =
     useFileUpload(_rowy_ref, column.key, { multiple: true });
 

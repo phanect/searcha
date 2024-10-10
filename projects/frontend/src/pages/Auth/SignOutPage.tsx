@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom } from "jotai";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -7,11 +7,12 @@ import { Button } from "@mui/material";
 
 import AuthLayout from "@src/layouts/AuthLayout";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 
 export default function SignOutPage() {
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
 
   useEffect(() => {
     signOut(firebaseAuth);

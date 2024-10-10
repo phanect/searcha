@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useContext } from "react";
 import { useAtom } from "jotai";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ import HomeIcon from "@mui/icons-material/HomeOutlined";
 
 import EmptyState from "@src/components/EmptyState";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 
@@ -19,7 +19,8 @@ export default function AdminRoute({
   children,
   fallback,
 }: PropsWithChildren<{ fallback?: React.ReactNode }>) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
 
   if (!userRoles.includes("ADMIN")) {
     if (fallback) return fallback as JSX.Element;

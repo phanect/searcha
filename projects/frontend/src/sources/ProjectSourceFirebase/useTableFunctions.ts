@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
 import {
@@ -13,7 +13,7 @@ import {
 import { camelCase, find, findIndex, isEmpty } from "lodash-es";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   createTableAtom,
   updateTableAtom,
@@ -41,22 +41,23 @@ import { getFieldProp } from "@src/components/fields";
 import { runRoutes } from "@src/constants/runRoutes";
 
 export function useTableFunctions() {
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [secretNames, setSecretNames] = useAtom(secretNamesAtom, projectScope);
-  const [updateSecretNames] = useAtom(updateSecretNamesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [secretNames, setSecretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
+  const [updateSecretNames] = useAtom(updateSecretNamesAtom, { store: projectScopeStore });
 
   // Create a function to get the latest tables from project settings,
   // so we don’t create new functions when tables change
   const readTables = useAtomCallback(
     useCallback((get) => get(projectSettingsAtom).tables, []),
-    projectScope
+    { store: projectScopeStore },
   );
 
   // Set the createTable function
-  const setCreateTable = useSetAtom(createTableAtom, projectScope);
+  const setCreateTable = useSetAtom(createTableAtom, { store: projectScopeStore });
   useEffect(() => {
     setCreateTable(
       () =>
@@ -174,7 +175,7 @@ export function useTableFunctions() {
   }, [currentUser, firebaseDb, readTables, setCreateTable]);
 
   // Set the createTable function
-  const setUpdateTable = useSetAtom(updateTableAtom, projectScope);
+  const setUpdateTable = useSetAtom(updateTableAtom, { store: projectScopeStore });
   useEffect(() => {
     setUpdateTable(
       () =>
@@ -265,7 +266,7 @@ export function useTableFunctions() {
   }, [firebaseDb, readTables, setUpdateTable]);
 
   // Set the deleteTable function
-  const setDeleteTable = useSetAtom(deleteTableAtom, projectScope);
+  const setDeleteTable = useSetAtom(deleteTableAtom, { store: projectScopeStore });
   useEffect(() => {
     setDeleteTable(() => async (id: string) => {
       // Get latest tables
@@ -295,7 +296,7 @@ export function useTableFunctions() {
   }, [firebaseDb, readTables, setDeleteTable]);
 
   // Set the getTableSchema function
-  const setGetTableSchema = useSetAtom(getTableSchemaAtom, projectScope);
+  const setGetTableSchema = useSetAtom(getTableSchemaAtom, { store: projectScopeStore });
   useEffect(() => {
     setGetTableSchema(() => async (id: string, withSubtables?: boolean) => {
       // Get latest tables
@@ -341,7 +342,7 @@ export function useTableFunctions() {
   }, [firebaseDb, readTables, setGetTableSchema]);
 
   // Set the deleteTable function
-  const setUpdateSecretNames = useSetAtom(updateSecretNamesAtom, projectScope);
+  const setUpdateSecretNames = useSetAtom(updateSecretNamesAtom, { store: projectScopeStore });
   useEffect(() => {
     if (!projectId || !rowyRun || !secretNamesAtom) return;
     setUpdateSecretNames(() => async (clearSecretNames?: boolean) => {

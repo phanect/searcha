@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAsyncMemo } from "use-async-memo";
 import { ISettingsProps } from "@src/components/fields/types";
 import { sortBy } from "lodash-es";
@@ -17,7 +17,7 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import WarningIcon from "@mui/icons-material/WarningAmberOutlined";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   getTableSchemaAtom,
   tablesAtom,
   projectSettingsAtom,
@@ -27,10 +27,11 @@ import { FieldType } from "@src/constants/fields";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 export default function Settings({ onChange, config }: ISettingsProps) {
-  const [tables] = useAtom(tablesAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
-  const [getTableSchema] = useAtom(getTableSchemaAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+  const [getTableSchema] = useAtom(getTableSchemaAtom, { store: projectScopeStore });
 
   useEffect(() => {
     if (!projectSettings.rowyRunUrl)
