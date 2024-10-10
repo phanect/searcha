@@ -32,7 +32,7 @@ export const projectSettingsAtom = atom<ProjectSettings>({});
  *
  * @example Basic usage:
  * ```
- * const [updateProjectSettings] = useAtom(updateProjectSettingsAtom, projectScope);
+ * const [updateProjectSettings] = useAtom(updateProjectSettingsAtom, { store: projectScopeStore });
  * if (updateProjectSettings) updateProjectSettings({ ... });
  * ```
  */
