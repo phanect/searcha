@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useContext, useReducer } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import {
@@ -11,7 +11,7 @@ import {
 import { Paper, Button } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import type { FileValue, TableRowRef } from "@src/types/table";
@@ -63,7 +63,8 @@ export type UploadProps = {
 
 // TODO: GENERALIZE INTO ATOM
 const useFirebaseStorageUploader = () => {
-  const [firebaseStorage] = useAtom(firebaseStorageAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseStorage] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const [uploaderState, uploaderDispatch] = useReducer(uploadReducer, {});

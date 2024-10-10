@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { cloneDeep, findIndex, isEqual, sortBy } from "lodash-es";
 
@@ -7,7 +7,7 @@ import {
   _updateRowDbAtom,
   tableNextPageAtom,
   tableRowsDbAtom,
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
 
@@ -19,11 +19,12 @@ const TableSourcePreview = ({ formulaFn }: { formulaFn: string }) => {
   const prevFn = useRef(formulaFn);
   const isInitialMount = useRef(true);
 
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [rows, setRows] = useAtom(tableRowsDbAtom, tableScope);
-  const setUpdateRowDb = useSetAtom(_updateRowDbAtom, tableScope);
-  const setDeleteRowDb = useSetAtom(_deleteRowDbAtom, tableScope);
-  const setNextPageAtom = useSetAtom(tableNextPageAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [rows, setRows] = useAtom(tableRowsDbAtom, { store: tableScopeStore });
+  const setUpdateRowDb = useSetAtom(_updateRowDbAtom, { store: tableScopeStore });
+  const setDeleteRowDb = useSetAtom(_deleteRowDbAtom, { store: tableScopeStore });
+  const setNextPageAtom = useSetAtom(tableNextPageAtom, { store: tableScopeStore });
 
   const generateRows = useCallback(
     (rows: TableRow[]) =>

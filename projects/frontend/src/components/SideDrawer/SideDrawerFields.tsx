@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { get, isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
@@ -9,12 +9,12 @@ import MemoizedField from "./MemoizedField";
 import SaveState from "./SaveState";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   userSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
   tableColumnsOrderedAtom,
@@ -30,16 +30,19 @@ export interface ISideDrawerFieldsProps {
 }
 
 export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
-  const [selectedCell] = useAtom(selectedCellAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
+  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
   const [showHiddenFields, setShowHiddenFields] = useAtom(
     sideDrawerShowHiddenFieldsAtom,
-    tableScope
+    { store: tableScopeStore }
   );
   const [saveState, setSaveState] = useState<
     "" | "unsaved" | "saving" | "saved"

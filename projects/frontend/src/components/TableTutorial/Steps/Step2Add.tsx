@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import { isEmpty } from "lodash-es";
 import { ITableTutorialStepComponentProps } from ".";
@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableColumnsOrderedAtom,
   tableRowsAtom,
 } from "@src/atoms/tableScope";
@@ -41,7 +41,8 @@ function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
         return cloned;
       });
 
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   useEffect(() => {
     if (
       tableColumnsOrdered?.some(
@@ -52,7 +53,7 @@ function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
       handleChange(0)({ target: { checked: true } } as any);
   }, [tableColumnsOrdered]);
 
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
   useEffect(() => {
     if (tableRows.length >= 6) {
       handleChange(1)({ target: { checked: true } } as any);

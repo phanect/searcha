@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useSetAtom } from "jotai";
 import { some } from "lodash-es";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 
-import { tableScope, updateFieldAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
 import useUploader from "@src/hooks/useFirebaseStorageUploader";
 import type { FileValue, TableRowRef } from "@src/types/table";
 
@@ -12,7 +12,8 @@ export default function useFileUpload(
   fieldName: string,
   dropzoneOptions: DropzoneOptions = {}
 ) {
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
   const { uploaderState, upload, deleteUpload } = useUploader();
 
   const [localFiles, setLocalFiles] = useState<File[]>([]);

@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import { merge } from "lodash-es";
+import { useContext } from "react";
 import { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 import {
@@ -12,7 +13,7 @@ import {
 } from "@mui/material";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   themeAtom,
   themeOverriddenAtom,
 } from "@src/atoms/projectScope";
@@ -21,10 +22,11 @@ export default function Theme({
   settings,
   updateSettings,
 }: IUserSettingsChildProps) {
-  const [theme, setTheme] = useAtom(themeAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [theme, setTheme] = useAtom(themeAtom, { store: projectScopeStore });
   const [themeOverridden, setThemeOverridden] = useAtom(
     themeOverriddenAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   return (

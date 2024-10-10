@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 
 import MultiSelect from "@phanect/datasheet-multiselect";
@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 
-import { projectScope, allUsersAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import { ColumnConfig } from "@src/types/table";
 
 export type UserDataType = {
@@ -48,7 +48,8 @@ export default function UserSelect({
   showPopoverCell,
   disabled,
 }: IUserSelectProps) {
-  const [users] = useAtom(allUsersAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
 
   const options = useMemo(() => {
     let options: UserOptionType[] = [];

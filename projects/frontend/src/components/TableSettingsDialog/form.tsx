@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { find } from "lodash-es";
 import { useAtom } from "jotai";
 import { Field, FieldType } from "@phanect/datasheet-form-builder";
 import {
+  ProjectScopeContext,
   projectIdAtom,
-  projectScope,
   TableSettingsDialogState,
 } from "@src/atoms/projectScope";
 
@@ -15,7 +16,8 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { FieldType as TableFieldType } from "@src/constants/fields";
 
 function CollectionLink() {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   return (
     <Link

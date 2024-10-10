@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, PrimitiveAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { useErrorHandler } from "react-error-boundary";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { UpdateDocFunction, TableRow } from "@src/types/table";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 
@@ -59,7 +59,8 @@ export function useFirestoreDocWithAtom<T = TableRow>(
     updateDataAtom,
   } = options || {};
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
   const setUpdateDataAtom = useSetAtom(
     options?.updateDataAtom || (dataAtom as any),

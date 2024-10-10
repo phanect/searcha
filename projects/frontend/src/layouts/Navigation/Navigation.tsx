@@ -1,4 +1,4 @@
-import { Suspense, type PropsWithChildren } from "react";
+import { Suspense, useContext, type PropsWithChildren } from "react";
 import { useAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { useLocation, Outlet } from "react-router-dom";
@@ -15,7 +15,7 @@ import Loading from "@src/components/Loading";
 import GetStartedChecklist from "@src/components/GetStartedChecklist";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   navOpenAtom,
 } from "@src/atoms/projectScope";
@@ -23,9 +23,10 @@ import { ROUTE_TITLES } from "@src/constants/routes";
 import { useDocumentTitle } from "@src/hooks/useDocumentTitle";
 
 export default function Navigation({ children }: PropsWithChildren<{}>) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
-  const [open, setOpen] = useAtom(navOpenAtom, projectScope);
+  const [open, setOpen] = useAtom(navOpenAtom, { store: projectScopeStore });
   const isPermanent = useMediaQuery((theme: any) => theme.breakpoints.up("md"));
 
   const { pathname } = useLocation();

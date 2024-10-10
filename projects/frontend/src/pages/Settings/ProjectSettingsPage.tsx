@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { useDebouncedCallback } from "use-debounce";
@@ -12,7 +12,7 @@ import Authentication from "@src/components/Settings/ProjectSettings/Authenticat
 import Customization from "@src/components/Settings/ProjectSettings/Customization";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   updateProjectSettingsAtom,
   publicSettingsAtom,
@@ -29,15 +29,17 @@ export interface IProjectSettingsChildProps {
 }
 
 export default function ProjectSettingsPage() {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [publicSettings] = useAtom(publicSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [publicSettings] = useAtom(publicSettingsAtom, { store: projectScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
   useScrollToHash();
 
   const [_updateProjectSettingsDoc] = useAtom(
     updateProjectSettingsAtom,
-    projectScope
+    { store: projectScopeStore },
   );
   const updateProjectSettings = useDebouncedCallback((data) => {
     if (_updateProjectSettingsDoc) {
@@ -58,7 +60,7 @@ export default function ProjectSettingsPage() {
 
   const [_updatePublicSettingsDoc] = useAtom(
     updatePublicSettingsAtom,
-    projectScope
+    { store: projectScopeStore },
   );
   const updatePublicSettings = useDebouncedCallback(
     (data: Record<string, any>) => {

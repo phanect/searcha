@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
@@ -8,11 +8,12 @@ import { Link } from "react-router-dom";
 import { Box, Stack, IconButton } from "@mui/material";
 import OpenIcon from "@mui/icons-material/OpenInBrowser";
 
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import { useSubTableData } from "./utils";
 
 export default function SubTable({ column, _rowy_ref }: ISideDrawerFieldProps) {
+  const tableScopeStore = useContext(TableScopeContext);
   const [row] = useAtom(
     useMemo(
       () =>
@@ -23,7 +24,7 @@ export default function SubTable({ column, _rowy_ref }: ISideDrawerFieldProps) {
         ),
       [_rowy_ref.path]
     ),
-    tableScope
+    { store: tableScopeStore },
   );
 
   const { documentCount, label, subTablePath } = useSubTableData(

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { doc } from "firebase/firestore";
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
@@ -6,7 +6,7 @@ import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { Stack, TextField, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { getFieldId } from "@src/components/SideDrawer/utils";
 
@@ -17,8 +17,9 @@ export default function Reference({
   onSubmit,
   disabled,
 }: ISideDrawerFieldProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const [localValue, setLocalValue] = useState(
     Boolean(value) && "path" in value && typeof value.path === "string"

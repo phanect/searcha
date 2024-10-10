@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { useWatch } from "react-hook-form";
 
@@ -13,7 +13,7 @@ import {
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { IFieldComponentProps } from "@phanect/datasheet-form-builder";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 
 type customizationOptions = "allRead" | "authRead" | "subcollections" | "user";
 
@@ -23,7 +23,8 @@ export default function SuggestedRules({
   useFormMethods: { control },
   label,
 }: ISuggestedRulesProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   const watched = useWatch({
     control,

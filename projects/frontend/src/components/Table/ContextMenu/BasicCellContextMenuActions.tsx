@@ -1,10 +1,11 @@
+import { useContext } from "react";
 import { Copy as CopyCells } from "@src/assets/icons";
 // import Cut from "@mui/icons-material/ContentCut";
 import Paste from "@mui/icons-material/ContentPaste";
 import { IFieldConfig } from "@src/components/fields/types";
 import { useMenuAction } from "@src/components/Table/useMenuAction";
 import { useAtom } from "jotai";
-import { tableSchemaAtom, tableScope } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
 
 import { SUPPORTED_TYPES_PASTE } from "@src/components/Table/useMenuAction";
 
@@ -13,7 +14,8 @@ export const BasicContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
   reset
 ) => {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
 
   const handleClose = async () => await reset?.();

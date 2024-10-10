@@ -1,4 +1,4 @@
-import { useState, Suspense, useMemo, createElement } from "react";
+import { useState, Suspense, useMemo, createElement, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
 import { ErrorBoundary } from "react-error-boundary";
@@ -13,12 +13,12 @@ import { InlineErrorFallback } from "@src/components/ErrorFallback";
 import Loading from "@src/components/Loading";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   rowyRunAtom,
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   updateColumnAtom,
 } from "@src/atoms/tableScope";
@@ -35,10 +35,12 @@ export default function ColumnConfigModal({
   onClose,
   column,
 }: IColumnModalProps) {
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const updateColumn = useSetAtom(updateColumnAtom, tableScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const snackLogContext = useSnackLogContext();
 

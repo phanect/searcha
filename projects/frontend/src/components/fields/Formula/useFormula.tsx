@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { pick, zipObject } from "lodash-es";
 import { useAtom, useSetAtom } from "jotai";
 
 import { TableRow, TableRowRef, ColumnConfig } from "@src/types/table";
 import {
   tableColumnsOrderedAtom,
-  tableScope,
+  TableScopeContext,
   updateFieldAtom,
 } from "@src/atoms/tableScope";
 
@@ -31,7 +31,8 @@ export const useFormula = ({
   const [result, setResult] = useState(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const availableColumns = tableColumnsOrdered
     .filter((c) => listenerFieldTypes.includes(c.type))
@@ -84,7 +85,7 @@ export const useFormula = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useDeepCompareMemoize(listeners), formulaFn]);
 
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
 
   useEffect(() => {
     updateField({

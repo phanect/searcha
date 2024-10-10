@@ -1,12 +1,13 @@
 import { useAtom } from "jotai";
-
+import { useContext } from "react";
 import { Badge, BadgeProps } from "@mui/material";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import useUpdateCheck from "@src/hooks/useUpdateCheck";
 
 export default function UpdateCheckBadge(props: Partial<BadgeProps>) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
   const [latestUpdate] = useUpdateCheck();
 
   if (

@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import { ITableTutorialStepComponentProps } from ".";
 
 import { Typography } from "@mui/material";
 import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
 
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 
 export const Step1Import = {
   id: "import",
@@ -35,7 +35,8 @@ function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
         return cloned;
       });
 
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
   useEffect(() => {
     if (tableRows.length >= 5)
       handleChange(0)({ target: { checked: true } } as any);

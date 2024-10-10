@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useAtom } from "jotai";
 
 import { useTheme, TextField, ListSubheader, MenuItem } from "@mui/material";
@@ -6,7 +6,7 @@ import { RowHeight as RowHeightIcon } from "@src/assets/icons";
 import TableToolbarButton from "./TableToolbarButton";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
@@ -23,8 +23,9 @@ export default function RowHeight() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
   const rowHeight = tableSchema.rowHeight ?? DEFAULT_ROW_HEIGHT;
 

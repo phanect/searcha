@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import {
@@ -13,7 +14,7 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import SettingsSection from "@src/components/Settings/SettingsSection";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   projectSettingsAtom,
   userRolesAtom,
@@ -27,12 +28,14 @@ import { getTableSchemaPath } from "@src/utils/table";
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
 
 export default function DebugPage() {
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [users] = useAtom(allUsersAtom, projectScope);
-  const [updateUser] = useAtom(updateUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [updateUser] = useAtom(updateUserAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   useScrollToHash();
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import {
@@ -15,8 +15,8 @@ import { ChevronDown } from "@src/assets/icons";
 import MultiSelect from "@phanect/datasheet-multiselect";
 
 import {
+  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
-  projectScope,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
 
@@ -31,11 +31,12 @@ export default function RuntimeOptions({
   handleUpdate: (runtimeOptions: IRuntimeOptions) => void;
   errors: { timeoutSeconds: boolean };
 }) {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore },
   );
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
 
   const [expanded, setExpanded] = useState(false);
 

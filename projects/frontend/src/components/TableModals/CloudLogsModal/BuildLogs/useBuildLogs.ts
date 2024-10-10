@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
 import {
@@ -11,13 +11,15 @@ import {
   DocumentData,
 } from "firebase/firestore";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { tableScope, tableSchemaAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
 
 export default function useBuildLogs() {
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const functionConfigPath = tableSchema.functionConfigPath;
 
   const [logs, setLogs] = useState<DocumentData[]>([]);

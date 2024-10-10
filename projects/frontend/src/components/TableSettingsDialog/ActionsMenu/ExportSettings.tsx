@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { Control, useWatch } from "react-hook-form";
 import stringify from "json-stable-stringify-without-jsonify";
@@ -11,7 +11,7 @@ import Modal from "@src/components/Modal";
 import CodeEditor from "@src/components/CodeEditor";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   tableSettingsDialogSchemaAtom,
 } from "@src/atoms/projectScope";
 import { analytics, logEvent } from "@src/analytics";
@@ -26,9 +26,10 @@ export default function ExportSettings({
   control,
 }: IExportSettingsProps) {
   const [open, setOpen] = useState(false);
+  const projectScopeStore = useContext(ProjectScopeContext);
 
   const { _suggestedRules, ...values } = useWatch({ control });
-  const [tableSchema] = useAtom(tableSettingsDialogSchemaAtom, projectScope);
+  const [tableSchema] = useAtom(tableSettingsDialogSchemaAtom, { store: projectScopeStore });
 
   const formattedJson = stringify(
     { ...values, _schema: merge(tableSchema, values._schema) },

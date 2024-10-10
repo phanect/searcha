@@ -1,6 +1,7 @@
 import { format, differenceInCalendarDays } from "date-fns";
 import { useAtom } from "jotai";
 import { get } from "lodash-es";
+import { useContext } from "react";
 
 import {
   styled,
@@ -23,7 +24,7 @@ import CloudLogSubheader from "@src/components/TableModals/CloudLogsModal/CloudL
 
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import useBuildLogs from "./useBuildLogs";
-import { tableScope, cloudLogFiltersAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, cloudLogFiltersAtom } from "@src/atoms/tableScope";
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   background: "none",
@@ -105,9 +106,10 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
 
 export default function BuildLogs(props: Partial<ListProps>) {
   const { logs, latestStatus } = useBuildLogs();
+  const tableScopeStore = useContext(TableScopeContext);
   const [cloudLogFilters, setCloudLogFilters] = useAtom(
     cloudLogFiltersAtom,
-    tableScope
+    { store: tableScopeStore },
   );
 
   if (!latestStatus)

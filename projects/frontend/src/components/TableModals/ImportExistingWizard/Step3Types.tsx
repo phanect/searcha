@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 
 import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
@@ -10,12 +10,13 @@ import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { SELECTABLE_TYPES } from "./utils";
 
 export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
   const [fieldToEdit, setFieldToEdit] = useState(Object.keys(config)[0]);
   const handleChange = (v: FieldType) =>

@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
+import { useContext } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import clsx from "clsx";
 
@@ -15,7 +16,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { sideDrawerAtom, tableScope } from "@src/atoms/tableScope";
+import { TableScopeContext, sideDrawerAtom } from "@src/atoms/tableScope";
 
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
@@ -76,7 +77,8 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 }));
 
 export default function SideDrawer() {
-  const [sideDrawer, setSideDrawer] = useAtom(sideDrawerAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [sideDrawer, setSideDrawer] = useAtom(sideDrawerAtom, { store: tableScopeStore });
 
   // const DetailsComponent =
   //   userRoles.includes("ADMIN") && tableSettings.templateSettings

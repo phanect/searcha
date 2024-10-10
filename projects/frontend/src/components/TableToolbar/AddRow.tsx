@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { FieldType, FormDialog } from "@phanect/datasheet-form-builder";
 
@@ -17,9 +17,9 @@ import {
   ChevronDown as ArrowDropDownIcon,
 } from "@src/assets/icons";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableFiltersAtom,
   tableSortsAtom,
@@ -32,13 +32,15 @@ import {
 import { TableIdType } from "@src/types/table";
 
 export default function AddRow() {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableFilters] = useAtom(tableFiltersAtom, tableScope);
-  const [tableSorts] = useAtom(tableSortsAtom, tableScope);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
-  const addRow = useSetAtom(addRowAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
   const anchorEl = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [openIdModal, setOpenIdModal] = useState(false);
@@ -228,12 +230,13 @@ export default function AddRow() {
 }
 
 export function AddRowArraySubTable() {
-  const [updateRowDb] = useAtom(_updateRowDbAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [updateRowDb] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
   const [open, setOpen] = useState(false);
 
   const anchorEl = useRef<HTMLDivElement>(null);
   const [addRowAt, setAddNewRowAt] = useState<"top" | "bottom">("bottom");
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   if (!updateRowDb) return null;
 

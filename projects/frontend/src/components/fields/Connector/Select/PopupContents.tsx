@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { get } from "lodash-es";
 import { useAtom } from "jotai";
@@ -22,8 +22,8 @@ import { IConnectorSelectProps } from ".";
 import Loading from "@src/components/Loading";
 import { getLabel } from "@src/components/fields/Connector/utils";
 import { useSnackbar } from "notistack";
-import { projectScope, rowyRunAtom } from "@src/atoms/projectScope";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import { getTableSchemaPath } from "@src/utils/table";
 
 export interface IPopupContentsProps
@@ -36,8 +36,10 @@ export default function PopupContents({
   column,
   _rowy_ref,
 }: IPopupContentsProps) {
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
   // const url = config.url ;

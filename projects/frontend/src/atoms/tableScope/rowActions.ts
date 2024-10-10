@@ -51,7 +51,7 @@ export interface IAddRowOptions {
  *
  * @example Basic usage:
  * ```
- * const addRow = useSetAtom(addRowAtom, tableScope);
+ * const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
  * addRow({ row: [ {...}, ... ] });
  * ```
  */
@@ -209,7 +209,7 @@ export const addRowAtom = atom(
  *
  * @example Basic usage:
  * ```
- * const deleteRow = useSetAtom(deleteRowAtom, tableScope);
+ * const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
  * deleteRow( path );
  * ```
  */
@@ -345,7 +345,7 @@ export interface IUpdateFieldOptions {
  *
  * @example Basic usage:
  * ```
- * const updateField = useSetAtom(updateFieldAtom, tableScope);
+ * const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
  * updateField({ path, fieldName: "", value: null, deleteField: true });
  * ```
  */

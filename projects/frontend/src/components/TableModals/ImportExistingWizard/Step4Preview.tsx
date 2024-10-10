@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { IStepProps } from ".";
 
@@ -5,7 +6,7 @@ import { styled, Grid2 as Grid } from "@mui/material";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 
 const Spacer = styled(Grid)(({ theme }) => ({
   width: theme.spacing(3),
@@ -21,7 +22,8 @@ const ColumnWrapper = styled(Grid)(() => ({
 }));
 
 export default function Step4Preview({ config }: IStepProps) {
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
   return (
     <div style={{ minHeight: 300, height: "calc(100% - 80px)" }}>

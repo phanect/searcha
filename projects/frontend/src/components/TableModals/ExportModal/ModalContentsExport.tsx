@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { Parser } from "@json2csv/plainjs";
 import { saveAs } from "file-saver";
@@ -19,7 +19,7 @@ import {
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
@@ -135,8 +135,9 @@ export default function Export({
   query,
   closeModal,
 }: IExportModalContentsProps) {
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const [columns, setColumns] = useState<any[]>([]);

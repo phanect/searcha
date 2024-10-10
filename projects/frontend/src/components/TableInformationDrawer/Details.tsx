@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { find, isEqual } from "lodash-es";
 import MDEditor from "@uiw/react-md-editor";
@@ -16,10 +16,10 @@ import {
 import EditIcon from "@mui/icons-material/EditOutlined";
 import EditOffIcon from "@mui/icons-material/EditOffOutlined";
 
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import { useAtom } from "jotai";
 import {
-  projectScope,
+  ProjectScopeContext,
   tablesAtom,
   updateTableAtom,
   userRolesAtom,
@@ -28,10 +28,13 @@ import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import SaveState from "@src/components/SideDrawer/SaveState";
 
 export default function Details() {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tables] = useAtom(tablesAtom, projectScope);
-  const [updateTable] = useAtom(updateTableAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
   const theme = useTheme();
 
   const settings = useMemo(

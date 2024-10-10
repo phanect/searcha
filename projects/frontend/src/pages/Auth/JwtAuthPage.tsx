@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { signInWithCustomToken } from "firebase/auth";
@@ -7,11 +7,12 @@ import { TextField, Button } from "@mui/material";
 
 import AuthLayout from "@src/layouts/AuthLayout";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 
 export default function JwtAuthPage() {
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const [jwt, setJWT] = useState("");

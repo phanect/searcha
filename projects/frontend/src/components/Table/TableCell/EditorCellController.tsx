@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import useStateRef from "react-usestateref";
 import { useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
 
-import { tableScope, updateFieldAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
 import type {
   IDisplayCellProps,
   IEditorCellProps,
@@ -39,12 +39,14 @@ export default function EditorCellController({
   value,
   ...props
 }: IEditorCellControllerProps) {
+  const tableScopeStore = useContext(TableScopeContext);
+
   // Store local value so we don’t immediately write to db when the user
   // types in a textbox, for example
   const [localValue, setLocalValue, localValueRef] = useStateRef(value);
   // Mark if the user has interacted with this cell and hasn’t saved yet
   const [isDirty, setIsDirty, isDirtyRef] = useStateRef(false);
-  const updateField = useSetAtom(updateFieldAtom, tableScope);
+  const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
 

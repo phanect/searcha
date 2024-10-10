@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo, useState } from "react";
+import { Suspense, lazy, useContext, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { isEmpty, intersection } from "lodash-es";
@@ -22,12 +22,12 @@ import AddRow from "@src/components/TableToolbar/AddRow";
 import { AddRow as AddRowIcon } from "@src/assets/icons";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   userSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
   tableSchemaAtom,
@@ -79,11 +79,14 @@ export default function TablePage({
   disabledTools,
   enableRowSelection = false,
 }: ITablePageProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const snackLogContext = useSnackLogContext();
 
   // Set permissions here so we can pass them to the `Table` component, which
@@ -100,8 +103,8 @@ export default function TablePage({
       intersection(userRoles, tableSettings.roles).length > 0);
 
   // Warn user about leaving when they have a table modal open
-  useBeforeUnload(columnModalAtom, tableScope);
-  useBeforeUnload(tableModalAtom, tableScope);
+  useBeforeUnload(columnModalAtom, { store: tableScopeStore });
+  useBeforeUnload(tableModalAtom, { store: tableScopeStore });
 
   const [selectedRows, setSelectedRows] = useState<RowSelectionState>({});
 

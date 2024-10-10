@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IColumnModalProps } from ".";
 import { reactTableAtom } from "@src/atoms/tableScope";
-import { tableScope } from "@src/atoms/tableScope";
+import { TableScopeContext } from "@src/atoms/tableScope";
 import { useAtom } from "jotai";
 
 import { TextField } from "@mui/material";
@@ -11,7 +11,8 @@ export default function SetColumnWidthModal({
   onClose,
   column,
 }: IColumnModalProps) {
-  const [reactTable] = useAtom(reactTableAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [reactTable] = useAtom(reactTableAtom, { store: tableScopeStore });
   const [newWidth, setWidth] = useState<number>(0);
 
   useEffect(() => {

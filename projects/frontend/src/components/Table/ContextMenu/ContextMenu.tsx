@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { NonFullScreenErrorFallback } from "@src/components/ErrorFallback";
@@ -6,13 +6,14 @@ import { NonFullScreenErrorFallback } from "@src/components/ErrorFallback";
 import { Menu } from "@mui/material";
 import MenuContents from "./MenuContents";
 
-import { tableScope, contextMenuTargetAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, contextMenuTargetAtom } from "@src/atoms/tableScope";
 
 export default function ContextMenu() {
   const menuRef = useRef<HTMLUListElement>(null);
+  const tableScopeStore = useContext(TableScopeContext);
   const [contextMenuTarget, setContextMenuTarget] = useAtom(
     contextMenuTargetAtom,
-    tableScope
+    { store: tableScopeStore }
   );
   const open = Boolean(contextMenuTarget);
 

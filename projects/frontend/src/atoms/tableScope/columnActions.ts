@@ -24,7 +24,7 @@ export interface IAddColumnOptions {
  *
  * @example Basic usage:
  * ```
- * const addColumn = useSetAtom(addColumnAtom, tableScope);
+ * const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
  * addColumn({ config: {...}, index?: 0 });
  * ```
  */
@@ -63,7 +63,7 @@ export interface IUpdateColumnOptions {
  *
  * @example Basic usage:
  * ```
- * const updateColumn = useSetAtom(updateColumnAtom, tableScope);
+ * const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
  * updateColumn({ key: "", config: {...}, index?: 0 });
  * ```
  */
@@ -109,7 +109,7 @@ export const updateColumnAtom = atom(
  *
  * @example Basic usage:
  * ```
- * const deleteColumn = useSetAtom(deleteColumnAtom, tableScope);
+ * const deleteColumn = useSetAtom(deleteColumnAtom, { store: tableScopeStore });
  * deleteColumn(" ... ");
  * ```
  */

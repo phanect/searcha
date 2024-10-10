@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
 import { useAtom } from "jotai";
 import { TransitionGroup } from "react-transition-group";
 
@@ -18,13 +18,15 @@ import UserItem from "@src/components/Settings/UserManagement/UserItem";
 import UserSkeleton from "@src/components/Settings/UserManagement/UserSkeleton";
 import InviteUser from "@src/components/Settings/UserManagement/InviteUser";
 
-import { projectScope, allUsersAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import useBasicSearch from "@src/hooks/useBasicSearch";
 
 const SEARCH_KEYS = ["id", "user.displayName", "user.email"];
 
 function MembersPage() {
-  const [users] = useAtom(allUsersAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
   const [results, query, handleQuery] = useBasicSearch(users, SEARCH_KEYS);
 
   return (

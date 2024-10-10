@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 
 import { Grid2 as Grid, Typography, Button, Link, Divider } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -10,12 +11,13 @@ import Logo from "@src/assets/Logo";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import meta from "@root/package.json";
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import useUpdateCheck from "@src/hooks/useUpdateCheck";
 import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
 
 export default function About() {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   const [latestUpdate, checkForUpdates, loading] = useUpdateCheck();
 

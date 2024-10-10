@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 
 import { auth } from "firebaseui";
@@ -9,7 +9,7 @@ import { makeStyles } from "tss-react/mui";
 import { Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
-import { projectScope, publicSettingsAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, publicSettingsAtom } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 import { defaultUiConfig, getSignInOptions } from "@src/config/firebaseui";
 
@@ -217,8 +217,9 @@ export interface IFirebaseUiProps {
 
 export default function FirebaseUi(props: IFirebaseUiProps) {
   const { classes, cx } = useStyles();
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
-  const [publicSettings] = useAtom(publicSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [publicSettings] = useAtom(publicSettingsAtom, { store: projectScopeStore });
 
   const signInOptions: typeof publicSettings.signInOptions = useMemo(
     () =>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import {
@@ -15,8 +15,8 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import {
   tableModalAtom,
+  TableScopeContext,
   importAirtableAtom,
-  tableScope,
 } from "@src/atoms/tableScope";
 import { analytics, logEvent } from "@src/analytics";
 import { find } from "lodash-es";
@@ -24,11 +24,12 @@ import { find } from "lodash-es";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 export default function ImportFromAirtable() {
+  const tableScopeStore = useContext(TableScopeContext);
   const [{ baseId, tableId, apiKey }, setImportAirtable] = useAtom(
     importAirtableAtom,
-    tableScope
+    { store: tableScopeStore },
   );
-  const openTableModal = useSetAtom(tableModalAtom, tableScope);
+  const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>({});
   const [tableUrl, setTableUrl] = useState("");

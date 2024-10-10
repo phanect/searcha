@@ -1,9 +1,9 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useContext } from "react";
 import { useAtom } from "jotai";
 import { useVirtualizer, defaultRangeExtractor, type Range } from "@tanstack/react-virtual";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   tableRowsAtom,
   selectedCellAtom,
@@ -28,9 +28,11 @@ export function useVirtualization(
   leafColumns: Column<TableRow, unknown>[],
   columnSizing: ColumnSizingState
 ) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
-  const [selectedCell] = useAtom(selectedCellAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
 
   // Virtualize rows
   const {

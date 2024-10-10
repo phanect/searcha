@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import useStateRef from "react-usestateref";
@@ -22,11 +22,11 @@ import Step2Conditions from "./Step2Conditions";
 import Step3Body from "./Step3Parser";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import { webhookNames, IWebhook } from "./utils";
 
 type StepValidation = Record<"condition" | "parser", boolean>;
@@ -54,9 +54,11 @@ export default function WebhookModal({
   mode,
   webhookObject: initialObject,
 }: IWebhookModalProps) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const [webhookObject, setWebhookObject] = useState<IWebhook>(initialObject);
 

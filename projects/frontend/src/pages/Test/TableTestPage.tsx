@@ -1,9 +1,9 @@
-import { Suspense } from "react";
-import { useAtom, useSetAtom, Provider } from "jotai";
+import { Suspense, useContext } from "react";
+import { useAtom, useSetAtom } from "jotai";
 import { useParams } from "react-router-dom";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
   tableSchemaAtom,
@@ -15,26 +15,30 @@ import {
 import TableSourceFirestore from "@src/sources/TableSourceFirestore";
 import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
 
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { currentUserAtom, projectScope } from "@src/atoms/projectScope";
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { TABLE_SCHEMAS } from "@src/config/dbPaths";
 import { generateId } from "@src/utils/table";
 
 function TableTestPage() {
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
 
-  const setTableFilters = useSetAtom(tableFiltersAtom, tableScope);
-  const setTableSorts = useSetAtom(tableSortsAtom, tableScope);
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const setTableFilters = useSetAtom(tableFiltersAtom, { store: tableScopeStore });
+  const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
+
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
   console.log(tableId, tableSettings, tableSchema);
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   return (
     <div>
@@ -110,8 +114,11 @@ function TableTestPage() {
 }
 
 export default function ProvidedTableTestPage() {
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
   const { id } = useParams();
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   return (
     <Suspense
@@ -122,17 +129,18 @@ export default function ProvidedTableTestPage() {
         </>
       }
     >
-      <Provider
+      <TableScopeContext.Provider
         key={id}
-        scope={tableScope}
-        initialValues={[
-          [tableIdAtom, id],
-          [currentUserAtom, currentUser],
-        ]}
+        value={ tableScopeStore }
       >
-        <TableSourceFirestore />
-        <TableTestPage />
-      </Provider>
+        <HydrateAtoms initialValues={[
+          [ tableIdAtom, id ],
+          [ currentUserAtom, currentUser ],
+        ]}>
+          <TableSourceFirestore />
+          <TableTestPage />
+        </HydrateAtoms>
+      </TableScopeContext.Provider>
     </Suspense>
   );
 }

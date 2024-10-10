@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { parse } from "csv-parse/browser/esm";
 import { Parser, ParserOptions } from "@json2csv/plainjs";
@@ -24,8 +24,8 @@ import CheckIcon from "@mui/icons-material/CheckCircle";
 
 import {
   tableModalAtom,
+  TableScopeContext,
   importCsvAtom,
-  tableScope,
 } from "@src/atoms/tableScope";
 import { analytics, logEvent } from "@src/analytics";
 
@@ -113,12 +113,13 @@ function checkIsJson(raw: string): boolean {
 }
 
 export default function ImportFromFile() {
+  const tableScopeStore = useContext(TableScopeContext);
   const [{ importType: importTypeCsv, csvData }, setImportCsv] = useAtom(
     importCsvAtom,
-    tableScope
+    { store: tableScopeStore },
   );
   const [tab, setTab] = useState("upload");
-  const openTableModal = useSetAtom(tableModalAtom, tableScope);
+  const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const importMethodRef = useRef(ImportMethod.upload);
   const importTypeRef = useRef(importTypeCsv);
   const [loading, setLoading] = useState(false);

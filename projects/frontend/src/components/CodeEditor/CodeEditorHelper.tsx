@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
-
+import { useContext } from "react";
 import { Stack, Typography, Grid2 as Grid, Tooltip, IconButton } from "@mui/material";
 import SecretsIcon from "@mui/icons-material/VpnKeyOutlined";
 import FunctionsIcon from "@mui/icons-material/CloudOutlined";
 import DocsIcon from "@mui/icons-material/DescriptionOutlined";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 
 export interface ICodeEditorHelperProps {
   docLink: string;
@@ -25,7 +25,8 @@ export default function CodeEditorHelper({
   disableCloudManagerLink,
   additionalVariables,
 }: ICodeEditorHelperProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   const availableVariables = disableDefaultVariables
     ? []

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { useDebounce } from "use-debounce";
@@ -9,13 +9,13 @@ import CheckIcon from "@mui/icons-material/Check";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import {
-  tableScope,
+  TableScopeContext,
   updateColumnAtom,
   IUpdateColumnOptions,
 } from "@src/atoms/tableScope";
 import {
   defaultTableSettingsAtom,
-  projectScope,
+  ProjectScopeContext,
 } from "@src/atoms/projectScope";
 import { DEBOUNCE_DELAY } from "./Table";
 import { ColumnSizingState } from "@tanstack/react-table";
@@ -29,10 +29,12 @@ export function useSaveColumnSizing(
   canEditColumns: boolean
 ) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const updateColumn = useSetAtom(updateColumnAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
   const defaultTableSettings = useAtomValue(
     defaultTableSettingsAtom,
-    projectScope
+    { store: projectScopeStore },
   );
 
   // Debounce for saving to schema

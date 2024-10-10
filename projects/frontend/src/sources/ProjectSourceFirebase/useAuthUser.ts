@@ -1,11 +1,11 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
 import { useErrorHandler } from "react-error-boundary";
 import { getIdTokenResult } from "firebase/auth";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   currentUserAtom,
   userRolesAtom,
   updateUserSettingsAtom,
@@ -17,15 +17,16 @@ import { firebaseAuthAtom } from "./init";
  */
 export function useAuthUser() {
   const elevateError = useErrorHandler();
+  const projectScopeStore = useContext(ProjectScopeContext);
   // Get current user and store in atoms
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
-  const setCurrentUser = useSetAtom(currentUserAtom, projectScope);
-  const setUserRoles = useSetAtom(userRolesAtom, projectScope);
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const setCurrentUser = useSetAtom(currentUserAtom, { store: projectScopeStore });
+  const setUserRoles = useSetAtom(userRolesAtom, { store: projectScopeStore });
   // Must use `useAtomCallback`, otherwise `useAtom(updateUserSettingsAtom)`
   // will cause infinite re-render
   const updateUserSettings = useAtomCallback(
     useCallback((get) => get(updateUserSettingsAtom), []),
-    projectScope
+    { store: projectScopeStore },
   );
 
   useEffect(() => {

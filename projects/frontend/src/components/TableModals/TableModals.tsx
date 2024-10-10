@@ -1,7 +1,7 @@
-import { lazy } from "react";
+import { lazy, useContext } from "react";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
-import { tableScope, tableModalAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableModalAtom } from "@src/atoms/tableScope";
 
 const CloudLogsModal = lazy(() => import("./CloudLogsModal"));
 const ExtensionsModal = lazy(() => import("./ExtensionsModal"));
@@ -16,7 +16,8 @@ export interface ITableModalProps {
 }
 
 export default function TableModals() {
-  const [tableModal, setTableModal] = useAtom(tableModalAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableModal, setTableModal] = useAtom(tableModalAtom, { store: tableScopeStore });
 
   if (!tableModal) return null;
 

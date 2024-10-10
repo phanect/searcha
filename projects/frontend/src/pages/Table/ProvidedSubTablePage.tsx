@@ -1,5 +1,5 @@
-import { lazy, Suspense, useMemo } from "react";
-import { useAtom, Provider } from "jotai";
+import { lazy, Suspense, useContext, useMemo } from "react";
+import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { DebugAtoms } from "@src/atoms/utils";
 import { ErrorBoundary } from "react-error-boundary";
@@ -12,10 +12,11 @@ import ErrorFallback from "@src/components/ErrorFallback";
 import TableSourceFirestore from "@src/sources/TableSourceFirestore";
 import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
 
-import { projectScope, currentUserAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
   tableSchemaAtom,
@@ -40,10 +41,13 @@ export default function ProvidedSubTablePage() {
   // Get params from URL: /subTable/:docPath/:subTableKey
   const { docPath, subTableKey } = useParams();
 
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   // Get table settings and the source column from root table
-  const [rootTableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const [rootTableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const [sourceColumn] = useAtom(
     useMemo(
       () =>
@@ -54,7 +58,7 @@ export default function ProvidedSubTablePage() {
         ),
       [subTableKey]
     ),
-    tableScope
+    { store: tableScopeStore },
   );
 
   // Consumed by children as `tableSettings.collection`
@@ -125,19 +129,20 @@ export default function ProvidedSubTablePage() {
             </>
           }
         >
-          <Provider
-            key={tableScope.description + "/subTable/" + subTableSettings.id}
-            scope={tableScope}
-            initialValues={[
+          <TableScopeContext.Provider
+            key={"tableScopeStore/subTable/" + subTableSettings.id}
+            value={ tableScopeStore }
+          >
+            <HydrateAtoms initialValues={[
               [currentUserAtom, currentUser],
               [tableIdAtom, subTableSettings.id],
               [tableSettingsAtom, subTableSettings],
-            ]}
-          >
-            <DebugAtoms scope={tableScope} />
-            <TableSourceFirestore />
-            <TablePage enableRowSelection />
-          </Provider>
+            ]}>
+              <DebugAtoms store={ tableScopeStore } />
+              <TableSourceFirestore />
+              <TablePage enableRowSelection />
+            </HydrateAtoms>
+          </TableScopeContext.Provider>
         </Suspense>
       </ErrorBoundary>
     </Modal>
