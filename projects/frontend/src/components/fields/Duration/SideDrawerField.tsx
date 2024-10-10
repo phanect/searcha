@@ -53,8 +53,6 @@ export default function Duration({
                 "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
                 "& .MuiInputAdornment-root": { m: 0 },
               },
-              // Touch mode: make the whole field clickable
-              onClick: props.inputProps?.onClick,
               onBlur: onSubmit,
             },
             openPickerButton: {
@@ -69,7 +67,6 @@ export default function Duration({
           onChange={handleChange("start")}
           onAccept={onSubmit}
           format={format}
-          mask={format.replace(/[A-Za-z]/g, "_")}
           slots={{ openPickerIcon: ChevronDown }}
           disableOpenPicker={false}
           disabled={disabled}
@@ -86,7 +83,6 @@ export default function Duration({
                 "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
                 "& .MuiInputAdornment-root": { m: 0 },
               },
-              onClick: props.inputProps?.onClick,
               onBlur: onSubmit,
             },
             openPickerButton: {
@@ -101,7 +97,6 @@ export default function Duration({
           onChange={handleChange("end")}
           onAccept={onSubmit}
           format={format}
-          mask={format.replace(/[A-Za-z]/g, "_")}
           slots={{ openPickerIcon: ChevronDown }}
           disableOpenPicker={false}
           disabled={disabled}

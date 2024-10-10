@@ -82,7 +82,6 @@ export default function Date_({
       value={transformedValue}
       onChange={handleDateChange}
       format={format}
-      mask={format.replace(/[A-Za-z]/g, "_")}
       slots={{ openPickerIcon: ChevronDown }}
       disableOpenPicker={false}
       disabled={disabled}
