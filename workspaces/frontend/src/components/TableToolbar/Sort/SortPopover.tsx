@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useAtom } from "jotai";
 
 import { Popover } from "@mui/material";
 
 import ButtonWithStatus from "@src/components/ButtonWithStatus";
 
-import { tableScope, tableSortsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
@@ -20,7 +20,8 @@ export default function SortPopover({ children }: ISortPopoverProps) {
   const popoverId = tableSortPopoverState ? "sort-popover" : undefined;
   const handleClose = () => setTableSortPopoverState(false);
 
-  const [tableSorts] = useAtom(tableSortsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
 
   return (
     <>

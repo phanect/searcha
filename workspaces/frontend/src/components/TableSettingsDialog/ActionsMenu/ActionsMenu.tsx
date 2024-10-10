@@ -1,4 +1,4 @@
-import { useState, Suspense } from "react";
+import { useState, Suspense, useContext } from "react";
 import { Control } from "react-hook-form";
 import { useSetAtom } from "jotai";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
@@ -10,7 +10,7 @@ import ImportSettings from "./ImportSettings";
 import ExportSettings from "./ExportSettings";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   tableSettingsDialogIdAtom,
   TableSettingsDialogState,
 } from "@src/atoms/projectScope";
@@ -29,9 +29,10 @@ export default function ActionsMenu({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const projectScopeStore = useContext(ProjectScopeContext);
   const setTableSettingsDialogId = useSetAtom(
     tableSettingsDialogIdAtom,
-    projectScope
+    { store: projectScopeStore },
   );
 
   // On open, set tableSettingsDialogIdAtom so the derived

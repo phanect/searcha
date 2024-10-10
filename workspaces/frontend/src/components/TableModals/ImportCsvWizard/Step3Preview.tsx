@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { find } from "lodash-es";
 import { parseJSON } from "date-fns";
@@ -7,7 +8,7 @@ import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
 import { IStepProps } from ".";
-import { tableScope, tableSchemaAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 
 const Spacer = styled(Grid)(({ theme }) => ({
@@ -24,7 +25,8 @@ const ColumnWrapper = styled(Grid)(() => ({
 }));
 
 export default function Step3Preview({ csvData, config }: IStepProps) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const columns = config.pairs.map(({ csvKey, columnKey }) => ({
     csvKey,

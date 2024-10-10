@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, PrimitiveAtom, useSetAtom } from "jotai";
 import { orderBy } from "lodash-es";
@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import { useErrorHandler } from "react-error-boundary";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
   ArrayTableRowData,
   DeleteCollectionDocFunction,
@@ -71,7 +71,8 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
     sorts,
   } = options || {};
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
   const { addRow, deleteRow, deleteField, updateTable } = useAlterArrayTable<T>(
     {

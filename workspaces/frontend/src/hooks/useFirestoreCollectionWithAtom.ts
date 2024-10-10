@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, PrimitiveAtom, useSetAtom, SetStateAction } from "jotai";
 import { set } from "lodash-es";
@@ -29,7 +29,7 @@ import {
 } from "firebase/firestore";
 import { useErrorHandler } from "react-error-boundary";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
   UpdateCollectionDocFunction,
   DeleteCollectionDocFunction,
@@ -107,7 +107,8 @@ export function useFirestoreCollectionWithAtom<
     joinOperator,
   } = options || {};
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
   const handleError = useErrorHandler();
 
@@ -124,7 +125,7 @@ export function useFirestoreCollectionWithAtom<
   );
   const setNextPageAtom = useSetAtom<
     NextPageState,
-    SetStateAction<NextPageState>,
+    SetStateAction<NextPageState>[],
     void
   >(nextPageAtom || (dataAtom as any), dataScope);
 

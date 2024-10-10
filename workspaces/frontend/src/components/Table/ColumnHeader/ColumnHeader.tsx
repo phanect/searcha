@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { memo, useContext, useRef } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import type { Header } from "@tanstack/react-table";
 import type {
@@ -24,9 +24,9 @@ import ColumnHeaderSort, { SORT_STATES } from "./ColumnHeaderSort";
 import ColumnHeaderDragHandle from "./ColumnHeaderDragHandle";
 import ColumnHeaderResizer from "./ColumnHeaderResizer";
 
-import { projectScope, altPressAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, altPressAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   selectedCellAtom,
   columnMenuAtom,
   tableSortsAtom,
@@ -77,10 +77,13 @@ export const ColumnHeader = memo(function ColumnHeader({
   canEditColumns,
   isLastFrozen,
 }: IColumnHeaderProps) {
-  const openColumnMenu = useSetAtom(columnMenuAtom, tableScope);
-  const setSelectedCell = useSetAtom(selectedCellAtom, tableScope);
-  const [altPress] = useAtom(altPressAtom, projectScope);
-  const [tableSorts] = useAtom(tableSortsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const openColumnMenu = useSetAtom(columnMenuAtom, { store: tableScopeStore });
+  const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 

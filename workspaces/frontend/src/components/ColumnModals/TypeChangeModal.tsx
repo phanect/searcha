@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useSetAtom } from "jotai";
 import { IColumnModalProps } from ".";
 
@@ -6,7 +6,7 @@ import Modal from "@src/components/Modal";
 import FieldsDropdown from "./FieldsDropdown";
 import { Alert, AlertTitle, Typography } from "@mui/material";
 
-import { tableScope, updateColumnAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, updateColumnAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { analytics, logEvent } from "@src/analytics";
@@ -15,7 +15,8 @@ export default function TypeChangeModal({
   onClose,
   column,
 }: IColumnModalProps) {
-  const updateColumn = useSetAtom(updateColumnAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
   const [newType, setType] = useState<FieldType>(column.type);
 
   return (

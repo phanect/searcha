@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useContext, useEffect } from "react";
 import { ISettingsProps } from "@src/components/fields/types";
 import { useAtom, useSetAtom } from "jotai";
 
@@ -9,12 +9,12 @@ import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
-import { tableScope, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
@@ -39,13 +39,15 @@ export default function Settings({
   onBlur,
   errors,
 }: ISettingsProps) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   useEffect(() => {
     if (!projectSettings.rowyRunUrl)

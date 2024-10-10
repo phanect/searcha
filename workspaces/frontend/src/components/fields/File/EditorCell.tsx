@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { IEditorCellProps } from "@src/components/fields/types";
 import { useSetAtom } from "jotai";
 
@@ -8,7 +9,7 @@ import { Upload as UploadIcon } from "@src/assets/icons";
 import ChipList from "@src/components/Table/TableCell/ChipList";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { FileIcon } from ".";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { FileValue } from "@src/types/table";
@@ -30,7 +31,8 @@ export default function File_({
   tabIndex,
   rowHeight,
 }: IEditorCellProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const {
     loading,

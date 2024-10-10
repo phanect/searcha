@@ -1,4 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
+import { useContext } from "react";
 
 import { Grid2 as Grid, Stack, Typography, Button, Divider } from "@mui/material";
 import {
@@ -11,7 +12,7 @@ import EmptyState from "@src/components/EmptyState";
 import ImportData from "@src/components/TableToolbar/ImportData/ImportData";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableRowsAtom,
   columnModalAtom,
@@ -20,11 +21,13 @@ import {
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 
 export default function EmptyTable() {
-  const openColumnModal = useSetAtom(columnModalAtom, tableScope);
-  const openTableModal = useSetAtom(tableModalAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
 
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const openColumnModal = useSetAtom(columnModalAtom, { store: tableScopeStore });
+  const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
   // const { tableState, importWizardRef, columnMenuRef } = useProjectContext();
   // check if theres any rows, and if rows include fields other than rowy_ref
   const hasData =

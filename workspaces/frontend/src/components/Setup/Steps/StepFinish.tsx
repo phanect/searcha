@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbDownOffIcon from "@mui/icons-material/ThumbDownOffAlt";
 
 import { analytics, logEvent } from "@src/analytics";
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { ROUTES } from "@src/constants/routes";
 import { SETTINGS } from "@src/config/dbPaths.ts";
@@ -35,7 +35,8 @@ export default {
 } as ISetupStep;
 
 function StepFinish() {
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {

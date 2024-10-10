@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { useLocation } from "react-router-dom";
 
@@ -16,7 +16,7 @@ import { ChevronDown } from "@src/assets/icons";
 import NavItem from "./NavItem";
 import UpdateCheckBadge from "@src/layouts/Navigation/UpdateCheckBadge";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
 
 export interface ISettingsNavProps {
@@ -28,7 +28,8 @@ export default function SettingsNav({
   closeDrawer,
   collapsed,
 }: ISettingsNavProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
   const { pathname } = useLocation();
   const [open, setOpen] = useState(pathname.includes(ROUTES.settings));
 

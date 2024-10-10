@@ -1,16 +1,19 @@
+import { useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import TableToolbarButton from "./TableToolbarButton";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 
-import { projectScope, tableSettingsDialogAtom } from "@src/atoms/projectScope";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { ProjectScopeContext, tableSettingsDialogAtom } from "@src/atoms/projectScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 
 export default function TableSettings() {
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   return (

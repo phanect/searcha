@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 
@@ -8,7 +9,7 @@ import ColumnConfigModal from "./ColumnConfigModal";
 import SetColumnWidthModal from "./SetColumnWidthModal";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   columnModalAtom,
 } from "@src/atoms/tableScope";
@@ -20,8 +21,9 @@ export interface IColumnModalProps {
 }
 
 export default function ColumnModals() {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [columnModal, setColumnModal] = useAtom(columnModalAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [columnModal, setColumnModal] = useAtom(columnModalAtom, { store: tableScopeStore });
 
   if (!columnModal) return null;
 

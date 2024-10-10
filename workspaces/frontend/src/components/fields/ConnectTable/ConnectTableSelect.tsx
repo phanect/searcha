@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useDebounce } from "use-debounce";
 import useAlgolia from "use-algolia";
 import { find, get, pick } from "lodash-es";
@@ -11,8 +11,8 @@ import MultiSelect, { MultiSelectProps } from "@phanect/datasheet-multiselect";
 import Loading from "@src/components/Loading";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import { projectScope, rowyRunAtom } from "@src/atoms/projectScope";
-import { tableScope } from "@src/atoms/tableScope";
+import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
+import { TableScopeContext } from "@src/atoms/tableScope";
 import { runRoutes } from "@src/constants/runRoutes";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
@@ -76,8 +76,10 @@ export default function ConnectTableSelect({
 }: IConnectTableSelectProps) {
   const { enqueueSnackbar } = useSnackbar();
 
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [algoliaAppId, setAlgoliaAppId] = useAtom(algoliaAppIdAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [algoliaAppId, setAlgoliaAppId] = useAtom(algoliaAppIdAtom, { store: tableScopeStore });
 
   useEffect(() => {
     (async () => {
@@ -114,7 +116,7 @@ export default function ConnectTableSelect({
   const algoliaIndex = config.index;
   const [algoliaSearchKeys, setAlgoliaSearchKeys] = useAtom(
     algoliaSearchKeysAtom,
-    tableScope
+    { store: tableScopeStore }
   );
 
   const [algoliaState, requestDispatch, , setAlgoliaConfig] = useAlgolia(

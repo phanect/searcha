@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { FallbackProps } from "react-error-boundary";
 import { Link } from "react-router-dom";
@@ -16,16 +17,18 @@ import LockIcon from "@mui/icons-material/LockOutlined";
 import EmptyState from "@src/components/EmptyState";
 
 import {
-  projectScope,
   currentUserAtom,
+  ProjectScopeContext,
   userRolesAtom,
 } from "@src/atoms/projectScope";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { ROUTES } from "@src/constants/routes";
 
 export default function AccessDenied({ resetErrorBoundary }: FallbackProps) {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
 
   if (!currentUser) window.location.reload();
 

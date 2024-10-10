@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
 
@@ -15,7 +16,7 @@ import MemoizedText from "@src/components/Modal/MemoizedText";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userRolesAtom,
   projectSettingsAtom,
   rowyRunModalAtom,
@@ -29,11 +30,12 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
  * @see {@link rowyRunModalAtom | Usage example}
  */
 export default function RowyRunModal() {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const [rowyRunModal, setRowyRunModal] = useAtom(
     rowyRunModalAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   const handleClose = () => setRowyRunModal({ ...rowyRunModal, open: false });

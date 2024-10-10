@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
 import { find, findIndex, camelCase, isEqual } from "lodash-es";
@@ -32,7 +32,7 @@ import Column, {
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   tableColumnsOrderedAtom,
   ImportCsvData,
@@ -50,8 +50,9 @@ export default function Step1Columns({
 }: IStepProps & {
   csvData: NonNullable<ImportCsvData & { invalidRows: Record<string, any> }>;
 }) {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const tableColumns = useMemoValue(
     tableColumnsOrdered

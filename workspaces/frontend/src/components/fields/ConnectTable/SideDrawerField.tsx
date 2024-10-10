@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
@@ -7,7 +7,7 @@ import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { Grid2 as Grid, Chip } from "@mui/material";
 
 import ConnectTableSelect from "./ConnectTableSelect";
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { getFieldId } from "@src/components/SideDrawer/utils";
 
 export default function ConnectTable({
@@ -18,6 +18,7 @@ export default function ConnectTable({
   onSubmit,
   disabled,
 }: ISideDrawerFieldProps) {
+  const tableScopeStore = useContext(TableScopeContext);
   const [row] = useAtom(
     useMemo(
       () =>
@@ -28,7 +29,7 @@ export default function ConnectTable({
         ),
       [_rowy_ref.path]
     ),
-    tableScope
+    { store: tableScopeStore },
   );
 
   const config = column.config ?? {};

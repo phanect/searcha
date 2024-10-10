@@ -1,9 +1,9 @@
-import { tableFiltersAtom, tableScope } from "@src/atoms/tableScope";
+import { TableScopeContext, tableFiltersAtom } from "@src/atoms/tableScope";
 import { TableFilter } from "@src/types/table";
 import { useAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 function isTableFilter(filter: any): filter is TableFilter {
@@ -19,7 +19,8 @@ function isTableFilter(filter: any): filter is TableFilter {
 export function useFilterUrl() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
-  const [filters, setFilters] = useAtom(tableFiltersAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [filters, setFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
 
   // Fetch filter from URL and update user filter
   useEffect(() => {

@@ -1,14 +1,14 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   rowyRunAtom,
   compatibleRowyRunVersionAtom,
   currentUserAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   auditChangeAtom,
 } from "@src/atoms/tableScope";
@@ -19,15 +19,17 @@ import { rowyUser } from "@src/utils/table";
  * Sets the value of auditChangeAtom
  */
 export default function useAuditChange() {
-  const setAuditChange = useSetAtom(auditChangeAtom, tableScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const setAuditChange = useSetAtom(auditChangeAtom, { store: tableScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   useEffect(() => {
     if (

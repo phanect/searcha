@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useAtom } from "jotai";
+import { useContext, useEffect, useState } from "react";
+import { useAtom, type createStore } from "jotai";
 
 import {
   Dialog,
@@ -12,18 +12,18 @@ import {
 } from "@mui/material";
 import MemoizedText from "@src/components/Modal/MemoizedText";
 
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 
-export interface IConfirmDialogProps {
-  scope?: Parameters<typeof useAtom>[1];
-}
+export type IConfirmDialogProps = {
+  store?: ReturnType<typeof createStore>;
+};
 
 /**
  * Display a confirm dialog using `confirmDialogAtom` in `globalState`
  * @see {@link confirmDialogAtom | Usage example}
  */
 export default function ConfirmDialog({
-  scope = projectScope,
+  store = useContext(ProjectScopeContext),
 }: IConfirmDialogProps) {
   const [
     {
@@ -45,7 +45,7 @@ export default function ConfirmDialog({
       buttonLayout = "horizontal",
     },
     setState,
-  ] = useAtom(confirmDialogAtom, scope);
+  ] = useAtom(confirmDialogAtom, { store });
 
   const handleClose = () => {
     setState({ open: false });

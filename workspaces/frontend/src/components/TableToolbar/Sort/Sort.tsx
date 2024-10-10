@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 
 import {
@@ -13,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 import {
   tableColumnsOrderedAtom,
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSortsAtom,
 } from "@src/atoms/tableScope";
@@ -22,22 +23,24 @@ import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import useSaveTableSorts from "@src/components/Table/ColumnHeader/useSaveTableSorts";
 
 export default function Sort() {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const canEditColumns = Boolean(
     userRoles.includes("ADMIN") ||
       tableSettings.modifiableBy?.some((r) => userRoles.includes(r))
   );
 
-  const [tableSorts, setTableSorts] = useAtom(tableSortsAtom, tableScope);
+  const [tableSorts, setTableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
   const triggerSaveTableSorts = useSaveTableSorts(canEditColumns);
 
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const sortColumns = tableColumnsOrdered.map(({ key, name, type, index }) => ({
     value: key,

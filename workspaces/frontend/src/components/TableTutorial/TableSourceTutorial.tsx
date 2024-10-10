@@ -1,10 +1,10 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { useSetAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
 import { cloneDeep, unset, findIndex, sortBy } from "lodash-es";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   updateTableSchemaAtom,
   tableRowsDbAtom,
@@ -35,9 +35,10 @@ export const TUTORIAL_TABLE_SCHEMA = {
 };
 
 export function TableSourceTutorial() {
-  const setTableSchema = useSetAtom(tableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const setTableSchema = useSetAtom(tableSchemaAtom, { store: tableScopeStore });
 
-  const setUpdateTableSchema = useSetAtom(updateTableSchemaAtom, tableScope);
+  const setUpdateTableSchema = useSetAtom(updateTableSchemaAtom, { store: tableScopeStore });
   setUpdateTableSchema(
     () => async (update: Partial<TableSchema>, deleteFields?: string[]) => {
       setTableSchema((current) => {
@@ -52,13 +53,13 @@ export function TableSourceTutorial() {
     }
   );
 
-  const setRowsDb = useSetAtom(tableRowsDbAtom, tableScope);
+  const setRowsDb = useSetAtom(tableRowsDbAtom, { store: tableScopeStore });
   const readRowsDb = useAtomCallback(
     useCallback((get) => get(tableRowsDbAtom), []),
-    tableScope
+    { store: tableScopeStore },
   );
 
-  const setUpdateRowDb = useSetAtom(_updateRowDbAtom, tableScope);
+  const setUpdateRowDb = useSetAtom(_updateRowDbAtom, { store: tableScopeStore });
   setUpdateRowDb(() => (path: string, update: Partial<TableRow>) => {
     setRowsDb((_rows) => {
       const rows = [..._rows];
@@ -81,7 +82,7 @@ export function TableSourceTutorial() {
     return Promise.resolve();
   });
 
-  const setDeleteRowDb = useSetAtom(_deleteRowDbAtom, tableScope);
+  const setDeleteRowDb = useSetAtom(_deleteRowDbAtom, { store: tableScopeStore });
   setDeleteRowDb(() => async (path: string) => {
     const _rows = await readRowsDb();
     const rows = [..._rows];
@@ -93,8 +94,8 @@ export function TableSourceTutorial() {
     return Promise.resolve();
   });
 
-  const setBulkWriteDb = useSetAtom(_bulkWriteDbAtom, tableScope);
-  const addRow = useSetAtom(addRowAtom, tableScope);
+  const setBulkWriteDb = useSetAtom(_bulkWriteDbAtom, { store: tableScopeStore });
+  const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
   // WARNING: Only supports bulk add row for import CSV
   setBulkWriteDb(
     () =>

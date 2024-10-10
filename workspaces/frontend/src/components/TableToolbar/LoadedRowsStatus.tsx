@@ -1,4 +1,4 @@
-import { Suspense, forwardRef } from "react";
+import { Suspense, forwardRef, useContext } from "react";
 import { useAtom } from "jotai";
 
 import { Tooltip, Typography, TypographyProps } from "@mui/material";
@@ -6,7 +6,7 @@ import SyncIcon from "@mui/icons-material/Sync";
 import OfflineIcon from "@mui/icons-material/CloudOffOutlined";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableRowsAtom,
   tableNextPageAtom,
   serverDocCountAtom,
@@ -57,9 +57,10 @@ const loadingIcon = (
 );
 
 function LoadedRowsStatus() {
-  const [tableNextPage] = useAtom(tableNextPageAtom, tableScope);
-  const [serverDocCount] = useAtom(serverDocCountAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
+  const [serverDocCount] = useAtom(serverDocCountAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
   if (tableNextPage.loading)
     return <StatusText>{loadingIcon}Loading more…</StatusText>;

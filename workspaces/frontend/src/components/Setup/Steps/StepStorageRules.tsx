@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
+import { useContext } from "react";
 import type {
   ISetupStep,
   ISetupStepBodyProps,
@@ -12,7 +13,7 @@ import DoneIcon from "@mui/icons-material/Done";
 
 import SetupItem from "@src/components/Setup/SetupItem";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import {
   RULES_START,
   RULES_END,
@@ -31,7 +32,8 @@ export default {
 const rules = RULES_START + REQUIRED_RULES + RULES_END;
 
 function StepStorageRules({ isComplete, setComplete }: ISetupStepBodyProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   return (

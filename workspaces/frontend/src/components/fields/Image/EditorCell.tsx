@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { IEditorCellProps } from "@src/components/fields/types";
 import { useSetAtom } from "jotai";
 import { assignIn } from "lodash-es";
@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import Thumbnail from "@src/components/Thumbnail";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
-import { projectScope, confirmDialogAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { FileValue } from "@src/types/table";
 import useFileUpload from "@src/components/fields/File/useFileUpload";
 import { IMAGE_MIME_TYPES } from "./index";
@@ -32,7 +32,8 @@ export default function Image_({
   tabIndex,
   rowHeight,
 }: IEditorCellProps) {
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const {
     loading,

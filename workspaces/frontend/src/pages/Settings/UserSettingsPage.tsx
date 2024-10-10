@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { useDebouncedCallback } from "use-debounce";
@@ -13,7 +13,7 @@ import TableSettings from "@src/components/Settings/UserSettings/TableSettings";
 import Personalization from "@src/components/Settings/UserSettings/Personalization";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   currentUserAtom,
   userSettingsAtom,
   updateUserSettingsAtom,
@@ -27,12 +27,14 @@ export interface IUserSettingsChildProps {
 }
 
 export default function UserSettingsPage() {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   useScrollToHash();
 
-  const [_updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
+  const [_updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const updateSettings = useDebouncedCallback((data) => {
     if (_updateUserSettings) {
       _updateUserSettings(data).then(() => enqueueSnackbar("Saved"));

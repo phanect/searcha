@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { SnackbarKey, useSnackbar } from "notistack";
 
@@ -8,23 +8,26 @@ import CheckIcon from "@mui/icons-material/Check";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import {
   tableIdAtom,
-  tableScope,
+  TableScopeContext,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
 import {
   defaultTableSettingsAtom,
-  projectScope,
+  ProjectScopeContext,
   updateUserSettingsAtom,
 } from "@src/atoms/projectScope";
 import { TableSort } from "@src/types/table";
 
 function useSaveTableSorts(canEditColumns: boolean) {
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
   const defaultTableSettings = useAtomValue(
     defaultTableSettingsAtom,
-    projectScope
+    { store: projectScopeStore },
   );
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [snackbarId, setSnackbarId] = useState<SnackbarKey | null>(null);

@@ -1,15 +1,17 @@
 import { useAtom } from "jotai";
 import {
-  projectScope,
+  ProjectScopeContext,
   tablesAtom,
   userSettingsAtom,
   allUsersAtom,
 } from "@src/atoms/projectScope";
+import { useContext } from "react";
 
 export default function useGetStartedCompletion() {
-  const [tables] = useAtom(tablesAtom, projectScope);
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [allUsers] = useAtom(allUsersAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [allUsers] = useAtom(allUsersAtom, { store: projectScopeStore });
 
   const completedSteps = {
     project: true,

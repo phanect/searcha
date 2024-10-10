@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
@@ -16,7 +16,7 @@ import MultiSelect from "@phanect/datasheet-multiselect";
 import Modal from "@src/components/Modal";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectRolesAtom,
   projectSettingsAtom,
   rowyRunAtom,
@@ -26,10 +26,12 @@ import { ROUTES } from "@src/constants/routes";
 import { runRoutes } from "@src/constants/runRoutes";
 
 export default function InviteUser() {
-  const [projectRoles] = useAtom(projectRolesAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [projectRoles] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = useState(false);

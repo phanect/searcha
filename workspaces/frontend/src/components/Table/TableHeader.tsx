@@ -1,4 +1,4 @@
-import { memo, Fragment } from "react";
+import { memo, Fragment, useContext } from "react";
 import { useAtom } from "jotai";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
@@ -13,7 +13,7 @@ import StyledRow from "./Styled/StyledRow";
 import ColumnHeader from "./ColumnHeader";
 import FinalColumnHeader from "./FinalColumn/FinalColumnHeader";
 
-import { tableScope, selectedCellAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, selectedCellAtom } from "@src/atoms/tableScope";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import StyledColumnHeader from "./Styled/StyledColumnHeader";
 
@@ -46,7 +46,8 @@ export const TableHeader = memo(function TableHeader({
   canEditColumns,
   lastFrozen,
 }: ITableHeaderProps) {
-  const [selectedCell] = useAtom(selectedCellAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
   const focusInside = selectedCell?.focusInside ?? false;
 
   return (

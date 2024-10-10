@@ -1,5 +1,5 @@
-import { lazy, Suspense, useMemo } from "react";
-import { useAtom, Provider } from "jotai";
+import { lazy, Suspense, useContext, useMemo } from "react";
+import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { DebugAtoms } from "@src/atoms/utils";
 import { ErrorBoundary } from "react-error-boundary";
@@ -13,14 +13,15 @@ import ArraySubTableSourceFirestore from "@src/sources/TableSourceFirestore/Arra
 import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
 
-import { projectScope, currentUserAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSettingsAtom,
   tableSchemaAtom,
 } from "@src/atoms/tableScope";
 import { ROUTES } from "@src/constants/routes";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
 
@@ -40,10 +41,13 @@ export default function ProvidedArraySubTablePage() {
   // Get params from URL: /arraySubTable/:docPath/:subTableKey
   const { docPath, subTableKey } = useParams();
 
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   // Get table settings and the source column from root table
-  const [rootTableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const [rootTableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const [sourceColumn] = useAtom(
     useMemo(
       () =>
@@ -54,7 +58,7 @@ export default function ProvidedArraySubTablePage() {
         ),
       [subTableKey]
     ),
-    tableScope
+    { store: tableScopeStore },
   );
 
   // Consumed by children as `tableSettings.collection`
@@ -126,28 +130,29 @@ export default function ProvidedArraySubTablePage() {
             </>
           }
         >
-          <Provider
-            key={tableScope.description + "/subTable/" + subTableSettings.id}
-            scope={tableScope}
-            initialValues={[
-              [currentUserAtom, currentUser],
-              [tableIdAtom, subTableSettings.id],
-              [tableSettingsAtom, subTableSettings],
-            ]}
+          <TableScopeContext.Provider
+            key={"tableScopeStore/subTable/" + subTableSettings.id}
+            value={ tableScopeStore }
           >
-            <DebugAtoms scope={tableScope} />
-            <ArraySubTableSourceFirestore />
-            <TablePage
-              enableRowSelection={false}
-              disabledTools={[
-                "import",
-                "export",
-                "webhooks",
-                "extensions",
-                "cloud_logs",
-              ]}
-            />
-          </Provider>
+            <HydrateAtoms initialValues={[
+              [ currentUserAtom, currentUser ],
+              [ tableIdAtom, subTableSettings.id ],
+              [ tableSettingsAtom, subTableSettings ],
+            ]}>
+              <DebugAtoms store={ tableScopeStore } />
+              <ArraySubTableSourceFirestore />
+              <TablePage
+                enableRowSelection={false}
+                disabledTools={[
+                  "import",
+                  "export",
+                  "webhooks",
+                  "extensions",
+                  "cloud_logs",
+                ]}
+              />
+            </HydrateAtoms>
+          </TableScopeContext.Provider>
         </Suspense>
       </ErrorBoundary>
     </Modal>

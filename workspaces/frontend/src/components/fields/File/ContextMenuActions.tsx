@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { find, get } from "lodash-es";
 import { useSnackbar } from "notistack";
@@ -7,7 +8,7 @@ import { Copy } from "@src/assets/icons";
 import { FileIcon } from ".";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSchemaAtom,
   tableRowsAtom,
 } from "@src/atoms/tableScope";
@@ -23,8 +24,9 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
   reset
 ) => {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];

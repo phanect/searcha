@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import { use100vh } from "react-div-100vh";
 
 import {
@@ -15,7 +16,7 @@ import Logo from "@src/assets/Logo";
 import bgTableLight from "@src/assets/bg-table-light.webp";
 import bgTableDark from "@src/assets/bg-table-dark.webp";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 
 export interface IAuthLayoutProps {
@@ -37,7 +38,8 @@ export default function AuthLayout({
   children,
   loading,
 }: IAuthLayoutProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
   const fullScreenHeight = use100vh() ?? 0;
 
   const linkProps: LinkProps = {

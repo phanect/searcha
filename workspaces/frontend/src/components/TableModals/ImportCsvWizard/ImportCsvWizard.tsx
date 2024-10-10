@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useContext } from "react";
 import useMemoValue from "@phanect/use-memo-value";
 import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
@@ -25,7 +25,7 @@ import SnackbarProgress, {
 } from "@src/components/SnackbarProgress";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   addColumnAtom,
@@ -58,12 +58,13 @@ export interface IStepProps {
 }
 
 export default function ImportCsvWizard({ onClose }: ITableModalProps) {
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const addColumn = useSetAtom(addColumnAtom, tableScope);
-  const bulkAddRows = useSetAtom(bulkAddRowsAtom, tableScope);
-  const [{ importType, csvData }] = useAtom(importCsvAtom, tableScope);
-  const setTableModal = useSetAtom(tableModalAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
+  const bulkAddRows = useSetAtom(bulkAddRowsAtom, { store: tableScopeStore });
+  const [{ importType, csvData }] = useAtom(importCsvAtom, { store: tableScopeStore });
+  const setTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));

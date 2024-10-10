@@ -1,13 +1,15 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import { ISettingsProps } from "@src/components/fields/types";
 
 import MultiSelect from "@phanect/datasheet-multiselect";
 import { FieldType } from "@src/constants/fields";
 
-import { tableScope, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
 
 const Settings = ({ config, onChange }: ISettingsProps) => {
-  const [tableOrderedColumns] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableOrderedColumns] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const columnOptions = tableOrderedColumns
     .filter((column) =>

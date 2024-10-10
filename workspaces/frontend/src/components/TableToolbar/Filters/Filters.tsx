@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
 import { isEmpty, isDate } from "lodash-es";
@@ -21,13 +21,13 @@ import FiltersPopover from "./FiltersPopover";
 import FilterInputsCollection from "./FilterInputsCollection";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userSettingsAtom,
   updateUserSettingsAtom,
   userRolesAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSchemaAtom,
   tableColumnsOrderedAtom,
@@ -68,16 +68,18 @@ enum FilterType {
 }
 
 export default function Filters() {
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
-  const [localFilters, setLocalFilters] = useAtom(tableFiltersAtom, tableScope);
-  const [, setTableSorts] = useAtom(tableSortsAtom, tableScope);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, tableScope);
-  const [{ defaultQuery }] = useAtom(tableFiltersPopoverAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [localFilters, setLocalFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [, setTableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [{ defaultQuery }] = useAtom(tableFiltersPopoverAtom, { store: tableScopeStore });
 
   const tableFilterInputs = useFilterInputs(tableColumnsOrdered);
   const setTableQueries = tableFilterInputs.setQueries;
@@ -87,7 +89,7 @@ export default function Filters() {
   const availableFiltersForFirstColumn =
     availableFiltersForEachSelectedColumn[0];
 
-  const setTableFiltersJoin = useSetAtom(tableFiltersJoinAtom, tableScope);
+  const setTableFiltersJoin = useSetAtom(tableFiltersJoinAtom, { store: tableScopeStore });
 
   // Get table filters & user filters from config documents
   const tableFilters = useMemoValue(

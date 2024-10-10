@@ -1,7 +1,8 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   updateProjectSettingsAtom,
   publicSettingsAtom,
@@ -19,10 +20,11 @@ import { SETTINGS, PUBLIC_SETTINGS, USERS } from "@src/config/dbPaths";
  * Also sets functions to update those documents.
  */
 export function useSettingsDocs() {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   // Store public settings in atom
-  useFirestoreDocWithAtom(publicSettingsAtom, projectScope, PUBLIC_SETTINGS, {
+  useFirestoreDocWithAtom(publicSettingsAtom, { store: projectScopeStore }, PUBLIC_SETTINGS, {
     updateDataAtom: updatePublicSettingsAtom,
   });
 
@@ -30,7 +32,7 @@ export function useSettingsDocs() {
   // If they have no access, display AccessDenied screen via ErrorBoundary.
   useFirestoreDocWithAtom(
     projectSettingsAtom,
-    projectScope,
+    { store: projectScopeStore },
     currentUser ? SETTINGS : undefined,
     { updateDataAtom: updateProjectSettingsAtom }
   );
@@ -39,7 +41,7 @@ export function useSettingsDocs() {
     JSON.parse((currentUser as any)?.reloadUserInfo?.customAttributes ?? "{}")
       ?.roles ?? [];
   // Store user settings in atom when a user is signed in
-  useFirestoreDocWithAtom(userSettingsAtom, projectScope, USERS, {
+  useFirestoreDocWithAtom(userSettingsAtom, { store: projectScopeStore }, USERS, {
     pathSegments: [currentUser?.uid],
     createIfNonExistent: currentUser
       ? {

@@ -5,6 +5,7 @@ import {
   useState,
   forwardRef,
   ChangeEvent,
+  useContext,
 } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
@@ -26,13 +27,13 @@ import ColumnSelect, { ColumnItem } from "@src/components/Table/ColumnSelect";
 import ButtonWithStatus from "@src/components/ButtonWithStatus";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userSettingsAtom,
   updateUserSettingsAtom,
   userRolesAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   updateColumnAtom,
 } from "@src/atoms/tableScope";
@@ -41,11 +42,13 @@ import { formatSubTableName } from "@src/utils/table";
 export default function HiddenFields() {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
   const canEditColumns =
     userRoles.includes("ADMIN") || userRoles.includes("OPS");
-  const [tableId] = useAtom(tableIdAtom, tableScope);
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
 
   const [open, setOpen] = useState(false);
 
@@ -69,7 +72,7 @@ export default function HiddenFields() {
   // }));
 
   // Save when MultiSelect closes
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const handleSave = () => {
     // Only update if there were any changes because it’s slow to update
     if (!isEqual(hiddenFields, userDocHiddenFields) && updateUserSettings) {
@@ -161,7 +164,7 @@ export default function HiddenFields() {
     );
   };
 
-  const updateColumn = useSetAtom(updateColumnAtom, tableScope);
+  const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
 
   // updates column on drag end
   function handleOnDragEnd(result: DropResult) {

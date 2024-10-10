@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import { atomWithStorage, atomWithHash } from "jotai/utils";
+import { atomWithStorage } from "jotai/utils";
+import { atomWithHash } from "jotai-location";
 
 import type { PopoverProps } from "@mui/material";
 import type { ColumnConfig, TableFilter } from "@src/types/table";
@@ -44,7 +45,7 @@ export const columnModalAtom = atomWithHash<{
   type: "new" | "name" | "type" | "config" | "setColumnWidth";
   columnKey?: string;
   index?: number;
-} | null>("columnModal", null, { replaceState: true });
+} | null>("columnModal", null, { setHash: "replaceState" });
 
 export type TableFiltersPopoverState = {
   open: boolean;
@@ -102,7 +103,7 @@ export const tableModalAtom = atomWithHash<
   | "importCsv"
   | "importAirtable"
   | null
->("tableModal", null, { replaceState: true });
+>("tableModal", null, { setHash: "replaceState" });
 
 export type ImportCsvData = { columns: string[]; rows: Record<string, any>[] };
 export type ImportAirtableData = { records: Record<string, any>[] };
@@ -125,7 +126,7 @@ export const importAirtableAtom = atom<{
 export const sideDrawerAtom = atomWithHash<"table-information" | null>(
   "sideDrawer",
   null,
-  { replaceState: true }
+  { setHash: "replaceState" }
 );
 /** Store side drawer open state */
 export const sideDrawerOpenAtom = atom(false);
@@ -171,5 +172,5 @@ export const cloudLogFiltersAtom = atomWithHash<CloudLogFilters>(
     type: "build",
     timeRange: { type: "days", value: 7 },
   },
-  { replaceState: true }
+  { setHash: "replaceState" },
 );

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import clsx from "clsx";
 import { useAtom } from "jotai";
 import { find, findIndex } from "lodash-es";
@@ -15,7 +15,7 @@ import StyledDrawer from "./StyledDrawer";
 import SideDrawerFields from "./SideDrawerFields";
 
 import {
-  tableScope,
+  TableScopeContext,
   tableRowsAtom,
   sideDrawerOpenAtom,
   selectedCellAtom,
@@ -26,10 +26,12 @@ export const DRAWER_WIDTH = 512;
 export const DRAWER_COLLAPSED_WIDTH = 36;
 
 export default function SideDrawer() {
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
 
-  const [cell, setCell] = useAtom(selectedCellAtom, tableScope);
-  const [open, setOpen] = useAtom(sideDrawerOpenAtom, tableScope);
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+
+  const [cell, setCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [open, setOpen] = useAtom(sideDrawerOpenAtom, { store: tableScopeStore });
   const selectedRow = find(
     tableRows,
     cell?.arrayIndex === undefined

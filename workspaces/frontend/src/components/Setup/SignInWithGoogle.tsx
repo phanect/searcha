@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { Typography } from "@mui/material";
 import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton";
 
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 
 const googleProvider = new GoogleAuthProvider();
@@ -19,7 +19,8 @@ export default function SignInWithGoogle({
   matchEmail,
   ...props
 }: ISignInWithGoogleProps) {
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
   const [status, setStatus] = useState<"IDLE" | "LOADING" | string>("IDLE");
 
   const handleSignIn = async () => {

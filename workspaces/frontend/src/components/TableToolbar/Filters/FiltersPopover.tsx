@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useAtom } from "jotai";
 
 import { Popover, Stack, Chip, Typography } from "@mui/material";
@@ -6,7 +6,7 @@ import FilterIcon from "@mui/icons-material/FilterList";
 
 import ButtonWithStatus from "@src/components/ButtonWithStatus";
 
-import { tableScope, tableFiltersPopoverAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableFiltersPopoverAtom } from "@src/atoms/tableScope";
 import type { TableFilter } from "@src/types/table";
 import type { useFilterInputs } from "./useFilterInputs";
 
@@ -32,9 +32,10 @@ export default function FiltersPopover({
   availableFilters,
   children,
 }: IFiltersPopoverProps) {
+  const tableScopeStore = useContext(TableScopeContext);
   const [{ open }, setTableFiltersPopoverState] = useAtom(
     tableFiltersPopoverAtom,
-    tableScope
+    { store: tableScopeStore },
   );
 
   const anchorEl = useRef<HTMLButtonElement>(null);

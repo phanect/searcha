@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useSnackbar } from "notistack";
 
@@ -33,7 +34,7 @@ import MenuContents, { IMenuContentsProps } from "./MenuContents";
 import ColumnHeader from "@src/components/Table/Mock/Column";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   userSettingsAtom,
   updateUserSettingsAtom,
   confirmDialogAtom,
@@ -41,7 +42,6 @@ import {
   altPressAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
   tableIdAtom,
   tableSettingsAtom,
   updateColumnAtom,
@@ -54,6 +54,7 @@ import {
   tableSchemaAtom,
   cloudLogFiltersAtom,
   tableModalAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
@@ -95,28 +96,31 @@ export default function ColumnMenu({
   canEditColumns,
   canDeleteColumns,
 }: IColumnMenuProps) {
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, projectScope);
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const updateColumn = useSetAtom(updateColumnAtom, tableScope);
-  const deleteColumn = useSetAtom(deleteColumnAtom, tableScope);
-  const [tableSorts, setTableSorts] = useAtom(tableSortsAtom, tableScope);
-  const [columnMenu, setColumnMenu] = useAtom(columnMenuAtom, tableScope);
-  const openColumnModal = useSetAtom(columnModalAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
+  const deleteColumn = useSetAtom(deleteColumnAtom, { store: tableScopeStore });
+  const [tableSorts, setTableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [columnMenu, setColumnMenu] = useAtom(columnMenuAtom, { store: tableScopeStore });
+  const openColumnModal = useSetAtom(columnModalAtom, { store: tableScopeStore });
   const openTableFiltersPopover = useSetAtom(
     tableFiltersPopoverAtom,
-    tableScope
+    { store: tableScopeStore }
   );
-  const [tableNextPage] = useAtom(tableNextPageAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const setModal = useSetAtom(tableModalAtom, tableScope);
-  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, tableScope);
+  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
   const snackLogContext = useSnackLogContext();
 
-  const [altPress] = useAtom(altPressAtom, projectScope);
+  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const triggerSaveTableSorts = useSaveTableSorts(canEditColumns);

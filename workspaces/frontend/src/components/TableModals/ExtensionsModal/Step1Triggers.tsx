@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import { IExtensionModalStepProps } from "./ExtensionModal";
 
 import {
@@ -13,7 +14,7 @@ import {
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
 } from "@src/atoms/projectScope";
 import { FieldType } from "@src/constants/fields";
@@ -23,9 +24,10 @@ export default function Step1Triggers({
   extensionObject,
   setExtensionObject,
 }: IExtensionModalStepProps) {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
 
   return (

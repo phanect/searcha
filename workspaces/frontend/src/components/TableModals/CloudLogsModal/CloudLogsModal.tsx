@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import { useAtom } from "jotai";
 import { startCase } from "lodash-es";
+import { useContext } from "react";
 import { ITableModalProps } from "@src/components/TableModals";
 
 import {
@@ -32,13 +33,13 @@ import CloudLogSeverityIcon, {
 } from "./CloudLogSeverityIcon";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectIdAtom,
   rowyRunAtom,
   compatibleRowyRunVersionAtom,
 } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableSchemaAtom,
   cloudLogFiltersAtom,
@@ -48,17 +49,20 @@ import { FieldType } from "@src/constants/fields";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 export default function CloudLogsModal({ onClose }: ITableModalProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
   const [compatibleRowyRunVersion] = useAtom(
     compatibleRowyRunVersionAtom,
-    projectScope
+    { store: projectScopeStore }
   );
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const [cloudLogFilters, setCloudLogFilters] = useAtom(
     cloudLogFiltersAtom,
-    tableScope
+    { store: tableScopeStore }
   );
 
   const { data, mutate, isValidating } = useSWR(

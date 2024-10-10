@@ -1,4 +1,4 @@
-import { useState, Suspense } from "react";
+import { useState, Suspense, useContext } from "react";
 import { useSetAtom } from "jotai";
 import { colord } from "colord";
 
@@ -35,7 +35,7 @@ import CommunityMenu from "./CommunityMenu";
 import HelpMenu from "./HelpMenu";
 import { INavDrawerContentsProps } from "./NavDrawerContents";
 
-import { projectScope, getStartedChecklistAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, getStartedChecklistAtom } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import useGetStartedCompletion from "@src/components/GetStartedChecklist/useGetStartedCompletion";
@@ -56,6 +56,7 @@ export default function NavDrawer({
   onClose,
   Contents,
 }: INavDrawerProps) {
+  const projectScopeStore = useContext(ProjectScopeContext);
   const [hover, _setHover] = useState<boolean | "persist">(false);
   const collapsed = !open && isPermanent;
   const setHover = collapsed ? _setHover : () => {};
@@ -69,7 +70,7 @@ export default function NavDrawer({
 
   const openGetStartedChecklist = useSetAtom(
     getStartedChecklistAtom,
-    projectScope
+    { store: projectScopeStore },
   );
   const [getStartedCompleted, getStartedCompletionCount] =
     useGetStartedCompletion();

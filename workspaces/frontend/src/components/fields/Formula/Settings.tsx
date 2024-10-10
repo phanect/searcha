@@ -1,14 +1,14 @@
-import { lazy, Suspense, useMemo } from "react";
+import { lazy, Suspense, useContext, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { Provider, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import MultiSelect from "@phanect/datasheet-multiselect";
 
 import { Grid2 as Grid, InputLabel, Stack, FormHelperText, Box } from "@mui/material";
 
 import {
+  TableScopeContext,
   tableColumnsOrderedAtom,
   tableSchemaAtom,
-  tableScope,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
 
@@ -16,6 +16,7 @@ import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import { ISettingsProps } from "@src/components/fields/types";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import { DEFAULT_COL_WIDTH, DEFAULT_ROW_HEIGHT } from "@src/components/Table";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
 import { ColumnConfig } from "@src/types/table";
 
 import {
@@ -29,7 +30,7 @@ import { getFieldProp } from "..";
 import formulaDefs from "./formula.d.ts?raw";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-import { currentUserAtom } from "@src/atoms/projectScope";
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import TableSourcePreview from "./TableSourcePreview";
 
 const CodeEditor = lazy(
@@ -50,10 +51,12 @@ export default function Settings({
   onBlur,
   errors,
 }: ISettingsProps) {
-  const [currentUser] = useAtom(currentUserAtom, tableScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const tableScopeStore = useContext(ProjectScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: tableScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const returnType = getFieldProp("dataType", config.renderFieldType) ?? "any";
   const formulaFn = config?.formulaFn ? config.formulaFn : defaultFn;
 
@@ -168,18 +171,19 @@ export default function Settings({
       </div>
       <Box>
         <InputLabel>Preview table</InputLabel>
-        <Provider
+        <TableScopeContext.Provider
           key={"preview-table"}
-          scope={tableScope}
-          initialValues={[
+          value={tableScopeStore}
+        >
+          <HydrateAtoms initialValues={[
             [currentUserAtom, currentUser],
             [tableSchemaAtom, previewTableSchema],
             [tableSettingsAtom, tableSettings],
-          ]}
-        >
-          <TableSourcePreview formulaFn={formulaFn} />
-          <PreviewTable />
-        </Provider>
+          ]}>
+            <TableSourcePreview formulaFn={formulaFn} />
+            <PreviewTable />
+          </HydrateAtoms>
+        </TableScopeContext.Provider>
       </Box>
     </Stack>
   );

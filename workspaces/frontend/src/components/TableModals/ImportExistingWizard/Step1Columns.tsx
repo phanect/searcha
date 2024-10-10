@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import {
   DragDropContext,
@@ -23,13 +23,14 @@ import ScrollableList from "@src/components/TableModals/ScrollableList";
 import Column from "@src/components/Table/Mock/Column";
 import EmptyState from "@src/components/EmptyState";
 
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { suggestType } from "./utils";
 
 export default function Step1Columns({ config, setConfig }: IStepProps) {
+  const tableScopeStore = useContext(TableScopeContext);
   // Get a list of fields from first 50 documents
-  const [tableRows] = useAtom(tableRowsAtom, tableScope);
+  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const tableRowsSample = tableRows.slice(0, 50);
 
   const allFields = useMemo(() => {

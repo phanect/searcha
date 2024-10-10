@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import {
   collection,
@@ -13,12 +13,12 @@ import Modal from "@src/components/Modal";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 
 /**
  * NOTE: This is Firestore-specific
@@ -28,10 +28,12 @@ export default function ReExecute() {
   const [updating, setUpdating] = useState(false);
   const handleClose = () => setOpen(false);
 
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
-  const [firebaseDb] = useAtom(firebaseDbAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   if (!firebaseDb) return null;
 

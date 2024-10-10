@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import { colord } from "colord";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -22,7 +23,7 @@ import { NAV_DRAWER_WIDTH, NAV_DRAWER_COLLAPSED_WIDTH } from "./NavDrawer";
 import UserMenu from "./UserMenu";
 import UpdateCheckBadge from "./UpdateCheckBadge";
 
-import { projectScope, userRolesAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES, ROUTE_TITLES } from "@src/constants/routes";
 
 export const TOP_BAR_HEIGHT = 56;
@@ -42,7 +43,8 @@ export default function TopBar({
   routeTitle,
   title,
 }: ITopBarProps) {
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
 
   const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 0 });
   const menuIcon = open ? <MenuCloseIcon /> : <MenuIcon />;

@@ -1,9 +1,9 @@
 import { useSetAtom } from "jotai";
-
+import { useContext } from "react";
 import { Box, BoxProps, Button } from "@mui/material";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
 
-import { tableScope, columnModalAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, columnModalAtom } from "@src/atoms/tableScope";
 import { spreadSx } from "@src/utils/ui";
 
 export interface IFinalColumnHeaderProps extends Partial<BoxProps> {
@@ -16,7 +16,8 @@ export default function FinalColumnHeader({
   canAddColumns,
   ...props
 }: IFinalColumnHeaderProps) {
-  const openColumnModal = useSetAtom(columnModalAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const openColumnModal = useSetAtom(columnModalAtom, { store: tableScopeStore });
 
   if (canAddColumns)
     return (

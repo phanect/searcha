@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
 import { useAtom } from "jotai";
 import { colord } from "colord";
 
@@ -6,9 +6,9 @@ import { Fade, Stack, Skeleton, Button } from "@mui/material";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
 import Column from "./Mock/Column";
 
-import { projectScope, userSettingsAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableIdAtom,
   tableSchemaAtom,
   tableColumnsOrderedAtom,
@@ -65,9 +65,12 @@ export function HeaderRowSkeleton() {
 }
 
 const useDisplayedColumns = () => {
-  const [userSettings] = useAtom(userSettingsAtom, projectScope);
-  const [tableId] = useAtom(tableIdAtom, tableScope);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+
+  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const userDocHiddenFields =
     userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields;
 
@@ -119,7 +122,8 @@ export function StaticHeaderRow() {
 }
 
 export function RowsSkeleton() {
-  const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const columns = useDisplayedColumns();
   const rowHeight = tableSchema.rowHeight ?? DEFAULT_ROW_HEIGHT;
 

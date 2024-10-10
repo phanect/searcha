@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
@@ -7,7 +7,7 @@ import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { Box, Stack, Link } from "@mui/material";
 import ActionFab from "./ActionFab";
 
-import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import { sanitiseCallableName, isUrl } from "./utils";
 import { getActionName } from "./DisplayCell";
@@ -18,6 +18,7 @@ export default function Action({
   value,
   disabled,
 }: ISideDrawerFieldProps) {
+  const tableScopeStore = useContext(TableScopeContext);
   const [row] = useAtom(
     useMemo(
       () =>
@@ -28,7 +29,7 @@ export default function Action({
         ),
       [_rowy_ref.path]
     ),
-    tableScope
+    { store: tableScopeStore },
   );
 
   const hasRan = value && value.status;

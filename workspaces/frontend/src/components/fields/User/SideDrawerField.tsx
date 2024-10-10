@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useAtom } from "jotai";
 import { Tooltip, Stack, AvatarGroup, Avatar } from "@mui/material";
 
-import { allUsersAtom, projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import { ChevronDown } from "@src/assets/icons/ChevronDown";
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
@@ -16,7 +16,8 @@ export default function SideDrawerSelect({
   disabled,
 }: ISideDrawerFieldProps) {
   const [open, setOpen] = useState(false);
-  const [users] = useAtom(allUsersAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
   const parentRef = useRef(null);
 
   let userValue: UserDataType[] = [];

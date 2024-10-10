@@ -1,13 +1,15 @@
+import { useContext } from "react";
 import { useAtom } from "jotai";
 import { IDisplayCellProps } from "@src/components/fields/types";
 
 import { Stack, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 
-import { projectScope, projectIdAtom } from "@src/atoms/projectScope";
+import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 
 export default function Reference({ value, tabIndex }: IDisplayCellProps) {
-  const [projectId] = useAtom(projectIdAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   const path = value?.path ?? "";
   if (!path) return null;

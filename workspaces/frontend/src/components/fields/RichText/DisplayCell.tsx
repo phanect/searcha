@@ -42,7 +42,7 @@ import RenderedHtml from "@src/components/RenderedHtml";
 // }));
 
 export default function RichText({ value, tabIndex }: IDisplayCellProps) {
-  // const [tableSchema] = useAtom(tableSchemaAtom, tableScope);
+  // const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const theme = useTheme();
 

@@ -1,4 +1,5 @@
 import { format, formatRelative } from "date-fns";
+import { useContext } from "react";
 
 import {
   Stack,
@@ -24,9 +25,9 @@ import { extensionNames, IExtension } from "./utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { useSetAtom } from "jotai";
 import {
+  TableScopeContext,
   cloudLogFiltersAtom,
   tableModalAtom,
-  tableScope,
 } from "@src/atoms/tableScope";
 
 export interface IExtensionListProps {
@@ -44,8 +45,9 @@ export default function ExtensionList({
   handleEdit,
   handleDelete,
 }: IExtensionListProps) {
-  const setModal = useSetAtom(tableModalAtom, tableScope);
-  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, tableScope);
+  const tableScopeStore = useContext(TableScopeContext);
+  const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
+  const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
 
   if (extensions.length === 0)
     return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GlobalStyles } from "tss-react";
 import { alpha, styled, useTheme } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
@@ -31,7 +31,7 @@ import "tinymce/plugins/code";
 import "tinymce/plugins/fullscreen";
 import { useAtom } from "jotai";
 import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
-import { projectScope } from "@src/atoms/projectScope";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { generateId } from "@src/utils/table";
 import { useSnackbar } from "notistack";
@@ -161,7 +161,8 @@ export default function RichTextEditor({
   const theme = useTheme();
   const [focus, setFocus] = useState(false);
 
-  const [firebaseStorage] = useAtom(firebaseStorageAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const [firebaseStorage] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const handleImageUpload = (file: any) => {

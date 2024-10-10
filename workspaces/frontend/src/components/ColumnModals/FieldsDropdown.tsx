@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import MultiSelect from "@phanect/datasheet-multiselect";
 import { ListItemIcon, Typography } from "@mui/material";
 
@@ -7,11 +8,11 @@ import { getFieldProp } from "@src/components/fields";
 
 import { useSetAtom, useAtom } from "jotai";
 import {
-  projectScope,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
-import { tableScope, tableSettingsAtom } from "@src/atoms/tableScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 
 export interface IFieldsDropdownProps {
   value: FieldType | "";
@@ -34,9 +35,11 @@ export default function FieldsDropdown({
   options: optionsProp,
   ...props
 }: IFieldsDropdownProps) {
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
-  const [tableSettings] = useAtom(tableSettingsAtom, tableScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+  const tableScopeStore = useContext(TableScopeContext);
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const fieldTypesToDisplay = optionsProp
     ? FIELDS.filter((fieldConfig) => optionsProp.indexOf(fieldConfig.type) > -1)
     : FIELDS;

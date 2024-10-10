@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useSnackbar } from "notistack";
 
@@ -17,7 +17,7 @@ import MultiSelect from "@phanect/datasheet-multiselect";
 import EmojiAvatar from "@src/components/EmojiAvatar";
 
 import {
-  projectScope,
+  ProjectScopeContext,
   projectRolesAtom,
   projectSettingsAtom,
   rowyRunAtom,
@@ -35,13 +35,15 @@ export default function UserItem({
   roles: rolesProp,
 }: UserSettings) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const confirm = useSetAtom(confirmDialogAtom, projectScope);
-  const openRowyRunModal = useSetAtom(rowyRunModalAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [projectRoles] = useAtom(projectRolesAtom, projectScope);
-  const [projectSettings] = useAtom(projectSettingsAtom, projectScope);
-  const [rowyRun] = useAtom(rowyRunAtom, projectScope);
-  const [updateUser] = useAtom(updateUserAtom, projectScope);
+  const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
+  const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
+
+  const [projectRoles] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [updateUser] = useAtom(updateUserAtom, { store: projectScopeStore });
 
   const [value, setValue] = useState(Array.isArray(rolesProp) ? rolesProp : []);
   const allRoles = new Set(["ADMIN", ...(projectRoles ?? []), ...value]);

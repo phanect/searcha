@@ -6,7 +6,7 @@ import { find, findIndex, sortBy } from "lodash-es";
 
 import { currentUserAtom } from "@src/atoms/projectScope";
 import {
-  tableScope,
+  TableScopeContext,
   tableSettingsAtom,
   tableRowsDbAtom,
   tableRowsLocalAtom,
@@ -27,14 +27,14 @@ const initRows = (
   enableAudit: boolean = false
 ) =>
   renderHook(async () => {
-    const setCurrentUser = useSetAtom(currentUserAtom, tableScope);
+    const setCurrentUser = useSetAtom(currentUserAtom, { store: tableScopeStore });
     setCurrentUser({
       uid: "TEST_USER",
       displayName: "Test User",
       email: "test@example.com",
     } as any);
 
-    const setTableSettings = useSetAtom(tableSettingsAtom, tableScope);
+    const setTableSettings = useSetAtom(tableSettingsAtom, { store: tableScopeStore });
     setTableSettings({
       id: TEST_COLLECTION,
       name: TEST_COLLECTION,
@@ -45,14 +45,14 @@ const initRows = (
       audit: enableAudit,
     });
 
-    const setRowsDb = useSetAtom(tableRowsDbAtom, tableScope);
+    const setRowsDb = useSetAtom(tableRowsDbAtom, { store: tableScopeStore });
     setRowsDb([...initialRowsDb]);
     const readRowsDb = useAtomCallback(
       useCallback((get) => get(tableRowsDbAtom), []),
       tableScope
     );
 
-    const setRowsLocal = useSetAtom(tableRowsLocalAtom, tableScope);
+    const setRowsLocal = useSetAtom(tableRowsLocalAtom, { store: tableScopeStore });
     setRowsLocal({ type: "set", rows: [...initialRowsLocal] });
 
     const setUpdateRowDb = useSetAtom(_updateRowDbAtom, tableScope);
@@ -109,7 +109,7 @@ describe("addRow", () => {
       initRows(generatedRows);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(() =>
@@ -133,7 +133,7 @@ describe("addRow", () => {
       initRows();
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(() =>
@@ -157,7 +157,7 @@ describe("addRow", () => {
       initRows(generatedRows);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(() =>
@@ -183,7 +183,7 @@ describe("addRow", () => {
       initRows(generatedRows);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(() =>
@@ -211,7 +211,7 @@ describe("addRow", () => {
       initRows([]);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(() =>
@@ -244,7 +244,7 @@ describe("addRow", () => {
       initRows(generatedRows);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(
@@ -292,7 +292,7 @@ describe("addRow", () => {
       initRows();
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(
@@ -340,7 +340,7 @@ describe("addRow", () => {
       initRows(generatedRows);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(
@@ -388,7 +388,7 @@ describe("addRow", () => {
       initRows(generatedRows);
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(
@@ -438,7 +438,7 @@ describe("addRow", () => {
       initRows();
       const {
         result: { current: addRow },
-      } = renderHook(() => useSetAtom(addRowAtom, tableScope));
+      } = renderHook(() => useSetAtom(addRowAtom, { store: tableScopeStore }));
       expect(addRow).toBeDefined();
 
       await act(
@@ -491,7 +491,7 @@ describe("deleteRow", () => {
     initRows(generatedRows);
     const {
       result: { current: deleteRow },
-    } = renderHook(() => useSetAtom(deleteRowAtom, tableScope));
+    } = renderHook(() => useSetAtom(deleteRowAtom, { store: tableScopeStore }));
     expect(deleteRow).toBeDefined();
 
     await act(() =>
@@ -511,7 +511,7 @@ describe("deleteRow", () => {
     initRows(generatedRows, generatedRowsLocal);
     const {
       result: { current: deleteRow },
-    } = renderHook(() => useSetAtom(deleteRowAtom, tableScope));
+    } = renderHook(() => useSetAtom(deleteRowAtom, { store: tableScopeStore }));
     expect(deleteRow).toBeDefined();
 
     await act(() =>
@@ -531,7 +531,7 @@ describe("deleteRow", () => {
     initRows(generatedRows);
     const {
       result: { current: deleteRow },
-    } = renderHook(() => useSetAtom(deleteRowAtom, tableScope));
+    } = renderHook(() => useSetAtom(deleteRowAtom, { store: tableScopeStore }));
     expect(deleteRow).toBeDefined();
 
     await act(() =>
@@ -553,7 +553,7 @@ describe("deleteRow", () => {
     initRows(generatedRows);
     const {
       result: { current: deleteRow },
-    } = renderHook(() => useSetAtom(deleteRowAtom, tableScope));
+    } = renderHook(() => useSetAtom(deleteRowAtom, { store: tableScopeStore }));
     expect(deleteRow).toBeDefined();
 
     await act(() =>
@@ -572,7 +572,7 @@ describe("deleteRow", () => {
     initRows(generatedRows);
     const {
       result: { current: deleteRow },
-    } = renderHook(() => useSetAtom(deleteRowAtom, tableScope));
+    } = renderHook(() => useSetAtom(deleteRowAtom, { store: tableScopeStore }));
     expect(deleteRow).toBeDefined();
 
     await act(() =>
@@ -591,7 +591,7 @@ describe("deleteRow", () => {
     initRows();
     const {
       result: { current: deleteRow },
-    } = renderHook(() => useSetAtom(deleteRowAtom, tableScope));
+    } = renderHook(() => useSetAtom(deleteRowAtom, { store: tableScopeStore }));
     expect(deleteRow).toBeDefined();
 
     await act(() =>

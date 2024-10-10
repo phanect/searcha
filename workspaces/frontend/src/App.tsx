@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAtom } from "jotai";
 
@@ -13,8 +13,8 @@ import RequireAuth from "@src/layouts/RequireAuth";
 import AdminRoute from "@src/layouts/AdminRoute";
 
 import {
-  projectScope,
   currentUserAtom,
+  ProjectScopeContext,
   userRolesAtom,
   altPressAtom,
 } from "@src/atoms/projectScope";
@@ -52,9 +52,11 @@ const MembersPage = lazy(() => import("@src/pages/Settings/MembersPage"));
 const DebugPage = lazy(() => import("@src/pages/Settings/DebugPage"));
 
 export default function App() {
-  const [currentUser] = useAtom(currentUserAtom, projectScope);
-  const [userRoles] = useAtom(userRolesAtom, projectScope);
-  useKeyPressWithAtom("Alt", altPressAtom, projectScope);
+  const projectScopeStore = useContext(ProjectScopeContext);
+
+  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  useKeyPressWithAtom("Alt", altPressAtom, { store: projectScopeStore });
 
   return (
     <Suspense fallback={<Loading fullScreen />}>

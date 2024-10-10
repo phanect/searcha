@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import { atomWithReducer, atomWithHash } from "jotai/utils";
+import { atomWithReducer } from "jotai/utils";
+import { atomWithHash } from "jotai-location";
 import { findIndex, cloneDeep, unset, orderBy } from "lodash-es";
 
 import {
@@ -69,7 +70,7 @@ export const tableSortsAtom = atom<TableSort[]>([]);
 
 /** Store current page in URL */
 export const tablePageHashAtom = atomWithHash("page", 0, {
-  replaceState: true,
+  setHash: "replaceState",
 });
 /**
  * Set the page for the table query. Stops updating if we’ve loaded all rows.
