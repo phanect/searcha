@@ -38,4 +38,7 @@ export default defineConfig({
       inline: ["clsx"],
     },
   },
+  server: {
+    port: 3000,
+  },
 });
