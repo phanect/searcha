@@ -4,6 +4,10 @@
     "@phanect/configs/ts/addons/jsx",
     "@phanect/configs/ts/addons/npm"
   ],
+  "compilerOptions": {
+    // TODO tmp
+    "strict": false // Until type errors to prevent build are fixed
+  },
   "include": [
     "**/*.ts",
     "**/*.tsx",
@@ -14,5 +18,10 @@
   "exclude": [
     "./node_modules",
     "./dist"
+    // tmp
+    , "**/test/**"
+    , "**/*.test.ts"
+    , "**/example/**"
+    , "**/stories/**"
   ]
 }

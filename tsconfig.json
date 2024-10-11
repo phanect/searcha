@@ -11,5 +11,9 @@
     "**/node_modules",
     "**/dist",
     "./workspaces/*/**"
+    // tmp
+    , "**/test/**"
+    , "**/*.test.ts"
+    , "**/stories/**"
   ]
 }

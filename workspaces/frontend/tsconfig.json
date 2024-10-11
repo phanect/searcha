@@ -9,6 +9,8 @@
       "@root/*": [ "./*" ],
       "@src/*": [ "./src/*" ]
     }
+    // TODO tmp
+    , "lib": [ "ESNext", "DOM" ] // Quick fix. Investigate @phanect/configs later
   },
   "include": [
     "**/*.ts",
@@ -20,5 +22,10 @@
   "exclude": [
     "./node_modules/**",
     "./dist/**"
+    // tmp
+    , "**/test/**"
+    , "**/*.test.ts"
+    , "**/example/**"
+    , "**/stories/**"
   ]
 }

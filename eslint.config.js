@@ -3,6 +3,12 @@ import { react } from "@phanect/lint-react";
 
 /** @type { import("eslint").Linter.Config[] } */
 export default [
+  {
+    // tmp
+    ignores: [
+      "**", // Temporarily disable ESLint to show only TypeScript errors on VSCode
+    ],
+  },
   ...core,
   ...nodejs,
   ...react,
