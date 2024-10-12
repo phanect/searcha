@@ -13,7 +13,7 @@
     "dev": "lerna exec --parallel -- pnpm run --if-present dev",
     "build": "lerna exec -- pnpm run --if-present build",
     "lint": "eslint",
-    "fix": "eslint --fix",
+    "fix": "eslint --fix && pnpm pkg fix",
     "test": "lerna exec --parallel -- pnpm run --if-present test",
     "storybook": "lerna exec --parallel -- pnpm run --if-present storybook",
     "build-storybook": "lerna exec --parallel -- pnpm run --if-present build-storybook",
