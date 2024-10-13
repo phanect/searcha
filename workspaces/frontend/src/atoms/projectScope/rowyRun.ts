@@ -128,8 +128,8 @@ export const rowyRunVersionAtom = atom(async (get) => {
  * Helper function to check if deployed Rowy Run version
  * is compatible with a feature
  */
-export const compatibleRowyRunVersionAtom = atom((get) => {
-  const deployedVersion = get(rowyRunVersionAtom);
+export const compatibleRowyRunVersionAtom = atom(async (get) => {
+  const deployedVersion = await get(rowyRunVersionAtom);
 
   return ({
     minVersion,
