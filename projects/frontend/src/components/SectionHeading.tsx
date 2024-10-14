@@ -7,7 +7,7 @@ import LinkIcon from "@mui/icons-material/Link";
 
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 
-export interface ISectionHeadingProps extends Omit<StackProps, "children"> {
+export interface ISectionHeadingProps extends StackProps {
   children: string;
 }
 
