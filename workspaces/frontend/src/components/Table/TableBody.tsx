@@ -20,7 +20,7 @@ import {
 } from "@src/atoms/tableScope";
 
 import { getFieldProp } from "@src/components/fields";
-import type { TableRow } from "@src/types/table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 import useVirtualization from "./useVirtualization";
 import { DEFAULT_ROW_HEIGHT, OUT_OF_ORDER_MARGIN } from "./Table";
 import StyledCell from "./Styled/StyledCell";
@@ -116,7 +116,7 @@ export const TableBody = memo(function TableBody({
 
               const fieldTypeGroup = getFieldProp(
                 "group",
-                cell.column.columnDef.meta?.type
+                (cell.column.columnDef.meta as ColumnConfig)?.type
               );
               const isReadOnlyCell =
                 fieldTypeGroup === "Auditing" || fieldTypeGroup === "Metadata";

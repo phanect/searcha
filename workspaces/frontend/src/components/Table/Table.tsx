@@ -53,11 +53,6 @@ export const TABLE_PADDING = 16;
 export const OUT_OF_ORDER_MARGIN = 8;
 export const DEBOUNCE_DELAY = 500;
 
-declare module "@tanstack/table-core" {
-  /** The `column.meta` property contains the column config from tableSchema */
-  interface ColumnMeta<TData, TValue> extends ColumnConfig {}
-}
-
 const columnHelper = createColumnHelper<TableRow>();
 const getRowId = (row: TableRow) => row._rowy_ref.path || row._rowy_ref.id;
 
@@ -230,7 +225,7 @@ export default function Table({
         ...(selectedRows ? ["_rowy_select"] : []),
         ...columns
           .filter(
-            (c) => c.meta?.fixed && c.id && columnVisibility[c.id] !== false
+            (c) => (c.meta as ColumnConfig)?.fixed && c.id && columnVisibility[c.id] !== false
           )
           .map((c) => c.id!),
       ],
