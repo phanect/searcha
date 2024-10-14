@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
+import type { WebHook } from "./type.ts";
 
-export const webhookFirebaseAuth = {
+export const webhookFirebaseAuth: WebHook = {
   name: "firebaseAuth",
   parser: {
     additionalVariables: null,
