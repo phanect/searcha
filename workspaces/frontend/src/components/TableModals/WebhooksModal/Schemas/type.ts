@@ -4,7 +4,7 @@ import type { IWebhook } from "../utils.tsx";
 export type AdditionalVariables = {
   key: "req";
   description: string;
-}[] | null;
+}[];
 
 export type WebHook = {
   name: string;
