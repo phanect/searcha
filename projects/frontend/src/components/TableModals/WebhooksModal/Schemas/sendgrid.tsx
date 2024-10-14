@@ -6,8 +6,6 @@ import type { WebHook } from "./type.ts";
 export const webhookSendgrid: WebHook = {
   name: "SendGrid",
   parser: {
-    additionalVariables: null,
-    extraLibs: null,
     template: () => `const sendgridParser: Parser = async ({ req, db, ref, logging }) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("sendgridParser started")
@@ -34,8 +32,6 @@ export const webhookSendgrid: WebHook = {
 };`,
   },
   condition: {
-    additionalVariables: null,
-    extraLibs: null,
     template: () => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
