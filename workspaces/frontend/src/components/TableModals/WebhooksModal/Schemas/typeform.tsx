@@ -2,8 +2,9 @@ import { Typography, Link, TextField } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { TableSettings } from "@src/types/table";
 import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
+import type { WebHook } from "./type.ts";
 
-export const webhookTypeform = {
+export const webhookTypeform: WebHook = {
   name: "Typeform",
   parser: {
     additionalVariables: null,
