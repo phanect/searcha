@@ -5,11 +5,13 @@ import { IColor, ColorPicker } from "react-color-palette";
 
 export interface IColorPickerProps {
   value: IColor;
+  disabled?: boolean;
   onChangeComplete: (color: IColor) => void;
 }
 
 export default function ColorPickerInput({
   value,
+  disabled,
   onChangeComplete,
 }: IColorPickerProps) {
   const [localValue, setLocalValue] = useState(value);
@@ -40,6 +42,7 @@ export default function ColorPickerInput({
       <ColorPicker
         height={150}
         color={localValue}
+        disabled={ disabled }
         onChange={(color) => setLocalValue(color)}
         onChangeComplete={onChangeComplete}
       />
