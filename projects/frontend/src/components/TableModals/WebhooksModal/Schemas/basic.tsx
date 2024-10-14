@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import { TableSettings } from "@src/types/table";
+import type { AdditionalVariables, WebHook } from "./type.ts";
 
 const requestType = [
   "declare type WebHookRequest {",
@@ -46,14 +47,14 @@ export const conditionExtraLibs = [
   ) => Promise<any>;`,
 ];
 
-const additionalVariables = [
+const additionalVariables: AdditionalVariables = [
   {
     key: "req",
     description: "webhook request",
   },
 ];
 
-export const webhookBasic = {
+export const webhookBasic: WebHook = {
   name: "Basic",
   parser: {
     additionalVariables,

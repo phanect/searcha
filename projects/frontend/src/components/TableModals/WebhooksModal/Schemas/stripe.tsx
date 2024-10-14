@@ -14,8 +14,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import LoadingButton from "@mui/lab/LoadingButton";
+import type { WebHook } from "./type.ts";
 
-export const webhookStripe = {
+export const webhookStripe: WebHook = {
   name: "Stripe",
   parser: {
     additionalVariables: null,

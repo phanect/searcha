@@ -1,8 +1,9 @@
 import { Typography, Link, TextField } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
+import type { WebHook } from "./type.ts";
 
-export const webhookSendgrid = {
+export const webhookSendgrid: WebHook = {
   name: "SendGrid",
   parser: {
     additionalVariables: null,
