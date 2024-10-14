@@ -7,7 +7,7 @@ import {
   HeaderGroup,
   flexRender,
 } from "@tanstack/react-table";
-import type { TableRow } from "@src/types/table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 
 import StyledRow from "./Styled/StyledRow";
 import ColumnHeader from "./ColumnHeader";
@@ -122,7 +122,7 @@ export const TableHeader = memo(function TableHeader({
                     {(provided, snapshot) => (
                       <ColumnHeader
                         header={header}
-                        column={header.column.columnDef.meta!}
+                        column={header.column.columnDef.meta as ColumnConfig}
                         provided={provided}
                         snapshot={snapshot}
                         width={header.getSize()}

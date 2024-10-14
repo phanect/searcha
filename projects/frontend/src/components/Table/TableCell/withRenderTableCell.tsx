@@ -7,7 +7,7 @@ import { Popover, PopoverProps } from "@mui/material";
 import EditorCellController from "./EditorCellController";
 
 import { spreadSx } from "@src/utils/ui";
-import type { TableRow } from "@src/types/table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 import type {
   IDisplayCellProps,
   IEditorCellProps,
@@ -142,10 +142,10 @@ export default function withRenderTableCell(
       // Declare basicCell here so props can be reused by HeavyCellComponent
       const basicCellProps: IDisplayCellProps = {
         value,
-        name: column.columnDef.meta!.name,
-        type: column.columnDef.meta!.type,
+        name: (column.columnDef.meta as ColumnConfig)?.name,
+        type: (column.columnDef.meta as ColumnConfig)?.type,
         row: row.original,
-        column: column.columnDef.meta!,
+        column: column.columnDef.meta as ColumnConfig,
         _rowy_ref: row.original._rowy_ref,
         disabled,
         tabIndex: focusInsideCell ? 0 : -1,

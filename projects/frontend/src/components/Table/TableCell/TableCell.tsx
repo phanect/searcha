@@ -18,7 +18,7 @@ import {
   contextMenuTargetAtom,
 } from "@src/atoms/tableScope";
 import { TABLE_PADDING } from "@src/components/Table";
-import type { TableRow } from "@src/types/table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 import type { IRenderedTableCellProps } from "./withRenderTableCell";
 
 export interface ITableCellProps {
@@ -89,8 +89,8 @@ export const TableCell = memo(function TableCell({
   const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, { store: tableScopeStore });
 
   const value = cell.getValue();
-  const required = cell.column.columnDef.meta?.config?.required;
-  const validationRegex = cell.column.columnDef.meta?.config?.validationRegex;
+  const required = (cell.column.columnDef.meta as ColumnConfig)?.config?.required;
+  const validationRegex = (cell.column.columnDef.meta as ColumnConfig)?.config?.validationRegex;
 
   const isInvalid = validationRegex && !new RegExp(validationRegex).test(value);
   const isMissing = required && value === undefined;
@@ -130,7 +130,7 @@ export const TableCell = memo(function TableCell({
         columnKey: cell.column.id,
         focusInside,
       }),
-    disabled: !canEditCells || cell.column.columnDef.meta?.editable === false,
+    disabled: !canEditCells || (cell.column.columnDef.meta as ColumnConfig)?.editable === false,
     rowHeight,
   };
 
@@ -145,9 +145,9 @@ export const TableCell = memo(function TableCell({
       tabIndex={isSelectedCell && !focusInsideCell ? 0 : -1}
       aria-colindex={index + 1}
       aria-readonly={
-        !canEditCells || cell.column.columnDef.meta?.editable === false
+        !canEditCells || (cell.column.columnDef.meta as ColumnConfig)?.editable === false
       }
-      aria-required={Boolean(cell.column.columnDef.meta?.config?.required)}
+      aria-required={Boolean((cell.column.columnDef.meta as ColumnConfig)?.config?.required)}
       aria-selected={isSelectedCell}
       aria-describedby={
         canEditCells && !isReadOnlyCell
