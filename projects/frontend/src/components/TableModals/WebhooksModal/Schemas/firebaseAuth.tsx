@@ -4,8 +4,6 @@ import type { WebHook } from "./type.ts";
 export const webhookFirebaseAuth: WebHook = {
   name: "firebaseAuth",
   parser: {
-    additionalVariables: null,
-    extraLibs: null,
     template: () => `const firebaseAuthParser: Parser = async({req, db, ref, logging}) =>{
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("firebaseAuthParser started")
@@ -22,8 +20,6 @@ export const webhookFirebaseAuth: WebHook = {
 };`,
   },
   condition: {
-    additionalVariables: null,
-    extraLibs: null,
     template: () => `const condition: Condition = async({ref, req, db, logging}) => {
   // WRITE YOUR CODE ONLY BELOW THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
   logging.log("condition started")
