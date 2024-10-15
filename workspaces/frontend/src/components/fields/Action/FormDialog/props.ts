@@ -1,4 +1,4 @@
-import type { ParamsDialogProps } from "./Dialog.tsx";
+import type { ParamsDialogProps } from "./ParamsDialog.tsx";
 
 export interface IActionParams {
   dialogProps?: ParamsDialogProps;
