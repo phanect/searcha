@@ -5,6 +5,12 @@ import svgrPlugin from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    // Relaxed file size limit because file size itself does not affect
+    // page performance so much. However, too large JS files imply too much
+    // frontend processes, i.e. performance degrade, so warn 2MB+ chunk.
+    chunkSizeWarningLimit: 2000, // kB
+  },
   resolve: {
     // Explicitly setting mainFields to default value. For some reason, Vitest isn't
     // respecting the 'module' field in package.json without specifying it explicitly
