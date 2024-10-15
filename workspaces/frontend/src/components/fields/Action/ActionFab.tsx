@@ -20,6 +20,7 @@ import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import { useActionParams } from "./FormDialog/Context";
 import { runRoutes } from "@src/constants/runRoutes";
 import { getTableSchemaPath } from "@src/utils/table";
+import type { FieldValues } from "react-hook-form";
 
 const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
@@ -87,7 +88,7 @@ export default function ActionFab({
   const callableName: string =
     (column as any).callableName ?? config.callableName ?? "actionScript";
 
-  const fnParams = (actionParams = null) => ({
+  const fnParams = (actionParams?: FieldValues) => ({
     ref: { path: ref.path },
     column: { ...column, editor: undefined },
     action,
@@ -110,7 +111,7 @@ export default function ActionFab({
     return resp.data;
   };
 
-  const handleRun = async (actionParams = null) => {
+  const handleRun = async (actionParams?: FieldValues): Promise<void> => {
     try {
       setIsRunning(true);
       const data = fnParams(actionParams);
@@ -169,7 +170,7 @@ export default function ActionFab({
       return requestParams({
         column,
         row,
-        handleRun,
+        handleRun: (actionParams) => handleRun(actionParams),
       });
     } else if (action === "undo" && config.undo?.confirmation) {
       return confirm({
