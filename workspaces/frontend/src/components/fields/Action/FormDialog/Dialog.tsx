@@ -1,4 +1,11 @@
 import { FormDialog } from "@phanect/datasheet-form-builder";
+
+export type ParamsDialogProps = {
+  column: any;
+  row: any;
+  handleRun: (actionParams: any) => void;
+};
+
 export default function ParamsDialog({
   column,
   handleRun,
