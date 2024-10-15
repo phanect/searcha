@@ -1,15 +1,10 @@
-export type paramsDialogProps =
-  | {
-      column: any;
-      row: any;
-      handleRun: (actionParams: any) => void;
-    }
-  | undefined;
+import type { ParamsDialogProps } from "./Dialog.tsx";
+
 export interface IActionParams {
-  dialogProps?: paramsDialogProps;
+  dialogProps?: ParamsDialogProps;
   handleClose: () => void;
   open: boolean;
-  requestParams: (props: paramsDialogProps) => void;
+  requestParams: (props: ParamsDialogProps) => void;
 }
 export const CONFIRMATION_EMPTY_STATE = {
   dialogProps: undefined,
