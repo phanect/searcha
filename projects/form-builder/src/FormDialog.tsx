@@ -30,13 +30,13 @@ export interface IFormDialogProps {
   fields: Fields;
   values?: FieldValues;
   onSubmit: (
-    values: FieldValues,
-    event?: BaseSyntheticEvent<object, any, any>
-  ) => void;
+      values: FieldValues,
+      event?: BaseSyntheticEvent<object, any, any>
+    ) => void;
   customComponents?: CustomComponents;
   UseFormProps?: UseFormProps;
 
-  onClose: (reason: 'submit' | 'cancel') => void;
+  onClose?: (reason: 'submit' | 'cancel') => void;
   title: ReactNode;
   formHeader?: ReactNode;
   formFooter?: ReactNode;
@@ -119,7 +119,9 @@ export default function FormDialog({
     setCloseConfirmation(false);
     setOpen(false);
     setTimeout(() => {
-      onClose(reason);
+      if (onClose) {
+        onClose(reason);
+      }
       reset();
     }, 300);
   };
