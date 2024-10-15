@@ -1,9 +1,12 @@
-import { FormDialog } from "@phanect/datasheet-form-builder";
+import { FormDialog, type IFormDialogProps } from "@phanect/datasheet-form-builder";
+import type { ColumnConfig } from "@src/types/table.d.ts";
 
 export type ParamsDialogProps = {
-  column: any;
+  column: ColumnConfig;
   row: any;
-  handleRun: (actionParams: any) => void;
+  handleRun: IFormDialogProps["onSubmit"];
+  open?: boolean;
+  handleClose?: IFormDialogProps["onClose"];
 };
 
 export default function ParamsDialog({
@@ -11,13 +14,13 @@ export default function ParamsDialog({
   handleRun,
   open,
   handleClose,
-}: any) {
+}: ParamsDialogProps) {
   if (!open) return null;
   return (
     <FormDialog
       onClose={handleClose}
       title={`${column.name as string}`}
-      fields={column.config.params}
+      fields={column.config?.params}
       values={{}}
       onSubmit={handleRun}
       SubmitButtonProps={{ children: "Run" }}
