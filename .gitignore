@@ -1,4 +1,11 @@
 #
+# Project-specific
+#
+
+# Stored data of Firebase emulators
+/firebase/.emulator-data/
+
+#
 # Generic
 #
 
@@ -78,10 +85,18 @@ out/
 .astro/
 
 # Platforms
+
+## Cloudflare
 .wrangler/
 .dev.vars
 worker-configuration.d.ts
 
+## Firebase
+.firebase/
+firebase-debug.log*
+firebase-debug.*.log*
+
+## Others
 .vercel/
 .netlify/
 
