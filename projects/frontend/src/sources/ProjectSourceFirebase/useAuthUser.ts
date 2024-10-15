@@ -52,7 +52,7 @@ export function useAuthUser() {
       } catch (e) {
         showBoundary(e);
       }
-    }, elevateError);
+    });
 
     return () => {
       unsubscribe();

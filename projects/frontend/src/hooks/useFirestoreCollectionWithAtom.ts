@@ -369,7 +369,7 @@ const getQuery = <T>(
 
     return joinOperator === "OR"
       ? {
-          query: query<T>(
+          query: query<T, DocumentData>(
             collectionRef,
             or(...firestoreFilters),
             queryLimit(limit),
@@ -380,11 +380,11 @@ const getQuery = <T>(
           limit,
           firestoreFilters,
           sorts,
-          unlimitedQuery: query<T>(collectionRef, ...firestoreFilters),
+          unlimitedQuery: query<T, DocumentData>(collectionRef, ...firestoreFilters),
           joinOperator,
         }
       : {
-          query: query<T>(
+          query: query<T, DocumentData>(
             collectionRef,
             queryLimit(limit),
             ...firestoreFilters,
@@ -395,7 +395,7 @@ const getQuery = <T>(
           limit,
           firestoreFilters,
           sorts,
-          unlimitedQuery: query<T>(collectionRef, ...firestoreFilters),
+          unlimitedQuery: query<T, DocumentData>(collectionRef, ...firestoreFilters),
           joinOperator,
         };
   } catch (e) {
