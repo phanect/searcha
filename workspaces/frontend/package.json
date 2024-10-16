@@ -117,7 +117,6 @@
     "@types/react-router-hash-link": "^2.4.5",
     "@types/seedrandom": "^3.0.2",
     "@vitejs/plugin-react": "^4.0.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
     "craco-alias": "^3.0.1",
     "craco-swc": "^0.5.1",
     "cross-env": "^7.0.3",
@@ -132,7 +131,6 @@
     "typedoc": "^0.23.21",
     "typescript": "^5.6.2",
     "vite": "^5.4.9",
-    "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.3"
   },
