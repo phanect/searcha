@@ -10,20 +10,16 @@ import "tinymce/themes/silver";
 // Toolbar icons
 import "tinymce/icons/default";
 // Editor styles
-import skinCss from "tinymce/skins/ui/oxide/skin.min.css";
-import skinDarkCss from "tinymce/skins/ui/oxide-dark/skin.min.css";
+import "tinymce/skins/ui/oxide/skin.min.css";
 // Content styles, including inline UI like fake cursors
-import contentCss from "tinymce/skins/content/default/content.min.css";
-import contentUiCss from "tinymce/skins/ui/oxide/content.min.css";
-import contentCssDark from "tinymce/skins/content/dark/content.min.css";
-import contentUiCssDark from "tinymce/skins/ui/oxide-dark/content.min.css";
+import "tinymce/skins/content/default/content.min.css";
+import "tinymce/skins/ui/oxide/content.min.css";
 
 // Plugins
 import "tinymce/plugins/autoresize";
 import "tinymce/plugins/lists";
 import "tinymce/plugins/link";
 import "tinymce/plugins/image";
-import "tinymce/plugins/paste";
 import "tinymce/plugins/help";
 import "tinymce/plugins/code";
 import "tinymce/plugins/fullscreen";
@@ -191,7 +187,6 @@ export default function RichTextEditor({
 
   return (
     <Styles focus={focus} disabled={disabled}>
-      <style>{theme.palette.mode === "dark" ? skinDarkCss : skinCss}</style>
       <GlobalStyles
         styles={{
           ".tox": {
@@ -264,8 +259,6 @@ export default function RichTextEditor({
           skin: false,
           content_css: false,
           content_style: [
-            theme.palette.mode === "dark" ? contentCssDark : contentCss,
-            theme.palette.mode === "dark" ? contentUiCssDark : contentUiCss,
             `
               :root {
                 font-size: 14px;

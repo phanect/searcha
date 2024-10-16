@@ -82,7 +82,7 @@
     "stream-browserify": "^3.0.0",
     "sucrase": "^3.32.0",
     "swr": "^2.2.5",
-    "tinymce": "^5",
+    "tinymce": "^6.8.5",
     "tss-react": "^4.4.4",
     "use-algolia": "^1.5.3",
     "use-async-memo": "^1.2.4",
