@@ -18,7 +18,7 @@
     "startWithEmulators": "VITE_APP_FIREBASE_EMULATORS=true vite",
     "emulators": "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit",
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
-    "test": "vitest",
+    "test": "vitest run",
     "analyze": "source-map-explorer ./build/static/js/*.js",
     "prepare": "husky install",
     "target": "firebase target:apply hosting rowy",
