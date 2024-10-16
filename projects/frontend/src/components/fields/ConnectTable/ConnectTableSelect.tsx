@@ -80,31 +80,31 @@ export default function ConnectTableSelect({
   const [algoliaAppId, setAlgoliaAppId] = useAtom(algoliaAppIdAtom, tableScope);
 
   useEffect(() => {
-    if (!algoliaAppId && rowyRun) {
-      rowyRun({ route: runRoutes.algoliaAppId }).then(
-        ({ success, appId, message }) => {
-          if (success) setAlgoliaAppId(appId);
-          else
-            enqueueSnackbar(
-              message.replace("not setup", "not set up") +
-                ": Failed to get app ID",
-              {
-                variant: "error",
-                action: (
-                  <Button
-                    href={WIKI_LINKS.fieldTypesConnectTable}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Docs
-                    <InlineOpenInNewIcon />
-                  </Button>
-                ),
-              }
-            );
-        }
-      );
-    }
+    (async () => {
+      if (!algoliaAppId && rowyRun) {
+        const { success, appId, message } = await rowyRun({ route: runRoutes.algoliaAppId });
+
+        if (success) setAlgoliaAppId(appId);
+        else
+          enqueueSnackbar(
+            message.replace("not setup", "not set up") +
+              ": Failed to get app ID",
+            {
+              variant: "error",
+              action: (
+                <Button
+                  href={WIKI_LINKS.fieldTypesConnectTable}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Docs
+                  <InlineOpenInNewIcon />
+                </Button>
+              ),
+            }
+          );
+      }
+    })();
   }, []);
 
   const filters = config.filters

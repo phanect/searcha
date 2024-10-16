@@ -236,20 +236,20 @@ export default function ImportFromFile() {
     parseFile(value);
   }, 1000);
 
-  const handleUrl = useDebouncedCallback((value: string) => {
+  const handleUrl = useDebouncedCallback(async (value: string) => {
     setLoading(true);
     setError("");
-    fetch(value, { mode: "no-cors" })
-      .then((res) => res.text())
-      .then((data) => {
-        setDataTypeRef(data);
-        parseFile(data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setError(e.message);
-        setLoading(false);
-      });
+    try {
+      const res = await fetch(value, { mode: "no-cors" });
+      const data = await res.text();
+
+      setDataTypeRef(data);
+      parseFile(data);
+      setLoading(false);
+    } catch(e) {
+      setError(e.message);
+      setLoading(false);
+    }
   }, 1000);
 
   return (

@@ -56,7 +56,7 @@ export default function ImportFromAirtable() {
     } catch (error) {}
   }, [tableUrl, setImportAirtable]);
 
-  const handleAirtableConnection = () => {
+  const handleAirtableConnection = async () => {
     const errors = [];
     if (!apiKey) {
       errors.push({ apiKey: { message: "API Key is missing!" } });
@@ -74,42 +74,42 @@ export default function ImportFromAirtable() {
       return;
     }
     setLoading(true);
-    fetch(`https://api.airtable.com/v0/${baseId}/${tableId}?maxRecords=20`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((body) => {
-        const { error } = body;
-        if (error) {
-          if (error.type === "AUTHENTICATION_REQUIRED") {
-            setError({ apiKey: { message: "Invalid API Key!" } });
-          }
-          if (error === "NOT_FOUND") {
-            setError({ baseId: { message: "Could not find base!" } });
-          }
-          if (
-            error.type === "TABLE_NOT_FOUND" ||
-            error.type === "MODEL_ID_NOT_FOUND"
-          ) {
-            setError({ tableId: { message: "Could not find table!" } });
-          }
-          throw new Error(error);
-        }
 
-        setImportAirtable((prev) => ({ ...prev, airtableData: body }));
-        openTableModal("importAirtable");
-      })
-      .then(() => {
-        setLoading(false);
-        setError(null);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
+    try {
+      const res = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}?maxRecords=20`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
       });
+      const body = await res.json();
+
+      const { error } = body;
+      if (error) {
+        if (error.type === "AUTHENTICATION_REQUIRED") {
+          setError({ apiKey: { message: "Invalid API Key!" } });
+        }
+        if (error === "NOT_FOUND") {
+          setError({ baseId: { message: "Could not find base!" } });
+        }
+        if (
+          error.type === "TABLE_NOT_FOUND" ||
+          error.type === "MODEL_ID_NOT_FOUND"
+        ) {
+          setError({ tableId: { message: "Could not find table!" } });
+        }
+        throw new Error(error);
+      }
+
+      setImportAirtable((prev) => ({ ...prev, airtableData: body }));
+      openTableModal("importAirtable");
+
+      setLoading(false);
+      setError(null);
+    } catch(err) {
+      console.error(error);
+      setLoading(false);
+    }
   };
 
   return (

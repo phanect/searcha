@@ -116,19 +116,18 @@ export default function Export({
       persist: true,
     });
 
-    const downloads = files.map((file) =>
-      download(file.downloadURL).then((blob: any) => {
-        zip.file(file.name, blob, { base64: true });
-        completedCount++;
-        snackbarProgressRef.current?.setProgress(completedCount);
-      })
-    );
+    const downloads = files.map(async (file) => {
+      const blob: any = await download(file.downloadURL);
+
+      zip.file(file.name, blob, { base64: true });
+      completedCount++;
+      snackbarProgressRef.current?.setProgress(completedCount);
+    });
 
     await Promise.all(downloads);
-    zip
-      .generateAsync({ type: "blob" })
-      .then((content) => saveAs(content, `${packageName}.zip`));
+    const content = await zip.generateAsync({ type: "blob" });
 
+    saveAs(content, `${packageName}.zip`);
     closeSnackbar(downloadingSnackbar);
     enqueueSnackbar("Download complete", { variant: "success" });
   };

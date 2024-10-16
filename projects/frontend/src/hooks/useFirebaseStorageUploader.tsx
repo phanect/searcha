@@ -68,12 +68,12 @@ const useFirebaseStorageUploader = () => {
 
   const [uploaderState, uploaderDispatch] = useReducer(uploadReducer, {});
 
-  const upload = ({ docRef, fieldName, files }: UploadProps) => {
+  const upload = async ({ docRef, fieldName, files }: UploadProps) => {
     const uploads = [] as FileValue[];
     const failures = [] as string[];
     const isCompleted = () => uploads.length + failures.length === files.length;
 
-    return new Promise((resolve) =>
+    await new Promise((resolve) =>
       files.forEach((file) => {
         uploaderDispatch({
           type: "file_update",
@@ -183,10 +183,10 @@ const useFirebaseStorageUploader = () => {
           }
         );
       })
-    ).then(() => {
-      uploaderDispatch({ type: "reset" });
-      return { uploads, failures };
-    });
+    );
+
+    uploaderDispatch({ type: "reset" });
+    return { uploads, failures };
   };
 
   const deleteUpload = (fileValue: FileValue) => {
