@@ -28,7 +28,8 @@ import Connector from "./Connector";
 import SubTable from "./SubTable";
 import ArraySubTable from "./ArraySubTable";
 import Reference from "./Reference";
-import ConnectTable from "./ConnectTable";
+// TODO Temporarily disabled until I remove no-longer-maintained `use-algolia`
+// import ConnectTable from "./ConnectTable";
 import ConnectService from "./ConnectService";
 import Json from "./Json";
 import Code from "./Code";
@@ -78,7 +79,7 @@ export const FIELDS: IFieldConfig[] = [
   ArraySubTable,
   SubTable,
   Reference,
-  ConnectTable,
+  // ConnectTable, // TODO Temporarily disabled
   ConnectService,
   /** CODE */
   Json,
