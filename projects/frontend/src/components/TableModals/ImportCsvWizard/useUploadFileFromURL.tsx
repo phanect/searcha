@@ -93,11 +93,10 @@ export default function useUploadFileFromURL() {
   const batchUpload = useCallback(
     async (batch: UploadParamTypes[]) => {
       await Promise.all(
-        batch.map((job) =>
-          handleUpload(job).then(() => {
-            snackbarProgressRef.current?.setProgress((p: number) => p + 1);
-          })
-        )
+        batch.map(async (job) => {
+          await handleUpload(job);
+          snackbarProgressRef.current?.setProgress((p: number) => p + 1);
+        })
       );
     },
     [handleUpload]

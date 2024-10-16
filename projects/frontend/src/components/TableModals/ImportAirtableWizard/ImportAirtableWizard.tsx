@@ -194,12 +194,12 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
       };
 
       const resolveAll = async (): Promise<void[]> => {
-        return Promise.all(promises).then((result) => {
-          if (result.length === promises.length) {
-            return result;
-          }
-          return resolveAll();
-        });
+        const result = await Promise.all(promises);
+
+        if (result.length === promises.length) {
+          return result;
+        }
+        return resolveAll();
       };
 
       onClose();
