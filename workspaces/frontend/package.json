@@ -16,7 +16,6 @@
     "start": "vite --port 7699",
     "startWithEmulators": "VITE_APP_FIREBASE_EMULATORS=true vite --port 7699",
     "emulators": "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit",
-    "preview": "vite preview --port 7699",
     "build": "tsc && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "test": "vitest",
     "analyze": "source-map-explorer ./build/static/js/*.js",
