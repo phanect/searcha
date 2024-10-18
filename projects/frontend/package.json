@@ -22,7 +22,6 @@
     "emulators": "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit",
     "test": "vitest",
     "build": "tsc && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
-    "preview": "vite preview --port 7699",
     "target": "firebase target:apply hosting rowy",
     "deploy": "firebase deploy --only hosting"
   },
