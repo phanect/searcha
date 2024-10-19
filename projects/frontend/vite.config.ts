@@ -6,6 +6,7 @@ import svgrPlugin from "vite-plugin-svgr";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
+    sourcemap: process.env.VITE_ENV === "development" || process.env.VITE_ENV === "staging",
     // Relaxed file size limit because file size itself does not affect
     // page performance so much. However, too large JS files imply too much
     // frontend processes, i.e. performance degrade, so warn 2MB+ chunk.
