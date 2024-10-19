@@ -1,4 +1,11 @@
 #
+# Project-specific
+#
+
+/scripts/adminize-data.json
+/scripts/adminize-service-account.json
+
+#
 # System
 #
 

@@ -28,6 +28,7 @@
     "build-storybook": "lerna exec --parallel -- pnpm run --if-present build-storybook",
     "target": "lerna exec --parallel -- pnpm run --if-present target",
     "deploy": "lerna exec --parallel -- pnpm run --if-present deploy",
+    "adminize": "esno ./scripts/adminize.ts",
     "clean": "git clean -dX --exclude=\"!.env\" --force",
     "refresh": "pnpm run clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm run build"
   },
@@ -39,6 +40,8 @@
     "@phanect/lint-react": "latest",
     "@types/node": "^22.5.5",
     "eslint": "^9.11.0",
+    "esno": "^4.7.0",
+    "firebase-admin": "^12.6.0",
     "firebase-tools": "^13.22.0",
     "typescript": "^5.6.2"
   },
