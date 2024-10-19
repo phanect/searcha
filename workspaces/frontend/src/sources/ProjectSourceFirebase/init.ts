@@ -9,20 +9,23 @@ import {
 import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 
+if (
+  import.meta.env.VITE_ENV !== "production"
+  && import.meta.env.VITE_ENV !== "staging"
+  && import.meta.env.VITE_ENV !== "development"
+) {
+  throw new Error(`Unexpected VITE_ENV value: "${ import.meta.env.VITE_ENV }"`);
+}
+
+const projectId = `phanect-datasheet-${ import.meta.env.VITE_ENV }`;
+
 export const envConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_PROJECT_WEB_API_KEY,
-  authDomain: `${import.meta.env.VITE_APP_FIREBASE_PROJECT_ID}.firebaseapp.com`,
-  databaseURL: `https://${
-    import.meta.env.VITE_APP_FIREBASE_PROJECT_ID
-  }.firebaseio.com`,
-  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
-  storageBucket: `${import.meta.env.VITE_APP_FIREBASE_PROJECT_ID}.appspot.com`,
+  authDomain: `${ projectId }.firebaseapp.com`,
+  databaseURL: `https://${ projectId }.firebaseio.com`,
+  projectId,
+  storageBucket: `${ projectId }.appspot.com`,
 };
-
-// Connect emulators based on env vars
-const envConnectEmulators =
-  import.meta.env.NODE_ENV === "test" ||
-  import.meta.env.VITE_APP_FIREBASE_EMULATORS === "true";
 
 /**
  * Store Firebase config here so it can be set programmatically.
