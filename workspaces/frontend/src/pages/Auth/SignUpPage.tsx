@@ -12,6 +12,7 @@ export default function SignUpPage() {
   const [ searchParams ] = useSearchParams();
 
   const uiConfig: auth.Config = {};
+  // FIXME Check if this can cause OPEN REDIRECT
   const redirect = searchParams.get("redirect");
   if (typeof redirect === "string" && redirect.length > 0) {
     uiConfig.signInSuccessUrl = redirect;
