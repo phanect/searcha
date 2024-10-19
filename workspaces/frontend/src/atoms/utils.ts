@@ -1,16 +1,8 @@
 import { useEffect, type ReactElement } from "react";
 import { useSetAtom, type createStore, type SetStateAction, type WritableAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/react/utils";
-import { useAtomsDebugValue } from "jotai-devtools";
 import useMemoValue from "@phanect/use-memo-value";
 import { isEqual } from "lodash-es";
-
-export function DebugAtoms(
-  options: NonNullable<Parameters<typeof useAtomsDebugValue>[0]>
-) {
-  useAtomsDebugValue(options);
-  return null;
-}
 
 export const HydrateAtoms = (options: {
   readonly initialValues?: Iterable<[ WritableAtom<unknown, never[], unknown>, unknown ]>;

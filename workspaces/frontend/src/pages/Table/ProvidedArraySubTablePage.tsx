@@ -1,7 +1,6 @@
 import { lazy, Suspense, useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
-import { DebugAtoms } from "@src/atoms/utils";
 import { ErrorBoundary } from "react-error-boundary";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { find, isEqual } from "lodash-es";
@@ -139,7 +138,6 @@ export default function ProvidedArraySubTablePage() {
               [ tableIdAtom, subTableSettings.id ],
               [ tableSettingsAtom, subTableSettings ],
             ]}>
-              <DebugAtoms store={ tableScopeStore } />
               <ArraySubTableSourceFirestore />
               <TablePage
                 enableRowSelection={false}
