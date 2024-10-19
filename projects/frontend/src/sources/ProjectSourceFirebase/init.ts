@@ -1,13 +1,12 @@
 import { atom } from "jotai";
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import {
   initializeFirestore,
-  connectFirestoreEmulator,
   persistentLocalCache,
   persistentMultipleTabManager,
 } from "firebase/firestore";
-import { getStorage, connectStorageEmulator } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 
 export const envConfig = {
@@ -42,47 +41,24 @@ export const firebaseAppAtom = atom((get) => {
  * Store Firebase Auth instance for current app.
  * Connects to emulators based on env vars.
  */
-export const firebaseAuthAtom = atom((get) => {
-  const auth = getAuth(get(firebaseAppAtom));
-  if (envConnectEmulators && !(window as any).firebaseAuthEmulatorStarted) {
-    connectAuthEmulator(auth, "http://localhost:9099", {
-      disableWarnings: true,
-    });
-    (window as any).firebaseAuthEmulatorStarted = true;
-  }
-  return auth;
-});
+export const firebaseAuthAtom = atom((get) => getAuth(get(firebaseAppAtom)));
 
 /**
  * Store Firestore instance for current app.
  * Connects to emulators based on env vars, or enables multi-tab indexed db persistence.
  */
-export const firebaseDbAtom = atom((get) => {
-  const db = initializeFirestore(get(firebaseAppAtom), {
-    ignoreUndefinedProperties: true,
-    localCache: persistentLocalCache({
-      tabManager: persistentMultipleTabManager(),
-    }),
-  });
-  if (!(window as any).firebaseDbStarted) {
-    if (envConnectEmulators) connectFirestoreEmulator(db, "localhost", 9299);
-    (window as any).firebaseDbStarted = true;
-  }
-  return db;
-});
+export const firebaseDbAtom = atom((get) => initializeFirestore(get(firebaseAppAtom), {
+  ignoreUndefinedProperties: true,
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(),
+  }),
+}));
 
 /**
  * Store Firebase Storage instance for current app.
  * Connects to emulators based on env vars.
  */
-export const firebaseStorageAtom = atom((get) => {
-  const storage = getStorage(get(firebaseAppAtom));
-  if (!(window as any).firebaseStorageEmulatorStarted) {
-    if (envConnectEmulators) connectStorageEmulator(storage, "localhost", 9199);
-    (window as any).firebaseStorageEmulatorStarted = true;
-  }
-  return storage;
-});
+export const firebaseStorageAtom = atom((get) => getStorage(get(firebaseAppAtom)));
 
 /**
  * Store Firebase Functions instance for current app.

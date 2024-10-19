@@ -14,8 +14,6 @@
   ],
   "scripts": {
     "dev": "lerna exec --parallel -- pnpm run --if-present dev",
-    "firebase": "firebase emulators:start --only firestore,auth --import ./firebase/.emulator-data/ --export-on-exit ./firebase/.emulator-data/",
-    "fbsetup": "firebase setup:emulators:firestore && firebase setup:emulators:ui && firebase login",
     "build": "lerna exec -- pnpm run --if-present build",
     "lint": "pnpm run --if-present lint:tsc && eslint",
     "lint:tsc": "tsc --noEmit && lerna exec --no-prefix -- tsc --noEmit",
@@ -25,7 +23,7 @@
     "build-storybook": "lerna exec --parallel -- pnpm run --if-present build-storybook",
     "target": "lerna exec --parallel -- pnpm run --if-present target",
     "deploy": "lerna exec --parallel -- pnpm run --if-present deploy",
-    "clean": "git clean -dX --exclude=\"!.env\" --exclude=\"!.emulator-cache\" --force",
+    "clean": "git clean -dX --exclude=\"!.env\" --force",
     "refresh": "pnpm clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm build"
   },
   "devDependencies": {
