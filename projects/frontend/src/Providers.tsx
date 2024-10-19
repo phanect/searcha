@@ -4,7 +4,6 @@ import { HydrateAtoms } from "@src/atoms/utils.ts";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { DebugAtoms } from "@src/atoms/utils";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import createCache from "@emotion/cache";
@@ -49,7 +48,6 @@ export default function Providers({
             value={ projectScopeStore }
           >
             <HydrateAtoms initialValues={ initialAtomValues }>
-              <DebugAtoms store={ projectScopeStore } />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <CacheProvider value={muiCache}>
                   <RowyThemeProvider>

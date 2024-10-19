@@ -1,6 +1,5 @@
 import { lazy, Suspense, useContext } from "react";
 import { useAtom } from "jotai";
-import { DebugAtoms } from "@src/atoms/utils";
 import { useParams, useOutlet, Link } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { find, isEmpty } from "lodash-es";
@@ -126,7 +125,6 @@ export default function ProvidedTablePage() {
             [ tableIdAtom, id ],
             [ tableSettingsAtom, tableSettings ],
           ]}>
-            <DebugAtoms store={ tableScopeStore } />
             <SyncAtomValue
               atom={tableSettingsAtom}
               store={ tableScopeStore }
