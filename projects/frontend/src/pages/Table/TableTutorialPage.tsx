@@ -1,6 +1,5 @@
 import { Suspense, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import { DebugAtoms } from "@src/atoms/utils";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { Box, Typography, Button } from "@mui/material";
@@ -66,7 +65,6 @@ export default function TableTutorialPage() {
             [ tableSettingsAtom, TUTORIAL_TABLE_SETTINGS ],
             [ tableSchemaAtom, TUTORIAL_TABLE_SCHEMA ],
           ]}>
-            <DebugAtoms store={ tableScopeStore } />
             <TableSourceTutorial />
             <Suspense
               fallback={
