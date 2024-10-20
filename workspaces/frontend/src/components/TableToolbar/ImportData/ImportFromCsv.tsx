@@ -35,12 +35,6 @@ export enum ImportMethod {
   url = "url",
 }
 
-enum FileType {
-  CSV = "text/csv",
-  TSV = "text/tab-separated-values",
-  JSON = "application/json",
-}
-
 // extract the column names and return the names
 function extractFields(data: JSON[]): string[] {
   let columns = new Set<string>();
@@ -184,11 +178,9 @@ export default function ImportFromFile() {
       try {
         const file = acceptedFiles[0];
         importTypeRef.current =
-          file.type === FileType.TSV
-            ? "tsv"
-            : file.type === FileType.JSON
-            ? "json"
-            : "csv";
+          file.type === "text/tab-separated-values" ? "tsv"
+          : file.type === "application/json" ? "json"
+          : "csv";
         const reader = new FileReader();
         reader.onload = (event: any) => parseFile(event.target.result);
         reader.readAsText(file);
@@ -208,7 +200,11 @@ export default function ImportFromFile() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
-    accept: [FileType.CSV, FileType.TSV, FileType.JSON],
+    accept: {
+      "text/csv": [ ".csv" ],
+      "text/tab-separated-values": [ ".tsv" ],
+      "application/json": [ ".json" ],
+    },
   });
 
   function setDataTypeRef(data: string) {

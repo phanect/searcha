@@ -5,6 +5,7 @@ import withRenderTableCell from "@src/components/Table/TableCell/withRenderTable
 import { Image as ImageIcon } from "@src/assets/icons";
 import DisplayCell from "./DisplayCell";
 import ContextMenuActions from "./ContextMenuActions";
+import type { Accept } from "react-dropzone";
 
 const EditorCell = lazy(
   () => import("./EditorCell")
@@ -31,12 +32,12 @@ export const config: IFieldConfig = {
 };
 export default config;
 
-export const IMAGE_MIME_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/svg+xml",
-  "image/gif",
-  "image/webp",
-  "image/avif",
-  "image/jxl",
-];
+export const imageMimeTypes: Accept = {
+  "image/jpeg": [ ".jpg", ".jpeg" ],
+  "image/png": [ ".png" ],
+  "image/svg+xml": [ ".svg" ],
+  "image/gif": [ ".gif" ],
+  "image/webp": [ ".webp" ],
+  "image/avif": [ ".avif" ],
+  "image/jxl": [ ".jxl" ],
+} as const;
