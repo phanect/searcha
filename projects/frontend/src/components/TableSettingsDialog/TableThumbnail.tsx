@@ -11,7 +11,7 @@ import {
   AddPhotoAlternateOutlined as NoImageIcon,
 } from "@mui/icons-material";
 
-import { IMAGE_MIME_TYPES } from "@src/components/fields/Image";
+import { imageMimeTypes } from "@src/components/fields/Image";
 
 export default function TableThumbnail({ ...props }: IFieldComponentProps) {
   const {
@@ -41,7 +41,7 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
   const { getInputProps } = useDropzone({
     onDrop,
     multiple: false,
-    accept: IMAGE_MIME_TYPES,
+    accept: imageMimeTypes,
   });
 
   return (
