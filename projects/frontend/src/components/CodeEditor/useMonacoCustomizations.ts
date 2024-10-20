@@ -131,7 +131,7 @@ export default function useMonacoCustomizations({
       "javascript",
       {
         provideCodeActions: (model, _, context, __) => {
-          const consoleLogReplacements = context.markers
+          const consoleLogReplacements: languages.CodeAction[] = context.markers
             .filter((error) => {
               return error.message.includes("Rowy Cloud Logging");
             })
@@ -147,17 +147,18 @@ export default function useMonacoCustomizations({
                   edits: [
                     {
                       resource: model.uri,
-                      edit: {
+                      textEdit: {
                         range: error,
                         text: replacement,
                       },
+                      versionId: 0, // FIXME set appropriate versionId
                     },
                   ],
                 },
                 isPreferred: true,
-              };
+              } satisfies languages.CodeAction;
             });
-          const secretNameReplacements = context.markers
+          const secretNameReplacements: languages.CodeAction[] = context.markers
             .filter((error) => {
               return error.message.includes(
                 "is not assignable to parameter of type 'SecretNames'"
@@ -183,15 +184,16 @@ export default function useMonacoCustomizations({
                     edits: [
                       {
                         resource: model.uri,
-                        edit: {
+                        textEdit: {
                           range: error,
                           text: `"${secretName}"`,
                         },
+                        versionId: 0, // FIXME set appropriate versionId
                       },
                     ],
                   },
                   isPreferred: true,
-                })),
+                } satisfies languages.CodeAction)),
                 ...otherSecretNames.map((secretName) => ({
                   title: `Replace with "${secretName}"`,
                   diagnostics: [error],
@@ -200,15 +202,16 @@ export default function useMonacoCustomizations({
                     edits: [
                       {
                         resource: model.uri,
-                        edit: {
+                        textEdit: {
                           range: error,
                           text: `"${secretName}"`,
                         },
+                        versionId: 0, // FIXME set appropriate versionId
                       },
                     ],
                   },
                   isPreferred: false,
-                })),
+                } satisfies languages.CodeAction)),
               ];
             })
             .flat();
