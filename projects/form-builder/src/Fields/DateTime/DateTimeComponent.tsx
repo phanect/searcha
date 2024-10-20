@@ -6,7 +6,7 @@ import {
   DateTimePickerProps,
 } from '@mui/x-date-pickers';
 import { TextFieldProps } from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import FieldAssistiveText from '../../FieldAssistiveText';
