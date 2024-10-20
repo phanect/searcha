@@ -36,7 +36,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { generateId } from "@src/utils/table";
 import { useSnackbar } from "notistack";
 import { ColumnConfig, TableRowRef } from "@src/types/table";
-import { IMAGE_MIME_TYPES } from "./fields/Image";
+import { imageMimeTypes } from "./fields/Image";
 
 const Styles = styled("div", {
   shouldForwardProp: (prop) => prop !== "focus",
@@ -307,7 +307,7 @@ export default function RichTextEditor({
           file_picker_callback: async (callback) => {
             const input = document.createElement("input");
             input.setAttribute("type", "file");
-            input.setAttribute("accept", IMAGE_MIME_TYPES.join(","));
+            input.setAttribute("accept", Object.keys(imageMimeTypes).join(","));
 
             // Handle file selection
             input.onchange = async () => {

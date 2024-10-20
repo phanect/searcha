@@ -13,7 +13,7 @@ import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { FileValue } from "@src/types/table";
 import useFileUpload from "@src/components/fields/File/useFileUpload";
-import { IMAGE_MIME_TYPES } from "./index";
+import { imageMimeTypes } from "./index";
 import { imgSx, thumbnailSx, deleteImgHoverSx } from "./DisplayCell";
 
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
@@ -44,7 +44,7 @@ export default function Image_({
     handleUpdate,
   } = useFileUpload(_rowy_ref, column.key, {
     multiple: true,
-    accept: IMAGE_MIME_TYPES,
+    accept: imageMimeTypes,
   });
 
   const localImages = useMemo(
