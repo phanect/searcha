@@ -244,8 +244,14 @@ export default function ImportFromFile() {
       parseFile(data);
       setLoading(false);
     } catch(e) {
-      setError(e.message);
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("Something technically wrong.");
+      }
       setLoading(false);
+
+      throw e;
     }
   }, 1000);
 
