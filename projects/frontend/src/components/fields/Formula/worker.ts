@@ -26,8 +26,8 @@ onmessage = async ({ data }) => {
   try {
     const { formulaFn, row, ref } = JSON.parse(data);
     const codeToRun = transpile(formulaFn);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const exports = {};
+    // @ts-expect-error FIXME
+    const exports = {}; // eslint-disable-line @typescript-eslint/no-unused-vars
     // eslint-disable-next-line no-eval
     const formulaScript = eval(codeToRun);
     const result = await formulaScript({ row, ref });
