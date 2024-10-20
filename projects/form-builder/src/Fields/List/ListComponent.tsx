@@ -1,4 +1,4 @@
-import arrayMove from 'array-move';
+import { arrayMoveImmutable } from 'array-move';
 import { IFieldComponentProps } from '../../types';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -45,7 +45,7 @@ export default function ListComponent({
   };
 
   const swap = (fromIndex: number, toIndex: number) => {
-    const newValue = arrayMove(
+    const newValue = arrayMoveImmutable(
       useFormMethods.getValues(name),
       fromIndex,
       toIndex
