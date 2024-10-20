@@ -13,7 +13,7 @@ import {
   DocumentReference,
   runTransaction,
 } from "firebase/firestore";
-import { useErrorHandler } from "react-error-boundary";
+import { useErrorBoundary } from "react-error-boundary";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
@@ -84,7 +84,7 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
       fieldName,
     }
   );
-  const handleError = useErrorHandler();
+  const { showBoundary } = useErrorBoundary();
   const { enqueueSnackbar } = useSnackbar();
   const setUpdateDocAtom = useSetAtom(
     updateDocAtom || (dataAtom as any),
@@ -144,14 +144,14 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
           }
         } catch (error) {
           if (onError) onError(error as FirestoreError);
-          else handleError(error);
+          else showBoundary(error);
         }
         suspended = false;
       },
       (error) => {
         if (suspended) setDataAtom([] as T[]);
         if (onError) onError(error);
-        else handleError(error);
+        else showBoundary(error);
       }
     );
 
@@ -165,7 +165,7 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
     setDataAtom,
     disableSuspense,
     createIfNonExistent,
-    handleError,
+    showBoundary,
     fieldName,
     sorts,
     enqueueSnackbar,

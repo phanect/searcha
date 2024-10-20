@@ -9,7 +9,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { useSnackbar } from "notistack";
-import { useErrorHandler } from "react-error-boundary";
+import { useErrorBoundary } from "react-error-boundary";
 
 import {
   TableScopeContext,
@@ -123,11 +123,11 @@ export const TableSourceFirestore = memo(function TableSourceFirestore() {
   const [page] = useAtom(tablePageAtom, { store: tableScopeStore });
   // Get documents from collection and store in tableRowsDbAtom
   // and handle some errors with snackbars
-  const elevateError = useErrorHandler();
+  const { showBoundary } = useErrorBoundary();
   const handleErrorCallback = useCallback(
     (error: FirestoreError) =>
-      handleFirestoreError(error, enqueueSnackbar, elevateError),
-    [enqueueSnackbar, elevateError]
+      handleFirestoreError(error, enqueueSnackbar, showBoundary),
+    [enqueueSnackbar, showBoundary]
   );
   useFirestoreCollectionWithAtom(
     tableRowsDbAtom,
