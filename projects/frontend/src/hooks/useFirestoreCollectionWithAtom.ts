@@ -28,7 +28,7 @@ import {
   QueryFieldFilterConstraint,
   Timestamp,
 } from "firebase/firestore";
-import { useErrorHandler } from "react-error-boundary";
+import { useErrorBoundary } from "react-error-boundary";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
@@ -111,7 +111,7 @@ export function useFirestoreCollectionWithAtom<
   const projectScopeStore = useContext(ProjectScopeContext);
   const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
-  const handleError = useErrorHandler();
+  const { showBoundary } = useErrorBoundary();
 
   // Create set functions that point to optional atoms,
   // or use dataAtom if not provided. Make sure to check that the corresponding
@@ -220,7 +220,7 @@ export function useFirestoreCollectionWithAtom<
           }
         } catch (error) {
           if (onError) onError(error as FirestoreError);
-          else handleError(error);
+          else showBoundary(error);
         }
         suspended = false;
       },
@@ -231,7 +231,7 @@ export function useFirestoreCollectionWithAtom<
         }
         if (nextPageAtom) setNextPageAtom({ loading: false, available: false });
         if (onError) onError(error);
-        else handleError(error);
+        else showBoundary(error);
       }
     );
 
@@ -246,7 +246,7 @@ export function useFirestoreCollectionWithAtom<
     disableSuspense,
     setDataAtom,
     onError,
-    handleError,
+    showBoundary,
     nextPageAtom,
     setNextPageAtom,
     serverDocCountAtom,
