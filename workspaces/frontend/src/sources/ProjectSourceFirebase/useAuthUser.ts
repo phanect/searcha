@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
-import { useErrorHandler } from "react-error-boundary";
+import { useErrorBoundary } from "react-error-boundary";
 import { getIdTokenResult } from "firebase/auth";
 
 import {
@@ -16,7 +16,7 @@ import { firebaseAuthAtom } from "./init";
  * Sets currentUser and userRoles based on Firebase Auth user
  */
 export function useAuthUser() {
-  const elevateError = useErrorHandler();
+  const { showBoundary } = useErrorBoundary();
   const projectScopeStore = useContext(ProjectScopeContext);
   // Get current user and store in atoms
   const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
@@ -50,7 +50,7 @@ export function useAuthUser() {
           setUserRoles([]);
         }
       } catch (e) {
-        elevateError(e);
+        showBoundary(e);
       }
     }, elevateError);
 
@@ -62,6 +62,6 @@ export function useAuthUser() {
     setCurrentUser,
     setUserRoles,
     updateUserSettings,
-    elevateError,
+    showBoundary,
   ]);
 }

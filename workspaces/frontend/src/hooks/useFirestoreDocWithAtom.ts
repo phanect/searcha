@@ -14,7 +14,7 @@ import {
   DocumentReference,
   deleteField,
 } from "firebase/firestore";
-import { useErrorHandler } from "react-error-boundary";
+import { useErrorBoundary } from "react-error-boundary";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { UpdateDocFunction, TableRow } from "@src/types/table";
@@ -66,7 +66,7 @@ export function useFirestoreDocWithAtom<T = TableRow>(
     options?.updateDataAtom || (dataAtom as any),
     dataScope
   );
-  const handleError = useErrorHandler();
+  const { showBoundary } = useErrorBoundary();
   const { enqueueSnackbar } = useSnackbar();
 
   // Create the doc ref and memoize using Firestore’s refEqual
@@ -107,14 +107,14 @@ export function useFirestoreDocWithAtom<T = TableRow>(
           }
         } catch (error) {
           if (onError) onError(error as FirestoreError);
-          else handleError(error);
+          else showBoundary(error);
         }
         suspended = false;
       },
       (error) => {
         if (suspended) setDataAtom({} as T);
         if (onError) onError(error);
-        else handleError(error);
+        else showBoundary(error);
       }
     );
 
@@ -128,7 +128,7 @@ export function useFirestoreDocWithAtom<T = TableRow>(
     setDataAtom,
     disableSuspense,
     createIfNonExistent,
-    handleError,
+    showBoundary,
   ]);
 
   // Set updateDocAtom and deleteDocAtom values if they exist
