@@ -20,7 +20,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.6.0",
     "@types/lodash-es": "^4.17.6",
-    "array-move": "^3.0.1",
+    "array-move": "^4.0.0",
     "date-fns": "^2.22.1",
     "dompurify": "^2.2.9",
     "lodash-es": "^4.17.21",
