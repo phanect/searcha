@@ -498,89 +498,77 @@ export const tableSettings = (
       gridCols: { xs: 12, sm: 6 },
     },
     */
-    mode === "create" && tables && tables?.length !== 0
-      ? {
-          step: "columns",
-          type: FieldType.singleSelect,
-          name: "_schemaSource",
-          label: "Copy columns from existing table (optional)",
-          labelPlural: "tables",
-          options: tables,
-          clearable: true,
-          freeText: false,
-          itemRenderer: (option: {
-            value: string;
-            label: string;
-            section: string;
-            collection: string;
-          }) => (
-            <>
-              {option.section} &gt; {option.label}{" "}
-              <code style={{ marginLeft: "auto" }}>{option.collection}</code>
-            </>
-          ),
-        }
-      : null,
-    mode === "create"
-      ? {
-          step: "columns",
-          type: FieldType.contentSubHeader,
-          name: "_contentSubHeader_initialColumns",
-          label: "Initial columns",
-          sx: { "&&": { mb: 1 }, typography: "button", ml: 2 / 8 },
-        }
-      : null,
-    mode === "create"
-      ? {
-          step: "columns",
-          type: FieldType.checkbox,
-          name: `_initialColumns.${TableFieldType.createdBy}`,
-          label: "Created By",
-          displayCondition: "return values.audit",
-          gridCols: 6,
-          disablePaddingTop: true,
-        }
-      : null,
-    mode === "create"
-      ? {
-          step: "columns",
-          type: FieldType.checkbox,
-          name: `_initialColumns.${TableFieldType.updatedBy}`,
-          label: "Updated By",
-          displayCondition: "return values.audit",
-          gridCols: 6,
-          disablePaddingTop: true,
-        }
-      : null,
-    mode === "create"
-      ? {
-          step: "columns",
-          type: FieldType.checkbox,
-          name: `_initialColumns.${TableFieldType.createdAt}`,
-          label: "Created At",
-          displayCondition: "return values.audit",
-          gridCols: 6,
-          disablePaddingTop: true,
-        }
-      : null,
-    mode === "create"
-      ? {
-          step: "columns",
-          type: FieldType.checkbox,
-          name: `_initialColumns.${TableFieldType.updatedAt}`,
-          label: "Updated At",
-          displayCondition: "return values.audit",
-          gridCols: 6,
-          disablePaddingTop: true,
-        }
-      : null,
-    mode === "create"
-      ? {
-          step: "columns",
-          type: FieldType.checkbox,
-          name: `_initialColumns.${TableFieldType.id}`,
-          label: "Row ID",
-          disablePaddingTop: true,
-        }
-      : null,
-  ].filter((field) => field !== null) as Field[];
+    ...(mode === "create" && tables?.length !== 0 ? [{
+      step: "columns",
+      type: FieldType.singleSelect,
+      name: "_schemaSource",
+      label: "Copy columns from existing table (optional)",
+      labelPlural: "tables",
+      options: tables,
+      clearable: true,
+      freeText: false,
+      itemRenderer: (option: {
+        value: string;
+        label: string;
+        section: string;
+        collection: string;
+      }) => (
+        <>
+          {option.section} &gt; {option.label}{" "}
+          <code style={{ marginLeft: "auto" }}>{option.collection}</code>
+        </>
+      ),
+    }] : []),
+    ...(mode === "create" ? [
+      {
+        step: "columns",
+        type: FieldType.contentSubHeader,
+        name: "_contentSubHeader_initialColumns",
+        label: "Initial columns",
+        sx: { "&&": { mb: 1 }, typography: "button", ml: 2 / 8 },
+      },
+      {
+        step: "columns",
+        type: FieldType.checkbox,
+        name: `_initialColumns.${TableFieldType.createdBy}`,
+        label: "Created By",
+        displayCondition: "return values.audit",
+        gridCols: 6,
+        disablePaddingTop: true,
+      },
+      {
+        step: "columns",
+        type: FieldType.checkbox,
+        name: `_initialColumns.${TableFieldType.updatedBy}`,
+        label: "Updated By",
+        displayCondition: "return values.audit",
+        gridCols: 6,
+        disablePaddingTop: true,
+      },
+      {
+        step: "columns",
+        type: FieldType.checkbox,
+        name: `_initialColumns.${TableFieldType.createdAt}`,
+        label: "Created At",
+        displayCondition: "return values.audit",
+        gridCols: 6,
+        disablePaddingTop: true,
+      },
+      {
+        step: "columns",
+        type: FieldType.checkbox,
+        name: `_initialColumns.${TableFieldType.updatedAt}`,
+        label: "Updated At",
+        displayCondition: "return values.audit",
+        gridCols: 6,
+        disablePaddingTop: true,
+      },
+      {
+        step: "columns",
+        type: FieldType.checkbox,
+        name: `_initialColumns.${TableFieldType.id}`,
+        label: "Row ID",
+        disablePaddingTop: true,
+      },
+    ] : []),
+  ];
