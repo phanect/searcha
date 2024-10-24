@@ -15,7 +15,6 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LogoRowyRun from "@src/assets/LogoRowyRun";
 import { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import useUpdateCheck from "@src/hooks/useUpdateCheck";
 import { runRoutes } from "@src/constants/runRoutes";
 // import RegionSelect from "@src/components/Settings/RegionSelect";
 
@@ -35,12 +34,6 @@ export default function RowyRun({
       if (!versionReq.version) throw new Error("No version found");
       else {
         setVerified(true);
-
-        // If the deployed version is different from the last update check,
-        // check for updates again to clear update
-        if (versionReq.version !== latestUpdate.deployedRowyRun)
-          checkForUpdates();
-
         updateSettings({ rowyRunUrl: inputRowyRunUrl });
       }
     } catch (e) {
@@ -48,8 +41,6 @@ export default function RowyRun({
       setVerified(false);
     }
   };
-
-  const [latestUpdate, checkForUpdates, loading] = useUpdateCheck();
 
   const deployButton = (
     <Button href={WIKI_LINKS.rowyRun} target="_blank" rel="noopener noreferrer">
@@ -78,56 +69,6 @@ export default function RowyRun({
       </Typography>
 
       <Divider />
-
-      {settings.rowyRunUrl && (
-        <div>
-          <Grid container spacing={1} alignItems="center" direction="row">
-            <Grid item xs>
-              {loading ? (
-                <Typography display="block">Checking for updates…</Typography>
-              ) : latestUpdate.rowyRun === null ? (
-                <Typography display="block">Up to date</Typography>
-              ) : (
-                <Typography display="block">
-                  <span
-                    style={{
-                      display: "inline-block",
-                      backgroundColor: "#f00",
-                      borderRadius: "50%",
-                      width: 10,
-                      height: 10,
-                      marginRight: 4,
-                    }}
-                  />
-                  Update available:{" "}
-                  <Link
-                    href={latestUpdate.rowyRun.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {latestUpdate.rowyRun.tag_name}
-                    <InlineOpenInNewIcon />
-                  </Link>
-                </Typography>
-              )}
-
-              <Typography display="block" color="textSecondary">
-                Rowy Run v{latestUpdate.deployedRowyRun}
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              {latestUpdate.rowyRun === null ? (
-                <LoadingButton onClick={checkForUpdates} loading={loading}>
-                  Check for updates
-                </LoadingButton>
-              ) : (
-                deployButton
-              )}
-            </Grid>
-          </Grid>
-        </div>
-      )}
 
       {settings.rowyRunUrl && <Divider />}
 
