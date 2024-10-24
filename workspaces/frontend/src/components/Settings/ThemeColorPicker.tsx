@@ -3,7 +3,7 @@ import { colord } from "colord";
 import { ColorPicker, ColorService } from "react-color-palette";
 import "react-color-palette/css";
 
-import { Grid, Typography, Stack, Box, Button } from "@mui/material";
+import { Grid2 as Grid, Typography, Stack, Box, Button } from "@mui/material";
 import PassIcon from "@mui/icons-material/Check";
 import FailIcon from "@mui/icons-material/Error";
 
@@ -30,7 +30,7 @@ export default function ThemeColorPicker({
   return (
     <>
       <Grid container spacing={2} style={{ marginTop: 0 }}>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography variant="subtitle2" component="h3" gutterBottom>
             Light theme
           </Typography>
@@ -77,7 +77,7 @@ export default function ThemeColorPicker({
           </Stack>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography variant="subtitle2" component="h3" gutterBottom>
             Dark theme
           </Typography>

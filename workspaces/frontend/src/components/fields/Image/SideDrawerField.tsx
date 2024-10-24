@@ -7,7 +7,7 @@ import {
   alpha,
   ButtonBase,
   Typography,
-  Grid,
+  Grid2 as Grid,
   Tooltip,
   Theme,
   IconButton,
@@ -200,7 +200,7 @@ export default function Image_({
                     index={i}
                   >
                     {(provided) => (
-                      <Grid item>
+                      <Grid>
                         {disabled ? (
                           <Tooltip title="Open">
                             <ButtonBase
@@ -299,7 +299,7 @@ export default function Image_({
                 ))}
               {localImages &&
                 localImages.map((image) => (
-                  <Grid item key={image.name}>
+                  <Grid key={image.name}>
                     <ButtonBase
                       sx={imgSx}
                       style={{

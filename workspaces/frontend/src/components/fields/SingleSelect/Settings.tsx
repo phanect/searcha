@@ -4,7 +4,7 @@ import { ISettingsProps } from "@src/components/fields/types";
 import {
   InputLabel,
   TextField,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Typography,
   Divider,
@@ -189,7 +189,6 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                         >
                           <Grid
                             {...provided.dragHandleProps}
-                            item
                             sx={{ display: "flex", flexGrow: 1 }}
                             alignItems="center"
                           >
@@ -264,7 +263,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                               )}
                             </Grid>
                           </Grid>
-                          <Grid item>
+                          <Grid>
                             <IconButton
                               aria-label="Remove"
                               onClick={() => handleItemDelete(option)}
@@ -287,7 +286,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       </div>
 
       <Grid container direction="row" alignItems="center">
-        <Grid item>
+        <Grid>
           <IconButton
             aria-label="Add new"
             onClick={() => {
@@ -297,7 +296,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
             {<AddIcon />}
           </IconButton>
         </Grid>
-        <Grid item xs={10} md={11}>
+        <Grid size={{ xs: 10, md: 11 }}>
           <TextField
             value={newOption}
             fullWidth

@@ -10,7 +10,7 @@ import { sortBy, startCase } from "lodash-es";
 import { IStepProps } from ".";
 
 import {
-  Grid,
+  Grid2 as Grid,
   Typography,
   Divider,
   FormControlLabel,
@@ -97,7 +97,7 @@ export default function Step1Columns({ config, setConfig }: IStepProps) {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Typography variant="subtitle2" gutterBottom component="h2">
           Select columns ({selectedFields.length} of {allFields.length})
         </Typography>
@@ -155,7 +155,7 @@ export default function Step1Columns({ config, setConfig }: IStepProps) {
           ))}
         </ScrollableList>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Typography variant="subtitle2" gutterBottom component="h2">
           Sort table columns
         </Typography>

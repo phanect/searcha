@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import {
-  Grid,
+  Grid2 as Grid,
   Typography,
   Divider,
   IconButton,
@@ -35,13 +35,13 @@ export default function Step2Rename({
     <div>
       <Grid container spacing={3}>
         {!isXs && (
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="subtitle2" gutterBottom component="h2">
               Field names
             </Typography>
           </Grid>
         )}
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography variant="subtitle2" gutterBottom component="h2">
             Set column names
           </Typography>
@@ -54,12 +54,12 @@ export default function Step2Rename({
         {Object.entries(config).map(([field, { name }]) => (
           <Grid container key={field} component="li" wrap="nowrap">
             {!isXs && (
-              <Grid item xs>
+              <Grid xs>
                 <Column label={field} />
               </Grid>
             )}
-            {!isXs && <Grid item sx={{ width: (theme) => theme.spacing(3) }} />}
-            <Grid item xs>
+            {!isXs && <Grid sx={{ width: (theme) => theme.spacing(3) }} />}
+            <Grid xs>
               {fieldToRename === field ? (
                 <TextField
                   value={renameTextField}

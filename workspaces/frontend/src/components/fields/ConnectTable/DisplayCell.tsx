@@ -1,6 +1,6 @@
 import { IDisplayCellProps } from "@src/components/fields/types";
 
-import { ButtonBase, Grid, Chip } from "@mui/material";
+import { ButtonBase, Grid2 as Grid, Chip } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import ChipList from "@src/components/Table/TableCell/ChipList";
@@ -19,7 +19,7 @@ export default function ConnectTable({
     <ChipList rowHeight={rowHeight}>
       {Array.isArray(value) ? (
         value.map((item: any) => (
-          <Grid item key={item.docPath}>
+          <Grid key={item.docPath}>
             <Chip
               label={(config.primaryKeys ?? [])
                 .map((key: string) => item.snapshot[key])
@@ -28,7 +28,7 @@ export default function ConnectTable({
           </Grid>
         ))
       ) : value ? (
-        <Grid item>
+        <Grid>
           <Chip
             label={(config.primaryKeys ?? [])
               .map((key: string) => value.snapshot[key])

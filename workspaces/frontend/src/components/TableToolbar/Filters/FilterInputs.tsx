@@ -2,7 +2,7 @@ import { Suspense, createElement } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import {
-  Grid,
+  Grid2 as Grid,
   MenuItem,
   ListItemText,
   Divider,
@@ -99,7 +99,7 @@ export default function FilterInputs({
 
   return (
     <Grid container spacing={2} sx={{ mb: 3 }}>
-      <Grid item xs={3.5}>
+      <Grid size={{ xs: 3.5 }}>
         <ColumnSelect
           multiple={false}
           label="Column"
@@ -110,7 +110,7 @@ export default function FilterInputs({
         />
       </Grid>
 
-      <Grid item xs={3.5}>
+      <Grid size={{ xs: 3.5 }}>
         <TextField
           label="Operator"
           select
@@ -140,7 +140,7 @@ export default function FilterInputs({
         </TextField>
       </Grid>
 
-      <Grid item xs={3.5} key={query.key + query.operator}>
+      <Grid size={{ xs: 3.5 }} key={query.key + query.operator}>
         {query.key &&
           query.operator &&
           query.operator !== "is-empty" &&
@@ -183,8 +183,7 @@ export default function FilterInputs({
       </Grid>
 
       <Grid
-        item
-        xs={1.5}
+        size={{ xs: 1.5 }}
         sx={{
           display: "flex",
           alignItems: "flex-end",
@@ -212,9 +211,9 @@ export default function FilterInputs({
       {noOfQueries > 1 &&
         index !== noOfQueries - 1 &&
         (index === 0 ? (
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Grid container>
-              <Grid item xs={3.5}>
+              <Grid size={{ xs: 3.5 }}>
                 <TextField
                   select
                   variant="filled"
@@ -236,7 +235,7 @@ export default function FilterInputs({
             </Grid>
           </Grid>
         ) : (
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Typography paddingLeft={1}>
               {joinOperator === "AND" ? "And" : "Or"}
             </Typography>

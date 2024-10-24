@@ -1,7 +1,7 @@
 import { sortBy } from "lodash-es";
 
 import MultiSelect from "@phanect/datasheet-multiselect";
-import { Grid } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 import { Leaf as LeafIcon } from "@src/assets/icons";
 
 import { CLOUD_RUN_REGIONS } from "@src/constants/regions";
@@ -31,18 +31,18 @@ export default function CloudRunRegionSelect({
       clearable={false}
       itemRenderer={(option: any) => (
         <Grid container spacing={0} sx={{ my: 0.5 }}>
-          <Grid item xs>
+          <Grid xs>
             {option.value}
           </Grid>
-          <Grid item>{option.city}</Grid>
+          <Grid>{option.city}</Grid>
 
-          <Grid item xs={12} style={{ padding: 0 }} />
+          <Grid size={{ xs: 12 }} style={{ padding: 0 }} />
 
-          <Grid item xs sx={{ typography: "caption", color: "text.secondary" }}>
+          <Grid xs sx={{ typography: "caption", color: "text.secondary" }}>
             Tier {option.pricingTier} pricing
           </Grid>
           {option.lowCO2 && (
-            <Grid item sx={{ typography: "caption", color: "text.secondary" }}>
+            <Grid sx={{ typography: "caption", color: "text.secondary" }}>
               Low CO₂&nbsp;
               <LeafIcon
                 color="success"

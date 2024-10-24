@@ -1,6 +1,6 @@
 import { IDisplayCellProps } from "@src/components/fields/types";
 
-import { ButtonBase, Grid, Tooltip, useTheme } from "@mui/material";
+import { ButtonBase, Grid2 as Grid, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import { ChevronDown } from "@src/assets/icons";
 
@@ -37,7 +37,7 @@ export default function MultiSelect({
         {sanitiseValue(value).map(
           (item) =>
             typeof item === "string" && (
-              <Grid item key={item}>
+              <Grid key={item}>
                 <FormattedChip
                   label={item}
                   sx={{

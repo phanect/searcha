@@ -8,7 +8,7 @@ import { useSnackbar } from "notistack";
 
 import {
   Button,
-  Grid,
+  Grid2 as Grid,
   Typography,
   TextField,
   FormHelperText,
@@ -325,10 +325,10 @@ export default function ImportFromFile() {
               </Typography>
             ) : (
               <>
-                <Grid item>
+                <Grid>
                   {validCsv ? <CheckIcon /> : <FileUploadIcon />}
                 </Grid>
-                <Grid item>
+                <Grid>
                   <Typography variant="button" color="inherit">
                     {validCsv
                       ? "Valid CSV or TSV or JSON"

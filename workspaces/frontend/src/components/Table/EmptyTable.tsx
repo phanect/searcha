@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from "jotai";
 
-import { Grid, Stack, Typography, Button, Divider } from "@mui/material";
+import { Grid2 as Grid, Stack, Typography, Button, Divider } from "@mui/material";
 import {
   Import as ImportIcon,
   AddColumn as AddColumnIcon,
@@ -91,7 +91,7 @@ export default function EmptyTable() {
         <Grid container spacing={1}>
           {tableSettings.isCollection !== false && (
             <>
-              <Grid item xs>
+              <Grid xs>
                 <Typography paragraph>
                   You can import data from an external source:
                 </Typography>
@@ -120,7 +120,7 @@ export default function EmptyTable() {
                 />
               </Grid>
 
-              <Grid item>
+              <Grid>
                 <Divider orientation="vertical">
                   <Typography variant="overline">or</Typography>
                 </Divider>
@@ -128,7 +128,7 @@ export default function EmptyTable() {
             </>
           )}
 
-          <Grid item xs>
+          <Grid xs>
             <Typography paragraph>
               You can manually add new columns and rows:
             </Typography>

@@ -6,7 +6,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   TextField,
   Typography,
@@ -73,7 +73,7 @@ export default function RuntimeOptions({
       </AccordionSummary>
       <AccordionDetails sx={{ padding: 0 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <MultiSelect
               label="Memory Allocated"
               value={runtimeOptions.memory ?? "256MB"}
@@ -83,7 +83,7 @@ export default function RuntimeOptions({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               value={runtimeOptions.timeoutSeconds ?? 60}
               label="Timeout"

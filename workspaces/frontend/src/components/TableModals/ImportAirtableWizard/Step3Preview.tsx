@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { find } from "lodash-es";
 
-import { styled, Grid } from "@mui/material";
+import { styled, Grid2 as Grid } from "@mui/material";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
@@ -49,16 +49,16 @@ export default function Step3Preview({ airtableData, config }: IStepProps) {
           sx={{ position: "sticky", top: 0, zIndex: 1 }}
         >
           {columns.map(({ key, name, type }) => (
-            <ColumnWrapper item key={key}>
+            <ColumnWrapper key={key}>
               <Column label={name || ""} type={type} />
             </ColumnWrapper>
           ))}
-          <Spacer item />
+          <Spacer />
         </Grid>
 
         <Grid container wrap="nowrap" style={{ flexGrow: 1 }}>
           {columns.map(({ fieldKey, name, columnKey, type }) => (
-            <ColumnWrapper item key={fieldKey}>
+            <ColumnWrapper key={fieldKey}>
               {airtableData.records.map((record, i) => (
                 <Cell
                   key={fieldKey + i}
@@ -68,10 +68,10 @@ export default function Step3Preview({ airtableData, config }: IStepProps) {
                   name={name}
                 />
               ))}
-              <Spacer item />
+              <Spacer />
             </ColumnWrapper>
           ))}
-          <Spacer item />
+          <Spacer />
         </Grid>
       </div>
     </div>

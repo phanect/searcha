@@ -1,6 +1,6 @@
 import { TransitionGroup } from "react-transition-group";
 
-import { Box, Grid, Collapse } from "@mui/material";
+import { Box, Grid2 as Grid, Collapse } from "@mui/material";
 
 import SectionHeading from "@src/components/SectionHeading";
 import TableCard from "./TableCard";
@@ -33,7 +33,7 @@ export default function TableGrid({
                   appear
                   timeout={(sectionIndex + 1) * 100 + tableIndex * 50}
                 >
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                     <TableCard
                       {...table}
                       link={getLink(table)}

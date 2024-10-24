@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 
 import {
-  Grid,
+  Grid2 as Grid,
   IconButton,
   MenuItem,
   Stack,
@@ -50,7 +50,7 @@ export default function Sort() {
     <SortPopover>
       {() => (
         <Grid container spacing={2} sx={{ p: 3 }}>
-          <Grid item xs={5.5}>
+          <Grid size={{ xs: 5.5 }}>
             <ColumnSelect
               multiple={false}
               label="Column"
@@ -71,7 +71,7 @@ export default function Sort() {
             />
           </Grid>
 
-          <Grid item xs={5.5}>
+          <Grid size={{ xs: 5.5 }}>
             <TextField
               label="Sort"
               select
@@ -107,7 +107,7 @@ export default function Sort() {
               </MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={1} alignSelf="flex-end">
+          <Grid size={{ xs: 1 }} alignSelf="flex-end">
             <IconButton
               size="small"
               onClick={() => {

@@ -4,7 +4,7 @@ import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import { Grid, Chip } from "@mui/material";
+import { Grid2 as Grid, Chip } from "@mui/material";
 
 import ConnectTableSelect from "./ConnectTableSelect";
 import { tableScope, tableRowsAtom } from "@src/atoms/tableScope";
@@ -62,7 +62,7 @@ export default function ConnectTable({
         <Grid container spacing={0.5} style={{ marginTop: 2 }}>
           {Array.isArray(value) ? (
             value.map(({ snapshot, docPath }) => (
-              <Grid item key={docPath}>
+              <Grid key={docPath}>
                 <Chip
                   component="li"
                   label={column.config?.primaryKeys
@@ -73,7 +73,7 @@ export default function ConnectTable({
               </Grid>
             ))
           ) : value ? (
-            <Grid item>
+            <Grid>
               <Chip
                 component="li"
                 label={column.config?.primaryKeys

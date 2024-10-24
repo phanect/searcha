@@ -3,7 +3,7 @@ import { IEditorCellProps } from "@src/components/fields/types";
 import { useSetAtom } from "jotai";
 import { assignIn } from "lodash-es";
 
-import { alpha, Box, Stack, Grid, IconButton, ButtonBase } from "@mui/material";
+import { alpha, Box, Stack, Grid2 as Grid, IconButton, ButtonBase } from "@mui/material";
 import AddIcon from "@mui/icons-material/AddAPhotoOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
@@ -137,7 +137,6 @@ export default function Image_({
                     >
                       {(provided) => (
                         <Grid
-                          item
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           style={{
@@ -194,7 +193,7 @@ export default function Image_({
                   ))}
                 {localImages &&
                   localImages.map((image) => (
-                    <Grid item>
+                    <Grid>
                       <Box
                         sx={[
                           imgSx(rowHeight),

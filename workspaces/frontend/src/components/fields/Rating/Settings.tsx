@@ -2,7 +2,7 @@ import { ISettingsProps } from "@src/components/fields/types";
 import {
   InputLabel,
   TextField,
-  Grid,
+  Grid2 as Grid,
   FormControlLabel,
   Checkbox,
   Stack,
@@ -16,7 +16,7 @@ import Icon from "./Icon";
 export default function Settings({ onChange, config }: ISettingsProps) {
   return (
     <Grid container spacing={2} justifyItems="end" direction={"row"}>
-      <Grid item xs={6}>
+      <Grid size={{ xs: 6 }}>
         <TextField
           label="Highest possible rating"
           type={"number"}
@@ -33,7 +33,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
           inputProps={{ min: 1, max: 20 }}
         />
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={{ xs: 6 }}>
         <InputLabel>Rating fraction</InputLabel>
         <ToggleButtonGroup
           value={config.precision}
@@ -56,7 +56,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
           </ToggleButton>
         </ToggleButtonGroup>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={{ xs: 6 }}>
         <FormControlLabel
           control={
             <Checkbox
@@ -72,7 +72,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         />
       </Grid>
       {config.customIcons?.enabled && (
-        <Grid item xs={6} sm={true}>
+        <Grid size={{ xs: 6 }} sm={true}>
           <Stack direction="row" spacing={1}>
             <TextField
               id="customIcons.rating"

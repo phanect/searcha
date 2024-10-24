@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Grid, GridProps, Typography } from "@mui/material";
+import { Grid2 as Grid, GridProps, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 import { FieldType } from "@src/constants/fields";
@@ -81,10 +81,9 @@ export const Column = forwardRef(function Column(
         ...spreadSx(props.sx),
       ]}
     >
-      {type && <Grid item>{getFieldProp("icon", type)}</Grid>}
+      {type && <Grid>{getFieldProp("icon", type)}</Grid>}
 
       <Grid
-        item
         xs
         style={{
           flexShrink: 1,
@@ -93,7 +92,6 @@ export const Column = forwardRef(function Column(
       >
         <Typography
           component={Grid}
-          item
           variant="caption"
           noWrap
           sx={{
@@ -111,7 +109,7 @@ export const Column = forwardRef(function Column(
       </Grid>
 
       {secondaryItem && (
-        <Grid item sx={{ ml: 1, position: "relative" }}>
+        <Grid sx={{ ml: 1, position: "relative" }}>
           {secondaryItem}
         </Grid>
       )}

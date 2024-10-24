@@ -1,6 +1,6 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import { Grid } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 import { Rating as MuiRating } from "@mui/material";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import Icon from "./Icon";
