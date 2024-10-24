@@ -1,17 +1,17 @@
-import { forwardRef, useMemo } from "react";
+import { useMemo } from "react";
 import { IDisplayCellProps } from "@src/components/fields/types";
 
 import { ButtonBase } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 import getLabel from "./utils/getLabelHelper";
 
-export const StatusDisplayCell = forwardRef(function StatusDisplayCell({
+export const StatusDisplayCell = ({
   column,
   value,
   showPopoverCell,
   disabled,
   tabIndex,
-}: IDisplayCellProps) {
+}: IDisplayCellProps) => {
   const conditions = column.config?.conditions;
 
   const rendered = useMemo(() => {
@@ -66,4 +66,4 @@ export const StatusDisplayCell = forwardRef(function StatusDisplayCell({
       <ChevronDown className="row-hover-iconButton end" />
     </ButtonBase>
   );
-});
+};
