@@ -21,7 +21,6 @@ import PersonAddIcon from "@mui/icons-material/PersonAddOutlined";
 import Logo from "@src/assets/Logo";
 import { NAV_DRAWER_WIDTH, NAV_DRAWER_COLLAPSED_WIDTH } from "./NavDrawer";
 import UserMenu from "./UserMenu";
-import UpdateCheckBadge from "./UpdateCheckBadge";
 
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES, ROUTE_TITLES } from "@src/constants/routes";
@@ -87,11 +86,7 @@ export default function TopBar({
             onClick={() => setOpen(!open)}
             size="large"
           >
-            {userRoles.includes("ADMIN") ? (
-              <UpdateCheckBadge>{menuIcon}</UpdateCheckBadge>
-            ) : (
-              menuIcon
-            )}
+            { !userRoles.includes("ADMIN") && menuIcon }
           </IconButton>
         </Grow>
 

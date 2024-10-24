@@ -12,10 +12,7 @@ import {
 import MembersIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import { ChevronDown } from "@src/assets/icons";
-
 import NavItem from "./NavItem";
-import UpdateCheckBadge from "@src/layouts/Navigation/UpdateCheckBadge";
-
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
 
@@ -74,7 +71,6 @@ export default function SettingsNav({
               }}
             />
           </ListItemSecondaryAction>
-          {userRoles.includes("ADMIN") && <UpdateCheckBadge sx={{ mr: 1.5 }} />}
         </NavItem>
 
         <Collapse in={open && !collapsed}>
