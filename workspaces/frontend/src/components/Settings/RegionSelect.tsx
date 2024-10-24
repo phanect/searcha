@@ -31,14 +31,14 @@ export default function CloudRunRegionSelect({
       clearable={false}
       itemRenderer={(option: any) => (
         <Grid container spacing={0} sx={{ my: 0.5 }}>
-          <Grid xs>
+          <Grid>
             {option.value}
           </Grid>
           <Grid>{option.city}</Grid>
 
           <Grid size={{ xs: 12 }} style={{ padding: 0 }} />
 
-          <Grid xs sx={{ typography: "caption", color: "text.secondary" }}>
+          <Grid sx={{ typography: "caption", color: "text.secondary" }}>
             Tier {option.pricingTier} pricing
           </Grid>
           {option.lowCO2 && (

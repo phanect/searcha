@@ -124,7 +124,7 @@ export default function PopupContents({
         />
       </Grid>
 
-      <Grid xs>
+      <Grid>
         <List sx={{ overflowY: "auto" }}>
           {hits.map((hit) => {
             const isSelected = selectedValues?.some(

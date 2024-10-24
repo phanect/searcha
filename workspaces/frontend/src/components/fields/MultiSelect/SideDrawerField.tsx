@@ -32,7 +32,7 @@ export default function MultiSelect({
   if (typeof value === "string" && value !== "")
     return (
       <Grid container wrap="nowrap" gap={1}>
-        <Grid xs sx={fieldSx}>
+        <Grid sx={fieldSx}>
           <Tooltip title="This cell’s value is a string and needs to be converted to an array">
             <WarningIcon color="action" style={{ verticalAlign: "middle" }} />
           </Tooltip>

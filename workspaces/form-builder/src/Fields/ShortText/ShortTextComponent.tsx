@@ -119,7 +119,7 @@ export default function ShortTextComponent({
       helperText={
         (errorMessage || assistiveText || maxCharacters) && (
           <Grid container spacing={2} wrap="nowrap" alignItems="baseline">
-            <Grid xs>
+            <Grid>
               {errorMessage}
 
               <FieldAssistiveText style={{ margin: 0 }} disabled={!!disabled}>

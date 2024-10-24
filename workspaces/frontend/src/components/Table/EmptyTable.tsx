@@ -91,7 +91,7 @@ export default function EmptyTable() {
         <Grid container spacing={1}>
           {tableSettings.isCollection !== false && (
             <>
-              <Grid xs>
+              <Grid>
                 <Typography paragraph>
                   You can import data from an external source:
                 </Typography>
@@ -128,7 +128,7 @@ export default function EmptyTable() {
             </>
           )}
 
-          <Grid xs>
+          <Grid>
             <Typography paragraph>
               You can manually add new columns and rows:
             </Typography>

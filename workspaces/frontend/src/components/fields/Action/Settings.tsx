@@ -248,7 +248,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
               {config.friction === "params" && (
                 <FormControl>
                   <Grid container spacing={1} sx={{ mb: 0.5 }}>
-                    <Grid xs>
+                    <Grid>
                       <InputLabel variant="filled">Form fields</InputLabel>
                     </Grid>
                     <Grid>
@@ -602,7 +602,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
               </Stack>
               {config.customIcons?.enabled && (
                 <Grid container spacing={2} sx={{ mt: { xs: 0, sm: -1 } }}>
-                  <Grid size={{ xs: 12 }} sm={true}>
+                  <Grid size={{ xs: 12 }}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.run"
@@ -620,7 +620,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                     </Stack>
                   </Grid>
 
-                  <Grid size={{ xs: 12 }} sm={true}>
+                  <Grid size={{ xs: 12 }}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.redo"
@@ -638,7 +638,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                     </Stack>
                   </Grid>
 
-                  <Grid size={{ xs: 12 }} sm={true}>
+                  <Grid size={{ xs: 12 }}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.undo"

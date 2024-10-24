@@ -139,7 +139,7 @@ export default function RowyRun({
             alignItems="center"
             justifyContent="space-between"
           >
-            <Grid size={{ xs: 12 }} sm>
+            <Grid size={{ xs: 12 }}>
               <Typography>
                 If you have not yet deployed Rowy Run, click this button and
                 follow the prompts on Cloud Shell.
@@ -153,7 +153,7 @@ export default function RowyRun({
 
       <div>
         <Grid container spacing={1} alignItems="center" direction="row">
-          <Grid xs>
+          <Grid>
             <TextField
               label="Cloud Run instance URL"
               id="rowyRunUrl"

@@ -72,7 +72,7 @@ export default function PopupFooter({
           </Typography>
         </Grid>
         {selectAll ? (
-          <Grid xs>
+          <Grid>
             {value.length > 0 && clearable !== false ? (
               clearButton
             ) : (
@@ -89,7 +89,7 @@ export default function PopupFooter({
           </Grid>
         ) : (
           clearable !== false && (
-            <Grid xs>
+            <Grid>
               {clearButton}
             </Grid>
           )

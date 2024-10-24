@@ -54,12 +54,12 @@ export default function Step2Rename({
         {Object.entries(config).map(([field, { name }]) => (
           <Grid container key={field} component="li" wrap="nowrap">
             {!isXs && (
-              <Grid xs>
+              <Grid>
                 <Column label={field} />
               </Grid>
             )}
             {!isXs && <Grid sx={{ width: (theme) => theme.spacing(3) }} />}
-            <Grid xs>
+            <Grid>
               {fieldToRename === field ? (
                 <TextField
                   value={renameTextField}

@@ -115,7 +115,7 @@ export default function Step2NewColumns({
           {rowData.slice(0, 20).map((cell, i) => (
             <Grid container key={i} wrap="nowrap">
               {!isXs && (
-                <Grid xs style={{ overflow: "hidden" }}>
+                <Grid style={{ overflow: "hidden" }}>
                   <Cell
                     field={config.newColumns[fieldToEdit].key}
                     value={(JSON.stringify(cell) || "")
@@ -130,7 +130,7 @@ export default function Step2NewColumns({
                 <Grid sx={{ width: (theme) => theme.spacing(3) }} />
               )}
 
-              <Grid xs style={{ overflow: "hidden" }}>
+              <Grid style={{ overflow: "hidden" }}>
                 <Cell
                   field={config.newColumns[fieldToEdit].key}
                   value={fieldParser(config.newColumns[fieldToEdit].type)?.(

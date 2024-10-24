@@ -72,7 +72,7 @@ export default function About() {
 
       <div>
         <Grid container spacing={1} alignItems="center" direction="row">
-          <Grid xs>
+          <Grid>
             {loading ? (
               <Typography display="block">Checking for updates…</Typography>
             ) : latestUpdate.rowy === null ? (
