@@ -1,7 +1,7 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { get } from "lodash-es";
 
-import { Grid, Chip } from "@mui/material";
+import { Grid2 as Grid, Chip } from "@mui/material";
 
 import ConnectServiceSelect from "./ConnectServiceSelect";
 import { getFieldId } from "@src/components/SideDrawer/utils";
@@ -52,7 +52,7 @@ export default function ConnectService({
       {Array.isArray(value) && (
         <Grid container spacing={0.5} style={{ marginTop: 2 }}>
           {value.map((snapshot) => (
-            <Grid item key={get(snapshot, config.primaryKey)}>
+            <Grid key={get(snapshot, config.primaryKey)}>
               <Chip
                 component="li"
                 label={get(snapshot, displayKey)}

@@ -1,7 +1,7 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { get } from "lodash-es";
 
-import { Grid, Chip } from "@mui/material";
+import { Grid2 as Grid, Chip } from "@mui/material";
 
 import ConnectorSelect from "./Select";
 import { getLabel } from "./utils";
@@ -50,7 +50,7 @@ export default function Connector({
           {value.map((item) => {
             const key = get(item, config.elementId);
             return (
-              <Grid item key={key}>
+              <Grid key={key}>
                 <Chip
                   component="li"
                   label={getLabel(config, item)}

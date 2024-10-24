@@ -3,7 +3,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { Provider, useAtom } from "jotai";
 import MultiSelect from "@phanect/datasheet-multiselect";
 
-import { Grid, InputLabel, Stack, FormHelperText, Box } from "@mui/material";
+import { Grid2 as Grid, InputLabel, Stack, FormHelperText, Box } from "@mui/material";
 
 import {
   tableColumnsOrderedAtom,
@@ -86,7 +86,7 @@ export default function Settings({
   return (
     <Stack spacing={1}>
       <Grid container direction="row" spacing={2} flexWrap="nowrap">
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <MultiSelect
             label="Listener fields"
             options={tableColumnsOrdered
@@ -116,7 +116,7 @@ export default function Settings({
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <FieldsDropdown
             label="Output field type"
             value={config.renderFieldType}

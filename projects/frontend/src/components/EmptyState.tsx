@@ -2,7 +2,7 @@ import { use100vh } from "react-div-100vh";
 import clsx from "clsx";
 
 import {
-  Grid,
+  Grid2 as Grid,
   GridProps,
   Stack,
   Typography,
@@ -48,11 +48,11 @@ export default function EmptyState({
         {...props}
         className={clsx("empty-state", "empty-state--basic", props.className)}
       >
-        <Grid item>
+        <Grid>
           <Icon style={{ display: "block" }} />
         </Grid>
 
-        <Grid item>
+        <Grid>
           {message}
           {description && ": "}
           {description}
@@ -80,7 +80,6 @@ export default function EmptyState({
       )}
     >
       <Grid
-        item
         sx={{
           maxWidth: "25em !important",
           width: (theme) => `calc(100% - ${theme.spacing(1 * 2)})`,

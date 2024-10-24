@@ -56,7 +56,6 @@ export const MemoizedListItem = memo(
       <div ref={drop} style={isOver ? { opacity: 0.1 } : undefined}>
         <Grid container alignItems="center" wrap="nowrap" ref={dragPreview}>
           <Grid
-            item
             ref={disabled ? null : drag}
             style={disabled ? {} : { cursor: 'grab' }}
             sx={{
@@ -74,7 +73,7 @@ export const MemoizedListItem = memo(
             />
           </Grid>
 
-          <Grid item xs>
+          <Grid xs>
             <TextField
               label={`${itemLabel} ${index + 1}`}
               placeholder={placeholder}
@@ -87,7 +86,7 @@ export const MemoizedListItem = memo(
             />
           </Grid>
 
-          <Grid item>
+          <Grid>
             <IconButton
               aria-label={`Remove item ${index}`}
               sx={{ ml: 1.5, mr: -1.5 }}

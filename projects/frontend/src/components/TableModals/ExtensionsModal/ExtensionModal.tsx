@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import useStateRef from "react-usestateref";
 
-import { Grid, TextField, FormControlLabel, Switch } from "@mui/material";
+import { Grid2 as Grid, TextField, FormControlLabel, Switch } from "@mui/material";
 
 import Modal, { IModalProps } from "@src/components/Modal";
 import SteppedAccordion from "@src/components/SteppedAccordion";
@@ -85,7 +85,7 @@ export default function ExtensionModal({
             justifyContent="center"
             alignItems="center"
           >
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField
                 size="small"
                 required
@@ -107,7 +107,7 @@ export default function ExtensionModal({
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <FormControlLabel
                 control={
                   <Switch

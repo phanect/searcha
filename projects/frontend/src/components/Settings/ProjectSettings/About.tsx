@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 
-import { Grid, Typography, Button, Link, Divider } from "@mui/material";
+import { Grid2 as Grid, Typography, Button, Link, Divider } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { Discord as DiscordIcon } from "@src/assets/icons";
@@ -27,7 +27,7 @@ export default function About() {
 
       <div style={{ marginTop: 12 }}>
         <Grid container justifyContent="center" spacing={1}>
-          <Grid item>
+          <Grid>
             <Button
               variant="outlined"
               color="secondary"
@@ -40,7 +40,7 @@ export default function About() {
             </Button>
           </Grid>
 
-          <Grid item>
+          <Grid>
             <Button
               variant="outlined"
               color="secondary"
@@ -53,7 +53,7 @@ export default function About() {
             </Button>
           </Grid>
 
-          <Grid item>
+          <Grid>
             <Button
               variant="outlined"
               color="secondary"
@@ -72,7 +72,7 @@ export default function About() {
 
       <div>
         <Grid container spacing={1} alignItems="center" direction="row">
-          <Grid item xs>
+          <Grid xs>
             {loading ? (
               <Typography display="block">Checking for updates…</Typography>
             ) : latestUpdate.rowy === null ? (
@@ -134,11 +134,11 @@ export default function About() {
           alignItems="baseline"
           justifyContent="space-between"
         >
-          <Grid item>
+          <Grid>
             <Typography>Firebase project: {projectId}</Typography>
           </Grid>
 
-          <Grid item>
+          <Grid>
             <Link
               href={`https://console.firebase.google.com/project/${projectId}`}
               target="_blank"

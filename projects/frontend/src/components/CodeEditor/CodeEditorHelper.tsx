@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 
-import { Stack, Typography, Grid, Tooltip, IconButton } from "@mui/material";
+import { Stack, Typography, Grid2 as Grid, Tooltip, IconButton } from "@mui/material";
 import SecretsIcon from "@mui/icons-material/VpnKeyOutlined";
 import FunctionsIcon from "@mui/icons-material/CloudOutlined";
 import DocsIcon from "@mui/icons-material/DescriptionOutlined";
@@ -71,7 +71,7 @@ export default function CodeEditorHelper({
         style={{ flexGrow: 1, marginTop: -8, marginLeft: 0 }}
       >
         {availableVariables.concat(additionalVariables ?? []).map((v) => (
-          <Grid item key={v.key}>
+          <Grid key={v.key}>
             <Tooltip title={v.description}>
               <code>{v.key}</code>
             </Tooltip>

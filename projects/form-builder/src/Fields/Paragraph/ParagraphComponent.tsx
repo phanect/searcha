@@ -3,7 +3,7 @@ import { IFieldComponentProps } from '../../types';
 import {
   TextField,
   FilledTextFieldProps,
-  Grid,
+  Grid2 as Grid,
   FormHelperText,
 } from '@mui/material';
 
@@ -46,7 +46,7 @@ export default function ParagraphComponent({
       helperText={
         (errorMessage || assistiveText || maxCharacters) && (
           <Grid container spacing={2} wrap="nowrap" alignItems="baseline">
-            <Grid item xs>
+            <Grid xs>
               {errorMessage}
 
               <FieldAssistiveText style={{ margin: 0 }} disabled={!!disabled}>
@@ -55,7 +55,7 @@ export default function ParagraphComponent({
             </Grid>
 
             {maxCharacters && (
-              <Grid item>
+              <Grid>
                 <FormHelperText
                   style={{ margin: 0, fontVariantNumeric: 'lining-nums' }}
                   error={

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { IFieldComponentProps } from "@phanect/datasheet-form-builder";
 
-import { Button, Grid, IconButton, InputLabel, useTheme } from "@mui/material";
+import { Button, Grid2 as Grid, IconButton, InputLabel, useTheme } from "@mui/material";
 
 import { Upload as UploadImageIcon } from "@src/assets/icons";
 import {
@@ -49,7 +49,7 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
       <Grid
         container
         alignItems="center"
-        xs={expanded ? 12 : 10.5}
+        size={{ xs: expanded ? 12 : 10.5 }}
         sx={{
           marginRight: "auto",
           transition: "all 0.1s",
@@ -73,8 +73,7 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
         </IconButton>
       </Grid>
       <Grid
-        item
-        xs={expanded ? 12 : 1.5}
+        size={{ xs: expanded ? 12 : 1.5 }}
         sx={{
           marginLeft: "auto",
           marginTop: expanded ? theme.spacing(1) : 0,

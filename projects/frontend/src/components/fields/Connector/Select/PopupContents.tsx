@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 import {
   Button,
   Checkbox,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   List,
   ListItemIcon,
@@ -101,7 +101,7 @@ export default function PopupContents({
 
   return (
     <Grid container direction="column" sx={{ p: 1, height: "100%" }}>
-      <Grid item>
+      <Grid>
         <TextField
           value={query}
           type="search"
@@ -124,7 +124,7 @@ export default function PopupContents({
         />
       </Grid>
 
-      <Grid item xs>
+      <Grid xs>
         <List sx={{ overflowY: "auto" }}>
           {hits.map((hit) => {
             const isSelected = selectedValues?.some(
@@ -176,7 +176,7 @@ export default function PopupContents({
       </Grid>
 
       {multiple && (
-        <Grid item>
+        <Grid>
           <Grid
             container
             direction="row"

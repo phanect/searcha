@@ -5,7 +5,7 @@ import {
   alpha,
   ButtonBase,
   Typography,
-  Grid,
+  Grid2 as Grid,
   Tooltip,
   Chip,
 } from "@mui/material";
@@ -98,7 +98,6 @@ export default function File_({
                   >
                     {(provided) => (
                       <Grid
-                        item
                         key={file.name}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
@@ -152,7 +151,7 @@ export default function File_({
 
               {localFiles &&
                 localFiles.map((file) => (
-                  <Grid item>
+                  <Grid>
                     <Chip
                       icon={<FileIcon />}
                       label={file.name}

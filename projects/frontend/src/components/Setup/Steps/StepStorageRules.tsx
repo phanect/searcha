@@ -5,7 +5,7 @@ import type {
   ISetupStepBodyProps,
 } from "@src/components/Setup/SetupStep";
 
-import { Typography, Button, Grid } from "@mui/material";
+import { Typography, Button, Grid2 as Grid } from "@mui/material";
 import { Copy as CopyIcon } from "@src/assets/icons";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import DoneIcon from "@mui/icons-material/Done";
@@ -60,7 +60,7 @@ function StepStorageRules({ isComplete, setComplete }: ISetupStepBodyProps) {
 
         <div>
           <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
               <Button
                 startIcon={<CopyIcon />}
                 onClick={() => {
@@ -72,7 +72,7 @@ function StepStorageRules({ isComplete, setComplete }: ISetupStepBodyProps) {
               </Button>
             </Grid>
 
-            <Grid item>
+            <Grid>
               <Button
                 variant="contained"
                 color="primary"

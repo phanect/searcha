@@ -8,7 +8,7 @@ import {
   Button,
   Checkbox,
   Divider,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   List,
   ListItemIcon,
@@ -100,7 +100,7 @@ export default function PopupContents({
 
   return (
     <Grid container direction="column" className={classes.grid}>
-      <Grid item className={classes.searchRow}>
+      <Grid className={classes.searchRow}>
         <TextField
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -121,7 +121,7 @@ export default function PopupContents({
         />
       </Grid>
 
-      <Grid item xs className={classes.listRow}>
+      <Grid xs className={classes.listRow}>
         <List className={classes.list}>
           {hits.map((hit: any) => {
             const isSelected =
@@ -173,7 +173,7 @@ export default function PopupContents({
       </Grid>
 
       {multiple && (
-        <Grid item className={clsx(classes.footerRow, classes.selectedRow)}>
+        <Grid className={clsx(classes.footerRow, classes.selectedRow)}>
           <Grid
             container
             direction="row"

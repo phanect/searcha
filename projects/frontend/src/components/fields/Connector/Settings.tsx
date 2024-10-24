@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import {
-  Grid,
+  Grid2 as Grid,
   Switch,
   TextField,
   FormControl,

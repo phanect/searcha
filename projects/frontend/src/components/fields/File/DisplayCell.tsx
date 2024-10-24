@@ -1,6 +1,6 @@
 import { IDisplayCellProps } from "@src/components/fields/types";
 
-import { Grid, Chip } from "@mui/material";
+import { Grid2 as Grid, Chip } from "@mui/material";
 import ChipList from "@src/components/Table/TableCell/ChipList";
 
 import { FileIcon } from ".";
@@ -16,7 +16,6 @@ export default function File_({
       {Array.isArray(value) &&
         value.map((file: FileValue) => (
           <Grid
-            item
             key={file.downloadURL}
             style={
               // Truncate so multiple files still visible

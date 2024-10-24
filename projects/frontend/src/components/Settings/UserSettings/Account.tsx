@@ -1,18 +1,18 @@
 import { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 import { Link } from "react-router-dom";
 
-import { Grid, Avatar, Typography, Button } from "@mui/material";
+import { Grid2 as Grid, Avatar, Typography, Button } from "@mui/material";
 
 import { ROUTES } from "@src/constants/routes";
 
 export default function Account({ settings }: IUserSettingsChildProps) {
   return (
     <Grid container spacing={2} alignItems="center">
-      <Grid item>
+      <Grid>
         <Avatar src={settings.user?.photoURL} />
       </Grid>
 
-      <Grid item xs>
+      <Grid xs>
         <Typography variant="body1" style={{ userSelect: "all" }}>
           {settings.user?.displayName}
         </Typography>
@@ -25,7 +25,7 @@ export default function Account({ settings }: IUserSettingsChildProps) {
         </Typography>
       </Grid>
 
-      <Grid item>
+      <Grid>
         <Button component={Link} to={ROUTES.signOut}>
           Sign out
         </Button>

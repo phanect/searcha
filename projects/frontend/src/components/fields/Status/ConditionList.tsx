@@ -1,4 +1,4 @@
-import { InputLabel, Grid, Divider } from "@mui/material";
+import { InputLabel, Grid2 as Grid, Divider } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 
@@ -50,7 +50,7 @@ const GridItem = ({ condition, setModal, index }: any) => {
   return (
     <>
       <span>{condition?.label}</span>
-      <Grid item>
+      <Grid>
         <span>{createValueLabel(condition)}</span>
         <IconButton
           onClick={() => setModal({ isOpen: true, condition, index })}
