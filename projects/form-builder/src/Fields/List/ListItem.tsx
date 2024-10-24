@@ -73,7 +73,7 @@ export const MemoizedListItem = memo(
             />
           </Grid>
 
-          <Grid xs>
+          <Grid>
             <TextField
               label={`${itemLabel} ${index + 1}`}
               placeholder={placeholder}

@@ -108,7 +108,7 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
         {tableRows.slice(0, 20).map((row) => (
           <Grid container key={row.id} wrap="nowrap">
             {!isXs && (
-              <Grid xs style={{ overflow: "hidden" }}>
+              <Grid style={{ overflow: "hidden" }}>
                 <Cell
                   field={fieldToEdit}
                   value={(JSON.stringify(row[fieldToEdit]) || "")
@@ -121,7 +121,7 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
 
             {!isXs && <Grid sx={{ width: (theme) => theme.spacing(3) }} />}
 
-            <Grid xs style={{ overflow: "hidden" }}>
+            <Grid style={{ overflow: "hidden" }}>
               <Cell
                 field={fieldToEdit}
                 value={row[fieldToEdit]}

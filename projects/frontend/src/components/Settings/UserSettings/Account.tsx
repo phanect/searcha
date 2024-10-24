@@ -12,7 +12,7 @@ export default function Account({ settings }: IUserSettingsChildProps) {
         <Avatar src={settings.user?.photoURL} />
       </Grid>
 
-      <Grid xs>
+      <Grid>
         <Typography variant="body1" style={{ userSelect: "all" }}>
           {settings.user?.displayName}
         </Typography>

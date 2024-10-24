@@ -129,7 +129,7 @@ const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
           gridTemplateColumns="repeat(7, auto)"
         >
           {Object.keys(palettes).map((key: string, index: number) => (
-            <Grid xs sx={{ maxWidth: "fit-content" }}>
+            <Grid sx={{ maxWidth: "fit-content" }}>
               <Button
                 sx={{
                   minWidth: "25px",
