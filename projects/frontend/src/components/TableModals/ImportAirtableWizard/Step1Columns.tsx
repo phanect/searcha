@@ -268,7 +268,7 @@ export default function Step1Columns({
           const isNewColumn = !!find(config.newColumns, { key: columnKey });
           return (
             <Grid container key={field} component="li" wrap="nowrap">
-              <Grid xs>
+              <Grid>
                 <FormControlLabel
                   key={field}
                   control={
@@ -300,7 +300,7 @@ export default function Step1Columns({
                 <ArrowIcon color="disabled" sx={{ color: "secondary.main" }} />
               </Grid>
 
-              <Grid xs>
+              <Grid>
                 {selected && (
                   <ColumnSelect
                     multiple={false}

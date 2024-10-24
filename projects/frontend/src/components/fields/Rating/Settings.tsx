@@ -72,7 +72,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         />
       </Grid>
       {config.customIcons?.enabled && (
-        <Grid size={{ xs: 6 }} sm={true}>
+        <Grid size={{ xs: 6 }}>
           <Stack direction="row" spacing={1}>
             <TextField
               id="customIcons.rating"

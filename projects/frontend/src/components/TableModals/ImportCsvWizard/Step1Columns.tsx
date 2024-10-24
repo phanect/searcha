@@ -266,7 +266,7 @@ export default function Step1Columns({
                 marginTop: "36px !important",
               }}
             >
-              <Grid container xs alignItems={"center"}>
+              <Grid container alignItems={"center"}>
                 <FormControlLabel
                   key={field}
                   control={
@@ -298,10 +298,10 @@ export default function Step1Columns({
                 <ArrowIcon color="disabled" sx={{ color: "secondary.main" }} />
               </Grid>
 
-              <Grid container spacing={4} xs alignItems={"center"}>
+              <Grid container spacing={4} alignItems={"center"}>
                 {selected && (
                   <>
-                    <Grid xs>
+                    <Grid>
                       <ColumnSelect
                         multiple={false}
                         value={columnKey}

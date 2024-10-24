@@ -121,7 +121,7 @@ export default function PopupContents({
         />
       </Grid>
 
-      <Grid xs className={classes.listRow}>
+      <Grid className={classes.listRow}>
         <List className={classes.list}>
           {hits.map((hit: any) => {
             const isSelected =

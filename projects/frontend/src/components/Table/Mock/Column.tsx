@@ -84,7 +84,6 @@ export const Column = forwardRef(function Column(
       {type && <Grid>{getFieldProp("icon", type)}</Grid>}
 
       <Grid
-        xs
         style={{
           flexShrink: 1,
           overflow: "hidden",
