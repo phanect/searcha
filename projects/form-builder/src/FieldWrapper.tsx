@@ -88,7 +88,6 @@ export default function FieldWrapper({
   if (getFieldProp('group', type) === 'content')
     return (
       <Grid
-        item
         key={name!}
         id={`fieldWrapper-${name}`}
         {...gridProps}
@@ -112,7 +111,6 @@ export default function FieldWrapper({
   if (disabledConditional)
     return (
       <Grid
-        item
         key={name!}
         id={`fieldWrapper-${name}`}
         {...gridProps}
@@ -133,7 +131,6 @@ export default function FieldWrapper({
 
   return (
     <Grid
-      item
       key={name!}
       id={`fieldWrapper-${name}`}
       {...gridProps}

@@ -129,7 +129,7 @@ const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
           gridTemplateColumns="repeat(7, auto)"
         >
           {Object.keys(palettes).map((key: string, index: number) => (
-            <Grid item xs sx={{ maxWidth: "fit-content" }}>
+            <Grid xs sx={{ maxWidth: "fit-content" }}>
               <Button
                 sx={{
                   minWidth: "25px",
@@ -170,12 +170,12 @@ const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
         <Divider />
 
         <Grid container gap={1} py={1} px={2} alignItems="center">
-          <Grid item>
+          <Grid>
             <Typography fontSize={13} fontWeight="light">
               Preview
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <Chip
               component="small"
               size="small"

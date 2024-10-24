@@ -4,7 +4,7 @@ import useMemoValue from "@phanect/use-memo-value";
 import { find, findIndex, camelCase, isEqual } from "lodash-es";
 
 import {
-  Grid,
+  Grid2 as Grid,
   Typography,
   Divider,
   FormControlLabel,
@@ -203,13 +203,13 @@ export default function Step1Columns({
     <div>
       <Grid container spacing={7}>
         {!isXs && (
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="subtitle2" gutterBottom component="h2">
               Select columns ({config.pairs.length} of {csvData.columns.length})
             </Typography>
           </Grid>
         )}
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography variant="subtitle2" gutterBottom component="h2">
             Table columns
           </Typography>
@@ -266,7 +266,7 @@ export default function Step1Columns({
                 marginTop: "36px !important",
               }}
             >
-              <Grid container item xs alignItems={"center"}>
+              <Grid container xs alignItems={"center"}>
                 <FormControlLabel
                   key={field}
                   control={
@@ -288,7 +288,6 @@ export default function Step1Columns({
               </Grid>
 
               <Grid
-                item
                 sx={{
                   width: (theme) => theme.spacing(7),
                   display: "flex",
@@ -299,10 +298,10 @@ export default function Step1Columns({
                 <ArrowIcon color="disabled" sx={{ color: "secondary.main" }} />
               </Grid>
 
-              <Grid item container spacing={4} xs alignItems={"center"}>
+              <Grid container spacing={4} xs alignItems={"center"}>
                 {selected && (
                   <>
-                    <Grid item xs>
+                    <Grid xs>
                       <ColumnSelect
                         multiple={false}
                         value={columnKey}
@@ -387,7 +386,7 @@ export default function Step1Columns({
                         }}
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid>
                       <TextField
                         label="Field key"
                         value={
@@ -449,7 +448,7 @@ export default function Step1Columns({
           Document Ids (Optional)
         </Typography>
         <Divider />
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <FormControl>
             <RadioGroup
               defaultValue="auto"
@@ -511,7 +510,7 @@ export default function Step1Columns({
             </RadioGroup>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           {stepErrors().map((error, index) => (
             <Alert key={index} severity="error" sx={{ my: 1 }}>
               <AlertTitle>{error}</AlertTitle>

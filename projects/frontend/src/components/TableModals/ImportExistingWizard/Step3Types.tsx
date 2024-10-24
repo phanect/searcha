@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAtom } from "jotai";
 
-import { Grid, Typography, Divider, ButtonBase } from "@mui/material";
+import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import { IStepProps } from ".";
@@ -24,7 +24,7 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
   return (
     <div>
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography variant="subtitle2" gutterBottom component="h2">
             Table columns
           </Typography>
@@ -52,7 +52,7 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
             ))}
           </ScrollableList>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography
             variant="subtitle2"
             noWrap
@@ -73,13 +73,13 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
 
       <Grid container spacing={3}>
         {!isXs && (
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="subtitle2" gutterBottom component="h2">
               Raw data
             </Typography>
           </Grid>
         )}
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Typography variant="subtitle2" gutterBottom component="h2">
             Column preview
           </Typography>
@@ -93,11 +93,11 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
           style={{ position: "sticky", top: 0, zIndex: 1, marginTop: 0 }}
         >
           {!isXs && (
-            <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+            <Grid size={{ xs: 12, sm: 6 }} style={{ paddingTop: 0 }}>
               <Column label={fieldToEdit} />
             </Grid>
           )}
-          <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+          <Grid size={{ xs: 12, sm: 6 }} style={{ paddingTop: 0 }}>
             <Column
               label={config[fieldToEdit].name}
               type={config[fieldToEdit].type}
@@ -108,7 +108,7 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
         {tableRows.slice(0, 20).map((row) => (
           <Grid container key={row.id} wrap="nowrap">
             {!isXs && (
-              <Grid item xs style={{ overflow: "hidden" }}>
+              <Grid xs style={{ overflow: "hidden" }}>
                 <Cell
                   field={fieldToEdit}
                   value={(JSON.stringify(row[fieldToEdit]) || "")
@@ -119,9 +119,9 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
               </Grid>
             )}
 
-            {!isXs && <Grid item sx={{ width: (theme) => theme.spacing(3) }} />}
+            {!isXs && <Grid sx={{ width: (theme) => theme.spacing(3) }} />}
 
-            <Grid item xs style={{ overflow: "hidden" }}>
+            <Grid xs style={{ overflow: "hidden" }}>
               <Cell
                 field={fieldToEdit}
                 value={row[fieldToEdit]}

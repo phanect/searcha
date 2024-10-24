@@ -11,7 +11,7 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Grid,
+  Grid2 as Grid,
 } from "@mui/material";
 import { Copy as CopyIcon } from "@src/assets/icons";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
@@ -93,7 +93,7 @@ function StepRules({ isComplete, setComplete }: ISetupStepBodyProps) {
 
         <div>
           <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
               <Button
                 startIcon={<CopyIcon />}
                 onClick={() => {
@@ -105,7 +105,7 @@ function StepRules({ isComplete, setComplete }: ISetupStepBodyProps) {
               </Button>
             </Grid>
 
-            <Grid item>
+            <Grid>
               <Button
                 variant="contained"
                 color="primary"

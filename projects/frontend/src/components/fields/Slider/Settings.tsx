@@ -7,7 +7,7 @@ import {
   Switch,
   MenuItem,
   Checkbox,
-  Grid,
+  Grid2 as Grid,
   InputLabel,
   Typography,
   useTheme,
@@ -100,9 +100,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
           const colorHex = colors[index];
           return (
             <Grid
-              xs={12}
-              md={4}
-              item
+              size={{ xs: 12, md: 4 }}
               sx={{
                 display: "flex",
                 alignItems: "end",

@@ -63,7 +63,7 @@ export default function PopupFooter({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item>
+        <Grid>
           <Typography variant="button" className={classes.count}>
             {countText ??
               `${value.length} of ${options.length}${
@@ -72,7 +72,7 @@ export default function PopupFooter({
           </Typography>
         </Grid>
         {selectAll ? (
-          <Grid item xs>
+          <Grid xs>
             {value.length > 0 && clearable !== false ? (
               clearButton
             ) : (
@@ -89,13 +89,13 @@ export default function PopupFooter({
           </Grid>
         ) : (
           clearable !== false && (
-            <Grid item xs>
+            <Grid xs>
               {clearButton}
             </Grid>
           )
         )}
 
-        <Grid item>
+        <Grid>
           <Button
             onClick={onClose}
             className={classes.button}
@@ -117,9 +117,9 @@ export default function PopupFooter({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item>{clearButton}</Grid>
+        <Grid>{clearButton}</Grid>
 
-        <Grid item>
+        <Grid>
           <Button
             onClick={onClose}
             className={classes.button}

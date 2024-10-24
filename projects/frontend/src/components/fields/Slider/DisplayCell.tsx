@@ -1,6 +1,6 @@
 import { IDisplayCellProps } from "@src/components/fields/types";
 
-import { Grid, Box, useTheme } from "@mui/material";
+import { Grid2 as Grid, Box, useTheme } from "@mui/material";
 
 import { resultColorsScale } from "@src/utils/color";
 
@@ -31,11 +31,11 @@ export default function Slider({ column, value }: IDisplayCellProps) {
   const percentage = progress / 100;
   return (
     <Grid container alignItems="center" wrap="nowrap" spacing={1}>
-      <Grid item xs={6} style={{ fontVariantNumeric: "tabular-nums" }}>
+      <Grid size={{ xs: 6 }} style={{ fontVariantNumeric: "tabular-nums" }}>
         {value ?? 0}/{max} {unit}
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid size={{ xs: 6 }}>
         <Box
           sx={{
             width: "100%",

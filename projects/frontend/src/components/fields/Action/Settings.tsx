@@ -6,7 +6,7 @@ import { useAtom, useSetAtom } from "jotai";
 
 import {
   Stack,
-  Grid,
+  Grid2 as Grid,
   TextField,
   FormControl,
   FormLabel,
@@ -151,7 +151,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
           title: "Requirements",
           content: (
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <MultiSelect
                   label="Required roles"
                   labelPlural="roles"
@@ -165,7 +165,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <MultiSelect
                   label="Required fields"
                   labelPlural="fields"
@@ -248,10 +248,10 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
               {config.friction === "params" && (
                 <FormControl>
                   <Grid container spacing={1} sx={{ mb: 0.5 }}>
-                    <Grid item xs>
+                    <Grid xs>
                       <InputLabel variant="filled">Form fields</InputLabel>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                       <FormFieldSnippets />
                     </Grid>
                   </Grid>
@@ -429,7 +429,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   </FormControl>
 
                   <Grid container>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -458,7 +458,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                         style={{ marginLeft: -11 }}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -602,7 +602,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
               </Stack>
               {config.customIcons?.enabled && (
                 <Grid container spacing={2} sx={{ mt: { xs: 0, sm: -1 } }}>
-                  <Grid item xs={12} sm={true}>
+                  <Grid size={{ xs: 12 }} sm={true}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.run"
@@ -620,7 +620,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                     </Stack>
                   </Grid>
 
-                  <Grid item xs={12} sm={true}>
+                  <Grid size={{ xs: 12 }} sm={true}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.redo"
@@ -638,7 +638,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                     </Stack>
                   </Grid>
 
-                  <Grid item xs={12} sm={true}>
+                  <Grid size={{ xs: 12 }} sm={true}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.undo"

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Control, UseFormReturn, useWatch } from 'react-hook-form';
 import useFormSettings from './useFormSettings';
 
-import { useTheme, Grid, Checkbox } from '@mui/material';
+import { useTheme, Grid2 as Grid, Checkbox } from '@mui/material';
 
 import { Fields, CustomComponents } from './types';
 import FieldWrapper, { IFieldWrapperProps } from './FieldWrapper';
@@ -112,9 +112,9 @@ function ConditionalField({ conditional, ...props }: IFieldWrapperProps) {
   }, [conditionalState]);
 
   return (
-    <Grid item key={props.name!} id={`conditionalField-${props.name}`} xs={12}>
+    <Grid key={props.name!} id={`conditionalField-${props.name}`} size={{ xs: 12 }}>
       <Grid container wrap="nowrap" alignItems="flex-start">
-        <Grid item>
+        <Grid>
           <Checkbox
             checked={conditionalState}
             onChange={(e) => {

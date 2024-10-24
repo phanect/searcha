@@ -7,7 +7,7 @@ import {
   Collapse,
   FormControlLabel,
   Checkbox,
-  Grid,
+  Grid2 as Grid,
   Button,
 } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
@@ -79,7 +79,7 @@ export default function SuggestedRules({
 
       <Collapse in={customized}>
         <Grid container>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -90,7 +90,7 @@ export default function SuggestedRules({
               label="Anyone can read"
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -101,7 +101,7 @@ export default function SuggestedRules({
               label="All signed-in users can read"
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -112,7 +112,7 @@ export default function SuggestedRules({
               label="Users can create and edit docs"
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -128,16 +128,16 @@ export default function SuggestedRules({
 
       <Grid container spacing={1} style={{ marginTop: 0 }}>
         {!customized && (
-          <Grid item>
+          <Grid>
             <Button onClick={() => setCustomized(true)}>Customize…</Button>
           </Grid>
         )}
-        <Grid item>
+        <Grid>
           <Button onClick={() => navigator.clipboard.writeText(generatedRules)}>
             Copy to clipboard
           </Button>
         </Grid>
-        <Grid item>
+        <Grid>
           <Button
             href={`https://console.firebase.google.com/u/0/project/${projectId}/firestore/rules`}
             target="_blank"

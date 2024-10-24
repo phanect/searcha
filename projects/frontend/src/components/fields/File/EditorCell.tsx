@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 
 import { format } from "date-fns";
 
-import { alpha, Stack, Grid, Tooltip, Chip, IconButton } from "@mui/material";
+import { alpha, Stack, Grid2 as Grid, Tooltip, Chip, IconButton } from "@mui/material";
 import { Upload as UploadIcon } from "@src/assets/icons";
 import ChipList from "@src/components/Table/TableCell/ChipList";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
@@ -112,7 +112,6 @@ export default function File_({
                     >
                       {(provided) => (
                         <Grid
-                          item
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           style={{
@@ -182,7 +181,7 @@ export default function File_({
 
               {localFiles &&
                 localFiles.map((file) => (
-                  <Grid item key={file.name}>
+                  <Grid key={file.name}>
                     <Chip
                       icon={<FileIcon />}
                       label={file.name}

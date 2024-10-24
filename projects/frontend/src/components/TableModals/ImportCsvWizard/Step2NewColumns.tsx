@@ -2,7 +2,7 @@ import { useState } from "react";
 import { find } from "lodash-es";
 import { parseJSON } from "date-fns";
 
-import { Grid, Typography, Divider, ButtonBase } from "@mui/material";
+import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import { IStepProps } from ".";
@@ -38,7 +38,7 @@ export default function Step2NewColumns({
     <>
       <div>
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="subtitle2" gutterBottom component="h2">
               New table columns
             </Typography>
@@ -64,7 +64,7 @@ export default function Step2NewColumns({
               ))}
             </ScrollableList>
           </Grid>
-          <Grid item xs={12} sm={6} style={{ paddingTop: 68 }}>
+          <Grid size={{ xs: 12, sm: 6 }} style={{ paddingTop: 68 }}>
             <FieldsDropdown
               label={`Column type: ${config.newColumns[fieldToEdit].name}`}
               value={config.newColumns[fieldToEdit].type}
@@ -79,13 +79,13 @@ export default function Step2NewColumns({
       <div>
         <Grid container spacing={3}>
           {!isXs && (
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Typography variant="subtitle2" gutterBottom component="h2">
                 Raw data
               </Typography>
             </Grid>
           )}
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="subtitle2" gutterBottom component="h2">
               Column preview
             </Typography>
@@ -99,11 +99,11 @@ export default function Step2NewColumns({
             style={{ position: "sticky", top: 0, zIndex: 1, marginTop: 0 }}
           >
             {!isXs && (
-              <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+              <Grid size={{ xs: 12, sm: 6 }} style={{ paddingTop: 0 }}>
                 <Column label={config.newColumns[fieldToEdit].key} />
               </Grid>
             )}
-            <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+            <Grid size={{ xs: 12, sm: 6 }} style={{ paddingTop: 0 }}>
               <Column
                 label={config.newColumns[fieldToEdit].name}
                 type={config.newColumns[fieldToEdit].type}
@@ -114,7 +114,7 @@ export default function Step2NewColumns({
           {rowData.slice(0, 20).map((cell, i) => (
             <Grid container key={i} wrap="nowrap">
               {!isXs && (
-                <Grid item xs style={{ overflow: "hidden" }}>
+                <Grid xs style={{ overflow: "hidden" }}>
                   <Cell
                     field={config.newColumns[fieldToEdit].key}
                     value={(JSON.stringify(cell) || "")
@@ -126,10 +126,10 @@ export default function Step2NewColumns({
               )}
 
               {!isXs && (
-                <Grid item sx={{ width: (theme) => theme.spacing(3) }} />
+                <Grid sx={{ width: (theme) => theme.spacing(3) }} />
               )}
 
-              <Grid item xs style={{ overflow: "hidden" }}>
+              <Grid xs style={{ overflow: "hidden" }}>
                 <Cell
                   field={config.newColumns[fieldToEdit].key}
                   value={

@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { IStepProps } from ".";
 
-import { styled, Grid } from "@mui/material";
+import { styled, Grid2 as Grid } from "@mui/material";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
@@ -43,16 +43,16 @@ export default function Step4Preview({ config }: IStepProps) {
           }}
         >
           {Object.entries(config).map(([, { name, type }]) => (
-            <ColumnWrapper item>
+            <ColumnWrapper>
               <Column label={name} type={type} />
             </ColumnWrapper>
           ))}
-          <Spacer item />
+          <Spacer />
         </Grid>
 
         <Grid container wrap="nowrap" style={{ flexGrow: 1 }}>
           {Object.entries(config).map(([field, { name, type }]) => (
-            <ColumnWrapper item>
+            <ColumnWrapper>
               {tableRows.slice(0, 20).map((row) => (
                 <Cell
                   key={`${field}--${row._rowy_ref.path}`}
@@ -62,10 +62,10 @@ export default function Step4Preview({ config }: IStepProps) {
                   name={name}
                 />
               ))}
-              <Spacer item />
+              <Spacer />
             </ColumnWrapper>
           ))}
-          <Spacer item />
+          <Spacer />
         </Grid>
       </div>
     </div>

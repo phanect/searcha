@@ -4,7 +4,7 @@ import { isEqual } from "lodash-es";
 import useStateRef from "react-usestateref";
 
 import {
-  Grid,
+  Grid2 as Grid,
   TextField,
   FormControlLabel,
   Switch,
@@ -103,7 +103,7 @@ export default function WebhookModal({
             justifyContent="center"
             alignItems="center"
           >
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField
                 size="small"
                 required
@@ -124,7 +124,7 @@ export default function WebhookModal({
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <FormControlLabel
                 control={
                   <Switch

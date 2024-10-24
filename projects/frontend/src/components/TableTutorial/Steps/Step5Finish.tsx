@@ -1,5 +1,5 @@
 import { ITableTutorialStepComponentProps } from ".";
-import { useTheme, Grid, Typography, Link } from "@mui/material";
+import { useTheme, Grid2 as Grid, Typography, Link } from "@mui/material";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 
 import playgroundLight from "@src/assets/tutorial/playground-light.svg";
@@ -32,7 +32,7 @@ function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
         maxWidth: 840,
       }}
     >
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <img
           src={theme.palette.mode === "dark" ? playgroundDark : playgroundLight}
           alt="Puzzle pieces coming together"
@@ -52,7 +52,7 @@ function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
         </Typography>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <img
           src={theme.palette.mode === "dark" ? templatesDark : templatesLight}
           alt="Blocks coming together"
@@ -72,7 +72,7 @@ function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
         </Typography>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <img
           src={theme.palette.mode === "dark" ? communityDark : communityLight}
           alt="People coming together"

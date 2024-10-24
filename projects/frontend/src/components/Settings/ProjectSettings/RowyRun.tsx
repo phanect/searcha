@@ -5,7 +5,7 @@ import {
   Link,
   Divider,
   Button,
-  Grid,
+  Grid2 as Grid,
   TextField,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -139,21 +139,21 @@ export default function RowyRun({
             alignItems="center"
             justifyContent="space-between"
           >
-            <Grid item xs={12} sm>
+            <Grid size={{ xs: 12 }} sm>
               <Typography>
                 If you have not yet deployed Rowy Run, click this button and
                 follow the prompts on Cloud Shell.
               </Typography>
             </Grid>
 
-            <Grid item>{deployButton}</Grid>
+            <Grid>{deployButton}</Grid>
           </Grid>
         </div>
       )}
 
       <div>
         <Grid container spacing={1} alignItems="center" direction="row">
-          <Grid item xs>
+          <Grid xs>
             <TextField
               label="Cloud Run instance URL"
               id="rowyRunUrl"
@@ -182,7 +182,7 @@ export default function RowyRun({
             />
           </Grid>
 
-          <Grid item>
+          <Grid>
             <LoadingButton
               loading={verified === "LOADING"}
               onClick={handleVerify}

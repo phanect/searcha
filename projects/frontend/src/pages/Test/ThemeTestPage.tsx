@@ -6,7 +6,7 @@ import {
   useTheme,
   Container,
   Stack,
-  Grid,
+  Grid2 as Grid,
   Table,
   TableHead,
   TableRow,
@@ -797,7 +797,7 @@ export default function TestView() {
           <div>
             <Grid container spacing={4}>
               {new Array(24).fill(undefined).map((_, i) => (
-                <Grid item key={i}>
+                <Grid key={i}>
                   <Paper
                     elevation={i + 1}
                     style={{

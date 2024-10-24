@@ -1,6 +1,6 @@
 import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import { Grid, Button, Tooltip, useTheme } from "@mui/material";
+import { Grid2 as Grid, Button, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import MultiSelectComponent from "@phanect/datasheet-multiselect";
 import FormattedChip from "@src/components/FormattedChip";
@@ -32,13 +32,13 @@ export default function MultiSelect({
   if (typeof value === "string" && value !== "")
     return (
       <Grid container wrap="nowrap" gap={1}>
-        <Grid item xs sx={fieldSx}>
+        <Grid xs sx={fieldSx}>
           <Tooltip title="This cell’s value is a string and needs to be converted to an array">
             <WarningIcon color="action" style={{ verticalAlign: "middle" }} />
           </Tooltip>
           &nbsp;{value}
         </Grid>
-        <Grid item>
+        <Grid>
           <Button
             color="primary"
             onClick={() => {
@@ -76,7 +76,7 @@ export default function MultiSelect({
           {value.map(
             (item, i) =>
               item?.length > 0 && (
-                <Grid item key={item}>
+                <Grid key={item}>
                   <FormattedChip
                     label={item}
                     onDelete={disabled ? undefined : handleDelete(i)}

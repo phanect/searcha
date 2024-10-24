@@ -1,7 +1,7 @@
 import { IDisplayCellProps } from "@src/components/fields/types";
 import { useAtom } from "jotai";
 
-import { alpha, Theme, Stack, Grid, ButtonBase } from "@mui/material";
+import { alpha, Theme, Stack, Grid2 as Grid, ButtonBase } from "@mui/material";
 import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 
 import Thumbnail from "@src/components/Thumbnail";
@@ -79,7 +79,7 @@ export default function Image_({ value, tabIndex }: IDisplayCellProps) {
       <Grid container spacing={0.5} wrap="nowrap">
         {Array.isArray(value) &&
           value.map((file: FileValue) => (
-            <Grid item key={file.downloadURL}>
+            <Grid key={file.downloadURL}>
               {
                 <ButtonBase
                   aria-label="Open"

@@ -60,12 +60,12 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
               }
             />
             <Grid container gap={1} py={1} px={2} alignItems="center">
-              <Grid item>
+              <Grid>
                 <Typography fontSize={13} fontWeight="light">
                   Light Theme
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Chip
                   component="small"
                   size="small"
@@ -85,12 +85,12 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
               }
             />
             <Grid container gap={1} py={1} px={2} alignItems="center">
-              <Grid item>
+              <Grid>
                 <Typography fontSize={13} fontWeight="light">
                   Dark Theme
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Chip
                   component="small"
                   size="small"

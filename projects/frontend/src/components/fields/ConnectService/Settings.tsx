@@ -1,5 +1,5 @@
 import { ISettingsProps } from "@src/components/fields/types";
-import { TextField, FormControlLabel, Switch, Grid } from "@mui/material";
+import { TextField, FormControlLabel, Switch, Grid2 as Grid } from "@mui/material";
 
 export default function Settings({ config, onChange }: ISettingsProps) {
   return (
@@ -34,7 +34,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
         }}
       />
       <Grid container direction="row" spacing={1}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             label="Title key (optional)"
             name="titleKey"
@@ -45,7 +45,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             label="Subtitle key (optional)"
             name="subtitleKey"
