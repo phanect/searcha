@@ -23,7 +23,7 @@ export const SectionHeading = forwardRef<typeof Stack, ISectionHeadingProps>(fun
       direction="row"
       alignItems="flex-end"
       id={sectionLink}
-      component={ component }
+      component={ component ?? "div" }
       {...props}
       sx={{
         pb: 0.5,
