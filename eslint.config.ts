@@ -16,6 +16,11 @@ const configs: Linter.Config[] = [
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    settings: {
+      react: {
+        version: "18",
+      },
+    },
   },
   {
     files: [ "**/*.{js,mjs,jsx,ts,tsx}"],
