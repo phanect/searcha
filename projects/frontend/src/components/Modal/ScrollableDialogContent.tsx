@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { useRef } from "react";
 import {
   Divider,
   DividerProps,
@@ -6,13 +6,6 @@ import {
   DialogContentProps,
 } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
-
-const MemoizedDialogContent = memo(function MemoizedDialogContent_({
-  setRef,
-  ...props
-}: DialogContentProps & { setRef: any }) {
-  return <DialogContent {...props} ref={setRef} />;
-});
 
 export interface IScrollableDialogContentProps extends DialogContentProps {
   disableTopDivider?: boolean;
@@ -43,7 +36,7 @@ export default function ScrollableDialogContent({
         />
       )}
 
-      <MemoizedDialogContent {...props} ref={ ref } />
+      <DialogContent {...props} ref={ ref } />
 
       {!disableBottomDivider && ref.current?.scrollTop !== undefined && (
         <Divider
