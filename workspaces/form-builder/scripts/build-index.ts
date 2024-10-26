@@ -4,7 +4,7 @@ process.chdir('./src');
 
 const output: string[] = [];
 
-async function scanDir(dir) {
+async function scanDir(dir: string) {
   const items = await readdir(dir);
 
   for (const item of items) {
@@ -20,7 +20,7 @@ async function scanDir(dir) {
     // Get component/file name
     let component = item.split('.')[0];
     const path = component === 'index' ? dir : `${dir}/${component}`;
-    if (component === 'index') component = dir.split('/').pop();
+    if (component === 'index') component = dir.split('/').pop() ?? dir;
 
     // Check if file has default export
     const file = await readFile(dir + '/' + item);

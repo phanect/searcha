@@ -5,9 +5,9 @@ import { TransitionProps } from "react-transition-group/Transition";
 import { TransitionProps as MuiTransitionProps } from "@mui/material/transitions";
 
 export const SlideTransition: ForwardRefExoticComponent<
-  Pick<TransitionProps, string | number> & RefAttributes<any>
+  Pick<TransitionProps, string | number> & RefAttributes<unknown>
 > = forwardRef(
-  ({ children, ...props }: TransitionProps, ref: Ref<any>) => {
+  ({ children, ...props }, ref) => {
     const theme = useTheme();
 
     if (!children) return null;
