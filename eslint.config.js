@@ -17,4 +17,12 @@ export default [
       },
     },
   },
+  {
+    files: [ "**/*" ],
+    settings: {
+      react: {
+        version: "18",
+      },
+    },
+  },
 ];
