@@ -73,7 +73,7 @@ export default function ProjectSettingsDialog() {
                   borderColor: "divider",
                 }}
               >
-                <TabList value={tab} onChange={handleTabChange}>
+                <TabList value={tab} onChange={handleTabChange} component={Tab}>
                   <Tab label="Secret keys" value={"secrets"} />
                 </TabList>
               </Box>
