@@ -11,7 +11,7 @@ import { commandErrorHandler, createStreamLogger } from "./logger";
 import type { auth } from "firebase-admin";
 import { getProjectId } from "../metadataService";
 import { db } from "../firebaseConfig";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 export const functionBuilder = async (
@@ -110,7 +110,7 @@ export const functionBuilder = async (
 
       await streamLogger.info(`Deploying ${functionName} to ${projectId}`);
 
-      const configFile = readFileSync(
+      const configFile = await readFile(
         resolve(
           __dirname,
           `./builds/${buildFolderTimestamp}/src/functionConfig.js`
@@ -134,7 +134,7 @@ export const functionBuilder = async (
         /\/\/ conditions:require/g,
         "conditions:require"
       );
-      writeFileSync(
+      await writeFile(
         resolve(
           __dirname,
           `./builds/${buildFolderTimestamp}/src/functionConfig.js`
