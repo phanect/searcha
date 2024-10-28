@@ -8,15 +8,15 @@ import {
 } from "./utils";
 import generateConfig from "./compiler";
 import { commandErrorHandler, createStreamLogger } from "./logger";
-import firebase from "firebase-admin";
+import type { auth } from "firebase-admin";
 import { getProjectId } from "../metadataService";
 import { db } from "../firebaseConfig";
-import fs from "fs";
-import path from "path";
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 export const functionBuilder = async (
   req: any,
-  user: firebase.auth.UserRecord
+  user: auth.UserRecord
 ) => {
   try {
     const { tablePath, tableConfigPath } = req.body;
@@ -110,8 +110,8 @@ export const functionBuilder = async (
 
       await streamLogger.info(`Deploying ${functionName} to ${projectId}`);
 
-      const configFile = fs.readFileSync(
-        path.resolve(
+      const configFile = readFileSync(
+        resolve(
           __dirname,
           `./builds/${buildFolderTimestamp}/src/functionConfig.js`
         ),
@@ -134,8 +134,8 @@ export const functionBuilder = async (
         /\/\/ conditions:require/g,
         "conditions:require"
       );
-      fs.writeFileSync(
-        path.resolve(
+      writeFileSync(
+        resolve(
           __dirname,
           `./builds/${buildFolderTimestamp}/src/functionConfig.js`
         ),
