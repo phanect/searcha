@@ -1,7 +1,7 @@
-import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
-import * as _ from "lodash";
-export const serverTimestamp = admin.firestore.FieldValue.serverTimestamp;
+import { firestore } from "firebase-admin";
+import type { Change, firestore as fsfunctions } from "firebase-functions";
+import { get } from "lodash";
+export const serverTimestamp = firestore.FieldValue.serverTimestamp;
 import { sendEmail } from "./email";
 import { hasAnyRole } from "./auth";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
@@ -32,7 +32,7 @@ export function generateId(length: number): string {
 
 export const hasRequiredFields = (requiredFields: string[], data: any) =>
   requiredFields.reduce((acc: boolean, currField: string) => {
-    const v = _.get(data, currField);
+    const v = get(data, currField);
     if (v === undefined || v === null) return false;
     else return acc;
   }, true);
@@ -49,7 +49,7 @@ export const getTriggerType = (change) =>
     : "delete";
 
 export const changedDocPath = (
-  change: functions.Change<functions.firestore.DocumentSnapshot>
+  change: Change<fsfunctions.DocumentSnapshot>
 ) => change.before?.ref.path ?? change.after.ref.path;
 export const rowReducer = (fieldsToSync, row) =>
   fieldsToSync.reduce((acc: any, curr: string) => {
@@ -59,7 +59,7 @@ export const rowReducer = (fieldsToSync, row) =>
   }, {});
 
 const hasChanged =
-  (change: functions.Change<functions.firestore.DocumentSnapshot>) =>
+  (change: Change<fsfunctions.DocumentSnapshot>) =>
   (trackedFields: string[]) => {
     const before = change.before?.data();
     const after = change.after?.data();
@@ -68,8 +68,8 @@ const hasChanged =
     else
       return trackedFields.some(
         (trackedField) =>
-          JSON.stringify(_.get(before, trackedField)) !==
-          JSON.stringify(_.get(after, trackedField))
+          JSON.stringify(get(before, trackedField)) !==
+          JSON.stringify(get(after, trackedField))
       );
   };
 export default {
