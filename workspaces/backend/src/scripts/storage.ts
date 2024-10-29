@@ -35,14 +35,12 @@ export const data2storage = async (
 ) => {
   const projectId = await getProjectId();
   const bucket = storage.bucket(options.bucket ?? `${projectId}.appspot.com`);
-  const fileType = options.fileType
-    ? options.fileType
-    : Buffer.isBuffer(data)
-    ? await fromBuffer(data)
+  const fileType = options.fileType ? options.fileType
+    : Buffer.isBuffer(data) ? await fromBuffer(data)
     : {
-        ext: ".txt",
-        mime: "text/plain",
-      };
+      ext: ".txt",
+      mime: "text/plain",
+    };
   let fileName = options.fileName ?? uuid.v4();
   if (!fileName.includes(".")) {
     fileName = `${fileName}.${fileType.ext}`;

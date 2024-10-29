@@ -42,11 +42,9 @@ export async function asyncForEach(array: any[], callback: Function) {
   }
 }
 export const getTriggerType = (change) =>
-  Boolean(change.after.data()) && Boolean(change.before.data())
-    ? "update"
-    : Boolean(change.after.data())
-    ? "create"
-    : "delete";
+  Boolean(change.after.data()) && Boolean(change.before.data()) ? "update"
+  : Boolean(change.after.data()) ? "create"
+  : "delete";
 
 export const changedDocPath = (
   change: Change<fsfunctions.DocumentSnapshot>
