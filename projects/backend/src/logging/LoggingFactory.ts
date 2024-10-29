@@ -112,12 +112,9 @@ class LoggingFieldAndRow extends LoggingAbstract implements RowyLogging {
       fieldName: this.fieldName,
       rowId: this.rowId,
       tablePath: this.tablePath,
-      payload:
-        payloadSize > 250000
-          ? { v: "payload too large" }
-          : payload.length > 1
-          ? payload
-          : payload[0],
+      payload: payloadSize > 250000 ? { v: "payload too large" }
+      : payload.length > 1 ? payload
+      : payload[0],
     });
     await log.write(entry);
   }
