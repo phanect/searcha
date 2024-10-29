@@ -1,10 +1,8 @@
-import { IFieldComponentProps } from '../../types';
+import { Box, Typography, Divider } from "@mui/material";
+import type { TypographyProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
-import { Box, Typography, TypographyProps, Divider } from '@mui/material';
-
-export interface IContentHeaderComponentProps
-  extends IFieldComponentProps,
-    Partial<Omit<TypographyProps, 'title' | 'onChange' | 'onBlur' | 'ref'>> {}
+export type IContentHeaderComponentProps = {} & IFieldComponentProps & Partial<Omit<TypographyProps, "title" | "onChange" | "onBlur" | "ref">>;
 
 export default function ContentHeaderComponent({
   field,
@@ -29,17 +27,17 @@ export default function ContentHeaderComponent({
         {
           mt: 3,
           mb: -1,
-          width: '100%',
+          width: "100%",
 
-          whiteSpace: 'pre-line',
-          cursor: 'default',
+          whiteSpace: "pre-line",
+          cursor: "default",
         },
         index === 0 && { mt: 0 },
       ]}
     >
       <Typography
         variant="subtitle1"
-        {...({ component: 'h3' } as any)}
+        {...({ component: "h3" } as any)}
         {...props}
       >
         {children ?? label}

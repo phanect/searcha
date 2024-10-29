@@ -18,29 +18,29 @@ import {
   tableSettingsAtom,
   tableSortsAtom,
 } from "@src/atoms/tableScope";
-import SortPopover from "./SortPopover";
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import useSaveTableSorts from "@src/components/Table/ColumnHeader/useSaveTableSorts";
+import SortPopover from "./SortPopover";
 
 export default function Sort() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const canEditColumns = Boolean(
-    userRoles.includes("ADMIN") ||
-      tableSettings.modifiableBy?.some((r) => userRoles.includes(r))
+    userRoles.includes("ADMIN")
+    || tableSettings.modifiableBy?.some((r) => userRoles.includes(r))
   );
 
-  const [tableSorts, setTableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ tableSorts, setTableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
   const triggerSaveTableSorts = useSaveTableSorts(canEditColumns);
 
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const sortColumns = tableColumnsOrdered.map(({ key, name, type, index }) => ({
     value: key,

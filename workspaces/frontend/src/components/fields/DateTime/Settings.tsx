@@ -1,11 +1,10 @@
-import { ISettingsProps } from "@src/components/fields/types";
-
 import { Typography, Link } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import MultiSelect from "@phanect/datasheet-multiselect";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {
   return (

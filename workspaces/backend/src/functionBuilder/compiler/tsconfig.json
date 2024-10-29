@@ -9,10 +9,10 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "target": "es6",
-    "lib": ["ESNext"],
+    "lib": [ "ESNext" ],
     "strictNullChecks": false
   },
   "compileOnSave": true,
-  "include": ["src", "generateConfig.ts"],
-  "ignore": ["extensions", "extensionsLib"]
+  "include": [ "src", "generateConfig.ts" ],
+  "ignore": [ "extensions", "extensionsLib" ]
 }

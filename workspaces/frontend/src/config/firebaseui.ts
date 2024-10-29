@@ -64,12 +64,12 @@ export const authOptions = {
 export const defaultUiConfig: auth.Config = {
   signInFlow: "popup",
   signInSuccessUrl: "/",
-  signInOptions: [authOptions.google],
+  signInOptions: [ authOptions.google ],
   tosUrl: EXTERNAL_LINKS.terms,
   privacyPolicyUrl: EXTERNAL_LINKS.privacy,
 };
 
 export const getSignInOptions = (
-  selected: Array<keyof typeof authOptions>
+  selected: (keyof typeof authOptions)[]
 ): auth.Config["signInOptions"] =>
   selected.map((option) => authOptions[option]);

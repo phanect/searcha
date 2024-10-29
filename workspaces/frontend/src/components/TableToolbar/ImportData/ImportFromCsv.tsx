@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { parse } from "csv-parse/browser/esm";
-import { Parser, ParserOptions } from "@json2csv/plainjs";
+import { Parser } from "@json2csv/plainjs";
 import { useDropzone } from "react-dropzone";
 import { useDebouncedCallback } from "use-debounce";
 import { useSnackbar } from "notistack";
@@ -28,6 +28,7 @@ import {
   importCsvAtom,
 } from "@src/atoms/tableScope";
 import { analytics, logEvent } from "@src/analytics";
+import type { ParserOptions } from "@json2csv/plainjs";
 
 export enum ImportMethod {
   paste = "paste",
@@ -38,11 +39,11 @@ export enum ImportMethod {
 // extract the column names and return the names
 function extractFields(data: JSON[]): string[] {
   let columns = new Set<string>();
-  for (let jsonRow of data) {
-    columns = new Set([...columns, ...Object.keys(jsonRow)]);
+  for (const jsonRow of data) {
+    columns = new Set([ ...columns, ...Object.keys(jsonRow) ]);
   }
   columns.delete("id");
-  return [...columns];
+  return [ ...columns ];
 }
 
 function convertJSONToCSV(rawData: string): string | false {
@@ -61,7 +62,7 @@ function convertJSONToCSV(rawData: string): string | false {
     transforms: [
       (value: any) => {
         // if the value is an array, join it with a comma
-        for (let key in value) {
+        for (const key in value) {
           if (Array.isArray(value[key])) {
             value[key] = value[key].join(",");
           }
@@ -108,29 +109,27 @@ function checkIsJson(raw: string): boolean {
 
 export default function ImportFromFile() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [{ importType: importTypeCsv, csvData }, setImportCsv] = useAtom(
+  const [{ importType: importTypeCsv, csvData }, setImportCsv ] = useAtom(
     importCsvAtom,
     { store: tableScopeStore },
   );
-  const [tab, setTab] = useState("upload");
+  const [ tab, setTab ] = useState("upload");
   const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const importMethodRef = useRef(ImportMethod.upload);
   const importTypeRef = useRef(importTypeCsv);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | any>("");
+  const [ loading, setLoading ] = useState(false);
+  const [ error, setError ] = useState<string | any>("");
   const { enqueueSnackbar } = useSnackbar();
-  const validCsv =
-    csvData !== null && csvData?.columns.length > 0 && csvData?.rows.length > 0;
+  const validCsv
+    = csvData !== null && csvData?.columns.length > 0 && csvData?.rows.length > 0;
 
-  useEffect(() => {
-    return () => {
-      setImportCsv({ importType: "csv", csvData: null });
-    };
-  }, [setImportCsv]);
+  useEffect(() => () => {
+    setImportCsv({ importType: "csv", csvData: null });
+  }, [ setImportCsv ]);
 
   const parseCsv = useCallback(
     (csvString: string) =>
-      parse(csvString, { delimiter: [",", "\t"] }, (err, rows) => {
+      parse(csvString, { delimiter: [ ",", "\t" ]}, (err, rows) => {
         if (err) {
           setError(err.message);
         } else {
@@ -153,7 +152,7 @@ export default function ImportFromFile() {
           }
         }
       }),
-    [setImportCsv]
+    [ setImportCsv ]
   );
 
   const parseFile = useCallback(
@@ -170,22 +169,22 @@ export default function ImportFromFile() {
       }
       parseCsv(rawData);
     },
-    [parseCsv]
+    [ parseCsv ]
   );
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       try {
         const file = acceptedFiles[0];
-        importTypeRef.current =
-          file.type === "text/tab-separated-values" ? "tsv"
+        importTypeRef.current
+          = file.type === "text/tab-separated-values" ? "tsv"
           : file.type === "application/json" ? "json"
           : "csv";
         const reader = new FileReader();
         reader.onload = (event: any) => parseFile(event.target.result);
         reader.readAsText(file);
       } catch (error) {
-        enqueueSnackbar(`Please import a .tsv or .csv or .json file`, {
+        enqueueSnackbar("Please import a .tsv or .csv or .json file", {
           variant: "error",
           anchorOrigin: {
             vertical: "top",
@@ -194,7 +193,7 @@ export default function ImportFromFile() {
         });
       }
     },
-    [enqueueSnackbar, parseCsv]
+    [ enqueueSnackbar, parseCsv ]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -212,7 +211,7 @@ export default function ImportFromFile() {
       return (importTypeRef.current = "json");
     }
 
-    const getFirstLine = data?.match(/^(.*)/)?.[0];
+    const getFirstLine = (/^(.*)/.exec(data))?.[0];
     /*
      *  Catching edge case with regex
      *  EG: "hello\tworld"\tFirst
@@ -221,10 +220,10 @@ export default function ImportFromFile() {
      */
     const strInQuotes = /"(.*?)"/;
     const tabsWithSpace = (str: string) => str.replace("\t", "s");
-    const formatString =
-      getFirstLine?.replace(strInQuotes, tabsWithSpace) ?? "";
+    const formatString
+      = getFirstLine?.replace(strInQuotes, tabsWithSpace) ?? "";
     const tabPattern = /\t/;
-    return tabPattern.test(formatString)
+    return formatString.includes("\t")
       ? (importTypeRef.current = "tsv")
       : (importTypeRef.current = "csv");
   }
@@ -243,7 +242,7 @@ export default function ImportFromFile() {
       setDataTypeRef(data);
       parseFile(data);
       setLoading(false);
-    } catch(e) {
+    } catch (e) {
       if (e instanceof Error) {
         setError(e.message);
       } else {
@@ -269,8 +268,7 @@ export default function ImportFromFile() {
           }}
           aria-label="Import CSV method tabs"
           action={(actions) =>
-            setTimeout(() => actions?.updateIndicator(), 200)
-          }
+            setTimeout(() => actions?.updateIndicator(), 200)}
           variant="fullWidth"
         >
           <Tab
@@ -303,7 +301,7 @@ export default function ImportFromFile() {
               {
                 height: 137,
                 borderRadius: 1,
-                border: `dashed 2px currentColor`,
+                border: "dashed 2px currentColor",
                 borderColor: "divider",
                 backgroundColor: "action.input",
                 cursor: "pointer",
@@ -359,11 +357,12 @@ export default function ImportFromFile() {
             label="Paste CSV or TSV or JSON text"
             placeholder="column, column, …"
             onChange={(e) => {
-              if (csvData !== null)
+              if (csvData !== null) {
                 setImportCsv({
                   importType: importTypeRef.current,
                   csvData: null,
                 });
+              }
               handlePaste(e.target.value);
             }}
             sx={{
@@ -389,11 +388,12 @@ export default function ImportFromFile() {
             label="Paste URL to CSV or TSV or JSON file"
             placeholder="https://"
             onChange={(e) => {
-              if (csvData !== null)
+              if (csvData !== null) {
                 setImportCsv({
                   importType: importTypeRef.current,
                   csvData: null,
                 });
+              }
               handleUrl(e.target.value);
             }}
             helperText={loading ? "Fetching…" : error}
@@ -412,7 +412,7 @@ export default function ImportFromFile() {
           }}
           onClick={() => {
             openTableModal("importCsv");
-            logEvent(analytics, `import_${importMethodRef.current}`, {
+            logEvent(analytics, `import_${ importMethodRef.current }`, {
               type: importTypeRef.current,
             });
           }}

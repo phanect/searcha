@@ -2,7 +2,6 @@ import { memo, useContext } from "react";
 import { useSetAtom } from "jotai";
 import { ErrorBoundary } from "react-error-boundary";
 import { flexRender } from "@tanstack/react-table";
-import type { Row, Cell } from "@tanstack/react-table";
 
 import ErrorIcon from "@mui/icons-material/ErrorOutline";
 import WarningIcon from "@mui/icons-material/WarningAmber";
@@ -18,10 +17,11 @@ import {
   contextMenuTargetAtom,
 } from "@src/atoms/tableScope";
 import { TABLE_PADDING } from "@src/components/Table";
+import type { Row, Cell } from "@tanstack/react-table";
 import type { ColumnConfig, TableRow } from "@src/types/table";
 import type { IRenderedTableCellProps } from "./withRenderTableCell";
 
-export interface ITableCellProps {
+export type ITableCellProps = {
   /** Current row with context from TanStack Table state */
   row: Row<TableRow>;
   /** Current cell with context from TanStack Table state */
@@ -55,7 +55,7 @@ export interface ITableCellProps {
    */
   left: number;
   isPinned: boolean;
-}
+};
 
 /**
  * Renders the container div for each cell with accessibility attributes for
@@ -69,7 +69,7 @@ export interface ITableCellProps {
  *   cell components
  * - Renders `ErrorBoundary`
  */
-export const TableCell = memo(function TableCell({
+export const TableCell = memo(({
   row,
   cell,
   index,
@@ -82,7 +82,7 @@ export const TableCell = memo(function TableCell({
   width,
   left,
   isPinned,
-}: ITableCellProps) {
+}: ITableCellProps) => {
   const tableScopeStore = useContext(TableScopeContext);
 
   const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });

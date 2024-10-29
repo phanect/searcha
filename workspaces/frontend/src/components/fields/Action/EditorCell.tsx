@@ -1,10 +1,9 @@
-import { IEditorCellProps } from "@src/components/fields/types";
-
 import { Stack } from "@mui/material";
 
 import ActionFab from "./ActionFab";
 import { sanitiseCallableName, isUrl } from "./utils";
 import { getActionName } from "./DisplayCell";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Action({
   column,
@@ -13,7 +12,7 @@ export default function Action({
   disabled,
   tabIndex,
 }: IEditorCellProps) {
-  const hasRan = value && ![null, undefined].includes(value.status);
+  const hasRan = value && ![ null, undefined ].includes(value.status);
 
   return (
     <Stack

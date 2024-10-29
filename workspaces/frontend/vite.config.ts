@@ -14,7 +14,7 @@ export default defineConfig({
   resolve: {
     // Explicitly setting mainFields to default value. For some reason, Vitest isn't
     // respecting the 'module' field in package.json without specifying it explicitly
-    mainFields: ["module", "jsnext:main", "jsnext"],
+    mainFields: [ "module", "jsnext:main", "jsnext" ],
     alias: {
       path: "rollup-plugin-node-polyfills/polyfills/path",
     },
@@ -39,7 +39,7 @@ export default defineConfig({
     deps: {
       // According to vitest, clsx exports ES Module code in a CommonJS package.
       // This fixes it.
-      inline: ["clsx"],
+      inline: [ "clsx" ],
     },
   },
   server: {

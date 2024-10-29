@@ -2,14 +2,10 @@ import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
-import { ITableModalProps } from "@src/components/TableModals";
 
 import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
 import WebhookIcon from "@mui/icons-material/Webhook";
 import Modal from "@src/components/Modal";
-import AddWebhookButton from "./AddWebhookButton";
-import WebhookList from "./WebhookList";
-import WebhookModal from "./WebhookModal";
 
 import {
   ProjectScopeContext,
@@ -25,47 +21,52 @@ import {
   tableSchemaAtom,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
-import { emptyWebhookObject, IWebhook, WebhookType } from "./utils";
 import { runRoutes } from "@src/constants/runRoutes";
 import { analytics, logEvent } from "@src/analytics";
 import { getTableSchemaPath } from "@src/utils/table";
+import { emptyWebhookObject } from "./utils";
+import WebhookModal from "./WebhookModal";
+import WebhookList from "./WebhookList";
+import AddWebhookButton from "./AddWebhookButton";
+import type { IWebhook, WebhookType } from "./utils";
+import type { ITableModalProps } from "@src/components/TableModals";
 
 export default function WebhooksModal({ onClose }: ITableModalProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const currentWebhooks = (tableSchema.webhooks ?? []) as IWebhook[];
-  const [localWebhooksObjects, setLocalWebhooksObjects] =
-    useState(currentWebhooks);
+  const [ localWebhooksObjects, setLocalWebhooksObjects ]
+    = useState(currentWebhooks);
 
-  const [webhookModal, setWebhookModal] = useState<{
+  const [ webhookModal, setWebhookModal ] = useState<{
     mode: "add" | "update";
     webhookObject: IWebhook;
     index?: number;
   } | null>(null);
 
-  if (!compatibleRowyRunVersion({ minVersion: "1.2.0" }))
+  if (!compatibleRowyRunVersion({ minVersion: "1.2.0" })) {
     return (
       <TableToolbarButton
         title="Webhooks"
         onClick={() =>
-          openRowyRunModal({ feature: "Webhooks", version: "1.2.0" })
-        }
+          openRowyRunModal({ feature: "Webhooks", version: "1.2.0" })}
         icon={<WebhookIcon />}
       />
     );
+  }
 
   const edited = !isEqual(currentWebhooks, localWebhooksObjects);
 
@@ -93,7 +94,9 @@ export default function WebhooksModal({ onClose }: ITableModalProps) {
     if (updateTableSchema) {
       await updateTableSchema({ webhooks: localWebhooksObjects });
     }
-    if (callback) callback();
+    if (callback) {
+      callback();
+    }
     onClose();
   };
 
@@ -120,7 +123,7 @@ export default function WebhooksModal({ onClose }: ITableModalProps) {
     });
 
   const handleAddWebhook = (webhookObject: IWebhook) => {
-    setLocalWebhooksObjects([...localWebhooksObjects, webhookObject]);
+    setLocalWebhooksObjects([ ...localWebhooksObjects, webhookObject ]);
     logEvent(analytics, "created_webhook", { type: webhookObject.type });
     setWebhookModal(null);
   };
@@ -168,7 +171,7 @@ export default function WebhooksModal({ onClose }: ITableModalProps) {
 
   const handleDelete = (index: number) => {
     confirm({
-      title: `Delete “${localWebhooksObjects[index].name}”?`,
+      title: `Delete “${ localWebhooksObjects[index].name }”?`,
       body: "This webhook will be permanently deleted when you save",
       confirm: "Confirm",
       handleConfirm: () => {
@@ -197,8 +200,8 @@ export default function WebhooksModal({ onClose }: ITableModalProps) {
         disableEscapeKeyDown={edited}
         maxWidth="sm"
         fullWidth
-        title={`Webhooks (${activeWebhookCount}\u2009/\u2009${localWebhooksObjects.length})`}
-        header={
+        title={`Webhooks (${ activeWebhookCount }\u2009/\u2009${ localWebhooksObjects.length })`}
+        header={(
           <AddWebhookButton
             handleAddWebhook={(type: WebhookType) => {
               setWebhookModal({
@@ -214,15 +217,15 @@ export default function WebhooksModal({ onClose }: ITableModalProps) {
               localWebhooksObjects.length === 0 ? "contained" : "outlined"
             }
           />
-        }
-        children={
+        )}
+        children={(
           <WebhookList
             webhooks={localWebhooksObjects}
             handleUpdateActive={handleUpdateActive}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
-        }
+        )}
         actions={{
           primary: {
             children: "Save & Deploy",

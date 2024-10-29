@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 
 import {
   Button,
-  ButtonProps,
   Menu,
   MenuItem,
   Divider,
@@ -11,19 +10,22 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 
-import { extensionTypes, extensionNames, ExtensionType } from "./utils";
 import { EMAIL_REQUEST } from "@src/constants/externalLinks";
+import { extensionTypes, extensionNames } from "./utils";
+import type { ExtensionType } from "./utils";
+import type {
+  ButtonProps } from "@mui/material";
 
-export interface IAddExtensionButtonProps extends Partial<ButtonProps> {
+export type IAddExtensionButtonProps = {
   handleAddExtension: (type: ExtensionType) => void;
-}
+} & Partial<ButtonProps>;
 
 export default function AddExtensionButton({
   handleAddExtension,
   ...props
 }: IAddExtensionButtonProps) {
   const addButtonRef = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
 
   const handleChooseAddType = (type: ExtensionType) => {
     setOpen(false);
@@ -40,7 +42,7 @@ export default function AddExtensionButton({
         sx={{
           alignSelf: { sm: "flex-end" },
           mt: {
-            sm: `calc(var(--dialog-title-height) * -1 + (var(--dialog-title-height) - 32px) / 2)`,
+            sm: "calc(var(--dialog-title-height) * -1 + (var(--dialog-title-height) - 32px) / 2)",
           },
           mx: { xs: "var(--dialog-spacing)", sm: undefined },
           mr: { sm: 8 },

@@ -2,20 +2,21 @@ import { useState } from "react";
 
 import {
   Stepper,
-  StepperProps,
   Step,
-  StepProps,
   StepButton,
-  StepButtonProps,
   StepLabel,
-  StepLabelProps,
   Typography,
   StepContent,
-  StepContentProps,
 } from "@mui/material";
 import ExpandIcon from "@mui/icons-material/KeyboardArrowDown";
+import type {
+  StepperProps,
+  StepProps,
+  StepButtonProps,
+  StepLabelProps,
+  StepContentProps } from "@mui/material";
 
-export interface ISteppedAccordionProps extends Partial<StepperProps> {
+export type ISteppedAccordionProps = {
   steps: {
     id: string;
     title: React.ReactNode;
@@ -30,14 +31,14 @@ export interface ISteppedAccordionProps extends Partial<StepperProps> {
     contentProps?: Partial<StepContentProps>;
   }[];
   disableUnmount?: boolean;
-}
+} & Partial<StepperProps>;
 
 export default function SteppedAccordion({
   steps,
   disableUnmount,
   ...props
 }: ISteppedAccordionProps) {
-  const [activeStep, setActiveStep] = useState(steps[0].id);
+  const [ activeStep, setActiveStep ] = useState(steps[0].id);
 
   return (
     <Stepper
@@ -85,8 +86,8 @@ export default function SteppedAccordion({
             <StepButton
               onClick={() => setActiveStep((s) => (s === id ? "" : id))}
               optional={
-                subtitle ||
-                (optional && (
+                subtitle
+                || (optional && (
                   <Typography variant="caption">Optional</Typography>
                 ))
               }

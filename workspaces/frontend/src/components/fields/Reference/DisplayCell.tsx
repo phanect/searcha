@@ -1,18 +1,20 @@
 import { useContext } from "react";
 import { useAtom } from "jotai";
-import { IDisplayCellProps } from "@src/components/fields/types";
 
 import { Stack, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 
 import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Reference({ value, tabIndex }: IDisplayCellProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   const path = value?.path ?? "";
-  if (!path) return null;
+  if (!path) {
+    return null;
+  }
 
   return (
     <Stack
@@ -25,10 +27,10 @@ export default function Reference({ value, tabIndex }: IDisplayCellProps) {
 
       <IconButton
         size="small"
-        href={`https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${path.replace(
+        href={`https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ path.replace(
           /\//g,
           "~2F"
-        )}`}
+        ) }`}
         target="_blank"
         rel="noopener"
         aria-label="Open in Firebase Console"

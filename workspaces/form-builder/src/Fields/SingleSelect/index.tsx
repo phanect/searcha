@@ -1,25 +1,24 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 import { string } from "yup";
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import OrderBoolDescending from "mdi-material-ui/OrderBoolDescending";
+import { FieldType } from "../../constants/fields";
 
-import OrderBoolDescending from 'mdi-material-ui/OrderBoolDescending';
-
-import Settings from './SingleSelectSettings';
+import Settings from "./SingleSelectSettings";
+import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>
     import(
-      './SingleSelectComponent'
+      "./SingleSelectComponent"
     )
 );
 
 export const SingleSelectConfig: IFieldConfig = {
   type: FieldType.singleSelect,
-  name: 'Single Select',
-  group: 'input',
+  name: "Single Select",
+  group: "input",
   icon: <OrderBoolDescending />,
-  dataType: 'string',
-  defaultValue: '',
+  dataType: "string",
+  defaultValue: "",
   component: Component as any,
   settings: Settings,
   validation: () => string().trim(),

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -6,23 +6,24 @@ import { Chip, Typography } from "@mui/material";
 import Modal from "@src/components/Modal";
 import ColorPickerInput from "@src/components/ColorPickerInput";
 import { ColorService } from "react-color-palette";
-import { SelectColorThemeOptions } from ".";
+import type { FC } from "react";
+import type { SelectColorThemeOptions } from ".";
 
-interface CustomizeColor {
+type CustomizeColor = {
   currentColor: SelectColorThemeOptions;
   onChange: (value: SelectColorThemeOptions) => void;
-}
+};
 
 const CustomizeColorModal: FC<CustomizeColor> = ({
   currentColor,
   onChange,
 }) => {
-  const [color, setColor] = useState<SelectColorThemeOptions>(currentColor);
+  const [ color, setColor ] = useState<SelectColorThemeOptions>(currentColor);
 
   /* Update color value onFocus */
   useEffect(() => {
     setColor(currentColor);
-  }, [currentColor]);
+  }, [ currentColor ]);
 
   /* Pass value to the onChange function */
   const handleChange = (color: SelectColorThemeOptions) => {
@@ -31,7 +32,7 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
   };
 
   /* MUI Specific state */
-  const [open, setOpen] = useState<boolean>(false);
+  const [ open, setOpen ] = useState<boolean>(false);
 
   /* MUI Menu event handlers */
   const handleClick = () => setOpen(true);
@@ -56,8 +57,7 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
             <ColorPickerInput
               value={ColorService.convert("hex", color.light)}
               onChangeComplete={(value) =>
-                handleChange({ ...color, ...{ light: value.hex } })
-              }
+                handleChange({ ...color, ...{ light: value.hex }})}
             />
             <Grid container gap={1} py={1} px={2} alignItems="center">
               <Grid>
@@ -81,8 +81,7 @@ const CustomizeColorModal: FC<CustomizeColor> = ({
             <ColorPickerInput
               value={ColorService.convert("hex", color.dark)}
               onChangeComplete={(value) =>
-                handleChange({ ...color, ...{ dark: value.hex } })
-              }
+                handleChange({ ...color, ...{ dark: value.hex }})}
             />
             <Grid container gap={1} py={1} px={2} alignItems="center">
               <Grid>

@@ -3,16 +3,16 @@ import { TransitionGroup } from "react-transition-group";
 import { Box, Paper, Collapse, List } from "@mui/material";
 
 import SectionHeading from "@src/components/SectionHeading";
-import TableListItem from "./TableListItem";
 import SlideTransition from "@src/components/Modal/SlideTransition";
 
-import { TableSettings } from "@src/types/table";
+import TableListItem from "./TableListItem";
+import type { TableSettings } from "@src/types/table";
 
-export interface ITableListProps {
+export type ITableListProps = {
   sections: Record<string, TableSettings[]>;
   getLink: (table: TableSettings) => string;
   getActions?: (table: TableSettings) => React.ReactNode;
-}
+};
 
 export default function TableList({
   sections,
@@ -22,10 +22,12 @@ export default function TableList({
   return (
     <TransitionGroup>
       {Object.entries(sections).map(
-        ([sectionName, sectionTables], sectionIndex) => {
+        ([ sectionName, sectionTables ], sectionIndex) => {
           const tableItems = sectionTables
             .map((table) => {
-              if (!table) return null;
+              if (!table) {
+                return null;
+              }
 
               return (
                 <Collapse key={table.id}>
@@ -39,7 +41,9 @@ export default function TableList({
             })
             .filter((item) => item !== null);
 
-          if (tableItems.length === 0) return null;
+          if (tableItems.length === 0) {
+            return null;
+          }
 
           return (
             <Collapse key={sectionName}>

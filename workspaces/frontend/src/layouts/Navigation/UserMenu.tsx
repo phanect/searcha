@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import {
   IconButton,
-  IconButtonProps,
   Avatar,
   Menu,
   MenuItem,
@@ -27,17 +26,19 @@ import {
   themeOverriddenAtom,
 } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import type {
+  IconButtonProps } from "@mui/material";
 
 export default function UserMenu(props: IconButtonProps) {
   const anchorEl = useRef<HTMLButtonElement>(null);
-  const [open, setOpen] = useState(false);
-  const [themeSubMenu, setThemeSubMenu] = useState<HTMLElement | null>(null);
+  const [ open, setOpen ] = useState(false);
+  const [ themeSubMenu, setThemeSubMenu ] = useState<HTMLElement | null>(null);
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [theme, setTheme] = useAtom(themeAtom, { store: projectScopeStore });
-  const [themeOverridden, setThemeOverridden] = useAtom(
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ theme, setTheme ] = useAtom(themeAtom, { store: projectScopeStore });
+  const [ themeOverridden, setThemeOverridden ] = useAtom(
     themeOverriddenAtom,
     { store: projectScopeStore }
   );
@@ -71,7 +72,7 @@ export default function UserMenu(props: IconButtonProps) {
           {...props}
           ref={anchorEl}
           onClick={() => setOpen(true)}
-          sx={{ "& .MuiAvatar-root": { width: 22, height: 22, m: 1 / 8 } }}
+          sx={{ "& .MuiAvatar-root": { width: 22, height: 22, m: 1 / 8 }}}
         >
           {avatar}
         </IconButton>
@@ -84,7 +85,7 @@ export default function UserMenu(props: IconButtonProps) {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         onClose={() => setOpen(false)}
-        sx={{ "& .MuiPaper-root": { minWidth: 160 } }}
+        sx={{ "& .MuiPaper-root": { minWidth: 160 }}}
       >
         <ListItem
           sx={{
@@ -104,13 +105,13 @@ export default function UserMenu(props: IconButtonProps) {
           </ListItemAvatar>
           <ListItemText
             primary={displayName}
-            secondary={
+            secondary={(
               <>
                 {email}
                 <br />
                 <Typography variant="caption">Project: {projectId}</Typography>
               </>
-            }
+            )}
             primaryTypographyProps={{ variant: "subtitle1" }}
           />
         </ListItem>
@@ -131,7 +132,7 @@ export default function UserMenu(props: IconButtonProps) {
           transformOrigin={{ vertical: "top", horizontal: "right" }}
           open={Boolean(themeSubMenu)}
           onClose={() => setThemeSubMenu(null)}
-          sx={{ "& .MuiPaper-root": { mt: -0.5 } }}
+          sx={{ "& .MuiPaper-root": { mt: -0.5 }}}
         >
           <MenuItem
             onClick={() => changeTheme("system")}

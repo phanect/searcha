@@ -30,12 +30,12 @@ import { useScrollToHash } from "@src/hooks/useScrollToHash";
 export default function DebugPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
-  const [updateUser] = useAtom(updateUserAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ users ] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [ updateUser ] = useAtom(updateUserAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   useScrollToHash();
 
@@ -46,10 +46,10 @@ export default function DebugPage() {
       <Stack spacing={4}>
         <SettingsSection title="Firestore config" transitionTimeout={0 * 100}>
           <Button
-            href={`https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${CONFIG.replace(
+            href={`https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ CONFIG.replace(
               /\//g,
               "~2F"
-            )}`}
+            ) }`}
             target="_blank"
             rel="noopener noreferrer"
             color="primary"
@@ -59,10 +59,10 @@ export default function DebugPage() {
           </Button>
 
           <Button
-            href={`https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${TABLE_SCHEMAS.replace(
+            href={`https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ TABLE_SCHEMAS.replace(
               /\//g,
               "~2F"
-            )}`}
+            ) }`}
             target="_blank"
             rel="noopener noreferrer"
             color="primary"
@@ -72,10 +72,10 @@ export default function DebugPage() {
           </Button>
 
           <Button
-            href={`https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${USERS.replace(
+            href={`https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ USERS.replace(
               /\//g,
               "~2F"
-            )}`}
+            ) }`}
             target="_blank"
             rel="noopener noreferrer"
             color="primary"
@@ -92,10 +92,11 @@ export default function DebugPage() {
           >
             <Button
               onClick={async () => {
-                if (!updateUser)
+                if (!updateUser) {
                   enqueueSnackbar("Could not update user settings", {
                     variant: "error",
                   });
+                }
 
                 const loadingSnackbar = enqueueSnackbar(
                   "Resetting all user filters…",
@@ -105,10 +106,10 @@ export default function DebugPage() {
                 );
                 try {
                   const promises = users.map((user) =>
-                    updateUser!(`${USERS}/${user._rowy_ref!.id}`, {
+                    updateUser!(`${ USERS }/${ user._rowy_ref!.id }`, {
                       tables: Object.entries(user.tables ?? {}).reduce(
-                        (a, [key, table]) => {
-                          a[key] = { ...table, filters: [] };
+                        (a, [ key, table ]) => {
+                          a[key] = { ...table, filters: []};
                           return a;
                         },
                         {} as Record<string, any>

@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { merge } from "lodash-es";
 import { useContext } from "react";
-import { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 import {
   FormControl,
@@ -17,14 +16,15 @@ import {
   themeAtom,
   themeOverriddenAtom,
 } from "@src/atoms/projectScope";
+import type { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 export default function Theme({
   settings,
   updateSettings,
 }: IUserSettingsChildProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [theme, setTheme] = useAtom(themeAtom, { store: projectScopeStore });
-  const [themeOverridden, setThemeOverridden] = useAtom(
+  const [ theme, setTheme ] = useAtom(themeAtom, { store: projectScopeStore });
+  const [ themeOverridden, setThemeOverridden ] = useAtom(
     themeOverriddenAtom,
     { store: projectScopeStore }
   );
@@ -62,7 +62,7 @@ export default function Theme({
       <Divider />
 
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             defaultChecked={Boolean(
               (settings.theme?.dark?.palette as any)?.darker
@@ -70,12 +70,12 @@ export default function Theme({
             onChange={(e) => {
               updateSettings({
                 theme: merge(settings.theme, {
-                  dark: { palette: { darker: e.target.checked } },
+                  dark: { palette: { darker: e.target.checked }},
                 }),
               });
             }}
           />
-        }
+        )}
         label="Darker dark theme"
         style={{ marginLeft: -11, marginBottom: -10, marginTop: 13 }}
       />

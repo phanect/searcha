@@ -1,4 +1,3 @@
-import { ISettingsProps } from "@src/components/fields/types";
 import {
   InputLabel,
   TextField,
@@ -12,14 +11,15 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import MuiRating from "@mui/material/Rating";
 import { get } from "lodash-es";
 import Icon from "./Icon";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {
   return (
-    <Grid container spacing={2} justifyItems="end" direction={"row"}>
+    <Grid container spacing={2} justifyItems="end" direction="row">
       <Grid size={{ xs: 6 }}>
         <TextField
           label="Highest possible rating"
-          type={"number"}
+          type="number"
           value={config.max}
           fullWidth
           error={false}
@@ -58,15 +58,14 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       </Grid>
       <Grid size={{ xs: 6 }}>
         <FormControlLabel
-          control={
+          control={(
             <Checkbox
               checked={config.customIcons?.enabled}
               onChange={(e) =>
-                onChange("customIcons.enabled")(e.target.checked)
-              }
+                onChange("customIcons.enabled")(e.target.checked)}
               name="customIcons.enabled"
             />
-          }
+          )}
           label="Customize ratings with emoji"
           style={{ marginLeft: -11 }}
         />
@@ -80,7 +79,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
               onChange={(e) => onChange("customIcons.rating")(e.target.value)}
               label="Custom icon preview:"
               className="labelHorizontal"
-              inputProps={{ style: { width: "2ch" } }}
+              inputProps={{ style: { width: "2ch" }}}
             />
 
             <MuiRating

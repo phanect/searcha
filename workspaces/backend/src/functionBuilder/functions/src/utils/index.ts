@@ -2,25 +2,25 @@ import { firestore } from "firebase-admin";
 import type { Change, firestore as fsfunctions } from "firebase-functions";
 import { get } from "lodash";
 export const serverTimestamp = firestore.FieldValue.serverTimestamp;
-import { sendEmail } from "./email";
-import { hasAnyRole } from "./auth";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
+import { hasAnyRole } from "./auth";
+import { sendEmail } from "./email";
 
 const secrets = new SecretManagerServiceClient();
 
 export const getSecret = async (name: string, v: string = "latest") => {
-  const [version] = await secrets.accessSecretVersion({
-    name: `projects/${process.env.GCLOUD_PROJECT}/secrets/${name}/versions/${v}`,
+  const [ version ] = await secrets.accessSecretVersion({
+    name: `projects/${ process.env.GCLOUD_PROJECT }/secrets/${ name }/versions/${ v }`,
   });
   const payload = version.payload?.data?.toString();
-  if (payload && payload[0] === "{") {
+  if (payload && payload.startsWith("{")) {
     return JSON.parse(payload);
   } else {
     return payload;
   }
 };
-const characters =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const characters
+  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 export function generateId(length: number): string {
   let result = "";
   const charactersLength = characters.length;
@@ -33,8 +33,11 @@ export function generateId(length: number): string {
 export const hasRequiredFields = (requiredFields: string[], data: any) =>
   requiredFields.reduce((acc: boolean, currField: string) => {
     const v = get(data, currField);
-    if (v === undefined || v === null) return false;
-    else return acc;
+    if (v === undefined || v === null) {
+      return false;
+    } else {
+      return acc;
+    }
   }, true);
 export async function asyncForEach(array: any[], callback: Function) {
   for (let index = 0; index < array.length; index++) {
@@ -43,7 +46,7 @@ export async function asyncForEach(array: any[], callback: Function) {
 }
 export const getTriggerType = (change) =>
   Boolean(change.after.data()) && Boolean(change.before.data()) ? "update"
-  : Boolean(change.after.data()) ? "create"
+  : change.after.data() ? "create"
   : "delete";
 
 export const changedDocPath = (
@@ -51,25 +54,30 @@ export const changedDocPath = (
 ) => change.before?.ref.path ?? change.after.ref.path;
 export const rowReducer = (fieldsToSync, row) =>
   fieldsToSync.reduce((acc: any, curr: string) => {
-    if (row[curr] !== undefined && row[curr] !== null)
+    if (row[curr] !== undefined && row[curr] !== null) {
       return { ...acc, [curr]: row[curr] };
-    else return acc;
+    } else {
+      return acc;
+    }
   }, {});
 
-const hasChanged =
-  (change: Change<fsfunctions.DocumentSnapshot>) =>
-  (trackedFields: string[]) => {
-    const before = change.before?.data();
-    const after = change.after?.data();
-    if (!before && after) return true;
-    else if (before && !after) return false;
-    else
-      return trackedFields.some(
-        (trackedField) =>
-          JSON.stringify(get(before, trackedField)) !==
-          JSON.stringify(get(after, trackedField))
-      );
-  };
+const hasChanged
+  = (change: Change<fsfunctions.DocumentSnapshot>) =>
+    (trackedFields: string[]) => {
+      const before = change.before?.data();
+      const after = change.after?.data();
+      if (!before && after) {
+        return true;
+      } else if (before && !after) {
+        return false;
+      } else {
+        return trackedFields.some(
+          (trackedField) =>
+            JSON.stringify(get(before, trackedField))
+            !== JSON.stringify(get(after, trackedField))
+        );
+      }
+    };
 export default {
   hasChanged,
   getSecret,

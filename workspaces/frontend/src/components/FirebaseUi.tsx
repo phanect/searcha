@@ -75,12 +75,12 @@ const useStyles = makeStyles()((theme) => ({
       ...(theme.typography.button as any),
     },
     "& .mdl-button--raised": {
-      boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[2]}`,
+      boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[2] }`,
       "&:hover": {
-        boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[4]}`,
+        boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[4] }`,
       },
       "&:active, &:focus": {
-        boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[8]}`,
+        boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[8] }`,
       },
     },
     "& .mdl-card": {
@@ -116,10 +116,10 @@ const useStyles = makeStyles()((theme) => ({
 
         "&, &:hover, &.Mui-disabled": { border: "none" },
         "&, &:hover, &:active, &:focus": {
-          boxShadow: `0 0 0 1px ${theme.palette.action.inputOutline} inset,
-               0 ${theme.palette.mode === "dark" ? "" : "-"}1px 0 0 ${
-            theme.palette.action.inputOutline
-          } inset`,
+          boxShadow: `0 0 0 1px ${ theme.palette.action.inputOutline } inset,
+               0 ${ theme.palette.mode === "dark" ? "" : "-" }1px 0 0 ${
+    theme.palette.action.inputOutline
+  } inset`,
         },
       },
     "& .firebaseui-idp-icon": {
@@ -210,24 +210,24 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-export interface IFirebaseUiProps {
+export type IFirebaseUiProps = {
   className?: string;
   uiConfig?: auth.Config;
-}
+};
 
 export default function FirebaseUi(props: IFirebaseUiProps) {
   const { classes, cx } = useStyles();
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
-  const [publicSettings] = useAtom(publicSettingsAtom, { store: projectScopeStore });
+  const [ firebaseAuth ] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [ publicSettings ] = useAtom(publicSettingsAtom, { store: projectScopeStore });
 
   const signInOptions: typeof publicSettings.signInOptions = useMemo(
     () =>
-      Array.isArray(publicSettings.signInOptions) &&
-      publicSettings.signInOptions.length > 0
+      Array.isArray(publicSettings.signInOptions)
+      && publicSettings.signInOptions.length > 0
         ? publicSettings.signInOptions
-        : ["google"],
-    [publicSettings.signInOptions]
+        : [ "google" ],
+    [ publicSettings.signInOptions ]
   );
 
   const uiConfig: auth.Config = useMemo(
@@ -236,7 +236,7 @@ export default function FirebaseUi(props: IFirebaseUiProps) {
       ...props.uiConfig,
       signInOptions: getSignInOptions(signInOptions),
     }),
-    [props.uiConfig, signInOptions]
+    [ props.uiConfig, signInOptions ]
   );
 
   useEffect(() => {
@@ -245,15 +245,19 @@ export default function FirebaseUi(props: IFirebaseUiProps) {
     let unregisterAuthObserver: ReturnType<typeof onAuthStateChanged>;
 
     // Get or Create a firebaseUI instance.
-    firebaseUiWidget =
-      auth.AuthUI.getInstance() ||
-      new auth.AuthUI(firebaseAuth);
+    firebaseUiWidget
+      = auth.AuthUI.getInstance()
+      || new auth.AuthUI(firebaseAuth);
 
-    if (uiConfig.signInFlow === "popup") firebaseUiWidget.reset();
+    if (uiConfig.signInFlow === "popup") {
+      firebaseUiWidget.reset();
+    }
 
     // We track the auth state to reset firebaseUi if the user signs out.
     unregisterAuthObserver = onAuthStateChanged(firebaseAuth, (user) => {
-      if (!user && userSignedIn) firebaseUiWidget.reset();
+      if (!user && userSignedIn) {
+        firebaseUiWidget.reset();
+      }
       userSignedIn = !!user;
     });
 
@@ -264,7 +268,7 @@ export default function FirebaseUi(props: IFirebaseUiProps) {
       unregisterAuthObserver();
       firebaseUiWidget.reset();
     };
-  }, [firebaseAuth, uiConfig]);
+  }, [ firebaseAuth, uiConfig ]);
 
   return (
     <>

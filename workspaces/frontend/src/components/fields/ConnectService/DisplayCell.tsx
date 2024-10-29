@@ -1,10 +1,9 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { ButtonBase, Grid2 as Grid, Chip } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import ChipList from "@src/components/Table/TableCell/ChipList";
 import { get } from "lodash-es";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function ConnectService({
   value,
@@ -19,16 +18,18 @@ export default function ConnectService({
 
   const rendered = (
     <ChipList rowHeight={rowHeight}>
-      {Array.isArray(value) &&
-        value.map((snapshot) => (
-          <Grid key={get(snapshot, config.primaryKey)}>
-            <Chip label={get(snapshot, displayKey)} size="small" />
-          </Grid>
-        ))}
+      {Array.isArray(value)
+      && value.map((snapshot) => (
+        <Grid key={get(snapshot, config.primaryKey)}>
+          <Chip label={get(snapshot, displayKey)} size="small" />
+        </Grid>
+      ))}
     </ChipList>
   );
 
-  if (disabled) return rendered;
+  if (disabled) {
+    return rendered;
+  }
 
   return (
     <ButtonBase

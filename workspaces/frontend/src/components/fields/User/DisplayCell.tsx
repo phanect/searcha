@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { useAtom } from "jotai";
 import { Avatar, AvatarGroup, ButtonBase, Stack, Tooltip } from "@mui/material";
 import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { ChevronDown } from "@src/assets/icons/ChevronDown";
-import { UserDataType } from "./UserSelect";
+import type { IDisplayCellProps } from "@src/components/fields/types";
+import type { UserDataType } from "./UserSelect";
 
 export default function User({
   value,
@@ -13,17 +13,17 @@ export default function User({
   tabIndex,
 }: IDisplayCellProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [ users ] = useAtom(allUsersAtom, { store: projectScopeStore });
 
-  let userValue: UserDataType[] = [];
-  let emails = new Set();
+  const userValue: UserDataType[] = [];
+  const emails = new Set();
 
   if (value !== undefined && value !== null) {
     if (!Array.isArray(value)) {
-      value = [value.email];
+      value = [ value.email ];
     }
     for (const user of users) {
-      if (user.user && user.user?.email && value.includes(user.user.email)) {
+      if (user.user?.email && value.includes(user.user.email)) {
         if (!emails.has(user.user.email)) {
           emails.add(user.user.email);
           userValue.push(user.user);
@@ -71,7 +71,7 @@ export default function User({
           max={5}
         >
           {userValue.map((user: UserDataType) => (
-            <Tooltip title={`${user.displayName}(${user.email})`}>
+            <Tooltip title={`${ user.displayName }(${ user.email })`}>
               <Avatar alt={user.displayName} src={user.photoURL} />
             </Tooltip>
           ))}

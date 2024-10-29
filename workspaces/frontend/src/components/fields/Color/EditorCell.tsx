@@ -1,4 +1,4 @@
-import { IEditorCellProps } from "@src/components/fields/types";
+import type { IEditorCellProps } from "@src/components/fields/types";
 import { ColorPicker, ColorService } from "react-color-palette";
 import "react-color-palette/css";
 
@@ -6,12 +6,12 @@ import { Box } from "@mui/material";
 
 export default function Color({ value, onChange }: IEditorCellProps) {
   return (
-    <Box sx={{ "& .rcp": { border: 0 } }}>
+    <Box sx={{ "& .rcp": { border: 0 }}}>
       <ColorPicker
         height={180}
-        color={ ColorService.convert("hex", value?.hex ?? "#fff") }
+        color={ColorService.convert("hex", value?.hex ?? "#fff")}
         onChange={onChange}
-        hideAlpha={ false }
+        hideAlpha={false}
       />
     </Box>
   );

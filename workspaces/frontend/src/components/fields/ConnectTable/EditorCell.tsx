@@ -1,6 +1,5 @@
-import { IEditorCellProps } from "@src/components/fields/types";
-
 import ConnectTableSelect from "./ConnectTableSelect";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function ConnectTable({
   value,
@@ -13,7 +12,9 @@ export default function ConnectTable({
   disabled,
 }: IEditorCellProps) {
   const config = column.config ?? {};
-  if (!config || !config.primaryKeys) return null;
+  if (!config?.primaryKeys) {
+    return null;
+  }
 
   return (
     <ConnectTableSelect

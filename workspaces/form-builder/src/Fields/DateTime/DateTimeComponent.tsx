@@ -1,24 +1,22 @@
-import { IFieldComponentProps } from '../../types';
-
 import {
   LocalizationProvider,
   DateTimePicker,
-  DateTimePickerProps,
-} from '@mui/x-date-pickers';
-import { TextFieldProps } from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+} from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { IFieldComponentProps } from "../../types";
 
-import FieldAssistiveText from '../../FieldAssistiveText';
+import type { TextFieldProps } from "@mui/material";
+import type {
+  DateTimePickerProps } from "@mui/x-date-pickers";
 
-export interface IDateTimeComponentProps
-  extends IFieldComponentProps,
-    Omit<
-      DateTimePickerProps<Date, true>,
-      'label' | 'name' | 'onChange' | 'value' | 'ref'
-    > {
+export type IDateTimeComponentProps = {
   TextFieldProps: TextFieldProps;
-}
+} & IFieldComponentProps & Omit<
+  DateTimePickerProps<Date, true>,
+      "label" | "name" | "onChange" | "value" | "ref"
+>;
 
 export default function DateTimeComponent({
   field: { onChange, onBlur, value, ref },
@@ -35,8 +33,11 @@ export default function DateTimeComponent({
   ...props
 }: IDateTimeComponentProps) {
   let transformedValue: any = null;
-  if (value && 'toDate' in value) transformedValue = value.toDate();
-  else if (value !== undefined) transformedValue = value;
+  if (value && "toDate" in value) {
+    transformedValue = value.toDate();
+  } else if (value !== undefined) {
+    transformedValue = value;
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -51,14 +52,14 @@ export default function DateTimeComponent({
         slotProps={{
           // https://github.com/mui-org/material-ui/issues/10341#issuecomment-770784016
           popper: {
-            disablePortal: true
+            disablePortal: true,
           },
           textField: {
             ...TextFieldProps,
             fullWidth: true,
             onBlur,
             error: TextFieldProps.error || !!errorMessage,
-            FormHelperTextProps: { component: 'div' } as any,
+            FormHelperTextProps: { component: "div" } as any,
             helperText: (errorMessage || assistiveText) ? (
               <>
                 {errorMessage}
@@ -76,12 +77,12 @@ export default function DateTimeComponent({
               required: false,
             },
             sx: {
-              '& .MuiInputBase-input': {
+              "& .MuiInputBase-input": {
                 fontVariantNumeric: "tabular-nums",
               },
               ...TextFieldProps?.sx,
             },
-          }
+          },
         }}
       />
     </LocalizationProvider>

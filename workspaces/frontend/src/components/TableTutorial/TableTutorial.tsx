@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import StepsProgress from "@src/components/StepsProgress";
-import { TUTORIAL_STEPS } from "./Steps";
 
 import {
   ProjectScopeContext,
@@ -28,18 +27,19 @@ import {
   NAV_DRAWER_COLLAPSED_WIDTH,
   NAV_DRAWER_WIDTH,
 } from "@src/layouts/Navigation/NavDrawer";
+import { TUTORIAL_STEPS } from "./Steps";
 
 export default function TableTutorial() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [navOpen] = useAtom(navOpenAtom, { store: projectScopeStore });
+  const [ navOpen ] = useAtom(navOpenAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const navigate = useNavigate();
 
-  const [completed, setCompleted] = useState(
+  const [ completed, setCompleted ] = useState(
     new Array(TUTORIAL_STEPS.length).fill(false)
   );
-  const [currentStep, setCurrentStep] = useState(0);
+  const [ currentStep, setCurrentStep ] = useState(0);
 
   const stepProps = TUTORIAL_STEPS[currentStep];
   const StepComponent = stepProps.StepComponent;
@@ -47,16 +47,19 @@ export default function TableTutorial() {
 
   const handleComplete = (value: boolean) =>
     setCompleted((c) => {
-      if (c[currentStep] === value) return c;
-      const newCompleted = [...c];
+      if (c[currentStep] === value) {
+        return c;
+      }
+      const newCompleted = [ ...c ];
       newCompleted[currentStep] = value;
       return newCompleted;
     });
 
   const handleNext = () => {
     if (isFinal) {
-      if (updateUserSettings)
+      if (updateUserSettings) {
         updateUserSettings({ tableTutorialComplete: true });
+      }
 
       navigate(ROUTES.tables);
     } else {
@@ -72,12 +75,12 @@ export default function TableTutorial() {
         sx={{
           position: "fixed",
           top: "auto",
-          bottom: `env(safe-area-inset-bottom)`,
+          bottom: "env(safe-area-inset-bottom)",
           left: {
-            xs: `env(safe-area-inset-left)`,
+            xs: "env(safe-area-inset-left)",
             md: (navOpen ? NAV_DRAWER_WIDTH : NAV_DRAWER_COLLAPSED_WIDTH) + 8,
           },
-          right: `env(safe-area-inset-right)`,
+          right: "env(safe-area-inset-right)",
           height: "min(50vh, 440px)",
 
           "& .MuiPaper-root": {
@@ -92,7 +95,7 @@ export default function TableTutorial() {
             px: { xs: 2, sm: 3, md: 6 },
             py: { xs: 3, md: 5 },
             pb: (theme) =>
-              `max(env(safe-area-inset-bottom), ${theme.spacing(5)})`,
+              `max(env(safe-area-inset-bottom), ${ theme.spacing(5) })`,
             overflow: "auto",
 
             display: "flex",
@@ -128,8 +131,7 @@ export default function TableTutorial() {
               cancel: "Continue tutorial",
               confirmColor: "error",
               buttonLayout: "vertical",
-            })
-          }
+            })}
         >
           <CloseIcon />
         </IconButton>

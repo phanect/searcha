@@ -4,24 +4,23 @@ import StyledTable from "@src/components/Table/Styled/StyledTable";
 import StyledCell from "@src/components/Table/Styled/StyledCell";
 import EmptyState from "@src/components/EmptyState";
 
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import useConverter from "@src/components/TableModals/ImportCsvWizard/useConverter";
+import type { FieldType } from "@src/constants/fields";
 
-export interface ICellProps
-  extends Partial<
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >
-  > {
+export type ICellProps = {
   field: string;
   type: FieldType;
   value: any;
   name?: string;
   rowHeight?: number;
-}
+} & Partial<
+  React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >
+>;
 
 export default function Cell({
   field,
@@ -56,7 +55,7 @@ export default function Cell({
                   type,
                   key: field,
                   name,
-                  config: { options: [] },
+                  config: { options: []},
                   editable: false,
                 },
               },
@@ -71,16 +70,16 @@ export default function Cell({
             disabled: true,
             rowHeight: DEFAULT_ROW_HEIGHT,
           })
-        ) : typeof value === "string" ||
-          typeof value === "number" ||
-          value === undefined ||
-          value === null ? (
-          value
-        ) : typeof value === "boolean" ? (
-          value.toString()
-        ) : (
-          <EmptyState basic wrap="nowrap" message="Invalid column type" />
-        )}
+        ) : typeof value === "string"
+          || typeof value === "number"
+          || value === undefined
+          || value === null ? (
+            value
+          ) : typeof value === "boolean" ? (
+            value.toString()
+          ) : (
+            <EmptyState basic wrap="nowrap" message="Invalid column type" />
+          )}
       </StyledCell>
     </StyledTable>
   );

@@ -14,18 +14,18 @@ import {
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import connectorDefs from "./connector.d.ts?raw";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import { baseFunction } from "./utils";
-import { ISettingsProps } from "@src/components/fields/types";
 import {
   ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
+import { baseFunction } from "./utils";
+import connectorDefs from "./connector.d.ts?raw";
+import type { ISettingsProps } from "@src/components/fields/types";
 
-//import typeDefs from "./types.d.ts?raw";
+// import typeDefs from "./types.d.ts?raw";
 const CodeEditor = lazy(
   () =>
     import("@src/components/CodeEditor")
@@ -50,12 +50,13 @@ const diagnosticsOptions = {
 
 export default function Settings({ config, onChange }: ISettingsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   useEffect(() => {
-    if (!projectSettings.rowyRunUrl)
+    if (!projectSettings.rowyRunUrl) {
       openRowyRunModal({ feature: "Connector fields" });
-  }, [projectSettings.rowyRunUrl]);
+    }
+  }, [ projectSettings.rowyRunUrl ]);
 
   return (
     <>
@@ -67,7 +68,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
             value={config.connectorFn ?? baseFunction}
             onChange={onChange("connectorFn")}
             diagnosticsOptions={diagnosticsOptions}
-            extraLibs={[connectorDefs]}
+            extraLibs={[ connectorDefs ]}
           />
         </Suspense>
         <CodeEditorHelper
@@ -75,11 +76,11 @@ export default function Settings({ config, onChange }: ISettingsProps) {
           additionalVariables={[
             {
               key: "row",
-              description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
+              description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
             },
             {
               key: "ref",
-              description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
+              description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
             },
           ]}
         />
@@ -93,7 +94,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
           value={config.elementId}
           fullWidth
           onChange={(e) => onChange("elementId")(e.target.value)}
-          helperText={
+          helperText={(
             <>
               The key that will be used to uniquely identify the selected
               option.{" "}
@@ -106,7 +107,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
                 <InlineOpenInNewIcon />
               </Link>
             </>
-          }
+          )}
         />
       </FormControl>
       <FormControl>
@@ -119,7 +120,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
           value={config.labelFormatter}
           fullWidth
           onChange={(e) => onChange("labelFormatter")(e.target.value)}
-          helperText={
+          helperText={(
             <>
               The field key or template that will be used to display the
               selected option.{" "}
@@ -132,7 +133,7 @@ export default function Settings({ config, onChange }: ISettingsProps) {
                 <InlineOpenInNewIcon />
               </Link>
             </>
-          }
+          )}
         />
       </FormControl>
       <FormControl>

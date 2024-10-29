@@ -1,5 +1,5 @@
-import { db } from "../firebaseConfig";
 import admin from "firebase-admin";
+import { db } from "../firebaseConfig";
 import { rowyUser } from "./utils";
 export async function insertErrorToStreamer(
   errorRecord: any,
@@ -16,7 +16,7 @@ export async function insertErrorToStreamer(
   ]) {
     const value = errorRecord[key];
     if (value) {
-      errorString += `\n\n${key}: ${value}`;
+      errorString += `\n\n${ key }: ${ value }`;
     }
   }
   await streamLogger.error(errorString);
@@ -31,7 +31,7 @@ export function commandErrorHandler(
   },
   streamLogger: any
 ) {
-  return async function (error: any, stdout: any, stderr: any) {
+  return async function(error: any, stdout: any, stderr: any) {
     await streamLogger.info(stdout);
 
     if (!error) {
@@ -94,7 +94,7 @@ export async function createStreamLogger(tableConfigPath: string) {
   await logRef.set({ startTimeStamp, status: "BUILDING" });
 
   console.log(
-    `streamLogger created. tableConfigPath: ${tableConfigPath}, startTimeStamp: ${startTimeStamp}`
+    `streamLogger created. tableConfigPath: ${ tableConfigPath }, startTimeStamp: ${ startTimeStamp }`
   );
 
   return {

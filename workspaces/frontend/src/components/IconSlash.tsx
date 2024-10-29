@@ -1,5 +1,6 @@
-import { Box, BoxProps } from "@mui/material";
+import { Box } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type { BoxProps } from "@mui/material";
 
 export const ICON_SLASH_STROKE_DASHOFFSET = 27.9;
 

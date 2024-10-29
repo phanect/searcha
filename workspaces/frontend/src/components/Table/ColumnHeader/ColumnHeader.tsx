@@ -1,15 +1,9 @@
 import { memo, useContext, useRef } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import type { Header } from "@tanstack/react-table";
-import type {
-  DraggableProvided,
-  DraggableStateSnapshot,
-} from "react-beautiful-dnd";
 
 import {
   Tooltip,
   Fade,
-  StackProps,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -20,9 +14,6 @@ import {
   StyledColumnHeader,
   StyledColumnHeaderNameTooltip,
 } from "@src/components/Table/Styled/StyledColumnHeader";
-import ColumnHeaderSort, { SORT_STATES } from "./ColumnHeaderSort";
-import ColumnHeaderDragHandle from "./ColumnHeaderDragHandle";
-import ColumnHeaderResizer from "./ColumnHeaderResizer";
 
 import { ProjectScopeContext, altPressAtom } from "@src/atoms/projectScope";
 import {
@@ -34,13 +25,22 @@ import {
 import { getFieldProp } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";
 import { COLUMN_HEADER_HEIGHT } from "@src/components/Table/Mock/Column";
-import type { ColumnConfig } from "@src/types/table";
-import type { TableRow } from "@src/types/table";
+import ColumnHeaderResizer from "./ColumnHeaderResizer";
+import ColumnHeaderDragHandle from "./ColumnHeaderDragHandle";
+import ColumnHeaderSort from "./ColumnHeaderSort";
+import type { SORT_STATES } from "./ColumnHeaderSort";
+import type {
+  StackProps } from "@mui/material";
+import type {
+  DraggableProvided,
+  DraggableStateSnapshot,
+} from "react-beautiful-dnd";
+import type { Header } from "@tanstack/react-table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 
 export { COLUMN_HEADER_HEIGHT };
 
-export interface IColumnHeaderProps
-  extends Partial<Omit<StackProps, "style" | "sx">> {
+export type IColumnHeaderProps = {
   header: Header<TableRow, any>;
   column: ColumnConfig;
 
@@ -52,7 +52,7 @@ export interface IColumnHeaderProps
   focusInsideCell: boolean;
   canEditColumns: boolean;
   isLastFrozen: boolean;
-}
+} & Partial<Omit<StackProps, "style" | "sx">>;
 
 /**
  * Renders UI components for each column header, including accessibility
@@ -66,7 +66,7 @@ export interface IColumnHeaderProps
  * - Sort button
  * - Resize handle (not accessible)
  */
-export const ColumnHeader = memo(function ColumnHeader({
+export const ColumnHeader = memo(({
   header,
   column,
   provided,
@@ -76,14 +76,14 @@ export const ColumnHeader = memo(function ColumnHeader({
   focusInsideCell,
   canEditColumns,
   isLastFrozen,
-}: IColumnHeaderProps) {
+}: IColumnHeaderProps) => {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
   const openColumnMenu = useSetAtom(columnMenuAtom, { store: tableScopeStore });
   const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
-  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ tableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -93,19 +93,19 @@ export const ColumnHeader = memo(function ColumnHeader({
   };
 
   const _sortKey = getFieldProp("sortKey", (column as any).type);
-  const sortKey = _sortKey ? `${column.key}.${_sortKey}` : column.key;
-  const currentSort: typeof SORT_STATES[number] =
-    tableSorts[0]?.key !== sortKey
+  const sortKey = _sortKey ? `${ column.key }.${ _sortKey }` : column.key;
+  const currentSort: typeof SORT_STATES[number]
+    = tableSorts[0]?.key !== sortKey
       ? "none"
       : tableSorts[0]?.direction || "none";
 
   return (
     <StyledColumnHeader
       role="columnheader"
-      id={`column-header-${column.key}`}
+      id={`column-header-${ column.key }`}
       ref={provided.innerRef}
       {...provided.draggableProps}
-      data-row-id={"_rowy_header"}
+      data-row-id="_rowy_header"
       data-col-id={header.id}
       data-frozen={header.column.getIsPinned() || undefined}
       data-frozen-last={isLastFrozen || undefined}
@@ -117,8 +117,8 @@ export const ColumnHeader = memo(function ColumnHeader({
         currentSort === "none"
           ? "none"
           : currentSort === "asc"
-          ? "ascending"
-          : "descending"
+            ? "ascending"
+            : "descending"
       }
       style={{
         left: header.column.getIsPinned()
@@ -156,13 +156,13 @@ export const ColumnHeader = memo(function ColumnHeader({
 
       {width > 140 && (
         <Tooltip
-          title={
+          title={(
             <>
               Click to copy field key:
               <br />
               <code style={{ padding: 0 }}>{column.key}</code>
             </>
-          }
+          )}
           enterDelay={1000}
           placement="bottom-start"
           arrow
@@ -183,24 +183,24 @@ export const ColumnHeader = memo(function ColumnHeader({
       )}
 
       <StyledColumnHeaderNameTooltip
-        title={
+        title={(
           <Typography
             sx={{
               typography: "caption",
               fontWeight: "fontWeightMedium",
-              lineHeight: `${COLUMN_HEADER_HEIGHT - 2 - 4}px`,
+              lineHeight: `${ COLUMN_HEADER_HEIGHT - 2 - 4 }px`,
               textOverflow: "clip",
             }}
             color="inherit"
           >
             {column.name as string}
           </Typography>
-        }
+        )}
         enterDelay={1000}
         placement="bottom-start"
         disableInteractive
         TransitionComponent={Fade}
-        sx={{ "& .MuiTooltip-tooltip": { marginTop: "-28px !important" } }}
+        sx={{ "& .MuiTooltip-tooltip": { marginTop: "-28px !important" }}}
       >
         <Typography
           noWrap
@@ -244,7 +244,7 @@ export const ColumnHeader = memo(function ColumnHeader({
         <IconButton
           size="small"
           tabIndex={focusInsideCell ? 0 : -1}
-          id={`column-settings-${column.key}`}
+          id={`column-settings-${ column.key }`}
           onClick={handleOpenMenu}
           ref={buttonRef}
         >

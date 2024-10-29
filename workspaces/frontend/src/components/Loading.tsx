@@ -1,14 +1,15 @@
 import { use100vh } from "react-div-100vh";
 
-import { Fade, Stack, StackProps, Typography } from "@mui/material";
+import { Fade, Stack, Typography } from "@mui/material";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import type { StackProps } from "@mui/material";
 
-interface ILoadingProps extends Partial<StackProps> {
+type ILoadingProps = {
   message?: string;
   fullScreen?: boolean;
   timeout?: number;
   delay?: number;
-}
+} & Partial<StackProps>;
 
 export default function Loading({
   message = "Loading",
@@ -23,7 +24,7 @@ export default function Loading({
     <Fade
       in
       timeout={timeout}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${ delay }ms` }}
       unmountOnExit
     >
       <Stack

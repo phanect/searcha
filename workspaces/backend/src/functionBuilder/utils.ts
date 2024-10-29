@@ -1,5 +1,5 @@
-import admin from "firebase-admin";
 import { transform as sucraseTransform } from "sucrase";
+import type admin from "firebase-admin";
 
 export function rowyUser(
   user: admin.auth.UserRecord,
@@ -17,14 +17,19 @@ export function rowyUser(
 }
 
 export const getCollectionType = (pathname: string) => {
-  const [route, path] = pathname.split("/");
+  const [ route, path ] = pathname.split("/");
   if (route === "table") {
     const decodedPath = decodeURIComponent(path);
     if (decodedPath.includes("/")) {
       return "subCollection";
-    } else return "collection";
-  } else if (route === "tableGroup") return "collectionGroup";
-  else return null;
+    } else {
+      return "collection";
+    }
+  } else if (route === "tableGroup") {
+    return "collectionGroup";
+  } else {
+    return null;
+  }
 };
 
 export const getCollectionPath = (
@@ -45,11 +50,11 @@ export const getCollectionPath = (
           t.id === pathname.split("/")[1] && t.tableType === "collectionGroup"
       ).collection;
     case "subCollection":
-      //get parent collection path
+      // get parent collection path
       return tablePath
         .split("/")
         .map((element, index) =>
-          index % 2 === 0 ? element : `{parentDoc${index === 2 ? "" : index}}`
+          index % 2 === 0 ? element : `{parentDoc${ index === 2 ? "" : index }}`
         )
         .join("/");
     default:
@@ -64,18 +69,18 @@ export const getFunctionName = (
 ) => {
   switch (collectionType) {
     case "collection":
-      return `${collectionPath
+      return `${ collectionPath
         .replace(/-/g, "_")
         .split("/")
         .filter((element, index) => index % 2 === 0)
-        .join("_")}`;
+        .join("_") }`;
     case "collectionGroup":
-      return `CG_${collectionPath.replace(/-/g, "_")}_D${depth}`;
+      return `CG_${ collectionPath.replace(/-/g, "_") }_D${ depth }`;
     case "subCollection":
-      return `SC_${collectionPath
+      return `SC_${ collectionPath
         .split("/")
         .filter((element, index) => index % 2 === 0)
-        .join("_")}`;
+        .join("_") }`;
     default:
       return "";
   }
@@ -89,11 +94,11 @@ export const getTriggerPath = (
   switch (collectionType) {
     case "collection":
     case "subCollection":
-      return `${collectionPath}/{docId}`;
+      return `${ collectionPath }/{docId}`;
     case "collectionGroup":
       triggerPath = "";
       for (let i = 1; i <= depth; i++) {
-        triggerPath = triggerPath + `{parentCol${i}}/{parentDoc${i}}/`;
+        triggerPath = triggerPath + `{parentCol${ i }}/{parentDoc${ i }}/`;
       }
       triggerPath = triggerPath + collectionPath + "/" + "{docId}";
       return triggerPath;
@@ -110,29 +115,29 @@ export const getSchemaPaths = ({
 }) => {
   switch (collectionType) {
     case "collectionGroup":
-      return [tableConfigPath];
+      return [ tableConfigPath ];
     case "subCollection":
-      const [parentCollection, ...other] = collectionPath.split("/");
+      const [ parentCollection, ...other ] = collectionPath.split("/");
       const potentialTables = tables.filter(
         (table: any) =>
-          table.collection === parentCollection &&
-          table.tableType === "primaryCollection"
+          table.collection === parentCollection
+          && table.tableType === "primaryCollection"
       );
       return potentialTables.map(
         (table: any) =>
-          `/_rowy_/settings/schema/${table.id ?? table.collection}/${other
+          `/_rowy_/settings/schema/${ table.id ?? table.collection }/${ other
             .map((element, index) => (index % 2 === 0 ? "subTables" : element))
-            .join("/")}`
+            .join("/") }`
       );
     case "collection":
       const collectionTables = tables.filter(
         (table: any) =>
-          table.collection === collectionPath &&
-          table.tableType === "primaryCollection"
+          table.collection === collectionPath
+          && table.tableType === "primaryCollection"
       );
       return collectionTables.map(
         (table: any) =>
-          `/_rowy_/settings/schema/${table.id ?? table.collection}`
+          `/_rowy_/settings/schema/${ table.id ?? table.collection }`
       );
     case "subCollection":
     default:
@@ -148,19 +153,19 @@ export const transpile = (
 ) => {
   if (code) {
     let transpiledCode = sucraseTransform(importHeader + code, {
-      transforms: ["typescript", "imports"],
+      transforms: [ "typescript", "imports" ],
     }).code;
 
     const defaultExportRegex = /exports\s*?\.\s*?default\s*?=/;
     if (!defaultExportRegex.test(transpiledCode)) {
-      transpiledCode += `\nexports.default = ${defaultExportName};`;
+      transpiledCode += `\nexports.default = ${ defaultExportName };`;
     }
 
     return transpiledCode;
   } else {
     return `
-    ${importHeader}
-    exports.default = async function ${defaultExportName}({
+    ${ importHeader }
+    exports.default = async function ${ defaultExportName }({
       row,
       db,
       ref,
@@ -171,6 +176,6 @@ export const transpile = (
       actionParams,
       user,
       storage,
-    }) {\n${backwardsScript}\n};`;
+    }) {\n${ backwardsScript }\n};`;
   }
 };

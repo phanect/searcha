@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
-import { Control, UseFormReturn, useWatch } from 'react-hook-form';
-import useFormSettings from './useFormSettings';
+import { useEffect, useState } from "react";
+import { useWatch } from "react-hook-form";
+import { useTheme, Grid2 as Grid, Checkbox } from "@mui/material";
+import FieldWrapper from "./FieldWrapper";
+import { getFieldProp } from "./Fields";
+import type { Control, UseFormReturn } from "react-hook-form";
+import type useFormSettings from "./useFormSettings";
 
-import { useTheme, Grid2 as Grid, Checkbox } from '@mui/material';
+import type { Fields, CustomComponents } from "./types";
+import type { IFieldWrapperProps } from "./FieldWrapper";
 
-import { Fields, CustomComponents } from './types';
-import FieldWrapper, { IFieldWrapperProps } from './FieldWrapper';
-import { getFieldProp } from './Fields';
-
-export interface IFormFieldsProps {
+export type IFormFieldsProps = {
   fields: Fields;
 
   control: Control;
   customComponents?: CustomComponents;
   useFormMethods: UseFormReturn;
-  setOmittedFields: ReturnType<typeof useFormSettings>['setOmittedFields'];
-}
+  setOmittedFields: ReturnType<typeof useFormSettings>["setOmittedFields"];
+};
 
 export default function FormFields({ fields, ...props }: IFormFieldsProps) {
   return (
@@ -23,18 +24,22 @@ export default function FormFields({ fields, ...props }: IFormFieldsProps) {
       {fields.map((field, i) => {
         // Call the field displayCondition function with values if necessary
         if (
-          !!field.displayCondition &&
-          typeof field.displayCondition === 'string'
-        )
+          !!field.displayCondition
+          && typeof field.displayCondition === "string"
+        ) {
           return <DependentField key={i} index={i} {...field} {...props} />;
+        }
 
         // Otherwise, just use the field object
         // If we intentionally hide this field due to form values, don’t render
-        if (!field) return null;
+        if (!field) {
+          return null;
+        }
 
         // Conditional field
-        if (field.conditional === 'check')
+        if (field.conditional === "check") {
           return <ConditionalField key={i} index={i} {...field} {...props} />;
+        }
 
         return (
           <FieldWrapper key={field.name ?? i} index={i} {...field} {...props} />
@@ -47,40 +52,48 @@ export default function FormFields({ fields, ...props }: IFormFieldsProps) {
 /**
  * Wrap the field declaration around this component so we can access
  * `useWatch` and it updates whenever the form’s values update
+ * @param root0
+ * @param root0.displayCondition
  */
 function DependentField({ displayCondition, ...props }: IFieldWrapperProps) {
   const values = useWatch({ control: props.control });
 
-  const [display, setDisplay] = useState(false);
+  const [ display, setDisplay ] = useState(false);
   useEffect(() => {
     try {
       // eslint-disable-next-line no-new-func
       const displayConditionFunction = new Function(
-        'values',
-        '"use strict";\n' + displayCondition!
+        "values",
+        "\"use strict\";\n" + displayCondition!
       );
       const display = displayConditionFunction(values);
       setDisplay(display);
 
       props.setOmittedFields({
         name: props.name!,
-        type: display ? 'unOmit' : 'omit',
+        type: display ? "unOmit" : "omit",
       });
     } catch (e) {
-      console.error('Failed to evaluate displayCondition function');
+      console.error("Failed to evaluate displayCondition function");
       console.error(e);
       setDisplay(false);
     }
-  }, [values]);
+  }, [ values ]);
 
   useEffect(() => {
-    if (!display) props.useFormMethods.clearErrors(props.name!);
-  }, [display]);
+    if (!display) {
+      props.useFormMethods.clearErrors(props.name!);
+    }
+  }, [ display ]);
 
-  if (!display) return null;
+  if (!display) {
+    return null;
+  }
 
   // Conditional field
-  if (props.conditional === 'check') return <ConditionalField {...props} />;
+  if (props.conditional === "check") {
+    return <ConditionalField {...props} />;
+  }
 
   return <FieldWrapper {...props} />;
 }
@@ -89,30 +102,32 @@ function DependentField({ displayCondition, ...props }: IFieldWrapperProps) {
  * Wrap the field declaration around this component so we can access
  * `useWatch` to get the initial conditional checkbox state.
  * `getValues` does not seem to work.
+ * @param root0
+ * @param root0.conditional
  */
 function ConditionalField({ conditional, ...props }: IFieldWrapperProps) {
   const theme = useTheme();
 
-  const defaultValue = getFieldProp('defaultValue', props.type);
+  const defaultValue = getFieldProp("defaultValue", props.type);
 
   const value = useWatch({ control: props.control, name: props.name! });
-  const [conditionalState, setConditionalState] = useState(
+  const [ conditionalState, setConditionalState ] = useState(
     value !== undefined && value !== null && value !== defaultValue
   );
 
   useEffect(() => {
     props.setOmittedFields({
       name: props.name!,
-      type: conditionalState ? 'unOmit' : 'omit',
+      type: conditionalState ? "unOmit" : "omit",
     });
 
     if (!conditionalState) {
       props.useFormMethods.clearErrors(props.name!);
     }
-  }, [conditionalState]);
+  }, [ conditionalState ]);
 
   return (
-    <Grid key={props.name!} id={`conditionalField-${props.name}`} size={{ xs: 12 }}>
+    <Grid key={props.name!} id={`conditionalField-${ props.name }`} size={{ xs: 12 }}>
       <Grid container wrap="nowrap" alignItems="flex-start">
         <Grid>
           <Checkbox
@@ -120,7 +135,7 @@ function ConditionalField({ conditional, ...props }: IFieldWrapperProps) {
             onChange={(e) => {
               setConditionalState(e.target.checked);
             }}
-            inputProps={{ 'aria-label': `Enable field ${props.label}` }}
+            inputProps={{ "aria-label": `Enable field ${ props.label }` }}
             style={{ margin: theme.spacing(1, 2, 1, -1.5) }}
           />
         </Grid>

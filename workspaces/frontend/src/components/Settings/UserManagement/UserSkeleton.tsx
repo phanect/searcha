@@ -10,7 +10,7 @@ import {
 export default function UserSkeleton() {
   return (
     <ListItem
-      children={
+      children={(
         <>
           <ListItemAvatar>
             <Skeleton variant="circular">
@@ -22,8 +22,8 @@ export default function UserSkeleton() {
             secondary={<Skeleton width={120} />}
           />
         </>
-      }
-      secondaryAction={
+      )}
+      secondaryAction={(
         <Stack
           spacing={2}
           alignItems="center"
@@ -34,7 +34,7 @@ export default function UserSkeleton() {
           <Skeleton variant="circular" width={24} height={24} />
           <Skeleton variant="circular" width={24} height={24} />
         </Stack>
-      }
+      )}
     />
   );
 }

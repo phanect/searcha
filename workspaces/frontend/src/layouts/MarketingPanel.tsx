@@ -19,9 +19,9 @@ export default function Marketing() {
 
         bgcolor: "background.default",
 
-        pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(8)})`,
-        pb: (theme) => `max(env(safe-area-inset-bottom), ${theme.spacing(8)})`,
-        pl: (theme) => `max(env(safe-area-inset-left), ${theme.spacing(8)})`,
+        pt: (theme) => `max(env(safe-area-inset-top), ${ theme.spacing(8) })`,
+        pb: (theme) => `max(env(safe-area-inset-bottom), ${ theme.spacing(8) })`,
+        pl: (theme) => `max(env(safe-area-inset-left), ${ theme.spacing(8) })`,
         pr: 8,
       }}
     >

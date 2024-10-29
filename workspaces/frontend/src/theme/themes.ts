@@ -1,10 +1,11 @@
-import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { merge } from "lodash-es";
 
 import { breakpoints } from "./breakpoints";
 import { typography } from "./typography";
 import { colorsLight, colorsDark } from "./colors";
 import { components } from "./components";
+import type { ThemeOptions } from "@mui/material/styles";
 
 export const customizableLightTheme = (customization: ThemeOptions) => {
   const customizedLightThemeBase = createTheme(

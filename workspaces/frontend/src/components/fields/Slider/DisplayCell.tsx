@@ -1,8 +1,7 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { Grid2 as Grid, Box, useTheme } from "@mui/material";
 
 import { resultColorsScale } from "@src/utils/color";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Slider({ column, value }: IDisplayCellProps) {
   const theme = useTheme();
@@ -23,8 +22,8 @@ export default function Slider({ column, value }: IDisplayCellProps) {
     ...(column as any).config,
   };
 
-  const progress =
-    value < min || typeof value !== "number"
+  const progress
+    = value < min || typeof value !== "number"
       ? 0
       : ((value - min) / (max - min)) * 100;
 
@@ -52,7 +51,7 @@ export default function Slider({ column, value }: IDisplayCellProps) {
               height: "100%",
               maxWidth: "100%",
 
-              width: `${progress}%`,
+              width: `${ progress }%`,
               backgroundColor: resultColorsScale(
                 percentage,
                 colors,

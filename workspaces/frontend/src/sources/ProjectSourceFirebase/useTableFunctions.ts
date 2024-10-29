@@ -19,15 +19,12 @@ import {
   updateTableAtom,
   deleteTableAtom,
   getTableSchemaAtom,
-  AdditionalTableSettings,
-  MinimumTableSettings,
   currentUserAtom,
   updateSecretNamesAtom,
   projectIdAtom,
   rowyRunAtom,
   secretNamesAtom,
 } from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "./init";
 
 import {
   SETTINGS,
@@ -35,19 +32,23 @@ import {
   TABLE_GROUP_SCHEMAS,
 } from "@src/config/dbPaths";
 import { rowyUser } from "@src/utils/table";
-import { TableSettings, TableSchema, SubTablesSchema } from "@src/types/table";
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { runRoutes } from "@src/constants/runRoutes";
+import { firebaseDbAtom } from "./init";
+import type { FieldType } from "@src/constants/fields";
+import type { TableSettings, TableSchema, SubTablesSchema } from "@src/types/table";
+import type {
+  AdditionalTableSettings,
+  MinimumTableSettings } from "@src/atoms/projectScope";
 
 export function useTableFunctions() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [secretNames, setSecretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
-  const [updateSecretNames] = useAtom(updateSecretNamesAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ secretNames, setSecretNames ] = useAtom(secretNamesAtom, { store: projectScopeStore });
+  const [ updateSecretNames ] = useAtom(updateSecretNamesAtom, { store: projectScopeStore });
 
   // Create a function to get the latest tables from project settings,
   // so we don’t create new functions when tables change
@@ -75,14 +76,14 @@ export function useTableFunctions() {
           const tables = (await readTables()) || [];
 
           // Get columns from imported table settings or _schemaSource if provided
-          let columns: NonNullable<TableSchema["columns"]> =
-            Array.isArray(_schema?.columns) || !_schema?.columns
+          let columns: NonNullable<TableSchema["columns"]>
+            = Array.isArray(_schema?.columns) || !_schema?.columns
               ? {}
               : _schema?.columns;
 
           // If _schemaSource is provided, get the schema doc for that table
           if (_schemaSource) {
-            const sourceTable = find(tables, ["id", _schemaSource]);
+            const sourceTable = find(tables, [ "id", _schemaSource ]);
 
             if (sourceTable) {
               const sourceDocRef = doc(
@@ -98,12 +99,12 @@ export function useTableFunctions() {
           }
 
           // Add columns from `_initialColumns`
-          for (const [type, checked] of Object.entries(_initialColumns)) {
+          for (const [ type, checked ] of Object.entries(_initialColumns)) {
             if (
-              checked &&
+              checked
               // Make sure we don’t have
-              !Object.values(columns)?.some((column) => column.type === type)
-            )
+              && !Object.values(columns)?.some((column) => column.type === type)
+            ) {
               columns["_" + camelCase(type)] = {
                 type,
                 name: getFieldProp("name", type as FieldType),
@@ -112,13 +113,14 @@ export function useTableFunctions() {
                 config: {},
                 index: Object.values(columns).length,
               };
+            }
           }
 
           const _createdBy = currentUser && rowyUser(currentUser);
           // Appends table to settings doc
           const promiseUpdateSettings = setDoc(
             doc(firebaseDb, SETTINGS),
-            { tables: [...tables, { ...settings, _createdBy }] },
+            { tables: [ ...tables, { ...settings, _createdBy }]},
             { merge: true }
           );
 
@@ -149,8 +151,8 @@ export function useTableFunctions() {
           }
 
           // Creates schema doc with columns
-          const { functionConfigPath, functionBuilderRef, ...schemaToWrite } =
-            _schema ?? {};
+          const { functionConfigPath, functionBuilderRef, ...schemaToWrite }
+            = _schema ?? {};
           const tableSchemaDocRef = doc(
             firebaseDb,
             settings.tableType !== "collectionGroup"
@@ -172,7 +174,7 @@ export function useTableFunctions() {
           ]);
         }
     );
-  }, [currentUser, firebaseDb, readTables, setCreateTable]);
+  }, [ currentUser, firebaseDb, readTables, setCreateTable ]);
 
   // Set the createTable function
   const setUpdateTable = useSetAtom(updateTableAtom, { store: projectScopeStore });
@@ -186,8 +188,8 @@ export function useTableFunctions() {
           const { _schema } = additionalSettings || {};
 
           // Get latest tables
-          const tables = [...((await readTables()) || [])];
-          const foundIndex = findIndex(tables, ["id", settings.id]);
+          const tables = [ ...((await readTables()) || []) ];
+          const foundIndex = findIndex(tables, [ "id", settings.id ]);
           const tableIndex = foundIndex > -1 ? foundIndex : tables.length;
 
           // Shallow merge new settings with old
@@ -242,8 +244,8 @@ export function useTableFunctions() {
           }
 
           // Updates schema doc if param is provided
-          const { functionConfigPath, functionBuilderRef, ...schemaToWrite } =
-            _schema ?? {};
+          const { functionConfigPath, functionBuilderRef, ...schemaToWrite }
+            = _schema ?? {};
           const tableSchemaDocRef = doc(
             firebaseDb,
             settings.tableType !== "collectionGroup"
@@ -263,7 +265,7 @@ export function useTableFunctions() {
           ]);
         }
     );
-  }, [firebaseDb, readTables, setUpdateTable]);
+  }, [ firebaseDb, readTables, setUpdateTable ]);
 
   // Set the deleteTable function
   const setDeleteTable = useSetAtom(deleteTableAtom, { store: projectScopeStore });
@@ -271,7 +273,7 @@ export function useTableFunctions() {
     setDeleteTable(() => async (id: string) => {
       // Get latest tables
       const tables = (await readTables()) || [];
-      const table = find(tables, ["id", id]);
+      const table = find(tables, [ "id", id ]);
 
       // Removes table from settings doc array
       const promiseUpdateSettings = setDoc(
@@ -291,9 +293,9 @@ export function useTableFunctions() {
       const promiseDeleteSchema = deleteDoc(tableSchemaDocRef);
 
       // Wait for both to complete
-      await Promise.all([promiseUpdateSettings, promiseDeleteSchema]);
+      await Promise.all([ promiseUpdateSettings, promiseDeleteSchema ]);
     });
-  }, [firebaseDb, readTables, setDeleteTable]);
+  }, [ firebaseDb, readTables, setDeleteTable ]);
 
   // Set the getTableSchema function
   const setGetTableSchema = useSetAtom(getTableSchemaAtom, { store: projectScopeStore });
@@ -301,7 +303,7 @@ export function useTableFunctions() {
     setGetTableSchema(() => async (id: string, withSubtables?: boolean) => {
       // Get latest tables
       const tables = (await readTables()) || [];
-      const table = find(tables, ["id", id]);
+      const table = find(tables, [ "id", id ]);
 
       const tableSchemaDocRef = doc(
         firebaseDb,
@@ -323,28 +325,30 @@ export function useTableFunctions() {
               table?.tableType === "collectionGroup"
                 ? TABLE_GROUP_SCHEMAS
                 : TABLE_SCHEMAS
-            }/${id}/subTables`
+            }/${ id }/subTables`
           )
         ).then((querySnapshot) => {
-          let subTables: SubTablesSchema = {};
+          const subTables: SubTablesSchema = {};
           querySnapshot.forEach((doc) => {
             subTables[doc.id] = doc.data();
           });
           return subTables;
         });
 
-        [tableSchema, subTables] = await Promise.all([tableSchema, subTables]);
+        [ tableSchema, subTables ] = await Promise.all([ tableSchema, subTables ]);
         tableSchema.subTables = subTables;
       }
 
       return tableSchema as TableSchema;
     });
-  }, [firebaseDb, readTables, setGetTableSchema]);
+  }, [ firebaseDb, readTables, setGetTableSchema ]);
 
   // Set the deleteTable function
   const setUpdateSecretNames = useSetAtom(updateSecretNamesAtom, { store: projectScopeStore });
   useEffect(() => {
-    if (!projectId || !rowyRun || !secretNamesAtom) return;
+    if (!projectId || !rowyRun || !secretNamesAtom) {
+      return;
+    }
     setUpdateSecretNames(() => async (clearSecretNames?: boolean) => {
       setSecretNames({
         loading: true,
@@ -366,10 +370,10 @@ export function useTableFunctions() {
           });
         });
     });
-  }, [projectId, rowyRun, setUpdateSecretNames]);
+  }, [ projectId, rowyRun, setUpdateSecretNames ]);
   useEffect(() => {
     if (updateSecretNames) {
       updateSecretNames(true);
     }
-  }, [updateSecretNames]);
+  }, [ updateSecretNames ]);
 }

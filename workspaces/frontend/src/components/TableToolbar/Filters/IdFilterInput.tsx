@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
 
-export interface IIdFilterInputProps {
+export type IIdFilterInputProps = {
   value: string;
   onChange: (value: string) => void;
-}
+};
 
 export default function IdFilterInput({
   value,

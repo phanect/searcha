@@ -2,19 +2,17 @@ import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { atomWithHash } from "jotai-location";
 
+import type { SEVERITY_LEVELS } from "@src/components/TableModals/CloudLogsModal/CloudLogSeverityIcon";
 import type { PopoverProps } from "@mui/material";
 import type { ColumnConfig, TableFilter } from "@src/types/table";
-import { SEVERITY_LEVELS } from "@src/components/TableModals/CloudLogsModal/CloudLogSeverityIcon";
 
 /**
  * Open table column menu. Set to `null` to close.
- *
  * @example Basic usage:
  * ```
  * const openColumnMenu = useSetAtom(columnMenuAtom, { store: projectScopeStore });
  * openColumnMenu({ column, anchorEl: ... });
  * ```
- *
  * @example Close:
  * ```
  * openColumnMenu(null)
@@ -28,13 +26,11 @@ export const columnMenuAtom = atom<{
 /**
  * Opens a table column modal. Set to `null` to close.
  * Modals: new column, name change, type change, column settings.
- *
  * @example Basic usage:
  * ```
  * const openColumnModal = useSetAtom(columnModalAtom, { store: projectScopeStore });
  * openColumnModal({ type: "...", column });
  * ```
- *
  * @example Close:
  * ```
  * import { RESET } from "jotai/utils";
@@ -54,13 +50,11 @@ export type TableFiltersPopoverState = {
 /**
  * Store table filter popover state.
  * Calling the set function resets props.
- *
  * @example Basic usage:
  * ```
  * const openTableFiltersPopover = useSetAtom(tableFiltersPopoverAtom, { store: projectScopeStore });
  * openTableFiltersPopover({ query: ... });
  * ```
- *
  * @example Close:
  * ```
  * openTableFiltersPopover({ open: false })
@@ -82,13 +76,11 @@ export const sideDrawerShowHiddenFieldsAtom = atomWithStorage(
 /**
  * Opens a table modal. Set to `null` to close.
  * Modals: cloud logs, extensions, webhooks, export, import, import CSV.
- *
  * @example Basic usage:
  * ```
  * const openTableModal = useSetAtom(tableModalAtom, { store: projectScopeStore });
  * openTableModal("...");
  * ```
- *
  * @example Close:
  * ```
  * openTableModal(null)
@@ -105,8 +97,8 @@ export const tableModalAtom = atomWithHash<
   | null
 >("tableModal", null, { setHash: "replaceState" });
 
-export type ImportCsvData = { columns: string[]; rows: Record<string, any>[] };
-export type ImportAirtableData = { records: Record<string, any>[] };
+export type ImportCsvData = { columns: string[]; rows: Record<string, any>[]; };
+export type ImportAirtableData = { records: Record<string, any>[]; };
 
 /** Store import CSV popover and wizard state */
 export const importCsvAtom = atom<{
@@ -146,9 +138,9 @@ export const contextMenuTargetAtom = atom<HTMLElement | null>(null);
 export type CloudLogFilters = {
   type: "extension" | "webhook" | "column" | "audit" | "build" | "functions";
   timeRange:
-    | { type: "seconds" | "minutes" | "hours" | "days"; value: number }
-    | { type: "range"; start: Date; end: Date };
-  severity?: Array<keyof typeof SEVERITY_LEVELS>;
+    | { type: "seconds" | "minutes" | "hours" | "days"; value: number; }
+    | { type: "range"; start: Date; end: Date; };
+  severity?: (keyof typeof SEVERITY_LEVELS)[];
   webhook?: string[];
   extension?: string[];
   column?: string[];

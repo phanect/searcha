@@ -6,7 +6,7 @@ export const getDurationString = (start: Date, end: Date) => {
   distance -= minutes * 60000;
   const seconds = Math.floor(distance / 1000);
 
-  return `${hours ? `${hours}h` : ""} ${("0" + minutes).slice(-2)}m ${(
+  return `${ hours ? `${ hours }h` : "" } ${ ("0" + minutes).slice(-2) }m ${ (
     "0" + seconds
-  ).slice(-2)}s`;
+  ).slice(-2) }s`;
 };

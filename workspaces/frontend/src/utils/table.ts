@@ -1,7 +1,7 @@
 import { mergeWith, isArray } from "lodash-es";
-import type { User } from "firebase/auth";
 import { TABLE_GROUP_SCHEMAS, TABLE_SCHEMAS } from "@src/config/dbPaths";
-import { TableSettings } from "@src/types/table";
+import type { TableSettings } from "@src/types/table";
+import type { User } from "firebase/auth";
 
 /**
  * Creates a standard user object to write to table rows
@@ -10,8 +10,8 @@ import { TableSettings } from "@src/types/table";
  * @returns rowyUser object
  */
 export const rowyUser = (currentUser: User, data?: Record<string, any>) => {
-  const { displayName, email, uid, emailVerified, isAnonymous, photoURL } =
-    currentUser;
+  const { displayName, email, uid, emailVerified, isAnonymous, photoURL }
+    = currentUser;
 
   return {
     timestamp: new Date(),
@@ -44,13 +44,16 @@ export const updateRowData = <T = Record<string, any>>(
     (objValue, srcValue) => (isArray(objValue) ? srcValue : undefined)
   );
 
-/** Omits internal `_rowy_*` fields for writing to the database */
+/**
+ * Omits internal `_rowy_*` fields for writing to the database
+ * @param row
+ */
 export const omitRowyFields = <T = Record<string, any>>(row: T) => {
   const shallowClonedRow: any = { ...row };
-  delete shallowClonedRow["_rowy_ref"];
-  delete shallowClonedRow["_rowy_outOfOrder"];
-  delete shallowClonedRow["_rowy_missingRequiredFields"];
-  delete shallowClonedRow["_rowy_new"];
+  delete shallowClonedRow._rowy_ref;
+  delete shallowClonedRow._rowy_outOfOrder;
+  delete shallowClonedRow._rowy_missingRequiredFields;
+  delete shallowClonedRow._rowy_new;
 
   Object.keys(shallowClonedRow).forEach((key) => {
     if (key.startsWith("_rowy_formulaValue_")) {
@@ -61,8 +64,8 @@ export const omitRowyFields = <T = Record<string, any>>(row: T) => {
   return shallowClonedRow as T;
 };
 
-const ID_CHARACTERS =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const ID_CHARACTERS
+  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 /**
  * Generate an ID compatible with Firestore
@@ -72,10 +75,11 @@ const ID_CHARACTERS =
 export const generateId = (length: number = 20) => {
   let result = "";
   const charactersLength = ID_CHARACTERS.length;
-  for (var i = 0; i < length; i++)
+  for (let i = 0; i < length; i++) {
     result += ID_CHARACTERS.charAt(
       Math.floor(Math.random() * charactersLength)
     );
+  }
 
   return result;
 };
@@ -93,13 +97,15 @@ export const decrementId = (id: string = "zzzzzzzzzzzzzzzzzzzz") => {
   while (i > -1) {
     const newCharacterIndex = ID_CHARACTERS.indexOf(newId[i]) - 1;
 
-    newId[i] =
-      ID_CHARACTERS[
+    newId[i]
+      = ID_CHARACTERS[
         newCharacterIndex > -1 ? newCharacterIndex : ID_CHARACTERS.length - 1
       ];
 
     // If we don’t hit 0, we’re done
-    if (newCharacterIndex > -1) break;
+    if (newCharacterIndex > -1) {
+      break;
+    }
 
     // Otherwise, if we hit 0, we need to decrement the next character
     i--;
@@ -107,8 +113,9 @@ export const decrementId = (id: string = "zzzzzzzzzzzzzzzzzzzz") => {
 
   // Ensure we don't get 00...0, then the next ID would be 00...0z,
   // which would appear as the second row
-  if (newId.every((x) => x === ID_CHARACTERS[0]))
+  if (newId.every((x) => x === ID_CHARACTERS[0])) {
     newId.push(ID_CHARACTERS[ID_CHARACTERS.length - 1]);
+  }
 
   return newId.join("");
 };
@@ -121,6 +128,7 @@ const formatPathRegex = /\/[^\/]+\/([^\/]+)/g;
  * and collectionGroup tables
  * @param id - The table ID (could include sub-table ID)
  * @param tableType - primaryCollection (default) or collectionGroup
+ * @param tableSettings
  * @returns Path to the table’s schema doc
  */
 export const getTableSchemaPath = (
@@ -128,9 +136,9 @@ export const getTableSchemaPath = (
 ) =>
   (tableSettings.tableType === "collectionGroup"
     ? TABLE_GROUP_SCHEMAS
-    : TABLE_SCHEMAS) +
-  "/" +
-  tableSettings.id.replace(formatPathRegex, "/subTables/$1");
+    : TABLE_SCHEMAS)
+    + "/"
+    + tableSettings.id.replace(formatPathRegex, "/subTables/$1");
 
 /**
  * Format sub-table name to store settings in user settings
@@ -152,10 +160,12 @@ export const getTableBuildFunctionPathname = (
   id: string,
   tableType: "primaryCollection" | "collectionGroup" = "primaryCollection"
 ) => {
-  const root =
-    "/" + (tableType === "collectionGroup" ? "tableGroup" : "table") + "/";
+  const root
+    = "/" + (tableType === "collectionGroup" ? "tableGroup" : "table") + "/";
 
-  if (!id.includes("/")) return root + id;
+  if (!id.includes("/")) {
+    return root + id;
+  }
 
   const split = id.split("/");
   const rootTableId = split.shift();

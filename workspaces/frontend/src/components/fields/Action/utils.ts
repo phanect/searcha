@@ -1,5 +1,7 @@
 export const sanitiseCallableName = (name: string) => {
-  if (!name || typeof name !== "string") return "";
+  if (!name || typeof name !== "string") {
+    return "";
+  }
   return name
     .replace("callable-", "")
     .replace(/([^A-Z])([A-Z])/g, "$1 $2")

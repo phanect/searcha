@@ -1,5 +1,4 @@
 import { lazy, Suspense, useContext, useEffect } from "react";
-import { ISettingsProps } from "@src/components/fields/types";
 import { useAtom, useSetAtom } from "jotai";
 
 import { Grid2 as Grid, InputLabel, FormHelperText } from "@mui/material";
@@ -20,6 +19,7 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 import { getFieldProp } from "@src/components/fields";
 import derivativeDefs from "./derivative.d.ts?raw";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 const CodeEditor = lazy(
   () =>
@@ -41,18 +41,19 @@ export default function Settings({
 }: ISettingsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   useEffect(() => {
-    if (!projectSettings.rowyRunUrl)
+    if (!projectSettings.rowyRunUrl) {
       openRowyRunModal({ feature: "Derivative fields" });
-  }, [projectSettings.rowyRunUrl]);
+    }
+  }, [ projectSettings.rowyRunUrl ]);
 
   const returnType = getFieldProp("dataType", config.renderFieldType) ?? "any";
   const columnOptions = tableColumnsOrdered
@@ -64,17 +65,17 @@ export default function Settings({
   const derivativeFn = functionBodyOnly
     ? config?.script
     : config.derivativeFn
-    ? config.derivativeFn
-    : config?.script
-    ? `const derivative:Derivative = async ({row,ref,db,storage,auth,logging})=>{
+      ? config.derivativeFn
+      : config?.script
+        ? `const derivative:Derivative = async ({row,ref,db,storage,auth,logging})=>{
   logging.log("derivative started")
 
   // Import any NPM package needed
   // const lodash = require('lodash');
 
-  ${config.script.replace(/utilFns.getSecret/g, "rowy.secrets.get")}
+  ${ config.script.replace(/utilFns.getSecret/g, "rowy.secrets.get") }
 }`
-    : `// Import any NPM package needed
+        : `// Import any NPM package needed
 // import _ from "lodash";
 
 const derivative: Derivative = async ({ row, ref, db, storage, auth, logging }) => {
@@ -152,11 +153,11 @@ export default derivative;
           additionalVariables={[
             {
               key: "row",
-              description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
+              description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
             },
             {
               key: "ref",
-              description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
+              description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
             },
           ]}
         />
@@ -168,8 +169,8 @@ export default derivative;
             value={derivativeFn}
             extraLibs={[
               derivativeDefs.replace(
-                `"PLACEHOLDER_OUTPUT_TYPE"`,
-                `${returnType} | Promise<${returnType}>`
+                "\"PLACEHOLDER_OUTPUT_TYPE\"",
+                `${ returnType } | Promise<${ returnType }>`
               ),
             ]}
             onChange={onChange(functionBodyOnly ? "script" : "derivativeFn")}
@@ -182,7 +183,11 @@ export default derivative;
 
 export const settingsValidator = (config: any) => {
   const errors: Record<string, any> = {};
-  if (!config.listenerFields) errors.listenerFields = "Required";
-  if (!config.renderFieldType) errors.renderFieldType = "Required";
+  if (!config.listenerFields) {
+    errors.listenerFields = "Required";
+  }
+  if (!config.renderFieldType) {
+    errors.renderFieldType = "Required";
+  }
   return errors;
 };

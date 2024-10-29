@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { DATE_FORMAT } from "@src/constants/dates";
-import { IFilterOperator } from "@src/components/fields/types";
+import type { IFilterOperator } from "@src/components/fields/types";
 
 export const filterOperators: IFilterOperator[] = [
   {
@@ -31,6 +31,8 @@ export const filterOperators: IFilterOperator[] = [
 ];
 
 export const valueFormatter = (value: any) => {
-  if (value && value.toDate) return format(value.toDate(), DATE_FORMAT);
+  if (value?.toDate) {
+    return format(value.toDate(), DATE_FORMAT);
+  }
   return "";
 };

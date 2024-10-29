@@ -1,4 +1,3 @@
-import { ITableTutorialStepComponentProps } from ".";
 import { useTheme, Grid2 as Grid, Typography, Link } from "@mui/material";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 
@@ -8,6 +7,7 @@ import templatesLight from "@src/assets/tutorial/templates-light.svg";
 import templatesDark from "@src/assets/tutorial/templates-dark.svg";
 import communityLight from "@src/assets/tutorial/community-light.svg";
 import communityDark from "@src/assets/tutorial/community-dark.svg";
+import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step5Finish = {
   id: "finish",

@@ -28,23 +28,21 @@ export const webhookFirebaseAuth: WebHook = {
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
   },
-  Auth: () => {
-    return (
-      <>
-        <Typography variant="inherit" paragraph>
-          For Firebase authentication, you need to include the following header
-          in your request:
-          <br />
-          <code>Authorization: Bear ACCESS_TOKEN</code>
-        </Typography>
+  Auth: () => (
+    <>
+      <Typography variant="inherit" paragraph>
+        For Firebase authentication, you need to include the following header
+        in your request:
+        <br />
+        <code>Authorization: Bear ACCESS_TOKEN</code>
+      </Typography>
 
-        <Typography variant="inherit" paragraph>
-          Once enabled requests without a valid token will return{" "}
-          <code>401</code> response.
-        </Typography>
-      </>
-    );
-  },
+      <Typography variant="inherit" paragraph>
+        Once enabled requests without a valid token will return{" "}
+        <code>401</code> response.
+      </Typography>
+    </>
+  ),
 };
 
 export default webhookFirebaseAuth;

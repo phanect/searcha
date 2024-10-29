@@ -1,8 +1,7 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { ButtonBase, FormControlLabel, Switch } from "@mui/material";
 
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Checkbox({
   column,
@@ -14,7 +13,7 @@ export default function Checkbox({
   return (
     <ButtonBase sx={fieldSx} disabled={disabled}>
       <FormControlLabel
-        control={
+        control={(
           <Switch
             checked={value}
             onChange={(e) => onChange(e.target.checked)}
@@ -23,7 +22,7 @@ export default function Checkbox({
             color="success"
             id={getFieldId(column.key)}
           />
-        }
+        )}
         label={column.name as string}
         labelPlacement="start"
         sx={{

@@ -1,6 +1,4 @@
 import { merge } from "lodash-es";
-import { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
-
 import {
   FormControl,
   FormControlLabel,
@@ -8,6 +6,7 @@ import {
   Checkbox,
   Collapse,
 } from "@mui/material";
+import type { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 export default function TableSettings({
   settings,
@@ -17,7 +16,7 @@ export default function TableSettings({
     <>
       <FormControl sx={{ my: -10 / 10, display: "flex" }}>
         <FormControlLabel
-          control={
+          control={(
             <Checkbox
               checked={Boolean(
                 settings.defaultTableSettings?.saveSortsPopupDisabled
@@ -30,13 +29,13 @@ export default function TableSettings({
                 });
               }}
             />
-          }
+          )}
           label="Disable popup - to save sorting changes to the team"
           style={{ marginLeft: -11, marginBottom: 13 }}
         />
         <Collapse in={settings.defaultTableSettings?.saveSortsPopupDisabled}>
           <FormControlLabel
-            control={
+            control={(
               <Checkbox
                 checked={Boolean(
                   settings.defaultTableSettings?.automaticallyApplySorts
@@ -49,7 +48,7 @@ export default function TableSettings({
                   });
                 }}
               />
-            }
+            )}
             label="Automatically apply sorting changes to all users"
             style={{ marginLeft: 20, marginBottom: 10, marginTop: -13 }}
           />
@@ -58,7 +57,7 @@ export default function TableSettings({
         <Divider />
 
         <FormControlLabel
-          control={
+          control={(
             <Checkbox
               checked={Boolean(
                 settings.defaultTableSettings?.saveColumnSizingPopupDisabled
@@ -71,7 +70,7 @@ export default function TableSettings({
                 });
               }}
             />
-          }
+          )}
           label="Disable popup - to save column width changes to the team"
           style={{ marginLeft: -11, marginTop: 13 }}
         />
@@ -79,7 +78,7 @@ export default function TableSettings({
           in={settings.defaultTableSettings?.saveColumnSizingPopupDisabled}
         >
           <FormControlLabel
-            control={
+            control={(
               <Checkbox
                 checked={Boolean(
                   settings.defaultTableSettings?.automaticallyApplyColumnSizing
@@ -92,7 +91,7 @@ export default function TableSettings({
                   });
                 }}
               />
-            }
+            )}
             label="Automatically apply column width changes to all users"
             style={{ marginLeft: 20 }}
           />

@@ -1,33 +1,33 @@
-import { lazy } from 'react';
-import type { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
-
-import FormTextarea from 'mdi-material-ui/FormTextarea';
-
-import Settings from './ParagraphSettings';
+import { lazy } from "react";
+import FormTextarea from "mdi-material-ui/FormTextarea";
 import { string } from "yup";
+import { FieldType } from "../../constants/fields";
+
+import Settings from "./ParagraphSettings";
+import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>
-    import('./ParagraphComponent')
+    import("./ParagraphComponent")
 );
 
 export const ParagraphConfig: IFieldConfig = {
   type: FieldType.paragraph,
-  name: 'Paragraph',
-  group: 'input',
+  name: "Paragraph",
+  group: "input",
   icon: <FormTextarea />,
-  dataType: 'string',
-  defaultValue: '',
+  dataType: "string",
+  defaultValue: "",
   component: Component,
   settings: Settings,
   validation: (config) => {
     let schema = string().trim();
 
-    if (typeof config.maxCharacters === 'number')
+    if (typeof config.maxCharacters === "number") {
       schema = schema.max(
         config.maxCharacters,
-        'You have reached the character limit',
+        "You have reached the character limit",
       );
+    }
 
     return schema;
   },

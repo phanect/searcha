@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { IEditorCellProps } from "@src/components/fields/types";
 import { useSetAtom } from "jotai";
 import { get } from "lodash-es";
 
 import { FormControlLabel, Switch } from "@mui/material";
 import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 const replacer = (data: any) => (_: string, key: string) => {
   const objKey = key.split(":")[0];
@@ -45,7 +45,7 @@ export default function Checkbox({
 
   return (
     <FormControlLabel
-      control={
+      control={(
         <Switch
           checked={!!value}
           onChange={handleChange}
@@ -53,7 +53,7 @@ export default function Checkbox({
           color="success"
           tabIndex={tabIndex}
         />
-      }
+      )}
       label={column.name as string}
       labelPlacement="start"
       sx={{

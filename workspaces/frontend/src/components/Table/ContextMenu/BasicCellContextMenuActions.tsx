@@ -2,12 +2,10 @@ import { useContext } from "react";
 import { Copy as CopyCells } from "@src/assets/icons";
 // import Cut from "@mui/icons-material/ContentCut";
 import Paste from "@mui/icons-material/ContentPaste";
-import { IFieldConfig } from "@src/components/fields/types";
-import { useMenuAction } from "@src/components/Table/useMenuAction";
+import { useMenuAction, SUPPORTED_TYPES_PASTE } from "@src/components/Table/useMenuAction";
 import { useAtom } from "jotai";
 import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
-
-import { SUPPORTED_TYPES_PASTE } from "@src/components/Table/useMenuAction";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 // TODO: Remove this and add `handlePaste` function to column config
 export const BasicContextMenuActions: IFieldConfig["contextMenuActions"] = (
@@ -15,7 +13,7 @@ export const BasicContextMenuActions: IFieldConfig["contextMenuActions"] = (
   reset
 ) => {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
 
   const handleClose = async () => await reset?.();

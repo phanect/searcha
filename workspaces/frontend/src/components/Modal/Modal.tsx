@@ -4,22 +4,25 @@ import {
   useTheme,
   useMediaQuery,
   Dialog,
-  DialogProps,
   Stack,
   DialogTitle,
   IconButton,
   DialogActions,
   Button,
-  ButtonProps,
 } from "@mui/material";
-import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-import ScrollableDialogContent, {
+import ScrollableDialogContent from "./ScrollableDialogContent";
+import type {
   IScrollableDialogContentProps,
 } from "./ScrollableDialogContent";
+import type { LoadingButtonProps } from "@mui/lab/LoadingButton";
+import type {
+  DialogProps,
+  ButtonProps } from "@mui/material";
 
-export interface IModalProps extends Partial<Omit<DialogProps, "title">> {
+export type IModalProps = {
   onClose: (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => void;
   disableBackdropClick?: boolean;
   disableEscapeKeyDown?: boolean;
@@ -39,7 +42,7 @@ export interface IModalProps extends Partial<Omit<DialogProps, "title">> {
   hideCloseButton?: boolean;
   fullHeight?: boolean;
   ScrollableDialogContentProps?: Partial<IScrollableDialogContentProps>;
-}
+} & Partial<Omit<DialogProps, "title">>;
 
 export default function Modal({
   onClose,
@@ -58,15 +61,15 @@ export default function Modal({
 }: IModalProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const fullScreen =
-    props.fullScreen === false ? false : props.fullScreen || isMobile;
+  const fullScreen
+    = props.fullScreen === false ? false : props.fullScreen || isMobile;
 
-  const [open, setOpen] = useState(true);
-  const [emphasizeCloseButton, setEmphasizeCloseButton] = useState(false);
+  const [ open, setOpen ] = useState(true);
+  const [ emphasizeCloseButton, setEmphasizeCloseButton ] = useState(false);
   const handleClose: NonNullable<DialogProps["onClose"]> = (_, reason) => {
     if (
-      (disableBackdropClick && reason === "backdropClick") ||
-      (disableEscapeKeyDown && reason === "escapeKeyDown")
+      (disableBackdropClick && reason === "backdropClick")
+      || (disableEscapeKeyDown && reason === "escapeKeyDown")
     ) {
       setEmphasizeCloseButton(true);
       return;
@@ -89,12 +92,12 @@ export default function Modal({
       sx={
         fullHeight
           ? {
-              ...props.sx,
-              "& .MuiDialog-paper": {
-                height: "100%",
-                ...(props.sx as any)?.["& .MuiDialog-paper"],
-              },
-            }
+            ...props.sx,
+            "& .MuiDialog-paper": {
+              height: "100%",
+              ...(props.sx as any)?.["& .MuiDialog-paper"],
+            },
+          }
           : props.sx
       }
     >

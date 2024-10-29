@@ -1,5 +1,4 @@
 import { lazy, Suspense } from "react";
-import { IExtensionModalStepProps } from "./ExtensionModal";
 import { upperFirst } from "lodash-es";
 import useStateRef from "react-usestateref";
 
@@ -7,6 +6,7 @@ import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import type { IExtensionModalStepProps } from "./ExtensionModal";
 
 const CodeEditor = lazy(
   () =>
@@ -16,11 +16,11 @@ const CodeEditor = lazy(
 const additionalVariables = [
   {
     key: "row",
-    description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
+    description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
   },
   {
     key: "ref",
-    description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
+    description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
   },
   {
     key: "change",
@@ -54,7 +54,7 @@ export default function Step4Body({
   setValidation,
   validationRef,
 }: IExtensionModalStepProps) {
-  const [, setBodyEditorActive, bodyEditorActiveRef] = useStateRef(false);
+  const [ , setBodyEditorActive, bodyEditorActiveRef ] = useStateRef(false);
 
   return (
     <>
@@ -69,7 +69,9 @@ export default function Step4Body({
             });
           }}
           onValidStatusUpdate={({ isValid }) => {
-            if (!bodyEditorActiveRef.current) return;
+            if (!bodyEditorActiveRef.current) {
+              return;
+            }
             setValidation({
               ...validationRef.current!,
               extensionBody: isValid,
@@ -84,7 +86,7 @@ export default function Step4Body({
       <CodeEditorHelper
         docLink={
           WIKI_LINKS[
-            `extensions${upperFirst(extensionObject.type)}` as "extensions"
+            `extensions${ upperFirst(extensionObject.type) }` as "extensions"
           ] || WIKI_LINKS.extensions
         }
         additionalVariables={additionalVariables}

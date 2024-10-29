@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 import {
   ProjectScopeContext,
   projectSettingsDialogAtom,
-  ProjectSettingsDialogTab,
   rowyRunAtom,
   secretNamesAtom,
 } from "@src/atoms/projectScope";
@@ -12,18 +11,20 @@ import { Box, Button, Paper, Tab, Tooltip, Typography } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
-import SecretDetailsModal from "./SecretDetailsModal";
 import { runRoutes } from "@src/constants/runRoutes";
+import SecretDetailsModal from "./SecretDetailsModal";
+import type {
+  ProjectSettingsDialogTab } from "@src/atoms/projectScope";
 
 export default function ProjectSettingsDialog() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [{ open, tab }, setProjectSettingsDialog] = useAtom(
+  const [{ open, tab }, setProjectSettingsDialog ] = useAtom(
     projectSettingsDialogAtom,
     { store: projectScopeStore }
   );
-  const [secretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
-  const [secretDetailsModal, setSecretDetailsModal] = useState<{
+  const [ secretNames ] = useAtom(secretNamesAtom, { store: projectScopeStore });
+  const [ secretDetailsModal, setSecretDetailsModal ] = useState<{
     open: boolean;
     loading?: boolean;
     mode?: "add" | "edit" | "delete";
@@ -32,9 +33,11 @@ export default function ProjectSettingsDialog() {
   }>({
     open: false,
   });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
   const handleClose = () => {
     setProjectSettingsDialog({ open: false });
@@ -56,7 +59,7 @@ export default function ProjectSettingsDialog() {
         open={open}
         maxWidth="sm"
         fullWidth
-        title={"Project settings"}
+        title="Project settings"
         sx={{
           ".MuiDialogContent-root": {
             display: "flex",
@@ -64,7 +67,7 @@ export default function ProjectSettingsDialog() {
             height: "100%",
           },
         }}
-        children={
+        children={(
           <>
             <TabContext value={tab}>
               <Box
@@ -74,7 +77,7 @@ export default function ProjectSettingsDialog() {
                 }}
               >
                 <TabList value={tab} onChange={handleTabChange} component={Tab}>
-                  <Tab label="Secret keys" value={"secrets"} />
+                  <Tab label="Secret keys" value="secrets" />
                 </TabList>
               </Box>
               <TabPanel
@@ -83,7 +86,7 @@ export default function ProjectSettingsDialog() {
                   overflowY: "scroll",
                 }}
               >
-                <Paper elevation={1} variant={"outlined"}>
+                <Paper elevation={1} variant="outlined">
                   <Box
                     sx={{
                       display: "flex",
@@ -124,7 +127,7 @@ export default function ProjectSettingsDialog() {
                         {secretName}
                       </Typography>
                       <Box>
-                        <Tooltip title={"Edit"}>
+                        <Tooltip title="Edit">
                           <Button
                             variant="outlined"
                             color="primary"
@@ -142,10 +145,10 @@ export default function ProjectSettingsDialog() {
                               });
                             }}
                           >
-                            <EditIcon color={"secondary"} />
+                            <EditIcon color="secondary" />
                           </Button>
                         </Tooltip>
-                        <Tooltip title={"Delete"}>
+                        <Tooltip title="Delete">
                           <Button
                             variant="outlined"
                             color="primary"
@@ -167,7 +170,7 @@ export default function ProjectSettingsDialog() {
                               });
                             }}
                           >
-                            <DeleteOutlineIcon color={"secondary"} />
+                            <DeleteOutlineIcon color="secondary" />
                           </Button>
                         </Tooltip>
                       </Box>
@@ -177,7 +180,7 @@ export default function ProjectSettingsDialog() {
               </TabPanel>
             </TabContext>
           </>
-        }
+        )}
       />
       <SecretDetailsModal
         open={secretDetailsModal.open}

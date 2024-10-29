@@ -1,13 +1,14 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 
 import DateTimeIcon from "@mui/icons-material/AccessTime";
+import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import DisplayCell from "./DisplayCell";
 import { filterOperators, valueFormatter } from "./filters";
-import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 const EditorCell = lazy(
   () => import("./EditorCell")
@@ -36,7 +37,7 @@ export const config: IFieldConfig = {
   initialValue: null,
   initializable: true,
   icon: <DateTimeIcon />,
-  description: `Formatted date & time. Format is configurable, default: ${DATE_TIME_FORMAT}. Edited with a visual picker.`,
+  description: `Formatted date & time. Format is configurable, default: ${ DATE_TIME_FORMAT }. Edited with a visual picker.`,
   TableCell: withRenderTableCell(DisplayCell, EditorCell, "focus", {
     disablePadding: true,
   }),

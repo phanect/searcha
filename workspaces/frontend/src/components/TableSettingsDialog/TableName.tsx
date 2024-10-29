@@ -3,12 +3,13 @@ import { useWatch } from "react-hook-form";
 import { startCase } from "lodash-es";
 import {
   ShortTextComponent,
-  IShortTextComponentProps,
 } from "@phanect/datasheet-form-builder";
+import type {
+  IShortTextComponentProps } from "@phanect/datasheet-form-builder";
 
-export interface ITableNameProps extends IShortTextComponentProps {
+export type ITableNameProps = {
   watchedField?: string;
-}
+} & IShortTextComponentProps;
 
 export default function TableName({ watchedField, ...props }: ITableNameProps) {
   const {
@@ -27,7 +28,7 @@ export default function TableName({ watchedField, ...props }: ITableNameProps) {
         onChange(startCase(watchedValue));
       }
     }
-  }, [watchedValue, disabled]);
+  }, [ watchedValue, disabled ]);
 
   return <ShortTextComponent {...props} />;
 }

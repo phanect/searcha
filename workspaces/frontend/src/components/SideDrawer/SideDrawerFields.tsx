@@ -4,9 +4,6 @@ import { get, isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
 
 import { Stack, FormControlLabel, Switch } from "@mui/material";
-import FieldWrapper from "./FieldWrapper";
-import MemoizedField from "./MemoizedField";
-import SaveState from "./SaveState";
 
 import {
   ProjectScopeContext,
@@ -23,31 +20,34 @@ import {
   sideDrawerShowHiddenFieldsAtom,
 } from "@src/atoms/tableScope";
 import { formatSubTableName } from "@src/utils/table";
-import { TableRow } from "@src/types/table";
+import SaveState from "./SaveState";
+import MemoizedField from "./MemoizedField";
+import FieldWrapper from "./FieldWrapper";
+import type { TableRow } from "@src/types/table";
 
-export interface ISideDrawerFieldsProps {
+export type ISideDrawerFieldsProps = {
   row: TableRow;
-}
+};
 
 export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
-  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
-  const [showHiddenFields, setShowHiddenFields] = useAtom(
+  const [ selectedCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ showHiddenFields, setShowHiddenFields ] = useAtom(
     sideDrawerShowHiddenFieldsAtom,
     { store: tableScopeStore }
   );
-  const [saveState, setSaveState] = useState<
+  const [ saveState, setSaveState ] = useState<
     "" | "unsaved" | "saving" | "saved"
   >("");
-  const [dirtyField, setDirtyField] = useState("");
+  const [ dirtyField, setDirtyField ] = useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   // Called when a field has unsaved changes
@@ -58,7 +58,9 @@ export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
   // Called when an individual field is ready to be saved
   const onSubmit = useCallback(
     async (fieldName: string, value: any) => {
-      if (!selectedCell) return;
+      if (!selectedCell) {
+        return;
+      }
 
       const currentValue = get(row, fieldName);
       if (isEqual(currentValue, value)) {
@@ -87,11 +89,11 @@ export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
         setDirtyField("");
       }
     },
-    [row, selectedCell, updateField, enqueueSnackbar]
+    [ row, selectedCell, updateField, enqueueSnackbar ]
   );
 
-  const userDocHiddenFields =
-    userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields ?? [];
+  const userDocHiddenFields
+    = userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields ?? [];
   const fields = showHiddenFields
     ? tableColumnsOrdered
     : tableColumnsOrdered.filter((f) => !userDocHiddenFields.includes(f.key));
@@ -99,21 +101,27 @@ export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
   // Scroll to selected column
   const selectedColumnKey = selectedCell?.columnKey;
   useEffect(() => {
-    if (!selectedColumnKey) return;
+    if (!selectedColumnKey) {
+      return;
+    }
 
     const labelElem = document.getElementById(
-      `sidedrawer-label-${selectedColumnKey}`
+      `sidedrawer-label-${ selectedColumnKey }`
     )?.parentElement;
     const fieldElem = document.getElementById(
-      `sidedrawer-field-${selectedColumnKey}`
+      `sidedrawer-field-${ selectedColumnKey }`
     );
 
     // Time out for double-clicking on cells, which can open the null editor
     setTimeout(() => {
-      if (labelElem) labelElem.scrollIntoView({ behavior: "smooth" });
-      if (fieldElem) fieldElem.focus({ preventScroll: true });
+      if (labelElem) {
+        labelElem.scrollIntoView({ behavior: "smooth" });
+      }
+      if (fieldElem) {
+        fieldElem.focus({ preventScroll: true });
+      }
     }, 200);
-  }, [selectedColumnKey]);
+  }, [ selectedColumnKey ]);
 
   return (
     <Stack spacing={3}>
@@ -124,8 +132,8 @@ export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
           key={field.key ?? i}
           field={field}
           disabled={Boolean(
-            field.editable === false ||
-              (tableSettings.readOnly && !userRoles.includes("ADMIN"))
+            field.editable === false
+            || (tableSettings.readOnly && !userRoles.includes("ADMIN"))
           )}
           hidden={userDocHiddenFields.includes(field.key)}
           _rowy_ref={row._rowy_ref}
@@ -143,12 +151,12 @@ export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
         label="Document path"
         debugText={
           row._rowy_ref.arrayTableData
-            ? row._rowy_ref.path +
-              " → " +
-              row._rowy_ref.arrayTableData.parentField +
-              "[" +
-              row._rowy_ref.arrayTableData.index +
-              "]"
+            ? row._rowy_ref.path
+            + " → "
+            + row._rowy_ref.arrayTableData.parentField
+            + "["
+            + row._rowy_ref.arrayTableData.index
+            + "]"
             : row._rowy_ref.path
         }
         debugValue={row._rowy_ref.path ?? row._rowy_ref.id ?? "No ref"}
@@ -156,15 +164,15 @@ export default function SideDrawerFields({ row }: ISideDrawerFieldsProps) {
 
       {userDocHiddenFields.length > 0 && (
         <FormControlLabel
-          label={`Show ${userDocHiddenFields.length} hidden field${
+          label={`Show ${ userDocHiddenFields.length } hidden field${
             userDocHiddenFields.length === 1 ? "" : "s"
           }`}
-          control={
+          control={(
             <Switch
               checked={showHiddenFields}
               onChange={(e) => setShowHiddenFields(e.target.checked)}
             />
-          }
+          )}
           sx={{
             borderTop: 1,
             borderColor: "divider",

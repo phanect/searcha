@@ -1,9 +1,9 @@
 import { lazy, Suspense, useState } from "react";
-import { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 import { merge, unset } from "lodash-es";
 
 import { FormControlLabel, Checkbox, Collapse } from "@mui/material";
 import Loading from "@src/components/Loading";
+import type { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 const ThemeColorPicker = lazy(() => import("@src/components/Settings/ThemeColorPicker"));
 
@@ -11,18 +11,18 @@ export default function Personalization({
   settings,
   updateSettings,
 }: IUserSettingsChildProps) {
-  const [customizedThemeColor, setCustomizedThemeColor] = useState(
+  const [ customizedThemeColor, setCustomizedThemeColor ] = useState(
     Boolean(
-      (settings.theme?.light?.palette?.primary as any)?.main ||
-        (settings.theme?.dark?.palette?.primary as any)?.main
+      (settings.theme?.light?.palette?.primary as any)?.main
+      || (settings.theme?.dark?.palette?.primary as any)?.main
     )
   );
 
-  const handleSave = ({ light, dark }: { light: string; dark: string }) => {
+  const handleSave = ({ light, dark }: { light: string; dark: string; }) => {
     updateSettings({
       theme: merge(settings.theme, {
-        light: { palette: { primary: { main: light } } },
-        dark: { palette: { primary: { main: dark } } },
+        light: { palette: { primary: { main: light }}},
+        dark: { palette: { primary: { main: dark }}},
       }),
     });
   };
@@ -30,7 +30,7 @@ export default function Personalization({
   return (
     <>
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             defaultChecked={customizedThemeColor}
             onChange={(e) => {
@@ -43,7 +43,7 @@ export default function Personalization({
               }
             }}
           />
-        }
+        )}
         label="Customize theme colors"
         style={{ marginLeft: -11, marginBottom: -10, marginTop: -10 }}
       />

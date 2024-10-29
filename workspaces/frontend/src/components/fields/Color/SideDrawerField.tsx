@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { ColorPicker, ColorService } from "react-color-palette";
 import "react-color-palette/css";
 
@@ -15,7 +15,7 @@ export default function Color({
   onSubmit,
   disabled,
 }: ISideDrawerFieldProps) {
-  const [showPicker, setShowPicker] = useState(false);
+  const [ showPicker, setShowPicker ] = useState(false);
   const toggleOpen = () => setShowPicker((s) => !s);
 
   return (
@@ -53,7 +53,7 @@ export default function Color({
             width: 20,
             height: 20,
             mr: 1.5,
-            boxShadow: (theme) => `0 0 0 1px ${theme.palette.divider} inset`,
+            boxShadow: (theme) => `0 0 0 1px ${ theme.palette.divider } inset`,
             borderRadius: 0.5,
           }}
         />
@@ -86,10 +86,10 @@ export default function Color({
       >
         <ColorPicker
           height={180}
-          color={ ColorService.convert("hex", value?.hex ?? "#fff") }
+          color={ColorService.convert("hex", value?.hex ?? "#fff")}
           onChange={onChange}
           onChangeComplete={onSubmit}
-          hideAlpha={ false }
+          hideAlpha={false}
         />
       </Collapse>
     </>

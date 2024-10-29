@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 
-const DOCUMENT_TITLE_BASE =
-  "Rowy" +
-  (import.meta.env.MODE === "production"
+const DOCUMENT_TITLE_BASE
+  = "Rowy"
+  + (import.meta.env.MODE === "production"
     ? ""
     : ` (${
-        import.meta.env.VITE_APP_FIREBASE_EMULATORS ? "Emulator • " : ""
-      }${import.meta.env.MODE.replace("development", "dev")})`);
+      import.meta.env.VITE_APP_FIREBASE_EMULATORS ? "Emulator • " : ""
+    }${ import.meta.env.MODE.replace("development", "dev") })`);
 
 /**
  * Sets the document/tab title and resets when the page is changed
@@ -15,14 +15,14 @@ const DOCUMENT_TITLE_BASE =
  */
 export function useDocumentTitle(projectId: string, title?: string) {
   useEffect(() => {
-    document.title = [title, projectId, DOCUMENT_TITLE_BASE]
+    document.title = [ title, projectId, DOCUMENT_TITLE_BASE ]
       .filter(Boolean)
       .join(" • ");
 
     return () => {
-      document.title = [projectId, DOCUMENT_TITLE_BASE].join(" • ");
+      document.title = [ projectId, DOCUMENT_TITLE_BASE ].join(" • ");
     };
-  }, [title, projectId]);
+  }, [ title, projectId ]);
 }
 
 export default useDocumentTitle;

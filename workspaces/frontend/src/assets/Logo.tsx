@@ -1,9 +1,9 @@
-import { SVGProps } from "react";
 import { useTheme } from "@mui/material";
+import type { SVGProps } from "react";
 
-export interface ILogoProps extends SVGProps<SVGSVGElement> {
+export type ILogoProps = {
   size?: number;
-}
+} & SVGProps<SVGSVGElement>;
 
 export default function Logo({ size = 1.5, ...props }: ILogoProps) {
   const theme = useTheme();

@@ -12,11 +12,11 @@ import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 
 export default function JwtAuthPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [ firebaseAuth ] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
-  const [jwt, setJWT] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [ jwt, setJWT ] = useState("");
+  const [ loading, setLoading ] = useState(false);
 
   const handleAuth = async () => {
     setLoading(true);

@@ -22,23 +22,26 @@ import {
   tableIdAtom,
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
-import SnackbarProgress, {
-  ISnackbarProgressRef,
-} from "@src/components/SnackbarProgress";
-import { IExportModalContentsProps } from ".";
+import SnackbarProgress from "@src/components/SnackbarProgress";
 import { hasDataTypes } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";
-import { FileValue } from "@src/types/table";
+import type {
+  ISnackbarProgressRef,
+} from "@src/components/SnackbarProgress";
+import type { FileValue } from "@src/types/table";
+import type { IExportModalContentsProps } from ".";
 
-const DOWNLOADABLE_COLUMNS = [FieldType.image, FieldType.file];
-const LABEL_COLUMNS = hasDataTypes(["string", "number"]);
+const DOWNLOADABLE_COLUMNS = [ FieldType.image, FieldType.file ];
+const LABEL_COLUMNS = hasDataTypes([ "string", "number" ]);
 
 const download = (url: string) => fetch(url).then((resp) => resp.blob());
 
-const selectedColumnsFilesReducer =
-  (doc: any, labelColumns: any[]) => (accumulator: any, currentColumn: any) => {
+const selectedColumnsFilesReducer
+  = (doc: any, labelColumns: any[]) => (accumulator: any, currentColumn: any) => {
     const files: FileValue[] | undefined = get(doc, currentColumn.key);
-    if (!files || files.length === 0) return accumulator;
+    if (!files || files.length === 0) {
+      return accumulator;
+    }
     return [
       ...accumulator,
       ...files.map((file, index) => ({
@@ -47,16 +50,16 @@ const selectedColumnsFilesReducer =
         name:
           labelColumns.length === 0
             ? file.name
-            : `${currentColumn.key}/${labelColumns
-                .map((labelColumn) => {
-                  const value = get(doc, labelColumn.key);
-                  return value && typeof value === "string"
-                    ? value.replace(/[^a-zA-Z ]/g, "")
-                    : "";
-                })
-                .join("_")}${files.length === 1 ? "" : `_${index}`}.${file.name
-                .split(".")
-                .pop()}`,
+            : `${ currentColumn.key }/${ labelColumns
+              .map((labelColumn) => {
+                const value = get(doc, labelColumn.key);
+                return value && typeof value === "string"
+                  ? value.replace(/[^a-zA-Z ]/g, "")
+                  : "";
+              })
+              .join("_") }${ files.length === 1 ? "" : `_${ index }` }.${ file.name
+              .split(".")
+              .pop() }`,
       })),
     ];
   };
@@ -66,15 +69,15 @@ export default function Export({
   closeModal,
 }: IExportModalContentsProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const snackbarProgressRef = useRef<ISnackbarProgressRef>();
 
-  const [columns, setColumns] = useState<any[]>([]);
-  const [labelColumnsEnabled, setLabelColumnsEnabled] = useState(false);
-  const [labelColumns, setLabelColumns] = useState<any[]>([]);
-  const [packageName, setPackageName] = useState(tableId);
+  const [ columns, setColumns ] = useState<any[]>([]);
+  const [ labelColumnsEnabled, setLabelColumnsEnabled ] = useState(false);
+  const [ labelColumns, setLabelColumns ] = useState<any[]>([]);
+  const [ packageName, setPackageName ] = useState(tableId);
 
   const handleClose = () => {
     closeModal();
@@ -84,7 +87,7 @@ export default function Export({
   const handleChange = (setState: (v: any) => void) => (keys: string[]) =>
     setState(
       keys
-        .map((key) => find(tableColumnsOrdered, ["key", key]))
+        .map((key) => find(tableColumnsOrdered, [ "key", key ]))
         .filter((x) => !!x)
     );
 
@@ -96,14 +99,14 @@ export default function Export({
       { persist: true }
     );
 
-    let querySnapshot = await getDocs(query);
-    let docs = querySnapshot.docs.map((doc) => doc.data());
+    const querySnapshot = await getDocs(query);
+    const docs = querySnapshot.docs.map((doc) => doc.data());
     const files: FileValue[] = docs
       .map((doc: any) =>
         columns.reduce(selectedColumnsFilesReducer(doc, labelColumns), [])
       )
-      .reduce((acc, row) => [...acc, ...row], []);
-    var zip = new JSZip();
+      .reduce((acc, row) => [ ...acc, ...row ], []);
+    const zip = new JSZip();
     let completedCount = 0;
 
     closeSnackbar(preparingSnackbar);
@@ -128,7 +131,7 @@ export default function Export({
     await Promise.all(downloads);
     const content = await zip.generateAsync({ type: "blob" });
 
-    saveAs(content, `${packageName}.zip`);
+    saveAs(content, `${ packageName }.zip`);
     closeSnackbar(downloadingSnackbar);
     enqueueSnackbar("Download complete", { variant: "success" });
   };
@@ -140,8 +143,7 @@ export default function Export({
         filterColumns={(column) =>
           column.type === FieldType.derivative
             ? DOWNLOADABLE_COLUMNS.includes(column.config?.renderFieldType)
-            : DOWNLOADABLE_COLUMNS.includes(column.type)
-        }
+            : DOWNLOADABLE_COLUMNS.includes(column.type)}
         label="Columns to export"
         labelPlural="columns"
         TextFieldProps={{
@@ -155,18 +157,18 @@ export default function Export({
         fullWidth
         label="Package name"
         value={packageName}
-        helperText={`${packageName}.zip`}
+        helperText={`${ packageName }.zip`}
         onChange={(e) => setPackageName(e.target.value)}
       />
 
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             checked={labelColumnsEnabled}
             onChange={(e) => setLabelColumnsEnabled(e.target.checked)}
             name="labelColumnsEnabled"
           />
-        }
+        )}
         label="Replace file names with table values"
       />
 
@@ -177,9 +179,9 @@ export default function Export({
         options={tableColumnsOrdered
           .filter(
             (column) =>
-              isString(column.name) &&
-              isString(column.key) &&
-              LABEL_COLUMNS.includes(column.type)
+              isString(column.name)
+              && isString(column.key)
+              && LABEL_COLUMNS.includes(column.type)
           )
           .map((column: any) => ({ label: column.name, value: column.key }))}
         label="Column values to include in file names"
@@ -188,8 +190,8 @@ export default function Export({
           autoFocus: true,
           helperText:
             labelColumns.length === 0
-              ? `Use original file name`
-              : `eg. column/${labelColumns.map((c) => c.key).join("_")}.jpeg`,
+              ? "Use original file name"
+              : `eg. column/${ labelColumns.map((c) => c.key).join("_") }.jpeg`,
         }}
         multiple
         selectAll

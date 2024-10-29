@@ -6,7 +6,7 @@ import { alpha } from "@mui/material/styles";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 
-export interface IInfoTooltipProps {
+export type IInfoTooltipProps = {
   description: React.ReactNode;
   buttonLabel?: string;
   defaultOpen?: boolean;
@@ -15,7 +15,7 @@ export interface IInfoTooltipProps {
   buttonProps?: Partial<React.ComponentProps<typeof IconButton>>;
   tooltipProps?: Partial<React.ComponentProps<typeof Tooltip>>;
   iconProps?: Partial<React.ComponentProps<typeof InfoIcon>>;
-}
+};
 
 export default function InfoTooltip({
   description,
@@ -27,17 +27,21 @@ export default function InfoTooltip({
   tooltipProps,
   iconProps,
 }: IInfoTooltipProps) {
-  const [open, setOpen] = useState(defaultOpen || false);
+  const [ open, setOpen ] = useState(defaultOpen || false);
 
   const handleClose = () => {
     setOpen(false);
-    if (onClose) onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
   const toggleOpen = () => {
     if (open) {
       setOpen(false);
-      if (onClose) onClose();
+      if (onClose) {
+        onClose();
+      }
     } else {
       setOpen(true);
     }
@@ -45,11 +49,11 @@ export default function InfoTooltip({
 
   return (
     <Tooltip
-      title={
+      title={(
         <>
           {description}
           <IconButton
-            aria-label={`Close ${buttonLabel}`}
+            aria-label={`Close ${ buttonLabel }`}
             size="small"
             onClick={handleClose}
             sx={{
@@ -65,7 +69,7 @@ export default function InfoTooltip({
             <CloseIcon fontSize="small" />
           </IconButton>
         </>
-      }
+      )}
       disableFocusListener
       disableHoverListener
       disableTouchListener

@@ -3,7 +3,6 @@ import { useAtom, useSetAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
 import { cloneDeep, set } from "lodash-es";
 import {
-  FirestoreError,
   deleteField,
   refEqual,
   setDoc,
@@ -32,31 +31,35 @@ import useFirestoreDocWithAtom, {
 } from "@src/hooks/useFirestoreDocWithAtom";
 import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
 
-import useAuditChange from "./useAuditChange";
-import useBulkWriteDb from "./useBulkWriteDb";
-import { handleFirestoreError } from "./handleFirestoreError";
-
 import { getTableSchemaPath } from "@src/utils/table";
-import { TableSchema } from "@src/types/table";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { handleFirestoreError } from "./handleFirestoreError";
+import useBulkWriteDb from "./useBulkWriteDb";
+import useAuditChange from "./useAuditChange";
+import type { TableSchema } from "@src/types/table";
+import type {
+  FirestoreError } from "firebase/firestore";
 
 /**
  * When rendered, provides atom values for top-level tables and sub-tables
  */
-export const TableSourceFirestore = memo(function TableSourceFirestore() {
+export const TableSourceFirestore = memo(() => {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const setTableSchema = useSetAtom(tableSchemaAtom, { store: tableScopeStore });
   const setUpdateTableSchema = useSetAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
 
-  if (!tableSettings) throw new Error("No table config");
-  if (!tableSettings.collection)
+  if (!tableSettings) {
+    throw new Error("No table config");
+  }
+  if (!tableSettings.collection) {
     throw new Error("Invalid table config: no collection");
+  }
 
   const tableSchemaDocRef = useMemoValue(
     getDocRef<TableSchema>(firebaseDb, getTableSchemaPath(tableSettings)),
@@ -65,7 +68,9 @@ export const TableSourceFirestore = memo(function TableSourceFirestore() {
   const isCollectionGroup = tableSettings.tableType === "collectionGroup";
 
   useEffect(() => {
-    if (!tableSchemaDocRef) return;
+    if (!tableSchemaDocRef) {
+      return;
+    }
 
     setUpdateTableSchema(
       () => (update: TableSchema, deleteFields?: string[]) => {
@@ -78,7 +83,7 @@ export const TableSourceFirestore = memo(function TableSourceFirestore() {
             // i.e field = "columns.base.nested.nested"
             // key: columns, rest: base.nested.nested
             // set columns["base.nested.nested"] instead columns.base.nested.nested
-            const [key, ...rest] = field.split(".");
+            const [ key, ...rest ] = field.split(".");
             if (key === "columns") {
               (updateToDb as any).columns[rest.join(".")] = deleteField();
             } else {
@@ -101,7 +106,7 @@ export const TableSourceFirestore = memo(function TableSourceFirestore() {
     return () => {
       setUpdateTableSchema(undefined);
     };
-  }, [tableSchemaDocRef, setTableSchema, setUpdateTableSchema, enqueueSnackbar]);
+  }, [ tableSchemaDocRef, setTableSchema, setUpdateTableSchema, enqueueSnackbar ]);
 
   // Get tableSchema and store in tableSchemaAtom.
   // If it doesn’t exist, initialize columns
@@ -110,24 +115,24 @@ export const TableSourceFirestore = memo(function TableSourceFirestore() {
     { store: tableScopeStore },
     getTableSchemaPath(tableSettings),
     {
-      createIfNonExistent: { columns: {} },
+      createIfNonExistent: { columns: {}},
       disableSuspense: true,
     }
   );
 
-  const [joinOperator] = useAtom(tableFiltersJoinAtom, { store: tableScopeStore });
+  const [ joinOperator ] = useAtom(tableFiltersJoinAtom, { store: tableScopeStore });
 
   // Get table filters and sorts
-  const [filters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
-  const [sorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
-  const [page] = useAtom(tablePageAtom, { store: tableScopeStore });
+  const [ filters ] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [ sorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ page ] = useAtom(tablePageAtom, { store: tableScopeStore });
   // Get documents from collection and store in tableRowsDbAtom
   // and handle some errors with snackbars
   const { showBoundary } = useErrorBoundary();
   const handleErrorCallback = useCallback(
     (error: FirestoreError) =>
       handleFirestoreError(error, enqueueSnackbar, showBoundary),
-    [enqueueSnackbar, showBoundary]
+    [ enqueueSnackbar, showBoundary ]
   );
   useFirestoreCollectionWithAtom(
     tableRowsDbAtom,

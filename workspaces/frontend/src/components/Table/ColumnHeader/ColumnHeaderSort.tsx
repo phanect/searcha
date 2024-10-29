@@ -11,30 +11,30 @@ import IconSlash, {
 import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
 import useSaveTableSorts from "./useSaveTableSorts";
 
-export const SORT_STATES = ["none", "desc", "asc"] as const;
+export const SORT_STATES = [ "none", "desc", "asc" ] as const;
 
-export interface IColumnHeaderSortProps {
+export type IColumnHeaderSortProps = {
   sortKey: string;
   currentSort: typeof SORT_STATES[number];
   tabIndex?: number;
   canEditColumns: boolean;
-}
+};
 
 /**
  * Renders button with current sort state.
  * On click, updates `tableSortsAtom` in `tableScope`.
  */
-export const ColumnHeaderSort = memo(function ColumnHeaderSort({
+export const ColumnHeaderSort = memo(({
   sortKey,
   currentSort,
   tabIndex,
   canEditColumns,
-}: IColumnHeaderSortProps) {
+}: IColumnHeaderSortProps) => {
   const tableScopeStore = useContext(TableScopeContext);
   const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
 
-  const nextSort =
-    SORT_STATES[SORT_STATES.indexOf(currentSort) + 1] ?? SORT_STATES[0];
+  const nextSort
+    = SORT_STATES[SORT_STATES.indexOf(currentSort) + 1] ?? SORT_STATES[0];
 
   const triggerSaveTableSorts = useSaveTableSorts(canEditColumns);
 
@@ -49,7 +49,7 @@ export const ColumnHeaderSort = memo(function ColumnHeaderSort({
 
   return (
     <Tooltip
-      title={nextSort === "none" ? "Remove sort" : `Sort by ${nextSort}ending`}
+      title={nextSort === "none" ? "Remove sort" : `Sort by ${ nextSort }ending`}
     >
       <IconButton
         disableFocusRipple={true}

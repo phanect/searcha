@@ -1,9 +1,5 @@
 import { useAtom } from "jotai";
 import { useContext } from "react";
-import type {
-  ISetupStep,
-  ISetupStepBodyProps,
-} from "@src/components/Setup/SetupStep";
 
 import {
   FormControlLabel,
@@ -15,6 +11,10 @@ import {
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
+import type {
+  ISetupStep,
+  ISetupStepBodyProps,
+} from "@src/components/Setup/SetupStep";
 
 export default {
   id: "welcome",
@@ -35,7 +35,7 @@ export default {
 
 function StepWelcome({ isComplete, setComplete }: ISetupStepBodyProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   return (
     <>
@@ -44,13 +44,13 @@ function StepWelcome({ isComplete, setComplete }: ISetupStepBodyProps) {
       </Typography>
 
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             checked={isComplete}
             onChange={(e) => setComplete(e.target.checked)}
           />
-        }
-        label={
+        )}
+        label={(
           <>
             I agree to the{" "}
             <Link
@@ -73,7 +73,7 @@ function StepWelcome({ isComplete, setComplete }: ISetupStepBodyProps) {
               Privacy Policy
             </Link>
           </>
-        }
+        )}
         sx={{
           pr: 1,
           textAlign: "left",

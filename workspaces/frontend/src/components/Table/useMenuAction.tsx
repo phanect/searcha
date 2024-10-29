@@ -1,27 +1,27 @@
 import { useCallback, useState, useEffect, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useSnackbar } from "notistack";
-import { get, find } from "lodash-es";
+import { get, find, isDate, isFunction } from "lodash-es";
 
 import {
   TableScopeContext,
   tableSchemaAtom,
   tableRowsAtom,
   updateFieldAtom,
-  SelectedCell,
 } from "@src/atoms/tableScope";
 import { getFieldProp, getFieldType } from "@src/components/fields";
-import { ColumnConfig } from "@src/types/table";
 
 import { FieldType } from "@src/constants/fields";
 
 import { format } from "date-fns";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "@src/constants/dates";
-import { isDate, isFunction } from "lodash-es";
 import { getDurationString } from "@src/components/fields/Duration/utils";
 import { doc } from "firebase/firestore";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
+import type { ColumnConfig } from "@src/types/table";
+import type {
+  SelectedCell } from "@src/atoms/tableScope";
 
 export const SUPPORTED_TYPES_COPY = new Set([
   // TEXT
@@ -93,12 +93,12 @@ export function useMenuAction(
   const tableScopeStore = useContext(TableScopeContext);
 
   const { enqueueSnackbar } = useSnackbar();
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
-  const [cellValue, setCellValue] = useState<any>();
-  const [selectedCol, setSelectedCol] = useState<ColumnConfig>();
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ cellValue, setCellValue ] = useState<any>();
+  const [ selectedCol, setSelectedCol ] = useState<ColumnConfig>();
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const handleCopy = useCallback(async () => {
     try {
@@ -108,9 +108,9 @@ export function useMenuAction(
         );
         enqueueSnackbar("Copied");
       } else if (
-        cellValue !== undefined &&
-        cellValue !== null &&
-        cellValue !== ""
+        cellValue !== undefined
+        && cellValue !== null
+        && cellValue !== ""
       ) {
         const value = getValue(cellValue);
         await navigator.clipboard.writeText(value);
@@ -119,14 +119,18 @@ export function useMenuAction(
         await navigator.clipboard.writeText("");
       }
     } catch (error) {
-      enqueueSnackbar(`Failed to copy:${error}`, { variant: "error" });
+      enqueueSnackbar(`Failed to copy:${ error }`, { variant: "error" });
     }
-    if (handleClose) handleClose();
-  }, [cellValue, enqueueSnackbar, handleClose]);
+    if (handleClose) {
+      handleClose();
+    }
+  }, [ cellValue, enqueueSnackbar, handleClose ]);
 
   const handleCut = useCallback(async () => {
     try {
-      if (!selectedCell || !selectedCol) return;
+      if (!selectedCell || !selectedCol) {
+        return;
+      }
       if (cellValue !== undefined && cellValue !== null && cellValue !== "") {
         const value = getValue(cellValue);
         await navigator.clipboard.writeText(value);
@@ -135,13 +139,13 @@ export function useMenuAction(
         await navigator.clipboard.writeText("");
       }
       if (
-        cellValue !== undefined &&
-        selectedCol.type !== FieldType.createdAt &&
-        selectedCol.type !== FieldType.updatedAt &&
-        selectedCol.type !== FieldType.createdBy &&
-        selectedCol.type !== FieldType.updatedBy &&
-        selectedCol.type !== FieldType.checkbox
-      )
+        cellValue !== undefined
+        && selectedCol.type !== FieldType.createdAt
+        && selectedCol.type !== FieldType.updatedAt
+        && selectedCol.type !== FieldType.createdBy
+        && selectedCol.type !== FieldType.updatedBy
+        && selectedCol.type !== FieldType.checkbox
+      ) {
         updateField({
           path: selectedCell.path,
           fieldName: selectedCol.fieldName,
@@ -151,10 +155,13 @@ export function useMenuAction(
             index: selectedCell.arrayIndex,
           },
         });
+      }
     } catch (error) {
-      enqueueSnackbar(`Failed to cut: ${error}`, { variant: "error" });
+      enqueueSnackbar(`Failed to cut: ${ error }`, { variant: "error" });
     }
-    if (handleClose) handleClose();
+    if (handleClose) {
+      handleClose();
+    }
   }, [
     cellValue,
     selectedCell,
@@ -167,23 +174,27 @@ export function useMenuAction(
   const handlePaste = useCallback(
     async (e?: ClipboardEvent) => {
       try {
-        if (!selectedCell || !selectedCol) return;
+        if (!selectedCell || !selectedCol) {
+          return;
+        }
 
         // checks which element has focus, if it is not the gridcell it won't paste the copied content inside the gridcell
-        if (document.activeElement?.role !== "gridcell") return;
+        if (document.activeElement?.role !== "gridcell") {
+          return;
+        }
 
         let text: string;
         // Firefox doesn't allow for reading clipboard data, hence the workaround
         if (navigator.userAgent.includes("Firefox")) {
-          if (!e || !e.clipboardData) {
+          if (!e?.clipboardData) {
             enqueueSnackbar(
-              `If you're on Firefox, please use the hotkey instead (Ctrl + V / Cmd + V).`,
+              "If you're on Firefox, please use the hotkey instead (Ctrl + V / Cmd + V).",
               {
                 variant: "info",
                 autoHideDuration: 7000,
               }
             );
-            enqueueSnackbar(`Cannot read clipboard data.`, {
+            enqueueSnackbar("Cannot read clipboard data.", {
               variant: "error",
             });
             return;
@@ -193,7 +204,7 @@ export function useMenuAction(
           try {
             text = await navigator.clipboard.readText();
           } catch (e) {
-            enqueueSnackbar(`Read clipboard permission denied.`, {
+            enqueueSnackbar("Read clipboard permission denied.", {
               variant: "error",
             });
             return;
@@ -207,7 +218,9 @@ export function useMenuAction(
         switch (cellDataType) {
           case "number":
             parsed = Number(text);
-            if (Number.isNaN(parsed)) throw new Error(`${text} is not a number`);
+            if (Number.isNaN(parsed)) {
+              throw new Error(`${ text } is not a number`);
+            }
             break;
           case "string":
             parsed = text;
@@ -216,7 +229,7 @@ export function useMenuAction(
             try {
               parsed = doc(firebaseDb, text);
             } catch (e: any) {
-              enqueueSnackbar(`Invalid reference.`, { variant: "error" });
+              enqueueSnackbar("Invalid reference.", { variant: "error" });
             }
             break;
           default:
@@ -225,16 +238,20 @@ export function useMenuAction(
         }
 
         if (selectedCol.type === FieldType.slider) {
-          if (parsed < selectedCol.config?.min)
+          if (parsed < selectedCol.config?.min) {
             parsed = selectedCol.config?.min;
-          else if (parsed > selectedCol.config?.max)
+          } else if (parsed > selectedCol.config?.max) {
             parsed = selectedCol.config?.max;
+          }
         }
 
         if (selectedCol.type === FieldType.rating) {
-          if (parsed < 0) parsed = 0;
-          if (parsed > (selectedCol.config?.max || 5))
+          if (parsed < 0) {
+            parsed = 0;
+          }
+          if (parsed > (selectedCol.config?.max || 5)) {
             parsed = selectedCol.config?.max || 5;
+          }
         }
 
         if (selectedCol.type === FieldType.percentage) {
@@ -250,70 +267,76 @@ export function useMenuAction(
         });
       } catch (error) {
         enqueueSnackbar(
-          `${selectedCol?.type} field does not support the data type being pasted`,
+          `${ selectedCol?.type } field does not support the data type being pasted`,
           { variant: "error" }
         );
       }
-      if (handleClose) handleClose();
+      if (handleClose) {
+        handleClose();
+      }
     },
-    [selectedCell, selectedCol, updateField, enqueueSnackbar, handleClose]
+    [ selectedCell, selectedCol, updateField, enqueueSnackbar, handleClose ]
   );
 
   useEffect(() => {
-    if (!selectedCell) return setCellValue("");
+    if (!selectedCell) {
+      return setCellValue("");
+    }
     const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
-    if (!selectedCol) return setCellValue("");
+    if (!selectedCol) {
+      return setCellValue("");
+    }
     setSelectedCol(selectedCol);
 
     const selectedRow = find(
       tableRows,
       selectedCell.arrayIndex === undefined
-        ? ["_rowy_ref.path", selectedCell.path]
+        ? [ "_rowy_ref.path", selectedCell.path ]
         : // if the table is an array table, we need to use the array index to find the row
-          ["_rowy_ref.arrayTableData.index", selectedCell.arrayIndex]
+        [ "_rowy_ref.arrayTableData.index", selectedCell.arrayIndex ]
     );
     setCellValue(get(selectedRow, selectedCol.fieldName));
-  }, [selectedCell, tableSchema, tableRows]);
+  }, [ selectedCell, tableSchema, tableRows ]);
 
   const checkEnabledCopy = useCallback(
     (func: Function) => {
       if (!selectedCol) {
-        return function () {
-          enqueueSnackbar(`No selected cell`, {
+        return function() {
+          enqueueSnackbar("No selected cell", {
             variant: "error",
           });
         };
       }
       const fieldType = getFieldType(selectedCol);
-      return function () {
+      return function() {
         if (SUPPORTED_TYPES_COPY.has(fieldType)) {
           return func();
         } else {
-          enqueueSnackbar(`${fieldType} field cannot be copied`, {
+          enqueueSnackbar(`${ fieldType } field cannot be copied`, {
             variant: "error",
           });
         }
       };
     },
-    [enqueueSnackbar, selectedCol?.type]
+    [ enqueueSnackbar, selectedCol?.type ]
   );
 
   const checkEnabledPaste = useCallback(
     (func: Function) => {
       if (!selectedCol) {
-        return function () {
-          enqueueSnackbar(`No selected cell`, {
+        return function() {
+          enqueueSnackbar("No selected cell", {
             variant: "error",
           });
         };
       }
       const fieldType = getFieldType(selectedCol);
-      return function (e?: ClipboardEvent) {
+      return function(e?: ClipboardEvent) {
         if (SUPPORTED_TYPES_PASTE.has(fieldType)) {
           return func(e);
         } else {
           enqueueSnackbar(
-            `${fieldType} field does not support paste functionality`,
+            `${ fieldType } field does not support paste functionality`,
             {
               variant: "error",
             }
@@ -321,7 +344,7 @@ export function useMenuAction(
         }
       };
     },
-    [enqueueSnackbar, selectedCol?.type]
+    [ enqueueSnackbar, selectedCol?.type ]
   );
 
   const getValue = useCallback(
@@ -335,8 +358,8 @@ export function useMenuAction(
           return JSON.stringify(cellValue);
         case FieldType.date:
           if (
-            (!!cellValue && isFunction(cellValue.toDate)) ||
-            isDate(cellValue)
+            (!!cellValue && isFunction(cellValue.toDate))
+            || isDate(cellValue)
           ) {
             try {
               return format(
@@ -352,8 +375,8 @@ export function useMenuAction(
         case FieldType.createdAt:
         case FieldType.updatedAt:
           if (
-            (!!cellValue && isFunction(cellValue.toDate)) ||
-            isDate(cellValue)
+            (!!cellValue && isFunction(cellValue.toDate))
+            || isDate(cellValue)
           ) {
             try {
               return format(
@@ -382,7 +405,7 @@ export function useMenuAction(
           return cellValue;
       }
     },
-    [cellValue, selectedCol]
+    [ cellValue, selectedCol ]
   );
 
   return {

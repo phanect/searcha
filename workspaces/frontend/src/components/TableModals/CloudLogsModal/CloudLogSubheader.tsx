@@ -1,4 +1,5 @@
-import { styled, ListSubheader, ListSubheaderProps } from "@mui/material";
+import { styled, ListSubheader } from "@mui/material";
+import type { ListSubheaderProps } from "@mui/material";
 
 export const CloudLogSubheader = styled((props: ListSubheaderProps) => (
   <ListSubheader disableGutters disableSticky={false} {...props} />

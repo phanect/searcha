@@ -4,14 +4,13 @@ import { ErrorBoundary } from "react-error-boundary";
 import { NonFullScreenErrorFallback } from "@src/components/ErrorFallback";
 
 import { Menu } from "@mui/material";
-import MenuContents from "./MenuContents";
-
 import { TableScopeContext, contextMenuTargetAtom } from "@src/atoms/tableScope";
+import MenuContents from "./MenuContents";
 
 export default function ContextMenu() {
   const menuRef = useRef<HTMLUListElement>(null);
   const tableScopeStore = useContext(TableScopeContext);
-  const [contextMenuTarget, setContextMenuTarget] = useAtom(
+  const [ contextMenuTarget, setContextMenuTarget ] = useAtom(
     contextMenuTargetAtom,
     { store: tableScopeStore }
   );
@@ -24,7 +23,7 @@ export default function ContextMenu() {
         (firstMenuitem as HTMLElement)?.focus();
       }
     });
-  }, [open]);
+  }, [ open ]);
 
   const handleClose = () => setContextMenuTarget(null);
 
@@ -37,7 +36,7 @@ export default function ContextMenu() {
       onClose={handleClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       transformOrigin={{ vertical: "top", horizontal: "left" }}
-      sx={{ "& .MuiMenu-paper": { minWidth: 160 } }}
+      sx={{ "& .MuiMenu-paper": { minWidth: 160 }}}
       MenuListProps={{ ref: menuRef }}
     >
       <ErrorBoundary FallbackComponent={NonFullScreenErrorFallback}>

@@ -13,9 +13,9 @@ export const StyledDot = styled("div")(({ theme }) => ({
   borderRadius: "50%",
   backgroundColor: theme.palette.error.main,
 
-  boxShadow: `0 0 0 4px var(--cell-background-color)`,
+  boxShadow: "0 0 0 4px var(--cell-background-color)",
   "[role='row']:hover &": {
-    boxShadow: `0 0 0 4px var(--row-hover-background-color)`,
+    boxShadow: "0 0 0 4px var(--row-hover-background-color)",
   },
 }));
 

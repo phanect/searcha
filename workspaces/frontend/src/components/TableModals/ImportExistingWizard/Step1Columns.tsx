@@ -2,12 +2,10 @@ import { useMemo, useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import {
   DragDropContext,
-  DropResult,
   Droppable,
   Draggable,
 } from "react-beautiful-dnd";
 import { sortBy, startCase } from "lodash-es";
-import { IStepProps } from ".";
 
 import {
   Grid2 as Grid,
@@ -26,50 +24,57 @@ import EmptyState from "@src/components/EmptyState";
 import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { suggestType } from "./utils";
+import type { IStepProps } from ".";
+import type {
+  DropResult } from "react-beautiful-dnd";
 
 export default function Step1Columns({ config, setConfig }: IStepProps) {
   const tableScopeStore = useContext(TableScopeContext);
   // Get a list of fields from first 50 documents
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const tableRowsSample = tableRows.slice(0, 50);
 
   const allFields = useMemo(() => {
     const fields_ = new Set<string>();
     tableRowsSample.forEach((doc) =>
       Object.keys(doc).forEach((key) => {
-        if (!key.startsWith("_rowy")) fields_.add(key);
+        if (!key.startsWith("_rowy")) {
+          fields_.add(key);
+        }
       })
     );
     return Array.from(fields_).sort();
-  }, [tableRowsSample]);
+  }, [ tableRowsSample ]);
 
   // Store selected fields
-  const [selectedFields, setSelectedFields] = useState<string[]>(
+  const [ selectedFields, setSelectedFields ] = useState<string[]>(
     sortBy(Object.keys(config), "index")
   );
 
-  const handleSelect =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelect
+    = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const checked = e.target.checked;
 
       if (checked) {
-        setSelectedFields([...selectedFields, field]);
+        setSelectedFields([ ...selectedFields, field ]);
       } else {
-        const newSelection = [...selectedFields];
+        const newSelection = [ ...selectedFields ];
         newSelection.splice(newSelection.indexOf(field), 1);
         setSelectedFields(newSelection);
       }
     };
 
   const handleSelectAll = () => {
-    if (selectedFields.length !== allFields.length)
+    if (selectedFields.length !== allFields.length) {
       setSelectedFields(allFields);
-    else setSelectedFields([]);
+    } else {
+      setSelectedFields([]);
+    }
   };
 
   const handleDragEnd = (result: DropResult) => {
-    const newOrder = [...selectedFields];
-    const [removed] = newOrder.splice(result.source.index, 1);
+    const newOrder = [ ...selectedFields ];
+    const [ removed ] = newOrder.splice(result.source.index, 1);
     newOrder.splice(result.destination!.index, 0, removed);
     setSelectedFields(newOrder);
   };
@@ -84,9 +89,9 @@ export default function Step1Columns({ config, setConfig }: IStepProps) {
             key: c,
             name: config[c]?.name || startCase(c),
             type:
-              config[c]?.type ||
-              suggestType(tableRows, c) ||
-              FieldType.shortText,
+              config[c]?.type
+              || suggestType(tableRows, c)
+              || FieldType.shortText,
             index: i,
             config: {},
           },
@@ -94,7 +99,7 @@ export default function Step1Columns({ config, setConfig }: IStepProps) {
         {}
       )
     );
-  }, [selectedFields, setConfig]);
+  }, [ selectedFields, setConfig ]);
 
   return (
     <Grid container spacing={3}>
@@ -107,17 +112,17 @@ export default function Step1Columns({ config, setConfig }: IStepProps) {
         <ScrollableList>
           <li>
             <FormControlLabel
-              control={
+              control={(
                 <Checkbox
                   checked={selectedFields.length === allFields.length}
                   indeterminate={
-                    selectedFields.length !== 0 &&
-                    selectedFields.length !== allFields.length
+                    selectedFields.length !== 0
+                    && selectedFields.length !== allFields.length
                   }
                   onChange={handleSelectAll}
                   color="default"
                 />
-              }
+              )}
               label={
                 selectedFields.length === allFields.length
                   ? "Clear all"
@@ -136,14 +141,14 @@ export default function Step1Columns({ config, setConfig }: IStepProps) {
             <li key={field}>
               <FormControlLabel
                 key={field}
-                control={
+                control={(
                   <Checkbox
-                    checked={selectedFields.indexOf(field) > -1}
-                    aria-label={`Select column ${field}`}
+                    checked={selectedFields.includes(field)}
+                    aria-label={`Select column ${ field }`}
                     onChange={handleSelect(field)}
                     color="default"
                   />
-                }
+                )}
                 label={<Column label={field} />}
                 sx={{
                   height: 42,

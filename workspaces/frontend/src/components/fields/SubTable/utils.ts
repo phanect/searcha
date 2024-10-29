@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 
 import { ROUTES } from "@src/constants/routes";
-import { ColumnConfig, TableRow, TableRowRef } from "@src/types/table";
 import get from "lodash-es/get";
+import type { ColumnConfig, TableRow, TableRowRef } from "@src/types/table";
 
 export const useSubTableData = (
   column: ColumnConfig,
@@ -10,8 +10,11 @@ export const useSubTableData = (
   _rowy_ref: TableRowRef
 ) => {
   const label = (column.config?.parentLabel ?? []).reduce((acc, curr) => {
-    if (acc !== "") return `${acc} - ${get(row, curr)}`;
-    else return get(row, curr);
+    if (acc !== "") {
+      return `${ acc } - ${ get(row, curr) }`;
+    } else {
+      return get(row, curr);
+    }
   }, "");
 
   const documentCount: string = row[column.fieldName]?.count ?? "";

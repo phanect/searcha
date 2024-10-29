@@ -21,13 +21,13 @@ import InviteUser from "@src/components/Settings/UserManagement/InviteUser";
 import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import useBasicSearch from "@src/hooks/useBasicSearch";
 
-const SEARCH_KEYS = ["id", "user.displayName", "user.email"];
+const SEARCH_KEYS = [ "id", "user.displayName", "user.email" ];
 
 function MembersPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
-  const [results, query, handleQuery] = useBasicSearch(users, SEARCH_KEYS);
+  const [ users ] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [ results, query, handleQuery ] = useBasicSearch(users, SEARCH_KEYS);
 
   return (
     <Container maxWidth="sm" sx={{ px: 1, pt: 1, pb: 7 + 3 + 3 }}>
@@ -45,7 +45,7 @@ function MembersPage() {
           sx={{ mt: 4, ml: 1, mb: 0.5, cursor: "default" }}
         >
           <Typography variant="subtitle1" component="h2">
-            {query ? `${results.length} of ${users.length}` : users.length} user
+            {query ? `${ results.length } of ${ users.length }` : users.length} user
             {results.length !== 1 && "s"}
           </Typography>
 
@@ -55,7 +55,7 @@ function MembersPage() {
 
       <SlideTransition in timeout={100 + 50}>
         <Paper>
-          <List sx={{ py: { xs: 0, sm: 1.5 }, px: { xs: 0, sm: 1 } }}>
+          <List sx={{ py: { xs: 0, sm: 1.5 }, px: { xs: 0, sm: 1 }}}>
             <TransitionGroup>
               {results.map((user) => (
                 <Collapse key={user._rowy_ref!.id}>
@@ -73,7 +73,7 @@ function MembersPage() {
 export default function SuspendedMembersPage() {
   return (
     <Suspense
-      fallback={
+      fallback={(
         <Fade in timeout={1000} style={{ transitionDelay: "1s" }} unmountOnExit>
           <Container maxWidth="sm" sx={{ px: 1, pt: 1, pb: 7 + 3 + 3 }}>
             <FloatingSearch label="Search users" disabled />
@@ -96,7 +96,7 @@ export default function SuspendedMembersPage() {
             </Stack>
 
             <Paper>
-              <List sx={{ py: { xs: 0, sm: 1.5 }, px: { xs: 0, sm: 1 } }}>
+              <List sx={{ py: { xs: 0, sm: 1.5 }, px: { xs: 0, sm: 1 }}}>
                 <UserSkeleton />
                 <UserSkeleton />
                 <UserSkeleton />
@@ -104,7 +104,7 @@ export default function SuspendedMembersPage() {
             </Paper>
           </Container>
         </Fade>
-      }
+      )}
     >
       <MembersPage />
     </Suspense>

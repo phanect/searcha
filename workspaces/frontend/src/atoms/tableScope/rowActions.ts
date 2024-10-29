@@ -10,6 +10,15 @@ import {
 } from "lodash-es";
 
 import { currentUserAtom } from "@src/atoms/projectScope";
+
+import {
+  rowyUser,
+  generateId,
+  decrementId,
+  updateRowData,
+  omitRowyFields,
+} from "@src/utils/table";
+import { arrayRemove, arrayUnion } from "firebase/firestore";
 import {
   auditChangeAtom,
   tableSettingsAtom,
@@ -21,34 +30,24 @@ import {
   _deleteRowDbAtom,
   _bulkWriteDbAtom,
 } from "./table";
-
-import {
+import type {
   TableRow,
   BulkWriteFunction,
   ArrayTableRowData,
 } from "@src/types/table";
-import {
-  rowyUser,
-  generateId,
-  decrementId,
-  updateRowData,
-  omitRowyFields,
-} from "@src/utils/table";
-import { arrayRemove, arrayUnion } from "firebase/firestore";
 
-export interface IAddRowOptions {
+export type IAddRowOptions = {
   /** The row or array of rows to add */
   row: TableRow | TableRow[];
   /** If true, ignores checking required fields have values */
   ignoreRequiredFields?: boolean;
   /** Optionally overwite the IDs in the provided rows */
   setId?: "random" | "decrement";
-}
+};
 /**
  * Set function adds a row or an array of rows.
  * Adds to rowsDb if it has no missing required fields, otherwise to rowsLocal.
  * @param options - {@link IAddRowOptions}
- *
  * @example Basic usage:
  * ```
  * const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
@@ -59,11 +58,17 @@ export const addRowAtom = atom(
   null,
   async (get, set, { row, ignoreRequiredFields, setId }: IAddRowOptions) => {
     const updateRowDb = get(_updateRowDbAtom);
-    if (!updateRowDb) throw new Error("Cannot write to database");
+    if (!updateRowDb) {
+      throw new Error("Cannot write to database");
+    }
     const tableSettings = get(tableSettingsAtom);
-    if (!tableSettings) throw new Error("Cannot read table settings");
+    if (!tableSettings) {
+      throw new Error("Cannot read table settings");
+    }
     const currentUser = get(currentUserAtom);
-    if (!currentUser) throw new Error("Cannot read current user");
+    if (!currentUser) {
+      throw new Error("Cannot read current user");
+    }
     const auditChange = get(auditChangeAtom);
     const tableFilters = get(tableFiltersAtom);
     const tableColumnsOrdered = get(tableColumnsOrderedAtom);
@@ -84,34 +89,35 @@ export const addRowAtom = atom(
           initialValues[filter.key] = filter.value;
           outOfOrderFilters.delete(filter.key);
         } else if (filter.operator === "array-contains") {
-          initialValues[filter.key] = [filter.value];
+          initialValues[filter.key] = [ filter.value ];
           outOfOrderFilters.delete(filter.key);
         }
       }
 
       // Set initial values based on default values
       for (const column of tableColumnsOrdered) {
-        if (column.config?.defaultValue?.type === "static")
+        if (column.config?.defaultValue?.type === "static") {
           initialValues[column.key] = column.config.defaultValue.value!;
-        else if (column.config?.defaultValue?.type === "null")
+        } else if (column.config?.defaultValue?.type === "null") {
           initialValues[column.key] = null;
+        }
       }
 
       // Write audit fields if not explicitly disabled
       if (tableSettings.audit !== false) {
         const auditValue = rowyUser(currentUser);
-        initialValues[tableSettings.auditFieldCreatedBy || "_createdBy"] =
-          auditValue;
-        initialValues[tableSettings.auditFieldUpdatedBy || "_updatedBy"] =
-          auditValue;
+        initialValues[tableSettings.auditFieldCreatedBy || "_createdBy"]
+          = auditValue;
+        initialValues[tableSettings.auditFieldUpdatedBy || "_updatedBy"]
+          = auditValue;
       }
 
       // Check for required fields
       const requiredFields = ignoreRequiredFields
         ? []
         : tableColumnsOrdered
-            .filter((column) => column.config?.required)
-            .map((column) => column.key);
+          .filter((column) => column.config?.required)
+          .map((column) => column.key);
       const missingRequiredFields = ignoreRequiredFields
         ? []
         : requiredFields.filter((field) => row[field] === undefined);
@@ -125,9 +131,9 @@ export const addRowAtom = atom(
       //   fit in the filtered query
       // - user did not set ID to decrement
       if (
-        row._rowy_outOfOrder === true ||
-        outOfOrderFilters.size > 0 ||
-        setId !== "decrement"
+        row._rowy_outOfOrder === true
+        || outOfOrderFilters.size > 0
+        || setId !== "decrement"
       ) {
         set(tableRowsLocalAtom, {
           type: "add",
@@ -149,7 +155,9 @@ export const addRowAtom = atom(
         await updateRowDb(row._rowy_ref.path, omitRowyFields(rowValues));
       }
 
-      if (auditChange) auditChange("ADD_ROW", row._rowy_ref.path);
+      if (auditChange) {
+        auditChange("ADD_ROW", row._rowy_ref.path);
+      }
     };
 
     // Find the first row in order to be used to decrement ID
@@ -166,38 +174,38 @@ export const addRowAtom = atom(
 
       let lastId = firstInOrderRowId;
       for (const r of row) {
-        const id =
-          setId === "random"
+        const id
+          = setId === "random"
             ? generateId()
             : setId === "decrement"
-            ? decrementId(lastId)
-            : r._rowy_ref.id;
+              ? decrementId(lastId)
+              : r._rowy_ref.id;
         lastId = id;
 
         const path = setId
-          ? `${r._rowy_ref.path.split("/").slice(0, -1).join("/")}/${id}`
+          ? `${ r._rowy_ref.path.split("/").slice(0, -1).join("/") }/${ id }`
           : r._rowy_ref.path;
 
         promises.push(
-          _addSingleRowAndAudit(setId ? { ...r, _rowy_ref: { id, path } } : r)
+          _addSingleRowAndAudit(setId ? { ...r, _rowy_ref: { id, path }} : r)
         );
       }
 
       await Promise.all(promises);
     } else {
-      const id =
-        setId === "random"
+      const id
+        = setId === "random"
           ? generateId()
           : setId === "decrement"
-          ? decrementId(firstInOrderRowId)
-          : row._rowy_ref.id;
+            ? decrementId(firstInOrderRowId)
+            : row._rowy_ref.id;
 
       const path = setId
-        ? `${row._rowy_ref.path.split("/").slice(0, -1).join("/")}/${id}`
+        ? `${ row._rowy_ref.path.split("/").slice(0, -1).join("/") }/${ id }`
         : row._rowy_ref.path;
 
       await _addSingleRowAndAudit(
-        setId ? { ...row, _rowy_ref: { id, path } } : row
+        setId ? { ...row, _rowy_ref: { id, path }} : row
       );
     }
   }
@@ -206,7 +214,6 @@ export const addRowAtom = atom(
 /**
  * Set function deletes a row or an array of rows from rowsDb or rowsLocal.
  * @param path - A single path or array of paths of rows to delete
- *
  * @example Basic usage:
  * ```
  * const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
@@ -227,20 +234,26 @@ export const deleteRowAtom = atom(
     }
   ) => {
     const deleteRowDb = get(_deleteRowDbAtom);
-    if (!deleteRowDb) throw new Error("Cannot write to database");
+    if (!deleteRowDb) {
+      throw new Error("Cannot write to database");
+    }
 
     const auditChange = get(auditChangeAtom);
     const tableRowsLocal = get(tableRowsLocalAtom);
 
     const _deleteSingleRowAndAudit = async (path: string) => {
       const isLocalRow = Boolean(
-        find(tableRowsLocal, ["_rowy_ref.path", path])
+        find(tableRowsLocal, [ "_rowy_ref.path", path ])
       );
-      if (isLocalRow) set(tableRowsLocalAtom, { type: "delete", path });
+      if (isLocalRow) {
+        set(tableRowsLocalAtom, { type: "delete", path });
+      }
       // Always delete from db in case it exists
       // *options* are passed in case of array table to target specific row
       await deleteRowDb(path, options);
-      if (auditChange) auditChange("DELETE_ROW", path);
+      if (auditChange) {
+        auditChange("DELETE_ROW", path);
+      }
     };
 
     if (Array.isArray(path)) {
@@ -252,12 +265,12 @@ export const deleteRowAtom = atom(
   }
 );
 
-export interface IBulkAddRowsOptions {
+export type IBulkAddRowsOptions = {
   rows: Partial<TableRow[]>;
   collection: string;
   onBatchCommit?: Parameters<BulkWriteFunction>[1];
   type?: "add";
-}
+};
 export const bulkAddRowsAtom = atom(
   null,
   async (
@@ -266,11 +279,17 @@ export const bulkAddRowsAtom = atom(
     { rows, collection, onBatchCommit, type }: IBulkAddRowsOptions
   ) => {
     const bulkWriteDb = get(_bulkWriteDbAtom);
-    if (!bulkWriteDb) throw new Error("Cannot write to database");
+    if (!bulkWriteDb) {
+      throw new Error("Cannot write to database");
+    }
     const tableSettings = get(tableSettingsAtom);
-    if (!tableSettings) throw new Error("Cannot read table settings");
+    if (!tableSettings) {
+      throw new Error("Cannot read table settings");
+    }
     const currentUser = get(currentUserAtom);
-    if (!currentUser) throw new Error("Cannot read current user");
+    if (!currentUser) {
+      throw new Error("Cannot read current user");
+    }
     const tableColumnsOrdered = get(tableColumnsOrderedAtom);
 
     // Create initial values for all rows to be added
@@ -278,19 +297,20 @@ export const bulkAddRowsAtom = atom(
 
     // Set initial values based on default values
     for (const column of tableColumnsOrdered) {
-      if (column.config?.defaultValue?.type === "static")
+      if (column.config?.defaultValue?.type === "static") {
         initialValues[column.key] = column.config.defaultValue.value!;
-      else if (column.config?.defaultValue?.type === "null")
+      } else if (column.config?.defaultValue?.type === "null") {
         initialValues[column.key] = null;
+      }
     }
 
     // Write audit fields if not explicitly disabled
     if (tableSettings.audit !== false) {
       const auditValue = rowyUser(currentUser);
-      initialValues[tableSettings.auditFieldCreatedBy || "_createdBy"] =
-        auditValue;
-      initialValues[tableSettings.auditFieldUpdatedBy || "_updatedBy"] =
-        auditValue;
+      initialValues[tableSettings.auditFieldCreatedBy || "_createdBy"]
+        = auditValue;
+      initialValues[tableSettings.auditFieldUpdatedBy || "_updatedBy"]
+        = auditValue;
     }
 
     // Assign a random ID to each row
@@ -298,9 +318,9 @@ export const bulkAddRowsAtom = atom(
       type: type
         ? type
         : row?._rowy_ref?.id
-        ? ("update" as "update")
-        : ("add" as "add"),
-      path: `${collection}/${row?._rowy_ref?.id ?? generateId()}`,
+          ? ("update" as const)
+          : ("add" as const),
+      path: `${ collection }/${ row?._rowy_ref?.id ?? generateId() }`,
       data: { ...initialValues, ...omitRowyFields(row) },
     }));
 
@@ -317,7 +337,7 @@ export const bulkAddRowsAtom = atom(
   }
 );
 
-export interface IUpdateFieldOptions {
+export type IUpdateFieldOptions = {
   /** The path to the row to update */
   path: string;
   /** The field name to update. Use dot notation to access nested fields. */
@@ -336,13 +356,12 @@ export interface IUpdateFieldOptions {
   useArrayRemove?: boolean;
   /** Optionally, used to locate the row in ArraySubTable. */
   arrayTableData?: ArrayTableRowData;
-}
+};
 /**
  * Set function updates or deletes a field in a row.
  * Adds to rowsDb if it has no missing required fields,
  * otherwise keeps in rowsLocal.
  * @param options - {@link IUpdateFieldOptions}
- *
  * @example Basic usage:
  * ```
  * const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
@@ -367,11 +386,17 @@ export const updateFieldAtom = atom(
     }: IUpdateFieldOptions
   ) => {
     const updateRowDb = get(_updateRowDbAtom);
-    if (!updateRowDb) throw new Error("Cannot write to database");
+    if (!updateRowDb) {
+      throw new Error("Cannot write to database");
+    }
     const tableSettings = get(tableSettingsAtom);
-    if (!tableSettings) throw new Error("Cannot read table settings");
+    if (!tableSettings) {
+      throw new Error("Cannot read table settings");
+    }
     const currentUser = get(currentUserAtom);
-    if (!currentUser) throw new Error("Cannot read current user");
+    if (!currentUser) {
+      throw new Error("Cannot read current user");
+    }
     const auditChange = get(auditChangeAtom);
     const tableColumnsOrdered = get(tableColumnsOrderedAtom);
     const tableRows = get(tableRowsAtom);
@@ -380,14 +405,16 @@ export const updateFieldAtom = atom(
     const row = find(
       tableRows,
       arrayTableData?.index !== undefined
-        ? ["_rowy_ref.arrayTableData.index", arrayTableData?.index]
-        : ["_rowy_ref.path", path]
+        ? [ "_rowy_ref.arrayTableData.index", arrayTableData?.index ]
+        : [ "_rowy_ref.path", path ]
     );
 
-    if (!row) throw new Error("Could not find row");
-    const isLocalRow =
-      fieldName.startsWith("_rowy_formulaValue_") ||
-      Boolean(find(tableRowsLocal, ["_rowy_ref.path", path]));
+    if (!row) {
+      throw new Error("Could not find row");
+    }
+    const isLocalRow
+      = fieldName.startsWith("_rowy_formulaValue_")
+      || Boolean(find(tableRowsLocal, [ "_rowy_ref.path", path ]));
 
     const update: Partial<TableRow> = {};
 
@@ -402,7 +429,9 @@ export const updateFieldAtom = atom(
       // Check for equality. If updated value is same as current, skip update
       if (!disableCheckEquality) {
         const currentValue = _get(row, fieldName);
-        if (isEqual(currentValue, value)) return;
+        if (isEqual(currentValue, value)) {
+          return;
+        }
       }
       // Otherwise, apply the update
       _set(update, fieldName, value);
@@ -412,8 +441,9 @@ export const updateFieldAtom = atom(
     const dbUpdate = cloneDeep(update);
     // apply arrayUnion
     if (useArrayUnion) {
-      if (!Array.isArray(update[fieldName]))
+      if (!Array.isArray(update[fieldName])) {
         throw new Error("Field must be an array");
+      }
 
       // use basic array merge on local row value
       localUpdate[fieldName] = [
@@ -428,10 +458,11 @@ export const updateFieldAtom = atom(
       }
     }
 
-    //apply arrayRemove
+    // apply arrayRemove
     if (useArrayRemove) {
-      if (!Array.isArray(update[fieldName]))
+      if (!Array.isArray(update[fieldName])) {
         throw new Error("Field must be an array");
+      }
 
       // use basic array filter on local row value
       localUpdate[fieldName] = filter(
@@ -453,8 +484,8 @@ export const updateFieldAtom = atom(
     const requiredFields = ignoreRequiredFields
       ? []
       : tableColumnsOrdered
-          .filter((column) => column.config?.required)
-          .map((column) => column.key);
+        .filter((column) => column.config?.required)
+        .map((column) => column.key);
     const missingRequiredFields = ignoreRequiredFields
       ? []
       : requiredFields.filter((field) => newRowValues[field] === undefined);
@@ -465,7 +496,7 @@ export const updateFieldAtom = atom(
         type: "update",
         path,
         row: localUpdate,
-        deleteFields: deleteField ? [fieldName] : [],
+        deleteFields: deleteField ? [ fieldName ] : [],
       });
 
       // TODO(han): Formula field persistence
@@ -474,17 +505,21 @@ export const updateFieldAtom = atom(
       //  return c.key === key;
       // });
       // if(!config.persist) return;
-      if (fieldName.startsWith("_rowy_formulaValue")) return;
+      if (fieldName.startsWith("_rowy_formulaValue")) {
+        return;
+      }
 
       // If it has no missingRequiredFields, also write to db
       // And write entire row to handle the case where it doesn’t exist in db yet
       if (missingRequiredFields.length === 0) {
-        if (deleteField) unset(newRowValues, fieldName);
+        if (deleteField) {
+          unset(newRowValues, fieldName);
+        }
 
         await updateRowDb(
           row._rowy_ref.path,
           omitRowyFields(newRowValues),
-          deleteField ? [fieldName] : [],
+          deleteField ? [ fieldName ] : [],
           {
             ...arrayTableData,
             // using set if we are updating a nested field
@@ -498,7 +533,7 @@ export const updateFieldAtom = atom(
       await updateRowDb(
         row._rowy_ref.path,
         omitRowyFields(dbUpdate),
-        deleteField ? [fieldName] : [],
+        deleteField ? [ fieldName ] : [],
         {
           ...arrayTableData,
           // using set if we are updating a nested field
@@ -507,7 +542,8 @@ export const updateFieldAtom = atom(
       );
     }
 
-    if (auditChange)
+    if (auditChange) {
       auditChange("UPDATE_CELL", path, { updatedField: fieldName });
+    }
   }
 );

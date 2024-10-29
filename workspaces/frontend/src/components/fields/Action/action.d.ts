@@ -22,7 +22,7 @@ type ActionResult = {
   success: boolean;
   message?: any;
   status?: string | number | null | undefined;
-  link?: string | { url: string; label: string };
+  link?: string | { url: string; label: string; };
 };
 
 type Action = (context: ActionContext) => Promise<ActionResult> | ActionResult;

@@ -1,9 +1,9 @@
-import { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 import { Link } from "react-router-dom";
 
 import { Grid2 as Grid, Avatar, Typography, Button } from "@mui/material";
 
 import { ROUTES } from "@src/constants/routes";
+import type { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 export default function Account({ settings }: IUserSettingsChildProps) {
   return (

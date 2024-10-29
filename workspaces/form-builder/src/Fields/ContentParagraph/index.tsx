@@ -1,23 +1,22 @@
-import { lazy } from 'react';
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { lazy } from "react";
+import Text from "mdi-material-ui/Text";
+import { FieldType } from "../../constants/fields";
 
-import Text from 'mdi-material-ui/Text';
-
-import Settings from './ContentParagraphSettings';
+import Settings from "./ContentParagraphSettings";
+import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>
     import(
-      './ContentParagraphComponent'
+      "./ContentParagraphComponent"
     )
 );
 
 export const ContentParagraphConfig: IFieldConfig = {
   type: FieldType.contentParagraph,
-  name: 'Paragraph',
-  group: 'content',
+  name: "Paragraph",
+  group: "content",
   icon: <Text />,
-  dataType: 'undefined',
+  dataType: "undefined",
   defaultValue: undefined,
   component: Component,
   settings: Settings,

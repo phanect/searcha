@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { Box, useTheme } from "@mui/material";
 
-import { IColor, ColorPicker } from "react-color-palette";
+import { ColorPicker } from "react-color-palette";
+import type { IColor } from "react-color-palette";
 
-export interface IColorPickerProps {
+export type IColorPickerProps = {
   value: IColor;
   disabled?: boolean;
   onChangeComplete: (color: IColor) => void;
-}
+};
 
 export default function ColorPickerInput({
   value,
   disabled,
   onChangeComplete,
 }: IColorPickerProps) {
-  const [localValue, setLocalValue] = useState(value);
+  const [ localValue, setLocalValue ] = useState(value);
   const theme = useTheme();
 
   return (
@@ -42,7 +43,7 @@ export default function ColorPickerInput({
       <ColorPicker
         height={150}
         color={localValue}
-        disabled={ disabled }
+        disabled={disabled}
         onChange={(color) => setLocalValue(color)}
         onChangeComplete={onChangeComplete}
       />

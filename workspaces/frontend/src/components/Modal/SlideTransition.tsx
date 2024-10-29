@@ -1,8 +1,8 @@
 import { forwardRef, cloneElement, type ForwardRefExoticComponent, type RefAttributes } from "react";
 import { useTheme } from "@mui/material";
 import { Transition } from "react-transition-group";
-import { TransitionProps } from "react-transition-group/Transition";
-import { TransitionProps as MuiTransitionProps } from "@mui/material/transitions";
+import type { TransitionProps } from "react-transition-group/Transition";
+import type { TransitionProps as MuiTransitionProps } from "@mui/material/transitions";
 
 export const SlideTransition: ForwardRefExoticComponent<
   Pick<TransitionProps, string | number> & RefAttributes<unknown>
@@ -10,13 +10,15 @@ export const SlideTransition: ForwardRefExoticComponent<
   ({ children, ...props }, ref) => {
     const theme = useTheme();
 
-    if (!children) return null;
+    if (!children) {
+      return null;
+    }
 
     const defaultStyle = {
       opacity: 0,
       transform: "translateY(40px)",
 
-      transition: theme.transitions.create(["transform", "opacity"], {
+      transition: theme.transitions.create([ "transform", "opacity" ], {
         duration: "300ms",
         easing: "cubic-bezier(0.1, 0.8, 0.1, 1)",
       }),
@@ -36,7 +38,7 @@ export const SlideTransition: ForwardRefExoticComponent<
         opacity: 0,
         transform: "none",
 
-        transition: theme.transitions.create(["opacity"], {
+        transition: theme.transitions.create([ "opacity" ], {
           duration: theme.transitions.duration.leavingScreen,
         }),
       },
@@ -61,8 +63,7 @@ export const SlideTransition: ForwardRefExoticComponent<
             style: { ...defaultStyle, ...transitionStyles[state] },
             tabIndex: -1,
             ref,
-          })
-        }
+          })}
       </Transition>
     );
   }
@@ -70,9 +71,7 @@ export const SlideTransition: ForwardRefExoticComponent<
 
 export default SlideTransition;
 
-export const SlideTransitionMui = forwardRef(function Transition(
-  props: MuiTransitionProps & { children?: React.ReactElement<any, any> },
+export const SlideTransitionMui = forwardRef((
+  props: MuiTransitionProps & { children?: React.ReactElement<any, any>; },
   ref: React.Ref<unknown>
-) {
-  return <SlideTransition ref={ref} {...props} />;
-});
+) => <SlideTransition ref={ref} {...props} />);

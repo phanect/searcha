@@ -1,7 +1,6 @@
 import { useState, createElement, type Dispatch, type SetStateAction } from "react";
 import { use100vh } from "react-div-100vh";
 import { SwitchTransition } from "react-transition-group";
-import type { ISetupStep } from "./SetupStep";
 
 import {
   useMediaQuery,
@@ -26,10 +25,11 @@ import ScrollableDialogContent from "@src/components/Modal/ScrollableDialogConte
 import { SlideTransition } from "@src/components/Modal/SlideTransition";
 
 import { analytics, logEvent } from "@src/analytics";
+import type { ISetupStep } from "./SetupStep";
 
 const BASE_WIDTH = 1024;
 
-export interface ISetupLayoutProps {
+export type ISetupLayoutProps = {
   steps: ISetupStep[];
   completion: Record<string, boolean>;
   setCompletion: Dispatch<SetStateAction<Record<string, boolean>>>;
@@ -38,7 +38,7 @@ export interface ISetupLayoutProps {
     completion: Record<string, boolean>
   ) => Promise<Record<string, boolean>>;
   logo?: React.ReactNode;
-}
+};
 
 export default function SetupLayout({
   steps,
@@ -52,10 +52,10 @@ export default function SetupLayout({
   const isMobile = useMediaQuery((theme: any) => theme.breakpoints.down("sm"));
 
   // Store current step’s ID to prevent confusion
-  const [stepId, setStepId] = useState("welcome");
+  const [ stepId, setStepId ] = useState("welcome");
   // Get current step object
-  const step =
-    steps.find((step) => step.id === (stepId || steps[0].id)) ?? steps[0];
+  const step
+    = steps.find((step) => step.id === (stepId || steps[0].id)) ?? steps[0];
   // Get current step index
   const stepIndex = steps.indexOf(step);
   const listedSteps = steps.filter((step) => step.layout !== "centered");
@@ -63,8 +63,9 @@ export default function SetupLayout({
   // Continue goes to the next incomplete step
   const handleContinue = async () => {
     let updatedCompletion = completion;
-    if (onContinue && step.layout !== "centered")
+    if (onContinue && step.layout !== "centered") {
       updatedCompletion = await onContinue(completion);
+    }
 
     let nextIncompleteStepIndex = stepIndex + 1;
     while (updatedCompletion[steps[nextIncompleteStepIndex]?.id]) {
@@ -109,17 +110,17 @@ export default function SetupLayout({
             backdropFilter: "blur(20px) saturate(150%)",
 
             maxWidth: BASE_WIDTH,
-            width: (theme) => `calc(100vw - ${theme.spacing(2)})`,
+            width: (theme) => `calc(100vw - ${ theme.spacing(2) })`,
             height: (theme) =>
               `calc(${
-                fullScreenHeight > 0 ? `${fullScreenHeight}px` : "100vh"
-              } - ${theme.spacing(
+                fullScreenHeight > 0 ? `${ fullScreenHeight }px` : "100vh"
+              } - ${ theme.spacing(
                 2
-              )} - env(safe-area-inset-top) - env(safe-area-inset-bottom))`,
+              ) } - env(safe-area-inset-top) - env(safe-area-inset-bottom))`,
             resize: "both",
 
             p: 0,
-            "& > *, & > .MuiDialogContent-root": { px: { xs: 2, sm: 4 } },
+            "& > *, & > .MuiDialogContent-root": { px: { xs: 2, sm: 4 }},
             display: "flex",
             flexDirection: "column",
 
@@ -161,7 +162,7 @@ export default function SetupLayout({
               variant="dots"
               steps={listedSteps.length}
               activeStep={stepIndex - 1}
-              backButton={
+              backButton={(
                 <IconButton
                   aria-label="Previous step"
                   disabled={stepIndex === 0}
@@ -169,8 +170,8 @@ export default function SetupLayout({
                 >
                   <ChevronLeftIcon />
                 </IconButton>
-              }
-              nextButton={
+              )}
+              nextButton={(
                 <IconButton
                   aria-label="Next step"
                   disabled={!completion[stepId]}
@@ -178,7 +179,7 @@ export default function SetupLayout({
                 >
                   <ChevronRightIcon />
                 </IconButton>
-              }
+              )}
               position="static"
               sx={{
                 background: "none",
@@ -215,7 +216,7 @@ export default function SetupLayout({
                     <Typography
                       variant="h4"
                       component="h1"
-                      sx={{ mb: 1, typography: { xs: "h5", md: "h4" } }}
+                      sx={{ mb: 1, typography: { xs: "h5", md: "h4" }}}
                     >
                       {step.title}
                     </Typography>
@@ -246,7 +247,7 @@ export default function SetupLayout({
                   <Typography
                     variant="h4"
                     component="h1"
-                    sx={{ mb: 1, typography: { xs: "h5", md: "h4" } }}
+                    sx={{ mb: 1, typography: { xs: "h5", md: "h4" }}}
                   >
                     {step.title}
                   </Typography>

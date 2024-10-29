@@ -1,7 +1,6 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { ButtonBase, Box } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Color({
   value,
@@ -28,7 +27,7 @@ export default function Color({
             mr: 1,
 
             backgroundColor: value.hex,
-            boxShadow: (theme) => `0 0 0 1px ${theme.palette.divider} inset`,
+            boxShadow: (theme) => `0 0 0 1px ${ theme.palette.divider } inset`,
             borderRadius: 0.5,
           }}
         />
@@ -38,7 +37,9 @@ export default function Color({
     </div>
   );
 
-  if (disabled) return rendered;
+  if (disabled) {
+    return rendered;
+  }
 
   return (
     <ButtonBase

@@ -1,9 +1,10 @@
-import { Button, ButtonProps } from '@mui/material';
+import { Button } from "@mui/material";
+import type { ButtonProps } from "@mui/material";
 import type { ReactNode } from "react";
 
-export interface ISubmitButtonProps extends ButtonProps {
+export type ISubmitButtonProps = {
   label?: ReactNode;
-}
+} & ButtonProps;
 
 export default function SubmitButton({ label, ...props }: ISubmitButtonProps) {
   return (
@@ -13,11 +14,11 @@ export default function SubmitButton({ label, ...props }: ISubmitButtonProps) {
       type="submit"
       {...props}
       sx={[
-        { display: 'flex', mt: 3, mx: 'auto', mb: 0, minWidth: 120 },
-        ...(Array.isArray(props.sx) ? props.sx : props.sx ? [props.sx] : []),
+        { display: "flex", mt: 3, mx: "auto", mb: 0, minWidth: 120 },
+        ...(Array.isArray(props.sx) ? props.sx : props.sx ? [ props.sx ] : []),
       ]}
     >
-      {label || 'Submit'}
+      {label || "Submit"}
     </Button>
   );
 }

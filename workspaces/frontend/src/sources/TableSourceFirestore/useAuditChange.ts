@@ -22,21 +22,21 @@ export default function useAuditChange() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
   const setAuditChange = useSetAtom(auditChangeAtom, { store: tableScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
 
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   useEffect(() => {
     if (
-      !tableSettings?.id ||
-      !tableSettings?.collection ||
-      !tableSettings.audit ||
-      !compatibleRowyRunVersion({ minVersion: "1.1.1" })
+      !tableSettings?.id
+      || !tableSettings?.collection
+      || !tableSettings.audit
+      || !compatibleRowyRunVersion({ minVersion: "1.1.1" })
     ) {
       setAuditChange(undefined);
       return;
@@ -47,7 +47,7 @@ export default function useAuditChange() {
         (
           type: "ADD_ROW" | "UPDATE_CELL" | "DELETE_ROW",
           rowId: string,
-          data?: { updatedField?: string }
+          data?: { updatedField?: string; }
         ) =>
           rowyRun({
             route: runRoutes.auditChange,
@@ -66,5 +66,5 @@ export default function useAuditChange() {
     );
 
     return () => setAuditChange(undefined);
-  }, [setAuditChange, rowyRun, compatibleRowyRunVersion, tableSettings]);
+  }, [ setAuditChange, rowyRun, compatibleRowyRunVersion, tableSettings ]);
 }

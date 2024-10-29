@@ -27,14 +27,14 @@ type uploadOptions = {
 import { GoogleAuth } from "google-auth-library";
 async function generateAccessToken() {
   const auth = new GoogleAuth({
-    scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+    scopes: [ "https://www.googleapis.com/auth/cloud-platform" ],
   });
   const client = await auth.getClient();
   const accessToken = await client.getAccessToken();
   return accessToken.token;
 }
 
-export interface Rowy {
+export type Rowy = {
   metadata: {
     projectId: () => Promise<string>;
     projectNumber: () => Promise<string>;
@@ -57,7 +57,7 @@ export interface Rowy {
       ) => Promise<RowyFile | undefined>;
     };
   };
-}
+};
 const rowy: Rowy = {
   metadata: {
     projectId: getProjectId,

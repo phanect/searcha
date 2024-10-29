@@ -1,12 +1,10 @@
 import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { camelCase } from "lodash-es";
-import { IColumnModalProps } from ".";
 
 import { TextField, Typography, Button } from "@mui/material";
 
 import Modal from "@src/components/Modal";
-import FieldsDropdown from "./FieldsDropdown";
 
 import { ProjectScopeContext, updateTableAtom } from "@src/atoms/projectScope";
 import {
@@ -18,6 +16,8 @@ import {
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { analytics, logEvent } from "@src/analytics";
+import FieldsDropdown from "./FieldsDropdown";
+import type { IColumnModalProps } from ".";
 
 const AUDIT_FIELD_TYPES: FieldType[] = [
   FieldType.createdBy,
@@ -31,14 +31,14 @@ export default function NewColumnModal({
 }: Pick<IColumnModalProps, "onClose">) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ updateTable ] = useAtom(updateTableAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
-  const [columnModal, setColumnModal] = useAtom(columnModalAtom, { store: tableScopeStore });
+  const [ columnModal, setColumnModal ] = useAtom(columnModalAtom, { store: tableScopeStore });
 
-  const [columnLabel, setColumnLabel] = useState("");
-  const [fieldKey, setFieldKey] = useState("");
-  const [type, setType] = useState("" as any);
+  const [ columnLabel, setColumnLabel ] = useState("");
+  const [ fieldKey, setFieldKey ] = useState("");
+  const [ type, setType ] = useState("" as any);
   const requireConfiguration = getFieldProp("requireConfiguration", type);
 
   const isAuditField = AUDIT_FIELD_TYPES.includes(type);
@@ -79,7 +79,7 @@ export default function NewColumnModal({
       title="Add new column"
       fullWidth
       maxWidth="xs"
-      children={
+      children={(
         <>
           <section>
             <TextField
@@ -113,7 +113,7 @@ export default function NewColumnModal({
                 (type === FieldType.id && fieldKey === "id") || isAuditField
               }
               helperText="Set the Firestore field key to link to this column. It will display any existing data for this field key."
-              sx={{ "& .MuiInputBase-input": { fontFamily: "mono" } }}
+              sx={{ "& .MuiInputBase-input": { fontFamily: "mono" }}}
             />
           </section>
 
@@ -131,12 +131,13 @@ export default function NewColumnModal({
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  if (updateTable)
+                  if (updateTable) {
                     updateTable({
                       id: tableSettings.id,
                       tableType: tableSettings.tableType,
                       audit: true,
                     });
+                  }
                 }}
               >
                 Enable auditing on this table
@@ -144,7 +145,7 @@ export default function NewColumnModal({
             </section>
           )}
         </>
-      }
+      )}
       actions={{
         primary: {
           onClick: () => {
@@ -166,10 +167,10 @@ export default function NewColumnModal({
             logEvent(analytics, "create_column", { type });
           },
           disabled:
-            !columnLabel ||
-            !fieldKey ||
-            !type ||
-            (isAuditField && tableSettings.audit === false),
+            !columnLabel
+            || !fieldKey
+            || !type
+            || (isAuditField && tableSettings.audit === false),
           children: requireConfiguration ? "Next" : "Add",
         },
         secondary: {

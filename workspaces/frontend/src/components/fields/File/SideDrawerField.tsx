@@ -12,21 +12,20 @@ import {
 } from "@mui/material";
 import { Upload as UploadIcon } from "@src/assets/icons";
 
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
-import { FileValue } from "@src/types/table";
-import useFileUpload from "./useFileUpload";
-import { FileIcon } from ".";
-
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import {
   DragDropContext,
   Droppable,
   Draggable,
 } from "react-beautiful-dnd";
+import useFileUpload from "./useFileUpload";
+import { FileIcon } from ".";
+import type { FileValue } from "@src/types/table";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function File_({
   column,
@@ -36,8 +35,8 @@ export default function File_({
 }: ISideDrawerFieldProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const { loading, progress, handleDelete, localFiles, dropzoneState } =
-    useFileUpload(_rowy_ref, column.key, { multiple: true });
+  const { loading, progress, handleDelete, localFiles, dropzoneState }
+    = useFileUpload(_rowy_ref, column.key, { multiple: true });
 
   const { isDragActive, getRootProps, getInputProps } = dropzoneState;
 
@@ -54,13 +53,13 @@ export default function File_({
             },
             isDragActive
               ? {
-                  backgroundColor: (theme) =>
-                    alpha(
-                      theme.palette.primary.light,
-                      theme.palette.action.hoverOpacity * 2
-                    ),
-                  color: "primary.main",
-                }
+                backgroundColor: (theme) =>
+                  alpha(
+                    theme.palette.primary.light,
+                    theme.palette.action.hoverOpacity * 2
+                  ),
+                color: "primary.main",
+              }
               : {},
           ]}
           {...getRootProps()}
@@ -91,78 +90,78 @@ export default function File_({
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {Array.isArray(value) &&
-                value.map((file: FileValue, i) => (
-                  <Draggable
-                    key={file.downloadURL}
-                    draggableId={file.downloadURL}
-                    index={i}
-                  >
-                    {(provided) => (
-                      <Grid
-                        key={file.name}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        {value.length > 1 && (
-                          <div
-                            {...provided.dragHandleProps}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                          >
-                            <DragIndicatorIcon />
-                          </div>
-                        )}
-                        <Tooltip
-                          title={`File last modified ${format(
-                            file.lastModifiedTS,
-                            DATE_TIME_FORMAT
-                          )}`}
+              {Array.isArray(value)
+              && value.map((file: FileValue, i) => (
+                <Draggable
+                  key={file.downloadURL}
+                  draggableId={file.downloadURL}
+                  index={i}
+                >
+                  {(provided) => (
+                    <Grid
+                      key={file.name}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        ...provided.draggableProps.style,
+                      }}
+                    >
+                      {value.length > 1 && (
+                        <div
+                          {...provided.dragHandleProps}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}
                         >
-                          <div>
-                            <Chip
-                              icon={<FileIcon />}
-                              label={file.name}
-                              onClick={() => window.open(file.downloadURL)}
-                              onDelete={
-                                !disabled
-                                  ? () =>
-                                      confirm({
-                                        title: "Delete file?",
-                                        body: "This file cannot be recovered after",
-                                        confirm: "Delete",
-                                        confirmColor: "error",
-                                        handleConfirm: () => handleDelete(file),
-                                      })
-                                  : undefined
-                              }
-                            />
-                          </div>
-                        </Tooltip>
-                      </Grid>
-                    )}
-                  </Draggable>
-                ))}
+                          <DragIndicatorIcon />
+                        </div>
+                      )}
+                      <Tooltip
+                        title={`File last modified ${ format(
+                          file.lastModifiedTS,
+                          DATE_TIME_FORMAT
+                        ) }`}
+                      >
+                        <div>
+                          <Chip
+                            icon={<FileIcon />}
+                            label={file.name}
+                            onClick={() => window.open(file.downloadURL)}
+                            onDelete={
+                              !disabled
+                                ? () =>
+                                  confirm({
+                                    title: "Delete file?",
+                                    body: "This file cannot be recovered after",
+                                    confirm: "Delete",
+                                    confirmColor: "error",
+                                    handleConfirm: () => handleDelete(file),
+                                  })
+                                : undefined
+                            }
+                          />
+                        </div>
+                      </Tooltip>
+                    </Grid>
+                  )}
+                </Draggable>
+              ))}
 
-              {localFiles &&
-                localFiles.map((file) => (
-                  <Grid>
-                    <Chip
-                      icon={<FileIcon />}
-                      label={file.name}
-                      deleteIcon={
-                        <CircularProgressOptical size={20} color="inherit" />
-                      }
-                    />
-                  </Grid>
-                ))}
+              {localFiles
+              && localFiles.map((file) => (
+                <Grid>
+                  <Chip
+                    icon={<FileIcon />}
+                    label={file.name}
+                    deleteIcon={
+                      <CircularProgressOptical size={20} color="inherit" />
+                    }
+                  />
+                </Grid>
+              ))}
               {provided.placeholder}
             </Grid>
           )}

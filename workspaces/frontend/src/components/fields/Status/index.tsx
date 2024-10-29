@@ -1,11 +1,12 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { Status as StatusIcon } from "@src/assets/icons";
 import { StatusDisplayCell } from "./DisplayCell";
 import EditorCell from "./EditorCell";
 import { filterOperators } from "./Filter";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 const SideDrawerField = lazy(
   () =>

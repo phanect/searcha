@@ -1,9 +1,8 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import MultiSelect from "@phanect/datasheet-multiselect";
 
-import getLabel from "./utils/getLabelHelper";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import getLabel from "./utils/getLabelHelper";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Status({
   column,

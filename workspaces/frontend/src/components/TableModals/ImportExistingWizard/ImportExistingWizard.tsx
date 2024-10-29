@@ -2,16 +2,10 @@ import { useState, useEffect, useCallback, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { merge } from "lodash-es";
-import { ITableModalProps } from "@src/components/TableModals";
 
 import { useTheme, useMediaQuery, Typography } from "@mui/material";
 
 import WizardDialog from "@src/components/TableModals/WizardDialog";
-import Step1Columns from "./Step1Columns";
-import Step2Rename from "./Step2Rename";
-import Step3Types from "./Step3Types";
-import Step4Preview from "./Step4Preview";
-
 import {
   TableScopeContext,
   updateTableSchemaAtom,
@@ -20,7 +14,12 @@ import {
   tableRowsAtom,
   tableModalAtom,
 } from "@src/atoms/tableScope";
-import { TableSchema, ColumnConfig } from "@src/types/table";
+import Step1Columns from "./Step1Columns";
+import Step2Rename from "./Step2Rename";
+import Step3Types from "./Step3Types";
+import Step4Preview from "./Step4Preview";
+import type { TableSchema, ColumnConfig } from "@src/types/table";
+import type { ITableModalProps } from "@src/components/TableModals";
 
 export type TableColumnsConfig = NonNullable<TableSchema["columns"]>;
 
@@ -29,25 +28,25 @@ export type ImportExistingWizardRef = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export interface IStepProps {
+export type IStepProps = {
   config: TableColumnsConfig;
   setConfig: React.Dispatch<React.SetStateAction<TableColumnsConfig>>;
   updateConfig: (value: Partial<ColumnConfig>) => void;
   isXs: boolean;
-}
+};
 
 export default function ImportExistingWizard({ onClose }: ITableModalProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
   const setTableFilters = useSetAtom(tableFiltersAtom, { store: tableScopeStore });
   const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const setTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [config, setConfig] = useState<TableColumnsConfig>({});
+  const [ config, setConfig ] = useState<TableColumnsConfig>({});
   const updateConfig: IStepProps["updateConfig"] = useCallback((value) => {
     setConfig((prev) => ({ ...merge(prev, value) }));
   }, []);
@@ -56,7 +55,7 @@ export default function ImportExistingWizard({ onClose }: ITableModalProps) {
   useEffect(() => {
     setTableFilters([]);
     setTableSorts([]);
-  }, [setTableFilters, setTableSorts]);
+  }, [ setTableFilters, setTableSorts ]);
 
   if (tableRows.length === 0 || !updateTableSchema) {
     setTableModal(RESET);

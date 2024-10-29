@@ -1,13 +1,12 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { DatePicker } from "@mui/x-date-pickers";
 import { ChevronDown } from "@src/assets/icons";
 
 import { getFieldId } from "@src/components/SideDrawer/utils";
-import { transformValue, sanitizeValue } from "./utils";
 import { DATE_FORMAT } from "@src/constants/dates";
+import { transformValue, sanitizeValue } from "./utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-export interface IDateProps extends ISideDrawerFieldProps {}
+export type IDateProps = {} & ISideDrawerFieldProps;
 
 export default function Date_({
   column,
@@ -22,7 +21,9 @@ export default function Date_({
 
   const handleChange = (date: Date | null) => {
     const sanitized = sanitizeValue(date);
-    if (sanitized === undefined) return;
+    if (sanitized === undefined) {
+      return;
+    }
     onChange(sanitized);
   };
 

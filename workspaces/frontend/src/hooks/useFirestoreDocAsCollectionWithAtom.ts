@@ -1,35 +1,37 @@
 import { useCallback, useContext, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
-import { useAtom, PrimitiveAtom, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { orderBy } from "lodash-es";
 import { useSnackbar } from "notistack";
 
 import {
-  Firestore,
   doc,
   refEqual,
   onSnapshot,
-  FirestoreError,
-  DocumentReference,
   runTransaction,
 } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
-import {
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { omitRowyFields } from "@src/utils/table";
+import type {
   ArrayTableRowData,
   DeleteCollectionDocFunction,
   TableRow,
   TableSort,
   UpdateCollectionDocFunction,
 } from "@src/types/table";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { omitRowyFields } from "@src/utils/table";
+import type {
+  Firestore,
+  FirestoreError,
+  DocumentReference } from "firebase/firestore";
+import type { PrimitiveAtom } from "jotai";
 
 type UpdateFunction<T> = (rows: T[]) => T[];
 
 /** Options for {@link useFirestoreDocWithAtom} */
-interface IUseFirestoreDocWithAtomOptions<T> {
+type IUseFirestoreDocWithAtomOptions<T> = {
   /** Called when an error occurs. Make sure to wrap in useCallback! If not provided, errors trigger the nearest ErrorBoundary. */
   onError?: (error: FirestoreError) => void;
   /** Optionally disable Suspense */
@@ -41,13 +43,12 @@ interface IUseFirestoreDocWithAtomOptions<T> {
   updateDocAtom?: PrimitiveAtom<UpdateCollectionDocFunction<T> | undefined>;
   deleteDocAtom?: PrimitiveAtom<DeleteCollectionDocFunction | undefined>;
   sorts?: TableSort[];
-}
+};
 
 /**
  * Attaches a listener for a Firestore document and unsubscribes on unmount.
  * Gets the Firestore instance initiated in projectScope.
  * Updates an atom and Suspends that atom until the first snapshot is received.
- *
  * @param dataAtom - Atom to store data in
  * @param dataScope - Atom scope
  * @param path - Document path. If falsy, the listener isn’t created at all.
@@ -72,7 +73,7 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
   } = options || {};
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
   const { addRow, deleteRow, deleteField, updateTable } = useAlterArrayTable<T>(
     {
@@ -103,7 +104,9 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
 
   useEffect(() => {
     // If path is invalid and no memoizedDocRef was created, don’t continue
-    if (!memoizedDocRef) return;
+    if (!memoizedDocRef) {
+      return;
+    }
 
     // Suspend data atom until we get the first snapshot
     let suspended = false;
@@ -120,38 +123,44 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
         try {
           if (docSnapshot.exists() && docSnapshot.data() !== undefined) {
             const pseudoDoc = docSnapshot.get(fieldName) || [];
-            const pseudoRow = pseudoDoc.map((row: any, i: number) => {
-              return {
-                ...row,
-                _rowy_ref: {
-                  path: docSnapshot.ref.path,
-                  id: docSnapshot.ref.id,
-                  arrayTableData: {
-                    index: i,
-                    parentField: fieldName,
-                  },
+            const pseudoRow = pseudoDoc.map((row: any, i: number) => ({
+              ...row,
+              _rowy_ref: {
+                path: docSnapshot.ref.path,
+                id: docSnapshot.ref.id,
+                arrayTableData: {
+                  index: i,
+                  parentField: fieldName,
                 },
-              };
-            });
+              },
+            }));
             const sorted = sortRows<T>(pseudoRow, sorts);
             setDataAtom(sorted);
           } else {
-            enqueueSnackbar(`Array table doesn't exist`, {
+            enqueueSnackbar("Array table doesn't exist", {
               variant: "error",
             });
             // console.log("docSnapshot", docSnapshot.data());
             // setDataAtom([] as T[]);
           }
         } catch (error) {
-          if (onError) onError(error as FirestoreError);
-          else showBoundary(error);
+          if (onError) {
+            onError(error as FirestoreError);
+          } else {
+            showBoundary(error);
+          }
         }
         suspended = false;
       },
       (error) => {
-        if (suspended) setDataAtom([] as T[]);
-        if (onError) onError(error);
-        else showBoundary(error);
+        if (suspended) {
+          setDataAtom([] as T[]);
+        }
+        if (onError) {
+          onError(error);
+        } else {
+          showBoundary(error);
+        }
       }
     );
 
@@ -173,7 +182,9 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
 
   const setRows = useCallback(
     (updateFunction: UpdateFunction<T>) => {
-      if (!fieldName) return;
+      if (!fieldName) {
+        return;
+      }
 
       try {
         return runTransaction(firebaseDb, async (transaction) => {
@@ -190,19 +201,21 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
           );
         });
       } catch (error) {
-        enqueueSnackbar(`Error updating array table`, {
+        enqueueSnackbar("Error updating array table", {
           variant: "error",
         });
         return;
       }
     },
-    [enqueueSnackbar, fieldName, firebaseDb, path]
+    [ enqueueSnackbar, fieldName, firebaseDb, path ]
   );
 
   useEffect(() => {
     if (deleteDocAtom) {
       setDeleteRowAtom(() => (_: string, options?: ArrayTableRowData) => {
-        if (!options || options.index === undefined) return;
+        if (options?.index === undefined) {
+          return;
+        }
         const updateFunction = deleteRow(options.index);
         return setRows(updateFunction);
       });
@@ -229,17 +242,23 @@ export function useFirestoreDocAsCollectionWithAtom<T = TableRow>(
             deleteFields?: string[],
             options?: ArrayTableRowData
           ) => {
-            if (options === undefined) return;
+            if (options === undefined) {
+              return;
+            }
 
             const deleteRowFields = () => {
-              if (options.index === undefined) return;
+              if (options.index === undefined) {
+                return;
+              }
 
               const updateFunction = deleteField(options.index, deleteFields);
               return setRows(updateFunction);
             };
 
             const updateRowValues = () => {
-              if (options.index === undefined) return;
+              if (options.index === undefined) {
+                return;
+              }
 
               const updateFunction = updateTable(options.index, update);
               return setRows(updateFunction);
@@ -330,19 +349,17 @@ function useAlterArrayTable<T>({
         if (addTo === "bottom") {
           prevData.push(newRow(prevData.length, true));
         } else {
-          const modifiedPrevData = prevData.map((row: any, i: number) => {
-            return {
-              ...row,
-              _rowy_ref: {
-                ...row._rowy_ref,
-                arrayTableData: {
-                  index: i + 1,
-                  parentField: fieldName,
-                },
+          const modifiedPrevData = prevData.map((row: any, i: number) => ({
+            ...row,
+            _rowy_ref: {
+              ...row._rowy_ref,
+              arrayTableData: {
+                index: i + 1,
+                parentField: fieldName,
               },
-            };
-          });
-          prevData = [newRow(0, true), ...modifiedPrevData];
+            },
+          }));
+          prevData = [ newRow(0, true), ...modifiedPrevData ];
         }
         return sortRows(prevData, sorts);
       });
@@ -351,12 +368,12 @@ function useAlterArrayTable<T>({
         if (addTo === "bottom") {
           rows.push(newRow(rows.length, false));
         } else {
-          rows = [newRow(0, false), ...rows];
+          rows = [ newRow(0, false), ...rows ];
         }
         return rows;
       };
     },
-    [fieldName, firebaseDb, path, setData, sorts]
+    [ fieldName, firebaseDb, path, setData, sorts ]
   );
 
   const _delete = useCallback(
@@ -372,10 +389,10 @@ function useAlterArrayTable<T>({
       });
       return (rows) => {
         rows.splice(index, 1);
-        return [...rows];
+        return [ ...rows ];
       };
     },
-    [setData, sorts]
+    [ setData, sorts ]
   );
 
   const deleteField = useCallback(
@@ -383,7 +400,9 @@ function useAlterArrayTable<T>({
       setData((prevData) => {
         prevData = unsortRows(prevData);
 
-        if (deleteFields === undefined) return prevData;
+        if (deleteFields === undefined) {
+          return prevData;
+        }
 
         prevData[index] = {
           ...prevData[index],
@@ -396,7 +415,9 @@ function useAlterArrayTable<T>({
         return sortRows(prevData, sorts);
       });
       return (rows) => {
-        if (deleteFields === undefined) return rows;
+        if (deleteFields === undefined) {
+          return rows;
+        }
 
         rows[index] = {
           ...rows[index],
@@ -409,7 +430,7 @@ function useAlterArrayTable<T>({
         return rows;
       };
     },
-    [setData, sorts]
+    [ setData, sorts ]
   );
 
   const update = useCallback(
@@ -432,7 +453,7 @@ function useAlterArrayTable<T>({
         return rows;
       };
     },
-    [setData, sorts]
+    [ setData, sorts ]
   );
 
   return {
@@ -446,14 +467,18 @@ function useAlterArrayTable<T>({
 /**
  * Create the Firestore document reference.
  * Put code in a function so the results can be compared by useMemoValue.
+ * @param firebaseDb
+ * @param path
+ * @param pathSegments
  */
 export const getDocRef = <T>(
   firebaseDb: Firestore,
   path: string | undefined,
-  pathSegments?: Array<string | undefined>
+  pathSegments?: (string | undefined)[]
 ) => {
-  if (!path || (Array.isArray(pathSegments) && pathSegments?.some((x) => !x)))
+  if (!path || (Array.isArray(pathSegments) && pathSegments?.some((x) => !x))) {
     return null;
+  }
 
   return doc(
     firebaseDb,
@@ -470,12 +495,12 @@ function sortRows<T = TableRow>(
     return rows;
   }
 
-  const order: "asc" | "desc" =
-    sorts[0].direction === undefined ? "asc" : sorts[0].direction;
+  const order: "asc" | "desc"
+    = sorts[0].direction === undefined ? "asc" : sorts[0].direction;
 
-  return orderBy(rows, [sorts[0].key], [order]);
+  return orderBy(rows, [ sorts[0].key ], [ order ]);
 }
 
 function unsortRows<T = TableRow>(rows: T[]): T[] {
-  return orderBy(rows, ["_rowy_ref.arrayTableData.index"], ["asc"]);
+  return orderBy(rows, [ "_rowy_ref.arrayTableData.index" ], [ "asc" ]);
 }

@@ -9,19 +9,19 @@ import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
-export interface ISortPopoverProps {
-  children: (props: { handleClose: () => void }) => React.ReactNode;
-}
+export type ISortPopoverProps = {
+  children: (props: { handleClose: () => void; }) => React.ReactNode;
+};
 
 export default function SortPopover({ children }: ISortPopoverProps) {
-  const [tableSortPopoverState, setTableSortPopoverState] = useState(false);
+  const [ tableSortPopoverState, setTableSortPopoverState ] = useState(false);
 
   const anchorEl = useRef<HTMLButtonElement>(null);
   const popoverId = tableSortPopoverState ? "sort-popover" : undefined;
   const handleClose = () => setTableSortPopoverState(false);
 
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ tableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function SortPopover({ children }: ISortPopoverProps) {
         color="primary"
         onClick={() => setTableSortPopoverState(true)}
         active={true}
-        startIcon={
+        startIcon={(
           <ArrowDownwardIcon
             sx={{
               transition: (theme) =>
@@ -43,7 +43,7 @@ export default function SortPopover({ children }: ISortPopoverProps) {
                 tableSorts[0].direction === "asc" ? "rotate(180deg)" : "none",
             }}
           />
-        }
+        )}
         aria-describedby={popoverId}
       >
         Sorted: {tableSorts[0].key}

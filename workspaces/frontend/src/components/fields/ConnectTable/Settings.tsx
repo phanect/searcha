@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { useAsyncMemo } from "use-async-memo";
-import { ISettingsProps } from "@src/components/fields/types";
 import { sortBy } from "lodash-es";
 import { useAtom, useSetAtom } from "jotai";
 
@@ -25,18 +24,20 @@ import {
 } from "@src/atoms/projectScope";
 import { FieldType } from "@src/constants/fields";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
-  const [getTableSchema] = useAtom(getTableSchemaAtom, { store: projectScopeStore });
+  const [ getTableSchema ] = useAtom(getTableSchemaAtom, { store: projectScopeStore });
 
   useEffect(() => {
-    if (!projectSettings.rowyRunUrl)
+    if (!projectSettings.rowyRunUrl) {
       openRowyRunModal({ feature: "Connect Table fields" });
-  }, [projectSettings.rowyRunUrl, openRowyRunModal]);
+    }
+  }, [ projectSettings.rowyRunUrl, openRowyRunModal ]);
 
   const tableOptions = sortBy(
     tables?.map((table) => ({
@@ -45,13 +46,15 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       section: table.section,
       collection: table.collection,
     })) ?? [],
-    ["section", "label"]
+    [ "section", "label" ]
   );
 
   const columns = useAsyncMemo(
     async () => {
       const id = config.index; // ???
-      if (!getTableSchema || !id) return [];
+      if (!getTableSchema || !id) {
+        return [];
+      }
       const tableConfig = await getTableSchema(id);
       return Object.values(tableConfig.columns ?? {}).map((c: any) => ({
         label: c.name,
@@ -59,7 +62,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         type: c.type,
       }));
     },
-    [config.index, getTableSchema],
+    [ config.index, getTableSchema ],
     []
   );
 
@@ -98,13 +101,13 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       />
 
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             checked={config.multiple !== false}
             onChange={(e) => onChange("multiple")(e.target.checked)}
           />
-        }
-        label={
+        )}
+        label={(
           <>
             Multiple selection
             <FormHelperText>
@@ -138,7 +141,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
               &nbsp; Existing values in this table will not be updated
             </FormHelperText>
           </>
-        }
+        )}
         style={{ marginLeft: -10 }}
       />
 
@@ -150,7 +153,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         onChange={(e) => onChange("filters")(e.target.value)}
         placeholder="attribute:value AND | OR | NOT attribute:value"
         id="connectTable-filters"
-        helperText={
+        helperText={(
           <>
             Use the Algolia syntax for filters:{" "}
             <Link
@@ -162,14 +165,14 @@ export default function Settings({ onChange, config }: ISettingsProps) {
               <InlineOpenInNewIcon />
             </Link>
           </>
-        }
+        )}
       />
 
       <MultiSelect
         label="Primary keys"
         value={config.primaryKeys ?? []}
         options={columns.filter((c) =>
-          [FieldType.shortText, FieldType.singleSelect].includes(c.type)
+          [ FieldType.shortText, FieldType.singleSelect ].includes(c.type)
         )}
         onChange={onChange("primaryKeys")}
         TextFieldProps={{ helperText: "Field values displayed" }}
@@ -178,7 +181,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       <MultiSelect
         label="Snapshot fields"
         value={config.snapshotFields ?? []}
-        options={columns.filter((c) => ![FieldType.subTable].includes(c.type))}
+        options={columns.filter((c) => ![ FieldType.subTable ].includes(c.type))}
         onChange={onChange("snapshotFields")}
         TextFieldProps={{ helperText: "Fields stored in the snapshots" }}
       />
@@ -186,7 +189,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       <MultiSelect
         label="Tracked fields"
         value={config.trackedFields ?? []}
-        options={columns.filter((c) => ![FieldType.subTable].includes(c.type))}
+        options={columns.filter((c) => ![ FieldType.subTable ].includes(c.type))}
         onChange={onChange("trackedFields")}
         TextFieldProps={{
           helperText:

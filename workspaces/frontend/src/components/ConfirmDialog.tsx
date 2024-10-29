@@ -20,6 +20,8 @@ export type IConfirmDialogProps = {
 
 /**
  * Display a confirm dialog using `confirmDialogAtom` in `globalState`
+ * @param root0
+ * @param root0.store
  * @see {@link confirmDialogAtom | Usage example}
  */
 export default function ConfirmDialog({
@@ -52,19 +54,22 @@ export default function ConfirmDialog({
     setDisableConfirm(false);
   };
 
-  const [disableConfirm, setDisableConfirm] = useState(
+  const [ disableConfirm, setDisableConfirm ] = useState(
     Boolean(confirmationCommand)
   );
   useEffect(() => {
     setDisableConfirm(Boolean(confirmationCommand));
-  }, [confirmationCommand]);
+  }, [ confirmationCommand ]);
 
   return (
     <Dialog
       open={open}
       onClose={(_, reason) => {
-        if (reason === "backdropClick" || reason === "escapeKeyDown") return;
-        else handleClose();
+        if (reason === "backdropClick" || reason === "escapeKeyDown") {
+          return;
+        } else {
+          handleClose();
+        }
       }}
       maxWidth={maxWidth}
       sx={{ cursor: "default", zIndex: (theme) => theme.zIndex.modal + 50 }}
@@ -85,9 +90,8 @@ export default function ConfirmDialog({
             {confirmationCommand && (
               <TextField
                 onChange={(e) =>
-                  setDisableConfirm(e.target.value !== confirmationCommand)
-                }
-                label={`Type “${confirmationCommand}” below to continue:`}
+                  setDisableConfirm(e.target.value !== confirmationCommand)}
+                label={`Type “${ confirmationCommand }” below to continue:`}
                 placeholder={confirmationCommand}
                 fullWidth
                 id="dryText"
@@ -110,7 +114,9 @@ export default function ConfirmDialog({
             {!hideCancel && (
               <Button
                 onClick={() => {
-                  if (handleCancel) handleCancel();
+                  if (handleCancel) {
+                    handleCancel();
+                  }
                   handleClose();
                 }}
               >
@@ -122,7 +128,9 @@ export default function ConfirmDialog({
           <MemoizedText key={disableConfirm.toString()}>
             <Button
               onClick={() => {
-                if (handleConfirm) handleConfirm();
+                if (handleConfirm) {
+                  handleConfirm();
+                }
                 handleClose();
               }}
               color={confirmColor || "primary"}

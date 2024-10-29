@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { FallbackProps } from "react-error-boundary";
 import { useLocation } from "react-router-dom";
 import useOffline from "@src/hooks/useOffline";
 
@@ -8,12 +7,14 @@ import ReloadIcon from "@mui/icons-material/Refresh";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import OfflineIcon from "@mui/icons-material/CloudOff";
 
-import EmptyState, { IEmptyStateProps } from "@src/components/EmptyState";
+import EmptyState from "@src/components/EmptyState";
 import AccessDenied from "@src/components/AccessDenied";
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
+import type { IEmptyStateProps } from "@src/components/EmptyState";
+import type { FallbackProps } from "react-error-boundary";
 
-export interface IErrorFallbackProps extends FallbackProps, IEmptyStateProps {}
+export type IErrorFallbackProps = {} & FallbackProps & IEmptyStateProps;
 
 export function ErrorFallbackContents({
   error,
@@ -22,10 +23,11 @@ export function ErrorFallbackContents({
 }: IErrorFallbackProps) {
   const isOffline = useOffline();
 
-  if ((error as any).code === "permission-denied")
+  if ((error as any).code === "permission-denied") {
     return (
       <AccessDenied error={error} resetErrorBoundary={resetErrorBoundary} />
     );
+  }
 
   let renderProps: Partial<IEmptyStateProps> = {
     message: "Something went wrong",
@@ -39,9 +41,9 @@ export function ErrorFallbackContents({
         <Button
           size={props.basic ? "small" : "medium"}
           href={
-            EXTERNAL_LINKS.gitHub +
-            "/discussions/new?" +
-            new URLSearchParams({
+            EXTERNAL_LINKS.gitHub
+            + "/discussions/new?"
+            + new URLSearchParams({
               labels: "bug",
               category: "support-q-a",
               title: [
@@ -116,10 +118,12 @@ export default function ErrorFallback(props: IErrorFallbackProps) {
 
   // Reset error boundary when navigating away from the page
   const location = useLocation();
-  const [errorPathname] = useState(location.pathname);
+  const [ errorPathname ] = useState(location.pathname);
   useEffect(() => {
-    if (errorPathname !== location.pathname) resetErrorBoundary();
-  }, [errorPathname, location.pathname, resetErrorBoundary]);
+    if (errorPathname !== location.pathname) {
+      resetErrorBoundary();
+    }
+  }, [ errorPathname, location.pathname, resetErrorBoundary ]);
 
   return <ErrorFallbackContents {...props} />;
 }

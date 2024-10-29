@@ -1,12 +1,13 @@
 import { useCallback, useContext, useRef } from "react";
 import { useSetAtom } from "jotai";
-import { SnackbarKey, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import Button from "@mui/material/Button";
 
 import useUploader from "@src/hooks/useFirebaseStorageUploader";
 import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
-import { TableRowRef } from "@src/types/table";
 import SnackbarProgress from "@src/components/SnackbarProgress";
+import type { TableRowRef } from "@src/types/table";
+import type { SnackbarKey } from "notistack";
 
 const MAX_CONCURRENT_TASKS = 1000;
 
@@ -23,41 +24,39 @@ export default function useUploadFileFromURL() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const jobs = useRef<UploadParamTypes[]>([]);
 
-  const askPermission = useCallback(async (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      enqueueSnackbar("Upload files to firebase storage?", {
-        persist: true,
-        preventDuplicate: true,
-        action: (
-          <>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                closeSnackbar();
-                resolve(true);
-              }}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Yes
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                closeSnackbar();
-                resolve(false);
-              }}
-            >
-              No
-            </Button>
-          </>
-        ),
-      });
+  const askPermission = useCallback(async (): Promise<boolean> => new Promise((resolve) => {
+    enqueueSnackbar("Upload files to firebase storage?", {
+      persist: true,
+      preventDuplicate: true,
+      action: (
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              closeSnackbar();
+              resolve(true);
+            }}
+            style={{
+              marginRight: 8,
+            }}
+          >
+            Yes
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              closeSnackbar();
+              resolve(false);
+            }}
+          >
+            No
+          </Button>
+        </>
+      ),
     });
-  }, [enqueueSnackbar, closeSnackbar]);
+  }), [ enqueueSnackbar, closeSnackbar ]);
 
   const handleUpload = useCallback(
     async ({
@@ -88,7 +87,7 @@ export default function useUploadFileFromURL() {
         return false;
       }
     },
-    [upload, updateField]
+    [ upload, updateField ]
   );
 
   const batchUpload = useCallback(
@@ -100,7 +99,7 @@ export default function useUploadFileFromURL() {
         })
       );
     },
-    [handleUpload]
+    [ handleUpload ]
   );
 
   const snackbarProgressRef = useRef<any>(null);
@@ -108,9 +107,9 @@ export default function useUploadFileFromURL() {
   const showProgress = useCallback(
     (totalJobs: number) => {
       snackbarProgressId.current = enqueueSnackbar(
-        `Uploading files form ${Number(
+        `Uploading files form ${ Number(
           totalJobs
-        ).toLocaleString()} cells. This might take a while.`,
+        ).toLocaleString() } cells. This might take a while.`,
         {
           persist: true,
           action: (
@@ -123,18 +122,18 @@ export default function useUploadFileFromURL() {
         }
       );
     },
-    [enqueueSnackbar]
+    [ enqueueSnackbar ]
   );
 
   const runBatchedUpload = useCallback(async () => {
     if (!snackbarProgressId.current) {
       showProgress(jobs.current.length);
     }
-    let currentJobs: UploadParamTypes[] = [];
+    const currentJobs: UploadParamTypes[] = [];
 
     while (
-      currentJobs.length < MAX_CONCURRENT_TASKS &&
-      jobs.current.length > 0
+      currentJobs.length < MAX_CONCURRENT_TASKS
+      && jobs.current.length > 0
     ) {
       const job = jobs.current.shift();
       if (job) {
@@ -151,7 +150,7 @@ export default function useUploadFileFromURL() {
     if (snackbarProgressId.current) {
       closeSnackbar(snackbarProgressId.current);
     }
-  }, [batchUpload, closeSnackbar, showProgress, snackbarProgressId]);
+  }, [ batchUpload, closeSnackbar, showProgress, snackbarProgressId ]);
 
   const addTask = useCallback((job: UploadParamTypes) => {
     jobs.current.push(job);
@@ -167,10 +166,8 @@ export default function useUploadFileFromURL() {
 }
 
 function getFileFromURL(urls: string[]): Promise<File[]> {
-  const promises = urls.map((url) => {
-    return fetch(url)
-      .then((response) => response.blob())
-      .then((blob) => new File([blob], +new Date() + "", { type: blob.type }));
-  });
+  const promises = urls.map((url) => fetch(url)
+    .then((response) => response.blob())
+    .then((blob) => new File([ blob ], +new Date() + "", { type: blob.type })));
   return Promise.all(promises);
 }

@@ -15,37 +15,39 @@ import {
 } from "@mui/material";
 import { Copy as CopyIcon } from "@src/assets/icons";
 
-import Modal, { IModalProps } from "@src/components/Modal";
+import Modal from "@src/components/Modal";
 import SteppedAccordion from "@src/components/SteppedAccordion";
-import Step1Auth from "./Step1Auth";
-import Step2Conditions from "./Step2Conditions";
-import Step3Body from "./Step3Parser";
-
 import {
   ProjectScopeContext,
   projectSettingsAtom,
   confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
-import { webhookNames, IWebhook } from "./utils";
+import Step1Auth from "./Step1Auth";
+import Step2Conditions from "./Step2Conditions";
+import Step3Body from "./Step3Parser";
+
+import { webhookNames } from "./utils";
+import type { IWebhook } from "./utils";
+import type { IModalProps } from "@src/components/Modal";
 
 type StepValidation = Record<"condition" | "parser", boolean>;
 
-export interface IWebhookModalStepProps {
+export type IWebhookModalStepProps = {
   webhookObject: IWebhook;
   setWebhookObject: React.Dispatch<React.SetStateAction<IWebhook>>;
   validation: StepValidation;
   setValidation: React.Dispatch<React.SetStateAction<StepValidation>>;
   validationRef: React.RefObject<StepValidation>;
-}
+};
 
-export interface IWebhookModalProps {
+export type IWebhookModalProps = {
   handleClose: IModalProps["onClose"];
   handleAdd: (webhookObject: IWebhook) => void;
   handleUpdate: (webhookObject: IWebhook) => void;
   mode: "add" | "update";
   webhookObject: IWebhook;
-}
+};
 
 export default function WebhookModal({
   handleClose,
@@ -56,20 +58,24 @@ export default function WebhookModal({
 }: IWebhookModalProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
-  const [webhookObject, setWebhookObject] = useState<IWebhook>(initialObject);
+  const [ webhookObject, setWebhookObject ] = useState<IWebhook>(initialObject);
 
-  const [validation, setValidation, validationRef] =
-    useStateRef<StepValidation>({ condition: true, parser: true });
+  const [ validation, setValidation, validationRef ]
+    = useStateRef<StepValidation>({ condition: true, parser: true });
 
   const edited = !isEqual(initialObject, webhookObject);
 
   const handleAddOrUpdate = () => {
-    if (mode === "add") handleAdd(webhookObject);
-    if (mode === "update") handleUpdate(webhookObject);
+    if (mode === "add") {
+      handleAdd(webhookObject);
+    }
+    if (mode === "update") {
+      handleUpdate(webhookObject);
+    }
   };
 
   const stepProps = {
@@ -80,7 +86,7 @@ export default function WebhookModal({
     validationRef,
   };
 
-  const baseUrl = `${projectSettings.services?.hooks}/wh/${tableSettings.collection}/`;
+  const baseUrl = `${ projectSettings.services?.hooks }/wh/${ tableSettings.collection }/`;
 
   return (
     <Modal
@@ -88,7 +94,7 @@ export default function WebhookModal({
       disableBackdropClick
       disableEscapeKeyDown
       fullWidth
-      title={`${mode === "add" ? "Add" : "Update"} Webhook: ${
+      title={`${ mode === "add" ? "Add" : "Update" } Webhook: ${
         webhookNames[webhookObject.type]
       }`}
       sx={{
@@ -97,7 +103,7 @@ export default function WebhookModal({
           height: 980,
         },
       }}
-      children={
+      children={(
         <>
           <Grid
             container
@@ -128,18 +134,17 @@ export default function WebhookModal({
             </Grid>
             <Grid size={{ xs: 6 }}>
               <FormControlLabel
-                control={
+                control={(
                   <Switch
                     checked={webhookObject.active}
                     onChange={(e) =>
                       setWebhookObject((webhookObject) => ({
                         ...webhookObject,
                         active: e.target.checked,
-                      }))
-                    }
+                      }))}
                     size="medium"
                   />
-                }
+                )}
                 label={`Webhook endpoint is ${
                   !webhookObject.active ? "de" : ""
                 }activated`}
@@ -168,9 +173,8 @@ export default function WebhookModal({
               <IconButton
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `${baseUrl}${webhookObject.endpoint}`
-                  )
-                }
+                    `${ baseUrl }${ webhookObject.endpoint }`
+                  )}
                 sx={{ flexShrink: 0, mr: -0.75 }}
               >
                 <CopyIcon />
@@ -201,7 +205,7 @@ export default function WebhookModal({
             style={{ marginTop: "var(--dialog-contents-spacing)" }}
           />
         </>
-      }
+      )}
       actions={{
         primary: {
           children: mode === "add" ? "Add" : "Update",
@@ -218,7 +222,7 @@ export default function WebhookModal({
             if (warningMessage) {
               confirm({
                 title: "Validation failed",
-                body: `${warningMessage}. Continue?`,
+                body: `${ warningMessage }. Continue?`,
                 confirm: "Yes, I know what I’m doing",
                 cancel: "No, I’ll fix the errors",
                 handleConfirm: handleAddOrUpdate,

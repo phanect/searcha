@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { isArray } from "lodash-es";
 import { SupportedTypes, detectType } from "./SideDrawerField/SupportedTypes";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Array({ value }: IDisplayCellProps) {
   const theme = useTheme();
@@ -11,9 +11,11 @@ export default function Array({ value }: IDisplayCellProps) {
   }
   if (isArray(value)) {
     value = value.map((item: any) => {
-      let itemType = detectType(item);
-      let converter = SupportedTypes[itemType].humanize;
-      if (!converter) return item;
+      const itemType = detectType(item);
+      const converter = SupportedTypes[itemType].humanize;
+      if (!converter) {
+        return item;
+      }
       return converter(item);
     });
   }

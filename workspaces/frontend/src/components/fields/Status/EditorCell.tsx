@@ -1,5 +1,5 @@
-import { IEditorCellProps } from "@src/components/fields/types";
 import MultiSelectComponent from "@phanect/datasheet-multiselect";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function StatusSingleSelect({
   value,
@@ -12,12 +12,16 @@ export default function StatusSingleSelect({
 }: IEditorCellProps) {
   const config = column.config ?? {};
   const conditions = config.conditions ?? [];
-  /**Revisit eventually, can we abstract or use a helper function to clean this? */
+  /** Revisit eventually, can we abstract or use a helper function to clean this? */
   const reMappedConditions = conditions.map((c: any) => {
     let rValue = { ...c };
     if (c.type === "number") {
-      if (c.operator === "<") rValue = { ...c, value: c.value - 1 };
-      if (c.operator === ">") rValue = { ...c, value: c.value + 1 };
+      if (c.operator === "<") {
+        rValue = { ...c, value: c.value - 1 };
+      }
+      if (c.operator === ">") {
+        rValue = { ...c, value: c.value + 1 };
+      }
     }
     return rValue;
   });
@@ -41,7 +45,7 @@ export default function StatusSingleSelect({
             anchorOrigin: { vertical: "bottom", horizontal: "center" },
             transformOrigin: { vertical: "top", horizontal: "center" },
             sx: {
-              "& .MuiPaper-root": { minWidth: `${column.width}px !important` },
+              "& .MuiPaper-root": { minWidth: `${ column.width }px !important` },
             },
           },
         },

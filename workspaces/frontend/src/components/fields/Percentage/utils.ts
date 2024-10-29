@@ -54,6 +54,7 @@ import { trim, trimEnd } from "lodash-es";
  * number = 0.0000000001;
  * console.log(number, multiply100WithPrecision(number));
  * --> 1e-8
+ * @param value
  */
 export const multiply100WithPrecision = (value: number) => {
   if (value === 0) {
@@ -72,14 +73,14 @@ export const multiply100WithPrecision = (value: number) => {
     valueString = valueString.concat(".00");
   }
 
-  let [before, after] = valueString.split(".");
+  let [ before, after ] = valueString.split(".");
 
   // if after decimal has only 1 digit, pad a 0
   if (after.length === 1) {
     after = after.concat("0");
   }
 
-  let newNumber = `${before}${after.slice(0, 2)}.${after.slice(2)}`;
+  let newNumber = `${ before }${ after.slice(0, 2) }.${ after.slice(2) }`;
   newNumber = trimEnd(trim(newNumber, "0"), ".");
   if (newNumber.startsWith(".")) {
     newNumber = "0" + newNumber;
@@ -90,6 +91,7 @@ export const multiply100WithPrecision = (value: number) => {
 /**
  * Divide a number by 100 and return a string without floating point error
  * by shifting the decimal point 2 places to the left as a string
+ * @param value
  */
 export const divide100WithPrecision = (value: number) => {
   if (value === 0) {
@@ -108,16 +110,16 @@ export const divide100WithPrecision = (value: number) => {
     valueString = valueString + ".";
   }
 
-  let [before, after] = valueString.split(".");
+  let [ before, after ] = valueString.split(".");
 
   // if before decimal has less than digit, pad 0
   if (before.length < 2) {
     before = "00" + before;
   }
 
-  let newNumber = `${before.slice(0, before.length - 2)}.${before.slice(
+  let newNumber = `${ before.slice(0, before.length - 2) }.${ before.slice(
     before.length - 2
-  )}${after}`;
+  ) }${ after }`;
   newNumber = trimEnd(trimEnd(newNumber, "0"), ".");
   if (newNumber.startsWith(".")) {
     newNumber = "0" + newNumber;

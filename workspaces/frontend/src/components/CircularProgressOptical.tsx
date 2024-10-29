@@ -1,8 +1,9 @@
-import { CircularProgress, CircularProgressProps } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import type { CircularProgressProps } from "@mui/material";
 
-export interface ICircularProgressOpticalProps extends CircularProgressProps {
+export type ICircularProgressOpticalProps = {
   size?: number;
-}
+} & CircularProgressProps;
 
 export default function CircularProgressOptical({
   size = 40,

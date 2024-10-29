@@ -1,5 +1,5 @@
-import { ThemeOptions } from "@mui/material/styles";
-import {
+import type { ThemeOptions } from "@mui/material/styles";
+import type {
   FontStyle,
   TypographyStyleOptions,
 } from "@mui/material/styles/createTypography";
@@ -7,11 +7,11 @@ import {
 import "./space-grotesk.css";
 
 declare module "@mui/material/styles/createTypography" {
-  interface FontStyle {
+  type FontStyle = {
     fontFamilyMono: string;
     fontFamilyHeading: string;
     fontCssUrls?: string[];
-  }
+  };
 }
 
 export const BODY_FONT = "Inter, system-ui, sans-serif";
@@ -19,8 +19,8 @@ export const HEADING_FONT = "Space Grotesk, " + BODY_FONT;
 export const MONO_FONT = "JetBrains Mono, ui-monospace, monospace";
 
 export const ROOT_FONT_SIZE = 16;
-export const toRem = (px: number) => `${px / ROOT_FONT_SIZE}rem`;
-export const toEm = (px: number, root: number) => `${px / root}em`;
+export const toRem = (px: number) => `${ px / ROOT_FONT_SIZE }rem`;
+export const toEm = (px: number, root: number) => `${ px / root }em`;
 
 export const typography = ({
   fontFamily: customizedFontFamily,
@@ -32,13 +32,13 @@ export const typography = ({
   fontWeightMedium = 500,
   fontWeightBold = 600,
 }: Partial<ThemeOptions["typography"] & FontStyle>): ThemeOptions => {
-  const fontFamily = [customizedFontFamily, BODY_FONT]
+  const fontFamily = [ customizedFontFamily, BODY_FONT ]
     .filter((x) => x)
     .join(", ");
-  const fontFamilyMono = [customizedFontFamilyMono, MONO_FONT]
+  const fontFamilyMono = [ customizedFontFamilyMono, MONO_FONT ]
     .filter((x) => x)
     .join(", ");
-  const fontFamilyHeading = [customizedFontFamilyHeading, HEADING_FONT]
+  const fontFamilyHeading = [ customizedFontFamilyHeading, HEADING_FONT ]
     .filter((x) => x)
     .join(", ");
 
@@ -47,14 +47,14 @@ export const typography = ({
     fontFeatureSettings:
       fontFamily !== BODY_FONT
         ? "normal"
-        : `"calt", "ss01", "ss03", "cv05", "cv08", "cv09"`,
+        : "\"calt\", \"ss01\", \"ss03\", \"cv05\", \"cv08\", \"cv09\"",
     WebkitFontSmoothing: "auto",
     MozOsxFontSmoothing: "auto",
   };
   const fontStyleHeading: TypographyStyleOptions = {
     fontFamily: fontFamilyHeading,
     fontFeatureSettings:
-      fontFamilyHeading !== HEADING_FONT ? "normal" : `"ss02", "ss03"`,
+      fontFamilyHeading !== HEADING_FONT ? "normal" : "\"ss02\", \"ss03\"",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
   };

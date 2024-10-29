@@ -1,10 +1,8 @@
-import { IFieldComponentProps } from '../../types';
+import { Typography } from "@mui/material";
+import type { TypographyProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
-import { Typography, TypographyProps } from '@mui/material';
-
-export interface IContentSubHeaderComponentProps
-  extends IFieldComponentProps,
-    Partial<Omit<TypographyProps, 'title' | 'onChange' | 'onBlur' | 'ref'>> {}
+export type IContentSubHeaderComponentProps = {} & IFieldComponentProps & Partial<Omit<TypographyProps, "title" | "onChange" | "onBlur" | "ref">>;
 
 export default function ContentSubHeaderComponent({
   field,
@@ -26,12 +24,12 @@ export default function ContentSubHeaderComponent({
     <Typography
       variant="subtitle2"
       className={className}
-      {...({ component: 'h4' } as any)}
+      {...({ component: "h4" } as any)}
       {...props}
       sx={[
-        { mt: 2, mb: -1.5, whiteSpace: 'pre-line', cursor: 'default' },
+        { mt: 2, mb: -1.5, whiteSpace: "pre-line", cursor: "default" },
         index === 0 && { mt: 0 },
-        ...(Array.isArray(props.sx) ? props.sx : props.sx ? [props.sx] : []),
+        ...(Array.isArray(props.sx) ? props.sx : props.sx ? [ props.sx ] : []),
       ]}
     >
       {children ?? label}

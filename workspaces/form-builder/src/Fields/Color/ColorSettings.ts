@@ -1,11 +1,11 @@
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { FieldType } from "../../constants/fields";
+import type { IFieldConfig } from "../../types";
 
-export const ColorSettings: IFieldConfig['settings'] = [
+export const ColorSettings: IFieldConfig["settings"] = [
   {
     type: FieldType.checkbox,
-    name: 'enableAlpha',
-    label: 'Enable alpha channel (user can add semi-transparent colors)',
+    name: "enableAlpha",
+    label: "Enable alpha channel (user can add semi-transparent colors)",
     defaultValue: false,
   },
 ];

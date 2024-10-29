@@ -1,13 +1,13 @@
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { FieldType } from "../../constants/fields";
+import type { IFieldConfig } from "../../types";
 
-export const ContentSubHeaderSettings: IFieldConfig['settings'] = [
+export const ContentSubHeaderSettings: IFieldConfig["settings"] = [
   {
-    name: 'label',
-    label: 'Sub-Header',
+    name: "label",
+    label: "Sub-Header",
     type: FieldType.shortText,
     required: true,
-    defaultValue: '',
+    defaultValue: "",
   },
 ];
 

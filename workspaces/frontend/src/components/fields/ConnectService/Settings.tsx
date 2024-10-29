@@ -1,5 +1,5 @@
-import { ISettingsProps } from "@src/components/fields/types";
 import { TextField, FormControlLabel, Switch, Grid2 as Grid } from "@mui/material";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ config, onChange }: ISettingsProps) {
   return (
@@ -58,13 +58,13 @@ export default function Settings({ config, onChange }: ISettingsProps) {
         </Grid>{" "}
       </Grid>
       <FormControlLabel
-        control={
+        control={(
           <Switch
             checked={config.multiple}
-            onChange={() => onChange("multiple")(!Boolean(config.multiple))}
+            onChange={() => onChange("multiple")(!config.multiple)}
             name="select-multiple"
           />
-        }
+        )}
         label="Enable multiple item selection"
         sx={{
           alignItems: "center",

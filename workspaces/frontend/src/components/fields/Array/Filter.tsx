@@ -1,4 +1,4 @@
-import { IFilterOperator } from "@src/components/fields/types";
+import type { IFilterOperator } from "@src/components/fields/types";
 
 export const operators: IFilterOperator[] = [
   {

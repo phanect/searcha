@@ -1,15 +1,13 @@
 import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import stringify from "json-stable-stringify-without-jsonify";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-import ReactJson, { InteractionProps } from "@microlink/react-json-view";
+import ReactJson from "@microlink/react-json-view";
 import CodeEditor from "@src/components/CodeEditor";
-import { Typography, Tooltip } from "@mui/material";
+import { Typography, Tooltip, useTheme, Box, Tab, FormHelperText } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LockIcon from "@mui/icons-material/LockOutlined";
 
-import { useTheme, Box, Tab, FormHelperText } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -17,11 +15,16 @@ import TabPanel from "@mui/lab/TabPanel";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import { ProjectScopeContext, jsonEditorAtom } from "@src/atoms/projectScope";
 import config from ".";
+import type { InteractionProps } from "@microlink/react-json-view";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 const isValidJson = (val: unknown) => {
   try {
-    if (typeof val === "string") JSON.parse(val);
-    else JSON.stringify(val);
+    if (typeof val === "string") {
+      JSON.parse(val);
+    } else {
+      JSON.stringify(val);
+    }
   } catch (error) {
     return false;
   }
@@ -38,19 +41,19 @@ export default function Json({
   const theme = useTheme();
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [editor, setEditor] = useAtom(jsonEditorAtom, { store: projectScopeStore });
-  const [codeValid, setCodeValid] = useState(true);
+  const [ editor, setEditor ] = useAtom(jsonEditorAtom, { store: projectScopeStore });
+  const [ codeValid, setCodeValid ] = useState(true);
 
-  const baseValue =
-    value !== undefined && isValidJson(value)
+  const baseValue
+    = value !== undefined && isValidJson(value)
       ? value
       : column.config?.isArray
-      ? []
-      : {};
+        ? []
+        : {};
   const formattedJson = stringify(baseValue, { space: 2 });
   const sanitizedValue = JSON.parse(formattedJson);
 
-  if (disabled)
+  if (disabled) {
     return (
       <Box
         sx={[
@@ -66,6 +69,7 @@ export default function Json({
         {value && formattedJson}
       </Box>
     );
+  }
 
   const handleEdit = (edit: InteractionProps) => {
     onChange(edit.updated_src);
@@ -100,7 +104,7 @@ export default function Json({
       </TabList>
 
       <TabPanel value="tree" sx={{ p: 0 }}>
-        <Box sx={[fieldSx, { overflowX: "auto", typography: "caption" }]}>
+        <Box sx={[ fieldSx, { overflowX: "auto", typography: "caption" }]}>
           <ReactJson
             src={sanitizedValue}
             onEdit={handleEdit}
@@ -126,16 +130,18 @@ export default function Json({
           value={formattedJson || "{\n  \n}"}
           onChange={(v) => {
             try {
-              if (v) onChange(JSON.parse(v));
+              if (v) {
+                onChange(JSON.parse(v));
+              }
             } catch (e) {
-              console.log(`Failed to parse JSON: ${e}`);
+              console.log(`Failed to parse JSON: ${ e }`);
               setCodeValid(false);
             }
           }}
           onValidStatusUpdate={({ isValid }) => setCodeValid(isValid)}
           error={!codeValid}
           onBlur={onSubmit}
-          fullScreenTitle={
+          fullScreenTitle={(
             <>
               {config.icon}
 
@@ -154,7 +160,7 @@ export default function Json({
                 </Tooltip>
               )}
             </>
-          }
+          )}
         />
         {!codeValid && (
           <FormHelperText error variant="filled">

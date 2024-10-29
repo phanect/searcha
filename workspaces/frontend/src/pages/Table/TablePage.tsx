@@ -11,9 +11,9 @@ import TableInformationDrawer from "@src/components/TableInformationDrawer/Table
 import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
 import EmptyTable from "@src/components/Table/EmptyTable";
-import TableToolbar from "@src/components/TableToolbar";
+import TableToolbar, { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
 import Table from "@src/components/Table";
-import SideDrawer, { DRAWER_WIDTH } from "@src/components/SideDrawer";
+import SideDrawer, { DRAWER_WIDTH, DRAWER_COLLAPSED_WIDTH } from "@src/components/SideDrawer";
 import ColumnMenu from "@src/components/ColumnMenu";
 import ColumnModals from "@src/components/ColumnModals";
 import TableModals from "@src/components/TableModals";
@@ -38,15 +38,13 @@ import useBeforeUnload from "@src/hooks/useBeforeUnload";
 import ActionParamsProvider from "@src/components/fields/Action/FormDialog/Provider";
 import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
-import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
-import { DRAWER_COLLAPSED_WIDTH } from "@src/components/SideDrawer";
 import { formatSubTableName } from "@src/utils/table";
-import { TableToolsType } from "@src/types/table";
-import { RowSelectionState } from "@tanstack/react-table";
+import type { TableToolsType } from "@src/types/table";
+import type { RowSelectionState } from "@tanstack/react-table";
 
 const BuildLogsSnack = lazy(() => import("@src/components/TableModals/CloudLogsModal/BuildLogs/BuildLogsSnack"));
 
-export interface ITablePageProps {
+export type ITablePageProps = {
   /**
    * Disable modals on this table when a sub-table is open and it’s listening
    * to URL state
@@ -58,7 +56,7 @@ export interface ITablePageProps {
   disabledTools?: TableToolsType;
   /** If true shows checkbox to select rows */
   enableRowSelection?: boolean;
-}
+};
 
 /**
  * TablePage renders all the UI for the table.
@@ -72,6 +70,11 @@ export interface ITablePageProps {
  * - Defines permissions `canAddColumns`, `canEditColumns`, `canEditCells`
  *   for `Table` using `userRolesAtom` in `projectScope`
  * - Provides `Table` with hidden columns array from user settings
+ * @param root0
+ * @param root0.disableModals
+ * @param root0.disableSideDrawer
+ * @param root0.disabledTools
+ * @param root0.enableRowSelection
  */
 export default function TablePage({
   disableModals,
@@ -82,31 +85,31 @@ export default function TablePage({
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const snackLogContext = useSnackLogContext();
 
   // Set permissions here so we can pass them to the `Table` component, which
   // shouldn’t access `projectScope` at all, to separate concerns.
   const canAddColumns = Boolean(
-    userRoles.includes("ADMIN") ||
-      tableSettings.modifiableBy?.some((r) => userRoles.includes(r))
+    userRoles.includes("ADMIN")
+    || tableSettings.modifiableBy?.some((r) => userRoles.includes(r))
   );
   const canEditColumns = canAddColumns;
   const canDeleteColumns = canAddColumns;
-  const canEditCells =
-    userRoles.includes("ADMIN") ||
-    (!tableSettings.readOnly &&
-      intersection(userRoles, tableSettings.roles).length > 0);
+  const canEditCells
+    = userRoles.includes("ADMIN")
+    || (!tableSettings.readOnly
+      && intersection(userRoles, tableSettings.roles).length > 0);
 
   // Warn user about leaving when they have a table modal open
   useBeforeUnload(columnModalAtom, { store: tableScopeStore });
   useBeforeUnload(tableModalAtom, { store: tableScopeStore });
 
-  const [selectedRows, setSelectedRows] = useState<RowSelectionState>({});
+  const [ selectedRows, setSelectedRows ] = useState<RowSelectionState>({});
 
   // Without useMemo we'll be stuck in an infinite loop
   const selectedRowsProp = useMemo(
@@ -114,22 +117,23 @@ export default function TablePage({
       state: selectedRows,
       setState: setSelectedRows,
     }),
-    [selectedRows, setSelectedRows]
+    [ selectedRows, setSelectedRows ]
   );
 
   const resetSelectedRows = () => {
     setSelectedRows({});
   };
 
-  if (!(tableSchema as any)._rowy_ref)
+  if (!(tableSchema as any)._rowy_ref) {
     return (
       <>
         <TableToolbarSkeleton />
         <TableSkeleton />
       </>
     );
+  }
 
-  if (isEmpty(tableSchema.columns))
+  if (isEmpty(tableSchema.columns)) {
     return (
       <Suspense fallback={null}>
         <Fade in style={{ transitionDelay: "500ms" }}>
@@ -147,6 +151,7 @@ export default function TablePage({
         </Fade>
       </Suspense>
     );
+  }
 
   return (
     <ActionParamsProvider>
@@ -164,16 +169,16 @@ export default function TablePage({
         <Suspense fallback={<TableSkeleton />}>
           <Box
             sx={{
-              height: `calc(100vh - ${TOP_BAR_HEIGHT}px - ${TABLE_TOOLBAR_HEIGHT}px)`,
-              width: `calc(100% - ${DRAWER_COLLAPSED_WIDTH}px)`,
+              height: `calc(100vh - ${ TOP_BAR_HEIGHT }px - ${ TABLE_TOOLBAR_HEIGHT }px)`,
+              width: `calc(100% - ${ DRAWER_COLLAPSED_WIDTH }px)`,
               position: "relative",
 
-              '& [role="grid"]': {
-                marginBottom: `env(safe-area-inset-bottom)`,
-                marginLeft: `env(safe-area-inset-left)`,
+              "& [role=\"grid\"]": {
+                marginBottom: "env(safe-area-inset-bottom)",
+                marginLeft: "env(safe-area-inset-left)",
                 // Ensure there’s enough space so that all columns are
                 // still visible when the side drawer is open
-                marginRight: `max(env(safe-area-inset-right), ${DRAWER_WIDTH}px)`,
+                marginRight: `max(env(safe-area-inset-right), ${ DRAWER_WIDTH }px)`,
               },
             }}
           >
@@ -185,19 +190,19 @@ export default function TablePage({
                 userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields
               }
               selectedRows={enableRowSelection ? selectedRowsProp : undefined}
-              emptyState={
+              emptyState={(
                 <EmptyState
                   Icon={AddRowIcon}
                   message="Add a row to get started"
-                  description={
+                  description={(
                     <div>
                       <br />
                       <AddRow />
                     </div>
-                  }
+                  )}
                   style={{ position: "absolute", inset: 0 }}
                 />
-              }
+              )}
             />
           </Box>
         </Suspense>

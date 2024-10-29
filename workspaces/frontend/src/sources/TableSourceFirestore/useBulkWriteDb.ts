@@ -5,8 +5,8 @@ import { doc, writeBatch, deleteField } from "firebase/firestore";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { TableScopeContext, _bulkWriteDbAtom } from "@src/atoms/tableScope";
-import { BulkWriteFunction } from "@src/types/table";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import type { BulkWriteFunction } from "@src/types/table";
 
 /**
  * Sets the value of _bulkWriteDb atom
@@ -15,7 +15,7 @@ export default function useBulkWriteDb() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
   // Set _bulkWriteDb function
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setBulkWriteDb = useSetAtom(_bulkWriteDbAtom, { store: tableScopeStore });
   useEffect(() => {
     setBulkWriteDb(
@@ -28,7 +28,7 @@ export default function useBulkWriteDb() {
           const operationsChunked = chunk(operations, 500);
 
           // Loop through chunks of 500, then commit the batch sequentially
-          for (const [index, operationsChunk] of operationsChunked.entries()) {
+          for (const [ index, operationsChunk ] of operationsChunked.entries()) {
             // Create Firestore batch transaction
             const batch = writeBatch(firebaseDb);
             // Loop through operations and write to batch
@@ -57,11 +57,13 @@ export default function useBulkWriteDb() {
             // Commit batch and wait for it to finish before continuing
             // to prevent Firestore rate limits
             await batch.commit().then(() => console.log("Batch committed"));
-            if (onBatchCommit) onBatchCommit(index + 1);
+            if (onBatchCommit) {
+              onBatchCommit(index + 1);
+            }
           }
         }
     );
 
     return () => setBulkWriteDb(undefined);
-  }, [firebaseDb, setBulkWriteDb]);
+  }, [ firebaseDb, setBulkWriteDb ]);
 }

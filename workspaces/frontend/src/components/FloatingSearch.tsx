@@ -2,18 +2,19 @@ import {
   useScrollTrigger,
   Paper,
   TextField,
-  FilledTextFieldProps,
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import SlideTransition from "@src/components/Modal/SlideTransition";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import type {
+  FilledTextFieldProps } from "@mui/material";
 
-export interface IFloatingSearchProps extends Partial<FilledTextFieldProps> {
+export type IFloatingSearchProps = {
   label: string;
   paperSx?: FilledTextFieldProps["sx"];
-}
+} & Partial<FilledTextFieldProps>;
 
 export default function FloatingSearch({
   label,
@@ -51,7 +52,7 @@ export default function FloatingSearch({
             ]) + " !important",
           transitionTimingFunction: (
             theme
-          ) => `${theme.transitions.easing.easeInOut},
+          ) => `${ theme.transitions.easing.easeInOut },
                 cubic-bezier(0.1, 0.8, 0.1, 1),
                 cubic-bezier(0.1, 0.8, 0.1, 1) !important`,
 
@@ -59,10 +60,10 @@ export default function FloatingSearch({
 
           ...(dockedTransition
             ? {
-                width: `calc(100vw - ${
-                  (48 + 8) * 2
-                }px - env(safe-area-inset-left) - env(safe-area-inset-right))`,
-              }
+              width: `calc(100vw - ${
+                (48 + 8) * 2
+              }px - env(safe-area-inset-left) - env(safe-area-inset-right))`,
+            }
             : {}),
 
           ...(docked ? { boxShadow: "none" } : {}),
@@ -101,17 +102,17 @@ export default function FloatingSearch({
               ...(docked
                 ? {}
                 : {
+                  boxShadow: (theme) =>
+                    `0 -1px 0 0 ${ theme.palette.text.disabled } inset`,
+                  "&:hover": {
                     boxShadow: (theme) =>
-                      `0 -1px 0 0 ${theme.palette.text.disabled} inset`,
-                    "&:hover": {
-                      boxShadow: (theme) =>
-                        `0 -1px 0 0 ${theme.palette.text.primary} inset`,
-                    },
-                    "&.Mui-focused, &.Mui-focused:hover": {
-                      boxShadow: (theme) =>
-                        `0 -2px 0 0 ${theme.palette.primary.main} inset`,
-                    },
-                  }),
+                      `0 -1px 0 0 ${ theme.palette.text.primary } inset`,
+                  },
+                  "&.Mui-focused, &.Mui-focused:hover": {
+                    boxShadow: (theme) =>
+                      `0 -2px 0 0 ${ theme.palette.primary.main } inset`,
+                  },
+                }),
 
               "&::after": {
                 width: (theme) =>

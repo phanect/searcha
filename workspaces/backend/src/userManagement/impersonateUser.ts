@@ -1,6 +1,6 @@
 import { auth, db } from "../firebaseConfig";
-import { Request, Response } from "express";
 import { rowyUsersImpersonationLogs } from "../constants/Collections";
+import type { Request, Response } from "express";
 export const impersonateUser = async (req: Request, res: Response) => {
   try {
     const impersonator = res.locals.user;
@@ -18,7 +18,7 @@ export const impersonateUser = async (req: Request, res: Response) => {
     res.send({
       success: true,
       token,
-      message: `Authenticating as ${user.displayName}`,
+      message: `Authenticating as ${ user.displayName }`,
     });
   } catch (error) {
     res.send({ error, success: false });

@@ -1,15 +1,15 @@
 import { useContext, useState } from "react";
 import { useSetAtom } from "jotai";
-import { IColumnModalProps } from ".";
 
 import Modal from "@src/components/Modal";
-import FieldsDropdown from "./FieldsDropdown";
 import { Alert, AlertTitle, Typography } from "@mui/material";
 
 import { TableScopeContext, updateColumnAtom } from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { analytics, logEvent } from "@src/analytics";
+import FieldsDropdown from "./FieldsDropdown";
+import type { FieldType } from "@src/constants/fields";
+import type { IColumnModalProps } from ".";
 
 export default function TypeChangeModal({
   onClose,
@@ -17,18 +17,18 @@ export default function TypeChangeModal({
 }: IColumnModalProps) {
   const tableScopeStore = useContext(TableScopeContext);
   const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
-  const [newType, setType] = useState<FieldType>(column.type);
+  const [ newType, setType ] = useState<FieldType>(column.type);
 
   return (
     <Modal
       onClose={onClose}
       title="Change column type"
-      children={
+      children={(
         <>
           <FieldsDropdown value={newType} onChange={setType} />
 
-          {getFieldProp("dataType", column.type) !==
-            getFieldProp("dataType", newType) && (
+          {getFieldProp("dataType", column.type)
+          !== getFieldProp("dataType", newType) && (
             <Alert severity="warning">
               <AlertTitle>Potential data loss</AlertTitle>
               <Typography>
@@ -59,12 +59,12 @@ export default function TypeChangeModal({
             </Alert>
           )}
         </>
-      }
+      )}
       actions={{
         primary: {
           onClick: () => {
             const prevType = column.type;
-            updateColumn({ key: column.key, config: { type: newType } });
+            updateColumn({ key: column.key, config: { type: newType }});
             onClose();
             logEvent(analytics, "change_column_type", { newType, prevType });
           },

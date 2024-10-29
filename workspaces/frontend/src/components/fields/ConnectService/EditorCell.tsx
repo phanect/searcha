@@ -1,6 +1,5 @@
-import { IEditorCellProps } from "@src/components/fields/types";
-
 import ConnectServiceSelect from "./ConnectServiceSelect";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function ConnectService({
   value,
@@ -12,7 +11,9 @@ export default function ConnectService({
   _rowy_ref,
 }: IEditorCellProps) {
   const config = column.config ?? {};
-  if (!config) return null;
+  if (!config) {
+    return null;
+  }
 
   return (
     <ConnectServiceSelect

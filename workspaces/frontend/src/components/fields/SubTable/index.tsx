@@ -1,9 +1,10 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { SubTable as SubTableIcon } from "@src/assets/icons";
 import DisplayCell from "./DisplayCell";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 const SideDrawerField = lazy(
   () =>

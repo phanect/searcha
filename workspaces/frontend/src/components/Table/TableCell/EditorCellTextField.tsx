@@ -1,11 +1,12 @@
-import type { IEditorCellProps } from "@src/components/fields/types";
-import { InputBase, InputBaseProps } from "@mui/material";
+import { InputBase } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type { InputBaseProps } from "@mui/material";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
-export interface IEditorCellTextFieldProps extends IEditorCellProps<string> {
+export type IEditorCellTextFieldProps = {
   InputProps?: Partial<InputBaseProps>;
   onBlur?: () => void;
-}
+} & IEditorCellProps<string>;
 
 export default function EditorCellTextField({
   column,
@@ -32,10 +33,10 @@ export default function EditorCellTextField({
       autoFocus
       onKeyDown={(e) => {
         if (
-          e.key === "ArrowLeft" ||
-          e.key === "ArrowRight" ||
-          e.key === "ArrowUp" ||
-          e.key === "ArrowDown"
+          e.key === "ArrowLeft"
+          || e.key === "ArrowRight"
+          || e.key === "ArrowUp"
+          || e.key === "ArrowDown"
         ) {
           e.stopPropagation();
         }

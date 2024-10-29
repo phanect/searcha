@@ -22,14 +22,14 @@ import {
   tableRowsAtom,
 } from "@src/atoms/tableScope";
 import { getTableSchemaPath } from "@src/utils/table";
-import { IFieldConfig } from "@src/components/fields/types";
 import { runRoutes } from "@src/constants/runRoutes";
+import type { IFieldConfig } from "@src/components/fields/types";
 
-export interface IContextMenuActions {
+export type IContextMenuActions = {
   label: string;
   icon: React.ReactNode;
   onClick: () => void;
-}
+};
 
 export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
@@ -37,38 +37,45 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
 ) => {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
 
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
-  if (!selectedCol) return [];
+  if (!selectedCol) {
+    return [];
+  }
 
-  const selectedRow = find(tableRows, ["_rowy_ref.path", selectedCell.path]);
+  const selectedRow = find(tableRows, [ "_rowy_ref.path", selectedCell.path ]);
   const cellValue = get(selectedRow, selectedCol.fieldName);
 
-  if (!selectedCol) return [];
+  if (!selectedCol) {
+    return [];
+  }
 
   // don't show evaluate button if function has external dependency
-  const code =
-    selectedCol.config?.derivativeFn ?? selectedCol.config?.script ?? "";
+  const code
+    = selectedCol.config?.derivativeFn ?? selectedCol.config?.script ?? "";
   if (
-    code.includes("require(") &&
-    compatibleRowyRunVersion({ maxVersion: "1.6.2" })
-  )
+    code.includes("require(")
+    && compatibleRowyRunVersion({ maxVersion: "1.6.2" })
+  ) {
     return [];
+  }
 
   const handleEvaluate = async () => {
     try {
-      if (!selectedCol || !rowyRun || !selectedRow) return;
+      if (!selectedCol || !rowyRun || !selectedRow) {
+        return;
+      }
       reset();
       const evaluatingSnackKey = enqueueSnackbar("Evaluating…");
       const result = await rowyRun({
@@ -96,7 +103,7 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
               <Button
                 href={`https://console.cloud.google.com/run/deploy/${
                   projectSettings.rowyRunRegion ?? "us-central1"
-                }/rowy-backend?project=${projectId}`}
+                }/rowy-backend?project=${ projectId }`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => closeSnackbar(snackbarId)}
@@ -109,12 +116,12 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
           }
         );
       } else {
-        enqueueSnackbar(`Failed: ${error}`, { variant: "error" });
+        enqueueSnackbar(`Failed: ${ error }`, { variant: "error" });
       }
     }
   };
-  const isEmpty =
-    cellValue === "" || cellValue === null || cellValue === undefined;
+  const isEmpty
+    = cellValue === "" || cellValue === null || cellValue === undefined;
   const contextMenuActions = [
     {
       label: isEmpty ? "Evaluate" : "Re-evaluate",

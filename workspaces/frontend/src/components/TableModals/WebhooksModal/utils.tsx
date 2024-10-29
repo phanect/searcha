@@ -1,4 +1,3 @@
-import { TableSettings } from "@src/types/table";
 import { generateId } from "@src/utils/table";
 import {
   typeform,
@@ -8,6 +7,7 @@ import {
   stripe,
   firebaseAuth,
 } from "./Schemas";
+import type { TableSettings } from "@src/types/table";
 
 export const webhookTypes = [
   "basic",
@@ -15,8 +15,8 @@ export const webhookTypes = [
   "sendgrid",
   "webform",
   "firebaseAuth",
-  //"shopify",
-  //"twitter",
+  // "shopify",
+  // "twitter",
   "stripe",
 ] as const;
 
@@ -85,7 +85,7 @@ export const webhookNames: Record<WebhookType, string> = {
   sendgrid: "SendGrid",
   typeform: "Typeform",
   firebaseAuth: "Firebase Auth",
-  //github:"GitHub",
+  // github:"GitHub",
   // shopify: "Shopify",
   // twitter: "Twitter",
   stripe: "Stripe",
@@ -93,13 +93,13 @@ export const webhookNames: Record<WebhookType, string> = {
   webform: "Web Form",
 };
 
-export interface IWebhookEditor {
+export type IWebhookEditor = {
   displayName: string;
   photoURL: string;
   lastUpdate: number;
-}
+};
 
-export interface IWebhook {
+export type IWebhook = {
   // rowy meta fields
   name: string;
   active: boolean;
@@ -110,7 +110,7 @@ export interface IWebhook {
   parser: string;
   conditions: string;
   auth?: any;
-}
+};
 
 export const webhookSchemas = {
   basic,
@@ -127,7 +127,7 @@ export function emptyWebhookObject(
   table: TableSettings
 ): IWebhook {
   return {
-    name: `${type} webhook`,
+    name: `${ type } webhook`,
     active: true,
     endpoint: generateId(),
     type,

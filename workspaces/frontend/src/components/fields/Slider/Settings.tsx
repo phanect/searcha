@@ -13,13 +13,14 @@ import {
   useTheme,
 } from "@mui/material";
 import ColorPickerInput from "@src/components/ColorPickerInput";
-import { ISettingsProps } from "@src/components/fields/types";
 
-import { IColor, ColorService } from "react-color-palette";
+import { ColorService } from "react-color-palette";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import { resultColorsScale, defaultColors } from "@src/utils/color";
+import type { IColor } from "react-color-palette";
+import type { ISettingsProps } from "@src/components/fields/types";
 
-const colorLabels: { [key: string]: string } = {
+const colorLabels: Record<string, string> = {
   0: "Start",
   1: "Middle",
   2: "End",
@@ -28,7 +29,7 @@ const colorLabels: { [key: string]: string } = {
 export default function Settings({ onChange, config }: ISettingsProps) {
   const colors: string[] = config.colors ?? defaultColors;
 
-  const [checkStates, setCheckStates] = useState<boolean[]>(
+  const [ checkStates, setCheckStates ] = useState<boolean[]>(
     colors.map(Boolean)
   );
 
@@ -56,8 +57,8 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         fullWidth
         margin="none"
         onChange={(e) => onChange("min")(parseFloat(e.target.value))}
-        value={config["min"]}
-        id={`settings-field-min`}
+        value={config.min}
+        id="settings-field-min"
         label="Minimum value"
         type="number"
       />
@@ -67,8 +68,8 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         fullWidth
         margin="none"
         onChange={(e) => onChange("max")(parseFloat(e.target.value))}
-        value={config["max"]}
-        id={`settings-field-max`}
+        value={config.max}
+        id="settings-field-max"
         label="Maximum value"
         type="number"
       />
@@ -78,20 +79,20 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         fullWidth
         margin="none"
         onChange={(e) => onChange("step")(parseFloat(e.target.value))}
-        value={config["step"]}
-        id={`settings-field-step`}
+        value={config.step}
+        id="settings-field-step"
         label="Step value"
         type="number"
       />
 
       <FormControlLabel
-        control={
+        control={(
           <Switch
             checked={config.marks}
-            onChange={() => onChange("marks")(!Boolean(config.marks))}
+            onChange={() => onChange("marks")(!config.marks)}
             name="marks"
           />
-        }
+        )}
         label="Show slider steps"
       />
 
@@ -139,7 +140,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                           height: 15,
                           mr: 1.5,
                           boxShadow: (theme) =>
-                            `0 0 0 1px ${theme.palette.divider} inset`,
+                            `0 0 0 1px ${ theme.palette.divider } inset`,
                           borderRadius: 0.5,
                           opacity: 0.5,
                         }}
@@ -153,8 +154,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                     <ColorPickerInput
                       value={ColorService.convert("hex", colorHex)}
                       onChangeComplete={(color) =>
-                        handleColorChange(index, color)
-                      }
+                        handleColorChange(index, color)}
                       disabled={!checkStates[index]}
                     />
                   </div>
@@ -169,7 +169,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
   );
 }
 
-const Preview = ({ colors }: { colors: any }) => {
+const Preview = ({ colors }: { colors: any; }) => {
   const theme = useTheme();
   return (
     <InputLabel>
@@ -180,35 +180,33 @@ const Preview = ({ colors }: { colors: any }) => {
           textAlign: "center",
         }}
       >
-        {[0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1].map((value) => {
-          return (
+        {[ 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1 ].map((value) => (
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              padding: "0.5rem 0",
+              color: theme.palette.text.primary,
+            }}
+          >
             <Box
+              key={value}
               sx={{
-                position: "relative",
-                width: "100%",
-                padding: "0.5rem 0",
-                color: theme.palette.text.primary,
+                position: "absolute",
+                inset: 0,
+                backgroundColor: resultColorsScale(
+                  value,
+                  colors,
+                  theme.palette.background.paper
+                ).toHex(),
+                opacity: 0.5,
               }}
-            >
-              <Box
-                key={value}
-                sx={{
-                  position: "absolute",
-                  inset: 0,
-                  backgroundColor: resultColorsScale(
-                    value,
-                    colors,
-                    theme.palette.background.paper
-                  ).toHex(),
-                  opacity: 0.5,
-                }}
-              />
-              <Typography style={{ position: "relative", zIndex: 1 }}>
-                {value * 100}%
-              </Typography>
-            </Box>
-          );
-        })}
+            />
+            <Typography style={{ position: "relative", zIndex: 1 }}>
+              {value * 100}%
+            </Typography>
+          </Box>
+        ))}
       </Box>
     </InputLabel>
   );

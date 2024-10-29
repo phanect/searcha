@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { useSetAtom } from "jotai";
-import { IColumnModalProps } from ".";
 
 import { TextField } from "@mui/material";
 import Modal from "@src/components/Modal";
 
 import { TableScopeContext, updateColumnAtom } from "@src/atoms/tableScope";
+import type { IColumnModalProps } from ".";
 
 export default function NameChangeModal({
   onClose,
@@ -13,14 +13,14 @@ export default function NameChangeModal({
 }: IColumnModalProps) {
   const tableScopeStore = useContext(TableScopeContext);
   const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
-  const [newName, setName] = useState(column.name);
+  const [ newName, setName ] = useState(column.name);
 
   return (
     <Modal
       onClose={onClose}
       title="Rename column"
       maxWidth="xs"
-      children={
+      children={(
         <TextField
           value={newName}
           autoFocus
@@ -31,11 +31,11 @@ export default function NameChangeModal({
           fullWidth
           onChange={(e) => setName(e.target.value)}
         />
-      }
+      )}
       actions={{
         primary: {
           onClick: () => {
-            updateColumn({ key: column.key, config: { name: newName } });
+            updateColumn({ key: column.key, config: { name: newName }});
             onClose();
           },
           children: "Update",

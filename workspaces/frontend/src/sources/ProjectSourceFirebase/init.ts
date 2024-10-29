@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { FirebaseOptions, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
   initializeFirestore,
@@ -8,11 +8,12 @@ import {
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
+import type { FirebaseOptions } from "firebase/app";
 
 if (
   import.meta.env.VITE_ENV !== "production"
-  && import.meta.env.VITE_ENV !== "staging"
-  && import.meta.env.VITE_ENV !== "development"
+    && import.meta.env.VITE_ENV !== "staging"
+    && import.meta.env.VITE_ENV !== "development"
 ) {
   throw new Error(`Unexpected VITE_ENV value: "${ import.meta.env.VITE_ENV }"`);
 }

@@ -15,11 +15,13 @@ export default function ParamsDialog({
   open,
   handleClose,
 }: ParamsDialogProps) {
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
   return (
     <FormDialog
       onClose={handleClose}
-      title={`${column.name as string}`}
+      title={`${ column.name as string }`}
       fields={column.config?.params}
       values={{}}
       onSubmit={handleRun}

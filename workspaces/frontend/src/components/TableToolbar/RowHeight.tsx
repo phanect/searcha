@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 
 import { useTheme, TextField, ListSubheader, MenuItem } from "@mui/material";
 import { RowHeight as RowHeightIcon } from "@src/assets/icons";
-import TableToolbarButton from "./TableToolbarButton";
 
 import {
   TableScopeContext,
@@ -11,21 +10,22 @@ import {
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
+import TableToolbarButton from "./TableToolbarButton";
 
-const ROW_HEIGHTS = [32, 40, 64, 96, 128, 160].map((x) => x + 1);
+const ROW_HEIGHTS = [ 32, 40, 64, 96, 128, 160 ].map((x) => x + 1);
 
 export default function RowHeight() {
   const theme = useTheme();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
   const rowHeight = tableSchema.rowHeight ?? DEFAULT_ROW_HEIGHT;
 
@@ -43,8 +43,9 @@ export default function RowHeight() {
         select
         value={rowHeight ?? DEFAULT_ROW_HEIGHT}
         onChange={(event) => {
-          if (updateTableSchema)
+          if (updateTableSchema) {
             updateTableSchema({ rowHeight: Number(event.target.value) });
+          }
         }}
         style={{ display: "none" }}
         SelectProps={{

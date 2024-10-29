@@ -3,16 +3,16 @@ import { TransitionGroup } from "react-transition-group";
 import { Box, Grid2 as Grid, Collapse } from "@mui/material";
 
 import SectionHeading from "@src/components/SectionHeading";
-import TableCard from "./TableCard";
 import SlideTransition from "@src/components/Modal/SlideTransition";
 
-import { TableSettings } from "@src/types/table";
+import TableCard from "./TableCard";
+import type { TableSettings } from "@src/types/table";
 
-export interface ITableGridProps {
+export type ITableGridProps = {
   sections: Record<string, TableSettings[]>;
   getLink: (table: TableSettings) => string;
   getActions?: (table: TableSettings) => React.ReactNode;
-}
+};
 
 export default function TableGrid({
   sections,
@@ -22,10 +22,12 @@ export default function TableGrid({
   return (
     <TransitionGroup>
       {Object.entries(sections).map(
-        ([sectionName, sectionTables], sectionIndex) => {
+        ([ sectionName, sectionTables ], sectionIndex) => {
           const tableItems = sectionTables
             .map((table, tableIndex) => {
-              if (!table) return null;
+              if (!table) {
+                return null;
+              }
 
               return (
                 <SlideTransition
@@ -45,7 +47,9 @@ export default function TableGrid({
             })
             .filter((item) => item !== null);
 
-          if (tableItems.length === 0) return null;
+          if (tableItems.length === 0) {
+            return null;
+          }
 
           return (
             <Collapse key={sectionName}>

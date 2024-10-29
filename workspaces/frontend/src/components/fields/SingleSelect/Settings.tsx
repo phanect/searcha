@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { ISettingsProps } from "@src/components/fields/types";
 
 import {
   InputLabel,
@@ -15,19 +14,22 @@ import {
 import AddIcon from "@mui/icons-material/AddCircle";
 import RemoveIcon from "@mui/icons-material/CancelRounded";
 import CheckIcon from "@mui/icons-material/CheckCircleRounded";
-import ColorSelect, {
-  SelectColorThemeOptions,
-} from "@src/components/SelectColors";
+import ColorSelect from "@src/components/SelectColors";
 
 import {
   DragDropContext,
   Draggable,
-  DraggingStyle,
   Droppable,
-  NotDraggingStyle,
 } from "react-beautiful-dnd";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import palette, { paletteToMui } from "@src/theme/palette";
+import type {
+  DraggingStyle,
+  NotDraggingStyle } from "react-beautiful-dnd";
+import type {
+  SelectColorThemeOptions,
+} from "@src/components/SelectColors";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 const getItemStyle = (
   isDragging: boolean,
@@ -38,9 +40,9 @@ const getItemStyle = (
   ...draggableStyle,
 });
 
-export interface IColors extends SelectColorThemeOptions {
+export type IColors = {
   name: string;
-}
+} & SelectColorThemeOptions;
 
 export const getColors = (
   list: IColors[],
@@ -56,21 +58,21 @@ export const getColors = (
 export default function Settings({ onChange, config }: ISettingsProps) {
   const listEndRef: any = useRef(null);
   const options = config.options ?? [];
-  const [newOption, setNewOption] = useState("");
-  const [editOption, setEditOption] = useState({
+  const [ newOption, setNewOption ] = useState("");
+  const [ editOption, setEditOption ] = useState({
     oldOption: "",
     newOption: "",
   });
 
   /* State for holding Chip Colors for Select and MultiSelect */
-  let colors = config.colors ?? [];
+  const colors = config.colors ?? [];
 
   const handleAdd = () => {
     if (newOption.trim() !== "") {
       if (options.includes(newOption)) {
-        window.alert(`"${newOption}" is already an option`);
+        window.alert(`"${ newOption }" is already an option`);
       } else {
-        onChange("options")([...options, newOption.trim()]);
+        onChange("options")([ ...options, newOption.trim() ]);
         setNewOption("");
         listEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
       }
@@ -90,7 +92,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
 
     if (newOption !== "") {
       if (options.includes(newOption)) {
-        window.alert(`"${newOption}" is already an option`);
+        window.alert(`"${ newOption }" is already an option`);
       } else {
         const newOptions = options.map((option: string) =>
           option === oldOption ? newOption : option
@@ -120,10 +122,10 @@ export default function Settings({ onChange, config }: ISettingsProps) {
     // Else save new value with `_key` as `color.name`
     if (type === "save") {
       if (exists !== -1) {
-        colors[exists] = { name: _key, ...{ ...color } };
+        colors[exists] = { name: _key, ...{ ...color }};
         onChange("colors")(colors);
       } else {
-        onChange("colors")([...colors, { name: _key, ...{ ...color } }]);
+        onChange("colors")([ ...colors, { name: _key, ...{ ...color }}]);
       }
     }
     // If deleting Filter out object that has `color.name` equals to `_key`
@@ -149,10 +151,12 @@ export default function Settings({ onChange, config }: ISettingsProps) {
   };
 
   const handleOnDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const [removed] = options.splice(result.source.index, 1);
+    if (!result.destination) {
+      return;
+    }
+    const [ removed ] = options.splice(result.source.index, 1);
     options.splice(result.destination.index, 0, removed);
-    onChange("options")([...options]);
+    onChange("options")([ ...options ]);
   };
 
   return (
@@ -183,7 +187,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                           )}
                           container
                           direction="row"
-                          key={`option-${option}`}
+                          key={`option-${ option }`}
                           justifyContent="space-between"
                           alignItems="center"
                         >
@@ -211,8 +215,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                                 key={option}
                                 initialValue={getColors(colors, option)}
                                 handleChange={(color) =>
-                                  handleChipColorChange("save", option, color)
-                                }
+                                  handleChipColorChange("save", option, color)}
                               />
 
                               {editOption.oldOption === option ? (
@@ -225,8 +228,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                                       setEditOption({
                                         oldOption: option,
                                         newOption: e.target.value,
-                                      })
-                                    }
+                                      })}
                                     value={editOption.newOption}
                                     sx={{ flexGrow: 1 }}
                                     autoFocus
@@ -241,7 +243,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                                     aria-label="Save"
                                     onClick={handleEdit}
                                   >
-                                    {<CheckIcon />}
+                                    <CheckIcon />
                                   </IconButton>
                                 </Grid>
                               ) : (
@@ -256,7 +258,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                                       newOption: option,
                                     });
                                   }}
-                                  sx={{ "&:hover": { cursor: "pointer" } }}
+                                  sx={{ "&:hover": { cursor: "pointer" }}}
                                 >
                                   {option}
                                 </Typography>
@@ -268,7 +270,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
                               aria-label="Remove"
                               onClick={() => handleItemDelete(option)}
                             >
-                              {<RemoveIcon />}
+                              <RemoveIcon />
                             </IconButton>
                           </Grid>
                         </Grid>
@@ -293,7 +295,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
               handleAdd();
             }}
           >
-            {<AddIcon />}
+            <AddIcon />
           </IconButton>
         </Grid>
         <Grid size={{ xs: 10, md: 11 }}>
@@ -316,13 +318,13 @@ export default function Settings({ onChange, config }: ISettingsProps) {
       </Grid>
 
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             checked={config.freeText}
             onChange={(e) => onChange("freeText")(e.target.checked)}
           />
-        }
-        label={
+        )}
+        label={(
           <>
             Users can add custom options
             <FormHelperText>
@@ -330,7 +332,7 @@ export default function Settings({ onChange, config }: ISettingsProps) {
               will not appear in the list of options above.
             </FormHelperText>
           </>
-        }
+        )}
         style={{ marginLeft: -10 }}
       />
     </div>

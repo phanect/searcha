@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
-import CircularProgressOptical, {
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import { Box } from "@mui/material";
+import type {
   ICircularProgressOpticalProps,
 } from "@src/components/CircularProgressOptical";
-import { Box } from "@mui/material";
 
-export interface ICircularProgressTimedProps
-  extends ICircularProgressOpticalProps {
+export type ICircularProgressTimedProps = {
   /** Duration in seconds */
   duration: number;
   complete: boolean;
-}
+} & ICircularProgressOpticalProps;
 
 export default function CircularProgressTimed({
   duration,
@@ -18,7 +18,7 @@ export default function CircularProgressTimed({
   size = 64,
   ...props
 }: ICircularProgressTimedProps) {
-  const [count, setCount] = useState(0);
+  const [ count, setCount ] = useState(0);
 
   useEffect(() => {
     if (complete) {
@@ -37,7 +37,7 @@ export default function CircularProgressTimed({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [duration, complete]);
+  }, [ duration, complete ]);
 
   const DEFAULT_SIZE = 24;
   const DEFAULT_THICKNESS = 2.6;
@@ -57,7 +57,7 @@ export default function CircularProgressTimed({
         style={{ position: "absolute", top: 0, left: 0 }}
         sx={{
           transition: (theme) =>
-            theme.transitions.create(["color"], {
+            theme.transitions.create([ "color" ], {
               easing: theme.transitions.easing.easeOut,
               duration: theme.transitions.duration.standard,
             }),

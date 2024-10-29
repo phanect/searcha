@@ -1,4 +1,3 @@
-import { IWebhookModalStepProps } from "./WebhookModal";
 import { upperFirst } from "lodash-es";
 import useStateRef from "react-usestateref";
 
@@ -9,11 +8,12 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { parserExtraLibs } from "./utils";
+import type { IWebhookModalStepProps } from "./WebhookModal";
 
 const additionalVariables = [
   {
     key: "ref",
-    description: `reference object that represents the reference to the current collection in firestore db.`,
+    description: "reference object that represents the reference to the current collection in firestore db.",
   },
   {
     key: "req",
@@ -33,7 +33,7 @@ export default function Step4Body({
   setValidation,
   validationRef,
 }: IWebhookModalStepProps) {
-  const [, setBodyEditorActive, bodyEditorActiveRef] = useStateRef(false);
+  const [ , setBodyEditorActive, bodyEditorActiveRef ] = useStateRef(false);
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function Step4Body({
         <Link
           href={
             WIKI_LINKS[
-              `webhooks${upperFirst(webhookObject.type)}` as "webhooks"
+              `webhooks${ upperFirst(webhookObject.type) }` as "webhooks"
             ] || WIKI_LINKS.webhooks
           }
           target="_blank"
@@ -65,7 +65,9 @@ export default function Step4Body({
             });
           }}
           onValidStatusUpdate={({ isValid }) => {
-            if (!bodyEditorActiveRef.current) return;
+            if (!bodyEditorActiveRef.current) {
+              return;
+            }
             setValidation({
               ...validationRef.current!,
               parser: isValid,
@@ -81,7 +83,7 @@ export default function Step4Body({
       <CodeEditorHelper
         docLink={
           WIKI_LINKS[
-            `webhooks${upperFirst(webhookObject.type)}` as "webhooks"
+            `webhooks${ upperFirst(webhookObject.type) }` as "webhooks"
           ] || WIKI_LINKS.webhooks
         }
         additionalVariables={additionalVariables}

@@ -5,17 +5,17 @@ const defaultExportName = "formula";
 const transpile = (code: string | undefined) => {
   if (code) {
     let transpiledCode = transform(code, {
-      transforms: ["typescript", "imports"],
+      transforms: [ "typescript", "imports" ],
     }).code;
     const defaultExportRegex = /exports\s*?\.\s*?default\s*?=/;
     if (!defaultExportRegex.test(transpiledCode)) {
-      transpiledCode += `\nexports.default = ${defaultExportName};`;
+      transpiledCode += `\nexports.default = ${ defaultExportName };`;
     }
 
     return transpiledCode;
   } else {
     return `
-    exports.default = async function ${defaultExportName}({
+    exports.default = async function ${ defaultExportName }({
       row,
       ref,
     }) {};`;

@@ -8,12 +8,10 @@ import CollapseIcon from "@mui/icons-material/ExpandMore";
 import OpenIcon from "@mui/icons-material/Fullscreen";
 import CloseIcon from "@mui/icons-material/Close";
 
-import BuildLogRow from "./BuildLogRow";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import { isTargetInsideBox } from "@src/utils/ui";
 import { useSnackLogContext } from "@src/contexts/SnackLogContext";
-import useBuildLogs from "./useBuildLogs";
 import { ProjectScopeContext, navOpenAtom } from "@src/atoms/projectScope";
 import {
   TableScopeContext,
@@ -24,10 +22,12 @@ import {
   NAV_DRAWER_WIDTH,
   NAV_DRAWER_COLLAPSED_WIDTH,
 } from "@src/layouts/Navigation/NavDrawer";
+import useBuildLogs from "./useBuildLogs";
+import BuildLogRow from "./BuildLogRow";
 
-export interface IBuildLogsSnackProps {
+export type IBuildLogsSnackProps = {
   onClose: () => void;
-}
+};
 
 export default function BuildLogsSnack({
   onClose,
@@ -38,25 +38,25 @@ export default function BuildLogsSnack({
   const tableScopeStore = useContext(TableScopeContext);
   const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
-  const [navOpen] = useAtom(navOpenAtom, { store: projectScopeStore });
+  const [ navOpen ] = useAtom(navOpenAtom, { store: projectScopeStore });
 
-  const latestActiveLog =
-    latestLog?.startTimeStamp > snackLogContext.latestBuildTimestamp - 5000 ||
-    latestLog?.startTimeStamp > snackLogContext.latestBuildTimestamp + 5000
+  const latestActiveLog
+    = latestLog?.startTimeStamp > snackLogContext.latestBuildTimestamp - 5000
+    || latestLog?.startTimeStamp > snackLogContext.latestBuildTimestamp + 5000
       ? latestLog
       : null;
   const logs = latestActiveLog?.fullLog;
   const status = latestActiveLog?.status;
 
-  const [expanded, setExpanded] = useState(false);
-  const [liveStreaming, setLiveStreaming] = useState(true);
+  const [ expanded, setExpanded ] = useState(false);
+  const [ liveStreaming, setLiveStreaming ] = useState(true);
   const liveStreamingRef = useRef<any>();
 
   const handleScroll = throttle(() => {
     const target = document.querySelector("#live-stream-target-snack");
     const scrollBox = document.querySelector("#live-stream-scroll-box-snack");
-    const liveStreamTargetVisible =
-      target && scrollBox && isTargetInsideBox(target, scrollBox);
+    const liveStreamTargetVisible
+      = target && scrollBox && isTargetInsideBox(target, scrollBox);
     setLiveStreaming(Boolean(liveStreamTargetVisible));
   }, 100);
 
@@ -75,7 +75,7 @@ export default function BuildLogsSnack({
         setTimeout(scrollToLive, 500);
       }
     }
-  }, [latestActiveLog]);
+  }, [ latestActiveLog ]);
 
   useEffect(() => {
     const liveStreamScrollBox = document.querySelector(
@@ -91,12 +91,12 @@ export default function BuildLogsSnack({
       sx={{
         position: "absolute",
         left: {
-          xs: `max(env(safe-area-inset-left), 8px)`,
+          xs: "max(env(safe-area-inset-left), 8px)",
           md: `max(env(safe-area-inset-left), ${
             (navOpen ? NAV_DRAWER_WIDTH : NAV_DRAWER_COLLAPSED_WIDTH) + 8
           }px)`,
         },
-        bottom: `max(env(safe-area-inset-left), 8px)`,
+        bottom: "max(env(safe-area-inset-left), 8px)",
         backgroundColor: "#282829",
         colorScheme: "dark",
         boxShadow: 6,
@@ -117,8 +117,8 @@ export default function BuildLogsSnack({
             latestActiveLog?.status === "SUCCESS"
               ? "success.light"
               : latestActiveLog?.status === "FAIL"
-              ? "error.light"
-              : ""
+                ? "error.light"
+                : ""
           }
         >
           {!latestActiveLog && "Build pending…"}
@@ -176,7 +176,7 @@ export default function BuildLogsSnack({
           overflowY: "scroll",
           maxHeight: "100%",
         }}
-        height={"calc(100% - 25px)"}
+        height="calc(100% - 25px)"
         id="live-stream-scroll-box-snack"
       >
         {latestActiveLog && expanded && (

@@ -4,7 +4,7 @@ import { get } from "lodash-es";
 import { useAtom, useSetAtom } from "jotai";
 import { httpsCallable } from "firebase/functions";
 
-import { Button, Fab, FabProps, Link } from "@mui/material";
+import { Button, Fab, Link } from "@mui/material";
 import RunIcon from "@mui/icons-material/PlayArrow";
 import RedoIcon from "@mui/icons-material/Refresh";
 import UndoIcon from "@mui/icons-material/Undo";
@@ -17,9 +17,10 @@ import {
   rowyRunAtom,
 } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
-import { useActionParams } from "./FormDialog/Context";
 import { runRoutes } from "@src/constants/runRoutes";
 import { getTableSchemaPath } from "@src/utils/table";
+import { useActionParams } from "./FormDialog/Context";
+import type { FabProps } from "@mui/material";
 import type { FieldValues } from "react-hook-form";
 
 const replacer = (data: any) => (_: string, key: string) => {
@@ -49,12 +50,12 @@ const getStateIcon = (actionState: "undo" | "redo" | string, config: any) => {
   }
 };
 
-export interface IActionFabProps extends Partial<FabProps> {
+export type IActionFabProps = {
   row: any;
   column: any;
   value: any;
   disabled: boolean;
-}
+} & Partial<FabProps>;
 
 export default function ActionFab({
   row,
@@ -67,26 +68,26 @@ export default function ActionFab({
   const tableScopeStore = useContext(TableScopeContext);
 
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [firebaseFunctions] = useAtom(firebaseFunctionsAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ firebaseFunctions ] = useAtom(firebaseFunctionsAtom, { store: projectScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
   const { requestParams } = useActionParams();
   const { _rowy_ref: ref } = row;
   const { config } = column as any;
 
-  const hasRan = value && value.status;
+  const hasRan = value?.status;
 
   const action: "run" | "undo" | "redo" = hasRan
     ? value.undo || config.undo?.enabled
       ? "undo"
       : "redo"
     : "run";
-  const [isRunning, setIsRunning] = useState(false);
+  const [ isRunning, setIsRunning ] = useState(false);
 
-  const callableName: string =
-    (column as any).callableName ?? config.callableName ?? "actionScript";
+  const callableName: string
+    = (column as any).callableName ?? config.callableName ?? "actionScript";
 
   const fnParams = (actionParams?: FieldValues) => ({
     ref: { path: ref.path },
@@ -97,7 +98,9 @@ export default function ActionFab({
   });
 
   const handleActionScript = async (data: unknown) => {
-    if (!rowyRun) return;
+    if (!rowyRun) {
+      return;
+    }
     const resp = await rowyRun({
       route: runRoutes.actionScript,
       body: data,
@@ -152,7 +155,7 @@ export default function ActionFab({
       );
     } catch (e) {
       console.log(e);
-      enqueueSnackbar(`Failed to run action. Check the column settings.`, {
+      enqueueSnackbar("Failed to run action. Check the column settings.", {
         variant: "error",
       });
     } finally {
@@ -160,10 +163,10 @@ export default function ActionFab({
     }
   };
 
-  const needsParams =
-    config.friction === "params" &&
-    Array.isArray(config.params) &&
-    config.params.length > 0;
+  const needsParams
+    = config.friction === "params"
+    && Array.isArray(config.params)
+    && config.params.length > 0;
 
   const handleClick = async () => {
     if (needsParams) {
@@ -174,18 +177,18 @@ export default function ActionFab({
       });
     } else if (action === "undo" && config.undo?.confirmation) {
       return confirm({
-        title: `${column.name} Confirmation`,
+        title: `${ column.name } Confirmation`,
         body: config.undo.confirmation.replace(/\{\{(.*?)\}\}/g, replacer(row)),
         confirm: "Run",
         handleConfirm: () => handleRun(),
       });
     } else if (
-      action !== "undo" &&
-      config.friction === "confirmation" &&
-      typeof config.confirmation === "string"
+      action !== "undo"
+      && config.friction === "confirmation"
+      && typeof config.confirmation === "string"
     ) {
       return confirm({
-        title: `${column.name} Confirmation`,
+        title: `${ column.name } Confirmation`,
         body: config.confirmation.replace(/\{\{(.*?)\}\}/g, replacer(row)),
         confirm: "Run",
         handleConfirm: () => handleRun(),
@@ -198,13 +201,13 @@ export default function ActionFab({
     <Fab
       onClick={handleClick}
       disabled={
-        isRunning ||
-        !!(
-          hasRan &&
-          (config.redo?.enabled ? false : !value.redo) &&
-          (config.undo?.enabled ? false : !value.undo)
-        ) ||
-        disabled
+        isRunning
+        || !!(
+          hasRan
+          && (config.redo?.enabled ? false : !value.redo)
+          && (config.undo?.enabled ? false : !value.undo)
+        )
+        || disabled
       }
       size="small"
       sx={{

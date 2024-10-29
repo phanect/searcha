@@ -1,19 +1,20 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { Tooltip, Stack, Avatar } from "@mui/material";
 
 import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function CreatedBy({ column, value }: IDisplayCellProps) {
-  if (!value || !value.displayName || !value.timestamp) return null;
+  if (!value?.displayName || !value.timestamp) {
+    return null;
+  }
   const dateLabel = format(
     value.timestamp.toDate ? value.timestamp.toDate() : value.timestamp,
     column.config?.format || DATE_TIME_FORMAT
   );
 
   return (
-    <Tooltip title={`Created at ${dateLabel}`}>
+    <Tooltip title={`Created at ${ dateLabel }`}>
       <Stack
         spacing={0.75}
         direction="row"

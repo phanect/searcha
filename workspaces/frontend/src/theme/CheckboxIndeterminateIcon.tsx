@@ -20,7 +20,7 @@ export default function CheckboxIndeterminateIcon() {
         color: "primary.main",
 
         transition: (theme) =>
-          theme.transitions.create(["background-color", "border-color"], {
+          theme.transitions.create([ "background-color", "border-color" ], {
             easing: theme.transitions.easing.easeIn,
             duration: theme.transitions.duration.shortest,
             delay: theme.transitions.duration.shortest,
@@ -39,7 +39,7 @@ export default function CheckboxIndeterminateIcon() {
           strokeDasharray: 12,
           strokeDashoffset: 12,
           transition: (theme) =>
-            theme.transitions.create(["stroke-dashoffset"], {
+            theme.transitions.create([ "stroke-dashoffset" ], {
               easing: theme.transitions.easing.easeIn,
               duration: theme.transitions.duration.shortest,
             }),
@@ -52,7 +52,7 @@ export default function CheckboxIndeterminateIcon() {
           borderColor: "currentColor",
 
           transition: (theme) =>
-            theme.transitions.create(["background-color", "border-color"], {
+            theme.transitions.create([ "background-color", "border-color" ], {
               easing: theme.transitions.easing.easeOut,
               duration: theme.transitions.duration.shortest,
             }),
@@ -60,7 +60,7 @@ export default function CheckboxIndeterminateIcon() {
           "& .tick": {
             strokeDashoffset: 0,
             transition: (theme) =>
-              theme.transitions.create(["stroke-dashoffset"], {
+              theme.transitions.create([ "stroke-dashoffset" ], {
                 easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.shortest,
                 delay: theme.transitions.duration.shortest,

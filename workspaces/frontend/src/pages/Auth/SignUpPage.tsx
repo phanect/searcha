@@ -9,7 +9,7 @@ import { ROUTES } from "@src/constants/routes";
 import type { auth } from "firebaseui";
 
 export default function SignUpPage() {
-  const [searchParams] = useSearchParams();
+  const [ searchParams ] = useSearchParams();
 
   const uiConfig: auth.Config = {};
   const redirect = searchParams.get("redirect");
@@ -20,7 +20,7 @@ export default function SignUpPage() {
   return (
     <AuthLayout
       title="Sign up"
-      description={
+      description={(
         <>
           <Typography
             color="text.secondary"
@@ -43,7 +43,7 @@ export default function SignUpPage() {
             " used to invite you."
           )}
         </>
-      }
+      )}
     >
       <FirebaseUi uiConfig={uiConfig} />
     </AuthLayout>

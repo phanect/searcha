@@ -1,4 +1,4 @@
-export const columns = ["Name", "Price"];
+export const columns = [ "Name", "Price" ];
 
 export const rows = [
   { Name: "Wine - Vouvray Cuvee Domaine", Price: 22.73 },

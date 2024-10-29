@@ -1,5 +1,5 @@
 /* eslint-disable tsdoc/syntax */
-/*! firebase-admin v8.11.0 */
+/* ! firebase-admin v8.11.0 */
 
 /* eslint-disable @typescript-eslint/ban-types */
 
@@ -7,7 +7,7 @@ declare namespace firebaseauth {
   /**
    * Interface representing a user's metadata.
    */
-  interface UserMetadata {
+  type UserMetadata = {
     /**
      * The date the user last signed in, formatted as a UTC string.
      */
@@ -20,16 +20,16 @@ declare namespace firebaseauth {
     creationTime: string;
 
     /**
-     * @return A JSON-serializable representation of this object.
+     * @returns A JSON-serializable representation of this object.
      */
-    toJSON(): Object;
-  }
+    toJSON(): object;
+  };
 
   /**
    * Interface representing a user's info from a third-party identity provider
    * such as Google or Facebook.
    */
-  interface UserInfo {
+  type UserInfo = {
     /**
      * The user identifier for the linked provider.
      */
@@ -61,15 +61,15 @@ declare namespace firebaseauth {
     providerId: string;
 
     /**
-     * @return A JSON-serializable representation of this object.
+     * @returns A JSON-serializable representation of this object.
      */
-    toJSON(): Object;
-  }
+    toJSON(): object;
+  };
 
   /**
    * Interface representing the common properties of a user enrolled second factor.
    */
-  interface MultiFactorInfo {
+  type MultiFactorInfo = {
     /**
      * The ID of the enrolled second factor. This ID is unique to the user.
      */
@@ -91,25 +91,25 @@ declare namespace firebaseauth {
     factorId: string;
 
     /**
-     * @return A JSON-serializable representation of this object.
+     * @returns A JSON-serializable representation of this object.
      */
-    toJSON(): Object;
-  }
+    toJSON(): object;
+  };
 
   /**
    * Interface representing a phone specific user enrolled second factor.
    */
-  interface PhoneMultiFactorInfo extends MultiFactorInfo {
+  type PhoneMultiFactorInfo = {
     /**
      * The phone number associated with a phone second factor.
      */
     phoneNumber: string;
-  }
+  } & MultiFactorInfo;
 
   /**
    * Interface representing a user.
    */
-  interface UserRecord {
+  type UserRecord = {
     /**
      * The user's `uid`.
      */
@@ -184,7 +184,7 @@ declare namespace firebaseauth {
      * This is set via
      * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#setCustomUserClaims `setCustomUserClaims()`}
      */
-    customClaims?: Object;
+    customClaims?: object;
 
     /**
      * The date the user's tokens are valid after, formatted as a UTC string.
@@ -206,15 +206,15 @@ declare namespace firebaseauth {
     multiFactor?: admin.auth.MultiFactorSettings;
 
     /**
-     * @return A JSON-serializable representation of this object.
+     * @returns A JSON-serializable representation of this object.
      */
-    toJSON(): Object;
-  }
+    toJSON(): object;
+  };
 
   /**
    * The multi-factor related user settings.
    */
-  interface MultiFactorSettings {
+  type MultiFactorSettings = {
     /**
      * List of second factors enrolled with the current user.
      * Currently only phone second factors are supported.
@@ -222,38 +222,38 @@ declare namespace firebaseauth {
     enrolledFactors: admin.auth.MultiFactorInfo[];
 
     /**
-     * @return A JSON-serializable representation of this multi-factor object.
+     * @returns A JSON-serializable representation of this multi-factor object.
      */
-    toJSON(): Object;
-  }
+    toJSON(): object;
+  };
 
   /**
    * The multi-factor related user settings for create operations.
    */
-  interface MultiFactorCreateSettings {
+  type MultiFactorCreateSettings = {
     /**
      * The created user's list of enrolled second factors.
      */
     enrolledFactors: admin.auth.CreateMultiFactorInfoRequest[];
-  }
+  };
 
   /**
    * The multi-factor related user settings for update operations.
    */
-  interface MultiFactorUpdateSettings {
+  type MultiFactorUpdateSettings = {
     /**
      * The updated list of enrolled second factors. The provided list overwrites the user's
      * existing list of second factors.
      * When null is passed, all of the user's existing second factors are removed.
      */
     enrolledFactors: admin.auth.UpdateMultiFactorInfoRequest[] | null;
-  }
+  };
 
   /**
    * Interface representing common properties of a user enrolled second factor
    * for an `UpdateRequest`.
    */
-  interface UpdateMultiFactorInfoRequest {
+  type UpdateMultiFactorInfoRequest = {
     /**
      * The ID of the enrolled second factor. This ID is unique to the user. When not provided,
      * a new one is provisioned by the Auth server.
@@ -274,24 +274,23 @@ declare namespace firebaseauth {
      * The type identifier of the second factor. For SMS second factors, this is `phone`.
      */
     factorId: string;
-  }
+  };
 
   /**
    * Interface representing a phone specific user enrolled second factor
    * for an `UpdateRequest`.
    */
-  interface UpdatePhoneMultiFactorInfoRequest
-    extends UpdateMultiFactorInfoRequest {
+  type UpdatePhoneMultiFactorInfoRequest = {
     /**
      * The phone number associated with a phone second factor.
      */
     phoneNumber: string;
-  }
+  } & UpdateMultiFactorInfoRequest;
 
   /**
    * Interface representing the properties to update on the provided user.
    */
-  interface UpdateRequest {
+  type UpdateRequest = {
     /**
      * Whether or not the user is disabled: `true` for disabled;
      * `false` for enabled.
@@ -332,13 +331,13 @@ declare namespace firebaseauth {
      * The user's updated multi-factor related properties.
      */
     multiFactor?: admin.auth.MultiFactorUpdateSettings;
-  }
+  };
 
   /**
    * Interface representing base properties of a user enrolled second factor for a
    * `CreateRequest`.
    */
-  interface CreateMultiFactorInfoRequest {
+  type CreateMultiFactorInfoRequest = {
     /**
      * The optional display name for an enrolled second factor.
      */
@@ -348,25 +347,24 @@ declare namespace firebaseauth {
      * The type identifier of the second factor. For SMS second factors, this is `phone`.
      */
     factorId: string;
-  }
+  };
 
   /**
    * Interface representing a phone specific user enrolled second factor for a
    * `CreateRequest`.
    */
-  interface CreatePhoneMultiFactorInfoRequest
-    extends CreateMultiFactorInfoRequest {
+  type CreatePhoneMultiFactorInfoRequest = {
     /**
      * The phone number associated with a phone second factor.
      */
     phoneNumber: string;
-  }
+  } & CreateMultiFactorInfoRequest;
 
   /**
    * Interface representing the properties to set on a new user record to be
    * created.
    */
-  interface CreateRequest extends UpdateRequest {
+  type CreateRequest = {
     /**
      * The user's `uid`.
      */
@@ -376,7 +374,7 @@ declare namespace firebaseauth {
      * The user's multi-factor related properties.
      */
     multiFactor?: admin.auth.MultiFactorCreateSettings;
-  }
+  } & UpdateRequest;
 
   /**
    * Interface representing a decoded Firebase ID token, returned from the
@@ -387,7 +385,7 @@ declare namespace firebaseauth {
    * [ID Token section of the OpenID Connect spec](http://openid.net/specs/openid-connect-core-1_0.html#IDToken)
    * for more information about the specific properties below.
    */
-  interface DecodedIdToken {
+  type DecodedIdToken = {
     /**
      * The audience for which this token is intended.
      *
@@ -440,9 +438,7 @@ declare namespace firebaseauth {
        * Provider-specific identity details corresponding
        * to the provider used to sign in the user.
        */
-      identities: {
-        [key: string]: any;
-      };
+      identities: Record<string, any>;
 
       /**
        * The ID of the provider used to sign in the user.
@@ -517,14 +513,14 @@ declare namespace firebaseauth {
      */
     uid: string;
     [key: string]: any;
-  }
+  };
 
   /**
    * Interface representing the object returned from a
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#listUsers `listUsers()`} operation. Contains the list
    * of users for the current batch and the next page token if available.
    */
-  interface ListUsersResult {
+  type ListUsersResult = {
     /**
      * The list of {@link admin.auth.UserRecord `UserRecord`} objects for the
      * current downloaded batch.
@@ -535,7 +531,7 @@ declare namespace firebaseauth {
      * The next page token if available. This is needed for the next batch download.
      */
     pageToken?: string;
-  }
+  };
 
   type HashAlgorithmType =
     | "SCRYPT"
@@ -557,7 +553,7 @@ declare namespace firebaseauth {
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#importUsers `importUsers()`} method. This is used to
    * provide the password hashing algorithm information.
    */
-  interface UserImportOptions {
+  type UserImportOptions = {
     /**
      * The password hashing information.
      */
@@ -614,14 +610,14 @@ declare namespace firebaseauth {
        */
       derivedKeyLength?: number;
     };
-  }
+  };
 
   /**
    * Interface representing the response from the
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#importUsers `importUsers()`} method for batch
    * importing users to Firebase Auth.
    */
-  interface UserImportResult {
+  type UserImportResult = {
     /**
      * The number of user records that failed to import to Firebase Auth.
      */
@@ -636,12 +632,12 @@ declare namespace firebaseauth {
      * An array of errors corresponding to the provided users to import. The
      * length of this array is equal to [`failureCount`](#failureCount).
      */
-  }
+  };
 
   /**
    * User metadata to include when importing a user.
    */
-  interface UserMetadataRequest {
+  type UserMetadataRequest = {
     /**
      * The date the user last signed in, formatted as a UTC string.
      */
@@ -651,12 +647,12 @@ declare namespace firebaseauth {
      * The date the user was created, formatted as a UTC string.
      */
     creationTime?: string;
-  }
+  };
 
   /**
    * User provider data to include when importing a user.
    */
-  interface UserProviderRequest {
+  type UserProviderRequest = {
     /**
      * The user identifier for the linked provider.
      */
@@ -686,13 +682,13 @@ declare namespace firebaseauth {
      * The linked provider ID (for example, "google.com" for the Google provider).
      */
     providerId: string;
-  }
+  };
 
   /**
    * Interface representing a user to import to Firebase Auth via the
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#importUsers `importUsers()`} method.
    */
-  interface UserImportRecord {
+  type UserImportRecord = {
     /**
      * The user's `uid`.
      */
@@ -743,7 +739,7 @@ declare namespace firebaseauth {
      * The user's custom claims object if available, typically used to define
      * user roles and propagated to an authenticated user's ID token.
      */
-    customClaims?: Object;
+    customClaims?: object;
 
     /**
      * The buffer of bytes representing the user's hashed password.
@@ -771,25 +767,25 @@ declare namespace firebaseauth {
      * The user's multi-factor related properties.
      */
     multiFactor?: admin.auth.MultiFactorUpdateSettings;
-  }
+  };
 
   /**
    * Interface representing the session cookie options needed for the
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#createSessionCookie `createSessionCookie()`} method.
    */
-  interface SessionCookieOptions {
+  type SessionCookieOptions = {
     /**
      * The session cookie custom expiration in milliseconds. The minimum allowed is
      * 5 minutes and the maxium allowed is 2 weeks.
      */
     expiresIn: number;
-  }
+  };
 
   /**
    * This is the interface that defines the required continue/state URL with
    * optional Android and iOS bundle identifiers.
    */
-  interface ActionCodeSettings {
+  type ActionCodeSettings = {
     /**
      * Defines the link continue/state URL, which has different meanings in
      * different contexts:
@@ -861,7 +857,7 @@ declare namespace firebaseauth {
      * one. If none is provided, the oldest domain is used by default.
      */
     dynamicLinkDomain?: string;
-  }
+  };
 
   /**
    * Interface representing a tenant configuration.
@@ -883,7 +879,7 @@ declare namespace firebaseauth {
    * All other settings of a tenant will also be inherited. These will need to be managed
    * from the Cloud Console UI.
    */
-  interface Tenant {
+  type Tenant = {
     /**
      * The tenant identifier.
      */
@@ -911,15 +907,15 @@ declare namespace firebaseauth {
     };
 
     /**
-     * @return A JSON-serializable representation of this object.
+     * @returns A JSON-serializable representation of this object.
      */
-    toJSON(): Object;
-  }
+    toJSON(): object;
+  };
 
   /**
    * Interface representing the properties to update on the provided tenant.
    */
-  interface UpdateTenantRequest {
+  type UpdateTenantRequest = {
     /**
      * The tenant display name.
      */
@@ -940,7 +936,7 @@ declare namespace firebaseauth {
        */
       passwordRequired?: boolean;
     };
-  }
+  };
 
   /**
    * Interface representing the properties to set on a new tenant.
@@ -953,7 +949,7 @@ declare namespace firebaseauth {
    * operation.
    * Contains the list of tenants for the current batch and the next page token if available.
    */
-  interface ListTenantsResult {
+  type ListTenantsResult = {
     /**
      * The list of {@link admin.auth.Tenant `Tenant`} objects for the downloaded batch.
      */
@@ -963,14 +959,14 @@ declare namespace firebaseauth {
      * The next page token if available. This is needed for the next batch download.
      */
     pageToken?: string;
-  }
+  };
 
   /**
    * The filter interface used for listing provider configurations. This is used
    * when specifying how to list configured identity providers via
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#listProviderConfigs `listProviderConfigs()`}.
    */
-  interface AuthProviderConfigFilter {
+  type AuthProviderConfigFilter = {
     /**
      * The Auth provider configuration filter. This can be either `saml` or `oidc`.
      * The former is used to look up SAML providers only, while the latter is used
@@ -989,12 +985,12 @@ declare namespace firebaseauth {
      * of the list.
      */
     pageToken?: string;
-  }
+  };
 
   /**
    * The base Auth provider configuration interface.
    */
-  interface AuthProviderConfig {
+  type AuthProviderConfig = {
     /**
      * The provider ID defined by the developer.
      * For a SAML provider, this is always prefixed by `saml.`.
@@ -1013,7 +1009,7 @@ declare namespace firebaseauth {
      * cannot sign in using a disabled provider.
      */
     enabled: boolean;
-  }
+  };
 
   /**
    * The
@@ -1021,7 +1017,7 @@ declare namespace firebaseauth {
    * Auth provider configuration interface. A SAML provider can be created via
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#createProviderConfig `createProviderConfig()`}.
    */
-  interface SAMLAuthProviderConfig extends admin.auth.AuthProviderConfig {
+  type SAMLAuthProviderConfig = {
     /**
      * The SAML IdP entity identifier.
      */
@@ -1058,14 +1054,14 @@ declare namespace firebaseauth {
      * configuration.
      */
     callbackURL?: string;
-  }
+  } & admin.auth.AuthProviderConfig;
 
   /**
    * The [OIDC](https://openid.net/specs/openid-connect-core-1_0-final.html) Auth
    * provider configuration interface. An OIDC provider can be created via
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#createProviderConfig `createProviderConfig()`}.
    */
-  interface OIDCAuthProviderConfig extends admin.auth.AuthProviderConfig {
+  type OIDCAuthProviderConfig = {
     /**
      * This is the required client ID used to confirm the audience of an OIDC
      * provider's
@@ -1091,14 +1087,14 @@ declare namespace firebaseauth {
      * [spec](https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation).
      */
     issuer: string;
-  }
+  } & admin.auth.AuthProviderConfig;
 
   /**
    * The request interface for updating a SAML Auth provider. This is used
    * when updating a SAML provider's configuration via
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#updateProviderConfig `updateProviderConfig()`}.
    */
-  interface SAMLUpdateAuthProviderRequest {
+  type SAMLUpdateAuthProviderRequest = {
     /**
      * The SAML provider's updated display name. If not provided, the existing
      * configuration's value is not modified.
@@ -1140,14 +1136,14 @@ declare namespace firebaseauth {
      * configuration's value is not modified.
      */
     callbackURL?: string;
-  }
+  };
 
   /**
    * The request interface for updating an OIDC Auth provider. This is used
    * when updating an OIDC provider's configuration via
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#updateProviderConfig `updateProviderConfig()`}.
    */
-  interface OIDCUpdateAuthProviderRequest {
+  type OIDCUpdateAuthProviderRequest = {
     /**
      * The OIDC provider's updated display name. If not provided, the existing
      * configuration's value is not modified.
@@ -1171,14 +1167,14 @@ declare namespace firebaseauth {
      * configuration's value is not modified.
      */
     issuer?: string;
-  }
+  };
 
   /**
    * The response interface for listing provider configs. This is only available
    * when listing all identity providers' configurations via
    * {@link https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#listProviderConfigs `listProviderConfigs()`}.
    */
-  interface ListProviderConfigResults {
+  type ListProviderConfigResults = {
     /**
      * The list of providers for the specified type in the current page.
      */
@@ -1188,13 +1184,13 @@ declare namespace firebaseauth {
      * The next page token, if available.
      */
     pageToken?: string;
-  }
+  };
 
   type UpdateAuthProviderRequest =
     | admin.auth.SAMLUpdateAuthProviderRequest
     | admin.auth.OIDCUpdateAuthProviderRequest;
 
-  interface BaseAuth {
+  type BaseAuth = {
     /**
      * Creates a new Firebase custom token (JWT) that can be sent back to a client
      * device to use to sign in with the client SDKs' `signInWithCustomToken()`
@@ -1203,26 +1199,22 @@ declare namespace firebaseauth {
      *
      * See [Create Custom Tokens](/docs/auth/admin/create-custom-tokens) for code
      * samples and detailed documentation.
-     *
-     * @param uid The `uid` to use as the custom token's subject.
-     * @param developerClaims Optional additional claims to include
+     * @param uid - The `uid` to use as the custom token's subject.
+     * @param developerClaims - Optional additional claims to include
      *   in the custom token's payload.
-     *
-     * @return A promise fulfilled with a custom token for the
+     * @returns A promise fulfilled with a custom token for the
      *   provided `uid` and payload.
      */
-    createCustomToken(uid: string, developerClaims?: Object): Promise<string>;
+    createCustomToken(uid: string, developerClaims?: object): Promise<string>;
 
     /**
      * Creates a new user.
      *
      * See [Create a user](/docs/auth/admin/manage-users#create_a_user) for code
      * samples and detailed documentation.
-     *
-     * @param properties The properties to set on the
+     * @param properties - The properties to set on the
      *   new user record to be created.
-     *
-     * @return A promise fulfilled with the user
+     * @returns A promise fulfilled with the user
      *   data corresponding to the newly created user.
      */
     createUser(
@@ -1234,10 +1226,8 @@ declare namespace firebaseauth {
      *
      * See [Delete a user](/docs/auth/admin/manage-users#delete_a_user) for code
      * samples and detailed documentation.
-     *
-     * @param uid The `uid` corresponding to the user to delete.
-     *
-     * @return An empty promise fulfilled once the user has been
+     * @param uid - The `uid` corresponding to the user to delete.
+     * @returns An empty promise fulfilled once the user has been
      *   deleted.
      */
     deleteUser(uid: string): Promise<void>;
@@ -1247,10 +1237,8 @@ declare namespace firebaseauth {
      *
      * See [Retrieve user data](/docs/auth/admin/manage-users#retrieve_user_data)
      * for code samples and detailed documentation.
-     *
-     * @param uid The `uid` corresponding to the user whose data to fetch.
-     *
-     * @return A promise fulfilled with the user
+     * @param uid - The `uid` corresponding to the user whose data to fetch.
+     * @returns A promise fulfilled with the user
      *   data corresponding to the provided `uid`.
      */
     getUser(uid: string): Promise<admin.auth.UserRecord>;
@@ -1260,11 +1248,9 @@ declare namespace firebaseauth {
      *
      * See [Retrieve user data](/docs/auth/admin/manage-users#retrieve_user_data)
      * for code samples and detailed documentation.
-     *
-     * @param email The email corresponding to the user whose data to
+     * @param email - The email corresponding to the user whose data to
      *   fetch.
-     *
-     * @return A promise fulfilled with the user
+     * @returns A promise fulfilled with the user
      *   data corresponding to the provided email.
      */
     getUserByEmail(email: string): Promise<admin.auth.UserRecord>;
@@ -1275,11 +1261,9 @@ declare namespace firebaseauth {
      *
      * See [Retrieve user data](/docs/auth/admin/manage-users#retrieve_user_data)
      * for code samples and detailed documentation.
-     *
-     * @param phoneNumber The phone number corresponding to the user whose
+     * @param phoneNumber - The phone number corresponding to the user whose
      *   data to fetch.
-     *
-     * @return A promise fulfilled with the user
+     * @returns A promise fulfilled with the user
      *   data corresponding to the provided phone number.
      */
     getUserByPhoneNumber(phoneNumber: string): Promise<admin.auth.UserRecord>;
@@ -1291,12 +1275,11 @@ declare namespace firebaseauth {
      *
      * See [List all users](/docs/auth/admin/manage-users#list_all_users)
      * for code samples and detailed documentation.
-     *
-     * @param maxResults The page size, 1000 if undefined. This is also
+     * @param maxResults - The page size, 1000 if undefined. This is also
      *   the maximum allowed limit.
-     * @param pageToken The next page token. If not specified, returns
+     * @param pageToken - The next page token. If not specified, returns
      *   users starting without any offset.
-     * @return A promise that resolves with
+     * @returns A promise that resolves with
      *   the current batch of downloaded users and the next page token.
      */
     listUsers(
@@ -1309,12 +1292,10 @@ declare namespace firebaseauth {
      *
      * See [Update a user](/docs/auth/admin/manage-users#update_a_user) for code
      * samples and detailed documentation.
-     *
-     * @param uid The `uid` corresponding to the user to delete.
-     * @param properties The properties to update on
+     * @param uid - The `uid` corresponding to the user to delete.
+     * @param properties - The properties to update on
      *   the provided user.
-     *
-     * @return A promise fulfilled with the
+     * @returns A promise fulfilled with the
      *   updated user data.
      */
     updateUser(
@@ -1331,14 +1312,12 @@ declare namespace firebaseauth {
      *
      * See [Verify ID Tokens](/docs/auth/admin/verify-id-tokens) for code samples
      * and detailed documentation.
-     *
-     * @param idToken The ID token to verify.
-     * @param checkRevoked Whether to check if the ID token was revoked.
+     * @param idToken - The ID token to verify.
+     * @param checkRevoked - Whether to check if the ID token was revoked.
      *   This requires an extra request to the Firebase Auth backend to check
      *   the `tokensValidAfterTime` time for the corresponding user.
      *   When not specified, this additional check is not applied.
-     *
-     * @return A promise fulfilled with the
+     * @returns A promise fulfilled with the
      *   token's decoded claims if the ID token is valid; otherwise, a rejected
      *   promise.
      */
@@ -1359,20 +1338,19 @@ declare namespace firebaseauth {
      * See
      * [Defining user roles and access levels](/docs/auth/admin/custom-claims)
      * for code samples and detailed documentation.
-     *
-     * @param uid The `uid` of the user to edit.
-     * @param customUserClaims The developer claims to set. If null is
+     * @param uid - The `uid` of the user to edit.
+     * @param customUserClaims - The developer claims to set. If null is
      *   passed, existing custom claims are deleted. Passing a custom claims payload
      *   larger than 1000 bytes will throw an error. Custom claims are added to the
      *   user's ID token which is transmitted on every authenticated request.
      *   For profile non-access related user attributes, use database or other
      *   separate storage systems.
-     * @return A promise that resolves when the operation completes
+     * @returns A promise that resolves when the operation completes
      *   successfully.
      */
     setCustomUserClaims(
       uid: string,
-      customUserClaims: Object | null
+      customUserClaims: object | null
     ): Promise<void>;
 
     /**
@@ -1389,11 +1367,9 @@ declare namespace firebaseauth {
      * ID tokens are revoked, use
      * {@link admin.auth.Auth#verifyIdToken `verifyIdToken(idToken, true)`}
      * where `checkRevoked` is set to true.
-     *
-     * @param uid The `uid` corresponding to the user whose refresh tokens
+     * @param uid - The `uid` corresponding to the user whose refresh tokens
      *   are to be revoked.
-     *
-     * @return An empty promise fulfilled once the user's refresh
+     * @returns An empty promise fulfilled once the user's refresh
      *   tokens have been revoked.
      */
     revokeRefreshTokens(uid: string): Promise<void>;
@@ -1406,11 +1382,10 @@ declare namespace firebaseauth {
      * specified.
      * This operation is optimized for bulk imports and will ignore checks on `uid`,
      * `email` and other identifier uniqueness which could result in duplications.
-     *
-     * @param users The list of user records to import to Firebase Auth.
-     * @param options The user import options, required when the users provided include
+     * @param users - The list of user records to import to Firebase Auth.
+     * @param options - The user import options, required when the users provided include
      *   password credentials.
-     * @return A promise that resolves when
+     * @returns A promise that resolves when
      *   the operation completes with the result of the import. This includes the
      *   number of successful imports, the number of failed imports and their
      *   corresponding errors.
@@ -1428,13 +1403,11 @@ declare namespace firebaseauth {
      *
      * See [Manage Session Cookies](/docs/auth/admin/manage-cookies) for code
      * samples and detailed documentation.
-     *
-     * @param idToken The Firebase ID token to exchange for a session
+     * @param idToken - The Firebase ID token to exchange for a session
      *   cookie.
-     * @param sessionCookieOptions The session
+     * @param sessionCookieOptions - The session
      *   cookie options which includes custom session duration.
-     *
-     * @return A promise that resolves on success with the
+     * @returns A promise that resolves on success with the
      *   created session cookie.
      */
     createSessionCookie(
@@ -1452,14 +1425,12 @@ declare namespace firebaseauth {
      *
      * See [Verify Session Cookies](/docs/auth/admin/manage-cookies#verify_session_cookie_and_check_permissions)
      * for code samples and detailed documentation
-     *
-     * @param sessionCookie The session cookie to verify.
-     * @param checkForRevocation  Whether to check if the session cookie was
+     * @param sessionCookie - The session cookie to verify.
+     * @param checkForRevocation  - Whether to check if the session cookie was
      *   revoked. This requires an extra request to the Firebase Auth backend to
      *   check the `tokensValidAfterTime` time for the corresponding user.
      *   When not specified, this additional check is not performed.
-     *
-     * @return A promise fulfilled with the
+     * @returns A promise fulfilled with the
      *   session cookie's decoded claims if the session cookie is valid; otherwise,
      *   a rejected promise.
      */
@@ -1474,7 +1445,6 @@ declare namespace firebaseauth {
      * optional  {@link admin.auth.ActionCodeSettings `ActionCodeSettings`} object
      * defines whether the link is to be handled by a mobile app or browser and the
      * additional state information to be passed in the deep link, etc.
-     *
      * @example
      * ```javascript
      * var actionCodeSettings = {
@@ -1499,10 +1469,9 @@ declare namespace firebaseauth {
      *       // Some error occurred, you can inspect the code: error.code
      *     });
      * ```
-     *
-     * @param email The email address of the user whose password is to be
+     * @param email - The email address of the user whose password is to be
      *   reset.
-     * @param actionCodeSettings The action
+     * @param actionCodeSettings - The action
      *     code settings. If specified, the state/continue URL is set as the
      *     "continueUrl" parameter in the password reset link. The default password
      *     reset landing page will use this to display a link to go back to the app
@@ -1515,7 +1484,7 @@ declare namespace firebaseauth {
      *     and accepts the Firebase Dynamic Links terms of service.
      *     The Android package name and iOS bundle ID are respected only if they
      *     are configured in the same Firebase Auth project.
-     * @return A promise that resolves with the generated link.
+     * @returns A promise that resolves with the generated link.
      */
     generatePasswordResetLink(
       email: string,
@@ -1529,7 +1498,6 @@ declare namespace firebaseauth {
      * as an argument to this method defines whether the link is to be handled by a
      * mobile app or browser along with additional state information to be passed in
      * the deep link, etc.
-     *
      * @example
      * ```javascript
      * var actionCodeSettings = {
@@ -1554,9 +1522,8 @@ declare namespace firebaseauth {
      *       // Some error occurred, you can inspect the code: error.code
      *     });
      * ```
-     *
-     * @param email The email account to verify.
-     * @param actionCodeSettings The action
+     * @param email - The email account to verify.
+     * @param actionCodeSettings - The action
      *     code settings. If specified, the state/continue URL is set as the
      *     "continueUrl" parameter in the email verification link. The default email
      *     verification landing page will use this to display a link to go back to
@@ -1569,7 +1536,7 @@ declare namespace firebaseauth {
      *     and accepts the Firebase Dynamic Links terms of service.
      *     The Android package name and iOS bundle ID are respected only if they
      *     are configured in the same Firebase Auth project.
-     * @return A promise that resolves with the generated link.
+     * @returns A promise that resolves with the generated link.
      */
     generateEmailVerificationLink(
       email: string,
@@ -1583,7 +1550,6 @@ declare namespace firebaseauth {
      * as an argument to this method defines whether the link is to be handled by a
      * mobile app or browser along with additional state information to be passed in
      * the deep link, etc.
-     *
      * @example
      * ```javascript
      * var actionCodeSettings = {
@@ -1612,9 +1578,8 @@ declare namespace firebaseauth {
      *       // Some error occurred, you can inspect the code: error.code
      *     });
      * ```
-     *
-     * @param email The email account to sign in with.
-     * @param actionCodeSettings The action
+     * @param email - The email account to sign in with.
+     * @param actionCodeSettings - The action
      *     code settings. These settings provide Firebase with instructions on how
      *     to construct the email link. This includes the sign in completion URL or
      *     the deep link for redirects and the mobile apps to use when the
@@ -1623,7 +1588,7 @@ declare namespace firebaseauth {
      *     and accepts the Firebase Dynamic Links terms of service.
      *     The Android package name and iOS bundle ID are respected only if they
      *     are configured in the same Firebase Auth project.
-     * @return A promise that resolves with the generated link.
+     * @returns A promise that resolves with the generated link.
      */
     generateSignInWithEmailLink(
       email: string,
@@ -1637,9 +1602,8 @@ declare namespace firebaseauth {
      * SAML and OIDC provider support requires Google Cloud's Identity Platform
      * (GCIP). To learn more about GCIP, including pricing and features,
      * see the [GCIP documentation](https://cloud.google.com/identity-platform).
-     *
-     * @param options The provider config filter to apply.
-     * @return A promise that resolves with the list of provider configs meeting the
+     * @param options - The provider config filter to apply.
+     * @returns A promise that resolves with the list of provider configs meeting the
      *   filter requirements.
      */
     listProviderConfigs(
@@ -1655,10 +1619,9 @@ declare namespace firebaseauth {
      * SAML and OIDC provider support requires Google Cloud's Identity Platform
      * (GCIP). To learn more about GCIP, including pricing and features,
      * see the [GCIP documentation](https://cloud.google.com/identity-platform).
-     *
-     * @param providerId The provider ID corresponding to the provider
+     * @param providerId - The provider ID corresponding to the provider
      *     config to return.
-     * @return A promise that resolves
+     * @returns A promise that resolves
      *     with the configuration corresponding to the provided ID.
      */
     getProviderConfig(
@@ -1673,10 +1636,9 @@ declare namespace firebaseauth {
      * SAML and OIDC provider support requires Google Cloud's Identity Platform
      * (GCIP). To learn more about GCIP, including pricing and features,
      * see the [GCIP documentation](https://cloud.google.com/identity-platform).
-     *
-     * @param providerId The provider ID corresponding to the provider
+     * @param providerId - The provider ID corresponding to the provider
      *     config to delete.
-     * @return A promise that resolves on completion.
+     * @returns A promise that resolves on completion.
      */
     deleteProviderConfig(providerId: string): Promise<void>;
 
@@ -1689,11 +1651,10 @@ declare namespace firebaseauth {
      * SAML and OIDC provider support requires Google Cloud's Identity Platform
      * (GCIP). To learn more about GCIP, including pricing and features,
      * see the [GCIP documentation](https://cloud.google.com/identity-platform).
-     *
-     * @param providerId The provider ID corresponding to the provider
+     * @param providerId - The provider ID corresponding to the provider
      *     config to update.
-     * @param updatedConfig The updated configuration.
-     * @return A promise that resolves with the updated provider configuration.
+     * @param updatedConfig - The updated configuration.
+     * @returns A promise that resolves with the updated provider configuration.
      */
     updateProviderConfig(
       providerId: string,
@@ -1707,14 +1668,13 @@ declare namespace firebaseauth {
      * SAML and OIDC provider support requires Google Cloud's Identity Platform
      * (GCIP). To learn more about GCIP, including pricing and features,
      * see the [GCIP documentation](https://cloud.google.com/identity-platform).
-     *
-     * @param config The provider configuration to create.
-     * @return A promise that resolves with the created provider configuration.
+     * @param config - The provider configuration to create.
+     * @returns A promise that resolves with the created provider configuration.
      */
     createProviderConfig(
       config: admin.auth.AuthProviderConfig
     ): Promise<admin.auth.AuthProviderConfig>;
-  }
+  };
 
   /**
    * Tenant-aware `Auth` interface used for managing users, configuring SAML/OIDC providers,
@@ -1733,21 +1693,21 @@ declare namespace firebaseauth {
    * `TenantAwareAuth` instances for a specific `tenantId` can be instantiated by calling
    * `auth.tenantManager().authForTenant(tenantId)`.
    */
-  interface TenantAwareAuth extends BaseAuth {
+  type TenantAwareAuth = {
     /**
      * The tenant identifier corresponding to this `TenantAwareAuth` instance.
      * All calls to the user management APIs, OIDC/SAML provider management APIs, email link
      * generation APIs, etc will only be applied within the scope of this tenant.
      */
     tenantId: string;
-  }
+  } & BaseAuth;
 
-  interface Auth extends admin.auth.BaseAuth {
+  type Auth = {
     /**
-     * @return The tenant manager instance associated with the current project.
+     * @returns The tenant manager instance associated with the current project.
      */
     tenantManager(): admin.auth.TenantManager;
-  }
+  } & admin.auth.BaseAuth;
 
   /**
    * Defines the tenant manager used to help manage tenant related operations.
@@ -1760,20 +1720,17 @@ declare namespace firebaseauth {
    *     email link generation, etc) in the context of a specified tenant.</li>
    * </ul>
    */
-  interface TenantManager {
+  type TenantManager = {
     /**
-     * @param tenantId The tenant ID whose `TenantAwareAuth` instance is to be returned.
-     *
-     * @return The `TenantAwareAuth` instance corresponding to this tenant identifier.
+     * @param tenantId - The tenant ID whose `TenantAwareAuth` instance is to be returned.
+     * @returns The `TenantAwareAuth` instance corresponding to this tenant identifier.
      */
     authForTenant(tenantId: string): admin.auth.TenantAwareAuth;
 
     /**
      * Gets the tenant configuration for the tenant corresponding to a given `tenantId`.
-     *
-     * @param tenantId The tenant identifier corresponding to the tenant whose data to fetch.
-     *
-     * @return A promise fulfilled with the tenant configuration to the provided `tenantId`.
+     * @param tenantId - The tenant identifier corresponding to the tenant whose data to fetch.
+     * @returns A promise fulfilled with the tenant configuration to the provided `tenantId`.
      */
     getTenant(tenantId: string): Promise<admin.auth.Tenant>;
 
@@ -1781,13 +1738,11 @@ declare namespace firebaseauth {
      * Retrieves a list of tenants (single batch only) with a size of `maxResults`
      * starting from the offset as specified by `pageToken`. This is used to
      * retrieve all the tenants of a specified project in batches.
-     *
-     * @param maxResults The page size, 1000 if undefined. This is also
+     * @param maxResults - The page size, 1000 if undefined. This is also
      *   the maximum allowed limit.
-     * @param pageToken The next page token. If not specified, returns
+     * @param pageToken - The next page token. If not specified, returns
      *   tenants starting without any offset.
-     *
-     * @return A promise that resolves with
+     * @returns A promise that resolves with
      *   a batch of downloaded tenants and the next page token.
      */
     listTenants(
@@ -1797,10 +1752,8 @@ declare namespace firebaseauth {
 
     /**
      * Deletes an existing tenant.
-     *
-     * @param tenantId The `tenantId` corresponding to the tenant to delete.
-     *
-     * @return An empty promise fulfilled once the tenant has been deleted.
+     * @param tenantId - The `tenantId` corresponding to the tenant to delete.
+     * @returns An empty promise fulfilled once the tenant has been deleted.
      */
     deleteTenant(tenantId: string): Promise<void>;
 
@@ -1808,10 +1761,8 @@ declare namespace firebaseauth {
      * Creates a new tenant.
      * When creating new tenants, tenants that use separate billing and quota will require their
      * own project and must be defined as `full_service`.
-     *
-     * @param tenantOptions The properties to set on the new tenant configuration to be created.
-     *
-     * @return A promise fulfilled with the tenant configuration corresponding to the newly
+     * @param tenantOptions - The properties to set on the new tenant configuration to be created.
+     * @returns A promise fulfilled with the tenant configuration corresponding to the newly
      *   created tenant.
      */
     createTenant(
@@ -1820,15 +1771,13 @@ declare namespace firebaseauth {
 
     /**
      * Updates an existing tenant configuration.
-     *
-     * @param tenantId The `tenantId` corresponding to the tenant to delete.
-     * @param tenantOptions The properties to update on the provided tenant.
-     *
-     * @return A promise fulfilled with the update tenant data.
+     * @param tenantId - The `tenantId` corresponding to the tenant to delete.
+     * @param tenantOptions - The properties to update on the provided tenant.
+     * @returns A promise fulfilled with the update tenant data.
      */
     updateTenant(
       tenantId: string,
       tenantOptions: admin.auth.UpdateTenantRequest
     ): Promise<admin.auth.Tenant>;
-  }
+  };
 }

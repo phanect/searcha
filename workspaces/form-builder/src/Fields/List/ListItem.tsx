@@ -1,11 +1,11 @@
-import { memo } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import { memo } from "react";
+import { useDrag, useDrop } from "react-dnd";
 
-import { Grid, TextField, IconButton } from '@mui/material';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { Grid, TextField, IconButton } from "@mui/material";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-export interface IListItemProps {
+export type IListItemProps = {
   name: string;
   index: number;
   item: string;
@@ -17,10 +17,10 @@ export interface IListItemProps {
   itemLabel?: string;
   placeholder?: string;
   disabled?: boolean;
-}
+};
 
 export const MemoizedListItem = memo(
-  function ListItem({
+  ({
     name,
     index,
     item,
@@ -32,8 +32,8 @@ export const MemoizedListItem = memo(
     itemLabel,
     placeholder,
     disabled,
-  }: IListItemProps) {
-    const [, drag, dragPreview] = useDrag(() => ({
+  }: IListItemProps) => {
+    const [ , drag, dragPreview ] = useDrag(() => ({
       type: name,
       item: { index },
       collect: (monitor) => ({
@@ -41,7 +41,7 @@ export const MemoizedListItem = memo(
       }),
     }));
 
-    const [{ isOver }, drop] = useDrop(
+    const [{ isOver }, drop ] = useDrop(
       () => ({
         accept: name,
         drop: ({ index: fromIndex }: any) => swap(fromIndex, index),
@@ -49,7 +49,7 @@ export const MemoizedListItem = memo(
           isOver: !!monitor.isOver(),
         }),
       }),
-      [index]
+      [ index ]
     );
 
     return (
@@ -57,13 +57,13 @@ export const MemoizedListItem = memo(
         <Grid container alignItems="center" wrap="nowrap" ref={dragPreview}>
           <Grid
             ref={disabled ? null : drag}
-            style={disabled ? {} : { cursor: 'grab' }}
+            style={disabled ? {} : { cursor: "grab" }}
             sx={{
-              '.drag-handle': {
-                display: 'block',
+              ".drag-handle": {
+                display: "block",
                 my: (56 - 24) / 2 / 8,
                 mr: 3,
-                color: disabled ? 'text.disabled' : undefined,
+                color: disabled ? "text.disabled" : undefined,
               },
             }}
           >
@@ -75,7 +75,7 @@ export const MemoizedListItem = memo(
 
           <Grid>
             <TextField
-              label={`${itemLabel} ${index + 1}`}
+              label={`${ itemLabel } ${ index + 1 }`}
               placeholder={placeholder}
               autoFocus
               fullWidth
@@ -88,7 +88,7 @@ export const MemoizedListItem = memo(
 
           <Grid>
             <IconButton
-              aria-label={`Remove item ${index}`}
+              aria-label={`Remove item ${ index }`}
               sx={{ ml: 1.5, mr: -1.5 }}
               onClick={remove}
               disabled={disabled}

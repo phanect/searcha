@@ -1,7 +1,7 @@
-import { getProjectId } from "../metadataService";
-import { Request } from "express";
 import * as _ from "lodash";
 import { Logging } from "@google-cloud/logging";
+import { getProjectId } from "../metadataService";
+import type { Request } from "express";
 
 // function tryParseJSONObject(jsonString: string) {
 //   try {
@@ -55,11 +55,9 @@ export async function getLogs(req: Request) {
     pageSize,
     orderBy: (req.query.orderBy ?? orderBy) as string,
   };
-  const [entries] = await logging.getEntries(options);
-  console.log(`entry ${entries.length}`);
-  return entries.map((entry) => {
-    return entry.toJSON();
-  });
+  const [ entries ] = await logging.getEntries(options);
+  console.log(`entry ${ entries.length }`);
+  return entries.map((entry) => entry.toJSON());
 }
 
 export { LoggingFactory, RowyLogging } from "./LoggingFactory";

@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { useAtom } from "jotai";
-import { FallbackProps } from "react-error-boundary";
 import { Link } from "react-router-dom";
 
 import {
@@ -23,14 +22,17 @@ import {
 } from "@src/atoms/projectScope";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { ROUTES } from "@src/constants/routes";
+import type { FallbackProps } from "react-error-boundary";
 
 export default function AccessDenied({ resetErrorBoundary }: FallbackProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
 
-  if (!currentUser) window.location.reload();
+  if (!currentUser) {
+    window.location.reload();
+  }
 
   return (
     <EmptyState
@@ -38,7 +40,7 @@ export default function AccessDenied({ resetErrorBoundary }: FallbackProps) {
       fullScreen
       Icon={LockIcon}
       message="Access denied"
-      description={
+      description={(
         <>
           <div style={{ textAlign: "left", width: "100%" }}>
             <Stack
@@ -90,7 +92,7 @@ export default function AccessDenied({ resetErrorBoundary }: FallbackProps) {
             to set up this project’s security rules.
           </Typography>
         </>
-      }
+      )}
       sx={{
         position: "fixed",
         top: 0,

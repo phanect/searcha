@@ -2,49 +2,58 @@ import { useContext } from "react";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 
-import NewColumnModal from "./NewColumnModal";
-import NameChangeModal from "./NameChangeModal";
-import TypeChangeModal from "./TypeChangeModal";
-import ColumnConfigModal from "./ColumnConfigModal";
-import SetColumnWidthModal from "./SetColumnWidthModal";
-
 import {
   TableScopeContext,
   tableSchemaAtom,
   columnModalAtom,
 } from "@src/atoms/tableScope";
-import { ColumnConfig } from "@src/types/table";
+import NewColumnModal from "./NewColumnModal";
+import NameChangeModal from "./NameChangeModal";
+import TypeChangeModal from "./TypeChangeModal";
+import ColumnConfigModal from "./ColumnConfigModal";
+import SetColumnWidthModal from "./SetColumnWidthModal";
+import type { ColumnConfig } from "@src/types/table";
 
-export interface IColumnModalProps {
+export type IColumnModalProps = {
   onClose: () => void;
   column: ColumnConfig;
-}
+};
 
 export default function ColumnModals() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [columnModal, setColumnModal] = useAtom(columnModalAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ columnModal, setColumnModal ] = useAtom(columnModalAtom, { store: tableScopeStore });
 
-  if (!columnModal) return null;
+  if (!columnModal) {
+    return null;
+  }
 
   const onClose = () => setColumnModal(RESET);
 
-  if (columnModal.type === "new") return <NewColumnModal onClose={onClose} />;
+  if (columnModal.type === "new") {
+    return <NewColumnModal onClose={onClose} />;
+  }
 
   const column = tableSchema.columns?.[columnModal.columnKey ?? ""];
-  if (!column) return null;
+  if (!column) {
+    return null;
+  }
 
-  if (columnModal.type === "name")
+  if (columnModal.type === "name") {
     return <NameChangeModal onClose={onClose} column={column} />;
+  }
 
-  if (columnModal.type === "type")
+  if (columnModal.type === "type") {
     return <TypeChangeModal onClose={onClose} column={column} />;
+  }
 
-  if (columnModal.type === "config")
+  if (columnModal.type === "config") {
     return <ColumnConfigModal onClose={onClose} column={column} />;
+  }
 
-  if (columnModal.type === "setColumnWidth")
+  if (columnModal.type === "setColumnWidth") {
     return <SetColumnWidthModal onClose={onClose} column={column} />;
+  }
 
   return null;
 }

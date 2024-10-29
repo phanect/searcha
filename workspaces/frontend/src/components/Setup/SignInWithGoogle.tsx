@@ -3,40 +3,46 @@ import { useAtom } from "jotai";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import { Typography } from "@mui/material";
-import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
+import type { LoadingButtonProps } from "@mui/lab/LoadingButton";
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 
-export interface ISignInWithGoogleProps extends Partial<LoadingButtonProps> {
+export type ISignInWithGoogleProps = {
   matchEmail?: string;
-}
+} & Partial<LoadingButtonProps>;
 
 export default function SignInWithGoogle({
   matchEmail,
   ...props
 }: ISignInWithGoogleProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
-  const [status, setStatus] = useState<"IDLE" | "LOADING" | string>("IDLE");
+  const [ firebaseAuth ] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [ status, setStatus ] = useState<"IDLE" | "LOADING" | string>("IDLE");
 
   const handleSignIn = async () => {
     setStatus("LOADING");
     try {
       const result = await signInWithPopup(firebaseAuth, googleProvider);
-      if (!result.user) throw new Error("Missing user");
+      if (!result.user) {
+        throw new Error("Missing user");
+      }
       if (
-        matchEmail &&
-        matchEmail.toLowerCase() !== result.user.email?.toLowerCase()
-      )
-        throw Error(`Account is not ${matchEmail}`);
+        matchEmail
+        && matchEmail.toLowerCase() !== result.user.email?.toLowerCase()
+      ) {
+        throw Error(`Account is not ${ matchEmail }`);
+      }
 
       setStatus("IDLE");
     } catch (error: any) {
-      if (firebaseAuth.currentUser) signOut(firebaseAuth);
+      if (firebaseAuth.currentUser) {
+        signOut(firebaseAuth);
+      }
       console.log(error);
       setStatus(error.message);
     }
@@ -45,7 +51,7 @@ export default function SignInWithGoogle({
   return (
     <div>
       <LoadingButton
-        startIcon={
+        startIcon={(
           <img
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
             alt="Google logo"
@@ -56,7 +62,7 @@ export default function SignInWithGoogle({
               filter: props.disabled ? "grayscale(1)" : "",
             }}
           />
-        }
+        )}
         onClick={handleSignIn}
         loading={status === "LOADING"}
         style={{ minHeight: 40 }}

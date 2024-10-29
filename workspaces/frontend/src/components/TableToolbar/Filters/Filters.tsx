@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
-import { isEmpty, isDate } from "lodash-es";
+import { isEmpty, isDate, isEqual } from "lodash-es";
 
 import {
   Tab,
@@ -16,9 +16,6 @@ import {
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
-import FiltersPopover from "./FiltersPopover";
-import FilterInputsCollection from "./FilterInputsCollection";
 
 import {
   ProjectScopeContext,
@@ -37,26 +34,28 @@ import {
   tableFiltersPopoverAtom,
   tableFiltersJoinAtom,
 } from "@src/atoms/tableScope";
-import { useFilterInputs } from "./useFilterInputs";
 import { analytics, logEvent } from "@src/analytics";
-import type { TableFilter } from "@src/types/table";
 import { generateId } from "@src/utils/table";
+import { useFilterInputs } from "./useFilterInputs";
+import FilterInputsCollection from "./FilterInputsCollection";
+import FiltersPopover from "./FiltersPopover";
 import { useFilterUrl } from "./useFilterUrl";
-import { isEqual } from "lodash-es";
+import type { TableFilter } from "@src/types/table";
 
 const shouldDisableApplyButton = (queries: any) => {
-  for (let query of queries) {
+  for (const query of queries) {
     if (query.operator === "is-empty" || query.operator === "is-not-empty") {
       continue;
     }
 
     if (
-      isEmpty(query.value) &&
-      !isDate(query.value) &&
-      typeof query.value !== "boolean" &&
-      typeof query.value !== "number"
-    )
+      isEmpty(query.value)
+      && !isDate(query.value)
+      && typeof query.value !== "boolean"
+      && typeof query.value !== "number"
+    ) {
       return true;
+    }
   }
 
   return false;
@@ -70,15 +69,15 @@ enum FilterType {
 export default function Filters() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
-  const [localFilters, setLocalFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
-  const [, setTableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ localFilters, setLocalFilters ] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [ , setTableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
   const [{ defaultQuery }] = useAtom(tableFiltersPopoverAtom, { store: tableScopeStore });
 
   const tableFilterInputs = useFilterInputs(tableColumnsOrdered);
@@ -86,8 +85,8 @@ export default function Filters() {
   const userFilterInputs = useFilterInputs(tableColumnsOrdered, defaultQuery);
   const setUserQueries = userFilterInputs.setQueries;
   const { availableFiltersForEachSelectedColumn } = userFilterInputs;
-  const availableFiltersForFirstColumn =
-    availableFiltersForEachSelectedColumn[0];
+  const availableFiltersForFirstColumn
+    = availableFiltersForEachSelectedColumn[0];
 
   const setTableFiltersJoin = useSetAtom(tableFiltersJoinAtom, { store: tableScopeStore });
 
@@ -101,21 +100,23 @@ export default function Filters() {
     ? userSettings.tables?.[tableId]?.filters
     : undefined;
   // Helper booleans
-  const hasTableFilters =
-    Array.isArray(tableFilters) && tableFilters.length > 0;
+  const hasTableFilters
+    = Array.isArray(tableFilters) && tableFilters.length > 0;
   const hasUserFilters = Array.isArray(userFilters) && userFilters.length > 0;
 
   // Set the local table filter
   useEffect(() => {
     // Set local state for UI
     if (
-      Array.isArray(tableFilters) &&
-      tableFilters &&
-      tableFilters.length > 0
+      Array.isArray(tableFilters)
+      && tableFilters
+      && tableFilters.length > 0
     ) {
       // Older filters do not have ID. Migrating them here.
       for (const filter of tableFilters) {
-        if (!filter.id) filter.id = generateId();
+        if (!filter.id) {
+          filter.id = generateId();
+        }
       }
       setTableQueries(tableFilters);
     }
@@ -123,7 +124,9 @@ export default function Filters() {
     if (Array.isArray(userFilters) && userFilters && userFilters.length > 0) {
       // Older filters do not have ID. Migrating them here.
       for (const filter of userFilters) {
-        if (!filter.id) filter.id = generateId();
+        if (!filter.id) {
+          filter.id = generateId();
+        }
       }
       setUserQueries(userFilters);
     }
@@ -165,16 +168,16 @@ export default function Filters() {
   const hasAppliedFilters = Boolean(
     appliedFilters && appliedFilters.length > 0
   );
-  const tableFiltersOverridden =
-    (tableFiltersOverridable || userRoles.includes("ADMIN")) &&
-    (hasUserFilters || userFilters === null) &&
-    hasTableFilters;
+  const tableFiltersOverridden
+    = (tableFiltersOverridable || userRoles.includes("ADMIN"))
+    && (hasUserFilters || userFilters === null)
+    && hasTableFilters;
 
   // Override table filters
-  const [canOverrideCheckbox, setCanOverrideCheckbox] = useState(
+  const [ canOverrideCheckbox, setCanOverrideCheckbox ] = useState(
     tableFiltersOverridable
   );
-  const [tab, setTab] = useState<"user" | "table">(
+  const [ tab, setTab ] = useState<"user" | "table">(
     hasTableFilters && !tableFiltersOverridden && !defaultQuery
       ? "table"
       : "user"
@@ -183,12 +186,12 @@ export default function Filters() {
   // When defaultQuery (from atom) is updated, update the UI
   useEffect(() => {
     if (defaultQuery) {
-      setUserQueries([defaultQuery]);
+      setUserQueries([ defaultQuery ]);
       setTab("user");
     }
-  }, [setUserQueries, defaultQuery]);
+  }, [ setUserQueries, defaultQuery ]);
 
-  const [overrideTableFilters, setOverrideTableFilters] = useState(
+  const [ overrideTableFilters, setOverrideTableFilters ] = useState(
     tableFiltersOverridden
   );
 
@@ -204,7 +207,7 @@ export default function Filters() {
         tableSchema.joinOperator === "AND" ? "AND" : "OR"
       );
     }
-  }, [userSettings.tables?.[tableId]?.joinOperator, tableSchema.joinOperator]);
+  }, [ userSettings.tables?.[tableId]?.joinOperator, tableSchema.joinOperator ]);
 
   useEffect(() => {
     if (tableFiltersOverridable && (hasUserFilters || userFilters === null)) {
@@ -233,12 +236,13 @@ export default function Filters() {
     op: "AND" | "OR" = "AND"
   ) => {
     logEvent(analytics, FilterType.tableFilter);
-    if (updateTableSchema)
+    if (updateTableSchema) {
       updateTableSchema({
         filters,
         filtersOverridable: canOverrideCheckbox,
         joinOperator: op,
       });
+    }
   };
   // Save user filters to user document
   // null overrides table filters
@@ -247,10 +251,11 @@ export default function Filters() {
     op: "AND" | "OR" = "AND"
   ) => {
     logEvent(analytics, FilterType.yourFilter);
-    if (updateUserSettings && filters)
+    if (updateUserSettings && filters) {
       updateUserSettings({
-        tables: { [`${tableId}`]: { filters, joinOperator: op } },
+        tables: { [`${ tableId }`]: { filters, joinOperator: op }},
       });
+    }
   };
 
   const { filtersUrl, updateFilterQueryParam } = useFilterUrl();
@@ -262,14 +267,14 @@ export default function Filters() {
       setUserFilters(filtersUrl);
       setOverrideTableFilters(true);
     }
-  }, [filtersUrl]);
+  }, [ filtersUrl ]);
 
   // Update queyy param if the locally applied filter changes
   useEffect(() => {
     if (appliedFilters) {
       updateFilterQueryParam(appliedFilters);
     }
-  }, [appliedFilters]);
+  }, [ appliedFilters ]);
 
   return (
     <FiltersPopover
@@ -291,7 +296,7 @@ export default function Filters() {
                 aria-label="Filter tabs"
               >
                 <Tab
-                  label={
+                  label={(
                     <>
                       Your filter
                       {tableFiltersOverridden && (
@@ -303,12 +308,12 @@ export default function Filters() {
                         />
                       )}
                     </>
-                  }
+                  )}
                   value="user"
                   style={{ flexDirection: "row" }}
                 />
                 <Tab
-                  label={
+                  label={(
                     <>
                       Table filter
                       {tableFiltersOverridden ? (
@@ -334,7 +339,7 @@ export default function Filters() {
                         />
                       ) : null}
                     </>
-                  }
+                  )}
                   value="table"
                   style={{ flexDirection: "row" }}
                 />
@@ -346,14 +351,13 @@ export default function Filters() {
 
                 {hasTableFilters && (
                   <FormControlLabel
-                    control={
+                    control={(
                       <Checkbox
                         checked={overrideTableFilters}
                         onChange={(e) =>
-                          setOverrideTableFilters(e.target.checked)
-                        }
+                          setOverrideTableFilters(e.target.checked)}
                       />
-                    }
+                    )}
                     label="Override table filters"
                     sx={{ justifyContent: "center", mb: 1, mr: 0 }}
                   />
@@ -361,14 +365,14 @@ export default function Filters() {
 
                 <Stack
                   direction="row"
-                  sx={{ "& .MuiButton-root": { minWidth: 100 } }}
+                  sx={{ "& .MuiButton-root": { minWidth: 100 }}}
                   justifyContent="center"
                   spacing={1}
                 >
                   <Button
                     disabled={
-                      (!overrideTableFilters && hasTableFilters) ||
-                      userFilterInputs.queries.length === 0
+                      (!overrideTableFilters && hasTableFilters)
+                      || userFilterInputs.queries.length === 0
                     }
                     onClick={() => {
                       setUserFilters([]);
@@ -380,8 +384,8 @@ export default function Filters() {
 
                   <Button
                     disabled={
-                      (!overrideTableFilters && hasTableFilters) ||
-                      shouldDisableApplyButton(userFilterInputs.queries)
+                      (!overrideTableFilters && hasTableFilters)
+                      || shouldDisableApplyButton(userFilterInputs.queries)
                     }
                     color="primary"
                     variant="contained"
@@ -402,12 +406,12 @@ export default function Filters() {
                 <FilterInputsCollection {...tableFilterInputs} />
 
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={canOverrideCheckbox}
                       onChange={(e) => setCanOverrideCheckbox(e.target.checked)}
                     />
-                  }
+                  )}
                   label="All users can override table filters"
                   sx={{ justifyContent: "center", mb: 1, mr: 0 }}
                 />
@@ -432,7 +436,7 @@ export default function Filters() {
 
                 <Stack
                   direction="row"
-                  sx={{ "& .MuiButton-root": { minWidth: 100 } }}
+                  sx={{ "& .MuiButton-root": { minWidth: 100 }}}
                   justifyContent="center"
                   spacing={1}
                 >
@@ -488,27 +492,27 @@ export default function Filters() {
               <FilterInputsCollection {...userFilterInputs} />
 
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={overrideTableFilters}
                     onChange={(e) => setOverrideTableFilters(e.target.checked)}
                   />
-                }
+                )}
                 label="Override table filters"
                 sx={{ justifyContent: "center", mb: 1, mr: 0 }}
               />
 
               <Stack
                 direction="row"
-                sx={{ "& .MuiButton-root": { minWidth: 100 } }}
+                sx={{ "& .MuiButton-root": { minWidth: 100 }}}
                 justifyContent="center"
                 spacing={1}
               >
                 <Button
                   disabled={
-                    !overrideTableFilters &&
-                    !tableFiltersOverridden &&
-                    userFilterInputs.queries.length === 0
+                    !overrideTableFilters
+                    && !tableFiltersOverridden
+                    && userFilterInputs.queries.length === 0
                   }
                   onClick={() => {
                     setUserFilters([]);
@@ -520,8 +524,8 @@ export default function Filters() {
 
                 <Button
                   disabled={
-                    (!overrideTableFilters && hasTableFilters) ||
-                    shouldDisableApplyButton(userFilterInputs.queries)
+                    (!overrideTableFilters && hasTableFilters)
+                    || shouldDisableApplyButton(userFilterInputs.queries)
                   }
                   color="primary"
                   variant="contained"
@@ -547,7 +551,7 @@ export default function Filters() {
 
             <Stack
               direction="row"
-              sx={{ "& .MuiButton-root": { minWidth: 100 } }}
+              sx={{ "& .MuiButton-root": { minWidth: 100 }}}
               justifyContent="center"
               spacing={1}
             >

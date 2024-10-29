@@ -29,7 +29,6 @@ import MultiSelect from "@phanect/datasheet-multiselect";
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import FormFieldSnippets from "./FormFieldSnippets";
 
 import {
   ProjectScopeContext,
@@ -42,10 +41,11 @@ import {
 import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
+import { ROUTES } from "@src/constants/routes";
 import actionDefs from "./action.d.ts?raw";
 import { RUN_ACTION_TEMPLATE, UNDO_ACTION_TEMPLATE } from "./templates";
-import { ROUTES } from "@src/constants/routes";
-import { ISettingsProps } from "@src/components/fields/types";
+import FormFieldSnippets from "./FormFieldSnippets";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 const diagnosticsOptions = {
   noSemanticValidation: false,
@@ -62,19 +62,21 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [roles] = useAtom(projectRolesAtom, { store: projectScopeStore });
-  const [settings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ roles ] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [ settings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore },
   );
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   useEffect(() => {
-    if (!settings.rowyRunUrl) openRowyRunModal({ feature: "Action fields" });
-  }, [settings.rowyRunUrl]);
+    if (!settings.rowyRunUrl) {
+      openRowyRunModal({ feature: "Action fields" });
+    }
+  }, [ settings.rowyRunUrl ]);
 
   // const [activeStep, setActiveStep] = useState<
   //   "requirements" | "friction" | "action" | "undo" | "customization"
@@ -96,7 +98,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
     Array.isArray(config.params) ? config.params : [],
     { space: 2 }
   );
-  const [codeErrorMessage, setCodeErrorMessage] = useState<string | null>(null);
+  const [ codeErrorMessage, setCodeErrorMessage ] = useState<string | null>(null);
 
   const scriptExtraLibs = [
     [
@@ -109,10 +111,12 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
         .map((param: any) => {
           const validationKeys = Object.keys(param.validation ?? {});
           if (validationKeys.includes("string")) {
-            return `static ${param.name}: string`;
+            return `static ${ param.name }: string`;
           } else if (validationKeys.includes("array")) {
-            return `static ${param.name}: any[]`;
-          } else return `static ${param.name}: any`;
+            return `static ${ param.name }: any[]`;
+          } else {
+            return `static ${ param.name }: any`;
+          }
         }),
       "}",
     ].join("\n"),
@@ -121,31 +125,31 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
 
   // Backwards-compatibility: previously user could set `confirmation` without
   // having to set `friction: confirmation`
-  const showConfirmationField =
-    config.friction === "confirmation" ||
-    (!config.friction &&
-      typeof config.confirmation === "string" &&
-      config.confirmation !== "");
+  const showConfirmationField
+    = config.friction === "confirmation"
+    || (!config.friction
+      && typeof config.confirmation === "string"
+      && config.confirmation !== "");
 
   const runFn = functionBodyOnly
     ? config?.script
     : config?.runFn
-    ? config.runFn
-    : config?.script
-    ? `const action:Action = async ({row,ref,db,storage,auth,actionParams,user,logging}) => {
-      ${config.script.replace(/utilFns.getSecret/g, "rowy.secrets.get")}
+      ? config.runFn
+      : config?.script
+        ? `const action:Action = async ({row,ref,db,storage,auth,actionParams,user,logging}) => {
+      ${ config.script.replace(/utilFns.getSecret/g, "rowy.secrets.get") }
     }`
-    : RUN_ACTION_TEMPLATE;
+        : RUN_ACTION_TEMPLATE;
 
   const undoFn = functionBodyOnly
     ? get(config, "undo.script")
     : config.undoFn
-    ? config.undoFn
-    : get(config, "undo.script")
-    ? `const action : Action = async ({row,ref,db,storage,auth,actionParams,user,logging}) => {
-    ${get(config, "undo.script")}
+      ? config.undoFn
+      : get(config, "undo.script")
+        ? `const action : Action = async ({row,ref,db,storage,auth,actionParams,user,logging}) => {
+    ${ get(config, "undo.script") }
   }`
-    : UNDO_ACTION_TEMPLATE;
+        : UNDO_ACTION_TEMPLATE;
   return (
     <SteppedAccordion
       steps={[
@@ -199,8 +203,8 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   aria-label="Action button friction"
                   name="friction"
                   defaultValue={
-                    typeof config.confirmation === "string" &&
-                    config.confirmation !== ""
+                    typeof config.confirmation === "string"
+                    && config.confirmation !== ""
                       ? "confirmation"
                       : "none"
                   }
@@ -220,7 +224,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   <FormControlLabel
                     value="params"
                     control={<Radio />}
-                    label={
+                    label={(
                       <>
                         <Typography variant="inherit">
                           Ask the user for input in a form (Alpha)
@@ -231,7 +235,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                           to change in future minor versions
                         </Typography>
                       </>
-                    }
+                    )}
                   />
                 </RadioGroup>
               </FormControl>
@@ -274,7 +278,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                             setCodeErrorMessage("Form fields must be array");
                           }
                         } catch (e) {
-                          console.log(`Failed to parse JSON: ${e}`);
+                          console.log(`Failed to parse JSON: ${ e }`);
                           setCodeErrorMessage("Invalid JSON");
                         }
                       }}
@@ -312,13 +316,12 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   onChange={(e) =>
                     onChange("isActionScript")(
                       e.target.value === "actionScript"
-                    )
-                  }
+                    )}
                 >
                   <FormControlLabel
                     value="actionScript"
                     control={<Radio />}
-                    label={
+                    label={(
                       <>
                         <Typography variant="inherit">Script</Typography>
                         <Typography variant="caption" color="textSecondary">
@@ -335,13 +338,13 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                           )}
                         </Typography>
                       </>
-                    }
+                    )}
                     disabled={!settings?.rowyRunUrl}
                   />
                   <FormControlLabel
                     value="cloudFunction"
                     control={<Radio />}
-                    label={
+                    label={(
                       <>
                         <Typography variant="inherit">Callable</Typography>
                         <Typography variant="caption" color="textSecondary">
@@ -358,7 +361,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                           project
                         </Typography>
                       </>
-                    }
+                    )}
                   />
                 </RadioGroup>
               </FormControl>
@@ -371,12 +374,12 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   value={config.callableName}
                   fullWidth
                   onChange={(e) => onChange("callableName")(e.target.value)}
-                  helperText={
+                  helperText={(
                     <>
                       Write the name of the callable function you’ve deployed to
                       your project.{" "}
                       <MuiLink
-                        href={`https://console.firebase.google.com/project/${projectId}/functions/list`}
+                        href={`https://console.firebase.google.com/project/${ projectId }/functions/list`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -395,7 +398,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                         <InlineOpenInNewIcon />
                       </MuiLink>
                     </>
-                  }
+                  )}
                 />
               ) : (
                 <>
@@ -421,11 +424,11 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                       additionalVariables={[
                         {
                           key: "row",
-                          description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
+                          description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
                         },
                         {
                           key: "ref",
-                          description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
+                          description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
                         },
                       ]}
                     />
@@ -434,18 +437,17 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                   <Grid container>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControlLabel
-                        control={
+                        control={(
                           <Checkbox
                             checked={config.redo?.enabled}
                             onChange={() =>
                               onChange("redo.enabled")(
-                                !Boolean(config.redo?.enabled)
-                              )
-                            }
+                                !config.redo?.enabled
+                              )}
                             name="redo"
                           />
-                        }
-                        label={
+                        )}
+                        label={(
                           <>
                             <Typography variant="inherit">
                               User can redo
@@ -457,24 +459,23 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                               Re-runs the script above
                             </Typography>
                           </>
-                        }
+                        )}
                         style={{ marginLeft: -11 }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControlLabel
-                        control={
+                        control={(
                           <Checkbox
                             checked={config.undo?.enabled}
                             onChange={() =>
                               onChange("undo.enabled")(
-                                !Boolean(config.undo?.enabled)
-                              )
-                            }
+                                !config.undo?.enabled
+                              )}
                             name="undo"
                           />
-                        }
-                        label={
+                        )}
+                        label={(
                           <>
                             <Typography variant="inherit">
                               User can undo
@@ -486,7 +487,7 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                               Runs a new script
                             </Typography>
                           </>
-                        }
+                        )}
                         style={{ marginLeft: -11 }}
                       />
                     </Grid>
@@ -496,68 +497,68 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
             </Stack>
           ),
         },
-        config.isActionScript !== false &&
-          get(config, "undo.enabled") && {
-            id: "undo",
-            title: "Undo action",
-            content: (
-              <Stack spacing={3}>
-                {(showConfirmationField ||
-                  !config.friction ||
-                  config.friction === "none") && (
-                  <TextField
-                    id="undo.confirmation"
-                    label="Undo confirmation template"
-                    placeholder="Are you sure you want to sell your stocks in {{stockName}}?"
-                    value={get(config, "undo.confirmation")}
-                    onChange={(e) => {
-                      onChange("undo.confirmation")(e.target.value);
-                    }}
-                    fullWidth
-                    helperText={
-                      <>
-                        {showConfirmationField &&
-                          "Override the confirmation message above. "}
-                        The action button will not ask for confirmation if this
-                        is left empty{showConfirmationField && "."}
-                      </>
+        config.isActionScript !== false
+        && get(config, "undo.enabled") && {
+          id: "undo",
+          title: "Undo action",
+          content: (
+            <Stack spacing={3}>
+              {(showConfirmationField
+                || !config.friction
+                || config.friction === "none") && (
+                <TextField
+                  id="undo.confirmation"
+                  label="Undo confirmation template"
+                  placeholder="Are you sure you want to sell your stocks in {{stockName}}?"
+                  value={get(config, "undo.confirmation")}
+                  onChange={(e) => {
+                    onChange("undo.confirmation")(e.target.value);
+                  }}
+                  fullWidth
+                  helperText={(
+                    <>
+                      {showConfirmationField
+                      && "Override the confirmation message above. "}
+                      The action button will not ask for confirmation if this
+                      is left empty{showConfirmationField && "."}
+                    </>
+                  )}
+                />
+              )}
+
+              <FormControl>
+                <InputLabel variant="filled">Undo script</InputLabel>
+                <Suspense fallback={<FieldSkeleton height={300} />}>
+                  <CodeEditor
+                    value={undoFn}
+                    onChange={
+                      functionBodyOnly
+                        ? onChange("undo.script")
+                        : onChange("undoFn")
+                    }
+                    extraLibs={scriptExtraLibs}
+                    diagnosticsOptions={
+                      functionBodyOnly ? undefined : diagnosticsOptions
                     }
                   />
-                )}
-
-                <FormControl>
-                  <InputLabel variant="filled">Undo script</InputLabel>
-                  <Suspense fallback={<FieldSkeleton height={300} />}>
-                    <CodeEditor
-                      value={undoFn}
-                      onChange={
-                        functionBodyOnly
-                          ? onChange("undo.script")
-                          : onChange("undoFn")
-                      }
-                      extraLibs={scriptExtraLibs}
-                      diagnosticsOptions={
-                        functionBodyOnly ? undefined : diagnosticsOptions
-                      }
-                    />
-                  </Suspense>
-                  <CodeEditorHelper
-                    docLink={WIKI_LINKS.fieldTypesAction + "#script"}
-                    additionalVariables={[
-                      {
-                        key: "row",
-                        description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
-                      },
-                      {
-                        key: "ref",
-                        description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
-                      },
-                    ]}
-                  />
-                </FormControl>
-              </Stack>
-            ),
-          },
+                </Suspense>
+                <CodeEditorHelper
+                  docLink={WIKI_LINKS.fieldTypesAction + "#script"}
+                  additionalVariables={[
+                    {
+                      key: "row",
+                      description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
+                    },
+                    {
+                      key: "ref",
+                      description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
+                    },
+                  ]}
+                />
+              </FormControl>
+            </Stack>
+          ),
+        },
         {
           id: "customization",
           title: "Customization",
@@ -565,15 +566,14 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
             <>
               <Stack>
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={config.customName?.enabled}
                       onChange={(e) =>
-                        onChange("customName.enabled")(e.target.checked)
-                      }
+                        onChange("customName.enabled")(e.target.checked)}
                       name="customName.enabled"
                     />
-                  }
+                  )}
                   label="Customize label for action"
                   style={{ marginLeft: -11 }}
                 />
@@ -582,40 +582,38 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                     id="customName.actionName"
                     value={get(config, "customName.actionName")}
                     onChange={(e) =>
-                      onChange("customName.actionName")(e.target.value)
-                    }
+                      onChange("customName.actionName")(e.target.value)}
                     label="Action name:"
                     className="labelHorizontal"
-                    inputProps={{ style: { width: "10ch" } }}
-                  ></TextField>
+                    inputProps={{ style: { width: "10ch" }}}
+                  >
+                  </TextField>
                 )}
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={config.customIcons?.enabled}
                       onChange={(e) =>
-                        onChange("customIcons.enabled")(e.target.checked)
-                      }
+                        onChange("customIcons.enabled")(e.target.checked)}
                       name="customIcons.enabled"
                     />
-                  }
+                  )}
                   label="Customize button icons with emoji"
                   style={{ marginLeft: -11 }}
                 />
               </Stack>
               {config.customIcons?.enabled && (
-                <Grid container spacing={2} sx={{ mt: { xs: 0, sm: -1 } }}>
+                <Grid container spacing={2} sx={{ mt: { xs: 0, sm: -1 }}}>
                   <Grid size={{ xs: 12 }}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         id="customIcons.run"
                         value={get(config, "customIcons.run")}
                         onChange={(e) =>
-                          onChange("customIcons.run")(e.target.value)
-                        }
+                          onChange("customIcons.run")(e.target.value)}
                         label="Run:"
                         className="labelHorizontal"
-                        inputProps={{ style: { width: "3ch" } }}
+                        inputProps={{ style: { width: "3ch" }}}
                       />
                       <Fab size="small" aria-label="Preview of run button">
                         {get(config, "customIcons.run") || <RunIcon />}
@@ -629,11 +627,10 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                         id="customIcons.redo"
                         value={get(config, "customIcons.redo")}
                         onChange={(e) =>
-                          onChange("customIcons.redo")(e.target.value)
-                        }
+                          onChange("customIcons.redo")(e.target.value)}
                         label="Redo:"
                         className="labelHorizontal"
-                        inputProps={{ style: { width: "3ch" } }}
+                        inputProps={{ style: { width: "3ch" }}}
                       />
                       <Fab size="small" aria-label="Preview of redo button">
                         {get(config, "customIcons.redo") || <RedoIcon />}
@@ -647,11 +644,10 @@ const Settings = ({ config, onChange, fieldName }: ISettingsProps) => {
                         id="customIcons.undo"
                         value={get(config, "customIcons.undo")}
                         onChange={(e) =>
-                          onChange("customIcons.undo")(e.target.value)
-                        }
+                          onChange("customIcons.undo")(e.target.value)}
                         label="Undo:"
                         className="labelHorizontal"
-                        inputProps={{ style: { width: "3ch" } }}
+                        inputProps={{ style: { width: "3ch" }}}
                       />
                       <Fab size="small" aria-label="Preview of undo button">
                         {get(config, "customIcons.undo") || <UndoIcon />}

@@ -1,14 +1,14 @@
 import _get from "lodash/get";
-import { db, auth, storage } from "../firebaseConfig";
-import { Request, Response } from "express";
-import { User } from "../types/User";
 import fetch from "node-fetch";
 import { FieldValue } from "firebase-admin/firestore";
+import { db, auth, storage } from "../firebaseConfig";
 import rowy from "./rowy";
 import { installDependenciesIfMissing } from "../utils";
 import { telemetryRuntimeDependencyPerformance } from "../rowyService";
 import { LoggingFactory } from "../logging";
 import { transpile } from "../functionBuilder/utils";
+import type { User } from "../types/User";
+import type { Request, Response } from "express";
 
 type Ref = {
   id: string;
@@ -27,8 +27,10 @@ type ActionData = {
 
 const missingFieldsReducer = (data: any) => (acc: string[], curr: string) => {
   if (data[curr] === undefined) {
-    return [...acc, curr];
-  } else return acc;
+    return [ ...acc, curr ];
+  } else {
+    return acc;
+  }
 };
 
 export const authUser2rowyUser = (currentUser: User, data?: any) => {
@@ -49,8 +51,9 @@ export const actionScript = async (req: Request, res: Response) => {
     const functionStartTime = Date.now();
     const user = res.locals.user;
     const userRoles = user.roles;
-    if (!userRoles || userRoles.length === 0)
+    if (!userRoles || userRoles.length === 0) {
       throw new Error("User has no assigned roles");
+    }
     const {
       refs,
       ref,
@@ -69,7 +72,7 @@ export const actionScript = async (req: Request, res: Response) => {
     }
     const config = schemaDocData.columns[column.key].config;
     const { script, requiredRoles, requiredFields, runFn, undoFn } = config;
-    const importHeader = `import rowy from "./rowy";\n import fetch from "node-fetch";\n`;
+    const importHeader = "import rowy from \"./rowy\";\n import fetch from \"node-fetch\";\n";
     const runFunctionCode = transpile(importHeader, runFn, script, "action");
     const undoFunctionCode = transpile(
       importHeader,
@@ -79,17 +82,17 @@ export const actionScript = async (req: Request, res: Response) => {
     );
 
     if (!requiredRoles || requiredRoles.length === 0) {
-      throw Error(`You need to specify at least one role to run this script`);
+      throw Error("You need to specify at least one role to run this script");
     }
     if (!requiredRoles.some((role) => userRoles.includes(role))) {
-      throw Error(`You don't have the required roles permissions`);
+      throw Error("You don't have the required roles permissions");
     }
     const codeToRun = action === "undo" ? undoFunctionCode : runFunctionCode;
 
-    const { yarnStartTime, yarnFinishTime, dependenciesString } =
-      await installDependenciesIfMissing(
+    const { yarnStartTime, yarnFinishTime, dependenciesString }
+      = await installDependenciesIfMissing(
         codeToRun,
-        `action ${column.key} in ${ref.path}`
+        `action ${ column.key } in ${ ref.path }`
       );
 
     const logging = await LoggingFactory.createActionLogging(
@@ -101,7 +104,7 @@ export const actionScript = async (req: Request, res: Response) => {
     const _actionScript = eval(codeToRun);
     const getRows = refs
       ? refs.map(async (r) => db.doc(r.path).get())
-      : [db.doc(ref.path).get()];
+      : [ db.doc(ref.path).get() ];
     const rowSnapshots = await Promise.all(getRows);
     const tasks = rowSnapshots.map(async (doc) => {
       try {
@@ -111,7 +114,7 @@ export const actionScript = async (req: Request, res: Response) => {
           : [];
         if (missingRequiredFields.length > 0) {
           throw new Error(
-            `Missing required fields:${missingRequiredFields.join(", ")}`
+            `Missing required fields:${ missingRequiredFields.join(", ") }`
           );
         }
         const result: {
@@ -152,12 +155,13 @@ export const actionScript = async (req: Request, res: Response) => {
           return {
             ...result,
           };
-        } else
+        } else {
           return {
             ...result,
             success: false,
             message: result.message,
           };
+        }
       } catch (error: any) {
         return {
           success: false,

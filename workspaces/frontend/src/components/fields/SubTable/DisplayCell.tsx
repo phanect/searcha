@@ -1,10 +1,10 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { Link } from "react-router-dom";
 
 import { Stack, IconButton } from "@mui/material";
 import OpenIcon from "@mui/icons-material/OpenInBrowser";
 
 import { useSubTableData } from "./utils";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function SubTable({
   column,
@@ -18,7 +18,9 @@ export default function SubTable({
     _rowy_ref
   );
 
-  if (!_rowy_ref) return null;
+  if (!_rowy_ref) {
+    return null;
+  }
 
   return (
     <Stack

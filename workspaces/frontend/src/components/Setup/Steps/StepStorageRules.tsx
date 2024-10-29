@@ -1,10 +1,6 @@
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { useContext } from "react";
-import type {
-  ISetupStep,
-  ISetupStepBodyProps,
-} from "@src/components/Setup/SetupStep";
 
 import { Typography, Button, Grid2 as Grid } from "@mui/material";
 import { Copy as CopyIcon } from "@src/assets/icons";
@@ -19,6 +15,10 @@ import {
   RULES_END,
   REQUIRED_RULES,
 } from "@src/config/storageRules";
+import type {
+  ISetupStep,
+  ISetupStepBodyProps,
+} from "@src/components/Setup/SetupStep";
 
 export default {
   id: "storageRules",
@@ -33,7 +33,7 @@ const rules = RULES_START + REQUIRED_RULES + RULES_END;
 
 function StepStorageRules({ isComplete, setComplete }: ISetupStepBodyProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   return (
@@ -55,7 +55,7 @@ function StepStorageRules({ isComplete, setComplete }: ISetupStepBodyProps) {
           dangerouslySetInnerHTML={{
             __html: rules.replace(
               /(\/\/.*$)/gm,
-              `<span class="comment">$1</span>`
+              "<span class=\"comment\">$1</span>"
             ),
           }}
         />

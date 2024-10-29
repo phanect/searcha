@@ -1,12 +1,11 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
-import { ButtonBase, Chip } from "@mui/material";
+import { ButtonBase, Chip, useTheme } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
-import { useTheme } from "@mui/material";
 
-import { sanitiseValue } from "./utils";
 import ChipList from "@src/components/Table/TableCell/ChipList";
-import { getColors, IColors } from "./Settings";
+import { sanitiseValue } from "./utils";
+import { getColors } from "./Settings";
+import type { IColors } from "./Settings";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function SingleSelect({
   value,
@@ -41,7 +40,9 @@ export default function SingleSelect({
     </div>
   );
 
-  if (disabled) return rendered;
+  if (disabled) {
+    return rendered;
+  }
 
   return (
     <ButtonBase

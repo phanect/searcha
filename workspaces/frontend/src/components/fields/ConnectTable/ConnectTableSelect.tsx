@@ -7,7 +7,7 @@ import { atomWithStorage } from "jotai/utils";
 import { useSnackbar } from "notistack";
 
 import { Button } from "@mui/material";
-import MultiSelect, { MultiSelectProps } from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/datasheet-multiselect";
 import Loading from "@src/components/Loading";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
@@ -15,10 +15,11 @@ import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
 import { TableScopeContext } from "@src/atoms/tableScope";
 import { runRoutes } from "@src/constants/runRoutes";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
 
 const algoliaSearchKeysAtom = atomWithStorage(
   "__ROWY__ALGOLIA_SEARCH_KEYS",
-  {} as Record<string, { key: string; requestedAt: number }>
+  {} as Record<string, { key: string; requestedAt: number; }>
 );
 
 const algoliaAppIdAtom = atomWithStorage<string | undefined>(
@@ -37,7 +38,7 @@ const replacer = (data: any) => (_: string, key: string) => {
   return get(data, objKey, defaultValue);
 };
 
-export interface IConnectTableSelectProps {
+export type IConnectTableSelectProps = {
   value: ConnectTableValue[] | ConnectTableValue | null;
   onChange: (value: ConnectTableValue[] | ConnectTableValue | null) => void;
   column: any;
@@ -60,7 +61,7 @@ export interface IConnectTableSelectProps {
   onClose?: MultiSelectProps<ConnectTableValue[]>["onClose"];
   /** Load the Algolia index before the MultiSelect onOpen function is triggered */
   loadBeforeOpen?: boolean;
-}
+};
 
 export default function ConnectTableSelect({
   value = [],
@@ -78,19 +79,20 @@ export default function ConnectTableSelect({
 
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [algoliaAppId, setAlgoliaAppId] = useAtom(algoliaAppIdAtom, { store: tableScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ algoliaAppId, setAlgoliaAppId ] = useAtom(algoliaAppIdAtom, { store: tableScopeStore });
 
   useEffect(() => {
     (async () => {
       if (!algoliaAppId && rowyRun) {
         const { success, appId, message } = await rowyRun({ route: runRoutes.algoliaAppId });
 
-        if (success) setAlgoliaAppId(appId);
-        else
+        if (success) {
+          setAlgoliaAppId(appId);
+        } else {
           enqueueSnackbar(
-            message.replace("not setup", "not set up") +
-              ": Failed to get app ID",
+            message.replace("not setup", "not set up")
+            + ": Failed to get app ID",
             {
               variant: "error",
               action: (
@@ -105,6 +107,7 @@ export default function ConnectTableSelect({
               ),
             }
           );
+        }
       }
     })();
   }, []);
@@ -114,12 +117,12 @@ export default function ConnectTableSelect({
     : "";
 
   const algoliaIndex = config.index;
-  const [algoliaSearchKeys, setAlgoliaSearchKeys] = useAtom(
+  const [ algoliaSearchKeys, setAlgoliaSearchKeys ] = useAtom(
     algoliaSearchKeysAtom,
     { store: tableScopeStore }
   );
 
-  const [algoliaState, requestDispatch, , setAlgoliaConfig] = useAlgolia(
+  const [ algoliaState, requestDispatch, , setAlgoliaConfig ] = useAlgolia(
     "",
     "",
     // Don’t choose the index until the user opens the dropdown if !loadBeforeOpen
@@ -130,23 +133,23 @@ export default function ConnectTableSelect({
   const setAlgoliaSearchKey = async (algoliaIndex: string) => {
     const requestedAt = Date.now() / 1000;
     if (
-      algoliaSearchKeys &&
-      (algoliaSearchKeys?.[algoliaIndex] as any)?.key &&
-      requestedAt <
-        (algoliaSearchKeys?.[algoliaIndex] as any).requestedAt + 3600
+      algoliaSearchKeys
+      && (algoliaSearchKeys?.[algoliaIndex] as any)?.key
+      && requestedAt
+      < (algoliaSearchKeys?.[algoliaIndex] as any).requestedAt + 3600
     ) {
-      //'use existing key'
+      // 'use existing key'
       setAlgoliaConfig({
         appId: algoliaAppId,
         indexName: algoliaIndex,
         searchKey: (algoliaSearchKeys?.[algoliaIndex] as any).key,
       });
     } else {
-      //'get new key'
+      // 'get new key'
       if (rowyRun) {
         const resp = await rowyRun({
           route: runRoutes.algoliaSearchKey,
-          params: [algoliaIndex as string],
+          params: [ algoliaIndex as string ],
         });
         const { key } = resp;
         if (key) {
@@ -167,7 +170,7 @@ export default function ConnectTableSelect({
 
   useEffect(() => {
     setAlgoliaSearchKey(algoliaIndex);
-  }, [algoliaIndex]);
+  }, [ algoliaIndex ]);
 
   const options = algoliaState.hits.map((hit: Record<string, any>) => ({
     label: config.primaryKeys?.map((key: string) => hit[key]).join(" "),
@@ -181,20 +184,20 @@ export default function ConnectTableSelect({
     initialLocalValue = Array.isArray(value)
       ? value
       : value?.docPath
-      ? [value]
-      : [];
+        ? [ value ]
+        : [];
   } else {
     initialLocalValue = Array.isArray(value)
       ? value[0]
       : value?.docPath
-      ? value
-      : null;
+        ? value
+        : null;
   }
-  const [localValue, setLocalValue] = useState(initialLocalValue);
+  const [ localValue, setLocalValue ] = useState(initialLocalValue);
 
   // Pass objectID[] | objectID | null to MultiSelect
-  const sanitisedValue =
-    config.multiple !== false
+  const sanitisedValue
+    = config.multiple !== false
       ? localValue.map((item: any) => item.docPath.split("/").pop())
       : localValue?.docPath?.split("/").pop() ?? null;
 
@@ -203,7 +206,7 @@ export default function ConnectTableSelect({
     if (config.multiple !== false && Array.isArray(_newValue)) {
       newLocalValue = (_newValue as string[])
         .map((objectID) => {
-          const docPath = `${algoliaIndex}/${objectID}`;
+          const docPath = `${ algoliaIndex }/${ objectID }`;
 
           // Try to find the snapshot from the current Algolia query
           const match = find(algoliaState.hits, { objectID });
@@ -213,8 +216,11 @@ export default function ConnectTableSelect({
           // Else return null
           if (!match) {
             const existingMatch = find(localValue, { docPath });
-            if (existingMatch) return existingMatch;
-            else return null;
+            if (existingMatch) {
+              return existingMatch;
+            } else {
+              return null;
+            }
           }
 
           const { _highlightResult, ...snapshot } = match;
@@ -222,34 +228,39 @@ export default function ConnectTableSelect({
           // Use snapshotFields to limit snapshots
           let partialSnapshot = snapshot;
           if (
-            Array.isArray(config.snapshotFields) &&
-            config.snapshotFields.length > 0
-          )
+            Array.isArray(config.snapshotFields)
+            && config.snapshotFields.length > 0
+          ) {
             partialSnapshot = pick(snapshot, config.snapshotFields);
+          }
 
           return { snapshot: partialSnapshot, docPath };
         })
         .filter((x) => x !== null);
     } else if (config.multiple === false && typeof _newValue === "string") {
-      const docPath = `${algoliaIndex}/${_newValue}`;
+      const docPath = `${ algoliaIndex }/${ _newValue }`;
 
       // Try to find the snapshot from the current Algolia query
       const match = find(algoliaState.hits, { objectID: _newValue });
 
       // If not found and this objectID is the previous value, use that or null
       if (!match) {
-        if (localValue?.docPath === docPath) newLocalValue = localValue;
-        else newLocalValue = null;
+        if (localValue?.docPath === docPath) {
+          newLocalValue = localValue;
+        } else {
+          newLocalValue = null;
+        }
       } else {
         const { _highlightResult, ...snapshot } = match;
 
         // Use snapshotFields to limit snapshots
         let partialSnapshot = snapshot;
         if (
-          Array.isArray(config.snapshotFields) &&
-          config.snapshotFields.length > 0
-        )
+          Array.isArray(config.snapshotFields)
+          && config.snapshotFields.length > 0
+        ) {
           partialSnapshot = pick(snapshot, config.snapshotFields);
+        }
 
         newLocalValue = { snapshot: partialSnapshot, docPath };
       }
@@ -264,20 +275,26 @@ export default function ConnectTableSelect({
     // otherwise `setLocalValue` won’t be called in time for the new
     // `localValue` to be read by `handleSave` because this component is
     // unmounted before `handleSave` is called
-    if (config.multiple === false) onChange(newLocalValue);
+    if (config.multiple === false) {
+      onChange(newLocalValue);
+    }
   };
 
   // Save when user closes dropdown
   const handleSave = () => {
-    if (config.multiple !== false) onChange(localValue);
-    if (onClose) onClose();
+    if (config.multiple !== false) {
+      onChange(localValue);
+    }
+    if (onClose) {
+      onClose();
+    }
   };
   // Change MultiSelect input field to search Algolia directly
-  const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebounce(search, 1000);
+  const [ search, setSearch ] = useState("");
+  const [ debouncedSearch ] = useDebounce(search, 1000);
   useEffect(() => {
     requestDispatch({ query: debouncedSearch });
-  }, [debouncedSearch]);
+  }, [ debouncedSearch ]);
 
   return (
     <MultiSelect
@@ -295,13 +312,16 @@ export default function ConnectTableSelect({
         SelectProps: {
           renderValue: () => {
             if (Array.isArray(localValue)) {
-              if (localValue.length !== 1)
-                return `${localValue.length} selected`;
+              if (localValue.length !== 1) {
+                return `${ localValue.length } selected`;
+              }
               return config.primaryKeys
                 ?.map((key: string) => localValue[0]?.snapshot?.[key])
                 .join(" ");
             } else {
-              if (!localValue?.snapshot) return "0 selected";
+              if (!localValue?.snapshot) {
+                return "0 selected";
+              }
               return config.primaryKeys
                 ?.map((key: string) => localValue?.snapshot?.[key])
                 .join(" ");
@@ -319,14 +339,16 @@ export default function ConnectTableSelect({
           loadingText: <Loading />,
           inputValue: search,
           onInputChange: (_: any, value: any, reason: any) => {
-            if (reason === "input") setSearch(value);
+            if (reason === "input") {
+              setSearch(value);
+            }
           },
           filterOptions: () => options,
         },
       } as any)}
       countText={
         Array.isArray(localValue)
-          ? `${localValue.length} of ${algoliaState.response?.nbHits ?? "?"}`
+          ? `${ localValue.length } of ${ algoliaState.response?.nbHits ?? "?" }`
           : undefined
       }
       disabled={disabled}

@@ -1,7 +1,6 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { TextField } from "@mui/material";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Email({
   column,

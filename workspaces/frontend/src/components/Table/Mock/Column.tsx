@@ -1,23 +1,24 @@
 import { forwardRef } from "react";
-import { Grid2 as Grid, GridProps, Typography } from "@mui/material";
+import { Grid2 as Grid, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { spreadSx } from "@src/utils/ui";
+import type { FieldType } from "@src/constants/fields";
+import type { GridProps } from "@mui/material";
 
 export const COLUMN_HEADER_HEIGHT = 42;
 
-export interface IColumnProps extends Partial<GridProps> {
+export type IColumnProps = {
   label: string;
   type?: FieldType;
   secondaryItem?: React.ReactNode;
   children?: React.ReactNode;
 
   active?: boolean;
-}
+} & Partial<GridProps>;
 
-export const Column = forwardRef(function Column(
+export const Column = forwardRef((
   {
     label,
     type,
@@ -28,94 +29,92 @@ export const Column = forwardRef(function Column(
     ...props
   }: IColumnProps,
   ref: React.ForwardedRef<HTMLDivElement>
-) {
-  return (
+) => (
+  <Grid
+    ref={ref}
+    container
+    alignItems="center"
+    wrap="nowrap"
+    aria-label={label}
+    {...props}
+    sx={[
+      {
+        width: "100%",
+        height: COLUMN_HEADER_HEIGHT,
+        border: (theme) => `1px solid ${ theme.palette.divider }`,
+        backgroundColor: "background.default",
+        position: "relative",
+
+        py: 0,
+        px: 1,
+
+        color: "text.secondary",
+        "&:hover": { color: "text.primary" },
+
+        "& svg": { display: "block" },
+      },
+      active
+        ? {
+          backgroundColor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.selectedOpacity
+            ),
+          color: (theme) =>
+            theme.palette.mode === "dark"
+              ? theme.palette.text.primary
+              : theme.palette.primary.dark,
+          borderColor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.disabledOpacity
+            ),
+
+          "&:hover": {
+            color: (theme) =>
+              theme.palette.mode === "dark"
+                ? theme.palette.text.primary
+                : theme.palette.primary.dark,
+          },
+        }
+        : {},
+      ...spreadSx(props.sx),
+    ]}
+  >
+    {type && <Grid>{getFieldProp("icon", type)}</Grid>}
+
     <Grid
-      ref={ref}
-      container
-      alignItems="center"
-      wrap="nowrap"
-      aria-label={label}
-      {...props}
-      sx={[
-        {
-          width: "100%",
-          height: COLUMN_HEADER_HEIGHT,
-          border: (theme) => `1px solid ${theme.palette.divider}`,
-          backgroundColor: "background.default",
-          position: "relative",
-
-          py: 0,
-          px: 1,
-
-          color: "text.secondary",
-          "&:hover": { color: "text.primary" },
-
-          "& svg": { display: "block" },
-        },
-        active
-          ? {
-              backgroundColor: (theme) =>
-                alpha(
-                  theme.palette.primary.main,
-                  theme.palette.action.selectedOpacity
-                ),
-              color: (theme) =>
-                theme.palette.mode === "dark"
-                  ? theme.palette.text.primary
-                  : theme.palette.primary.dark,
-              borderColor: (theme) =>
-                alpha(
-                  theme.palette.primary.main,
-                  theme.palette.action.disabledOpacity
-                ),
-
-              "&:hover": {
-                color: (theme) =>
-                  theme.palette.mode === "dark"
-                    ? theme.palette.text.primary
-                    : theme.palette.primary.dark,
-              },
-            }
-          : {},
-        ...spreadSx(props.sx),
-      ]}
+      style={{
+        flexShrink: 1,
+        overflow: "hidden",
+      }}
     >
-      {type && <Grid>{getFieldProp("icon", type)}</Grid>}
+      <Typography
+        component={Grid}
+        variant="caption"
+        noWrap
+        sx={{
+          fontWeight: "fontWeightMedium",
+          lineHeight: "42px",
+          display: "block",
 
-      <Grid
-        style={{
-          flexShrink: 1,
-          overflow: "hidden",
+          userSelect: "none",
+
+          ml: 0.5,
         }}
       >
-        <Typography
-          component={Grid}
-          variant="caption"
-          noWrap
-          sx={{
-            fontWeight: "fontWeightMedium",
-            lineHeight: "42px",
-            display: "block",
-
-            userSelect: "none",
-
-            ml: 0.5,
-          }}
-        >
-          {label}
-        </Typography>
-      </Grid>
-
-      {secondaryItem && (
-        <Grid sx={{ ml: 1, position: "relative" }}>
-          {secondaryItem}
-        </Grid>
-      )}
-
-      {children}
+        {label}
+      </Typography>
     </Grid>
-  );
-});
+
+    {secondaryItem && (
+      <Grid sx={{ ml: 1, position: "relative" }}>
+        {secondaryItem}
+      </Grid>
+    )}
+
+    {children}
+  </Grid>
+));
 
 export default Column;

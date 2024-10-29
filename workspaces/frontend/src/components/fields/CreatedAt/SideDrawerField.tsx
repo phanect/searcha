@@ -1,13 +1,14 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Box } from "@mui/material";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 
 import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function CreatedAt({ column, value }: ISideDrawerFieldProps) {
-  if (!value) return <Box sx={fieldSx} />;
+  if (!value) {
+    return <Box sx={fieldSx} />;
+  }
 
   const dateLabel = format(
     value.toDate ? value.toDate() : value,
@@ -15,7 +16,7 @@ export default function CreatedAt({ column, value }: ISideDrawerFieldProps) {
   );
 
   return (
-    <Box sx={[fieldSx, { fontVariantNumeric: "tabular-nums" }]}>
+    <Box sx={[ fieldSx, { fontVariantNumeric: "tabular-nums" }]}>
       {dateLabel}
     </Box>
   );

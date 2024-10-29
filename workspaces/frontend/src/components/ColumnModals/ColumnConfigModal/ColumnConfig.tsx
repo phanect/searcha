@@ -2,13 +2,11 @@ import { useState, Suspense, useMemo, createElement, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
 import { ErrorBoundary } from "react-error-boundary";
-import { IColumnModalProps } from "@src/components/ColumnModals";
 
 import { Typography, Stack } from "@mui/material";
 
 import Modal from "@src/components/Modal";
 import { getFieldProp } from "@src/components/fields";
-import DefaultValueInput from "./DefaultValueInput";
 import { InlineErrorFallback } from "@src/components/ErrorFallback";
 import Loading from "@src/components/Loading";
 
@@ -30,6 +28,8 @@ import {
   getTableSchemaPath,
   getTableBuildFunctionPathname,
 } from "@src/utils/table";
+import DefaultValueInput from "./DefaultValueInput";
+import type { IColumnModalProps } from "@src/components/ColumnModals";
 
 export default function ColumnConfigModal({
   onClose,
@@ -37,30 +37,30 @@ export default function ColumnConfigModal({
 }: IColumnModalProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const snackLogContext = useSnackLogContext();
 
-  const [showRebuildPrompt, setShowRebuildPrompt] = useState(false);
-  const [newConfig, setNewConfig] = useState(column.config ?? {});
+  const [ showRebuildPrompt, setShowRebuildPrompt ] = useState(false);
+  const [ newConfig, setNewConfig ] = useState(column.config ?? {});
   const customFieldSettings = getFieldProp("settings", column.type);
   const settingsValidator = getFieldProp("settingsValidator", column.type);
   const initializable = getFieldProp("initializable", column.type);
 
   const rendedFieldSettings = useMemo(
     () =>
-      [FieldType.derivative, FieldType.aggregate, FieldType.formula].includes(
+      [ FieldType.derivative, FieldType.aggregate, FieldType.formula ].includes(
         column.type
       ) && newConfig.renderFieldType
         ? getFieldProp("settings", newConfig.renderFieldType)
         : null,
-    [newConfig.renderFieldType, column.type]
+    [ newConfig.renderFieldType, column.type ]
   );
 
-  const [errors, setErrors] = useState({});
+  const [ errors, setErrors ] = useState({});
 
   const validateSettings = () => {
     if (settingsValidator) {
@@ -74,9 +74,9 @@ export default function ColumnConfigModal({
 
   const handleChange = (key: string) => (update: any) => {
     if (
-      showRebuildPrompt === false &&
-      (key.includes("defaultValue") || column.type === FieldType.derivative) &&
-      column.config?.[key] !== update
+      showRebuildPrompt === false
+      && (key.includes("defaultValue") || column.type === FieldType.derivative)
+      && column.config?.[key] !== update
     ) {
       setShowRebuildPrompt(true);
     }
@@ -89,10 +89,10 @@ export default function ColumnConfigModal({
     <Modal
       maxWidth="md"
       onClose={onClose}
-      title={`${column.name}: Config`}
+      title={`${ column.name }: Config`}
       disableBackdropClick
       disableEscapeKeyDown
-      children={
+      children={(
         <Suspense fallback={<Loading fullScreen={false} />}>
           <>
             {initializable && (
@@ -149,7 +149,7 @@ export default function ColumnConfigModal({
           } */}
           </>
         </Suspense>
-      }
+      )}
       actions={{
         primary: {
           onClick: async () => {
@@ -161,7 +161,7 @@ export default function ColumnConfigModal({
                   <>
                     <Typography>Please fix the following settings:</Typography>
                     <ul style={{ paddingLeft: "1.5em" }}>
-                      {Object.entries(errors).map(([key, message]) => (
+                      {Object.entries(errors).map(([ key, message ]) => (
                         <li key={key}>
                           <>
                             <code>{key}</code>: {message}
@@ -192,7 +192,9 @@ export default function ColumnConfigModal({
                 confirm: "Deploy",
                 cancel: "Later",
                 handleConfirm: async () => {
-                  if (!rowyRun) return;
+                  if (!rowyRun) {
+                    return;
+                  }
                   snackLogContext.requestSnackLog();
                   rowyRun({
                     route: runRoutes.buildFunction,

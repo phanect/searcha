@@ -5,14 +5,15 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   MenuItem,
-  MenuItemProps,
   Typography,
   Menu,
   Divider,
 } from "@mui/material";
 import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
+import type {
+  MenuItemProps } from "@mui/material";
 
-export interface IContextMenuItem extends Partial<MenuItemProps> {
+export type IContextMenuItem = {
   onClick?: () => void;
   icon?: React.ReactNode;
   label: string;
@@ -20,11 +21,11 @@ export interface IContextMenuItem extends Partial<MenuItemProps> {
   hotkeyLabel?: string;
   divider?: boolean;
   subItems?: IContextMenuItem[];
-}
+} & Partial<MenuItemProps>;
 
-export interface IContextMenuItemProps extends IContextMenuItem {
+export type IContextMenuItemProps = {
   subItems?: IContextMenuItem[];
-}
+} & IContextMenuItem;
 export default function ContextMenuItem({
   onClick,
   icon,
@@ -33,7 +34,7 @@ export default function ContextMenuItem({
   subItems,
   ...props
 }: IContextMenuItemProps) {
-  const [subMenu, setSubMenu] = useState<HTMLElement | null>(null);
+  const [ subMenu, setSubMenu ] = useState<HTMLElement | null>(null);
 
   if (subItems && subItems.length > 0) {
     return (
@@ -56,12 +57,12 @@ export default function ContextMenuItem({
 
         <Menu
           anchorEl={subMenu}
-          id={`${label}-sub-menu`}
+          id={`${ label }-sub-menu`}
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "left" }}
           open={Boolean(subMenu)}
           onClose={() => setSubMenu(null)}
-          sx={{ "& .MuiPaper-root": { mt: -0.5 } }}
+          sx={{ "& .MuiPaper-root": { mt: -0.5 }}}
           PaperProps={{ elevation: 16 }}
         >
           {subItems.map((itemProps) =>

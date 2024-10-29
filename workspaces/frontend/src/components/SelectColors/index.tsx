@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
@@ -8,16 +8,17 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FormatColorResetIcon from "@mui/icons-material/FormatColorReset";
 import { paletteToMui, palette } from "@src/theme/palette";
 import CustomizeColorModal from "./CustomizeColorModal";
+import type { FC } from "react";
 
-export interface SelectColorThemeOptions {
+export type SelectColorThemeOptions = {
   light: string;
   dark: string;
-}
+};
 
-interface IColorSelect {
+type IColorSelect = {
   handleChange: (value: SelectColorThemeOptions) => void;
   initialValue: SelectColorThemeOptions;
-}
+};
 
 const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
   /* Get current theme */
@@ -43,8 +44,8 @@ const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
   });
 
   /* Hold the current state of a given option defaults to `gray` from the color palette */
-  const [color, setColor] = useState<SelectColorThemeOptions>(
-    initialValue || paletteToMui(palette["gray"])
+  const [ color, setColor ] = useState<SelectColorThemeOptions>(
+    initialValue || paletteToMui(palette.gray)
   );
 
   const onChange = (color: SelectColorThemeOptions) => {
@@ -53,8 +54,8 @@ const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
   };
 
   /* MUI Specific state for color context menu */
-  const [colorSelectAnchor, setColorSelectAnchor] =
-    useState<null | HTMLElement>(null);
+  const [ colorSelectAnchor, setColorSelectAnchor ]
+    = useState<null | HTMLElement>(null);
   const open = Boolean(colorSelectAnchor);
 
   /* MUI Menu event handlers for color context menu */
@@ -161,7 +162,7 @@ const ColorSelect: FC<IColorSelect> = ({ handleChange, initialValue }) => {
             sx={{ borderRadius: 100 }}
             fullWidth
             startIcon={<FormatColorResetIcon />}
-            onClick={() => onChange(paletteToMui(palettes["gray"]))}
+            onClick={() => onChange(paletteToMui(palettes.gray))}
           >
             Reset
           </Button>

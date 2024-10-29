@@ -1,5 +1,5 @@
-import { User } from "../types/User";
-import { Request } from "express";
+import type { Request } from "express";
+import type { User } from "../types/User";
 export const getAlgoliaSearchKey = (req: Request, user: User) => {
   try {
     // check if environment variable is set
@@ -9,10 +9,13 @@ export const getAlgoliaSearchKey = (req: Request, user: User) => {
       process.env.ALGOLIA_ADMIN_KEY
     );
     const { index } = req.params;
-    if (!index) throw new Error("Index is required");
+    if (!index) {
+      throw new Error("Index is required");
+    }
     const userRoles = user.roles;
-    if (!userRoles || userRoles.length === 0)
+    if (!userRoles || userRoles.length === 0) {
       throw new Error("User has no roles");
+    }
     // const allIndicesRoles = ['ADMIN',"TEAM"] // you can add more roles here that need access to all algolia indices
     // const rolesIndicesAccess = {
     //   "ROLE":["index_1","index_2"]
@@ -25,7 +28,7 @@ export const getAlgoliaSearchKey = (req: Request, user: User) => {
       {
         filters: "",
         validUntil,
-        restrictIndices: [index],
+        restrictIndices: [ index ],
         userToken: user.uid,
       }
     );

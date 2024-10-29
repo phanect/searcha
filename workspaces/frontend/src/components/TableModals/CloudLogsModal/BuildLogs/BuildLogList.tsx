@@ -4,21 +4,20 @@ import { throttle } from "lodash-es";
 
 import { Box } from "@mui/material";
 
-import BuildLogRow from "./BuildLogRow";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import { isTargetInsideBox } from "@src/utils/ui";
+import BuildLogRow from "./BuildLogRow";
 
-export interface IBuildLogListProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {
+export type IBuildLogListProps = {
   logs: Record<string, any>[];
   status: string;
   value: number;
   index: number;
-}
+} & React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
 
 export default function BuildLogList({
   logs,
@@ -29,8 +28,8 @@ export default function BuildLogList({
 }: IBuildLogListProps) {
   // useStateRef is necessary to resolve the state syncing issue
   // https://stackoverflow.com/a/63039797/12208834
-  const [liveStreaming, setLiveStreaming, liveStreamingStateRef] =
-    useStateRef(true);
+  const [ liveStreaming, setLiveStreaming, liveStreamingStateRef ]
+    = useStateRef(true);
   const liveStreamingRef = useRef<any>();
   const isActive = value === index;
 
@@ -58,7 +57,7 @@ export default function BuildLogList({
         setTimeout(scrollToLive, 100);
       }
     }
-  }, [logs, value]);
+  }, [ logs, value ]);
 
   useEffect(() => {
     if (isActive) {
@@ -69,14 +68,14 @@ export default function BuildLogList({
         handleScroll();
       });
     }
-  }, [value]);
+  }, [ value ]);
 
   return (
     <div
       role="tabpanel"
       hidden={!isActive}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
+      id={`vertical-tabpanel-${ index }`}
+      aria-labelledby={`vertical-tab-${ index }`}
       {...props}
       style={{
         width: "100%",
@@ -90,10 +89,10 @@ export default function BuildLogList({
           style={{ overflowY: "auto", maxHeight: "100%" }}
           id="live-stream-scroll-box"
         >
-          {Array.isArray(logs) &&
-            logs.map((log, index) => (
-              <BuildLogRow logRecord={log} index={index} key={index} />
-            ))}
+          {Array.isArray(logs)
+          && logs.map((log, index) => (
+            <BuildLogRow logRecord={log} index={index} key={index} />
+          ))}
           <div ref={liveStreamingRef} id="live-stream-target">
             {status === "BUILDING" && (
               <CircularProgressOptical sx={{ ml: 4, mt: 2 }} size={30} />

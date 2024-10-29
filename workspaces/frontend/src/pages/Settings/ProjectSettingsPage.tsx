@@ -19,25 +19,25 @@ import {
   updatePublicSettingsAtom,
 } from "@src/atoms/projectScope";
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
-import { ProjectSettings, PublicSettings } from "@src/types/settings";
+import type { ProjectSettings, PublicSettings } from "@src/types/settings";
 
-export interface IProjectSettingsChildProps {
+export type IProjectSettingsChildProps = {
   settings: ProjectSettings;
   updateSettings: (data: Partial<ProjectSettings>) => void;
   publicSettings: PublicSettings;
   updatePublicSettings: (data: Partial<PublicSettings>) => void;
-}
+};
 
 export default function ProjectSettingsPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [publicSettings] = useAtom(publicSettingsAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ publicSettings ] = useAtom(publicSettingsAtom, { store: projectScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
   useScrollToHash();
 
-  const [_updateProjectSettingsDoc] = useAtom(
+  const [ _updateProjectSettingsDoc ] = useAtom(
     updateProjectSettingsAtom,
     { store: projectScopeStore },
   );
@@ -55,10 +55,10 @@ export default function ProjectSettingsPage() {
     () => () => {
       updateProjectSettings.flush();
     },
-    [updateProjectSettings]
+    [ updateProjectSettings ]
   );
 
-  const [_updatePublicSettingsDoc] = useAtom(
+  const [ _updatePublicSettingsDoc ] = useAtom(
     updatePublicSettingsAtom,
     { store: projectScopeStore },
   );
@@ -81,7 +81,7 @@ export default function ProjectSettingsPage() {
     () => () => {
       updatePublicSettings.flush();
     },
-    [updatePublicSettings]
+    [ updatePublicSettings ]
   );
 
   const childProps: IProjectSettingsChildProps = {
@@ -93,7 +93,7 @@ export default function ProjectSettingsPage() {
 
   const sections = [
     { title: "About", Component: About },
-    { title: `Rowy Run`, Component: RowyRun, props: childProps },
+    { title: "Rowy Run", Component: RowyRun, props: childProps },
     { title: "Authentication", Component: Authentication, props: childProps },
     { title: "Customization", Component: Customization, props: childProps },
   ];

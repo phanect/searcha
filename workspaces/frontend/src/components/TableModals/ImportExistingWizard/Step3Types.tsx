@@ -4,7 +4,6 @@ import { useAtom } from "jotai";
 import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import { IStepProps } from ".";
 import ScrollableList from "@src/components/TableModals/ScrollableList";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
@@ -13,14 +12,15 @@ import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { SELECTABLE_TYPES } from "./utils";
+import type { IStepProps } from ".";
 
 export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
-  const [fieldToEdit, setFieldToEdit] = useState(Object.keys(config)[0]);
+  const [ fieldToEdit, setFieldToEdit ] = useState(Object.keys(config)[0]);
   const handleChange = (v: FieldType) =>
-    updateConfig({ [fieldToEdit]: { type: v } });
+    updateConfig({ [fieldToEdit]: { type: v }});
 
   return (
     <div>
@@ -32,11 +32,11 @@ export default function Step3Types({ config, updateConfig, isXs }: IStepProps) {
           <Divider />
 
           <ScrollableList>
-            {Object.entries(config).map(([field, { name, type }]) => (
+            {Object.entries(config).map(([ field, { name, type }]) => (
               <li key={field}>
                 <ButtonBase
                   onClick={() => setFieldToEdit(field)}
-                  aria-label={`Edit column ${field}`}
+                  aria-label={`Edit column ${ field }`}
                   focusRipple
                   sx={{ width: "100%", textAlign: "left" }}
                 >

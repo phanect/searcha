@@ -16,15 +16,15 @@ import { EXTERNAL_LINKS } from "@src/constants/externalLinks.ts";
 
 export default function NotFound() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
 
-  if (currentUser)
+  if (currentUser) {
     return (
       <Navigation>
         <EmptyState
           fullScreen
           message="Page not found"
-          description={
+          description={(
             <Button
               variant="outlined"
               sx={{ mt: 3 }}
@@ -34,11 +34,12 @@ export default function NotFound() {
             >
               Tables
             </Button>
-          }
+          )}
           style={{ marginTop: -TOP_BAR_HEIGHT }}
         />
       </Navigation>
     );
+  }
 
   return (
     <AuthLayout title="Page not found" hideLinks={Boolean(currentUser)}>

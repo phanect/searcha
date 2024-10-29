@@ -13,12 +13,13 @@ import {
 } from "@src/atoms/tableScope";
 
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import { ISettingsProps } from "@src/components/fields/types";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import { DEFAULT_COL_WIDTH, DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import { HydrateAtoms } from "@src/atoms/utils.ts";
-import { ColumnConfig } from "@src/types/table";
 
+import { WIKI_LINKS } from "@src/constants/externalLinks";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import {
   defaultFn,
   listenerFieldTypes,
@@ -28,10 +29,9 @@ import PreviewTable from "./PreviewTable";
 import { getFieldProp } from "..";
 
 import formulaDefs from "./formula.d.ts?raw";
-import { WIKI_LINKS } from "@src/constants/externalLinks";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import TableSourcePreview from "./TableSourcePreview";
+import type { ColumnConfig } from "@src/types/table";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 const CodeEditor = lazy(
   () =>
@@ -53,10 +53,10 @@ export default function Settings({
 }: ISettingsProps) {
   const tableScopeStore = useContext(ProjectScopeContext);
 
-  const [currentUser] = useAtom(currentUserAtom, { store: tableScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const returnType = getFieldProp("dataType", config.renderFieldType) ?? "any";
   const formulaFn = config?.formulaFn ? config.formulaFn : defaultFn;
 
@@ -81,10 +81,10 @@ export default function Settings({
           };
         }
         return previewSchema;
-      }, {} as { [key: string]: ColumnConfig }),
+      }, {} as Record<string, ColumnConfig>),
       rowHeight: DEFAULT_ROW_HEIGHT,
     };
-  }, [config, fieldName, tableSchema]);
+  }, [ config, fieldName, tableSchema ]);
 
   return (
     <Stack spacing={1}>
@@ -147,11 +147,11 @@ export default function Settings({
           additionalVariables={[
             {
               key: "row",
-              description: `row has the value of doc.data() it has type definitions using this table's schema, but you can only access formula's listener fields.`,
+              description: "row has the value of doc.data() it has type definitions using this table's schema, but you can only access formula's listener fields.",
             },
             {
               key: "ref",
-              description: `reference object that holds the readonly reference of the row document.(i.e ref.id)`,
+              description: "reference object that holds the readonly reference of the row document.(i.e ref.id)",
             },
           ]}
         />
@@ -161,8 +161,8 @@ export default function Settings({
             value={formulaFn}
             extraLibs={[
               formulaDefs.replace(
-                `"PLACEHOLDER_OUTPUT_TYPE"`,
-                `${returnType} | Promise<${returnType}>`
+                "\"PLACEHOLDER_OUTPUT_TYPE\"",
+                `${ returnType } | Promise<${ returnType }>`
               ),
             ]}
             onChange={useDebouncedCallback(onChange("formulaFn"), 300)}
@@ -172,14 +172,15 @@ export default function Settings({
       <Box>
         <InputLabel>Preview table</InputLabel>
         <TableScopeContext.Provider
-          key={"preview-table"}
+          key="preview-table"
           value={tableScopeStore}
         >
           <HydrateAtoms initialValues={[
-            [currentUserAtom, currentUser],
-            [tableSchemaAtom, previewTableSchema],
-            [tableSettingsAtom, tableSettings],
-          ]}>
+            [ currentUserAtom, currentUser ],
+            [ tableSchemaAtom, previewTableSchema ],
+            [ tableSettingsAtom, tableSettings ],
+          ]}
+          >
             <TableSourcePreview formulaFn={formulaFn} />
             <PreviewTable />
           </HydrateAtoms>
@@ -191,6 +192,8 @@ export default function Settings({
 
 export const settingsValidator = (config: any) => {
   const errors: Record<string, any> = {};
-  if (config.error) errors.error = config.error;
+  if (config.error) {
+    errors.error = config.error;
+  }
   return errors;
 };

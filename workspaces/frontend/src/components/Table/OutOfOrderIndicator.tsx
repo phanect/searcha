@@ -25,7 +25,7 @@ const Dot = styled("div")(({ theme }) => ({
 
 export default function OutOfOrderIndicator() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [dismissed, setDismissed] = useAtom(
+  const [ dismissed, setDismissed ] = useAtom(
     tableOutOfOrderDismissedAtom,
     { store: projectScopeStore },
   );

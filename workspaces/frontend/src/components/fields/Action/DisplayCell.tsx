@@ -1,6 +1,6 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { get } from "lodash-es";
 import { sanitiseCallableName, isUrl } from "./utils";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export const getActionName = (column: IDisplayCellProps["column"]) => {
   const config = get(column, "config");
@@ -11,7 +11,7 @@ export const getActionName = (column: IDisplayCellProps["column"]) => {
 };
 
 export default function Action({ value, column }: IDisplayCellProps) {
-  const hasRan = value && ![null, undefined].includes(value.status);
+  const hasRan = value && ![ null, undefined ].includes(value.status);
 
   return (
     <div style={{ padding: "0 var(--cell-padding)" }}>

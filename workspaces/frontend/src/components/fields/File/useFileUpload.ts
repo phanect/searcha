@@ -1,10 +1,11 @@
 import { useCallback, useContext, useState } from "react";
 import { useSetAtom } from "jotai";
 import { some } from "lodash-es";
-import { DropzoneOptions, useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 
 import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
 import useUploader from "@src/hooks/useFirebaseStorageUploader";
+import type { DropzoneOptions } from "react-dropzone";
 import type { FileValue, TableRowRef } from "@src/types/table";
 
 export default function useFileUpload(
@@ -16,7 +17,7 @@ export default function useFileUpload(
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
   const { uploaderState, upload, deleteUpload } = useUploader();
 
-  const [localFiles, setLocalFiles] = useState<File[]>([]);
+  const [ localFiles, setLocalFiles ] = useState<File[]>([]);
 
   const dropzoneState = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
@@ -31,12 +32,12 @@ export default function useFileUpload(
 
   const uploadingFiles = Object.keys(uploaderState);
 
-  const progress =
-    uploadingFiles.length > 0
+  const progress
+    = uploadingFiles.length > 0
       ? uploadingFiles.reduce((sum, fileName) => {
-          const fileState = uploaderState[fileName];
-          return sum + fileState.progress;
-        }, 0) / uploadingFiles.length
+        const fileState = uploaderState[fileName];
+        return sum + fileState.progress;
+      }, 0) / uploadingFiles.length
       : 0;
 
   const loading = some(
@@ -49,7 +50,7 @@ export default function useFileUpload(
       const { uploads, failures } = await upload({
         docRef,
         fieldName: docRef.arrayTableData
-          ? `${docRef.arrayTableData?.parentField}/${docRef.arrayTableData?.index}/${fieldName}`
+          ? `${ docRef.arrayTableData?.parentField }/${ docRef.arrayTableData?.index }/${ fieldName }`
           : fieldName,
         files,
       });
@@ -62,7 +63,7 @@ export default function useFileUpload(
       });
       return { uploads, failures };
     },
-    [docRef, fieldName, updateField, upload]
+    [ docRef, fieldName, updateField, upload ]
   );
 
   const handleDelete = useCallback(
@@ -70,14 +71,14 @@ export default function useFileUpload(
       updateField({
         path: docRef.path,
         fieldName,
-        value: [file],
+        value: [ file ],
         useArrayRemove: true,
         disableCheckEquality: true,
         arrayTableData: docRef.arrayTableData,
       });
       deleteUpload(file);
     },
-    [deleteUpload, docRef.arrayTableData, docRef.path, fieldName, updateField]
+    [ deleteUpload, docRef.arrayTableData, docRef.path, fieldName, updateField ]
   );
 
   // Drag and Drop

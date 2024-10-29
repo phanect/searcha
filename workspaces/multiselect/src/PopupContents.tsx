@@ -1,35 +1,36 @@
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from "react";
 
-import { makeStyles } from 'tss-react/mui';
+import { makeStyles } from "tss-react/mui";
 import {
   useThemeProps,
   TextField,
   InputAdornment,
   Autocomplete,
-  AutocompleteChangeReason,
-} from '@mui/material';
+} from "@mui/material";
 
-import SearchIcon from '@mui/icons-material/Search';
-import CheckUnselectedIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckSelectedIcon from '@mui/icons-material/CheckBox';
-import RadioUnselectedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import RadioSelectedIcon from '@mui/icons-material/RadioButtonChecked';
+import SearchIcon from "@mui/icons-material/Search";
+import CheckUnselectedIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckSelectedIcon from "@mui/icons-material/CheckBox";
+import RadioUnselectedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import RadioSelectedIcon from "@mui/icons-material/RadioButtonChecked";
 
-import FragmentWrapper from './FragmentWrapper';
-import AddItem from './AddItem';
-import PopupFooter from './PopupFooter';
+import FragmentWrapper from "./FragmentWrapper";
+import AddItem from "./AddItem";
+import PopupFooter from "./PopupFooter";
 
-import { PopupContentsProps, Option } from './props';
 import {
   SEARCH_AREA_HEIGHT,
   LISTBOX_MIN_HEIGHT,
   LISTBOX_MIN_WIDTH,
   FOOTER_HEIGHT,
-} from './constants/layout';
+} from "./constants/layout";
+import type { PopupContentsProps, Option } from "./props";
+import type {
+  AutocompleteChangeReason } from "@mui/material";
 
 const useStyles = makeStyles()((theme) => ({
   root: {
-    '&$hideSearch': { marginTop: -SEARCH_AREA_HEIGHT },
+    "&$hideSearch": { marginTop: -SEARCH_AREA_HEIGHT },
   },
   hideSearch: {},
   noFooter: {},
@@ -37,49 +38,49 @@ const useStyles = makeStyles()((theme) => ({
 
   popper: {
     minWidth: LISTBOX_MIN_WIDTH,
-    width: '100% !important',
+    width: "100% !important",
   },
-  popperDisablePortal: { position: 'relative' },
+  popperDisablePortal: { position: "relative" },
 
   search: {
     padding: theme.spacing(1, 1, 0),
   },
   searchInput: {
     borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(0.75, 0.5) + ' !important',
+    padding: theme.spacing(0.75, 0.5) + " !important",
     height: 32,
     ...(theme.typography.body2 as any),
   },
 
   listbox: {
     padding: theme.spacing(1, 0),
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottom: `1px solid ${ theme.palette.divider }`,
 
-    boxSizing: 'border-box',
+    boxSizing: "border-box",
     minHeight: LISTBOX_MIN_HEIGHT,
-    maxHeight: `calc(100vh - 96px - ${SEARCH_AREA_HEIGHT}px - ${FOOTER_HEIGHT}px)`,
+    maxHeight: `calc(100vh - 96px - ${ SEARCH_AREA_HEIGHT }px - ${ FOOTER_HEIGHT }px)`,
 
-    '&$freeText': {
-      maxHeight: `calc(100vh - 96px - ${SEARCH_AREA_HEIGHT}px - ${
+    "&$freeText": {
+      maxHeight: `calc(100vh - 96px - ${ SEARCH_AREA_HEIGHT }px - ${
         FOOTER_HEIGHT * 2
       }px)`,
     },
 
-    '&$hideSearch': { minHeight: LISTBOX_MIN_HEIGHT + SEARCH_AREA_HEIGHT },
-    '&$noFooter': { minHeight: LISTBOX_MIN_HEIGHT + FOOTER_HEIGHT },
-    '&$hideSearch$noFooter': {
+    "&$hideSearch": { minHeight: LISTBOX_MIN_HEIGHT + SEARCH_AREA_HEIGHT },
+    "&$noFooter": { minHeight: LISTBOX_MIN_HEIGHT + FOOTER_HEIGHT },
+    "&$hideSearch$noFooter": {
       minHeight: LISTBOX_MIN_HEIGHT + SEARCH_AREA_HEIGHT + FOOTER_HEIGHT,
     },
   },
   noOptions: {
     ...(theme.typography.button as any),
     color: theme.palette.text.secondary,
-    userSelect: 'none',
+    userSelect: "none",
 
     height: LISTBOX_MIN_HEIGHT,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   groupLabel: { top: theme.spacing(-2) },
@@ -88,17 +89,17 @@ const useStyles = makeStyles()((theme) => ({
     ...(theme.typography.body2 as any),
 
     // Prevent grouping increasing left padding
-    '&&': { paddingLeft: theme.spacing(2) },
+    "&&": { paddingLeft: theme.spacing(2) },
 
-    position: 'relative',
+    position: "relative",
     marginBottom: 1,
 
     // Bottom divider
-    '&::after': {
-      content: '""',
-      display: 'block',
+    "&::after": {
+      content: "\"\"",
+      display: "block",
 
-      position: 'absolute',
+      position: "absolute",
       bottom: -1,
       left: theme.spacing(52 / 8),
       right: theme.spacing(2),
@@ -106,17 +107,17 @@ const useStyles = makeStyles()((theme) => ({
       backgroundColor: theme.palette.divider,
       height: 1,
     },
-    '&:last-child::after': { content: 'none' },
+    "&:last-child::after": { content: "none" },
 
     // Don’t highlight selected items to prevent confusion on what is focused
-    '&[aria-selected="true"]': { backgroundColor: 'transparent' },
+    "&[aria-selected=\"true\"]": { backgroundColor: "transparent" },
     // Undo this override when the item is focused
-    '&[aria-selected="true"].Mui-focused': {
+    "&[aria-selected=\"true\"].Mui-focused": {
       backgroundColor: theme.palette.action.hover,
     },
 
     // Disable dense sizes
-    [theme.breakpoints.up('sm')]: { minHeight: 48 },
+    [theme.breakpoints.up("sm")]: { minHeight: 48 },
   },
   optionIcon: { margin: theme.spacing(0, 2, 0, -0.5) },
 }));
@@ -132,8 +133,8 @@ export default function PopupContents<T>({
   onSelectAll,
   onClear,
 
-  labelPlural = '',
-  label = '',
+  labelPlural = "",
+  label = "",
   max,
 
   searchable = true,
@@ -141,9 +142,9 @@ export default function PopupContents<T>({
   clearable = true,
   freeText = false,
   countText,
-  clearText = 'Clear',
-  selectAllText = 'Select all',
-  doneText = 'Done',
+  clearText = "Clear",
+  selectAllText = "Select all",
+  doneText = "Done",
 
   itemRenderer,
   itemIcons,
@@ -155,27 +156,30 @@ export default function PopupContents<T>({
   const { classes, cx } = useStyles();
   const themeCheckboxProps: any = useThemeProps({
     props: {},
-    name: 'MuiCheckbox',
+    name: "MuiCheckbox",
   });
-  const themeRadioProps: any = useThemeProps({ props: {}, name: 'MuiRadio' });
+  const themeRadioProps: any = useThemeProps({ props: {}, name: "MuiRadio" });
 
-  const [selectedValues, setSelectedValues] = useState(
+  const [ selectedValues, setSelectedValues ] = useState(
     Array.isArray(value)
       ? new Set((value as Option<T>[]).map((item: Option<T>) => item.value))
       : value === null
-      ? new Set()
-      : new Set([(value as Option<T>).value])
+        ? new Set()
+        : new Set([ (value as Option<T>).value ])
   );
   const disableNewSelect = max ? selectedValues.size >= max : false;
 
-  let searchBoxLabel = '';
+  let searchBoxLabel = "";
   if (searchable) {
-    searchBoxLabel = `Search ${labelPlural || label}`;
+    searchBoxLabel = `Search ${ labelPlural || label }`;
   } else {
-    if (multiple) searchBoxLabel = `Select ${labelPlural || label}`;
-    else searchBoxLabel = `Select a ${label}`;
+    if (multiple) {
+      searchBoxLabel = `Select ${ labelPlural || label }`;
+    } else {
+      searchBoxLabel = `Select a ${ label }`;
+    }
   }
-  let SearchBoxIcon = SearchIcon;
+  const SearchBoxIcon = SearchIcon;
 
   const handleChange = (
     _: any,
@@ -184,36 +188,40 @@ export default function PopupContents<T>({
   ) => {
     onChange(_, newValue, reason);
 
-    if (Array.isArray(newValue))
+    if (Array.isArray(newValue)) {
       setSelectedValues(
-        new Set(newValue.map((item: { value: T }) => item.value))
+        new Set(newValue.map((item: { value: T; }) => item.value))
       );
-    else setSelectedValues(newValue?.value);
+    } else {
+      setSelectedValues(newValue?.value);
+    }
   };
 
   return (
     <>
       <Autocomplete
-        noOptionsText={`No ${labelPlural || label || 'options'}`}
+        noOptionsText={`No ${ labelPlural || label || "options" }`}
         renderOption={(props, option, { selected }) => {
-          let icon: ReactNode = itemIcons?.multiple ??
-            themeCheckboxProps.icon ?? <CheckUnselectedIcon />;
+          let icon: ReactNode = itemIcons?.multiple
+            ?? themeCheckboxProps.icon ?? <CheckUnselectedIcon />;
           if (multiple) {
-            if (selected)
-              icon = itemIcons?.multipleSelected ??
-                themeCheckboxProps.checkedIcon ?? <CheckSelectedIcon />;
-            else
+            if (selected) {
+              icon = itemIcons?.multipleSelected
+              ?? themeCheckboxProps.checkedIcon ?? <CheckSelectedIcon />;
+            } else {
               icon = itemIcons?.multiple ?? themeCheckboxProps.icon ?? (
                 <CheckUnselectedIcon />
               );
+            }
           } else {
-            if (selected)
-              icon = itemIcons?.singleSelected ??
-                themeRadioProps.checkedIcon ?? <RadioSelectedIcon />;
-            else
+            if (selected) {
+              icon = itemIcons?.singleSelected
+              ?? themeRadioProps.checkedIcon ?? <RadioSelectedIcon />;
+            } else {
               icon = itemIcons?.single ?? themeRadioProps.icon ?? (
                 <RadioUnselectedIcon />
               );
+            }
           }
 
           return (
@@ -236,9 +244,9 @@ export default function PopupContents<T>({
         filterOptions={
           searchable
             ? // If searchable, use normal filter method
-              ((undefined as unknown) as () => Option<T>[])
+            ((undefined as unknown) as () => Option<T>[])
             : // If not searchable, always show all options
-              () => options
+            () => options
         }
         {...AutocompleteProps}
         // This component is only mounted when the popup is open, so always show this
@@ -281,12 +289,14 @@ export default function PopupContents<T>({
         renderInput={(params) => (
           <TextField
             {...params}
-            autoFocus={window.matchMedia('screen and (pointer: fine)').matches}
+            autoFocus={window.matchMedia("screen and (pointer: fine)").matches}
             onFocus={(e) => e.target.select()}
             onKeyDown={(e) => {
               // Escape key: close popup. Must be handled here since we cannot
               // pass the `onClose` prop to the root Autocomplete component.
-              if (e.key === 'Escape') onClose();
+              if (e.key === "Escape") {
+                onClose();
+              }
             }}
             variant="filled"
             type="search"
@@ -301,11 +311,11 @@ export default function PopupContents<T>({
               searchable
                 ? { ...params.inputProps, ...SearchBoxProps?.inputProps }
                 : // If not searchable, prevent user typing in this box
-                  {
-                    ...params.inputProps,
-                    ...SearchBoxProps?.inputProps,
-                    value: '',
-                  }
+                {
+                  ...params.inputProps,
+                  ...SearchBoxProps?.inputProps,
+                  value: "",
+                }
             }
             InputProps={{
               hiddenLabel: true,
@@ -315,7 +325,7 @@ export default function PopupContents<T>({
                 <InputAdornment position="start">
                   <SearchBoxIcon
                     color="action"
-                    sx={{ pointerEvents: 'none', mr: 0.5 }}
+                    sx={{ pointerEvents: "none", mr: 0.5 }}
                   />
                 </InputAdornment>
               ),

@@ -1,19 +1,16 @@
-import FilterInputs from "./FilterInputs";
-
 import { Button } from "@mui/material";
-
-import type { useFilterInputs } from "./useFilterInputs";
 
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import AddIcon from "@mui/icons-material/Add";
 import { find } from "lodash-es";
-import { TableFilter } from "@src/types/table";
 import { generateId } from "@src/utils/table";
+import FilterInputs from "./FilterInputs";
+import type { TableFilter } from "@src/types/table";
+import type { useFilterInputs } from "./useFilterInputs";
 
-export interface IFilterInputsCollectionProps
-  extends ReturnType<typeof useFilterInputs> {
+export type IFilterInputsCollectionProps = {
   disabled?: boolean;
-}
+} & ReturnType<typeof useFilterInputs>;
 
 export default function FilterInputsCollection({
   filterColumns,
@@ -27,11 +24,13 @@ export default function FilterInputsCollection({
   setJoinOperator,
 }: IFilterInputsCollectionProps) {
   const onDragEnd = (result: any) => {
-    if (!result.destination) return;
+    if (!result.destination) {
+      return;
+    }
 
     setQueries((prevQueries) => {
-      const newQueries = [...prevQueries];
-      const [reorderedItem] = newQueries.splice(result.source.index, 1);
+      const newQueries = [ ...prevQueries ];
+      const [ reorderedItem ] = newQueries.splice(result.source.index, 1);
       newQueries.splice(result.destination.index, 0, reorderedItem);
       return newQueries;
     });
@@ -43,54 +42,52 @@ export default function FilterInputsCollection({
         <Droppable droppableId="items">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {queries.map((query, index) => {
-                return (
-                  <Draggable
-                    key={query.id}
-                    draggableId={query.id.toString()}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                      >
-                        <FilterInputs
-                          filterColumns={filterColumns}
-                          selectedColumn={selectedColumns[index]}
-                          handleChangeColumn={(key: string) => {
-                            handleColumnChange(query.id, key);
-                          }}
-                          availableFilters={
-                            availableFiltersForEachSelectedColumn[index]
-                          }
-                          query={query}
-                          setQuery={(newQuery: TableFilter) => {
-                            setQueries((prevQueries) => {
-                              const newQueries = [...prevQueries];
-                              newQueries[index] = newQuery;
-                              return newQueries;
-                            });
-                          }}
-                          disabled={disabled}
-                          joinOperator={joinOperator}
-                          setJoinOperator={setJoinOperator}
-                          handleDelete={() => {
-                            setQueries((prevQueries) => {
-                              const newQueries = [...prevQueries];
-                              newQueries.splice(index, 1);
-                              return newQueries;
-                            });
-                          }}
-                          index={index}
-                          noOfQueries={queries.length}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
+              {queries.map((query, index) => (
+                <Draggable
+                  key={query.id}
+                  draggableId={query.id.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <div
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                    >
+                      <FilterInputs
+                        filterColumns={filterColumns}
+                        selectedColumn={selectedColumns[index]}
+                        handleChangeColumn={(key: string) => {
+                          handleColumnChange(query.id, key);
+                        }}
+                        availableFilters={
+                          availableFiltersForEachSelectedColumn[index]
+                        }
+                        query={query}
+                        setQuery={(newQuery: TableFilter) => {
+                          setQueries((prevQueries) => {
+                            const newQueries = [ ...prevQueries ];
+                            newQueries[index] = newQuery;
+                            return newQueries;
+                          });
+                        }}
+                        disabled={disabled}
+                        joinOperator={joinOperator}
+                        setJoinOperator={setJoinOperator}
+                        handleDelete={() => {
+                          setQueries((prevQueries) => {
+                            const newQueries = [ ...prevQueries ];
+                            newQueries.splice(index, 1);
+                            return newQueries;
+                          });
+                        }}
+                        index={index}
+                        noOfQueries={queries.length}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
               {provided.placeholder}
             </div>
           )}
@@ -101,9 +98,7 @@ export default function FilterInputsCollection({
         variant="outlined"
         color="primary"
         onClick={() => {
-          const column = find(filterColumns, (column) => {
-            return !find(selectedColumns, { key: column.key });
-          });
+          const column = find(filterColumns, (column) => !find(selectedColumns, { key: column.key }));
 
           const id = generateId();
 

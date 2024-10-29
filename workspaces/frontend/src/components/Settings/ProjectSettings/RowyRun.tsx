@@ -13,17 +13,17 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import LogoRowyRun from "@src/assets/LogoRowyRun";
-import { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { runRoutes } from "@src/constants/runRoutes";
+import type { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 // import RegionSelect from "@src/components/Settings/RegionSelect";
 
 export default function RowyRun({
   settings,
   updateSettings,
 }: IProjectSettingsChildProps) {
-  const [inputRowyRunUrl, setInputRowyRunUrl] = useState(settings.rowyRunUrl);
-  const [verified, setVerified] = useState<boolean | "LOADING" | undefined>();
+  const [ inputRowyRunUrl, setInputRowyRunUrl ] = useState(settings.rowyRunUrl);
+  const [ verified, setVerified ] = useState<boolean | "LOADING" | undefined>();
   const handleVerify = async () => {
     setVerified("LOADING");
     try {
@@ -31,8 +31,9 @@ export default function RowyRun({
         method: runRoutes.version.method,
       }).then((res) => res.json());
 
-      if (!versionReq.version) throw new Error("No version found");
-      else {
+      if (!versionReq.version) {
+        throw new Error("No version found");
+      } else {
         setVerified(true);
         updateSettings({ rowyRunUrl: inputRowyRunUrl });
       }
@@ -115,7 +116,7 @@ export default function RowyRun({
                     &nbsp; Rowy Run is set up correctly
                   </>
                 ) : verified === false ? (
-                  `Rowy Run is not set up correctly`
+                  "Rowy Run is not set up correctly"
                 ) : (
                   " "
                 )

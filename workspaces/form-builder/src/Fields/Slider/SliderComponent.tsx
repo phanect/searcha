@@ -1,29 +1,27 @@
-import type { ReactNode } from 'react';
-import { IFieldComponentProps } from '../../types';
-
 import {
   FormControl,
   Stack,
   Slider,
-  SliderProps,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-import FieldLabel from '../../FieldLabel';
-import FieldErrorMessage from '../../FieldErrorMessage';
-import FieldAssistiveText from '../../FieldAssistiveText';
+import FieldLabel from "../../FieldLabel";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { IFieldComponentProps } from "../../types";
+import type {
+  SliderProps } from "@mui/material";
+import type { ReactNode } from "react";
 
-export interface ISliderComponentProps
-  extends IFieldComponentProps,
-    Omit<SliderProps, 'name' | 'onBlur' | 'onChange' | 'ref' | 'value'> {
+export type ISliderComponentProps = {
   units?: string;
   unitsPlural?: string;
   minLabel?: ReactNode;
   maxLabel?: ReactNode;
-}
+} & IFieldComponentProps & Omit<SliderProps, "name" | "onBlur" | "onChange" | "ref" | "value">;
 
 const valueWithUnits = (value: number, units?: string, unitsPlural?: string) =>
-  `${value} ${(value !== 1 ? unitsPlural || '' : units) || ''}`.trim();
+  `${ value } ${ (value !== 1 ? unitsPlural || "" : units) || "" }`.trim();
 
 export default function SliderComponent({
   field: { onChange, onBlur, value },
@@ -58,7 +56,7 @@ export default function SliderComponent({
 
   return (
     <FormControl
-      style={{ display: 'flex' }}
+      style={{ display: "flex" }}
       error={!!errorMessage}
       disabled={!!props.disabled}
       required={!!required}
@@ -83,12 +81,12 @@ export default function SliderComponent({
           getAriaValueText={getAriaValueText}
           valueLabelFormat={getValueLabelFormat}
           {...props}
-          style={{ display: 'block', ...props.style }}
+          style={{ display: "block", ...props.style }}
           value={value ?? min}
           onClick={onBlur}
           onChange={handleChange}
           data-type="slider"
-          data-label={label ?? ''}
+          data-label={label ?? ""}
         />
 
         <Typography variant="caption" component="span" color="textSecondary">

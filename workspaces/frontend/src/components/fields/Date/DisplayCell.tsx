@@ -1,7 +1,7 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { isFunction, isDate } from "lodash-es";
 import { format } from "date-fns";
 import { DATE_FORMAT } from "@src/constants/dates";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Date_({ value, column }: IDisplayCellProps) {
   if ((!!value && isFunction(value.toDate)) || isDate(value)) {

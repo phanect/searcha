@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { useAtom } from "jotai";
-import { IStepProps } from ".";
 
 import { styled, Grid2 as Grid } from "@mui/material";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
 import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
+import type { IStepProps } from ".";
 
 const Spacer = styled(Grid)(({ theme }) => ({
   width: theme.spacing(3),
@@ -23,7 +23,7 @@ const ColumnWrapper = styled(Grid)(() => ({
 
 export default function Step4Preview({ config }: IStepProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
   return (
     <div style={{ minHeight: 300, height: "calc(100% - 80px)" }}>
@@ -44,7 +44,7 @@ export default function Step4Preview({ config }: IStepProps) {
             zIndex: 1,
           }}
         >
-          {Object.entries(config).map(([, { name, type }]) => (
+          {Object.entries(config).map(([ , { name, type }]) => (
             <ColumnWrapper>
               <Column label={name} type={type} />
             </ColumnWrapper>
@@ -53,11 +53,11 @@ export default function Step4Preview({ config }: IStepProps) {
         </Grid>
 
         <Grid container wrap="nowrap" style={{ flexGrow: 1 }}>
-          {Object.entries(config).map(([field, { name, type }]) => (
+          {Object.entries(config).map(([ field, { name, type }]) => (
             <ColumnWrapper>
               {tableRows.slice(0, 20).map((row) => (
                 <Cell
-                  key={`${field}--${row._rowy_ref.path}`}
+                  key={`${ field }--${ row._rowy_ref.path }`}
                   field={field}
                   value={row[field]}
                   type={type}

@@ -50,13 +50,13 @@ export default function ProvidedTablePage() {
   const outlet = useOutlet();
   const tableScopeStore = useContext(TableScopeContext);
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
   const isOffline = useOffline();
 
-  const tableSettings = find(tables, ["id", id]);
+  const tableSettings = find(tables, [ "id", id ]);
   useDocumentTitle(projectId, tableSettings ? tableSettings.name : "Not found");
 
   if (!tableSettings) {
@@ -83,7 +83,7 @@ export default function ProvidedTablePage() {
             role="alert"
             fullScreen
             message="Table not found"
-            description={
+            description={(
               <>
                 <Typography variant="inherit">
                   Make sure you have the right ID
@@ -99,7 +99,7 @@ export default function ProvidedTablePage() {
                   All tables
                 </Button>
               </>
-            }
+            )}
           />
         );
       }
@@ -109,12 +109,12 @@ export default function ProvidedTablePage() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense
-        fallback={
+        fallback={(
           <>
             <TableToolbarSkeleton />
             <TableSkeleton />
           </>
-        }
+        )}
       >
         <TableScopeContext.Provider
           key={"tableScopeStore/" + id}
@@ -124,21 +124,22 @@ export default function ProvidedTablePage() {
             [ currentUserAtom, currentUser ],
             [ tableIdAtom, id ],
             [ tableSettingsAtom, tableSettings ],
-          ]}>
+          ]}
+          >
             <SyncAtomValue
               atom={tableSettingsAtom}
-              store={ tableScopeStore }
+              store={tableScopeStore}
               value={tableSettings}
             />
 
             <TableSourceFirestore />
             <Suspense
-              fallback={
+              fallback={(
                 <>
                   <TableToolbarSkeleton />
                   <TableSkeleton />
                 </>
-              }
+              )}
             >
               <main>
                 <TablePage enableRowSelection disableModals={Boolean(outlet)} />

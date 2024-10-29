@@ -11,27 +11,41 @@ const ImportExistingWizard = lazy(() => import("./ImportExistingWizard"));
 const ImportCsvWizard = lazy(() => import("./ImportCsvWizard"));
 const ImportAirtableWizard = lazy(() => import("./ImportAirtableWizard"));
 
-export interface ITableModalProps {
+export type ITableModalProps = {
   onClose: () => void;
-}
+};
 
 export default function TableModals() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableModal, setTableModal] = useAtom(tableModalAtom, { store: tableScopeStore });
+  const [ tableModal, setTableModal ] = useAtom(tableModalAtom, { store: tableScopeStore });
 
-  if (!tableModal) return null;
+  if (!tableModal) {
+    return null;
+  }
 
   const onClose = () => setTableModal(RESET);
 
-  if (tableModal === "cloudLogs") return <CloudLogsModal onClose={onClose} />;
-  if (tableModal === "extensions") return <ExtensionsModal onClose={onClose} />;
-  if (tableModal === "webhooks") return <WebhooksModal onClose={onClose} />;
-  if (tableModal === "export") return <ExportModal onClose={onClose} />;
-  if (tableModal === "importExisting")
+  if (tableModal === "cloudLogs") {
+    return <CloudLogsModal onClose={onClose} />;
+  }
+  if (tableModal === "extensions") {
+    return <ExtensionsModal onClose={onClose} />;
+  }
+  if (tableModal === "webhooks") {
+    return <WebhooksModal onClose={onClose} />;
+  }
+  if (tableModal === "export") {
+    return <ExportModal onClose={onClose} />;
+  }
+  if (tableModal === "importExisting") {
     return <ImportExistingWizard onClose={onClose} />;
-  if (tableModal === "importCsv") return <ImportCsvWizard onClose={onClose} />;
-  if (tableModal === "importAirtable")
+  }
+  if (tableModal === "importCsv") {
+    return <ImportCsvWizard onClose={onClose} />;
+  }
+  if (tableModal === "importAirtable") {
     return <ImportAirtableWizard onClose={onClose} />;
+  }
 
   return null;
 }

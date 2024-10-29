@@ -12,11 +12,11 @@ import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 
 export default function SignOutPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [ firebaseAuth ] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
 
   useEffect(() => {
     signOut(firebaseAuth);
-  }, [firebaseAuth]);
+  }, [ firebaseAuth ]);
 
   return (
     <AuthLayout title="Signed out">

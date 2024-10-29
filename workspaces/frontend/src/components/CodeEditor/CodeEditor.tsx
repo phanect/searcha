@@ -1,24 +1,25 @@
 import { useState } from "react";
-import Editor, { EditorProps, Monaco } from "@monaco-editor/react";
-import type { editor } from "monaco-editor/esm/vs/editor/editor.api";
+import Editor from "@monaco-editor/react";
 
-import { useTheme, Box, BoxProps, AppBar, Toolbar } from "@mui/material";
+import { useTheme, Box, AppBar, Toolbar } from "@mui/material";
 import TrapFocus from "@mui/material/Unstable_TrapFocus";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { ResizeBottomRight } from "@src/assets/icons";
 
-import useMonacoCustomizations, {
-  IUseMonacoCustomizationsProps,
-} from "./useMonacoCustomizations";
 import FullScreenButton from "@src/components/FullScreenButton";
 import { spreadSx } from "@src/utils/ui";
 import githubLightTheme from "@src/components/CodeEditor/github-light-default.json";
 import githubDarkTheme from "@src/components/CodeEditor/github-dark-default.json";
 import { AutoTypings, LocalStorageCache } from "monaco-editor-auto-typings";
+import useMonacoCustomizations from "./useMonacoCustomizations";
+import type {
+  IUseMonacoCustomizationsProps,
+} from "./useMonacoCustomizations";
+import type { BoxProps } from "@mui/material";
+import type { EditorProps, Monaco } from "@monaco-editor/react";
+import type { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
-export interface ICodeEditorProps
-  extends Partial<EditorProps>,
-    Omit<IUseMonacoCustomizationsProps, "fullScreen"> {
+export type ICodeEditorProps = {
   value: string;
   containerProps?: Partial<BoxProps>;
   fullScreenTitle?: React.ReactNode;
@@ -30,7 +31,7 @@ export interface ICodeEditorProps
   }) => void;
   onFocus?: () => void;
   onBlur?: () => void;
-}
+} & Partial<EditorProps> & Omit<IUseMonacoCustomizationsProps, "fullScreen">;
 
 export default function CodeEditor({
   value,
@@ -55,8 +56,8 @@ export default function CodeEditor({
 
   // Store editor value to prevent code editor values not being saved when
   // Side Drawer is in the middle of a refresh
-  const [initialEditorValue] = useState(value ?? "");
-  const [fullScreen, setFullScreen] = useState(false);
+  const [ initialEditorValue ] = useState(value ?? "");
+  const [ fullScreen, setFullScreen ] = useState(false);
 
   const { boxSx } = useMonacoCustomizations({
     minHeight,
@@ -83,14 +84,14 @@ export default function CodeEditor({
         endColumn: model.getLineLength(i) + 1,
       };
       const line = model.getValueInRange(range);
-      for (const keyword of ["console.log", "console.warn", "console.error"]) {
+      for (const keyword of [ "console.log", "console.warn", "console.error" ]) {
         const consoleLogIndex = line.indexOf(keyword);
         if (consoleLogIndex >= 0) {
           markers.push({
-            message: `Replace with ${keyword.replace(
+            message: `Replace with ${ keyword.replace(
               "console",
               "logging"
-            )}: Rowy Cloud Logging provides a better experience to view logs. Simply replace 'console' with 'logging'. \n\nhttps://docs.rowy.io/cloud-logs`,
+            ) }: Rowy Cloud Logging provides a better experience to view logs. Simply replace 'console' with 'logging'. \n\nhttps://docs.rowy.io/cloud-logs`,
             severity: monaco.MarkerSeverity.Warning,
             startLineNumber: range.startLineNumber,
             endLineNumber: range.endLineNumber,
@@ -107,7 +108,7 @@ export default function CodeEditor({
     <TrapFocus open={fullScreen}>
       <Box
         component="div"
-        sx={[boxSx, ...spreadSx(containerProps?.sx)]}
+        sx={[ boxSx, ...spreadSx(containerProps?.sx) ]}
         style={fullScreen ? { height: "100%" } : {}}
       >
         {fullScreen && fullScreenTitle && (
@@ -137,8 +138,12 @@ export default function CodeEditor({
             if (props.onMount) {
               props.onMount(editor, monaco);
             }
-            if (onFocus) editor.onDidFocusEditorWidget(onFocus);
-            if (onBlur) editor.onDidBlurEditorWidget(onBlur);
+            if (onFocus) {
+              editor.onDidFocusEditorWidget(onFocus);
+            }
+            if (onBlur) {
+              editor.onDidBlurEditorWidget(onBlur);
+            }
             await AutoTypings.create(editor, {
               monaco: monaco,
               sourceCache: new LocalStorageCache(),
@@ -149,11 +154,11 @@ export default function CodeEditor({
             });
           }}
           onValidate={onValidate_}
-          theme={`github-${theme.palette.mode}`}
+          theme={`github-${ theme.palette.mode }`}
           options={{
             readOnly: disabled,
             fontFamily: theme.typography.fontFamilyMono,
-            rulers: [80],
+            rulers: [ 80 ],
             minimap: { enabled: false },
             lineNumbersMinChars: 4,
             lineDecorationsWidth: 0,

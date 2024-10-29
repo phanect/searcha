@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import {
   Menu,
-  MenuProps,
   ListSubheader,
   MenuItem,
   ListItemIcon,
@@ -13,6 +12,8 @@ import SocialLogo from "@src/components/SocialLogo";
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { logEvent, analytics } from "@src/analytics";
+import type {
+  MenuProps } from "@mui/material";
 
 export default function HelpMenu({
   anchorEl,
@@ -20,8 +21,10 @@ export default function HelpMenu({
 }: Pick<MenuProps, "anchorEl" | "onClose">) {
   const open = Boolean(anchorEl);
   useEffect(() => {
-    if (open) logEvent(analytics, "open_community_menu");
-  }, [open]);
+    if (open) {
+      logEvent(analytics, "open_community_menu");
+    }
+  }, [ open ]);
 
   const externalLinkIcon = (
     <ListItemSecondaryAction sx={{ right: 10, color: "text.disabled" }}>
@@ -37,7 +40,7 @@ export default function HelpMenu({
       id="community-menu"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       transformOrigin={{ vertical: "bottom", horizontal: "left" }}
-      sx={{ "& .MuiPaper-root": { mt: 1.5, py: 1 } }}
+      sx={{ "& .MuiPaper-root": { mt: 1.5, py: 1 }}}
       PaperProps={{ elevation: 12 }}
     >
       <ListSubheader

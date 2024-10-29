@@ -11,9 +11,6 @@ import ChevronUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ChevronDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import ErrorFallback from "@src/components/ErrorFallback";
-import StyledDrawer from "./StyledDrawer";
-import SideDrawerFields from "./SideDrawerFields";
-
 import {
   TableScopeContext,
   tableRowsAtom,
@@ -21,6 +18,8 @@ import {
   selectedCellAtom,
 } from "@src/atoms/tableScope";
 import { analytics, logEvent } from "@src/analytics";
+import StyledDrawer from "./StyledDrawer";
+import SideDrawerFields from "./SideDrawerFields";
 
 export const DRAWER_WIDTH = 512;
 export const DRAWER_COLLAPSED_WIDTH = 36;
@@ -28,31 +27,37 @@ export const DRAWER_COLLAPSED_WIDTH = 36;
 export default function SideDrawer() {
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
-  const [cell, setCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
-  const [open, setOpen] = useAtom(sideDrawerOpenAtom, { store: tableScopeStore });
+  const [ cell, setCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ open, setOpen ] = useAtom(sideDrawerOpenAtom, { store: tableScopeStore });
   const selectedRow = find(
     tableRows,
     cell?.arrayIndex === undefined
-      ? ["_rowy_ref.path", cell?.path]
+      ? [ "_rowy_ref.path", cell?.path ]
       : // if the table is an array table, we need to use the array index to find the row
-        ["_rowy_ref.arrayTableData.index", cell?.arrayIndex]
+      [ "_rowy_ref.arrayTableData.index", cell?.arrayIndex ]
   );
 
   const selectedCellRowIndex = findIndex(
     tableRows,
     cell?.arrayIndex === undefined
-      ? ["_rowy_ref.path", cell?.path]
+      ? [ "_rowy_ref.path", cell?.path ]
       : // if the table is an array table, we need to use the array index to find the row
-        ["_rowy_ref.arrayTableData.index", cell?.arrayIndex]
+      [ "_rowy_ref.arrayTableData.index", cell?.arrayIndex ]
   );
 
   const handleNavigate = (direction: "up" | "down") => () => {
-    if (!tableRows || !cell) return;
+    if (!tableRows || !cell) {
+      return;
+    }
     let rowIndex = selectedCellRowIndex;
-    if (direction === "up" && rowIndex > 0) rowIndex -= 1;
-    if (direction === "down" && rowIndex < tableRows.length - 1) rowIndex += 1;
+    if (direction === "up" && rowIndex > 0) {
+      rowIndex -= 1;
+    }
+    if (direction === "down" && rowIndex < tableRows.length - 1) {
+      rowIndex += 1;
+    }
     const newPath = tableRows[rowIndex]._rowy_ref.path;
 
     setCell((cell) => ({
@@ -86,8 +91,10 @@ export default function SideDrawer() {
 
   const disabled = (!open && !cell) || selectedCellRowIndex <= -1; // && !urlDocState.doc;
   useEffect(() => {
-    if (disabled && setOpen) setOpen(false);
-  }, [disabled, setOpen]);
+    if (disabled && setOpen) {
+      setOpen(false);
+    }
+  }, [ disabled, setOpen ]);
 
   return (
     <StyledDrawer
@@ -146,7 +153,7 @@ export default function SideDrawer() {
           aria-label={open ? "Close side drawer" : "Open side drawer"}
           disabled={disabled}
           onClick={() => {
-            if (setOpen)
+            if (setOpen) {
               setOpen((o) => {
                 logEvent(
                   analytics,
@@ -154,6 +161,7 @@ export default function SideDrawer() {
                 );
                 return !o;
               });
+            }
           }}
           sx={{ transform: disabled ? "scale(0)" : "none" }}
         >

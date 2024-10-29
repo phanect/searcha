@@ -1,4 +1,5 @@
-import { Skeleton, SkeletonProps } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import type { SkeletonProps } from "@mui/material";
 
 export default function FieldSkeleton(props: SkeletonProps) {
   return (

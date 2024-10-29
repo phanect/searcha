@@ -1,14 +1,13 @@
-import { IFieldComponentProps } from '../../types';
-import MultiSelect, { MultiSelectProps } from '@phanect/datasheet-multiselect';
+import MultiSelect from "@phanect/datasheet-multiselect";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
+import type { IFieldComponentProps } from "../../types";
 
-import FieldAssistiveText from '../../FieldAssistiveText';
 import type { ReactNode } from "react";
 
-export interface IMultiSelectComponentProps
-  extends IFieldComponentProps,
-    Omit<MultiSelectProps<string>, 'value' | 'onChange' | 'options' | 'label'> {
-  options: (string | { value: string; label: ReactNode })[];
-}
+export type IMultiSelectComponentProps = {
+  options: (string | { value: string; label: ReactNode; })[];
+} & IFieldComponentProps & Omit<MultiSelectProps<string>, "value" | "onChange" | "options" | "label">;
 
 export default function MultiSelectComponent({
   field: { onChange, onBlur, value, ref },
@@ -40,7 +39,7 @@ export default function MultiSelectComponent({
           ...props.TextFieldProps?.InputLabelProps,
         },
         FormHelperTextProps: {
-          component: 'div',
+          component: "div",
           ...props.TextFieldProps?.FormHelperTextProps,
         },
         helperText: (errorMessage || assistiveText) && (
@@ -56,8 +55,8 @@ export default function MultiSelectComponent({
           </>
         ),
         onBlur,
-        'data-type': 'multi-select',
-        'data-label': props.label ?? '',
+        "data-type": "multi-select",
+        "data-label": props.label ?? "",
         inputRef: ref,
       }}
     />

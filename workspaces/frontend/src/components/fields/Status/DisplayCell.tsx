@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { IDisplayCellProps } from "@src/components/fields/types";
 
 import { ButtonBase } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 import getLabel from "./utils/getLabelHelper";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export const StatusDisplayCell = ({
   column,
@@ -15,23 +15,21 @@ export const StatusDisplayCell = ({
   const conditions = column.config?.conditions;
 
   const rendered = useMemo(() => {
-    const lowPriorityOperator = ["<", "<=", ">=", ">"];
+    const lowPriorityOperator = [ "<", "<=", ">=", ">" ];
     const otherOperator = (conditions ?? []).filter(
       (c: any) => !lowPriorityOperator.includes(c.operator)
     );
 
-    /**Revisit this  */
+    /** Revisit this  */
     const sortLowPriorityList = (conditions ?? [])
-      .filter((c: any) => {
-        return lowPriorityOperator.includes(c.operator);
-      })
+      .filter((c: any) => lowPriorityOperator.includes(c.operator))
       .sort((a: any, b: any) => {
         const aDistFromValue = Math.abs(value - a.value);
         const bDistFromValue = Math.abs(value - b.value);
-        //return the smallest distance
+        // return the smallest distance
         return aDistFromValue - bDistFromValue;
       });
-    const sortedConditions = [...otherOperator, ...sortLowPriorityList];
+    const sortedConditions = [ ...otherOperator, ...sortLowPriorityList ];
 
     return (
       <div
@@ -44,9 +42,11 @@ export const StatusDisplayCell = ({
         {getLabel(value, sortedConditions)}
       </div>
     );
-  }, [value, conditions]);
+  }, [ value, conditions ]);
 
-  if (disabled) return rendered;
+  if (disabled) {
+    return rendered;
+  }
 
   return (
     <ButtonBase

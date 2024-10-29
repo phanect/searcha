@@ -1,11 +1,9 @@
-import type { ImgHTMLAttributes } from 'react';
-import { IFieldComponentProps } from '../../types';
+import type { IFieldComponentProps } from "../../types";
+import type { ImgHTMLAttributes } from "react";
 
-export interface IContentImageComponentProps
-  extends IFieldComponentProps,
-    Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
-  src: string | { downloadURL: string }[];
-}
+export type IContentImageComponentProps = {
+  src: string | { downloadURL: string; }[];
+} & IFieldComponentProps & Omit<ImgHTMLAttributes<HTMLImageElement>, "src">;
 
 export default function ContentImageComponent({
   field,
@@ -25,17 +23,18 @@ export default function ContentImageComponent({
   alt,
   ...props
 }: IContentImageComponentProps) {
-  if (!src || (Array.isArray(src) && (src.length === 0 || !src[0].downloadURL)))
+  if (!src || (Array.isArray(src) && (src.length === 0 || !src[0].downloadURL))) {
     return null;
+  }
 
   return (
     <img
       {...props}
-      src={typeof src === 'string' ? src : src?.[0]?.downloadURL}
+      src={typeof src === "string" ? src : src?.[0]?.downloadURL}
       alt={alt}
       style={{
-        maxWidth: '100%',
-        height: 'auto',
+        maxWidth: "100%",
+        height: "auto",
         ...props.style,
       }}
     />

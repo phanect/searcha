@@ -1,18 +1,18 @@
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { FieldType } from "../../constants/fields";
+import type { IFieldConfig } from "../../types";
 
-export const ListSettings: IFieldConfig['settings'] = [
+export const ListSettings: IFieldConfig["settings"] = [
   {
     type: FieldType.shortText,
-    name: 'placeholder',
-    label: 'Placeholder',
-    defaultValue: '',
+    name: "placeholder",
+    label: "Placeholder",
+    defaultValue: "",
   },
   {
     type: FieldType.shortText,
-    name: 'itemLabel',
-    label: 'Item Label',
-    defaultValue: '',
+    name: "itemLabel",
+    label: "Item Label",
+    defaultValue: "",
   },
 ];
 

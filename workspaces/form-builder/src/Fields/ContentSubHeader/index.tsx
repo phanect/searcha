@@ -1,23 +1,22 @@
-import { lazy } from 'react';
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { lazy } from "react";
+import FormatHeader2 from "mdi-material-ui/FormatHeader2";
+import { FieldType } from "../../constants/fields";
 
-import FormatHeader2 from 'mdi-material-ui/FormatHeader2';
-
-import Settings from './ContentSubHeaderSettings';
+import Settings from "./ContentSubHeaderSettings";
+import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>
     import(
-      './ContentSubHeaderComponent'
+      "./ContentSubHeaderComponent"
     )
 );
 
 export const ContentSubHeaderConfig: IFieldConfig = {
   type: FieldType.contentSubHeader,
-  name: 'Sub-Header',
-  group: 'content',
+  name: "Sub-Header",
+  group: "content",
   icon: <FormatHeader2 />,
-  dataType: 'undefined',
+  dataType: "undefined",
   defaultValue: undefined,
   component: Component,
   settings: Settings,

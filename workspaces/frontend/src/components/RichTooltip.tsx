@@ -5,43 +5,43 @@ import {
   styled,
   Tooltip,
   tooltipClasses,
-  TooltipProps,
   Box,
   Typography,
   Button,
-  ButtonProps,
 } from "@mui/material";
+import type {
+  TooltipProps,
+  ButtonProps } from "@mui/material";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
-  [`& .${tooltipClasses.popper}`]: { zIndex: theme.zIndex.drawer - 1 },
-  [`& .${tooltipClasses.tooltip}`]: {
+  [`& .${ tooltipClasses.popper }`]: { zIndex: theme.zIndex.drawer - 1 },
+  [`& .${ tooltipClasses.tooltip }`]: {
     backgroundColor:
       theme.palette.mode === "light"
         ? theme.palette.background.default
         : colord(theme.palette.background.paper)
-            .mix("#fff", 0.16)
-            .toHslString(),
+          .mix("#fff", 0.16)
+          .toHslString(),
     boxShadow: theme.shadows[8],
 
     ...theme.typography.body2,
     color: theme.palette.text.primary,
     padding: 0,
   },
-  [`& .${tooltipClasses.arrow}::before`]: {
+  [`& .${ tooltipClasses.arrow }::before`]: {
     backgroundColor:
       theme.palette.mode === "light"
         ? theme.palette.background.default
         : colord(theme.palette.background.paper)
-            .mix("#fff", 0.16)
-            .toHslString(),
+          .mix("#fff", 0.16)
+          .toHslString(),
     boxShadow: theme.shadows[8],
   },
 }));
 
-export interface IRichTooltipProps
-  extends Partial<Omit<TooltipProps, "title">> {
+export type IRichTooltipProps = {
   render: (props: {
     openTooltip: () => void;
     closeTooltip: () => void;
@@ -57,7 +57,7 @@ export interface IRichTooltipProps
   onOpen?: () => void;
   onClose?: () => void;
   onToggle?: (state: boolean) => void;
-}
+} & Partial<Omit<TooltipProps, "title">>;
 
 export default function RichTooltip({
   render,
@@ -72,19 +72,25 @@ export default function RichTooltip({
   onToggle,
   ...props
 }: IRichTooltipProps) {
-  const [open, setOpen] = useState(defaultOpen || false);
+  const [ open, setOpen ] = useState(defaultOpen || false);
 
   const openTooltip = () => {
     setOpen(true);
-    if (onOpen) onOpen();
+    if (onOpen) {
+      onOpen();
+    }
   };
   const closeTooltip = () => {
     setOpen(false);
-    if (onClose) onClose();
+    if (onClose) {
+      onClose();
+    }
   };
   const toggleTooltip = () =>
     setOpen((state) => {
-      if (onToggle) onToggle(!state);
+      if (onToggle) {
+        onToggle(!state);
+      }
       return !state;
     });
 
@@ -96,7 +102,7 @@ export default function RichTooltip({
       arrow
       open={open}
       onClose={closeTooltip}
-      title={
+      title={(
         <Box
           sx={{
             p: 2,
@@ -108,7 +114,7 @@ export default function RichTooltip({
           }}
           onClick={closeTooltip}
         >
-          <Box component="span" sx={{ mt: -0.5, fontSize: `${48 / 16}rem` }}>
+          <Box component="span" sx={{ mt: -0.5, fontSize: `${ 48 / 16 }rem` }}>
             {icon}
           </Box>
 
@@ -143,7 +149,7 @@ export default function RichTooltip({
             </Typography>
           )}
         </Box>
-      }
+      )}
       PopperProps={{
         modifiers: [
           {

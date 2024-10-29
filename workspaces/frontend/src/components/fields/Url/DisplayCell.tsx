@@ -1,12 +1,13 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { Stack, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Url({ value, tabIndex }: IDisplayCellProps) {
-  if (!value || typeof value !== "string") return null;
+  if (!value || typeof value !== "string") {
+    return null;
+  }
 
-  const href = value.includes("http") ? value : `https://${value}`;
+  const href = value.includes("http") ? value : `https://${ value }`;
 
   return (
     <Stack

@@ -1,8 +1,8 @@
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
-import { IDisplayCellProps } from "@src/components/fields/types";
 
 import { useFormula } from "./useFormula";
 import { defaultFn, getDisplayCell } from "./util";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Formula(props: IDisplayCellProps) {
   const { result, error, loading } = useFormula({

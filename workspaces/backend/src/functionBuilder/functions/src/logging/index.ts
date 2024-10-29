@@ -3,11 +3,11 @@ import { Logging } from "@google-cloud/logging";
 type FunctionType = "derivative-function" | "extension" | "defaultValue";
 type IExtensionSource = "condition" | "function";
 
-interface RowyLogging {
+type RowyLogging = {
   log: (...payload: any[]) => void;
   warn: (...payload: any[]) => void;
   error: (...payload: any[]) => void;
-}
+};
 
 class LoggingFactory {
   public static async createDerivativeLogging(
@@ -102,7 +102,7 @@ class LoggingDerivative extends LoggingAbstract implements RowyLogging {
   }
 
   async logWithSeverity(payload: any[], severity: string) {
-    const log = this.logging.log(`rowy-logging`);
+    const log = this.logging.log("rowy-logging");
     const metadata = {
       severity,
     };
@@ -117,8 +117,8 @@ class LoggingDerivative extends LoggingAbstract implements RowyLogging {
         payloadSize > 250000
           ? { v: "payload too large" }
           : payload.length > 1
-          ? payload
-          : payload[0],
+            ? payload
+            : payload[0],
     });
     await log.write(entry);
   }
@@ -145,7 +145,7 @@ class LoggingExtension extends LoggingAbstract implements RowyLogging {
   }
 
   async logWithSeverity(payload: any[], severity: string) {
-    const log = this.logging.log(`rowy-logging`);
+    const log = this.logging.log("rowy-logging");
     const metadata = {
       severity,
     };
@@ -161,8 +161,8 @@ class LoggingExtension extends LoggingAbstract implements RowyLogging {
         payloadSize > 250000
           ? { v: "payload too large" }
           : payload.length > 1
-          ? payload
-          : payload[0],
+            ? payload
+            : payload[0],
     });
     await log.write(entry);
   }
@@ -187,7 +187,7 @@ class LoggingDefaultValue extends LoggingAbstract implements RowyLogging {
   }
 
   async logWithSeverity(payload: any[], severity: string) {
-    const log = this.logging.log(`rowy-logging`);
+    const log = this.logging.log("rowy-logging");
     const metadata = {
       severity,
     };
@@ -202,8 +202,8 @@ class LoggingDefaultValue extends LoggingAbstract implements RowyLogging {
         payloadSize > 250000
           ? { v: "payload too large" }
           : payload.length > 1
-          ? payload
-          : payload[0],
+            ? payload
+            : payload[0],
     });
     await log.write(entry);
   }

@@ -4,7 +4,6 @@ import { find } from "lodash-es";
 import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import { IStepProps } from ".";
 import ScrollableList from "@src/components/TableModals/ScrollableList";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
@@ -12,6 +11,7 @@ import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import { FieldType } from "@src/constants/fields";
 import { SELECTABLE_TYPES } from "@src/components/TableModals/ImportExistingWizard/utils";
 import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
+import type { IStepProps } from ".";
 
 export default function Step2NewColumns({
   airtableData,
@@ -19,10 +19,10 @@ export default function Step2NewColumns({
   setConfig,
   isXs,
 }: IStepProps) {
-  const [fieldToEdit, setFieldToEdit] = useState(0);
+  const [ fieldToEdit, setFieldToEdit ] = useState(0);
 
   const handleChange = (v: FieldType) => {
-    const newColumns = [...config.newColumns];
+    const newColumns = [ ...config.newColumns ];
     newColumns[fieldToEdit].type = v;
 
     setConfig((config) => ({ ...config, newColumns }));
@@ -52,7 +52,7 @@ export default function Step2NewColumns({
                   <ButtonBase
                     sx={{ width: "100%", textAlign: "left" }}
                     onClick={() => setFieldToEdit(i)}
-                    aria-label={`Edit column ${key}`}
+                    aria-label={`Edit column ${ key }`}
                     focusRipple
                   >
                     <Column
@@ -68,7 +68,7 @@ export default function Step2NewColumns({
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }} style={{ paddingTop: 68 }}>
             <FieldsDropdown
-              label={`Column type: ${config.newColumns[fieldToEdit].name}`}
+              label={`Column type: ${ config.newColumns[fieldToEdit].name }`}
               value={config.newColumns[fieldToEdit].type}
               onChange={handleChange}
               hideLabel

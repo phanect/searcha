@@ -32,7 +32,7 @@ export const StyledCell = styled("div")(({ theme }) => ({
 
   backgroundColor: "var(--cell-background-color)",
 
-  border: `1px solid ${theme.palette.divider}`,
+  border: `1px solid ${ theme.palette.divider }`,
   borderTop: "none",
   "& + &": { borderLeft: "none" },
 
@@ -41,11 +41,11 @@ export const StyledCell = styled("div")(({ theme }) => ({
   },
 
   "[data-out-of-order='true'] + [role='row'] &": {
-    borderTop: `1px solid ${theme.palette.divider}`,
+    borderTop: `1px solid ${ theme.palette.divider }`,
   },
 
   "&[aria-invalid='true'] .cell-contents": {
-    outline: `2px dotted ${theme.palette.error.main}`,
+    outline: `2px dotted ${ theme.palette.error.main }`,
     outlineOffset: -2,
   },
 }));

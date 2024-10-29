@@ -1,23 +1,20 @@
-import { IFieldComponentProps } from '../../types';
-
 import {
   LocalizationProvider,
   DatePicker,
-  DatePickerProps,
-} from '@mui/x-date-pickers';
-import { TextFieldProps } from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+} from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type {
+  DatePickerProps } from "@mui/x-date-pickers";
+import type { TextFieldProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
-import FieldAssistiveText from '../../FieldAssistiveText';
-
-export interface IDateComponentProps
-  extends IFieldComponentProps,
-    Omit<
-      DatePickerProps<Date, true>,
-      'label' | 'name' | 'onChange' | 'value' | 'ref'
-    > {
+export type IDateComponentProps = {
   TextFieldProps: TextFieldProps;
-}
+} & IFieldComponentProps & Omit<
+  DatePickerProps<Date, true>,
+      "label" | "name" | "onChange" | "value" | "ref"
+>;
 
 export default function DateComponent({
   field: { onChange, onBlur, value, ref },
@@ -34,8 +31,11 @@ export default function DateComponent({
   ...props
 }: IDateComponentProps) {
   let transformedValue: any = null;
-  if (value && 'toDate' in value) transformedValue = value.toDate();
-  else if (value !== undefined) transformedValue = value;
+  if (value && "toDate" in value) {
+    transformedValue = value.toDate();
+  } else if (value !== undefined) {
+    transformedValue = value;
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -49,14 +49,14 @@ export default function DateComponent({
         slotProps={{
           // https://github.com/mui-org/material-ui/issues/10341#issuecomment-770784016
           popper: {
-            disablePortal: true
+            disablePortal: true,
           },
           textField: {
             ...TextFieldProps,
             fullWidth: true,
             onBlur,
             error: TextFieldProps.error || !!errorMessage,
-            FormHelperTextProps: { component: 'div' } as any,
+            FormHelperTextProps: { component: "div" } as any,
             helperText: (errorMessage || assistiveText) && (
               <>
                 {errorMessage}
@@ -74,7 +74,7 @@ export default function DateComponent({
               required: false,
             },
             sx: {
-              '& .MuiInputBase-input': { fontVariantNumeric: 'tabular-nums' },
+              "& .MuiInputBase-input": { fontVariantNumeric: "tabular-nums" },
               ...TextFieldProps?.sx,
             },
           },

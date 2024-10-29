@@ -1,4 +1,3 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { useContext, useMemo } from "react";
 import { useSetAtom } from "jotai";
 import { assignIn } from "lodash-es";
@@ -9,7 +8,6 @@ import {
   Typography,
   Grid2 as Grid,
   Tooltip,
-  Theme,
   IconButton,
   Box,
 } from "@mui/material";
@@ -17,22 +15,26 @@ import AddIcon from "@mui/icons-material/AddAPhotoOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 
-import { FileValue } from "@src/types/table";
 import Thumbnail from "@src/components/Thumbnail";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import useFileUpload from "@src/components/fields/File/useFileUpload";
-import { imageMimeTypes } from "./index.tsx";
 
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
 } from "react-beautiful-dnd";
+import { imageMimeTypes } from "./index.tsx";
+import type {
+  DropResult } from "react-beautiful-dnd";
+import type { FileValue } from "@src/types/table";
+import type {
+  Theme } from "@mui/material";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 const imgSx = {
   position: "relative",
@@ -61,7 +63,7 @@ const overlaySx = {
 
   backgroundColor: (theme: Theme) => alpha(theme.palette.background.paper, 0.8),
   color: "text.secondary",
-  boxShadow: (theme: Theme) => `0 0 0 1px ${theme.palette.divider} inset`,
+  boxShadow: (theme: Theme) => `0 0 0 1px ${ theme.palette.divider } inset`,
   borderRadius: 1,
 };
 const deleteImgHoverSx = {
@@ -114,7 +116,7 @@ export default function Image_({
       localFiles.map((file) =>
         assignIn(file, { localURL: URL.createObjectURL(file) })
       ),
-    [localFiles]
+    [ localFiles ]
   );
 
   const { getRootProps, getInputProps, isDragActive } = dropzoneState;
@@ -127,8 +129,8 @@ export default function Image_({
     }
 
     if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
+      destination.droppableId === source.droppableId
+      && destination.index === source.index
     ) {
       return;
     }
@@ -138,7 +140,7 @@ export default function Image_({
     newValue.splice(source.index, 1);
     newValue.splice(destination.index, 0, value[source.index]);
 
-    handleUpdate([...newValue]);
+    handleUpdate([ ...newValue ]);
   };
 
   return (
@@ -154,13 +156,13 @@ export default function Image_({
             },
             isDragActive
               ? {
-                  backgroundColor: (theme) =>
-                    alpha(
-                      theme.palette.primary.light,
-                      theme.palette.action.hoverOpacity * 2
-                    ),
-                  color: "primary.main",
-                }
+                backgroundColor: (theme) =>
+                  alpha(
+                    theme.palette.primary.light,
+                    theme.palette.action.hoverOpacity * 2
+                  ),
+                color: "primary.main",
+              }
               : {},
           ]}
           {...getRootProps()}
@@ -193,143 +195,140 @@ export default function Image_({
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {Array.isArray(value) &&
-                value.map((image: FileValue, i) => (
-                  <Draggable
-                    key={image.downloadURL}
-                    draggableId={image.downloadURL}
-                    index={i}
-                  >
-                    {(provided) => (
-                      <Grid>
-                        {disabled ? (
-                          <Tooltip title="Open">
-                            <ButtonBase
-                              sx={imgSx}
-                              onClick={() =>
-                                window.open(image.downloadURL, "_blank")
-                              }
-                              className="img"
-                            >
-                              <Thumbnail
-                                imageUrl={image.downloadURL}
-                                size="200x200"
-                                objectFit="contain"
-                                sx={thumbnailSx}
-                              />
-                              <Grid
-                                container
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={[overlaySx, deleteImgHoverSx]}
-                              >
-                                {disabled ? (
-                                  <OpenIcon />
-                                ) : (
-                                  <DeleteIcon color="error" />
-                                )}
-                              </Grid>
-                            </ButtonBase>
-                          </Tooltip>
-                        ) : (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              ...provided.draggableProps.style,
-                            }}
+              {Array.isArray(value)
+              && value.map((image: FileValue, i) => (
+                <Draggable
+                  key={image.downloadURL}
+                  draggableId={image.downloadURL}
+                  index={i}
+                >
+                  {(provided) => (
+                    <Grid>
+                      {disabled ? (
+                        <Tooltip title="Open">
+                          <ButtonBase
+                            sx={imgSx}
+                            onClick={() =>
+                              window.open(image.downloadURL, "_blank")}
+                            className="img"
                           >
-                            {value.length > 1 && (
-                              <div
-                                {...provided.dragHandleProps}
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <DragIndicatorIcon />
-                              </div>
-                            )}
-                            <Box sx={imgSx} className="img">
-                              <Thumbnail
-                                imageUrl={image.downloadURL}
-                                size="200x200"
-                                objectFit="contain"
-                                sx={thumbnailSx}
-                              />
-                              <Grid
-                                container
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={[overlaySx, deleteImgHoverSx]}
-                              >
-                                <Tooltip title="Delete…">
-                                  <IconButton
-                                    onClick={() =>
-                                      confirm({
-                                        title: "Delete image?",
-                                        body: "This image cannot be recovered after",
-                                        confirm: "Delete",
-                                        confirmColor: "error",
-                                        handleConfirm: () =>
-                                          handleDelete(image),
-                                      })
-                                    }
-                                  >
-                                    <DeleteIcon color="error" />
-                                  </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Open">
-                                  <IconButton
-                                    onClick={() =>
-                                      window.open(image.downloadURL, "_blank")
-                                    }
-                                  >
-                                    <OpenIcon />
-                                  </IconButton>
-                                </Tooltip>
-                              </Grid>
-                            </Box>
-                          </div>
-                        )}
+                            <Thumbnail
+                              imageUrl={image.downloadURL}
+                              size="200x200"
+                              objectFit="contain"
+                              sx={thumbnailSx}
+                            />
+                            <Grid
+                              container
+                              justifyContent="center"
+                              alignItems="center"
+                              sx={[ overlaySx, deleteImgHoverSx ]}
+                            >
+                              {disabled ? (
+                                <OpenIcon />
+                              ) : (
+                                <DeleteIcon color="error" />
+                              )}
+                            </Grid>
+                          </ButtonBase>
+                        </Tooltip>
+                      ) : (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            ...provided.draggableProps.style,
+                          }}
+                        >
+                          {value.length > 1 && (
+                            <div
+                              {...provided.dragHandleProps}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <DragIndicatorIcon />
+                            </div>
+                          )}
+                          <Box sx={imgSx} className="img">
+                            <Thumbnail
+                              imageUrl={image.downloadURL}
+                              size="200x200"
+                              objectFit="contain"
+                              sx={thumbnailSx}
+                            />
+                            <Grid
+                              container
+                              justifyContent="center"
+                              alignItems="center"
+                              sx={[ overlaySx, deleteImgHoverSx ]}
+                            >
+                              <Tooltip title="Delete…">
+                                <IconButton
+                                  onClick={() =>
+                                    confirm({
+                                      title: "Delete image?",
+                                      body: "This image cannot be recovered after",
+                                      confirm: "Delete",
+                                      confirmColor: "error",
+                                      handleConfirm: () =>
+                                        handleDelete(image),
+                                    })}
+                                >
+                                  <DeleteIcon color="error" />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Open">
+                                <IconButton
+                                  onClick={() =>
+                                    window.open(image.downloadURL, "_blank")}
+                                >
+                                  <OpenIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </Grid>
+                          </Box>
+                        </div>
+                      )}
+                    </Grid>
+                  )}
+                </Draggable>
+              ))}
+              {localImages
+              && localImages.map((image) => (
+                <Grid key={image.name}>
+                  <ButtonBase
+                    sx={imgSx}
+                    style={{
+                      backgroundImage: `url("${ image.localURL }")`,
+                    }}
+                    className="img"
+                  >
+                    {uploaderState[image.name] && (
+                      <Grid
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={overlaySx}
+                      >
+                        <CircularProgressOptical
+                          color="inherit"
+                          size={48}
+                          variant={
+                            uploaderState[image.name].progress === 0
+                              ? "indeterminate"
+                              : "determinate"
+                          }
+                          value={uploaderState[image.name].progress}
+                        />
                       </Grid>
                     )}
-                  </Draggable>
-                ))}
-              {localImages &&
-                localImages.map((image) => (
-                  <Grid key={image.name}>
-                    <ButtonBase
-                      sx={imgSx}
-                      style={{
-                        backgroundImage: `url("${image.localURL}")`,
-                      }}
-                      className="img"
-                    >
-                      {uploaderState[image.name] && (
-                        <Grid
-                          container
-                          justifyContent="center"
-                          alignItems="center"
-                          sx={overlaySx}
-                        >
-                          <CircularProgressOptical
-                            color="inherit"
-                            size={48}
-                            variant={
-                              uploaderState[image.name].progress === 0
-                                ? "indeterminate"
-                                : "determinate"
-                            }
-                            value={uploaderState[image.name].progress}
-                          />
-                        </Grid>
-                      )}
-                    </ButtonBase>
-                  </Grid>
-                ))}
+                  </ButtonBase>
+                </Grid>
+              ))}
               {provided.placeholder}
             </Grid>
           )}

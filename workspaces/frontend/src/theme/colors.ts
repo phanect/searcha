@@ -1,13 +1,13 @@
 import { colord } from "colord";
-import { ThemeOptions } from "@mui/material/styles";
-import { Shadows } from "@mui/material/styles/shadows";
+import type { ThemeOptions } from "@mui/material/styles";
+import type { Shadows } from "@mui/material/styles/shadows";
 
 declare module "@mui/material/styles/createPalette" {
-  interface TypeAction {
+  type TypeAction = {
     activeOpacity: number;
     input: string;
     inputOutline: string;
-  }
+  };
 }
 
 export const PRIMARY = "#4200FF";
@@ -58,25 +58,31 @@ export const colorsLight = (
       // with additional “outline” shadow
       // and bigger shadow from https://github.com/outline/outline/blob/37fd7ec97a496094077a59f4d10fa0081516e3ef/shared/theme.js#L148
 
-      if (i === 0) return "none";
+      if (i === 0) {
+        return "none";
+      }
 
-      if (i === 1)
-        return `0 0 0 1px ${shadowBase.alpha(0.03).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.1).toHslString()}`;
+      if (i === 1) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.03).toHslString() }, 0 1px 2px 0 ${ shadowBase.alpha(0.1).toHslString() }`;
+      }
 
-      if (i < 4)
-        return `0 0 0 1px ${shadowBase.alpha(0.04).toHslString()}, 0 1px 3px 0 ${shadowBase.alpha(0.1).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.06).toHslString()}`;
+      if (i < 4) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.04).toHslString() }, 0 1px 3px 0 ${ shadowBase.alpha(0.1).toHslString() }, 0 1px 2px 0 ${ shadowBase.alpha(0.06).toHslString() }`;
+      }
 
-      if (i < 8)
-        return `0 0 0 1px ${shadowBase.alpha(0.05).toHslString()}, 0 4px 6px -1px ${shadowBase.alpha(0.1).toHslString()}, 0 2px 4px ${shadowBase.alpha(0.06).toHslString()}`;
+      if (i < 8) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.05).toHslString() }, 0 4px 6px -1px ${ shadowBase.alpha(0.1).toHslString() }, 0 2px 4px ${ shadowBase.alpha(0.06).toHslString() }`;
+      }
 
-      if (i < 16)
-        return `0 0 0 1px ${shadowBase.alpha(0.06).toHslString()}, 0 10px 15px -3px ${shadowBase.alpha(0.1).toHslString()}, 0 4px 6px ${shadowBase.alpha(0.05).toHslString()}, 0 30px 40px ${shadowBase.alpha(0.05).toHslString()}`;
+      if (i < 16) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.06).toHslString() }, 0 10px 15px -3px ${ shadowBase.alpha(0.1).toHslString() }, 0 4px 6px ${ shadowBase.alpha(0.05).toHslString() }, 0 30px 40px ${ shadowBase.alpha(0.05).toHslString() }`;
+      }
 
-      if (i < 24)
-        return `0 0 0 1px ${shadowBase.alpha(0.08).toHslString()}, 0 20px 25px -5px ${shadowBase.alpha(0.1).toHslString()}, 0 10px 10px ${shadowBase.alpha(0.04).toHslString()}, 0 40px 60px ${shadowBase.alpha(0.06).toHslString()}`;
-
-      else
-        return `0 0 0 1px ${shadowBase.alpha(0.08).toHslString()}, 0 25px 50px -12px ${shadowBase.alpha(0.25).toHslString()}, 0 50px 80px ${shadowBase.alpha(0.06).toHslString()}`;
+      if (i < 24) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.08).toHslString() }, 0 20px 25px -5px ${ shadowBase.alpha(0.1).toHslString() }, 0 10px 10px ${ shadowBase.alpha(0.04).toHslString() }, 0 40px 60px ${ shadowBase.alpha(0.06).toHslString() }`;
+      } else {
+        return `0 0 0 1px ${ shadowBase.alpha(0.08).toHslString() }, 0 25px 50px -12px ${ shadowBase.alpha(0.25).toHslString() }, 0 50px 80px ${ shadowBase.alpha(0.06).toHslString() }`;
+      }
     }) as Shadows,
 
     components: {
@@ -157,25 +163,31 @@ export const colorsDark = (
       // with additional “outline” shadow
       // and bigger shadow from https://github.com/outline/outline/blob/37fd7ec97a496094077a59f4d10fa0081516e3ef/shared/theme.js#L148
 
-      if (i === 0) return "none";
+      if (i === 0) {
+        return "none";
+      }
 
-      if (i === 1)
-        return `0 0 0 1px ${shadowBase.alpha(0.03 * 4).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.1 * 4).toHslString()}`;
+      if (i === 1) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.03 * 4).toHslString() }, 0 1px 2px 0 ${ shadowBase.alpha(0.1 * 4).toHslString() }`;
+      }
 
-      if (i < 4)
-        return `0 0 0 1px ${shadowBase.alpha(0.04 * 4).toHslString()}, 0 1px 3px 0 ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 1px 2px 0 ${shadowBase.alpha(0.06 * 4).toHslString()}`;
+      if (i < 4) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.04 * 4).toHslString() }, 0 1px 3px 0 ${ shadowBase.alpha(0.1 * 4).toHslString() }, 0 1px 2px 0 ${ shadowBase.alpha(0.06 * 4).toHslString() }`;
+      }
 
-      if (i < 8)
-        return `0 0 0 1px ${shadowBase.alpha(0.05 * 4).toHslString()}, 0 4px 6px -1px ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 2px 4px ${shadowBase.alpha(0.06 * 4).toHslString()}`;
+      if (i < 8) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.05 * 4).toHslString() }, 0 4px 6px -1px ${ shadowBase.alpha(0.1 * 4).toHslString() }, 0 2px 4px ${ shadowBase.alpha(0.06 * 4).toHslString() }`;
+      }
 
-      if (i < 16)
-        return `0 0 0 1px ${shadowBase.alpha(0.06 * 4).toHslString()}, 0 10px 15px -3px ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 4px 6px ${shadowBase.alpha(0.05 * 4).toHslString()}, 0 30px 40px ${shadowBase.alpha(0.05 * 4).toHslString()}`;
+      if (i < 16) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.06 * 4).toHslString() }, 0 10px 15px -3px ${ shadowBase.alpha(0.1 * 4).toHslString() }, 0 4px 6px ${ shadowBase.alpha(0.05 * 4).toHslString() }, 0 30px 40px ${ shadowBase.alpha(0.05 * 4).toHslString() }`;
+      }
 
-      if (i < 24)
-          return `0 0 0 1px ${shadowBase.alpha(0.08 * 4).toHslString()}, 0 20px 25px -5px ${shadowBase.alpha(0.1 * 4).toHslString()}, 0 10px 10px ${shadowBase.alpha(0.04 * 4).toHslString()}, 0 40px 60px ${shadowBase.alpha(0.06 * 4).toHslString()}`;
-
-        else
-          return `0 0 0 1px ${shadowBase.alpha(0.08 * 4).toHslString()}, 0 25px 50px -12px ${shadowBase.alpha(0.25 * 4).toHslString()}, 0 50px 80px ${shadowBase.alpha(0.06 * 4).toHslString()}`;
+      if (i < 24) {
+        return `0 0 0 1px ${ shadowBase.alpha(0.08 * 4).toHslString() }, 0 20px 25px -5px ${ shadowBase.alpha(0.1 * 4).toHslString() }, 0 10px 10px ${ shadowBase.alpha(0.04 * 4).toHslString() }, 0 40px 60px ${ shadowBase.alpha(0.06 * 4).toHslString() }`;
+      } else {
+        return `0 0 0 1px ${ shadowBase.alpha(0.08 * 4).toHslString() }, 0 25px 50px -12px ${ shadowBase.alpha(0.25 * 4).toHslString() }, 0 50px 80px ${ shadowBase.alpha(0.06 * 4).toHslString() }`;
+      }
     }) as Shadows,
 
     components: {

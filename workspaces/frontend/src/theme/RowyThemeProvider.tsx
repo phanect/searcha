@@ -16,15 +16,17 @@ import {
 /**
  * Injects the MUI theme with customizations from project and user settings.
  * Also adds dark mode support.
+ * @param root0
+ * @param root0.children
  */
 export default function RowyThemeProvider({
   children,
 }: React.PropsWithChildren<{}>) {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [theme, setTheme] = useAtom(themeAtom, { store: projectScopeStore });
-  const [themeOverridden] = useAtom(themeOverriddenAtom, { store: projectScopeStore });
-  const [customizedThemes] = useAtom(customizedThemesAtom, { store: projectScopeStore });
+  const [ theme, setTheme ] = useAtom(themeAtom, { store: projectScopeStore });
+  const [ themeOverridden ] = useAtom(themeOverriddenAtom, { store: projectScopeStore });
+  const [ customizedThemes ] = useAtom(customizedThemesAtom, { store: projectScopeStore });
 
   // Infer theme based on system settings
   const prefersDarkTheme = useMediaQuery("(prefers-color-scheme: dark)", {
@@ -33,14 +35,16 @@ export default function RowyThemeProvider({
 
   // Update theme when system settings change
   useEffect(() => {
-    if (themeOverridden) return;
+    if (themeOverridden) {
+      return;
+    }
     setTheme(prefersDarkTheme ? "dark" : "light");
-  }, [prefersDarkTheme, themeOverridden, setTheme]);
+  }, [ prefersDarkTheme, themeOverridden, setTheme ]);
 
   // Sync theme to body data-theme attribute for Feedback Fin
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
-  }, [theme]);
+  }, [ theme ]);
 
   const fontCssUrls = customizedThemes[theme].typography.fontCssUrls;
 

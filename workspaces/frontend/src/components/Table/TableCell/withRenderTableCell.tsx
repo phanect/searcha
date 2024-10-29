@@ -1,19 +1,20 @@
 import { memo, Suspense, useState, useEffect, useRef } from "react";
 import { isEqual } from "lodash-es";
-import type { CellContext } from "@tanstack/react-table";
 
-import { Popover, PopoverProps } from "@mui/material";
-
-import EditorCellController from "./EditorCellController";
+import { Popover } from "@mui/material";
 
 import { spreadSx } from "@src/utils/ui";
+import EditorCellController from "./EditorCellController";
+import type { PopoverProps } from "@mui/material";
+
+import type { CellContext } from "@tanstack/react-table";
 import type { ColumnConfig, TableRow } from "@src/types/table";
 import type {
   IDisplayCellProps,
   IEditorCellProps,
 } from "@src/components/fields/types";
 
-export interface ICellOptions {
+export type ICellOptions = {
   /** If the rest of the row’s data is used, set this to true for memoization */
   usesRowData?: boolean;
   /** Handle padding inside the cell component */
@@ -22,17 +23,16 @@ export interface ICellOptions {
   transparentPopover?: boolean;
   /** Props to pass to MUI Popover component */
   popoverProps?: Partial<PopoverProps>;
-}
+};
 
 /** Received from `TableCell` */
-export interface IRenderedTableCellProps<TValue = any>
-  extends CellContext<TableRow, TValue> {
+export type IRenderedTableCellProps<TValue = any> = {
   value: TValue;
   focusInsideCell: boolean;
   setFocusInsideCell: (focusInside: boolean) => void;
   disabled: boolean;
   rowHeight: number;
-}
+} & CellContext<TableRow, TValue>;
 
 /**
  * Higher-order component to render each field type’s cell components.
@@ -45,9 +45,8 @@ export interface IRenderedTableCellProps<TValue = any>
  * - Handles popovers
  * - Renders Suspense for lazy-loaded `EditorCell`
  * - Provides a `tabIndex` prop, so that interactive cell children (like
- *   buttons) cannot be interacted with unless the user has focused in the
- *   cell. Required for accessibility.
- *
+ * buttons) cannot be interacted with unless the user has focused in the
+ * cell. Required for accessibility.
  * @param DisplayCellComponent
  * - The lighter cell component to display values. Also displayed when the
  *   column is disabled/read-only.
@@ -61,7 +60,6 @@ export interface IRenderedTableCellProps<TValue = any>
  *   - ⚠️ Make sure to use the `tabIndex` prop for buttons and other interactive
  *       elements.
  *   - {@link IDisplayCellProps}
- *
  * @param EditorCellComponent
  * - The heavier cell component to edit values
  *
@@ -76,7 +74,6 @@ export interface IRenderedTableCellProps<TValue = any>
  *   - ⚠️ Make sure to use the `tabIndex` prop for buttons, text fields, and
  *       other interactive elements.
  *   - {@link IEditorCellProps}
- *
  * @param editorMode
  * - When to display the `EditorCell`
  * 1. **focus** (default): the user has focused on the cell by pressing Enter or
@@ -84,7 +81,6 @@ export interface IRenderedTableCellProps<TValue = any>
  * 2. **inline**: always displayed if the cell is editable, or
  * 3. **popover**: inside a popover when a user has focused on the cell
  *    (as above) or clicked a button rendered by `DisplayCell`
- *
  * @param options
  * - Note this is OK to pass as an object since it’s not defined in runtime
  * - {@link ICellOptions}
@@ -96,7 +92,7 @@ export default function withRenderTableCell(
   options: ICellOptions = {}
 ) {
   return memo(
-    function RenderedTableCell({
+    ({
       row,
       column,
       value,
@@ -104,13 +100,14 @@ export default function withRenderTableCell(
       setFocusInsideCell,
       disabled,
       rowHeight,
-    }: IRenderedTableCellProps) {
+    }: IRenderedTableCellProps) => {
       // Render inline editor cell after timeout on mount
       // to improve scroll performance
-      const [inlineEditorReady, setInlineEditorReady] = useState(false);
+      const [ inlineEditorReady, setInlineEditorReady ] = useState(false);
       useEffect(() => {
-        if (editorMode === "inline")
+        if (editorMode === "inline") {
           setTimeout(() => setInlineEditorReady(true));
+        }
       }, []);
 
       // Store ref to rendered DisplayCell to get positioning for PopoverCell
@@ -118,10 +115,12 @@ export default function withRenderTableCell(
       const parentRef = displayCellRef.current?.parentElement;
 
       // Store Popover open state here so we can add delay for close transition
-      const [popoverOpen, setPopoverOpen] = useState(false);
+      const [ popoverOpen, setPopoverOpen ] = useState(false);
       useEffect(() => {
-        if (focusInsideCell) setPopoverOpen(true);
-      }, [focusInsideCell]);
+        if (focusInsideCell) {
+          setPopoverOpen(true);
+        }
+      }, [ focusInsideCell ]);
       const showPopoverCell = (popover: boolean) => {
         if (popover) {
           setPopoverOpen(true);
@@ -165,11 +164,14 @@ export default function withRenderTableCell(
         </div>
       );
 
-      if (disabled || (editorMode !== "inline" && !focusInsideCell))
+      if (disabled || (editorMode !== "inline" && !focusInsideCell)) {
         return displayCell;
+      }
 
       // If the inline editor cell is not ready to be rendered, display nothing
-      if (editorMode === "inline" && !inlineEditorReady) return null;
+      if (editorMode === "inline" && !inlineEditorReady) {
+        return null;
+      }
 
       // Show displayCell as a fallback if intentionally null
       const editorCell = EditorCellComponent ? (
@@ -201,7 +203,7 @@ export default function withRenderTableCell(
         );
       }
 
-      if (editorMode === "popover")
+      if (editorMode === "popover") {
         return (
           <>
             {displayCell}
@@ -234,6 +236,7 @@ export default function withRenderTableCell(
             </Popover>
           </>
         );
+      }
 
       // Should not reach this line
       return null;
@@ -246,15 +249,18 @@ export default function withRenderTableCell(
         next.column.columnDef.meta
       );
       const rowEqual = isEqual(prev.row.original, next.row.original);
-      const focusInsideCellEqual =
-        prev.focusInsideCell === next.focusInsideCell;
+      const focusInsideCellEqual
+        = prev.focusInsideCell === next.focusInsideCell;
       const disabledEqual = prev.disabled === next.disabled;
 
-      const baseEqualities =
-        valueEqual && columnEqual && focusInsideCellEqual && disabledEqual;
+      const baseEqualities
+        = valueEqual && columnEqual && focusInsideCellEqual && disabledEqual;
 
-      if (options?.usesRowData) return baseEqualities && rowEqual;
-      else return baseEqualities;
+      if (options?.usesRowData) {
+        return baseEqualities && rowEqual;
+      } else {
+        return baseEqualities;
+      }
     }
   );
 }

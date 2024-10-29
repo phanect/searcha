@@ -20,6 +20,10 @@ export const HydrateAtoms = (options: {
 /**
  * Sets an atom’s value when the `value` prop changes.
  * Useful when setting an atom’s initialValue and you want to keep it in sync.
+ * @param root0
+ * @param root0.atom
+ * @param root0.store
+ * @param root0.value
  */
 export function SyncAtomValue<T extends unknown>({
   atom,
@@ -35,7 +39,7 @@ export function SyncAtomValue<T extends unknown>({
 
   useEffect(() => {
     setAtom(memoized);
-  }, [setAtom, memoized]);
+  }, [ setAtom, memoized ]);
 
   return null;
 }

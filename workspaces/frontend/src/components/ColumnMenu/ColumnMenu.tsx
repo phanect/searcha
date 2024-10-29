@@ -30,7 +30,6 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import EvalIcon from "@mui/icons-material/PlayCircleOutline";
 
-import MenuContents, { IMenuContentsProps } from "./MenuContents";
 import ColumnHeader from "@src/components/Table/Mock/Column";
 
 import {
@@ -68,8 +67,10 @@ import {
 import { runRoutes } from "@src/constants/runRoutes";
 import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import useSaveTableSorts from "@src/components/Table/ColumnHeader/useSaveTableSorts";
+import MenuContents from "./MenuContents";
+import type { IMenuContentsProps } from "./MenuContents";
 
-export interface IMenuModalProps {
+export type IMenuModalProps = {
   name: string;
   fieldName: string;
   type: FieldType;
@@ -83,13 +84,13 @@ export interface IMenuModalProps {
     config: Record<string, any>,
     onSuccess?: Function
   ) => void;
-}
+};
 
-export interface IColumnMenuProps {
+export type IColumnMenuProps = {
   canAddColumns: boolean;
   canEditColumns: boolean;
   canDeleteColumns: boolean;
-}
+};
 
 export default function ColumnMenu({
   canAddColumns,
@@ -99,35 +100,39 @@ export default function ColumnMenu({
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
   const deleteColumn = useSetAtom(deleteColumnAtom, { store: tableScopeStore });
-  const [tableSorts, setTableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
-  const [columnMenu, setColumnMenu] = useAtom(columnMenuAtom, { store: tableScopeStore });
+  const [ tableSorts, setTableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ columnMenu, setColumnMenu ] = useAtom(columnMenuAtom, { store: tableScopeStore });
   const openColumnModal = useSetAtom(columnModalAtom, { store: tableScopeStore });
   const openTableFiltersPopover = useSetAtom(
     tableFiltersPopoverAtom,
     { store: tableScopeStore }
   );
-  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableNextPage ] = useAtom(tableNextPageAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
   const snackLogContext = useSnackLogContext();
 
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const triggerSaveTableSorts = useSaveTableSorts(canEditColumns);
 
-  if (!columnMenu) return null;
+  if (!columnMenu) {
+    return null;
+  }
   const { column, anchorEl } = columnMenu;
-  if (column.type === FieldType.last) return null;
+  if (column.type === FieldType.last) {
+    return null;
+  }
 
   const handleClose = () => {
     setColumnMenu({ column, anchorEl: null });
@@ -135,28 +140,28 @@ export default function ColumnMenu({
   };
 
   const isConfigurable = Boolean(
-    getFieldProp("settings", column?.type) ||
-      getFieldProp("initializable", column?.type)
+    getFieldProp("settings", column?.type)
+    || getFieldProp("initializable", column?.type)
   );
 
   const _sortKey = getFieldProp("sortKey", (column as any).type);
-  const sortKey = _sortKey ? `${column.key}.${_sortKey}` : column.key;
+  const sortKey = _sortKey ? `${ column.key }.${ _sortKey }` : column.key;
   const isSorted = tableSorts[0]?.key === sortKey;
   const isAsc = isSorted && tableSorts[0]?.direction === "asc";
 
-  const userDocHiddenFields =
-    userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields ?? [];
+  const userDocHiddenFields
+    = userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields ?? [];
 
   const referencedColumns = Object.values(tableSchema?.columns ?? {})
     .filter((c) => (
-      c.config?.listenerFields?.includes(column.key) ||
-      c.config?.requiredFields?.includes(column.key)
+      c.config?.listenerFields?.includes(column.key)
+      || c.config?.requiredFields?.includes(column.key)
     ));
   const referencedExtensions = tableSchema?.extensionObjects
     ?.filter((extension) => extension.requiredFields.includes(column.key)) ?? [];
 
-  const requireRebuild =
-    referencedColumns.length || referencedExtensions.length;
+  const requireRebuild
+    = referencedColumns.length || referencedExtensions.length;
 
   const handleDeleteColumn = () => {
     deleteColumn(column.key);
@@ -222,14 +227,15 @@ export default function ColumnMenu({
       label: "Hide",
       icon: <VisibilityIcon />,
       onClick: () => {
-        if (updateUserSettings)
+        if (updateUserSettings) {
           updateUserSettings({
             tables: {
               [formatSubTableName(tableId)]: {
-                hiddenFields: [...userDocHiddenFields, column.key],
+                hiddenFields: [ ...userDocHiddenFields, column.key ],
               },
             },
           });
+        }
         handleClose();
       },
       disabled: !updateUserSettings,
@@ -313,7 +319,7 @@ export default function ColumnMenu({
       icon: <FreezeIcon />,
       activeIcon: <UnfreezeIcon />,
       onClick: () => {
-        updateColumn({ key: column.key, config: { fixed: !column.fixed } });
+        updateColumn({ key: column.key, config: { fixed: !column.fixed }});
         handleClose();
       },
       active: column.fixed,
@@ -329,7 +335,7 @@ export default function ColumnMenu({
       },
     },
     {
-      label: `Edit type: ${getFieldProp("name", column.type)}…`,
+      label: `Edit type: ${ getFieldProp("name", column.type) }…`,
       key: "editType",
       // This is based on the cell type
       icon: getFieldProp("icon", column.type),
@@ -339,7 +345,7 @@ export default function ColumnMenu({
       },
     },
     {
-      label: `Column config…`,
+      label: "Column config…",
       key: "columConfig",
       icon: <SettingsIcon />,
       onClick: () => {
@@ -351,8 +357,8 @@ export default function ColumnMenu({
   ];
 
   if (
-    column?.config?.defaultValue?.type === "dynamic" ||
-    [FieldType.action, FieldType.derivative, FieldType.connector].includes(
+    column?.config?.defaultValue?.type === "dynamic"
+    || [ FieldType.action, FieldType.derivative, FieldType.connector ].includes(
       column.type
     )
   ) {
@@ -365,7 +371,7 @@ export default function ColumnMenu({
         setCloudLogFilters({
           type: "column",
           timeRange: { type: "days", value: 7 },
-          column: [column.key],
+          column: [ column.key ],
         });
       },
     });
@@ -375,7 +381,7 @@ export default function ColumnMenu({
   const handleEvaluateAll = async () => {
     try {
       handleClose();
-      const evaluatingSnackKey = enqueueSnackbar(`Evaluating “${column.key}”…`);
+      const evaluatingSnackKey = enqueueSnackbar(`Evaluating “${ column.key }”…`);
       const result = await rowyRun({
         route: runRoutes.evaluateDerivative,
         body: {
@@ -388,12 +394,12 @@ export default function ColumnMenu({
       if (result.success === false) {
         enqueueSnackbar(result.message, { variant: "error" });
       } else {
-        enqueueSnackbar(`Column “${column.key}” evaluated`, {
+        enqueueSnackbar(`Column “${ column.key }” evaluated`, {
           variant: "success",
         });
       }
     } catch (error) {
-      enqueueSnackbar(`Failed: ${error}`, { variant: "error" });
+      enqueueSnackbar(`Failed: ${ error }`, { variant: "error" });
     }
   };
   const derivativeActions: IMenuContentsProps["menuItems"] = [
@@ -405,20 +411,20 @@ export default function ColumnMenu({
       onClick: altPress
         ? handleEvaluateAll
         : () =>
-            confirm({
-              title: "Evaluate all?",
-              body: (
-                <>
-                  All documents in {tableSettings.collection} collection will be
-                  evaluated.
-                  <br />{" "}
-                  {tableNextPage.available &&
-                    "For large collections this will take a while and might incur significant firestore costs."}
-                </>
-              ),
-              handleConfirm: handleEvaluateAll,
-              confirm: "Evaluate",
-            }),
+          confirm({
+            title: "Evaluate all?",
+            body: (
+              <>
+                All documents in {tableSettings.collection} collection will be
+                evaluated.
+                <br />{" "}
+                {tableNextPage.available
+                && "For large collections this will take a while and might incur significant firestore costs."}
+              </>
+            ),
+            handleConfirm: handleEvaluateAll,
+            confirm: "Evaluate",
+          }),
     },
   ];
 
@@ -445,63 +451,61 @@ export default function ColumnMenu({
       disabled: !canAddColumns,
     },
     {
-      label: `Delete column${altPress ? "" : "…"}`,
+      label: `Delete column${ altPress ? "" : "…" }`,
       key: "delete",
       icon: <ColumnRemoveIcon />,
       onClick: altPress
         ? handleDeleteColumn
-        : () => {
-            return confirm({
-              title: "Delete column?",
-              body: (
+        : () => confirm({
+          title: "Delete column?",
+          body: (
+            <>
+              <Typography>
+                Only the column configuration will be deleted. No data will
+                be deleted. This cannot be undone.
+              </Typography>
+              <ColumnHeader type={column.type} label={column.name} />
+              <Typography sx={{ mt: 1 }}>
+                Key: <code style={{ userSelect: "all" }}>{column.key}</code>
+              </Typography>
+              {requireRebuild ? (
                 <>
-                  <Typography>
-                    Only the column configuration will be deleted. No data will
-                    be deleted. This cannot be undone.
-                  </Typography>
-                  <ColumnHeader type={column.type} label={column.name} />
-                  <Typography sx={{ mt: 1 }}>
-                    Key: <code style={{ userSelect: "all" }}>{column.key}</code>
-                  </Typography>
-                  {requireRebuild ? (
-                    <>
-                      <Divider sx={{ my: 2 }} />
-                      {referencedColumns.length ? (
-                        <Typography sx={{ mt: 1 }}>
-                          This column will be removed as a dependency of the
-                          following columns:{" "}
-                          <Typography fontWeight="bold" component="span">
-                            {referencedColumns.join(", ")}
-                          </Typography>
-                        </Typography>
-                      ) : null}
-                      {referencedExtensions.length ? (
-                        <Typography sx={{ mt: 1 }}>
-                          This column will be removed as a dependency from the
-                          following Extensions:{" "}
-                          <Typography fontWeight="bold" component="span">
-                            {referencedExtensions.join(", ")}
-                          </Typography>
-                        </Typography>
-                      ) : null}
-                      <Typography sx={{ mt: 1, fontWeight: "bold" }}>
-                        You need to re-deploy this table’s cloud function.
+                  <Divider sx={{ my: 2 }} />
+                  {referencedColumns.length ? (
+                    <Typography sx={{ mt: 1 }}>
+                      This column will be removed as a dependency of the
+                      following columns:{" "}
+                      <Typography fontWeight="bold" component="span">
+                        {referencedColumns.join(", ")}
                       </Typography>
-                    </>
+                    </Typography>
                   ) : null}
+                  {referencedExtensions.length ? (
+                    <Typography sx={{ mt: 1 }}>
+                      This column will be removed as a dependency from the
+                      following Extensions:{" "}
+                      <Typography fontWeight="bold" component="span">
+                        {referencedExtensions.join(", ")}
+                      </Typography>
+                    </Typography>
+                  ) : null}
+                  <Typography sx={{ mt: 1, fontWeight: "bold" }}>
+                    You need to re-deploy this table’s cloud function.
+                  </Typography>
                 </>
-              ),
-              confirm: requireRebuild ? "Delete & re-deploy" : "Delete",
-              confirmColor: "error",
-              handleConfirm: handleDeleteColumn,
-            });
-          },
-      color: "error" as "error",
+              ) : null}
+            </>
+          ),
+          confirm: requireRebuild ? "Delete & re-deploy" : "Delete",
+          confirmColor: "error",
+          handleConfirm: handleDeleteColumn,
+        }),
+      color: "error" as const,
       disabled: !canDeleteColumns,
     },
   ];
 
-  let menuItems = [...localViewActions];
+  const menuItems = [ ...localViewActions ];
 
   if (canEditColumns) {
     menuItems.push.apply(menuItems, configActions);
@@ -529,14 +533,14 @@ export default function ColumnMenu({
         </ListItemIcon>
         <ListItemText
           primary={column.name as string}
-          secondary={
+          secondary={(
             <>
               Key: <code style={{ userSelect: "all" }}>{column.key}</code>
             </>
-          }
+          )}
           primaryTypographyProps={{ variant: "subtitle2" }}
           secondaryTypographyProps={{ variant: "caption" }}
-          sx={{ m: 0, minHeight: 40, "& > *": { userSelect: "none" } }}
+          sx={{ m: 0, minHeight: 40, "& > *": { userSelect: "none" }}}
         />
       </ListItem>
 

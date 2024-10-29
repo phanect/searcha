@@ -5,8 +5,9 @@ import { Tooltip, Stack, AvatarGroup, Avatar } from "@mui/material";
 import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import { ChevronDown } from "@src/assets/icons/ChevronDown";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-import UserSelect, { UserDataType } from "./UserSelect";
+import UserSelect from "./UserSelect";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
+import type { UserDataType } from "./UserSelect";
 
 export default function SideDrawerSelect({
   column,
@@ -15,20 +16,20 @@ export default function SideDrawerSelect({
   onSubmit,
   disabled,
 }: ISideDrawerFieldProps) {
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [ users ] = useAtom(allUsersAtom, { store: projectScopeStore });
   const parentRef = useRef(null);
 
-  let userValue: UserDataType[] = [];
-  let emails = new Set();
+  const userValue: UserDataType[] = [];
+  const emails = new Set();
 
   if (value !== undefined && value !== null) {
     if (!Array.isArray(value)) {
-      value = [value.email];
+      value = [ value.email ];
     }
     for (const user of users) {
-      if (user.user && user.user?.email && value.includes(user.user.email)) {
+      if (user.user?.email && value.includes(user.user.email)) {
         if (!emails.has(user.user.email)) {
           emails.add(user.user.email);
           userValue.push(user.user);
@@ -63,7 +64,7 @@ export default function SideDrawerSelect({
             {userValue.map(
               (user: UserDataType) =>
                 user && (
-                  <Tooltip title={`${user.displayName}(${user.email})`}>
+                  <Tooltip title={`${ user.displayName }(${ user.email })`}>
                     <Avatar alt={user.displayName} src={user.photoURL} />
                   </Tooltip>
                 )

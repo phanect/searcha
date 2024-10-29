@@ -1,9 +1,9 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
+import { getTableSchemaAtom } from "./project";
 import type { DialogProps, ButtonProps } from "@mui/material";
 import type { TableSettings, TableSchema } from "@src/types/table";
-import { getTableSchemaAtom } from "./project";
 
 /**
  * Global state when the Alt key is pressed,
@@ -50,7 +50,6 @@ export type ConfirmDialogProps = {
 };
 /**
  * Open a confirm dialog
- *
  * @example Basic usage:
  * ```
  * const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
@@ -75,13 +74,11 @@ export type RowyRunModalState = {
 /**
  * Open global Rowy Run modal if feature not available.
  * Calling the set function resets props.
- *
  * @example Basic usage:
  * ```
  * const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
  * openRowyRunModal({ feature: ... , version: ... });
  * ```
- *
  * @example Close dialog:
  * ```
  * openRowyRunModal({ open: false })
@@ -107,13 +104,11 @@ export type TableSettingsDialogState = {
 /**
  * Open table settings dialog.
  * Calling the set function resets props.
- *
  * @example Basic usage:
  * ```
  * const openTableSettingsDialog = useSetAtom(tableSettingsDialogAtom, { store: projectScopeStore });
  * openTableSettingsDialog({ data: ... });
  * ```
- *
  * @example Clear dialog:
  * ```
  * openTableSettingsDialog({ open: false })
@@ -160,7 +155,9 @@ export const tableSettingsDialogIdAtom = atom("");
 export const tableSettingsDialogSchemaAtom = atom(async (get) => {
   const tableId = get(tableSettingsDialogIdAtom);
   const getTableSchema = get(getTableSchemaAtom);
-  if (!tableId || !getTableSchema) return {} as TableSchema;
+  if (!tableId || !getTableSchema) {
+    return {} as TableSchema;
+  }
   return getTableSchema(tableId, true);
 });
 

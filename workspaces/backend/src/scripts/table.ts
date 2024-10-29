@@ -1,12 +1,13 @@
 import _get from "lodash/get";
-import { db, auth, storage } from "../firebaseConfig";
-import { Request, Response } from "express";
-import { User } from "../types/User";
 import fetch from "node-fetch";
-import { CollectionGroup, CollectionReference } from "firebase-admin/firestore";
-import rowy, { Rowy } from "./rowy";
-import { Auth } from "firebase-admin/auth";
-import * as admin from "firebase-admin";
+import rowy from "./rowy";
+import { db, auth, storage } from "../firebaseConfig";
+import type { Request, Response } from "express";
+import type { CollectionGroup, CollectionReference } from "firebase-admin/firestore";
+import type { Auth } from "firebase-admin/auth";
+import type * as admin from "firebase-admin";
+import type { Rowy } from "./rowy";
+import type { User } from "../types/User";
 
 type TableActionRequest = {
   collectionPath: {
@@ -49,10 +50,11 @@ export const tableAction = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user;
     const userRoles = user.roles;
-    if (!userRoles || userRoles.length === 0)
+    if (!userRoles || userRoles.length === 0) {
       throw new Error("User has no assigned roles");
-    const { schemaDocPath, actionKey, collectionPath }: TableActionRequest =
-      req.body;
+    }
+    const { schemaDocPath, actionKey, collectionPath }: TableActionRequest
+      = req.body;
     const schemaDoc = await db.doc(schemaDocPath).get();
     const schemaDocData = schemaDoc.data();
     if (!schemaDocData) {
@@ -65,7 +67,7 @@ export const tableAction = async (req: Request, res: Response) => {
     const { fn } = config;
     const fnBody = fn.replace(/^.*=>/, "");
     const tableAction = eval(
-      `async({db,ref,auth,fetch,rowy,storage})=>` + fnBody
+      "async({db,ref,auth,fetch,rowy,storage})=>" + fnBody
     ) as TableAction;
 
     const results = await tableAction({

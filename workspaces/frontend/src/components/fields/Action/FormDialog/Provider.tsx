@@ -2,15 +2,15 @@ import { useState, type FC, type ReactNode } from "react";
 
 import Dialog, { type ParamsDialogProps } from "./ParamsDialog";
 import ActionParamsContext from "./Context";
-interface IActionParamsProviderProps {
+type IActionParamsProviderProps = {
   children: ReactNode;
-}
+};
 
 const ActionParamsProvider: FC<IActionParamsProviderProps> = ({
   children,
 }) => {
-  const [state, setState] = useState<ParamsDialogProps>();
-  const [open, setOpen] = useState(false);
+  const [ state, setState ] = useState<ParamsDialogProps>();
+  const [ open, setOpen ] = useState(false);
   const handleClose = () => {
     setState(undefined);
     setOpen(false);

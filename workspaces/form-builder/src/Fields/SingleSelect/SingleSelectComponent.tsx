@@ -1,22 +1,21 @@
-import type { ReactNode } from 'react';
-import { IFieldComponentProps } from '../../types';
-import MultiSelect, { MultiSelectProps } from '@phanect/datasheet-multiselect';
+import MultiSelect from "@phanect/datasheet-multiselect";
+import { TextField, MenuItem } from "@mui/material";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
 
-import { TextField, FilledTextFieldProps, MenuItem } from '@mui/material';
+import type { FilledTextFieldProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
-import FieldAssistiveText from '../../FieldAssistiveText';
+import type { ReactNode } from "react";
 
-export interface ISingleSelectComponentProps
-  extends IFieldComponentProps,
-    Omit<
-      FilledTextFieldProps,
-      'variant' | 'label' | 'name' | 'onBlur' | 'onChange' | 'ref' | 'value'
-    >,
-    Partial<
-      Omit<MultiSelectProps<string>, 'value' | 'onChange' | 'options' | 'label'>
-    > {
-  options: (string | { value: string; label: ReactNode })[];
-}
+export type ISingleSelectComponentProps = {
+  options: (string | { value: string; label: ReactNode; })[];
+} & IFieldComponentProps & Omit<
+  FilledTextFieldProps,
+      "variant" | "label" | "name" | "onBlur" | "onChange" | "ref" | "value"
+> & Partial<
+  Omit<MultiSelectProps<string>, "value" | "onChange" | "options" | "label">
+>;
 
 export default function SingleSelectComponent({
   field: { onChange, onBlur, value, ref },
@@ -32,7 +31,7 @@ export default function SingleSelectComponent({
   options = [],
   ...props
 }: ISingleSelectComponentProps) {
-  const sanitisedValue = (Array.isArray(value) ? value[0] : value) ?? '';
+  const sanitisedValue = (Array.isArray(value) ? value[0] : value) ?? "";
 
   // Render MultiSelect if one of the following props is defined
   if (
@@ -42,14 +41,14 @@ export default function SingleSelectComponent({
       props.freeText,
       props.clearable,
     ].reduce((a, c) => a || c !== undefined, false)
-  )
+  ) {
     return (
       <MultiSelect
         {...(props as any)}
         multiple={false}
         options={options}
         value={sanitisedValue ?? null}
-        onChange={(value) => onChange(value ?? '')}
+        onChange={(value) => onChange(value ?? "")}
         onBlur={onBlur}
         TextFieldProps={{
           ...props.TextFieldProps,
@@ -59,7 +58,7 @@ export default function SingleSelectComponent({
             ...props.TextFieldProps?.InputLabelProps,
           },
           FormHelperTextProps: {
-            component: 'div',
+            component: "div",
             ...props.TextFieldProps?.FormHelperTextProps,
           },
           helperText: (errorMessage || assistiveText) && (
@@ -75,13 +74,14 @@ export default function SingleSelectComponent({
             </>
           ),
           onBlur,
-          'data-type': 'multi-select-single',
-          'data-label': props.label ?? '',
+          "data-type": "multi-select-single",
+          "data-label": props.label ?? "",
           inputRef: ref,
         }}
         clearable={props.clearable === true}
       />
     );
+  }
 
   // Render basic Material-UI select
   return (
@@ -89,7 +89,7 @@ export default function SingleSelectComponent({
       fullWidth
       select
       error={!!errorMessage}
-      FormHelperTextProps={{ component: 'div' } as any}
+      FormHelperTextProps={{ component: "div" } as any}
       helperText={
         (errorMessage || assistiveText) && (
           <>
@@ -109,19 +109,20 @@ export default function SingleSelectComponent({
       onBlur={onBlur}
       // Convert string[] value to string
       // And remove MUI error when `undefined` or `null` is passed
-      value={(Array.isArray(value) ? value[0] : value) ?? ''}
-      data-label={props.label ?? ''}
-      data-type={'single-select'}
+      value={(Array.isArray(value) ? value[0] : value) ?? ""}
+      data-label={props.label ?? ""}
+      data-type="single-select"
       inputProps={{ required: false, ...props.inputProps }}
       inputRef={ref}
     >
       {options.map((option) => {
-        if (typeof option === 'object')
+        if (typeof option === "object") {
           return (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
           );
+        }
         return (
           <MenuItem key={option} value={option}>
             {option}

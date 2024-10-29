@@ -4,7 +4,6 @@ import {
   useTheme,
   useMediaQuery,
   Dialog,
-  DialogProps,
   Stack,
   DialogTitle,
   Typography,
@@ -21,8 +20,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ScrollableDialogContent from "@src/components/Modal/ScrollableDialogContent";
 
 import { spreadSx } from "@src/utils/ui";
+import type {
+  DialogProps } from "@mui/material";
 
-export interface IWizardDialogProps extends DialogProps {
+export type IWizardDialogProps = {
   title: string;
   steps: {
     title: string;
@@ -32,7 +33,7 @@ export interface IWizardDialogProps extends DialogProps {
   }[];
   onFinish: () => void;
   fullHeight?: boolean;
-}
+} & DialogProps;
 
 export default function WizardDialog({
   title,
@@ -46,8 +47,8 @@ export default function WizardDialog({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [open, setOpen] = useState(true);
-  const [emphasizeCloseButton, setEmphasizeCloseButton] = useState(false);
+  const [ open, setOpen ] = useState(true);
+  const [ emphasizeCloseButton, setEmphasizeCloseButton ] = useState(false);
   const handleClose: NonNullable<DialogProps["onClose"]> = (event, reason) => {
     if (reason === "backdropClick" || reason === "escapeKeyDown") {
       setEmphasizeCloseButton(true);
@@ -55,10 +56,12 @@ export default function WizardDialog({
     }
     setOpen(false);
     setEmphasizeCloseButton(false);
-    if (onClose) setTimeout(() => onClose!(event, reason), 300);
+    if (onClose) {
+      setTimeout(() => onClose!(event, reason), 300);
+    }
   };
 
-  const [step, setStep] = useState(0);
+  const [ step, setStep ] = useState(0);
   const currentStep = steps[step];
 
   const handleNext = () =>
@@ -80,7 +83,7 @@ export default function WizardDialog({
       maxWidth="md"
       {...props}
       sx={[
-        fullHeight && { "& .MuiDialog-paper": { height: "100%" } },
+        fullHeight && { "& .MuiDialog-paper": { height: "100%" }},
         ...spreadSx(props.sx),
       ]}
     >
@@ -100,7 +103,7 @@ export default function WizardDialog({
           }}
         >
           {title}
-          {currentStep.title && `: ${currentStep.title}`}
+          {currentStep.title && `: ${ currentStep.title }`}
         </DialogTitle>
 
         <Stack
@@ -120,7 +123,7 @@ export default function WizardDialog({
 
               "& .MuiMobileStepper-dot": { mx: 0.5 },
             }}
-            nextButton={
+            nextButton={(
               <IconButton
                 aria-label="Next"
                 onClick={handleNext}
@@ -128,8 +131,8 @@ export default function WizardDialog({
               >
                 <ChevronRightIcon />
               </IconButton>
-            }
-            backButton={
+            )}
+            backButton={(
               <IconButton
                 aria-label="Back"
                 onClick={handleBack}
@@ -137,7 +140,7 @@ export default function WizardDialog({
               >
                 <ChevronLeftIcon />
               </IconButton>
-            }
+            )}
           />
 
           <IconButton

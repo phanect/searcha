@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import { auth, db } from "../firebaseConfig";
+import type { Request, Response } from "express";
 export const setOwnerRoles = async (req: Request, res: Response) => {
   try {
     const userManagementDoc = await db.doc("_rowy_/userManagement").get();
@@ -8,16 +8,17 @@ export const setOwnerRoles = async (req: Request, res: Response) => {
     const ownerEmail: string = userManagementDoc
       .get("owner.email")
       .toLowerCase();
-    if (user.email.toLowerCase() !== ownerEmail)
+    if (user.email.toLowerCase() !== ownerEmail) {
       return res.send({
         success: false,
         message: "Logged in user is not the owner",
         ownerEmail,
         userEmail: user.email,
       });
+    }
     await auth.setCustomUserClaims(user.uid, {
       ...user.customClaims,
-      roles: ["ADMIN", "OWNER"],
+      roles: [ "ADMIN", "OWNER" ],
     });
     const updatedUser = await auth.getUser(user.uid);
     return res.send({

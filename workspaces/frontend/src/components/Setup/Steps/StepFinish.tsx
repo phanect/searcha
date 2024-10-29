@@ -3,13 +3,11 @@ import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
-import type { ISetupStep } from "@src/components/Setup/SetupStep";
 
 import {
   Typography,
   Stack,
   RadioGroup,
-  RadioGroupProps,
   Radio,
   Button,
 } from "@mui/material";
@@ -23,6 +21,9 @@ import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { ROUTES } from "@src/constants/routes";
 import { SETTINGS } from "@src/config/dbPaths.ts";
+import type {
+  RadioGroupProps } from "@mui/material";
+import type { ISetupStep } from "@src/components/Setup/SetupStep";
 
 export default {
   id: "finish",
@@ -36,13 +37,13 @@ export default {
 
 function StepFinish() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     updateDoc(doc(firebaseDb, SETTINGS), { setupCompleted: true });
-  }, [firebaseDb]);
-  const [rating, setRating] = useState<"up" | "down" | undefined>();
+  }, [ firebaseDb ]);
+  const [ rating, setRating ] = useState<"up" | "down" | undefined>();
 
   const handleRate: RadioGroupProps["onChange"] = (e) => {
     setRating(e.target.value as typeof rating);

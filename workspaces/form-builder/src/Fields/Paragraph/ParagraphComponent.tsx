@@ -1,22 +1,19 @@
-import { IFieldComponentProps } from '../../types';
-
 import {
   TextField,
-  FilledTextFieldProps,
   Grid2 as Grid,
   FormHelperText,
-} from '@mui/material';
+} from "@mui/material";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type {
+  FilledTextFieldProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
-import FieldAssistiveText from '../../FieldAssistiveText';
-
-export interface IParagraphComponentProps
-  extends IFieldComponentProps,
-    Omit<
-      FilledTextFieldProps,
-      'variant' | 'name' | 'label' | 'onChange' | 'onBlur' | 'value' | 'ref'
-    > {
+export type IParagraphComponentProps = {
   maxCharacters?: number;
-}
+} & IFieldComponentProps & Omit<
+  FilledTextFieldProps,
+      "variant" | "name" | "label" | "onChange" | "onBlur" | "value" | "ref"
+>;
 
 export default function ParagraphComponent({
   field: { onChange, onBlur, value, ref },
@@ -42,7 +39,7 @@ export default function ParagraphComponent({
       value={value}
       fullWidth
       error={!!errorMessage}
-      FormHelperTextProps={{ component: 'div' } as any}
+      FormHelperTextProps={{ component: "div" } as any}
       helperText={
         (errorMessage || assistiveText || maxCharacters) && (
           <Grid container spacing={2} wrap="nowrap" alignItems="baseline">
@@ -57,13 +54,13 @@ export default function ParagraphComponent({
             {maxCharacters && (
               <Grid>
                 <FormHelperText
-                  style={{ margin: 0, fontVariantNumeric: 'lining-nums' }}
+                  style={{ margin: 0, fontVariantNumeric: "lining-nums" }}
                   error={
-                    (typeof value === 'string' ? value.length : 0) >
-                    maxCharacters
+                    (typeof value === "string" ? value.length : 0)
+                    > maxCharacters
                   }
                 >
-                  {typeof value === 'string' ? value.length : 0}
+                  {typeof value === "string" ? value.length : 0}
                   &nbsp;/&nbsp;
                   {maxCharacters}
                 </FormHelperText>
@@ -73,7 +70,7 @@ export default function ParagraphComponent({
         )
       }
       name={name}
-      id={`field-${name}`}
+      id={`field-${ name }`}
       multiline
       minRows={3}
       {...props}
@@ -83,11 +80,11 @@ export default function ParagraphComponent({
         // https://github.com/react-hook-form/react-hook-form/issues/4485
         disabled: false,
         readOnly: disabled,
-        style: disabled ? { cursor: 'default' } : undefined,
+        style: disabled ? { cursor: "default" } : undefined,
         maxLength: maxCharacters ?? undefined,
         // Required for form-filler
-        'data-type': 'textarea',
-        'data-label': props.label ?? '',
+        "data-type": "textarea",
+        "data-label": props.label ?? "",
       }}
       InputLabelProps={props.placeholder ? { shrink: true } : undefined}
       inputRef={ref}

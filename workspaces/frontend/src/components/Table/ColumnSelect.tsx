@@ -1,15 +1,17 @@
 import { useAtom } from "jotai";
 import { useContext } from "react";
-import MultiSelect, { MultiSelectProps } from "@phanect/datasheet-multiselect";
-import { Stack, StackProps, Typography, Chip } from "@mui/material";
+import MultiSelect from "@phanect/datasheet-multiselect";
+import { Stack, Typography, Chip } from "@mui/material";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
 import { ProjectScopeContext, altPressAtom } from "@src/atoms/projectScope";
 import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
-import { ColumnConfig } from "@src/types/table";
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { spreadSx } from "@src/utils/ui";
+import type { ColumnConfig } from "@src/types/table";
+import type { FieldType } from "@src/constants/fields";
+import type { StackProps } from "@mui/material";
+import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
 
 export type ColumnOption = {
   value: string;
@@ -18,11 +20,11 @@ export type ColumnOption = {
   index: number;
 };
 
-export interface IColumnSelectProps {
+export type IColumnSelectProps = {
   filterColumns?: (column: ColumnConfig) => boolean;
   showFieldNames?: boolean;
   options?: ColumnOption[];
-}
+};
 
 export default function ColumnSelect({
   filterColumns,
@@ -30,10 +32,10 @@ export default function ColumnSelect({
   ...props
 }: IColumnSelectProps & Omit<MultiSelectProps<string>, "options">) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
-  const options =
-    props.options ||
-    (filterColumns
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const options
+    = props.options
+    || (filterColumns
       ? tableColumnsOrdered.filter(filterColumns)
       : tableColumnsOrdered
     ).map(({ key, name, type, index }) => ({
@@ -56,8 +58,9 @@ export default function ColumnSelect({
         ...props.TextFieldProps,
         SelectProps: {
           renderValue: () => {
-            if (Array.isArray(props.value) && props.value.length > 1)
-              return `${props.value.length} columns`;
+            if (Array.isArray(props.value) && props.value.length > 1) {
+              return `${ props.value.length } columns`;
+            }
 
             const value = Array.isArray(props.value)
               ? props.value[0]
@@ -67,7 +70,7 @@ export default function ColumnSelect({
               <ColumnItem
                 option={option}
                 showFieldNames={showFieldNames}
-                sx={{ "& .MuiSvgIcon-root": { my: -0.25 } }}
+                sx={{ "& .MuiSvgIcon-root": { my: -0.25 }}}
               />
             ) : (
               value
@@ -80,11 +83,11 @@ export default function ColumnSelect({
   );
 }
 
-export interface IColumnItemProps extends Partial<StackProps> {
+export type IColumnItemProps = {
   option: ColumnOption;
   showFieldNames?: boolean;
   children?: React.ReactNode;
-}
+} & Partial<StackProps>;
 
 export function ColumnItem({
   option,
@@ -93,7 +96,7 @@ export function ColumnItem({
   ...props
 }: IColumnItemProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
 
   const isNew = option.index === undefined && !option.type;
 
@@ -103,7 +106,7 @@ export function ColumnItem({
       alignItems="center"
       spacing={1}
       {...props}
-      sx={[{ color: "text.secondary", width: "100%" }, ...spreadSx(props.sx)]}
+      sx={[{ color: "text.secondary", width: "100%" }, ...spreadSx(props.sx) ]}
     >
       {getFieldProp("icon", option.type) ?? (
         <TableColumnIcon color="disabled" />

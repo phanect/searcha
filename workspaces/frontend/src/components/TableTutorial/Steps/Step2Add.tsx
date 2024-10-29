@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
 import { isEmpty } from "lodash-es";
-import { ITableTutorialStepComponentProps } from ".";
 
 import { Typography } from "@mui/material";
 import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
@@ -12,6 +11,7 @@ import {
   tableRowsAtom,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
+import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step2Add = {
   id: "add",
@@ -30,40 +30,44 @@ export const Step2Add = {
 export default Step2Add;
 
 function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
-  const [checked, setChecked] = useState([false, false, false]);
-  if (checked.every(Boolean)) setComplete(true);
-  else setComplete(false);
-  const handleChange =
-    (index: number) => (event: React.ChangeEvent<HTMLInputElement>) =>
+  const [ checked, setChecked ] = useState([ false, false, false ]);
+  if (checked.every(Boolean)) {
+    setComplete(true);
+  } else {
+    setComplete(false);
+  }
+  const handleChange
+    = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) =>
       setChecked((c) => {
-        const cloned = [...c];
+        const cloned = [ ...c ];
         cloned.splice(index, 1, event.target.checked);
         return cloned;
       });
 
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   useEffect(() => {
     if (
       tableColumnsOrdered?.some(
         (c) =>
           c.type === FieldType.rating && c.name.toLowerCase().includes("rating")
       )
-    )
-      handleChange(0)({ target: { checked: true } } as any);
-  }, [tableColumnsOrdered]);
+    ) {
+      handleChange(0)({ target: { checked: true }} as any);
+    }
+  }, [ tableColumnsOrdered ]);
 
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   useEffect(() => {
     if (tableRows.length >= 6) {
-      handleChange(1)({ target: { checked: true } } as any);
+      handleChange(1)({ target: { checked: true }} as any);
 
       const { _rowy_ref, ...firstRow } = tableRows[0];
       if (!isEmpty(firstRow)) {
-        handleChange(2)({ target: { checked: true } } as any);
+        handleChange(2)({ target: { checked: true }} as any);
       }
     }
-  }, [tableRows]);
+  }, [ tableRows ]);
 
   return (
     <>

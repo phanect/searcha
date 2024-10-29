@@ -1,12 +1,13 @@
 import stringify from "json-stable-stringify-without-jsonify";
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { useTheme } from "@mui/material";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Json({ value }: IDisplayCellProps) {
   const theme = useTheme();
 
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
   const formattedJson = stringify(value, { space: 2 }).substring(0, 1000);
 

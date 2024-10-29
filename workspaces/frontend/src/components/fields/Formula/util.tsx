@@ -24,8 +24,8 @@ import JsonDisplayCell from "@src/components/fields/Json/DisplayCell";
 import CodeDisplayCell from "@src/components/fields/Code/DisplayCell";
 import MarkdownDisplayCell from "@src/components/fields/Markdown/DisplayCell";
 import CreatedByDisplayCell from "@src/components/fields/CreatedBy/DisplayCell";
-import { TableRowRef } from "@src/types/table";
-import { DocumentData, DocumentReference } from "firebase/firestore";
+import type { TableRowRef } from "@src/types/table";
+import type { DocumentData, DocumentReference } from "firebase/firestore";
 
 export function useDeepCompareMemoize<T>(value: T) {
   const ref = useRef<T>(value);
@@ -37,12 +37,12 @@ export function useDeepCompareMemoize<T>(value: T) {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(() => ref.current, [signalRef.current]);
+  return useMemo(() => ref.current, [ signalRef.current ]);
 }
 
 export const listenerFieldTypes = Object.values(FieldType).filter(
   (type) =>
-    ![FieldType.formula, FieldType.subTable, FieldType.last].includes(type)
+    ![ FieldType.formula, FieldType.subTable, FieldType.last ].includes(type)
 );
 
 export const outputFieldTypes = Object.values(FieldType).filter(
@@ -129,9 +129,9 @@ export const serializeRef = (path: string, maxDepth = 20) => {
     path: pathArr.join("/"),
     id: pathArr.pop(),
   } as any;
-  let curr: TableRowRef | Partial<DocumentReference<DocumentData>> =
-    serializedRef;
-  let depth = 0;
+  let curr: TableRowRef | Partial<DocumentReference<DocumentData>>
+    = serializedRef;
+  const depth = 0;
   while (pathArr.length > 0 && curr && depth < maxDepth) {
     (curr.parent as any) = {
       path: pathArr.join("/"),

@@ -40,13 +40,13 @@ export default function UserItem({
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
 
-  const [projectRoles] = useAtom(projectRolesAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [updateUser] = useAtom(updateUserAtom, { store: projectScopeStore });
+  const [ projectRoles ] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ updateUser ] = useAtom(updateUserAtom, { store: projectScopeStore });
 
-  const [value, setValue] = useState(Array.isArray(rolesProp) ? rolesProp : []);
-  const allRoles = new Set(["ADMIN", ...(projectRoles ?? []), ...value]);
+  const [ value, setValue ] = useState(Array.isArray(rolesProp) ? rolesProp : []);
+  const allRoles = new Set([ "ADMIN", ...(projectRoles ?? []), ...value ]);
   const hasRowyRun = !!projectSettings.rowyRunUrl;
 
   const handleSave = async () => {
@@ -55,22 +55,28 @@ export default function UserItem({
       return;
     }
     try {
-      if (!user) throw new Error("User is not defined");
-      if (JSON.stringify(value) === JSON.stringify(rolesProp)) return;
+      if (!user) {
+        throw new Error("User is not defined");
+      }
+      if (JSON.stringify(value) === JSON.stringify(rolesProp)) {
+        return;
+      }
       const loadingSnackbarId = enqueueSnackbar("Setting roles…");
       const res = await rowyRun({
         route: runRoutes.setUserRoles,
         body: { email: user!.email, roles: value },
       });
       if (res.success) {
-        if (!updateUser) throw new Error("Could not update user document");
+        if (!updateUser) {
+          throw new Error("Could not update user document");
+        }
         await updateUser(_rowy_ref!.path, { roles: value });
         closeSnackbar(loadingSnackbarId);
-        enqueueSnackbar(`Set roles for ${user!.email}: ${value.join(", ")}`);
+        enqueueSnackbar(`Set roles for ${ user!.email }: ${ value.join(", ") }`);
       }
     } catch (e: any) {
       console.error(e);
-      enqueueSnackbar(`Failed to set roles for ${user!.email}: ${e.message}`);
+      enqueueSnackbar(`Failed to set roles for ${ user!.email }: ${ e.message }`);
     }
   };
 
@@ -113,14 +119,18 @@ export default function UserItem({
       confirm: "Delete",
       confirmColor: "error",
       handleConfirm: async () => {
-        if (!user) return;
+        if (!user) {
+          return;
+        }
         const loadingSnackbarId = enqueueSnackbar("Deleting user…");
         const response = await rowyRun({
           route: runRoutes.deleteUser,
           body: { email: user.email },
         });
         closeSnackbar(loadingSnackbarId);
-        if (response) enqueueSnackbar(`Deleted user: ${user.email}`);
+        if (response) {
+          enqueueSnackbar(`Deleted user: ${ user.email }`);
+        }
       },
     });
   };
@@ -128,7 +138,7 @@ export default function UserItem({
   return (
     <ListItem
       children={listItemChildren}
-      secondaryAction={
+      secondaryAction={(
         <>
           <MultiSelect
             label="Roles"
@@ -140,8 +150,12 @@ export default function UserItem({
               SelectProps: {
                 renderValue: () => {
                   if (Array.isArray(value)) {
-                    if (value.length === 1) return value[0];
-                    if (value.length > 1) return `${value.length} roles`;
+                    if (value.length === 1) {
+                      return value[0];
+                    }
+                    if (value.length > 1) {
+                      return `${ value.length } roles`;
+                    }
                     return (
                       <Typography variant="inherit" color="text.disabled">
                         No roles
@@ -185,10 +199,12 @@ export default function UserItem({
             <IconButton
               aria-label="Copy UID"
               onClick={async () => {
-                if (!_rowy_ref?.id) return;
+                if (!_rowy_ref?.id) {
+                  return;
+                }
                 await navigator.clipboard.writeText(_rowy_ref.id);
                 enqueueSnackbar(
-                  `Copied UID for ${user?.email}: ${_rowy_ref.id}`
+                  `Copied UID for ${ user?.email }: ${ _rowy_ref.id }`
                 );
               }}
             >
@@ -205,7 +221,7 @@ export default function UserItem({
             </IconButton>
           </Tooltip>
         </>
-      }
+      )}
       sx={{
         pr: 1,
 

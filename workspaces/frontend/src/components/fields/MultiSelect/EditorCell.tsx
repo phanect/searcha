@@ -1,11 +1,10 @@
-import { IEditorCellProps } from "@src/components/fields/types";
-
 import { Typography, Button } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import MultiSelectComponent from "@phanect/datasheet-multiselect";
 import EmptyState from "@src/components/EmptyState";
 
 import { sanitiseValue } from "./utils";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function MultiSelect({
   value,
@@ -18,28 +17,29 @@ export default function MultiSelect({
 }: IEditorCellProps) {
   const config = column.config ?? {};
 
-  if (typeof value === "string" && value !== "")
+  if (typeof value === "string" && value !== "") {
     return (
       <EmptyState
         Icon={WarningIcon}
         message="Fix this value"
-        description={
+        description={(
           <>
             <Typography>This cell’s value is a string</Typography>
             <Button
               color="primary"
               onClick={() => {
-                onChange([value]);
+                onChange([ value ]);
                 onSubmit();
               }}
             >
               Convert to array
             </Button>
           </>
-        }
+        )}
         sx={{ my: 3, width: column.width }}
       />
     );
+  }
 
   return (
     <MultiSelectComponent
@@ -60,7 +60,7 @@ export default function MultiSelect({
             anchorOrigin: { vertical: "bottom", horizontal: "center" },
             transformOrigin: { vertical: "top", horizontal: "center" },
             sx: {
-              "& .MuiPaper-root": { minWidth: `${column.width}px !important` },
+              "& .MuiPaper-root": { minWidth: `${ column.width }px !important` },
             },
           },
         },

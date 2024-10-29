@@ -19,22 +19,22 @@ import {
   updateUserSettingsAtom,
 } from "@src/atoms/projectScope";
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
-import { UserSettings } from "@src/types/settings";
+import type { UserSettings } from "@src/types/settings";
 
-export interface IUserSettingsChildProps {
+export type IUserSettingsChildProps = {
   settings: UserSettings;
   updateSettings: (data: Partial<UserSettings>) => void;
-}
+};
 
 export default function UserSettingsPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   useScrollToHash();
 
-  const [_updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ _updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const updateSettings = useDebouncedCallback((data) => {
     if (_updateUserSettings) {
       _updateUserSettings(data).then(() => enqueueSnackbar("Saved"));
@@ -49,7 +49,7 @@ export default function UserSettingsPage() {
     () => () => {
       updateSettings.flush();
     },
-    [updateSettings]
+    [ updateSettings ]
   );
 
   const childProps: IUserSettingsChildProps = {

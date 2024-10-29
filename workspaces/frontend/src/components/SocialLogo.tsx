@@ -1,9 +1,10 @@
-import { Box, BoxProps, SvgIcon } from "@mui/material";
+import { Box, SvgIcon } from "@mui/material";
 import { Discord as DiscordIcon } from "@src/assets/icons";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TwitterIcon from "@mui/icons-material/Twitter";
 
 import { spreadSx } from "@src/utils/ui";
+import type { BoxProps } from "@mui/material";
 
 const SOCIAL_PLATFORMS = Object.freeze({
   discord: { bg: "#5865F2", fg: "#fff", icon: <DiscordIcon /> },
@@ -20,9 +21,9 @@ const SOCIAL_PLATFORMS = Object.freeze({
   },
 });
 
-export interface ISocialLogoProps extends Partial<BoxProps> {
+export type ISocialLogoProps = {
   platform: keyof typeof SOCIAL_PLATFORMS;
-}
+} & Partial<BoxProps>;
 
 export default function SocialLogo({ platform, ...props }: ISocialLogoProps) {
   return (
@@ -37,9 +38,9 @@ export default function SocialLogo({ platform, ...props }: ISocialLogoProps) {
           boxShadow: (theme) => `0 0 0 1px ${
             theme.palette.action.inputOutline
           } inset,
-          0 ${theme.palette.mode === "dark" ? "" : "-"}1px 0 0 ${
-            theme.palette.action.inputOutline
-          } inset`,
+          0 ${ theme.palette.mode === "dark" ? "" : "-" }1px 0 0 ${
+      theme.palette.action.inputOutline
+    } inset`,
 
           "& svg": { display: "block" },
         },

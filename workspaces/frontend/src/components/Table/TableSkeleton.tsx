@@ -4,7 +4,6 @@ import { colord } from "colord";
 
 import { Fade, Stack, Skeleton, Button } from "@mui/material";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
-import Column from "./Mock/Column";
 
 import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
 import {
@@ -13,9 +12,10 @@ import {
   tableSchemaAtom,
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
-import { DEFAULT_ROW_HEIGHT, DEFAULT_COL_WIDTH, TABLE_PADDING } from "./Table";
 import { COLLECTION_PAGE_SIZE } from "@src/config/db";
 import { formatSubTableName } from "@src/utils/table";
+import { DEFAULT_ROW_HEIGHT, DEFAULT_COL_WIDTH, TABLE_PADDING } from "./Table";
+import Column from "./Mock/Column";
 
 const NUM_COLS = 5;
 const NUM_ROWS = COLLECTION_PAGE_SIZE;
@@ -28,8 +28,8 @@ export function HeaderRowSkeleton() {
         alignItems="center"
         sx={{
           marginLeft: (theme) =>
-            `max(env(safe-area-inset-left), ${theme.spacing(2)})`,
-          marginRight: `env(safe-area-inset-right)`,
+            `max(env(safe-area-inset-left), ${ theme.spacing(2) })`,
+          marginRight: "env(safe-area-inset-right)",
         }}
       >
         {new Array(NUM_COLS + 1).fill(undefined).map((_, i) => (
@@ -68,19 +68,22 @@ const useDisplayedColumns = () => {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
-  const userDocHiddenFields =
-    userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields;
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const userDocHiddenFields
+    = userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields;
 
   return tableColumnsOrdered.filter((column) => {
-    if (column.hidden) return false;
-    if (
-      Array.isArray(userDocHiddenFields) &&
-      userDocHiddenFields.includes(column.key)
-    )
+    if (column.hidden) {
       return false;
+    }
+    if (
+      Array.isArray(userDocHiddenFields)
+      && userDocHiddenFields.includes(column.key)
+    ) {
+      return false;
+    }
     return true;
   });
 };
@@ -123,7 +126,7 @@ export function StaticHeaderRow() {
 
 export function RowsSkeleton() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const columns = useDisplayedColumns();
   const rowHeight = tableSchema.rowHeight ?? DEFAULT_ROW_HEIGHT;
 
@@ -133,7 +136,7 @@ export function RowsSkeleton() {
         <Stack
           key={i}
           direction="row"
-          style={{ padding: `0 ${TABLE_PADDING}px`, marginTop: -1 }}
+          style={{ padding: `0 ${ TABLE_PADDING }px`, marginTop: -1 }}
         >
           {columns.map((col, j) => (
             <Skeleton
@@ -144,9 +147,9 @@ export function RowsSkeleton() {
                   theme.palette.mode === "light"
                     ? theme.palette.background.paper
                     : colord(theme.palette.background.paper)
-                        .mix("#fff", 0.04)
-                        .alpha(1)
-                        .toHslString(),
+                      .mix("#fff", 0.04)
+                      .alpha(1)
+                      .toHslString(),
                 border: "1px solid",
                 borderColor: "divider",
                 borderLeftWidth: j === 0 ? 1 : 0,
@@ -156,7 +159,7 @@ export function RowsSkeleton() {
                 height: rowHeight + 1,
 
                 animationName: "pulsate-full",
-                animationDelay: `${(1500 / NUM_ROWS) * i}ms`,
+                animationDelay: `${ (1500 / NUM_ROWS) * i }ms`,
                 animationFillMode: "both",
                 "@keyframes pulsate-full": {
                   "0%": { opacity: 0 },

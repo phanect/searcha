@@ -6,14 +6,12 @@ export function useSaveOnUnmount<T>(
   initialValue: T,
   onSave: (value: T) => void
 ) {
-  const [localValue, setLocalValue, localValueRef] = useState(initialValue);
+  const [ localValue, setLocalValue, localValueRef ] = useState(initialValue);
 
-  useLayoutEffect(() => {
-    return () => {
-      onSave(localValueRef.current);
-    };
+  useLayoutEffect(() => () => {
+    onSave(localValueRef.current);
   }, []);
 
-  return [localValue, setLocalValue, localValueRef] as const;
+  return [ localValue, setLocalValue, localValueRef ] as const;
 }
 export default useSaveOnUnmount;
