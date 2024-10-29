@@ -14,7 +14,6 @@ import {
   updateFieldAtom,
 } from "@src/atoms/tableScope";
 import { getFieldProp, getFieldType } from "@src/components/fields";
-import { ColumnConfig } from "@src/types/table";
 
 import { FieldType } from "@src/constants/fields";
 
@@ -24,6 +23,9 @@ import { getDurationString } from "@src/components/fields/Duration/utils";
 import { doc } from "firebase/firestore";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
+import type { ColumnConfig } from "@src/types/table";
+import type {
+  SelectedCell } from "@src/atoms/tableScope";
 
 export const SUPPORTED_TYPES_COPY = new Set<FieldType>([
   // TEXT
@@ -119,12 +121,12 @@ export function useMenuAction(
   const tableScopeStore = useContext(TableScopeContext);
 
   const { enqueueSnackbar } = useSnackbar();
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
-  const [cellValue, setCellValue] = useState<any>();
-  const [selectedCol, setSelectedCol] = useState<ColumnConfig>();
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ cellValue, setCellValue ] = useState<any>();
+  const [ selectedCol, setSelectedCol ] = useState<ColumnConfig>();
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const handleCopy = useCallback(async () => {
     try {
@@ -134,9 +136,9 @@ export function useMenuAction(
         );
         enqueueSnackbar("Copied");
       } else if (
-        cellValue !== undefined &&
-        cellValue !== null &&
-        cellValue !== ""
+        cellValue !== undefined
+        && cellValue !== null
+        && cellValue !== ""
       ) {
         const value = getValue(cellValue);
         await navigator.clipboard.writeText(value);
@@ -145,14 +147,18 @@ export function useMenuAction(
         await navigator.clipboard.writeText("");
       }
     } catch (error) {
-      enqueueSnackbar(`Failed to copy:${error}`, { variant: "error" });
+      enqueueSnackbar(`Failed to copy:${ error }`, { variant: "error" });
     }
-    if (handleClose) handleClose();
-  }, [cellValue, enqueueSnackbar, handleClose]);
+    if (handleClose) {
+      handleClose();
+    }
+  }, [ cellValue, enqueueSnackbar, handleClose ]);
 
   const handleCut = useCallback(async () => {
     try {
-      if (!selectedCell || !selectedCol) return;
+      if (!selectedCell || !selectedCol) {
+        return;
+      }
       if (cellValue !== undefined && cellValue !== null && cellValue !== "") {
         const value = getValue(cellValue);
         await navigator.clipboard.writeText(value);
@@ -161,13 +167,13 @@ export function useMenuAction(
         await navigator.clipboard.writeText("");
       }
       if (
-        cellValue !== undefined &&
-        selectedCol.type !== FieldType.createdAt &&
-        selectedCol.type !== FieldType.updatedAt &&
-        selectedCol.type !== FieldType.createdBy &&
-        selectedCol.type !== FieldType.updatedBy &&
-        selectedCol.type !== FieldType.checkbox
-      )
+        cellValue !== undefined
+        && selectedCol.type !== FieldType.createdAt
+        && selectedCol.type !== FieldType.updatedAt
+        && selectedCol.type !== FieldType.createdBy
+        && selectedCol.type !== FieldType.updatedBy
+        && selectedCol.type !== FieldType.checkbox
+      ) {
         updateField({
           path: selectedCell.path,
           fieldName: selectedCol.fieldName,
@@ -177,10 +183,13 @@ export function useMenuAction(
             index: selectedCell.arrayIndex,
           },
         });
+      }
     } catch (error) {
-      enqueueSnackbar(`Failed to cut: ${error}`, { variant: "error" });
+      enqueueSnackbar(`Failed to cut: ${ error }`, { variant: "error" });
     }
-    if (handleClose) handleClose();
+    if (handleClose) {
+      handleClose();
+    }
   }, [
     cellValue,
     selectedCell,
@@ -364,38 +373,44 @@ export function useMenuAction(
           variant: "error",
         });
       }
-      if (handleClose) handleClose();
+      if (handleClose) {
+        handleClose();
+      }
     },
-    [selectedCell, selectedCol, updateField, enqueueSnackbar, handleClose]
+    [ selectedCell, selectedCol, updateField, enqueueSnackbar, handleClose ]
   );
 
   useEffect(() => {
-    if (!selectedCell) return setCellValue("");
+    if (!selectedCell) {
+      return setCellValue("");
+    }
     const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
-    if (!selectedCol) return setCellValue("");
+    if (!selectedCol) {
+      return setCellValue("");
+    }
     setSelectedCol(selectedCol);
 
     const selectedRow = find(
       tableRows,
       selectedCell.arrayIndex === undefined
-        ? ["_rowy_ref.path", selectedCell.path]
+        ? [ "_rowy_ref.path", selectedCell.path ]
         : // if the table is an array table, we need to use the array index to find the row
-          ["_rowy_ref.arrayTableData.index", selectedCell.arrayIndex]
+        [ "_rowy_ref.arrayTableData.index", selectedCell.arrayIndex ]
     );
     setCellValue(get(selectedRow, selectedCol.fieldName));
-  }, [selectedCell, tableSchema, tableRows]);
+  }, [ selectedCell, tableSchema, tableRows ]);
 
   const checkEnabledCopy = useCallback(
     (func: Function) => {
       if (!selectedCol) {
-        return function () {
-          enqueueSnackbar(`No selected cell`, {
+        return function() {
+          enqueueSnackbar("No selected cell", {
             variant: "error",
           });
         };
       }
       const fieldType = getFieldType(selectedCol);
-      return function () {
+      return function() {
         if (SUPPORTED_TYPES_COPY.has(fieldType)) {
           return func();
         } else {
@@ -405,20 +420,20 @@ export function useMenuAction(
         }
       };
     },
-    [enqueueSnackbar, selectedCol?.type]
+    [ enqueueSnackbar, selectedCol?.type ]
   );
 
   const checkEnabledPaste = useCallback(
     (func: Function) => {
       if (!selectedCol) {
-        return function () {
-          enqueueSnackbar(`No selected cell`, {
+        return function() {
+          enqueueSnackbar("No selected cell", {
             variant: "error",
           });
         };
       }
       const fieldType = getFieldType(selectedCol);
-      return function (e?: ClipboardEvent) {
+      return function(e?: ClipboardEvent) {
         if (SUPPORTED_TYPES_PASTE.has(fieldType)) {
           return func(e);
         } else {
@@ -428,7 +443,7 @@ export function useMenuAction(
         }
       };
     },
-    [enqueueSnackbar, selectedCol?.type]
+    [ enqueueSnackbar, selectedCol?.type ]
   );
 
   const getValue = useCallback(
@@ -448,8 +463,8 @@ export function useMenuAction(
           return JSON.stringify(cellValue);
         case FieldType.date:
           if (
-            (!!cellValue && isFunction(cellValue.toDate)) ||
-            isDate(cellValue)
+            (!!cellValue && isFunction(cellValue.toDate))
+            || isDate(cellValue)
           ) {
             try {
               return format(
@@ -465,8 +480,8 @@ export function useMenuAction(
         case FieldType.createdAt:
         case FieldType.updatedAt:
           if (
-            (!!cellValue && isFunction(cellValue.toDate)) ||
-            isDate(cellValue)
+            (!!cellValue && isFunction(cellValue.toDate))
+            || isDate(cellValue)
           ) {
             try {
               return format(
@@ -499,7 +514,7 @@ export function useMenuAction(
           return cellValue;
       }
     },
-    [cellValue, selectedCol]
+    [ cellValue, selectedCol ]
   );
 
   return {

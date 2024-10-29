@@ -4,7 +4,6 @@ import {
   useMemo,
   useState,
   forwardRef,
-  ChangeEvent,
   useContext,
 } from "react";
 import { useAtom, useSetAtom } from "jotai";
@@ -14,10 +13,9 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
 } from "react-beautiful-dnd";
 
-import { Box, AutocompleteProps, Theme } from "@mui/material";
+import { Box } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 import IconSlash from "@src/components/IconSlash";
@@ -38,33 +36,38 @@ import {
   updateColumnAtom,
 } from "@src/atoms/tableScope";
 import { formatSubTableName } from "@src/utils/table";
+import type { AutocompleteProps, Theme } from "@mui/material";
+import type {
+  DropResult } from "react-beautiful-dnd";
+import type {
+  ChangeEvent } from "react";
 
 export default function HiddenFields() {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const canEditColumns =
-    userRoles.includes("ADMIN") || userRoles.includes("OPS");
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const canEditColumns
+    = userRoles.includes("ADMIN") || userRoles.includes("OPS");
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
 
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
 
   // Store local selection here
   // Initialise hiddenFields from user doc
   const userDocHiddenFields = useMemo(
     () =>
       userSettings.tables?.[formatSubTableName(tableId)]?.hiddenFields ?? [],
-    [userSettings.tables, tableId]
+    [ userSettings.tables, tableId ]
   );
 
-  const [hiddenFields, setHiddenFields] =
-    useState<string[]>(userDocHiddenFields);
+  const [ hiddenFields, setHiddenFields ]
+    = useState<string[]>(userDocHiddenFields);
   useEffect(() => {
     setHiddenFields(userDocHiddenFields);
-  }, [userDocHiddenFields]);
+  }, [ userDocHiddenFields ]);
 
   // const tableColumns = tableColumnsOrdered.map(({ key, name }) => ({
   //   value: key,
@@ -72,19 +75,19 @@ export default function HiddenFields() {
   // }));
 
   // Save when MultiSelect closes
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
   const handleSave = () => {
     // Only update if there were any changes because it’s slow to update
     if (!isEqual(hiddenFields, userDocHiddenFields) && updateUserSettings) {
       updateUserSettings({
-        tables: { [formatSubTableName(tableId)]: { hiddenFields } },
+        tables: { [formatSubTableName(tableId)]: { hiddenFields }},
       });
     }
     setOpen(false);
   };
 
   // disable drag if search box is not empty and user does not have permission
-  const [disableDrag, setDisableDrag] = useState<boolean>(false);
+  const [ disableDrag, setDisableDrag ] = useState<boolean>(false);
   const renderOption: AutocompleteProps<
     any,
     true,
@@ -127,11 +130,11 @@ export default function HiddenFields() {
                   selected
                     ? { color: "primary.main" }
                     : {
-                        opacity: 0,
-                        ".MuiAutocomplete-option.Mui-focused &": {
-                          opacity: 0.5,
-                        },
+                      opacity: 0,
+                      ".MuiAutocomplete-option.Mui-focused &": {
+                        opacity: 0.5,
                       },
+                    },
                 ]}
               >
                 <VisibilityIcon />
@@ -146,8 +149,8 @@ export default function HiddenFields() {
                           slashColor(theme)
                             .mix(
                               theme.palette.primary.main,
-                              theme.palette.action.selectedOpacity +
-                                theme.palette.action.hoverOpacity
+                              theme.palette.action.selectedOpacity
+                              + theme.palette.action.hoverOpacity
                             )
                             .alpha(1)
                             .toHslString(),
@@ -168,8 +171,9 @@ export default function HiddenFields() {
 
   // updates column on drag end
   function handleOnDragEnd(result: DropResult) {
-    if (!result.destination || result.destination.index === result.source.index)
+    if (!result.destination || result.destination.index === result.source.index) {
       return;
+    }
     updateColumn({
       key: result.draggableId,
       config: {},
@@ -182,10 +186,10 @@ export default function HiddenFields() {
     setDisableDrag(e.target.value !== "" || !canEditColumns);
   }
 
-  const ListboxComponent = forwardRef(function ListboxComponent(
+  const ListboxComponent = forwardRef((
     props: React.HTMLAttributes<HTMLElement>,
-    ulRef: any /*React.ForwardedRef<HTMLUListElement>*/
-  ) {
+    ulRef: any /* React.ForwardedRef<HTMLUListElement>*/
+  ) => {
     const { children, ...other } = props;
 
     return (
@@ -221,7 +225,7 @@ export default function HiddenFields() {
         active={hiddenFields.length > 0}
         ref={buttonRef}
       >
-        {hiddenFields.length > 0 ? `${hiddenFields.length} hidden` : "Hide"}
+        {hiddenFields.length > 0 ? `${ hiddenFields.length } hidden` : "Hide"}
       </ButtonWithStatus>
       <ColumnSelect
         TextFieldProps={{

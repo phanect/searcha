@@ -38,7 +38,7 @@ const StyledHtml = styled("div")(({ theme }) => ({
   },
 
   "& table th, & table td": {
-    border: `1px solid ${theme.palette.divider}`,
+    border: `1px solid ${ theme.palette.divider }`,
     padding: "0.4rem",
   },
   "& figure": {
@@ -52,7 +52,7 @@ const StyledHtml = styled("div")(({ theme }) => ({
     textAlign: "center",
   },
   "& hr": {
-    borderColor: `1px solid ${theme.palette.divider}`,
+    borderColor: `1px solid ${ theme.palette.divider }`,
     borderWidth: "1px 0 0 0",
   },
   "& code": {
@@ -64,25 +64,24 @@ const StyledHtml = styled("div")(({ theme }) => ({
   "& pre": {
     fontFamily: theme.typography.fontFamilyMono,
   },
-  '& .mceContent-body:not([dir="rtl"]) blockquote': {
-    borderLeft: `2px solid ${theme.palette.divider}`,
+  "& .mceContent-body:not([dir=\"rtl\"]) blockquote": {
+    borderLeft: `2px solid ${ theme.palette.divider }`,
     marginLeft: "1.5rem",
     paddingLeft: "1rem",
   },
-  '& .mceContent-body[dir="rtl"] blockquote': {
-    borderRight: `2px solid ${theme.palette.divider}`,
+  "& .mceContent-body[dir=\"rtl\"] blockquote": {
+    borderRight: `2px solid ${ theme.palette.divider }`,
     marginRight: "1.5rem",
     paddingRight: "1rem",
   },
 }));
 
-export interface IRenderedHtmlProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {
+export type IRenderedHtmlProps = {
   html: string;
-}
+} & React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
 
 export default function RenderedHtml({
   html,

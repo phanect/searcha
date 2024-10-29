@@ -11,9 +11,8 @@ import {
   connectFirestoreEmulator,
 } from "firebase/firestore";
 
-import Providers, { IProvidersProps } from "@src/Providers";
-import ProjectSourceFirebase from "@src/sources/ProjectSourceFirebase";
-import {
+import Providers from "@src/Providers";
+import ProjectSourceFirebase, {
   envConfig,
   firebaseConfigAtom,
   firebaseAppAtom,
@@ -21,6 +20,7 @@ import {
   firebaseDbAtom,
 } from "@src/sources/ProjectSourceFirebase";
 import { currentUserAtom } from "@src/atoms/projectScope";
+import type { IProvidersProps } from "@src/Providers";
 
 /** Initialize Firebase */
 console.log("Initializing Firebase...");
@@ -33,6 +33,9 @@ connectFirestoreEmulator(db, "localhost", 9299);
 /**
  * Render with Jotai `projectScope` providers
  * & `ProjectSourceFirebase` component
+ * @param ui
+ * @param initialAtomValues
+ * @param disableProjectSource
  */
 export const customRender = (
   ui: React.ReactElement,
@@ -49,6 +52,7 @@ export const customRender = (
 /**
  * Signs in with email and password.
  * Returns `initialAtomValues`, which must be passed to `customRender`.
+ * @param userType
  */
 export const signIn = async (
   userType: "admin" | "ops" | "editor" | "viewer" | "noRoles"
@@ -57,23 +61,26 @@ export const signIn = async (
 
   const userCredential = await signInWithEmailAndPassword(
     auth,
-    `${userType}@example.com`,
-    `${userType}User`
+    `${ userType }@example.com`,
+    `${ userType }User`
   );
   expect(userCredential.user.email?.toLowerCase()).toBe(
-    `${userType}@example.com`.toLowerCase()
+    `${ userType }@example.com`.toLowerCase()
   );
 
   const tokenResult = await userCredential.user.getIdTokenResult();
-  if (userType === "noRoles") expect(tokenResult.claims.roles).toBeUndefined();
-  else expect(tokenResult.claims.roles).toContain(userType.toUpperCase());
+  if (userType === "noRoles") {
+    expect(tokenResult.claims.roles).toBeUndefined();
+  } else {
+    expect(tokenResult.claims.roles).toContain(userType.toUpperCase());
+  }
 
   const initialAtomValues = [
-    [firebaseConfigAtom, envConfig],
-    [firebaseAppAtom, app],
-    [firebaseAuthAtom, auth],
-    [firebaseDbAtom, db],
-    [currentUserAtom, userCredential.user],
+    [ firebaseConfigAtom, envConfig ],
+    [ firebaseAppAtom, app ],
+    [ firebaseAuthAtom, auth ],
+    [ firebaseDbAtom, db ],
+    [ currentUserAtom, userCredential.user ],
   ] as const;
 
   return initialAtomValues;
@@ -83,8 +90,8 @@ export const signIn = async (
 const realConsoleWarn = console.warn.bind(console.warn);
 beforeAll(() => {
   console.warn = (msg) =>
-    !msg.toString().includes("initial value for derived atom") &&
-    realConsoleWarn(msg);
+    !msg.toString().includes("initial value for derived atom")
+    && realConsoleWarn(msg);
 });
 afterAll(() => {
   console.warn = realConsoleWarn;

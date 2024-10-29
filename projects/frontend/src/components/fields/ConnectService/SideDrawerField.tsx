@@ -1,10 +1,10 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { get } from "lodash-es";
 
 import { Grid2 as Grid, Chip } from "@mui/material";
 
-import ConnectServiceSelect from "./ConnectServiceSelect";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import ConnectServiceSelect from "./ConnectServiceSelect";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function ConnectService({
   column,

@@ -19,21 +19,21 @@ import MenuCloseIcon from "@mui/icons-material/MenuOpen";
 import PersonAddIcon from "@mui/icons-material/PersonAddOutlined";
 
 import Logo from "@src/assets/Logo";
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
+import { ROUTES } from "@src/constants/routes";
 import { NAV_DRAWER_WIDTH, NAV_DRAWER_COLLAPSED_WIDTH } from "./NavDrawer";
 import UserMenu from "./UserMenu";
-
-import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
-import { ROUTES, ROUTE_TITLES } from "@src/constants/routes";
+import type { ROUTE_TITLES } from "@src/constants/routes";
 
 export const TOP_BAR_HEIGHT = 56;
 
-export interface ITopBarProps {
+export type ITopBarProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   isPermanent: boolean;
   routeTitle: typeof ROUTE_TITLES[keyof typeof ROUTE_TITLES];
   title: string;
-}
+};
 
 export default function TopBar({
   open,
@@ -43,7 +43,7 @@ export default function TopBar({
   title,
 }: ITopBarProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
 
   const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 0 });
   const menuIcon = open ? <MenuCloseIcon /> : <MenuIcon />;
@@ -57,10 +57,10 @@ export default function TopBar({
         height: TOP_BAR_HEIGHT,
         backgroundColor: trigger
           ? (theme) =>
-              colord(theme.palette.background.paper)
-                .mix("#fff", 0.09) // Elevation 8
-                .alpha(1)
-                .toHslString()
+            colord(theme.palette.background.paper)
+              .mix("#fff", 0.09) // Elevation 8
+              .alpha(1)
+              .toHslString()
           : "transparent",
         transitionProperty: "box-shadow, background-color",
       }}
@@ -74,15 +74,15 @@ export default function TopBar({
             minHeight: TOP_BAR_HEIGHT,
             p: 0,
             pl: (theme) =>
-              `max(env(safe-area-inset-left), ${theme.spacing(0.5)})`,
+              `max(env(safe-area-inset-left), ${ theme.spacing(0.5) })`,
             pr: (theme) =>
-              `max(env(safe-area-inset-right), ${theme.spacing(0.5)})`,
+              `max(env(safe-area-inset-right), ${ theme.spacing(0.5) })`,
           },
         }}
       >
         <Grow in>
           <IconButton
-            aria-label={`${open ? "Close" : "Open"} navigation drawer`}
+            aria-label={`${ open ? "Close" : "Open" } navigation drawer`}
             onClick={() => setOpen(!open)}
             size="large"
           >
@@ -96,7 +96,7 @@ export default function TopBar({
               width: open ? NAV_DRAWER_WIDTH : NAV_DRAWER_COLLAPSED_WIDTH,
               height: 2,
 
-              transform: `scale(${open ? 1 : 0})`,
+              transform: `scale(${ open ? 1 : 0 })`,
               transformOrigin: "0% 50%",
               opacity: open ? 1 : 0,
 
@@ -133,10 +133,10 @@ export default function TopBar({
               !(routeTitle as any)?.leftAligned && {
                 ml: { xs: 1, sm: 40 / 8 + 1, md: 208 / 8 + 1 },
               },
-              isPermanent &&
-                (routeTitle as any)?.leftAligned && {
-                  ml: -NAV_DRAWER_COLLAPSED_WIDTH / 8 + 0.5 + 2,
-                },
+              isPermanent
+              && (routeTitle as any)?.leftAligned && {
+                ml: -NAV_DRAWER_COLLAPSED_WIDTH / 8 + 0.5 + 2,
+              },
             ]}
           >
             {typeof routeTitle !== "string" ? (
@@ -165,12 +165,12 @@ export default function TopBar({
           startIcon={<PersonAddIcon />}
           sx={{
             minWidth: 40,
-            "&&": { px: { xs: 1, md: 2 } },
+            "&&": { px: { xs: 1, md: 2 }},
             mr: 1,
             "&.active": { visibility: "hidden" },
 
-            "& .text": { display: { xs: "none", md: "inline" } },
-            "& .MuiButton-startIcon": { mr: { xs: 0, md: 1 } },
+            "& .text": { display: { xs: "none", md: "inline" }},
+            "& .MuiButton-startIcon": { mr: { xs: 0, md: 1 }},
           }}
         >
           <span className="text">Invite team members</span>

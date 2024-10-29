@@ -22,7 +22,7 @@ type RowyLogging = {
   warn: (...payload: any[]) => void;
   error: (...payload: any[]) => void;
 };
-interface Rowy {
+type Rowy = {
   metadata: {
     /**
      * The project ID of the project running this function.
@@ -101,6 +101,6 @@ interface Rowy {
    * uploads a file to storage bucket from an external url.
    */
   url2storage: (url: string) => Promise<RowyFile | undefined>;
-}
+};
 
 declare const rowy: Rowy;

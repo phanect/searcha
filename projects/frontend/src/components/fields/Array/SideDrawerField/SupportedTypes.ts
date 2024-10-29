@@ -61,27 +61,21 @@ export const SupportedTypes = {
     initialValue: new GeoPoint(0, 0),
     dataType: "firestore-type",
     instance: GeoPoint,
-    humanize: (value: GeoPoint) => {
-      return `${value.latitude}, ${value.longitude}`;
-    },
+    humanize: (value: GeoPoint) => `${ value.latitude }, ${ value.longitude }`,
   },
   [FieldType.dateTime]: {
     Sidebar: DateTimeValueSidebar,
     initialValue: Timestamp.now(),
     dataType: "firestore-type",
     instance: Timestamp,
-    humanize: (value: Timestamp) => {
-      return value.toDate().toLocaleString();
-    },
+    humanize: (value: Timestamp) => value.toDate().toLocaleString(),
   },
   [FieldType.reference]: {
     Sidebar: ReferenceValueSidebar,
     initialValue: null,
     dataType: "firestore-type",
     instance: DocumentReference,
-    humanize: (value: DocumentReference) => {
-      return value.path;
-    },
+    humanize: (value: DocumentReference) => value.path,
   },
 };
 

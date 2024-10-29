@@ -23,7 +23,6 @@ import {
   getOwner,
 } from "./setup";
 import { checkIfFTMigrationRequired, migrateFT2Rowy } from "./setup/ft2rowy";
-import firebase from "firebase-admin";
 import { getAlgoliaSearchKey } from "./connectTable/algolia";
 
 import { metadataService, getProjectId } from "./metadataService";
@@ -38,6 +37,7 @@ import {
 } from "./secretManager";
 import { connector } from "./scripts/connector";
 import { triggerJob } from "./runJobs";
+import type firebase from "firebase-admin";
 
 const app = express();
 // json is the default content-type for POST requests
@@ -48,9 +48,9 @@ app.use(cors());
 app.get("/", async (req, res) => {
   const projectId = await getProjectId();
   try {
-    res.redirect(`https://${projectId}.rowy.app`);
+    res.redirect(`https://${ projectId }.rowy.app`);
   } catch (error) {
-    res.redirect(`https://deploy.rowy.app`);
+    res.redirect("https://deploy.rowy.app");
   }
 });
 const functionWrapper = (fn) => async (req, res) => {
@@ -77,55 +77,55 @@ app.get("/setOwnerRoles", requireAuth, setOwnerRoles);
 app.get(
   "/listCollections",
   requireAuth,
-  hasAnyRole(["ADMIN"]),
+  hasAnyRole([ "ADMIN" ]),
   functionWrapper(listCollections)
 );
 
 app.get(
   "/firestoreRules",
   requireAuth,
-  hasAnyRole(["ADMIN", "OWNER"]),
+  hasAnyRole([ "ADMIN", "OWNER" ]),
   functionWrapper(getFirestoreRules)
 );
 
 app.post(
   "/setFirestoreRules",
   requireAuth,
-  hasAnyRole(["ADMIN", "OWNER"]),
+  hasAnyRole([ "ADMIN", "OWNER" ]),
   functionWrapper(setFirestoreRules)
 );
 
-//FT Migration
+// FT Migration
 
 app.get(
   "/checkFT2Rowy",
   requireAuth,
-  hasAnyRole(["ADMIN", "OWNER"]),
+  hasAnyRole([ "ADMIN", "OWNER" ]),
   checkIfFTMigrationRequired
 );
 app.get(
   "/migrateFT2Rowy",
   requireAuth,
-  hasAnyRole(["ADMIN", "OWNER"]),
+  hasAnyRole([ "ADMIN", "OWNER" ]),
   functionWrapper(migrateFT2Rowy)
 );
 
 // USER MANAGEMENT
 
 // invite users
-app.post("/inviteUser", requireAuth, hasAnyRole(["ADMIN"]), inviteUser);
+app.post("/inviteUser", requireAuth, hasAnyRole([ "ADMIN" ]), inviteUser);
 
-//set user roles
-app.post("/setUserRoles", requireAuth, hasAnyRole(["ADMIN"]), setUserRoles);
+// set user roles
+app.post("/setUserRoles", requireAuth, hasAnyRole([ "ADMIN" ]), setUserRoles);
 
 // delete user
-app.delete("/deleteUser", requireAuth, hasAnyRole(["ADMIN"]), deleteUser);
+app.delete("/deleteUser", requireAuth, hasAnyRole([ "ADMIN" ]), deleteUser);
 
 // impersonate user
 app.get(
   "/impersonateUser/:email",
   requireAuth,
-  hasAnyRole(["ADMIN"]),
+  hasAnyRole([ "ADMIN" ]),
   impersonateUser
 );
 // action script
@@ -139,14 +139,14 @@ app.post("/connector", requireAuth, connector);
 app.post(
   "/buildFunction",
   requireAuth,
-  hasAnyRole(["ADMIN"]),
+  hasAnyRole([ "ADMIN" ]),
   functionWrapper(functionBuilder)
 );
 
-app.get("/logs", requireAuth, hasAnyRole(["ADMIN"]), functionWrapper(getLogs));
+app.get("/logs", requireAuth, hasAnyRole([ "ADMIN" ]), functionWrapper(getLogs));
 
 // metadata service
-app.get("/metadata", requireAuth, hasAnyRole(["ADMIN"]), metadataService);
+app.get("/metadata", requireAuth, hasAnyRole([ "ADMIN" ]), metadataService);
 
 // get algoia search key
 app.get(
@@ -173,23 +173,23 @@ app.post("/auditChange", requireAuth, functionWrapper(auditChange));
 app.get(
   "/listSecrets",
   requireAuth,
-  hasAnyRole(["ADMIN"]),
+  hasAnyRole([ "ADMIN" ]),
   functionWrapper(listSecrets)
 );
-app.post("/addSecret", requireAuth, hasAnyRole(["ADMIN"]), addSecret);
-app.post("/editSecret", requireAuth, hasAnyRole(["ADMIN"]), editSecret);
-app.post("/deleteSecret", requireAuth, hasAnyRole(["ADMIN"]), deleteSecret);
+app.post("/addSecret", requireAuth, hasAnyRole([ "ADMIN" ]), addSecret);
+app.post("/editSecret", requireAuth, hasAnyRole([ "ADMIN" ]), editSecret);
+app.post("/deleteSecret", requireAuth, hasAnyRole([ "ADMIN" ]), deleteSecret);
 
 app.post(
   "/triggerJob",
   requireAuth,
-  hasAnyRole(["ADMIN"]),
+  hasAnyRole([ "ADMIN" ]),
   functionWrapper(triggerJob)
 );
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-  console.log(`rowyRun: listening on port ${port}`);
+  console.log(`rowyRun: listening on port ${ port }`);
 });
 
 // Exports for testing purposes.

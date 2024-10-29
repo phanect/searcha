@@ -1,11 +1,11 @@
-import {
+import type {
   TextFieldProps,
   StandardProps,
   AutocompleteProps,
   AutocompleteClassKey,
-} from '@mui/material';
-import { Option } from './Option';
-import { AddItemProps } from './AddItem';
+} from "@mui/material";
+import type { Option } from "./Option";
+import type { AddItemProps } from "./AddItem";
 
 export type PopupContentsCommonProps<T> = {
   onClose: () => void;
@@ -53,7 +53,7 @@ export type PopupContentsCommonProps<T> = {
    */
   itemIcons?: Partial<
     Record<
-      'single' | 'singleSelected' | 'multiple' | 'multipleSelected',
+      "single" | "singleSelected" | "multiple" | "multipleSelected",
       React.ReactNode
     >
   >;
@@ -66,9 +66,9 @@ export type PopupContentsCommonProps<T> = {
    * Override certain props of the “Add New” Button component.
    * [See props here](https://material-ui.com/api/button/)
    */
-  AddButtonProps?: AddItemProps['AddButtonProps'];
+  AddButtonProps?: AddItemProps["AddButtonProps"];
   /** Override certain props of the “Add New” Dialog. */
-  AddDialogProps?: AddItemProps['AddDialogProps'];
+  AddDialogProps?: AddItemProps["AddDialogProps"];
 };
 
 // AutocompleteProps that can be overridden from the root MultiSelect props
@@ -76,29 +76,29 @@ type ExposedAutocompleteProps<
   T,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,
-  FreeSolo extends boolean | undefined
+  FreeSolo extends boolean | undefined,
 > = Omit<
   AutocompleteProps<Option<T>, Multiple, DisableClearable, FreeSolo>,
   | keyof StandardProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      AutocompleteClassKey,
-      'defaultValue' | 'onChange' | 'children'
-    >
-  | 'disabled'
-  | 'disablePortal'
-  | 'multiple'
-  | 'PaperComponent'
-  | 'PopperComponent'
-  | 'renderTags'
-  | 'renderInput'
-  | 'open'
-  | 'getOptionLabel'
-  | 'getOptionSelected'
-  | 'clearOnBlur'
-  | 'disableCloseOnSelect'
-  | 'onOpen'
-  | 'openOnFocus'
-> & { classes: Partial<Record<AutocompleteClassKey, string>> };
+    React.HTMLAttributes<HTMLDivElement>,
+    AutocompleteClassKey,
+      "defaultValue" | "onChange" | "children"
+  >
+  | "disabled"
+  | "disablePortal"
+  | "multiple"
+  | "PaperComponent"
+  | "PopperComponent"
+  | "renderTags"
+  | "renderInput"
+  | "open"
+  | "getOptionLabel"
+  | "getOptionSelected"
+  | "clearOnBlur"
+  | "disableCloseOnSelect"
+  | "onOpen"
+  | "openOnFocus"
+> & { classes: Partial<Record<AutocompleteClassKey, string>>; };
 
 export type PopupContentsMultipleProps<T> = {
   multiple: true;
@@ -106,7 +106,7 @@ export type PopupContentsMultipleProps<T> = {
   value: Option<T>[];
   max?: number;
   onChange: NonNullable<
-    AutocompleteProps<Option<T>, true, false, true>['onChange']
+    AutocompleteProps<Option<T>, true, false, true>["onChange"]
   >;
   /**
    * Override certain props of the Autocomplete component.
@@ -121,7 +121,7 @@ export type PopupContentsSingleProps<T> = {
   value: Option<T> | null;
   max?: undefined;
   onChange: NonNullable<
-    AutocompleteProps<Option<T>, false, false, true>['onChange']
+    AutocompleteProps<Option<T>, false, false, true>["onChange"]
   >;
   /**
    * Override certain props of the Autocomplete component.

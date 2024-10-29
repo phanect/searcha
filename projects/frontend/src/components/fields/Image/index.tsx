@@ -1,10 +1,11 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { Image as ImageIcon } from "@src/assets/icons";
 import DisplayCell from "./DisplayCell";
 import ContextMenuActions from "./ContextMenuActions";
+import type { IFieldConfig } from "@src/components/fields/types";
 import type { Accept } from "react-dropzone";
 
 const EditorCell = lazy(

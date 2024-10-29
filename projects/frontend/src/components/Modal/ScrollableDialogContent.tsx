@@ -1,19 +1,20 @@
 import { useRef } from "react";
 import {
   Divider,
-  DividerProps,
   DialogContent,
-  DialogContentProps,
 } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type {
+  DividerProps,
+  DialogContentProps } from "@mui/material";
 
-export interface IScrollableDialogContentProps extends DialogContentProps {
+export type IScrollableDialogContentProps = {
   disableTopDivider?: boolean;
   disableBottomDivider?: boolean;
   dividerSx?: DividerProps["sx"];
   topDividerSx?: DividerProps["sx"];
   bottomDividerSx?: DividerProps["sx"];
-}
+} & DialogContentProps;
 
 export default function ScrollableDialogContent({
   disableTopDivider = false,
@@ -32,11 +33,11 @@ export default function ScrollableDialogContent({
           style={{
             visibility: ref.current.scrollTop > 0 ? "visible" : "hidden",
           }}
-          sx={[...spreadSx(dividerSx), ...spreadSx(topDividerSx)]}
+          sx={[ ...spreadSx(dividerSx), ...spreadSx(topDividerSx) ]}
         />
       )}
 
-      <DialogContent {...props} ref={ ref } />
+      <DialogContent {...props} ref={ref} />
 
       {!disableBottomDivider && ref.current?.scrollTop !== undefined && (
         <Divider
@@ -45,7 +46,7 @@ export default function ScrollableDialogContent({
               ? "visible"
               : "hidden",
           }}
-          sx={[...spreadSx(dividerSx), ...spreadSx(bottomDividerSx)]}
+          sx={[ ...spreadSx(dividerSx), ...spreadSx(bottomDividerSx) ]}
         />
       )}
     </>

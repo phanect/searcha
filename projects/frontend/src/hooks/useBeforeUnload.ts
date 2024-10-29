@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useAtom, Atom } from "jotai";
+import { useAtom } from "jotai";
+import type { Atom } from "jotai";
 
 function beforeUnloadHandler(event: BeforeUnloadEvent) {
   event.preventDefault();
-  return (event.returnValue =
-    "Are you sure you want to leave? You may have unsaved changes.");
+  return (event.returnValue
+    = "Are you sure you want to leave? You may have unsaved changes.");
 }
 
 /**
@@ -17,14 +18,16 @@ export default function useBeforeUnload(
   atom: Atom<any | null>,
   scope: NonNullable<Parameters<typeof useAtom>[1]>
 ) {
-  const [atomValue] = useAtom(atom, scope);
+  const [ atomValue ] = useAtom(atom, scope);
 
   const atomValueFalsy = !atomValue;
   useEffect(() => {
-    if (atomValueFalsy)
+    if (atomValueFalsy) {
       window.removeEventListener("beforeunload", beforeUnloadHandler);
-    else window.addEventListener("beforeunload", beforeUnloadHandler);
-  }, [atomValueFalsy]);
+    } else {
+      window.addEventListener("beforeunload", beforeUnloadHandler);
+    }
+  }, [ atomValueFalsy ]);
 
   return !atomValueFalsy;
 }

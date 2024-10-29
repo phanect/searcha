@@ -1,14 +1,14 @@
-import { db, auth, storage } from "../firebaseConfig";
-import { Request, Response } from "express";
-import { User } from "../types/User";
 import fetch from "node-fetch";
 import { transform as sucraseTransform } from "sucrase";
-import { DocumentReference } from "firebase-admin/firestore";
+import { db, auth, storage } from "../firebaseConfig";
 import rowy from "./rowy";
 import { installDependenciesIfMissing } from "../utils";
 import { telemetryRuntimeDependencyPerformance } from "../rowyService";
 import { LoggingFactory } from "../logging";
 import { transpile } from "../functionBuilder/utils";
+import type { User } from "../types/User";
+import type { DocumentReference } from "firebase-admin/firestore";
+import type { Request, Response } from "express";
 
 type RequestData = {
   refs?: DocumentReference[]; // used in bulkAction
@@ -36,13 +36,15 @@ export const evaluateDerivative = async (req: Request, res: Response) => {
     const functionStartTime = Date.now();
     const user = res.locals.user;
     const userRoles = user.roles;
-    if (!userRoles || userRoles.length === 0)
+    if (!userRoles || userRoles.length === 0) {
       throw new Error("User has no assigned roles");
+    }
     // only admin can evaluate derivative
-    if (!userRoles.includes("ADMIN"))
+    if (!userRoles.includes("ADMIN")) {
       throw new Error("Authenticated User is not admin");
-    const { refs, ref, schemaDocPath, columnKey, collectionPath }: RequestData =
-      req.body;
+    }
+    const { refs, ref, schemaDocPath, columnKey, collectionPath }: RequestData
+      = req.body;
     const schemaDoc = await db.doc(schemaDocPath).get();
     const schemaDocData = schemaDoc.data();
     if (!schemaDocData) {
@@ -53,13 +55,13 @@ export const evaluateDerivative = async (req: Request, res: Response) => {
     }
     const config = schemaDocData.columns[columnKey].config;
     const { derivativeFn, script } = config;
-    const importHeader = `import rowy from "./rowy";\n import fetch from "node-fetch";`;
+    const importHeader = "import rowy from \"./rowy\";\n import fetch from \"node-fetch\";";
     const code = transpile(importHeader, derivativeFn, script, "derivative");
 
-    const { yarnStartTime, yarnFinishTime, dependenciesString } =
-      await installDependenciesIfMissing(
+    const { yarnStartTime, yarnFinishTime, dependenciesString }
+      = await installDependenciesIfMissing(
         code,
-        `derivative ${columnKey} in ${collectionPath}`
+        `derivative ${ columnKey } in ${ collectionPath }`
       );
 
     const logging = await LoggingFactory.createDerivativeLogging(
@@ -67,15 +69,15 @@ export const evaluateDerivative = async (req: Request, res: Response) => {
       schemaDoc.ref.id,
       collectionPath ?? schemaDoc.ref.id
     );
-    const derivativeFunction = eval(code.replace(`"use strict";`, ""));
-    let rowSnapshots: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>[] =
-      [];
+    const derivativeFunction = eval(code.replace("\"use strict\";", ""));
+    let rowSnapshots: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>[]
+      = [];
     if (collectionPath) {
       rowSnapshots = (await db.collection(collectionPath).get()).docs;
     } else {
       const getRows = refs
         ? refs.map(async (r) => db.doc(r.path).get())
-        : [db.doc(ref.path).get()];
+        : [ db.doc(ref.path).get() ];
       rowSnapshots = await Promise.all(getRows);
     }
     const results = [];

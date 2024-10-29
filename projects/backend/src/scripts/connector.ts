@@ -1,15 +1,17 @@
-import { db, auth, storage } from "../firebaseConfig";
-import { Request, Response } from "express";
-import { User } from "../types/User";
 import fetch from "node-fetch";
-import { DocumentReference } from "firebase-admin/firestore";
-import rowy, { Rowy } from "./rowy";
-import { Auth } from "firebase-admin/auth";
-import * as admin from "firebase-admin";
+import rowy from "./rowy";
+import { db, auth, storage } from "../firebaseConfig";
 import { installDependenciesIfMissing } from "../utils";
 import { telemetryRuntimeDependencyPerformance } from "../rowyService";
-import { LoggingFactory, RowyLogging } from "../logging";
+import { LoggingFactory } from "../logging";
 import { transpile } from "../functionBuilder/utils";
+import type { Request, Response } from "express";
+import type { DocumentReference } from "firebase-admin/firestore";
+import type { Auth } from "firebase-admin/auth";
+import type * as admin from "firebase-admin";
+import type { Rowy } from "./rowy";
+import type { User } from "../types/User";
+import type { RowyLogging } from "../logging";
 
 type ConnectorRequest = {
   rowDocPath: string;
@@ -51,10 +53,11 @@ export const connector = async (req: Request, res: Response) => {
     const functionStartTime = Date.now();
     const user = res.locals.user;
     const userRoles = user.roles;
-    if (!userRoles || userRoles.length === 0)
+    if (!userRoles || userRoles.length === 0) {
       throw new Error("User has no assigned roles");
-    const { rowDocPath, query, columnKey, schemaDocPath }: ConnectorRequest =
-      req.body;
+    }
+    const { rowDocPath, query, columnKey, schemaDocPath }: ConnectorRequest
+      = req.body;
     const schemaDoc = await db.doc(schemaDocPath).get();
     const schemaDocData = schemaDoc.data();
     if (!schemaDocData) {
@@ -65,7 +68,7 @@ export const connector = async (req: Request, res: Response) => {
     }
     const config = schemaDocData.columns[columnKey].config;
     const { connectorFn } = config;
-    const importHeader = `import rowy from "./rowy";\n import fetch from "node-fetch";\n`;
+    const importHeader = "import rowy from \"./rowy\";\n import fetch from \"node-fetch\";\n";
 
     const connectorFnBody = transpile(
       importHeader,
@@ -74,10 +77,10 @@ export const connector = async (req: Request, res: Response) => {
       "connectorFn"
     );
 
-    const { yarnStartTime, yarnFinishTime, dependenciesString } =
-      await installDependenciesIfMissing(
+    const { yarnStartTime, yarnFinishTime, dependenciesString }
+      = await installDependenciesIfMissing(
         connectorFnBody,
-        `connector ${columnKey} in ${rowDocPath}`
+        `connector ${ columnKey } in ${ rowDocPath }`
       );
 
     const logging = await LoggingFactory.createConnectorLogging(
@@ -89,8 +92,8 @@ export const connector = async (req: Request, res: Response) => {
     const connectorScript = eval(connectorFnBody) as Connector;
     const pattern = /row(?!y)/;
     const functionUsesRow = pattern.test(connectorFnBody);
-    const rowSnapshot =
-      functionUsesRow && rowDocPath
+    const rowSnapshot
+      = functionUsesRow && rowDocPath
         ? (await db.doc(rowDocPath).get()).data()
         : null;
     const results = await connectorScript({

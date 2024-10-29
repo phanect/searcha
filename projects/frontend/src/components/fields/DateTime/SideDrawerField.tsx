@@ -1,4 +1,3 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { setSeconds } from "date-fns";
 
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -10,8 +9,9 @@ import {
 } from "@src/components/fields/Date/utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
-export interface IDateProps extends ISideDrawerFieldProps {}
+export type IDateProps = {} & ISideDrawerFieldProps;
 
 export default function DateTime({
   column,
@@ -26,7 +26,9 @@ export default function DateTime({
 
   const handleChange = (date: Date | null) => {
     const sanitized = sanitizeValue(date);
-    if (sanitized === undefined) return;
+    if (sanitized === undefined) {
+      return;
+    }
     onChange(sanitized);
   };
 

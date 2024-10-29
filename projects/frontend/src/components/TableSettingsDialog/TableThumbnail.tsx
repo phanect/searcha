@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { IFieldComponentProps } from "@phanect/datasheet-form-builder";
 
 import { Button, Grid2 as Grid, IconButton, InputLabel, useTheme } from "@mui/material";
 
@@ -12,6 +11,7 @@ import {
 } from "@mui/icons-material";
 
 import { imageMimeTypes } from "@src/components/fields/Image";
+import type { IFieldComponentProps } from "@phanect/datasheet-form-builder";
 
 export default function TableThumbnail({ ...props }: IFieldComponentProps) {
   const {
@@ -20,11 +20,11 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
   } = props;
 
   const theme = useTheme();
-  const [localImage, setLocalImage] = useState<string | undefined>(
+  const [ localImage, setLocalImage ] = useState<string | undefined>(
     () => getValues().thumbnailURL
   );
 
-  const [expanded, setExpanded] = useState(false);
+  const [ expanded, setExpanded ] = useState(false);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -35,7 +35,7 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
         setValue(name, imageFile);
       }
     },
-    [name, setLocalImage, setValue]
+    [ name, setLocalImage, setValue ]
   );
 
   const { getInputProps } = useDropzone({
@@ -94,7 +94,7 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
               position: "absolute",
               width: "100%",
               height: "100%",
-              backgroundImage: `url("${localImage}")`,
+              backgroundImage: `url("${ localImage }")`,
               backgroundSize: "cover",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",

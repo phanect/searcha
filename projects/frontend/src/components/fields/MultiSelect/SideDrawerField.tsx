@@ -1,14 +1,13 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Grid2 as Grid, Button, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import MultiSelectComponent from "@phanect/datasheet-multiselect";
 import FormattedChip from "@src/components/FormattedChip";
 
 import { fieldSx } from "@src/components/SideDrawer/utils";
-import { sanitiseValue } from "./utils";
 import { getColors } from "@src/components/fields/SingleSelect/Settings";
 import palette, { paletteToMui } from "@src/theme/palette";
+import { sanitiseValue } from "./utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function MultiSelect({
   column,
@@ -23,13 +22,13 @@ export default function MultiSelect({
   const { mode } = useTheme().palette;
 
   const handleDelete = (index: number) => () => {
-    const newValues = [...value];
+    const newValues = [ ...value ];
     newValues.splice(index, 1);
     onChange(newValues);
     onSubmit();
   };
 
-  if (typeof value === "string" && value !== "")
+  if (typeof value === "string" && value !== "") {
     return (
       <Grid container wrap="nowrap" gap={1}>
         <Grid sx={fieldSx}>
@@ -42,7 +41,7 @@ export default function MultiSelect({
           <Button
             color="primary"
             onClick={() => {
-              onChange([value]);
+              onChange([ value ]);
               onSubmit();
             }}
             disabled={disabled}
@@ -52,6 +51,7 @@ export default function MultiSelect({
         </Grid>
       </Grid>
     );
+  }
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function MultiSelect({
           label: "",
           hiddenLabel: true,
           onBlur: onSubmit,
-          id: `sidedrawer-field-${column.key}`,
+          id: `sidedrawer-field-${ column.key }`,
         }}
         onClose={onSubmit}
       />

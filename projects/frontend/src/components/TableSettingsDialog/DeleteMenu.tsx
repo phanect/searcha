@@ -18,17 +18,17 @@ import {
   updateTableAtom,
   deleteTableAtom,
 } from "@src/atoms/projectScope";
-import { TableSettings } from "@src/types/table";
 import { ROUTES } from "@src/constants/routes";
 import { analytics, logEvent } from "@src/analytics";
+import type { TableSettings } from "@src/types/table";
 
-export interface IDeleteMenuProps {
+export type IDeleteMenuProps = {
   clearDialog: () => void;
   data: TableSettings | null;
-}
+};
 
 export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClose = () => setAnchorEl(null);
 
@@ -37,19 +37,19 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
+  const [ updateTable ] = useAtom(updateTableAtom, { store: projectScopeStore });
   const handleResetStructure = async () => {
     const snack = enqueueSnackbar("Resetting columns…", { persist: true });
     await updateTable!(
       { id: data!.id, tableType: data!.tableType },
-      { _schema: { columns: {} } }
+      { _schema: { columns: {}}}
     );
     clearDialog();
     closeSnackbar(snack);
     enqueueSnackbar("Columns reset");
   };
 
-  const [deleteTable] = useAtom(deleteTableAtom, { store: projectScopeStore });
+  const [ deleteTable ] = useAtom(deleteTableAtom, { store: projectScopeStore });
   const handleDelete = async () => {
     const snack = enqueueSnackbar("Deleting table…", { persist: true });
     await deleteTable!(data!.id);
@@ -89,7 +89,7 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
           color="error"
           onClick={() =>
             confirm({
-              title: `Reset columns of “${data?.name}”?`,
+              title: `Reset columns of “${ data?.name }”?`,
               body: (
                 <>
                   <DialogContentText paragraph>
@@ -105,8 +105,7 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
               confirm: "Reset",
               confirmColor: "error",
               handleConfirm: handleResetStructure,
-            })
-          }
+            })}
           disabled={!updateTable}
         >
           Reset columns…
@@ -116,7 +115,7 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
           color="error"
           onClick={() =>
             confirm({
-              title: `Delete the table “${data?.name}”?`,
+              title: `Delete the table “${ data?.name }”?`,
               body: (
                 <>
                   <DialogContentText paragraph>
@@ -131,8 +130,7 @@ export default function DeleteMenu({ clearDialog, data }: IDeleteMenuProps) {
               confirm: "Delete",
               confirmColor: "error",
               handleConfirm: handleDelete,
-            })
-          }
+            })}
           disabled={!deleteTable}
         >
           Delete table…

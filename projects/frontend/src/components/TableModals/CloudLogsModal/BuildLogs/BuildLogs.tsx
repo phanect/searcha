@@ -10,7 +10,6 @@ import {
   Tooltip,
   AccordionDetails,
   List,
-  ListProps,
 } from "@mui/material";
 import SuccessIcon from "@mui/icons-material/Check";
 import FailIcon from "@mui/icons-material/Close";
@@ -19,12 +18,14 @@ import { CloudLogs as LogsIcon } from "@src/assets/icons";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import EmptyState from "@src/components/EmptyState";
-import BuildLogList from "./BuildLogList";
 import CloudLogSubheader from "@src/components/TableModals/CloudLogsModal/CloudLogSubheader";
 
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
-import useBuildLogs from "./useBuildLogs";
 import { TableScopeContext, cloudLogFiltersAtom } from "@src/atoms/tableScope";
+import useBuildLogs from "./useBuildLogs";
+import BuildLogList from "./BuildLogList";
+import type {
+  ListProps } from "@mui/material";
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   background: "none",
@@ -53,7 +54,7 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
     },
 
     "&::before": {
-      content: '""',
+      content: "\"\"",
       position: "absolute",
       zIndex: -1,
       top: 0,
@@ -62,7 +63,7 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
       left: 0,
       borderRadius: "inherit",
 
-      transition: theme.transitions.create(["background-color"], {
+      transition: theme.transitions.create([ "background-color" ], {
         duration: theme.transitions.duration.short,
       }),
       backgroundColor: theme.palette.action.hover,
@@ -107,12 +108,12 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
 export default function BuildLogs(props: Partial<ListProps>) {
   const { logs, latestStatus } = useBuildLogs();
   const tableScopeStore = useContext(TableScopeContext);
-  const [cloudLogFilters, setCloudLogFilters] = useAtom(
+  const [ cloudLogFilters, setCloudLogFilters ] = useAtom(
     cloudLogFiltersAtom,
     { store: tableScopeStore },
   );
 
-  if (!latestStatus)
+  if (!latestStatus) {
     return (
       <EmptyState
         Icon={LogsIcon}
@@ -120,6 +121,7 @@ export default function BuildLogs(props: Partial<ListProps>) {
         description="You have no cloud deploys for this table"
       />
     );
+  }
 
   const renderedLogItems: React.ReactNode[] = [];
 
@@ -139,8 +141,8 @@ export default function BuildLogs(props: Partial<ListProps>) {
 
     if (diff !== prevDiff) {
       renderedLogItems.push(
-        <CloudLogSubheader key={`${diff} days ago`}>
-          {diff === 0 ? "Today" : diff === 1 ? "Yesterday" : `${diff} days ago`}
+        <CloudLogSubheader key={`${ diff } days ago`}>
+          {diff === 0 ? "Today" : diff === 1 ? "Yesterday" : `${ diff } days ago`}
         </CloudLogSubheader>
       );
     }
@@ -157,13 +159,12 @@ export default function BuildLogs(props: Partial<ListProps>) {
             setCloudLogFilters((c) => ({
               ...c,
               buildLogExpanded: expanded ? i : -1,
-            }))
-          }
+            }))}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls={`${logEntry.id}-content`}
-            id={`${logEntry.id}-header`}
+            aria-controls={`${ logEntry.id }-content`}
+            id={`${ logEntry.id }-header`}
           >
             {logEntry.status === "BUILDING" && (
               <Tooltip title="Building">

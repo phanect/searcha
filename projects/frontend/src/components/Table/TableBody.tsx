@@ -1,16 +1,8 @@
 import { memo, useContext } from "react";
 import { useAtom } from "jotai";
 import {
-  Column,
-  Row,
-  ColumnSizingState,
   flexRender,
 } from "@tanstack/react-table";
-
-import StyledRow from "./Styled/StyledRow";
-import OutOfOrderIndicator from "./OutOfOrderIndicator";
-import TableCell from "./TableCell";
-import { RowsSkeleton } from "./TableSkeleton";
 
 import {
   TableScopeContext,
@@ -18,14 +10,22 @@ import {
   selectedCellAtom,
   tableNextPageAtom,
 } from "@src/atoms/tableScope";
-
 import { getFieldProp } from "@src/components/fields";
-import type { ColumnConfig, TableRow } from "@src/types/table";
+import StyledRow from "./Styled/StyledRow";
+import OutOfOrderIndicator from "./OutOfOrderIndicator";
+import TableCell from "./TableCell";
+import { RowsSkeleton } from "./TableSkeleton";
+
 import useVirtualization from "./useVirtualization";
 import { DEFAULT_ROW_HEIGHT, OUT_OF_ORDER_MARGIN } from "./Table";
 import StyledCell from "./Styled/StyledCell";
+import type {
+  Column,
+  Row,
+  ColumnSizingState } from "@tanstack/react-table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 
-export interface ITableBodyProps {
+export type ITableBodyProps = {
   /**
    * Re-render this component when the container element changes, to fix a bug
    * where virtualization doesn’t detect scrolls if `containerRef.current` was
@@ -43,9 +43,10 @@ export interface ITableBodyProps {
   /** If specified, renders a shadow in the last frozen column */
   lastFrozen?: string;
   /**
-   * Must pass this prop so that it re-renders when local column sizing changes */
+   * Must pass this prop so that it re-renders when local column sizing changes
+   */
   columnSizing: ColumnSizingState;
-}
+};
 
 /**
  * Renders table body & data rows.
@@ -54,18 +55,18 @@ export interface ITableBodyProps {
  * - Renders row out of order indicator
  * - Renders next page loading UI (`RowsSkeleton`)
  */
-export const TableBody = memo(function TableBody({
+export const TableBody = memo(({
   containerRef,
   leafColumns,
   rows,
   canEditCells,
   lastFrozen,
   columnSizing,
-}: ITableBodyProps) {
+}: ITableBodyProps) => {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
-  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ selectedCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ tableNextPage ] = useAtom(tableNextPageAtom, { store: tableScopeStore });
 
   const {
     virtualRows,
@@ -81,7 +82,7 @@ export const TableBody = memo(function TableBody({
   return (
     <div className="tbody" role="rowgroup">
       {paddingTop > 0 && (
-        <div role="presentation" style={{ height: `${paddingTop}px` }} />
+        <div role="presentation" style={{ height: `${ paddingTop }px` }} />
       )}
 
       {virtualRows.map((virtualRow) => {
@@ -107,19 +108,19 @@ export const TableBody = memo(function TableBody({
               const cellIndex = virtualCell.index;
               const cell = row.getVisibleCells()[cellIndex];
 
-              const isSelectedCell =
-                selectedCell?.path === row.original._rowy_ref.path &&
-                selectedCell?.columnKey === cell.column.id &&
+              const isSelectedCell
+                = selectedCell?.path === row.original._rowy_ref.path
+                && selectedCell?.columnKey === cell.column.id
                 // if the table is an array sub table, we need to check the array index as well
-                selectedCell?.arrayIndex ===
-                  row.original._rowy_ref.arrayTableData?.index;
+                && selectedCell?.arrayIndex
+                === row.original._rowy_ref.arrayTableData?.index;
 
               const fieldTypeGroup = getFieldProp(
                 "group",
                 (cell.column.columnDef.meta as ColumnConfig)?.type
               );
-              const isReadOnlyCell =
-                fieldTypeGroup === "Auditing" || fieldTypeGroup === "Metadata";
+              const isReadOnlyCell
+                = fieldTypeGroup === "Auditing" || fieldTypeGroup === "Metadata";
 
               if (cell.id.includes("_rowy_select")) {
                 return (
@@ -154,7 +155,7 @@ export const TableBody = memo(function TableBody({
       {tableNextPage.loading && <RowsSkeleton />}
 
       {paddingBottom > 0 && (
-        <div role="presentation" style={{ height: `${paddingBottom}px` }} />
+        <div role="presentation" style={{ height: `${ paddingBottom }px` }} />
       )}
     </div>
   );

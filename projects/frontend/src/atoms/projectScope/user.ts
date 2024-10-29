@@ -4,8 +4,8 @@ import { merge } from "lodash-es";
 
 import themes from "@src/theme";
 import { publicSettingsAtom } from "./project";
-import { UserSettings } from "@src/types/settings";
-import { UpdateDocFunction } from "@src/types/table";
+import type { UserSettings } from "@src/types/settings";
+import type { UpdateDocFunction } from "@src/types/table";
 
 /** User info and settings */
 export const userSettingsAtom = atom<UserSettings>({});

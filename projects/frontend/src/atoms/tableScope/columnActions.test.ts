@@ -10,9 +10,9 @@ import {
   updateColumnAtom,
   deleteColumnAtom,
 } from "@src/atoms/tableScope";
-import { TableSchema } from "@src/types/table";
 import { FieldType } from "@src/constants/fields";
 import { updateRowData } from "@src/utils/table";
+import type { TableSchema } from "@src/types/table";
 
 const initUpdateTableSchemaAtom = (initialTableSchema?: TableSchema) =>
   renderHook(() => {
@@ -37,15 +37,16 @@ const initUpdateTableSchemaAtom = (initialTableSchema?: TableSchema) =>
 
 const GENERATED_COLUMNS_LENGTH = 10;
 const generatedColumns: TableSchema["columns"] = {};
-for (let i = 0; i < GENERATED_COLUMNS_LENGTH; i++)
-  generatedColumns[`column${i}`] = {
-    key: `column${i}`,
-    fieldName: `column${i}`,
-    name: `Column ${i}`,
+for (let i = 0; i < GENERATED_COLUMNS_LENGTH; i++) {
+  generatedColumns[`column${ i }`] = {
+    key: `column${ i }`,
+    fieldName: `column${ i }`,
+    name: `Column ${ i }`,
     type: FieldType.shortText,
     index: i,
     config: {},
   };
+}
 
 describe("addColumn", () => {
   const columnToAdd = {
@@ -105,9 +106,9 @@ describe("addColumn", () => {
     } = renderHook(() => useAtomValue(tableSchemaAtom, tableScope));
     expect(tableSchema?.columns).toHaveProperty("firstName");
     expect(tableSchema?.columns?.firstName.index).toEqual(7);
-    expect(tableSchema?.columns?.["column7"].index).toEqual(8);
-    expect(tableSchema?.columns?.["column8"].index).toEqual(9);
-    expect(tableSchema?.columns?.["column9"].index).toEqual(10);
+    expect(tableSchema?.columns?.column7.index).toEqual(8);
+    expect(tableSchema?.columns?.column8.index).toEqual(9);
+    expect(tableSchema?.columns?.column9.index).toEqual(10);
   });
 });
 
@@ -120,7 +121,7 @@ describe("updateColumn", () => {
     expect(updateColumn).toBeDefined();
 
     await act(() =>
-      updateColumn({ key: "column7", config: { name: "Updated column" } })
+      updateColumn({ key: "column7", config: { name: "Updated column" }})
     );
 
     const {
@@ -132,7 +133,7 @@ describe("updateColumn", () => {
     expect(tableSchema?.columns?.column7.name).toEqual("Updated column");
 
     for (let i = 0; i < GENERATED_COLUMNS_LENGTH; i++) {
-      expect(tableSchema?.columns?.[`column${i}`].index).toEqual(i);
+      expect(tableSchema?.columns?.[`column${ i }`].index).toEqual(i);
     }
   });
 
@@ -147,7 +148,7 @@ describe("updateColumn", () => {
     const TARGET_INDEX = 4;
     await act(() =>
       updateColumn({
-        key: `column${SOURCE_INDEX}`,
+        key: `column${ SOURCE_INDEX }`,
         config: { name: "Updated column" },
         index: TARGET_INDEX,
       })
@@ -159,16 +160,19 @@ describe("updateColumn", () => {
     expect(Object.keys(tableSchema?.columns ?? {})).toHaveLength(
       GENERATED_COLUMNS_LENGTH
     );
-    expect(tableSchema?.columns?.[`column${SOURCE_INDEX}`].name).toEqual(
+    expect(tableSchema?.columns?.[`column${ SOURCE_INDEX }`].name).toEqual(
       "Updated column"
     );
 
     for (let i = 0; i < GENERATED_COLUMNS_LENGTH; i++) {
       let expectedIndex = i;
-      if (i === SOURCE_INDEX) expectedIndex = TARGET_INDEX;
-      else if (i > SOURCE_INDEX && i <= TARGET_INDEX) expectedIndex = i - 1;
+      if (i === SOURCE_INDEX) {
+        expectedIndex = TARGET_INDEX;
+      } else if (i > SOURCE_INDEX && i <= TARGET_INDEX) {
+        expectedIndex = i - 1;
+      }
 
-      expect(tableSchema?.columns?.[`column${i}`].index).toEqual(expectedIndex);
+      expect(tableSchema?.columns?.[`column${ i }`].index).toEqual(expectedIndex);
     }
   });
 
@@ -183,7 +187,7 @@ describe("updateColumn", () => {
     const TARGET_INDEX = 3;
     await act(() =>
       updateColumn({
-        key: `column${SOURCE_INDEX}`,
+        key: `column${ SOURCE_INDEX }`,
         config: { name: "Updated column" },
         index: TARGET_INDEX,
       })
@@ -195,16 +199,19 @@ describe("updateColumn", () => {
     expect(Object.keys(tableSchema?.columns ?? {})).toHaveLength(
       GENERATED_COLUMNS_LENGTH
     );
-    expect(tableSchema?.columns?.[`column${SOURCE_INDEX}`].name).toEqual(
+    expect(tableSchema?.columns?.[`column${ SOURCE_INDEX }`].name).toEqual(
       "Updated column"
     );
 
     for (let i = 0; i < GENERATED_COLUMNS_LENGTH; i++) {
       let expectedIndex = i;
-      if (i === SOURCE_INDEX) expectedIndex = TARGET_INDEX;
-      else if (i < SOURCE_INDEX && i >= TARGET_INDEX) expectedIndex = i + 1;
+      if (i === SOURCE_INDEX) {
+        expectedIndex = TARGET_INDEX;
+      } else if (i < SOURCE_INDEX && i >= TARGET_INDEX) {
+        expectedIndex = i + 1;
+      }
 
-      expect(tableSchema?.columns?.[`column${i}`].index).toEqual(expectedIndex);
+      expect(tableSchema?.columns?.[`column${ i }`].index).toEqual(expectedIndex);
     }
   });
 
@@ -217,7 +224,7 @@ describe("updateColumn", () => {
 
     let error = new Error();
     try {
-      await updateColumn({ key: "nonExistentColumn", config: {} });
+      await updateColumn({ key: "nonExistentColumn", config: {}});
     } catch (e: any) {
       error = e;
     }
@@ -238,7 +245,7 @@ describe("updateColumn", () => {
 
     let error = new Error();
     try {
-      await updateColumn({ key: "nonExistentColumn", config: {} });
+      await updateColumn({ key: "nonExistentColumn", config: {}});
     } catch (e: any) {
       error = e;
     }
@@ -265,8 +272,8 @@ describe("deleteColumn", () => {
       result: { current: tableSchema },
     } = renderHook(() => useAtomValue(tableSchemaAtom, tableScope));
     expect(tableSchema?.columns).not.toHaveProperty("column7");
-    expect(tableSchema?.columns?.["column8"].index).toEqual(7);
-    expect(tableSchema?.columns?.["column9"].index).toEqual(8);
+    expect(tableSchema?.columns?.column8.index).toEqual(7);
+    expect(tableSchema?.columns?.column9.index).toEqual(8);
   });
 
   test("doesn't delete a non-existent column", async () => {

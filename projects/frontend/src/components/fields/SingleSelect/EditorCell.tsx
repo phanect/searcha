@@ -1,8 +1,7 @@
-import { IEditorCellProps } from "@src/components/fields/types";
-
 import MultiSelectComponent from "@phanect/datasheet-multiselect";
 
 import { sanitiseValue } from "./utils";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function SingleSelect({
   value,
@@ -34,7 +33,7 @@ export default function SingleSelect({
             anchorOrigin: { vertical: "bottom", horizontal: "center" },
             transformOrigin: { vertical: "top", horizontal: "center" },
             sx: {
-              "& .MuiPaper-root": { minWidth: `${column.width}px !important` },
+              "& .MuiPaper-root": { minWidth: `${ column.width }px !important` },
             },
           },
         },

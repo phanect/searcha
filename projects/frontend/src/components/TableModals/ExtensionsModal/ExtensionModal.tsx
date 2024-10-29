@@ -5,32 +5,34 @@ import useStateRef from "react-usestateref";
 
 import { Grid2 as Grid, TextField, FormControlLabel, Switch } from "@mui/material";
 
-import Modal, { IModalProps } from "@src/components/Modal";
+import Modal from "@src/components/Modal";
 import SteppedAccordion from "@src/components/SteppedAccordion";
+import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import Step1Triggers from "./Step1Triggers";
 import Step2RequiredFields from "./Step2RequiredFields";
 import Step3Conditions from "./Step3Conditions";
 import Step4Body from "./Step4Body";
 
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
-import { extensionNames, IExtension } from "./utils";
+import { extensionNames } from "./utils";
+import type { IExtension } from "./utils";
+import type { IModalProps } from "@src/components/Modal";
 
 type StepValidation = Record<"condition" | "extensionBody", boolean>;
-export interface IExtensionModalStepProps {
+export type IExtensionModalStepProps = {
   extensionObject: IExtension;
   setExtensionObject: React.Dispatch<React.SetStateAction<IExtension>>;
   validation: StepValidation;
   setValidation: React.Dispatch<React.SetStateAction<StepValidation>>;
   validationRef: React.RefObject<StepValidation>;
-}
+};
 
-export interface IExtensionModalProps {
+export type IExtensionModalProps = {
   handleClose: IModalProps["onClose"];
   handleAdd: (extensionObject: IExtension) => void;
   handleUpdate: (extensionObject: IExtension) => void;
   mode: "add" | "update";
   extensionObject: IExtension;
-}
+};
 
 export default function ExtensionModal({
   handleClose,
@@ -42,17 +44,21 @@ export default function ExtensionModal({
   const projectScopeStore = useContext(ProjectScopeContext);
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
-  const [extensionObject, setExtensionObject] =
-    useState<IExtension>(initialObject);
+  const [ extensionObject, setExtensionObject ]
+    = useState<IExtension>(initialObject);
 
-  const [validation, setValidation, validationRef] =
-    useStateRef<StepValidation>({ condition: true, extensionBody: true });
+  const [ validation, setValidation, validationRef ]
+    = useStateRef<StepValidation>({ condition: true, extensionBody: true });
 
   const edited = !isEqual(initialObject, extensionObject);
 
   const handleAddOrUpdate = () => {
-    if (mode === "add") handleAdd(extensionObject);
-    if (mode === "update") handleUpdate(extensionObject);
+    if (mode === "add") {
+      handleAdd(extensionObject);
+    }
+    if (mode === "update") {
+      handleUpdate(extensionObject);
+    }
   };
 
   const stepProps = {
@@ -69,7 +75,7 @@ export default function ExtensionModal({
       disableBackdropClick
       disableEscapeKeyDown
       fullWidth
-      title={`${mode === "add" ? "Add" : "Update"} Extension: ${
+      title={`${ mode === "add" ? "Add" : "Update" } Extension: ${
         extensionNames[extensionObject.type]
       }`}
       sx={{
@@ -78,7 +84,7 @@ export default function ExtensionModal({
           height: 980,
         },
       }}
-      children={
+      children={(
         <>
           <Grid
             container
@@ -110,18 +116,17 @@ export default function ExtensionModal({
 
             <Grid size={{ xs: 6 }}>
               <FormControlLabel
-                control={
+                control={(
                   <Switch
                     checked={extensionObject.active}
                     onChange={(e) =>
                       setExtensionObject((extensionObject) => ({
                         ...extensionObject,
                         active: e.target.checked,
-                      }))
-                    }
+                      }))}
                     size="medium"
                   />
-                }
+                )}
                 label={`Extension is ${
                   !extensionObject.active ? "de" : ""
                 }activated`}
@@ -156,7 +161,7 @@ export default function ExtensionModal({
             ]}
           />
         </>
-      }
+      )}
       actions={{
         primary: {
           children: mode === "add" ? "Add" : "Update",
@@ -174,7 +179,7 @@ export default function ExtensionModal({
             if (warningMessage) {
               confirm({
                 title: "Validation failed",
-                body: `${warningMessage}. Continue?`,
+                body: `${ warningMessage }. Continue?`,
                 confirm: "Yes, I know what I’m doing",
                 cancel: "No, I’ll fix the errors",
                 handleConfirm: handleAddOrUpdate,

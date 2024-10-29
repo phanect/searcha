@@ -8,7 +8,7 @@ import {
 } from "@src/atoms/projectScope";
 import { FUNCTION_SCHEMAS } from "@src/config/dbPaths";
 
-const FunctionsSource = memo(function FunctionsSource() {
+const FunctionsSource = memo(() => {
   const projectScopeStore = useContext(ProjectScopeContext);
 
   useFirestoreCollectionWithAtom(

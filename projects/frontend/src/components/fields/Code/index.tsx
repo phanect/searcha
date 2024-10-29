@@ -1,11 +1,11 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import CodeIcon from "@mui/icons-material/Code";
-import DisplayCell from "./DisplayCell";
-
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import DisplayCell from "./DisplayCell";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 const Settings = lazy(
   () => import("./Settings")
@@ -28,7 +28,7 @@ export const config: IFieldConfig = {
   TableCell: withRenderTableCell(DisplayCell, SideDrawerField, "popover", {
     popoverProps: {
       anchorOrigin: { vertical: "top", horizontal: "center" },
-      PaperProps: { sx: { borderRadius: 1 } },
+      PaperProps: { sx: { borderRadius: 1 }},
     },
   }),
   SideDrawerField,

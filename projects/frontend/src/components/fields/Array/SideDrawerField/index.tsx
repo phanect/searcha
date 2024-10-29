@@ -2,7 +2,6 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
 } from "react-beautiful-dnd";
 
 import { Stack, Box, Button, ListItem, List } from "@mui/material";
@@ -10,16 +9,20 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 
-import { FieldType, ISideDrawerFieldProps } from "@src/components/fields/types";
-import { TableRow, TableRowRef } from "@src/types/table";
+import { FieldType } from "@src/components/fields/types";
 
 import AddButton from "./AddButton";
 import { getPseudoColumn } from "./utils";
 import {
-  ArraySupportedFiledTypes,
   detectType,
   SupportedTypes,
 } from "./SupportedTypes";
+import type {
+  ArraySupportedFiledTypes } from "./SupportedTypes";
+import type { TableRow, TableRowRef } from "@src/types/table";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
+import type {
+  DropResult } from "react-beautiful-dnd";
 
 function ArrayFieldInput({
   onChange,
@@ -67,7 +70,7 @@ function ArrayFieldInput({
             />
           </Box>
           <Stack
-            width={"100%"}
+            width="100%"
             sx={
               typeDetected === FieldType.json
                 ? SupportedTypes[typeDetected].sx
@@ -119,12 +122,14 @@ export default function ArraySideDrawerField({
   ...props
 }: ISideDrawerFieldProps) {
   const handleAddNew = (fieldType: ArraySupportedFiledTypes) => {
-    onChange([...(value || []), SupportedTypes[fieldType].initialValue]);
-    if (onDirty) onDirty(true);
+    onChange([ ...(value || []), SupportedTypes[fieldType].initialValue ]);
+    if (onDirty) {
+      onDirty(true);
+    }
   };
   const handleChange = (newValue_: any, indexUpdated: number) => {
     onChange(
-      [...(value || [])].map((v: any, i) => {
+      [ ...(value || []) ].map((v: any, i) => {
         if (i === indexUpdated) {
           return newValue_;
         }
@@ -136,28 +141,34 @@ export default function ArraySideDrawerField({
 
   const handleRemove = (index: number) => {
     value.splice(index, 1);
-    onChange([...value]);
-    if (onDirty) onDirty(true);
+    onChange([ ...value ]);
+    if (onDirty) {
+      onDirty(true);
+    }
     onSubmit();
   };
 
   const handleClearField = () => {
     onChange([]);
-    if (onSubmit) onSubmit();
+    if (onSubmit) {
+      onSubmit();
+    }
   };
 
   function handleOnDragEnd(result: DropResult) {
     if (
-      !result.destination ||
-      result.destination.index === result.source.index
+      !result.destination
+      || result.destination.index === result.source.index
     ) {
       return;
     }
     const list = Array.from(value);
-    const [removed] = list.splice(result.source.index, 1);
+    const [ removed ] = list.splice(result.source.index, 1);
     list.splice(result.destination.index, 0, removed);
     onChange(list);
-    if (onSubmit) onSubmit();
+    if (onSubmit) {
+      onSubmit();
+    }
   }
 
   if (value === undefined || Array.isArray(value)) {
@@ -173,8 +184,8 @@ export default function ArraySideDrawerField({
               >
                 {(value || []).map((v: any, index: number) => (
                   <ArrayFieldInput
-                    key={`index-${index}-value`}
-                    id={`index-${index}-value`}
+                    key={`index-${ index }-value`}
+                    id={`index-${ index }-value`}
                     _rowy_ref={_rowy_ref}
                     value={v}
                     onChange={(newValue) => handleChange(newValue, index)}

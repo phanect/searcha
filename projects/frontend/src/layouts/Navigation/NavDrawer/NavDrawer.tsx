@@ -5,7 +5,6 @@ import { colord } from "colord";
 import {
   alpha,
   Drawer,
-  DrawerProps,
   Stack,
   IconButton,
   List,
@@ -28,27 +27,28 @@ import {
 } from "@src/assets/icons";
 
 import Logo from "@src/assets/Logo";
-import NavItem from "./NavItem";
 import GetStartedProgress from "@src/components/GetStartedChecklist/GetStartedProgress";
-import LearningMenu from "./LearningMenu";
-import CommunityMenu from "./CommunityMenu";
-import HelpMenu from "./HelpMenu";
-import { INavDrawerContentsProps } from "./NavDrawerContents";
-
 import { ProjectScopeContext, getStartedChecklistAtom } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import useGetStartedCompletion from "@src/components/GetStartedChecklist/useGetStartedCompletion";
+import NavItem from "./NavItem";
+import LearningMenu from "./LearningMenu";
+import CommunityMenu from "./CommunityMenu";
+import HelpMenu from "./HelpMenu";
+import type {
+  DrawerProps } from "@mui/material";
+import type { INavDrawerContentsProps } from "./NavDrawerContents";
 
 export const NAV_DRAWER_WIDTH = 256;
 export const NAV_DRAWER_COLLAPSED_WIDTH = 56;
 
-export interface INavDrawerProps extends DrawerProps {
+export type INavDrawerProps = {
   open: boolean;
   isPermanent: boolean;
   onClose: NonNullable<DrawerProps["onClose"]>;
   Contents: React.ComponentType<INavDrawerContentsProps>;
-}
+} & DrawerProps;
 
 export default function NavDrawer({
   open,
@@ -57,13 +57,13 @@ export default function NavDrawer({
   Contents,
 }: INavDrawerProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [hover, _setHover] = useState<boolean | "persist">(false);
+  const [ hover, _setHover ] = useState<boolean | "persist">(false);
   const collapsed = !open && isPermanent;
   const setHover = collapsed ? _setHover : () => {};
   const tempExpanded = hover && collapsed;
 
-  const width =
-    collapsed && !tempExpanded ? NAV_DRAWER_COLLAPSED_WIDTH : NAV_DRAWER_WIDTH;
+  const width
+    = collapsed && !tempExpanded ? NAV_DRAWER_COLLAPSED_WIDTH : NAV_DRAWER_WIDTH;
   const closeDrawer = isPermanent
     ? undefined
     : (e: {}) => onClose(e, "escapeKeyDown");
@@ -72,15 +72,15 @@ export default function NavDrawer({
     getStartedChecklistAtom,
     { store: projectScopeStore },
   );
-  const [getStartedCompleted, getStartedCompletionCount] =
-    useGetStartedCompletion();
+  const [ getStartedCompleted, getStartedCompletionCount ]
+    = useGetStartedCompletion();
 
-  const [learningMenuAnchorEl, setLearningMenuAnchorEl] =
-    useState<HTMLButtonElement | null>(null);
-  const [communityMenuAnchorEl, setCommunityMenuAnchorEl] =
-    useState<HTMLButtonElement | null>(null);
-  const [helpMenuAnchorEl, setHelpMenuAnchorEl] =
-    useState<HTMLButtonElement | null>(null);
+  const [ learningMenuAnchorEl, setLearningMenuAnchorEl ]
+    = useState<HTMLButtonElement | null>(null);
+  const [ communityMenuAnchorEl, setCommunityMenuAnchorEl ]
+    = useState<HTMLButtonElement | null>(null);
+  const [ helpMenuAnchorEl, setHelpMenuAnchorEl ]
+    = useState<HTMLButtonElement | null>(null);
 
   const externalLinkIcon = (
     <ListItemSecondaryAction sx={{ right: 10 }}>
@@ -120,8 +120,8 @@ export default function NavDrawer({
             zIndex: (theme) => theme.zIndex.appBar - 1,
 
             "& .MuiDrawer-paper": {
-              mt: `${TOP_BAR_HEIGHT - 4}px`,
-              height: `calc(100% - ${TOP_BAR_HEIGHT - 4}px)`,
+              mt: `${ TOP_BAR_HEIGHT - 4 }px`,
+              height: `calc(100% - ${ TOP_BAR_HEIGHT - 4 }px)`,
               pt: 0.5,
               borderRadius: 2,
               borderTopLeftRadius: 0,
@@ -144,17 +144,17 @@ export default function NavDrawer({
               transitionDuration: "var(--nav-transition-duration)",
             },
           },
-          collapsed &&
-            !tempExpanded && {
-              "& .MuiDrawer-paper": {
-                scrollbarWidth: "none",
-                "::-webkit-scrollbar": { display: "none" },
-              },
-              "& .MuiListItemSecondaryAction-root": {
-                opacity: 0,
-                transitionDelay: "0ms",
-              },
+          collapsed
+          && !tempExpanded && {
+            "& .MuiDrawer-paper": {
+              scrollbarWidth: "none",
+              "::-webkit-scrollbar": { display: "none" },
             },
+            "& .MuiListItemSecondaryAction-root": {
+              opacity: 0,
+              transitionDelay: "0ms",
+            },
+          },
           tempExpanded && {
             zIndex: "drawer",
             "& .MuiDrawer-paper": {
@@ -247,8 +247,8 @@ export default function NavDrawer({
               <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
                 <Divider variant="middle" sx={{ mb: 1 }} />
 
-                {getStartedCompletionCount <
-                  Object.keys(getStartedCompleted).length && (
+                {getStartedCompletionCount
+                < Object.keys(getStartedCompleted).length && (
                   <li>
                     <NavItem
                       onClick={() => {
@@ -267,8 +267,8 @@ export default function NavDrawer({
                           bgcolor: (theme) =>
                             alpha(
                               theme.palette.primary.main,
-                              theme.palette.action.selectedOpacity +
-                                theme.palette.action.hoverOpacity
+                              theme.palette.action.selectedOpacity
+                              + theme.palette.action.hoverOpacity
                             ),
                         },
                         "& *, &&:hover *": {

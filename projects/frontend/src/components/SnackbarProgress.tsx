@@ -1,26 +1,27 @@
-import { useState, Dispatch, SetStateAction, MutableRefObject } from "react";
+import { useState } from "react";
 
 import { Stack } from "@mui/material";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import type { Dispatch, SetStateAction, MutableRefObject } from "react";
 
-export interface ISnackbarProgressRef {
+export type ISnackbarProgressRef = {
   setProgress: Dispatch<SetStateAction<number>>;
   setTarget: Dispatch<SetStateAction<number>>;
-}
+};
 
-export interface ISnackbarProgressProps {
+export type ISnackbarProgressProps = {
   target?: number;
   stateRef: MutableRefObject<ISnackbarProgressRef | undefined>;
   label?: React.ReactNode;
-}
+};
 
 export default function SnackbarProgress({
   target: targetProp = 100,
   stateRef,
   label,
 }: ISnackbarProgressProps) {
-  const [progress, setProgress] = useState(0);
-  const [target, setTarget] = useState(targetProp);
+  const [ progress, setProgress ] = useState(0);
+  const [ target, setTarget ] = useState(targetProp);
 
   stateRef.current = { setProgress, setTarget };
 

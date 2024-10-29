@@ -1,13 +1,13 @@
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { FieldType } from "../../constants/fields";
+import type { IFieldConfig } from "../../types";
 
-export const ContentParagraphSettings: IFieldConfig['settings'] = [
+export const ContentParagraphSettings: IFieldConfig["settings"] = [
   {
-    name: 'label',
-    label: 'Paragraph',
+    name: "label",
+    label: "Paragraph",
     type: FieldType.paragraph,
     required: true,
-    defaultValue: '',
+    defaultValue: "",
   },
 ];
 

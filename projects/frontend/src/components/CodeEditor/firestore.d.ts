@@ -1,6 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 /**
- * @fileoverview Firestore Server API.
+ * @file Firestore Server API.
  *
  * Copyright 2017 Google Inc. All Rights Reserved.
  *
@@ -17,8 +17,6 @@
  * limitations under the License.
  */
 
-// tslint:disable
-
 // Declare a global (ambient) namespace
 // (used when not using import statement, but just script include).
 declare namespace FirebaseFirestore {
@@ -26,19 +24,18 @@ declare namespace FirebaseFirestore {
    * Document data (for use with `DocumentReference.set()`) consists of fields
    * mapped to values.
    */
-  export type DocumentData = { [field: string]: any };
+  export type DocumentData = Record<string, any>;
 
   /**
    * Update data (for use with `DocumentReference.update()`) consists of field
    * paths (e.g. 'foo' or 'foo.baz') mapped to values. Fields that contain dots
    * reference nested fields within the document.
    */
-  export type UpdateData = { [fieldPath: string]: any };
+  export type UpdateData = Record<string, any>;
 
   /**
    * Sets or disables the log function for all active Firestore instances.
-   *
-   * @param logger A log function that takes a message (such as `console.log`) or
+   * @param logger - A log function that takes a message (such as `console.log`) or
    * `null` to turn off logging.
    */
   function setLogFunction(logger: ((msg: string) => void) | null): void;
@@ -49,7 +46,6 @@ declare namespace FirebaseFirestore {
    *
    * Using the converter allows you to specify generic type arguments when
    * storing and retrieving objects from Firestore.
-   *
    * @example
    * class Post {
    *   constructor(readonly title: string, readonly author: string) {}
@@ -81,7 +77,7 @@ declare namespace FirebaseFirestore {
    *   post.someNonExistentProperty; // TS error
    * }
    */
-  export interface FirestoreDataConverter<T> {
+  export type FirestoreDataConverter<T> = {
     /**
      * Called by the Firestore SDK to convert a custom model object of type T
      * into a plain Javascript object (suitable for writing directly to the
@@ -94,12 +90,12 @@ declare namespace FirebaseFirestore {
      * type T.
      */
     fromFirestore(data: DocumentData): T;
-  }
+  };
 
   /**
    * Settings used to directly configure a `Firestore` instance.
    */
-  export interface Settings {
+  export type Settings = {
     /**
      * The project ID from the Google Developer's Console, e.g.
      * 'grape-spaceship-123'. We will also check the environment variable
@@ -132,7 +128,7 @@ declare namespace FirebaseFirestore {
      * Default Credentials}. If your credentials are stored in a JSON file, you
      * can specify a `keyFilename` instead.
      */
-    credentials?: { client_email?: string; private_key?: string };
+    credentials?: { client_email?: string; private_key?: string; };
 
     /** Whether to use SSL when connecting. */
     ssl?: boolean;
@@ -146,7 +142,7 @@ declare namespace FirebaseFirestore {
     maxIdleChannels?: number;
 
     [key: string]: any; // Accept other properties, such as GRPC settings.
-  }
+  };
 
   /**
    * `Firestore` represents a Firestore Database and is the entry point for all
@@ -154,7 +150,7 @@ declare namespace FirebaseFirestore {
    */
   export class Firestore {
     /**
-     * @param settings Configuration object. See [Firestore Documentation]
+     * @param settings - Configuration object. See [Firestore Documentation]
      * {@link https://firebase.google.com/docs/firestore/}
      */
     public constructor(settings?: Settings);
@@ -167,8 +163,7 @@ declare namespace FirebaseFirestore {
      * If settings are provided via both `settings()` and the `Firestore`
      * constructor, both settings objects are merged and any settings provided
      * via `settings()` take precedence.
-     *
-     * @param {object} settings The settings to use for all Firestore
+     * @param {object} settings - The settings to use for all Firestore
      * operations.
      */
     settings(settings: Settings): void;
@@ -176,18 +171,16 @@ declare namespace FirebaseFirestore {
     /**
      * Gets a `CollectionReference` instance that refers to the collection at
      * the specified path.
-     *
-     * @param collectionPath A slash-separated path to a collection.
-     * @return The `CollectionReference` instance.
+     * @param collectionPath - A slash-separated path to a collection.
+     * @returns The `CollectionReference` instance.
      */
     collection(collectionPath: string): CollectionReference<DocumentData>;
 
     /**
      * Gets a `DocumentReference` instance that refers to the document at the
      * specified path.
-     *
-     * @param documentPath A slash-separated path to a document.
-     * @return The `DocumentReference` instance.
+     * @param documentPath - A slash-separated path to a document.
+     * @returns The `DocumentReference` instance.
      */
     doc(documentPath: string): DocumentReference<DocumentData>;
 
@@ -195,11 +188,10 @@ declare namespace FirebaseFirestore {
      * Creates and returns a new Query that includes all documents in the
      * database that are contained in a collection or subcollection with the
      * given collectionId.
-     *
-     * @param collectionId Identifies the collections to query over. Every
+     * @param collectionId - Identifies the collections to query over. Every
      * collection or subcollection with this ID as the last segment of its path
      * will be included. Cannot contain a slash.
-     * @return The created Query.
+     * @returns The created Query.
      */
     collectionGroup(collectionId: string): Query<DocumentData>;
 
@@ -209,33 +201,28 @@ declare namespace FirebaseFirestore {
      * The first argument is required and must be of type `DocumentReference`
      * followed by any additional `DocumentReference` documents. If used, the
      * optional `ReadOptions` must be the last argument.
-     *
      * @param {Array.<DocumentReference|ReadOptions>} documentRefsOrReadOptions
-     * The `DocumentReferences` to receive, followed by an optional field
+     * - The `DocumentReferences` to receive, followed by an optional field
      * mask.
-     * @return A Promise that resolves with an array of resulting document
+     * @returns A Promise that resolves with an array of resulting document
      * snapshots.
      */
     getAll(
-      ...documentRefsOrReadOptions: Array<
-        DocumentReference<DocumentData> | ReadOptions
-      >
-    ): Promise<Array<DocumentSnapshot<DocumentData>>>;
+      ...documentRefsOrReadOptions: (DocumentReference<DocumentData> | ReadOptions)[]
+    ): Promise<DocumentSnapshot<DocumentData>[]>;
 
     /**
      * Terminates the Firestore client and closes all open streams.
-     *
-     * @return A Promise that resolves when the client is terminated.
+     * @returns A Promise that resolves when the client is terminated.
      */
     terminate(): Promise<void>;
 
     /**
      * Fetches the root collections that are associated with this Firestore
      * database.
-     *
      * @returns A Promise that resolves with an array of CollectionReferences.
      */
-    listCollections(): Promise<Array<CollectionReference<DocumentData>>>;
+    listCollections(): Promise<CollectionReference<DocumentData>[]>;
 
     /**
      * Executes the given updateFunction and commits the changes applied within
@@ -244,13 +231,12 @@ declare namespace FirebaseFirestore {
      * You can use the transaction object passed to 'updateFunction' to read and
      * modify Firestore documents under lock. Transactions are committed once
      * 'updateFunction' resolves and attempted up to five times on failure.
-     *
-     * @param updateFunction The function to execute within the transaction
+     * @param updateFunction - The function to execute within the transaction
      * context.
-     * @param {object=} transactionOptions Transaction options.
-     * @param {number=} transactionOptions.maxAttempts The maximum number of
+     * @param {object=} transactionOptions - Transaction options.
+     * @param {number=} transactionOptions.maxAttempts - The maximum number of
      * attempts for this transaction.
-     * @return If the transaction completed successfully or was explicitly
+     * @returns If the transaction completed successfully or was explicitly
      * aborted (by the updateFunction returning a failed Promise), the Promise
      * returned by the updateFunction will be returned here. Else if the
      * transaction failed, a rejected Promise with the corresponding failure
@@ -258,7 +244,7 @@ declare namespace FirebaseFirestore {
      */
     runTransaction<T>(
       updateFunction: (transaction: Transaction) => Promise<T>,
-      transactionOptions?: { maxAttempts?: number }
+      transactionOptions?: { maxAttempts?: number; }
     ): Promise<T>;
 
     /**
@@ -279,8 +265,8 @@ declare namespace FirebaseFirestore {
     /**
      * Creates a new immutable GeoPoint object with the provided latitude and
      * longitude values.
-     * @param latitude The latitude as number between -90 and 90.
-     * @param longitude The longitude as number between -180 and 180.
+     * @param latitude - The latitude as number between -90 and 90.
+     * @param longitude - The longitude as number between -180 and 180.
      */
     constructor(latitude: number, longitude: number);
 
@@ -289,9 +275,8 @@ declare namespace FirebaseFirestore {
 
     /**
      * Returns true if this `GeoPoint` is equal to the provided one.
-     *
-     * @param other The `GeoPoint` to compare against.
-     * @return true if this `GeoPoint` is equal to the provided one.
+     * @param other - The `GeoPoint` to compare against.
+     * @returns true if this `GeoPoint` is equal to the provided one.
      */
     isEqual(other: GeoPoint): boolean;
   }
@@ -308,18 +293,16 @@ declare namespace FirebaseFirestore {
     /**
      * Retrieves a query result. Holds a pessimistic lock on all returned
      * documents.
-     *
-     * @param query A query to execute.
-     * @return A QuerySnapshot for the retrieved data.
+     * @param query - A query to execute.
+     * @returns A QuerySnapshot for the retrieved data.
      */
     get<T>(query: Query<T>): Promise<QuerySnapshot<T>>;
 
     /**
      * Reads the document referenced by the provided `DocumentReference.`
      * Holds a pessimistic lock on the returned document.
-     *
-     * @param documentRef A reference to the document to be read.
-     * @return A DocumentSnapshot for the read data.
+     * @param documentRef - A reference to the document to be read.
+     * @returns A DocumentSnapshot for the read data.
      */
     get<T>(documentRef: DocumentReference<T>): Promise<DocumentSnapshot<T>>;
 
@@ -330,25 +313,23 @@ declare namespace FirebaseFirestore {
      * The first argument is required and must be of type `DocumentReference`
      * followed by any additional `DocumentReference` documents. If used, the
      * optional `ReadOptions` must be the last argument.
-     *
      * @param {Array.<DocumentReference|ReadOptions>} documentRefsOrReadOptions
-     * The `DocumentReferences` to receive, followed by an optional field
+     * - The `DocumentReferences` to receive, followed by an optional field
      * mask.
-     * @return A Promise that resolves with an array of resulting document
+     * @returns A Promise that resolves with an array of resulting document
      * snapshots.
      */
     getAll<T>(
-      ...documentRefsOrReadOptions: Array<DocumentReference | ReadOptions>
-    ): Promise<Array<DocumentSnapshot<T>>>;
+      ...documentRefsOrReadOptions: (DocumentReference | ReadOptions)[]
+    ): Promise<DocumentSnapshot<T>[]>;
 
     /**
      * Create the document referred to by the provided `DocumentReference`.
      * The operation will fail the transaction if a document exists at the
      * specified location.
-     *
-     * @param documentRef A reference to the document to be create.
-     * @param data The object data to serialize as the document.
-     * @return This `Transaction` instance. Used for chaining method calls.
+     * @param documentRef - A reference to the document to be create.
+     * @param data - The object data to serialize as the document.
+     * @returns This `Transaction` instance. Used for chaining method calls.
      */
     create<T>(documentRef: DocumentReference<T>, data: T): Transaction;
 
@@ -356,11 +337,10 @@ declare namespace FirebaseFirestore {
      * Writes to the document referred to by the provided `DocumentReference`.
      * If the document does not exist yet, it will be created. If you pass
      * `SetOptions`, the provided data can be merged into the existing document.
-     *
-     * @param documentRef A reference to the document to be set.
-     * @param data An object of the fields and values for the document.
-     * @param options An object to configure the set behavior.
-     * @return This `Transaction` instance. Used for chaining method calls.
+     * @param documentRef - A reference to the document to be set.
+     * @param data - An object of the fields and values for the document.
+     * @param options - An object to configure the set behavior.
+     * @returns This `Transaction` instance. Used for chaining method calls.
      */
     set<T>(
       documentRef: DocumentReference<T>,
@@ -375,12 +355,11 @@ declare namespace FirebaseFirestore {
      *
      * Nested fields can be updated by providing dot-separated field path
      * strings.
-     *
-     * @param documentRef A reference to the document to be updated.
-     * @param data An object containing the fields and values with which to
+     * @param documentRef - A reference to the document to be updated.
+     * @param data - An object containing the fields and values with which to
      * update the document.
-     * @param precondition A Precondition to enforce on this update.
-     * @return This `Transaction` instance. Used for chaining method calls.
+     * @param precondition - A Precondition to enforce on this update.
+     * @returns This `Transaction` instance. Used for chaining method calls.
      */
     update(
       documentRef: DocumentReference<any>,
@@ -398,14 +377,13 @@ declare namespace FirebaseFirestore {
      *
      * A `Precondition` restricting this update can be specified as the last
      * argument.
-     *
-     * @param documentRef A reference to the document to be updated.
-     * @param field The first field to update.
-     * @param value The first value
-     * @param fieldsOrPrecondition An alternating list of field paths and values
+     * @param documentRef - A reference to the document to be updated.
+     * @param field - The first field to update.
+     * @param value - The first value
+     * @param fieldsOrPrecondition - An alternating list of field paths and values
      * to update, optionally followed by a `Precondition` to enforce on this
      * update.
-     * @return This `Transaction` instance. Used for chaining method calls.
+     * @returns This `Transaction` instance. Used for chaining method calls.
      */
     update(
       documentRef: DocumentReference<any>,
@@ -416,10 +394,9 @@ declare namespace FirebaseFirestore {
 
     /**
      * Deletes the document referred to by the provided `DocumentReference`.
-     *
-     * @param documentRef A reference to the document to be deleted.
-     * @param precondition A Precondition to enforce for this delete.
-     * @return This `Transaction` instance. Used for chaining method calls.
+     * @param documentRef - A reference to the document to be deleted.
+     * @param precondition - A Precondition to enforce for this delete.
+     * @returns This `Transaction` instance. Used for chaining method calls.
      */
     delete(
       documentRef: DocumentReference<any>,
@@ -445,10 +422,9 @@ declare namespace FirebaseFirestore {
      * Create the document referred to by the provided `DocumentReference`. The
      * operation will fail the batch if a document exists at the specified
      * location.
-     *
-     * @param documentRef A reference to the document to be created.
-     * @param data The object data to serialize as the document.
-     * @return This `WriteBatch` instance. Used for chaining method calls.
+     * @param documentRef - A reference to the document to be created.
+     * @param data - The object data to serialize as the document.
+     * @returns This `WriteBatch` instance. Used for chaining method calls.
      */
     create<T>(documentRef: DocumentReference<T>, data: T): WriteBatch;
 
@@ -456,11 +432,10 @@ declare namespace FirebaseFirestore {
      * Write to the document referred to by the provided `DocumentReference`.
      * If the document does not exist yet, it will be created. If you pass
      * `SetOptions`, the provided data can be merged into the existing document.
-     *
-     * @param documentRef A reference to the document to be set.
-     * @param data An object of the fields and values for the document.
-     * @param options An object to configure the set behavior.
-     * @return This `WriteBatch` instance. Used for chaining method calls.
+     * @param documentRef - A reference to the document to be set.
+     * @param data - An object of the fields and values for the document.
+     * @param options - An object to configure the set behavior.
+     * @returns This `WriteBatch` instance. Used for chaining method calls.
      */
     set<T>(
       documentRef: DocumentReference<T>,
@@ -475,12 +450,11 @@ declare namespace FirebaseFirestore {
      *
      * Nested fields can be updated by providing dot-separated field path
      * strings.
-     *
-     * @param documentRef A reference to the document to be updated.
-     * @param data An object containing the fields and values with which to
+     * @param documentRef - A reference to the document to be updated.
+     * @param data - An object containing the fields and values with which to
      * update the document.
-     * @param precondition A Precondition to enforce on this update.
-     * @return This `WriteBatch` instance. Used for chaining method calls.
+     * @param precondition - A Precondition to enforce on this update.
+     * @returns This `WriteBatch` instance. Used for chaining method calls.
      */
     update(
       documentRef: DocumentReference<any>,
@@ -498,13 +472,12 @@ declare namespace FirebaseFirestore {
      *
      * A `Precondition` restricting this update can be specified as the last
      * argument.
-     *
-     * @param documentRef A reference to the document to be updated.
-     * @param field The first field to update.
-     * @param value The first value
-     * @param fieldsOrPrecondition An alternating list of field paths and values
+     * @param documentRef - A reference to the document to be updated.
+     * @param field - The first field to update.
+     * @param value - The first value
+     * @param fieldsOrPrecondition - An alternating list of field paths and values
      * to update, optionally followed a `Precondition` to enforce on this update.
-     * @return This `WriteBatch` instance. Used for chaining method calls.
+     * @returns This `WriteBatch` instance. Used for chaining method calls.
      */
     update(
       documentRef: DocumentReference<any>,
@@ -515,10 +488,9 @@ declare namespace FirebaseFirestore {
 
     /**
      * Deletes the document referred to by the provided `DocumentReference`.
-     *
-     * @param documentRef A reference to the document to be deleted.
-     * @param precondition A Precondition to enforce for this delete.
-     * @return This `WriteBatch` instance. Used for chaining method calls.
+     * @param documentRef - A reference to the document to be deleted.
+     * @param precondition - A Precondition to enforce for this delete.
+     * @returns This `WriteBatch` instance. Used for chaining method calls.
      */
     delete(
       documentRef: DocumentReference<any>,
@@ -527,8 +499,7 @@ declare namespace FirebaseFirestore {
 
     /**
      * Commits all of the writes in this write batch as a single atomic unit.
-     *
-     * @return A Promise resolved once all of the writes in the batch have been
+     * @returns A Promise resolved once all of the writes in the batch have been
      * successfully written to the backend as an atomic unit.
      */
     commit(): Promise<WriteResult[]>;
@@ -540,12 +511,12 @@ declare namespace FirebaseFirestore {
    * Using Preconditions, these calls can be restricted to only apply to
    * documents that match the specified restrictions.
    */
-  export interface Precondition {
+  export type Precondition = {
     /**
      * If set, the last update time to enforce.
      */
     readonly lastUpdateTime?: Timestamp;
-  }
+  };
 
   /**
    * An options object that configures the behavior of `set()` calls in
@@ -553,7 +524,7 @@ declare namespace FirebaseFirestore {
    * configured to perform granular merges instead of overwriting the target
    * documents in their entirety.
    */
-  export interface SetOptions {
+  export type SetOptions = {
     /**
      * Changes the behavior of a set() call to only replace the values specified
      * in its data argument. Fields omitted from the set() call remain
@@ -570,14 +541,14 @@ declare namespace FirebaseFirestore {
      * missing a value for any of the fields specified here.
      */
     readonly mergeFields?: (string | FieldPath)[];
-  }
+  };
 
   /**
    * An options object that can be used to configure the behavior of `getAll()`
    * calls. By providing a `fieldMask`, these calls can be configured to only
    * return a subset of fields.
    */
-  export interface ReadOptions {
+  export type ReadOptions = {
     /**
      * Specifies the set of fields to return and reduces the amount of data
      * transmitted by the backend.
@@ -587,7 +558,7 @@ declare namespace FirebaseFirestore {
      * set.
      */
     readonly fieldMask?: (string | FieldPath)[];
-  }
+  };
 
   /**
    * A WriteResult wraps the write time set by the Firestore servers on `sets()`,
@@ -603,9 +574,8 @@ declare namespace FirebaseFirestore {
 
     /**
      * Returns true if this `WriteResult` is equal to the provided one.
-     *
-     * @param other The `WriteResult` to compare against.
-     * @return true if this `WriteResult` is equal to the provided one.
+     * @param other - The `WriteResult` to compare against.
+     * @returns true if this `WriteResult` is equal to the provided one.
      */
     isEqual(other: WriteResult): boolean;
   }
@@ -643,25 +613,22 @@ declare namespace FirebaseFirestore {
     /**
      * Gets a `CollectionReference` instance that refers to the collection at
      * the specified path.
-     *
-     * @param collectionPath A slash-separated path to a collection.
-     * @return The `CollectionReference` instance.
+     * @param collectionPath - A slash-separated path to a collection.
+     * @returns The `CollectionReference` instance.
      */
     collection(collectionPath: string): CollectionReference<DocumentData>;
 
     /**
      * Fetches the subcollections that are direct children of this document.
-     *
      * @returns A Promise that resolves with an array of CollectionReferences.
      */
-    listCollections(): Promise<Array<CollectionReference<DocumentData>>>;
+    listCollections(): Promise<CollectionReference<DocumentData>[]>;
 
     /**
      * Creates a document referred to by this `DocumentReference` with the
      * provided object values. The write fails if the document already exists
-     *
-     * @param data The object data to serialize as the document.
-     * @return A Promise resolved with the write time of this create.
+     * @param data - The object data to serialize as the document.
+     * @returns A Promise resolved with the write time of this create.
      */
     create(data: T): Promise<WriteResult>;
 
@@ -669,10 +636,9 @@ declare namespace FirebaseFirestore {
      * Writes to the document referred to by this `DocumentReference`. If the
      * document does not yet exist, it will be created. If you pass
      * `SetOptions`, the provided data can be merged into an existing document.
-     *
-     * @param data A map of the fields and values for the document.
-     * @param options An object to configure the set behavior.
-     * @return A Promise resolved with the write time of this set.
+     * @param data - A map of the fields and values for the document.
+     * @param options - An object to configure the set behavior.
+     * @returns A Promise resolved with the write time of this set.
      */
     set(data: T, options?: SetOptions): Promise<WriteResult>;
 
@@ -682,11 +648,10 @@ declare namespace FirebaseFirestore {
      *
      * Nested fields can be updated by providing dot-separated field path
      * strings.
-     *
-     * @param data An object containing the fields and values with which to
+     * @param data - An object containing the fields and values with which to
      * update the document.
-     * @param precondition A Precondition to enforce on this update.
-     * @return A Promise resolved with the write time of this update.
+     * @param precondition - A Precondition to enforce on this update.
+     * @returns A Promise resolved with the write time of this update.
      */
     update(data: UpdateData, precondition?: Precondition): Promise<WriteResult>;
 
@@ -699,13 +664,12 @@ declare namespace FirebaseFirestore {
      *
      * A `Precondition` restricting this update can be specified as the last
      * argument.
-     *
-     * @param field The first field to update.
-     * @param value The first value.
-     * @param moreFieldsOrPrecondition An alternating list of field paths and
+     * @param field - The first field to update.
+     * @param value - The first value.
+     * @param moreFieldsOrPrecondition - An alternating list of field paths and
      * values to update, optionally followed by a `Precondition` to enforce on
      * this update.
-     * @return A Promise resolved with the write time of this update.
+     * @returns A Promise resolved with the write time of this update.
      */
     update(
       field: string | FieldPath,
@@ -715,28 +679,25 @@ declare namespace FirebaseFirestore {
 
     /**
      * Deletes the document referred to by this `DocumentReference`.
-     *
-     * @param precondition A Precondition to enforce for this delete.
-     * @return A Promise resolved with the write time of this delete.
+     * @param precondition - A Precondition to enforce for this delete.
+     * @returns A Promise resolved with the write time of this delete.
      */
     delete(precondition?: Precondition): Promise<WriteResult>;
 
     /**
      * Reads the document referred to by this `DocumentReference`.
-     *
-     * @return A Promise resolved with a DocumentSnapshot containing the
+     * @returns A Promise resolved with a DocumentSnapshot containing the
      * current document contents.
      */
     get(): Promise<DocumentSnapshot<T>>;
 
     /**
      * Attaches a listener for DocumentSnapshot events.
-     *
-     * @param onNext A callback to be called every time a new `DocumentSnapshot`
+     * @param onNext - A callback to be called every time a new `DocumentSnapshot`
      * is available.
-     * @param onError A callback to be called if the listen fails or is
+     * @param onError - A callback to be called if the listen fails or is
      * cancelled. No further callbacks will occur.
-     * @return An unsubscribe function that can be called to cancel
+     * @returns An unsubscribe function that can be called to cancel
      * the snapshot listener.
      */
     onSnapshot(
@@ -746,9 +707,8 @@ declare namespace FirebaseFirestore {
 
     /**
      * Returns true if this `DocumentReference` is equal to the provided one.
-     *
-     * @param other The `DocumentReference` to compare against.
-     * @return true if this `DocumentReference` is equal to the provided one.
+     * @param other - The `DocumentReference` to compare against.
+     * @returns true if this `DocumentReference` is equal to the provided one.
      */
     isEqual(other: DocumentReference<T>): boolean;
 
@@ -758,9 +718,8 @@ declare namespace FirebaseFirestore {
      * set(), get(), etc. on the returned DocumentReference instance, the
      * provided converter will convert between Firestore data and your custom
      * type U.
-     *
-     * @param converter Converts objects to and from Firestore.
-     * @return A DocumentReference<U> that uses the provided converter.
+     * @param converter - Converts objects to and from Firestore.
+     * @returns A DocumentReference<U> that uses the provided converter.
      */
     withConverter<U>(
       converter: FirestoreDataConverter<U>
@@ -810,16 +769,14 @@ declare namespace FirebaseFirestore {
     /**
      * Retrieves all fields in the document as an Object. Returns 'undefined' if
      * the document doesn't exist.
-     *
-     * @return An Object containing all fields in the document.
+     * @returns An Object containing all fields in the document.
      */
     data(): T | undefined;
 
     /**
      * Retrieves the field specified by `fieldPath`.
-     *
-     * @param fieldPath The path (e.g. 'foo' or 'foo.bar') to a specific field.
-     * @return The data at the specified field location or undefined if no such
+     * @param fieldPath - The path (e.g. 'foo' or 'foo.bar') to a specific field.
+     * @returns The data at the specified field location or undefined if no such
      * field exists in the document.
      */
     get(fieldPath: string | FieldPath): any;
@@ -827,9 +784,8 @@ declare namespace FirebaseFirestore {
     /**
      * Returns true if the document's data and path in this `DocumentSnapshot`
      * is equal to the provided one.
-     *
-     * @param other The `DocumentSnapshot` to compare against.
-     * @return true if this `DocumentSnapshot` is equal to the provided one.
+     * @param other - The `DocumentSnapshot` to compare against.
+     * @returns true if this `DocumentSnapshot` is equal to the provided one.
      */
     isEqual(other: DocumentSnapshot<T>): boolean;
   }
@@ -846,7 +802,7 @@ declare namespace FirebaseFirestore {
    * 'undefined'.
    */
   export class QueryDocumentSnapshot<
-    T = DocumentData
+    T = DocumentData,
   > extends DocumentSnapshot<T> {
     private constructor();
 
@@ -863,9 +819,8 @@ declare namespace FirebaseFirestore {
 
     /**
      * Retrieves all fields in the document as an Object.
-     *
      * @override
-     * @return An Object containing all fields in the document.
+     * @returns An Object containing all fields in the document.
      */
     data(): T;
   }
@@ -912,11 +867,10 @@ declare namespace FirebaseFirestore {
      *
      * This function returns a new (immutable) instance of the Query (rather
      * than modify the existing instance) to impose the filter.
-     *
-     * @param fieldPath The path to compare
-     * @param opStr The operation string (e.g "<", "<=", "==", ">", ">=").
-     * @param value The value for comparison
-     * @return The created Query.
+     * @param fieldPath - The path to compare
+     * @param opStr - The operation string (e.g "<", "<=", "==", ">", ">=").
+     * @param value - The value for comparison
+     * @returns The created Query.
      */
     where(
       fieldPath: string | FieldPath,
@@ -930,11 +884,10 @@ declare namespace FirebaseFirestore {
      *
      * This function returns a new (immutable) instance of the Query (rather
      * than modify the existing instance) to impose the order.
-     *
-     * @param fieldPath The field to sort by.
-     * @param directionStr Optional direction to sort by ('asc' or 'desc'). If
+     * @param fieldPath - The field to sort by.
+     * @param directionStr - Optional direction to sort by ('asc' or 'desc'). If
      * not specified, order will be ascending.
-     * @return The created Query.
+     * @returns The created Query.
      */
     orderBy(
       fieldPath: string | FieldPath,
@@ -947,9 +900,8 @@ declare namespace FirebaseFirestore {
      *
      * This function returns a new (immutable) instance of the Query (rather
      * than modify the existing instance) to impose the limit.
-     *
-     * @param limit The maximum number of items to return.
-     * @return The created Query.
+     * @param limit - The maximum number of items to return.
+     * @returns The created Query.
      */
     limit(limit: number): Query<T>;
 
@@ -962,9 +914,8 @@ declare namespace FirebaseFirestore {
      *
      * Results for limitToLast queries cannot be streamed via the `stream()`
      * API.
-     *
-     * @param limit The maximum number of items to return.
-     * @return The created Query.
+     * @param limit - The maximum number of items to return.
+     * @returns The created Query.
      */
     limitToLast(limit: number): Query<T>;
 
@@ -973,9 +924,8 @@ declare namespace FirebaseFirestore {
      *
      * This function returns a new (immutable) instance of the Query (rather
      * than modify the existing instance) to impose the offset.
-     *
-     * @param offset The offset to apply to the Query results.
-     * @return The created Query.
+     * @param offset - The offset to apply to the Query results.
+     * @returns The created Query.
      */
     offset(offset: number): Query<T>;
 
@@ -987,9 +937,8 @@ declare namespace FirebaseFirestore {
      *
      * This function returns a new (immutable) instance of the Query (rather
      * than modify the existing instance) to impose the field mask.
-     *
-     * @param field The field paths to return.
-     * @return The created Query.
+     * @param field - The field paths to return.
+     * @returns The created Query.
      */
     select(...field: (string | FieldPath)[]): Query<T>;
 
@@ -998,9 +947,8 @@ declare namespace FirebaseFirestore {
      * (inclusive). The starting position is relative to the order of the query.
      * The document must contain all of the fields provided in the orderBy of
      * this query.
-     *
-     * @param snapshot The snapshot of the document to start after.
-     * @return The created Query.
+     * @param snapshot - The snapshot of the document to start after.
+     * @returns The created Query.
      */
     startAt(snapshot: DocumentSnapshot<any>): Query<T>;
 
@@ -1008,10 +956,9 @@ declare namespace FirebaseFirestore {
      * Creates and returns a new Query that starts at the provided fields
      * relative to the order of the query. The order of the field values
      * must match the order of the order by clauses of the query.
-     *
-     * @param fieldValues The field values to start this query at, in order
+     * @param fieldValues - The field values to start this query at, in order
      * of the query's order by.
-     * @return The created Query.
+     * @returns The created Query.
      */
     startAt(...fieldValues: any[]): Query<T>;
 
@@ -1020,9 +967,8 @@ declare namespace FirebaseFirestore {
      * (exclusive). The starting position is relative to the order of the query.
      * The document must contain all of the fields provided in the orderBy of
      * this query.
-     *
-     * @param snapshot The snapshot of the document to start after.
-     * @return The created Query.
+     * @param snapshot - The snapshot of the document to start after.
+     * @returns The created Query.
      */
     startAfter(snapshot: DocumentSnapshot<any>): Query<T>;
 
@@ -1030,10 +976,9 @@ declare namespace FirebaseFirestore {
      * Creates and returns a new Query that starts after the provided fields
      * relative to the order of the query. The order of the field values
      * must match the order of the order by clauses of the query.
-     *
-     * @param fieldValues The field values to start this query after, in order
+     * @param fieldValues - The field values to start this query after, in order
      * of the query's order by.
-     * @return The created Query.
+     * @returns The created Query.
      */
     startAfter(...fieldValues: any[]): Query<T>;
 
@@ -1042,9 +987,8 @@ declare namespace FirebaseFirestore {
      * (exclusive). The end position is relative to the order of the query. The
      * document must contain all of the fields provided in the orderBy of this
      * query.
-     *
-     * @param snapshot The snapshot of the document to end before.
-     * @return The created Query.
+     * @param snapshot - The snapshot of the document to end before.
+     * @returns The created Query.
      */
     endBefore(snapshot: DocumentSnapshot<any>): Query<T>;
 
@@ -1052,10 +996,9 @@ declare namespace FirebaseFirestore {
      * Creates and returns a new Query that ends before the provided fields
      * relative to the order of the query. The order of the field values
      * must match the order of the order by clauses of the query.
-     *
-     * @param fieldValues The field values to end this query before, in order
+     * @param fieldValues - The field values to end this query before, in order
      * of the query's order by.
-     * @return The created Query.
+     * @returns The created Query.
      */
     endBefore(...fieldValues: any[]): Query<T>;
 
@@ -1064,9 +1007,8 @@ declare namespace FirebaseFirestore {
      * (inclusive). The end position is relative to the order of the query. The
      * document must contain all of the fields provided in the orderBy of this
      * query.
-     *
-     * @param snapshot The snapshot of the document to end at.
-     * @return The created Query.
+     * @param snapshot - The snapshot of the document to end at.
+     * @returns The created Query.
      */
     endAt(snapshot: DocumentSnapshot<any>): Query<T>;
 
@@ -1074,17 +1016,15 @@ declare namespace FirebaseFirestore {
      * Creates and returns a new Query that ends at the provided fields
      * relative to the order of the query. The order of the field values
      * must match the order of the order by clauses of the query.
-     *
-     * @param fieldValues The field values to end this query at, in order
+     * @param fieldValues - The field values to end this query at, in order
      * of the query's order by.
-     * @return The created Query.
+     * @returns The created Query.
      */
     endAt(...fieldValues: any[]): Query<T>;
 
     /**
      * Executes the query and returns the results as a `QuerySnapshot`.
-     *
-     * @return A Promise that will be resolved with the results of the Query.
+     * @returns A Promise that will be resolved with the results of the Query.
      */
     get(): Promise<QuerySnapshot<T>>;
 
@@ -1097,12 +1037,11 @@ declare namespace FirebaseFirestore {
 
     /**
      * Attaches a listener for `QuerySnapshot `events.
-     *
-     * @param onNext A callback to be called every time a new `QuerySnapshot`
+     * @param onNext - A callback to be called every time a new `QuerySnapshot`
      * is available.
-     * @param onError A callback to be called if the listen fails or is
+     * @param onError - A callback to be called if the listen fails or is
      * cancelled. No further callbacks will occur.
-     * @return An unsubscribe function that can be called to cancel
+     * @returns An unsubscribe function that can be called to cancel
      * the snapshot listener.
      */
     onSnapshot(
@@ -1112,9 +1051,8 @@ declare namespace FirebaseFirestore {
 
     /**
      * Returns true if this `Query` is equal to the provided one.
-     *
-     * @param other The `Query` to compare against.
-     * @return true if this `Query` is equal to the provided one.
+     * @param other - The `Query` to compare against.
+     * @returns true if this `Query` is equal to the provided one.
      */
     isEqual(other: Query<T>): boolean;
 
@@ -1123,9 +1061,8 @@ declare namespace FirebaseFirestore {
      * own custom model objects with Firestore. When you call get() on the
      * returned Query, the provided converter will convert between Firestore
      * data and your custom type U.
-     *
-     * @param converter Converts objects to and from Firestore.
-     * @return A Query<U> that uses the provided converter.
+     * @param converter - Converts objects to and from Firestore.
+     * @returns A Query<U> that uses the provided converter.
      */
     withConverter<U>(converter: FirestoreDataConverter<U>): Query<U>;
   }
@@ -1147,7 +1084,7 @@ declare namespace FirebaseFirestore {
     readonly query: Query<T>;
 
     /** An array of all the documents in the QuerySnapshot. */
-    readonly docs: Array<QueryDocumentSnapshot<T>>;
+    readonly docs: QueryDocumentSnapshot<T>[];
 
     /** The number of documents in the QuerySnapshot. */
     readonly size: number;
@@ -1167,10 +1104,9 @@ declare namespace FirebaseFirestore {
 
     /**
      * Enumerates all of the documents in the QuerySnapshot.
-     *
-     * @param callback A callback to be called with a `DocumentSnapshot` for
+     * @param callback - A callback to be called with a `DocumentSnapshot` for
      * each document in the snapshot.
-     * @param thisArg The `this` binding for the callback.
+     * @param thisArg - The `this` binding for the callback.
      */
     forEach(
       callback: (result: QueryDocumentSnapshot<T>) => void,
@@ -1180,9 +1116,8 @@ declare namespace FirebaseFirestore {
     /**
      * Returns true if the document data in this `QuerySnapshot` is equal to the
      * provided one.
-     *
-     * @param other The `QuerySnapshot` to compare against.
-     * @return true if this `QuerySnapshot` is equal to the provided one.
+     * @param other - The `QuerySnapshot` to compare against.
+     * @returns true if this `QuerySnapshot` is equal to the provided one.
      */
     isEqual(other: QuerySnapshot<T>): boolean;
   }
@@ -1196,7 +1131,7 @@ declare namespace FirebaseFirestore {
    * A `DocumentChange` represents a change to the documents matching a query.
    * It contains the document affected and the type of change that occurred.
    */
-  export interface DocumentChange<T = DocumentData> {
+  export type DocumentChange<T = DocumentData> = {
     /** The type of change ('added', 'modified', or 'removed'). */
     readonly type: DocumentChangeType;
 
@@ -1221,12 +1156,11 @@ declare namespace FirebaseFirestore {
     /**
      * Returns true if the data in this `DocumentChange` is equal to the
      * provided one.
-     *
-     * @param other The `DocumentChange` to compare against.
-     * @return true if this `DocumentChange` is equal to the provided one.
+     * @param other - The `DocumentChange` to compare against.
+     * @returns true if this `DocumentChange` is equal to the provided one.
      */
     isEqual(other: DocumentChange<T>): boolean;
-  }
+  };
 
   /**
    * A `CollectionReference` object can be used for adding documents, getting
@@ -1259,45 +1193,40 @@ declare namespace FirebaseFirestore {
      * which contain subcollections with documents. Attempting to read such a
      * document reference (e.g. via `.get()` or `.onSnapshot()`) will return a
      * `DocumentSnapshot` whose `.exists` property is false.
-     *
-     * @return {Promise<DocumentReference[]>} The list of documents in this
+     * @returns {Promise<DocumentReference[]>} The list of documents in this
      * collection.
      */
-    listDocuments(): Promise<Array<DocumentReference<T>>>;
+    listDocuments(): Promise<DocumentReference<T>[]>;
 
     /**
      * Get a `DocumentReference` for a randomly-named document within this
      * collection. An automatically-generated unique ID will be used as the
      * document ID.
-     *
-     * @return The `DocumentReference` instance.
+     * @returns The `DocumentReference` instance.
      */
     doc(): DocumentReference<T>;
 
     /**
      * Get a `DocumentReference` for the document within the collection at the
      * specified path.
-     *
-     * @param documentPath A slash-separated path to a document.
-     * @return The `DocumentReference` instance.
+     * @param documentPath - A slash-separated path to a document.
+     * @returns The `DocumentReference` instance.
      */
     doc(documentPath: string): DocumentReference<T>;
 
     /**
      * Add a new document to this collection with the specified data, assigning
      * it a document ID automatically.
-     *
-     * @param data An Object containing the data for the new document.
-     * @return A Promise resolved with a `DocumentReference` pointing to the
+     * @param data - An Object containing the data for the new document.
+     * @returns A Promise resolved with a `DocumentReference` pointing to the
      * newly created document after it has been written to the backend.
      */
     add(data: T): Promise<DocumentReference<T>>;
 
     /**
      * Returns true if this `CollectionReference` is equal to the provided one.
-     *
-     * @param other The `CollectionReference` to compare against.
-     * @return true if this `CollectionReference` is equal to the provided one.
+     * @param other - The `CollectionReference` to compare against.
+     * @returns true if this `CollectionReference` is equal to the provided one.
      */
     isEqual(other: CollectionReference<T>): boolean;
 
@@ -1306,9 +1235,8 @@ declare namespace FirebaseFirestore {
      * to use your own custom model objects with Firestore. When you call add()
      * on the returned CollectionReference instance, the provided converter will
      * convert between Firestore data and your custom type U.
-     *
-     * @param converter Converts objects to and from Firestore.
-     * @return A CollectionReference<U> that uses the provided converter.
+     * @param converter - Converts objects to and from Firestore.
+     * @returns A CollectionReference<U> that uses the provided converter.
      */
     withConverter<U>(
       converter: FirestoreDataConverter<U>
@@ -1325,8 +1253,7 @@ declare namespace FirebaseFirestore {
     /**
      * Returns a sentinel used with set(), create() or update() to include a
      * server-generated timestamp in the written data.
-     *
-     * @return The FieldValue sentinel for use in a call to set(), create() or
+     * @returns The FieldValue sentinel for use in a call to set(), create() or
      * update().
      */
     static serverTimestamp(): FieldValue;
@@ -1334,8 +1261,7 @@ declare namespace FirebaseFirestore {
     /**
      * Returns a sentinel for use with update() or set() with {merge:true} to
      * mark a field for deletion.
-     *
-     * @return The FieldValue sentinel for use in a call to set() or update().
+     * @returns The FieldValue sentinel for use in a call to set() or update().
      */
     static delete(): FieldValue;
 
@@ -1351,9 +1277,8 @@ declare namespace FirebaseFirestore {
      *
      * If the current field value is not of type 'number', or if the field does
      * not yet exist, the transformation will set the field to the given value.
-     *
-     * @param n The value to increment by.
-     * @return The FieldValue sentinel for use in a call to set(), create() or
+     * @param n - The value to increment by.
+     * @returns The FieldValue sentinel for use in a call to set(), create() or
      * update().
      */
     static increment(n: number): FieldValue;
@@ -1365,9 +1290,8 @@ declare namespace FirebaseFirestore {
      * already exist in the array will be added to the end. If the field being
      * modified is not already an array it will be overwritten with an array
      * containing exactly the specified elements.
-     *
-     * @param elements The elements to union into the array.
-     * @return The FieldValue sentinel for use in a call to set(), create() or
+     * @param elements - The elements to union into the array.
+     * @returns The FieldValue sentinel for use in a call to set(), create() or
      * update().
      */
     static arrayUnion(...elements: any[]): FieldValue;
@@ -1378,18 +1302,16 @@ declare namespace FirebaseFirestore {
      * that already exists on the server. All instances of each element
      * specified will be removed from the array. If the field being modified is
      * not already an array it will be overwritten with an empty array.
-     *
-     * @param elements The elements to remove from the array.
-     * @return The FieldValue sentinel for use in a call to set(), create() or
+     * @param elements - The elements to remove from the array.
+     * @returns The FieldValue sentinel for use in a call to set(), create() or
      * update().
      */
     static arrayRemove(...elements: any[]): FieldValue;
 
     /**
      * Returns true if this `FieldValue` is equal to the provided one.
-     *
-     * @param other The `FieldValue` to compare against.
-     * @return true if this `FieldValue` is equal to the provided one.
+     * @param other - The `FieldValue` to compare against.
+     * @returns true if this `FieldValue` is equal to the provided one.
      */
     isEqual(other: FieldValue): boolean;
   }
@@ -1403,8 +1325,7 @@ declare namespace FirebaseFirestore {
     /**
      * Creates a FieldPath from the provided field names. If more than one field
      * name is provided, the path will point to a nested field in a document.
-     *
-     * @param fieldNames A list of field names.
+     * @param fieldNames - A list of field names.
      */
     constructor(...fieldNames: string[]);
 
@@ -1416,9 +1337,8 @@ declare namespace FirebaseFirestore {
 
     /**
      * Returns true if this `FieldPath` is equal to the provided one.
-     *
-     * @param other The `FieldPath` to compare against.
-     * @return true if this `FieldPath` is equal to the provided one.
+     * @param other - The `FieldPath` to compare against.
+     * @returns true if this `FieldPath` is equal to the provided one.
      */
     isEqual(other: FieldPath): boolean;
   }
@@ -1431,43 +1351,38 @@ declare namespace FirebaseFirestore {
    * encoded assuming all minutes are 60 seconds long, i.e. leap seconds are
    * "smeared" so that no leap second table is needed for interpretation. Range
    * is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z.
-   *
    * @see https://github.com/google/protobuf/blob/master/src/google/protobuf/timestamp.proto
    */
   export class Timestamp {
     /**
      * Creates a new timestamp with the current date, with millisecond precision.
-     *
-     * @return A new `Timestamp` representing the current date.
+     * @returns A new `Timestamp` representing the current date.
      */
     static now(): Timestamp;
 
     /**
      * Creates a new timestamp from the given date.
-     *
-     * @param date The date to initialize the `Timestamp` from.
-     * @return A new `Timestamp` representing the same point in time as the
+     * @param date - The date to initialize the `Timestamp` from.
+     * @returns A new `Timestamp` representing the same point in time as the
      * given date.
      */
     static fromDate(date: Date): Timestamp;
 
     /**
      * Creates a new timestamp from the given number of milliseconds.
-     *
-     * @param milliseconds Number of milliseconds since Unix epoch
+     * @param milliseconds - Number of milliseconds since Unix epoch
      * 1970-01-01T00:00:00Z.
-     * @return A new `Timestamp` representing the same point in time as the
+     * @returns A new `Timestamp` representing the same point in time as the
      * given number of milliseconds.
      */
     static fromMillis(milliseconds: number): Timestamp;
 
     /**
      * Creates a new timestamp.
-     *
-     * @param seconds The number of seconds of UTC time since Unix epoch
+     * @param seconds - The number of seconds of UTC time since Unix epoch
      * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
      * 9999-12-31T23:59:59Z inclusive.
-     * @param nanoseconds The non-negative fractions of a second at nanosecond
+     * @param nanoseconds - The non-negative fractions of a second at nanosecond
      * resolution. Negative second values with fractions must still have
      * non-negative nanoseconds values that count forward in time. Must be from
      * 0 to 999,999,999 inclusive.
@@ -1485,33 +1400,29 @@ declare namespace FirebaseFirestore {
     /**
      * Returns a new `Date` corresponding to this timestamp. This may lose
      * precision.
-     *
-     * @return JavaScript `Date` object representing the same point in time as
+     * @returns JavaScript `Date` object representing the same point in time as
      * this `Timestamp`, with millisecond precision.
      */
     toDate(): Date;
 
     /**
      * Returns the number of milliseconds since Unix epoch 1970-01-01T00:00:00Z.
-     *
-     * @return The point in time corresponding to this timestamp, represented as
+     * @returns The point in time corresponding to this timestamp, represented as
      * the number of milliseconds since Unix epoch 1970-01-01T00:00:00Z.
      */
     toMillis(): number;
 
     /**
      * Returns true if this `Timestamp` is equal to the provided one.
-     *
-     * @param other The `Timestamp` to compare against.
-     * @return 'true' if this `Timestamp` is equal to the provided one.
+     * @param other - The `Timestamp` to compare against.
+     * @returns 'true' if this `Timestamp` is equal to the provided one.
      */
     isEqual(other: Timestamp): boolean;
 
     /**
      * Converts this object to a primitive `string`, which allows `Timestamp` objects to be compared
      * using the `>`, `<=`, `>=` and `>` operators.
-     *
-     * @return a string encoding of this object.
+     * @returns a string encoding of this object.
      */
     valueOf(): string;
   }
@@ -1526,7 +1437,7 @@ declare namespace FirebaseFirestore {
    * The v1 Veneer clients. These clients provide access to the Firestore Admin
    * API and the underlying Firestore v1 RPCs.
    */
-  export const v1: { FirestoreClient: any; FirestoreAdminClient: any };
+  export const v1: { FirestoreClient: any; FirestoreAdminClient: any; };
 
   /**
    * Status codes returned by Firestore's gRPC calls.

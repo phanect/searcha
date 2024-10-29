@@ -1,23 +1,24 @@
 import { useContext } from "react";
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { useAtom } from "jotai";
 
-import { alpha, Theme, Stack, Grid2 as Grid, ButtonBase } from "@mui/material";
+import { alpha, Stack, Grid2 as Grid, ButtonBase } from "@mui/material";
 import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 
 import Thumbnail from "@src/components/Thumbnail";
 
 import { tableSchemaAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
-import { FileValue } from "@src/types/table";
+import type { Theme } from "@mui/material";
+import type { IDisplayCellProps } from "@src/components/fields/types";
+import type { FileValue } from "@src/types/table";
 
 // MULTIPLE
 export const imgSx = (rowHeight: number) => ({
   position: "relative",
   display: "flex",
 
-  width: (theme: Theme) => `calc(${rowHeight}px - ${theme.spacing(1)} - 1px)`,
-  height: (theme: Theme) => `calc(${rowHeight}px - ${theme.spacing(1)} - 1px)`,
+  width: (theme: Theme) => `calc(${ rowHeight }px - ${ theme.spacing(1) } - 1px)`,
+  height: (theme: Theme) => `calc(${ rowHeight }px - ${ theme.spacing(1) } - 1px)`,
 
   backgroundSize: "contain",
   backgroundPosition: "center center",
@@ -40,7 +41,7 @@ export const deleteImgHoverSx = {
   right: 0,
 
   color: "text.secondary",
-  boxShadow: (theme: Theme) => `0 0 0 1px ${theme.palette.divider} inset`,
+  boxShadow: (theme: Theme) => `0 0 0 1px ${ theme.palette.divider } inset`,
   borderRadius: 1,
 
   transition: (theme: Theme) =>
@@ -65,12 +66,16 @@ export const deleteImgHoverSx = {
 
 export default function Image_({ value, tabIndex }: IDisplayCellProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const rowHeight = tableSchema.rowHeight ?? DEFAULT_ROW_HEIGHT;
   let thumbnailSize = "100x100";
-  if (rowHeight > 50) thumbnailSize = "200x200";
-  if (rowHeight > 100) thumbnailSize = "400x400";
+  if (rowHeight > 50) {
+    thumbnailSize = "200x200";
+  }
+  if (rowHeight > 100) {
+    thumbnailSize = "400x400";
+  }
 
   return (
     <Stack
@@ -79,36 +84,34 @@ export default function Image_({ value, tabIndex }: IDisplayCellProps) {
       alignItems="center"
     >
       <Grid container spacing={0.5} wrap="nowrap">
-        {Array.isArray(value) &&
-          value.map((file: FileValue) => (
-            <Grid key={file.downloadURL}>
-              {
-                <ButtonBase
-                  aria-label="Open"
-                  sx={imgSx(rowHeight)}
-                  className="img"
-                  onClick={() => window.open(file.downloadURL, "_blank")}
-                  tabIndex={tabIndex}
-                >
-                  <Thumbnail
-                    imageUrl={file.downloadURL}
-                    size={thumbnailSize}
-                    objectFit="contain"
-                    sx={thumbnailSx}
-                    tabIndex={tabIndex}
-                  />
-                  <Grid
-                    container
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={deleteImgHoverSx}
-                  >
-                    <OpenIcon />
-                  </Grid>
-                </ButtonBase>
-              }
-            </Grid>
-          ))}
+        {Array.isArray(value)
+        && value.map((file: FileValue) => (
+          <Grid key={file.downloadURL}>
+            <ButtonBase
+              aria-label="Open"
+              sx={imgSx(rowHeight)}
+              className="img"
+              onClick={() => window.open(file.downloadURL, "_blank")}
+              tabIndex={tabIndex}
+            >
+              <Thumbnail
+                imageUrl={file.downloadURL}
+                size={thumbnailSize}
+                objectFit="contain"
+                sx={thumbnailSx}
+                tabIndex={tabIndex}
+              />
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                sx={deleteImgHoverSx}
+              >
+                <OpenIcon />
+              </Grid>
+            </ButtonBase>
+          </Grid>
+        ))}
       </Grid>
     </Stack>
   );

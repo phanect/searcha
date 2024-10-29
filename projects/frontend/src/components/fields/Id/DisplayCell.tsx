@@ -1,6 +1,5 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { useTheme } from "@mui/material";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Id({ _rowy_ref }: IDisplayCellProps) {
   const theme = useTheme();

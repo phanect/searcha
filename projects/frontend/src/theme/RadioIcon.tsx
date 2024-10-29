@@ -18,13 +18,13 @@ export default function RadioIcon() {
         color: "primary.main",
 
         transition: (theme) =>
-          theme.transitions.create(["background-color", "border-color"], {
+          theme.transitions.create([ "background-color", "border-color" ], {
             easing: theme.transitions.easing.easeIn,
             duration: theme.transitions.duration.shortest,
           }),
 
         "&::before": {
-          content: '""',
+          content: "\"\"",
           width: "100%",
           height: "100%",
           borderRadius: "50%",
@@ -32,7 +32,7 @@ export default function RadioIcon() {
 
           bgcolor: "action.input",
           transition: (theme) =>
-            theme.transitions.create(["transform", "background-color"], {
+            theme.transitions.create([ "transform", "background-color" ], {
               easing: theme.transitions.easing.easeIn,
               duration: theme.transitions.duration.shortest,
             }),
@@ -43,7 +43,7 @@ export default function RadioIcon() {
           borderColor: "currentColor",
 
           transition: (theme) =>
-            theme.transitions.create(["background-color", "border-color"], {
+            theme.transitions.create([ "background-color", "border-color" ], {
               easing: theme.transitions.easing.easeOut,
               duration: theme.transitions.duration.shortest,
             }),
@@ -51,10 +51,10 @@ export default function RadioIcon() {
           "&::before": {
             bgcolor: "primary.contrastText",
             boxShadow: 1,
-            transform: `scale(${12 / 20})`,
+            transform: `scale(${ 12 / 20 })`,
 
             transition: (theme) =>
-              theme.transitions.create(["transform", "background-color"], {
+              theme.transitions.create([ "transform", "background-color" ], {
                 easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.shortest,
               }),

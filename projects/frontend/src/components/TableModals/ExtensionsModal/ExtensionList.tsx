@@ -21,7 +21,6 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 import EmptyState from "@src/components/EmptyState";
-import { extensionNames, IExtension } from "./utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { useSetAtom } from "jotai";
 import {
@@ -29,14 +28,16 @@ import {
   cloudLogFiltersAtom,
   tableModalAtom,
 } from "@src/atoms/tableScope";
+import { extensionNames } from "./utils";
+import type { IExtension } from "./utils";
 
-export interface IExtensionListProps {
+export type IExtensionListProps = {
   extensions: IExtension[];
   handleUpdateActive: (index: number, active: boolean) => void;
   handleDuplicate: (index: number) => void;
   handleEdit: (index: number) => void;
   handleDelete: (index: number) => void;
-}
+};
 
 export default function ExtensionList({
   extensions,
@@ -49,7 +50,7 @@ export default function ExtensionList({
   const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
 
-  if (extensions.length === 0)
+  if (extensions.length === 0) {
     return (
       <EmptyState
         message="Add your first extension above"
@@ -58,6 +59,7 @@ export default function ExtensionList({
         style={{ height: 89 * 3 - 1 }}
       />
     );
+  }
 
   return (
     <List style={{ minHeight: 89 * 3 - 1 }} disablePadding>
@@ -66,7 +68,7 @@ export default function ExtensionList({
           disableGutters
           dense={false}
           divider={index !== extensions.length - 1}
-          children={
+          children={(
             <ListItemText
               primary={extensionObject.name}
               secondary={extensionNames[extensionObject.type]}
@@ -78,8 +80,8 @@ export default function ExtensionList({
                 },
               }}
             />
-          }
-          secondaryAction={
+          )}
+          secondaryAction={(
             <Stack alignItems="flex-end">
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Tooltip
@@ -88,8 +90,7 @@ export default function ExtensionList({
                   <Switch
                     checked={extensionObject.active}
                     onClick={() =>
-                      handleUpdateActive(index, !extensionObject.active)
-                    }
+                      handleUpdateActive(index, !extensionObject.active)}
                     inputProps={{ "aria-label": "Activate" }}
                     sx={{ mr: 1 }}
                   />
@@ -111,7 +112,7 @@ export default function ExtensionList({
                       setCloudLogFilters({
                         type: "extension",
                         timeRange: { type: "days", value: 7 },
-                        extension: [extensionObject.name],
+                        extension: [ extensionObject.name ],
                       });
                     }}
                   >
@@ -131,7 +132,7 @@ export default function ExtensionList({
                     aria-label="Delete…"
                     color="error"
                     onClick={() => handleDelete(index)}
-                    sx={{ "&&": { mr: -1.5 } }}
+                    sx={{ "&&": { mr: -1.5 }}}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -139,7 +140,7 @@ export default function ExtensionList({
               </Stack>
 
               <Tooltip
-                title={
+                title={(
                   <>
                     Last updated
                     <br />
@@ -151,7 +152,7 @@ export default function ExtensionList({
                       DATE_TIME_FORMAT
                     )}
                   </>
-                }
+                )}
               >
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Typography variant="body2" sx={{ color: "text.disabled" }}>
@@ -161,14 +162,14 @@ export default function ExtensionList({
                     )}
                   </Typography>
                   <Avatar
-                    alt={`${extensionObject.lastEditor.displayName}’s profile photo`}
+                    alt={`${ extensionObject.lastEditor.displayName }’s profile photo`}
                     src={extensionObject.lastEditor.photoURL}
-                    sx={{ width: 24, height: 24, "&&": { mr: -0.5 } }}
+                    sx={{ width: 24, height: 24, "&&": { mr: -0.5 }}}
                   />
                 </Stack>
               </Tooltip>
             </Stack>
-          }
+          )}
           sx={{
             flexWrap: { xs: "wrap", sm: "nowrap" },
             "& .MuiListItemSecondaryAction-root": {

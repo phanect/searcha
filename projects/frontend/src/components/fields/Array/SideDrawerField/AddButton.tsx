@@ -14,13 +14,14 @@ import { getFieldProp } from "@src/components/fields";
 
 import {
   ArraySupportedFields,
-  ArraySupportedFiledTypes,
 } from "./SupportedTypes";
+import type {
+  ArraySupportedFiledTypes } from "./SupportedTypes";
 
-function AddButton({ handleAddNew }: { handleAddNew: Function }) {
+function AddButton({ handleAddNew }: { handleAddNew: Function; }) {
   const anchorEl = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
-  const [fieldType, setFieldType] = useState<ArraySupportedFiledTypes>(
+  const [ open, setOpen ] = useState(false);
+  const [ fieldType, setFieldType ] = useState<ArraySupportedFiledTypes>(
     FieldType.shortText
   );
 

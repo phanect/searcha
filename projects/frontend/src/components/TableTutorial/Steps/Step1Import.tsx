@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { useAtom } from "jotai";
-import { ITableTutorialStepComponentProps } from ".";
 
 import { Typography } from "@mui/material";
 import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
 
 import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
+import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step1Import = {
   id: "import",
@@ -24,23 +24,27 @@ export const Step1Import = {
 export default Step1Import;
 
 function StepComponent({ setComplete }: ITableTutorialStepComponentProps) {
-  const [checked, setChecked] = useState([false]);
-  if (checked.every(Boolean)) setComplete(true);
-  else setComplete(false);
-  const handleChange =
-    (index: number) => (event: React.ChangeEvent<HTMLInputElement>) =>
+  const [ checked, setChecked ] = useState([ false ]);
+  if (checked.every(Boolean)) {
+    setComplete(true);
+  } else {
+    setComplete(false);
+  }
+  const handleChange
+    = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) =>
       setChecked((c) => {
-        const cloned = [...c];
+        const cloned = [ ...c ];
         cloned.splice(index, 1, event.target.checked);
         return cloned;
       });
 
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   useEffect(() => {
-    if (tableRows.length >= 5)
-      handleChange(0)({ target: { checked: true } } as any);
-  }, [tableRows]);
+    if (tableRows.length >= 5) {
+      handleChange(0)({ target: { checked: true }} as any);
+    }
+  }, [ tableRows ]);
 
   return (
     <>

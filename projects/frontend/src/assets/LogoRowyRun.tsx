@@ -1,9 +1,9 @@
-import { SVGProps } from "react";
 import { useTheme } from "@mui/material";
+import type { SVGProps } from "react";
 
-export interface ILogoRowyRunProps extends SVGProps<SVGSVGElement> {
+export type ILogoRowyRunProps = {
   size?: number;
-}
+} & SVGProps<SVGSVGElement>;
 
 export default function LogoRowyRun({
   size = 1.5,

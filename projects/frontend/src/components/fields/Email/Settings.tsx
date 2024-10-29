@@ -1,5 +1,5 @@
-import { ISettingsProps } from "@src/components/fields/types";
 import { TextField, Button } from "@mui/material";
+import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {
   const copyStandardRegex = () => {
@@ -17,8 +17,11 @@ export default function Settings({ onChange, config }: ISettingsProps) {
         value={config.validationRegex}
         fullWidth
         onChange={(e) => {
-          if (e.target.value === "") onChange("validationRegex")(null);
-          else onChange("validationRegex")(e.target.value);
+          if (e.target.value === "") {
+            onChange("validationRegex")(null);
+          } else {
+            onChange("validationRegex")(e.target.value);
+          }
         }}
       />
       <Button

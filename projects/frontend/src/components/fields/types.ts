@@ -1,5 +1,5 @@
 import { FieldType } from "@src/constants/fields";
-import { IRenderedTableCellProps } from "@src/components/Table/TableCell/withRenderTableCell";
+import type { IRenderedTableCellProps } from "@src/components/Table/TableCell/withRenderTableCell";
 import type { PopoverProps } from "@mui/material";
 import type {
   ColumnConfig,
@@ -12,7 +12,7 @@ import type { IContextMenuItem } from "@src/components/Table/ContextMenu/Context
 
 export { FieldType };
 
-export interface IFieldConfig {
+export type IFieldConfig = {
   type: FieldType;
   name: string;
   group: string;
@@ -46,7 +46,7 @@ export interface IFieldConfig {
 }
 
 /** See {@link IRenderedTableCellProps | `withRenderTableCell` } for guidance */
-export interface IDisplayCellProps<T = any> {
+export type IDisplayCellProps<T = any> = {
   value: T;
   type: FieldType;
   name: string;
@@ -63,9 +63,9 @@ export interface IDisplayCellProps<T = any> {
   showPopoverCell: (value: boolean) => void;
   setFocusInsideCell: (focusInside: boolean) => void;
   rowHeight: number;
-}
+};
 /** See {@link IRenderedTableCellProps | `withRenderTableCell` } for guidance */
-export interface IEditorCellProps<T = any> extends IDisplayCellProps<T> {
+export type IEditorCellProps<T = any> = {
   /** Call when the user has input but changes have not been saved */
   onDirty: (dirty?: boolean) => void;
   /** Update the local value. Also calls onDirty */
@@ -74,10 +74,10 @@ export interface IEditorCellProps<T = any> extends IDisplayCellProps<T> {
   onSubmit: () => void;
   /** Get parent element for popover positioning */
   parentRef: PopoverProps["anchorEl"];
-}
+} & IDisplayCellProps<T>;
 
 /** Props to be passed to all SideDrawerFields */
-export interface ISideDrawerFieldProps<T = any> {
+export type ISideDrawerFieldProps<T = any> = {
   /** The column config */
   column: ColumnConfig;
   /** The row’s _rowy_ref object */
@@ -97,25 +97,25 @@ export interface ISideDrawerFieldProps<T = any> {
   row: TableRow;
 
   operator?: TableFilter["operator"];
-}
+};
 
-export interface ISettingsProps {
+export type ISettingsProps = {
   onChange: (key: string) => (value: any) => void;
   config: Record<string, any>;
   fieldName: string;
   onBlur: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   errors: Record<string, any>;
-}
+};
 
-export interface IFilterOperator {
+export type IFilterOperator = {
   value: TableFilter["operator"];
   label: string;
   secondaryLabel?: React.ReactNode;
   group?: string;
-}
+};
 
-export interface IFilterCustomInputProps {
+export type IFilterCustomInputProps = {
   onChange: (value: any) => void;
   operator: TableFilter["operator"];
   [key: string]: any;
-}
+};

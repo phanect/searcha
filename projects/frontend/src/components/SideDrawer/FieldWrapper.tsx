@@ -16,20 +16,20 @@ import LockIcon from "@mui/icons-material/LockOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 import { InlineErrorFallback } from "@src/components/ErrorFallback";
-import FieldSkeleton from "./FieldSkeleton";
 
 import {
   ProjectScopeContext,
   projectIdAtom,
   altPressAtom,
 } from "@src/atoms/projectScope";
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
-import { getLabelId, getFieldId } from "./utils";
 import { useSnackbar } from "notistack";
 import { copyToClipboard } from "@src/utils/ui";
+import { getLabelId, getFieldId } from "./utils";
+import FieldSkeleton from "./FieldSkeleton";
+import type { FieldType } from "@src/constants/fields";
 
-export interface IFieldWrapperProps {
+export type IFieldWrapperProps = {
   children?: React.ReactNode;
   type: FieldType | "debug";
   fieldName?: string;
@@ -39,7 +39,7 @@ export interface IFieldWrapperProps {
   disabled?: boolean;
   hidden?: boolean;
   index?: number;
-}
+};
 
 export default function FieldWrapper({
   children,
@@ -53,8 +53,8 @@ export default function FieldWrapper({
   index,
 }: IFieldWrapperProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   return (
     <div>
@@ -69,7 +69,7 @@ export default function FieldWrapper({
           "& svg": {
             display: "block",
             color: "action.active",
-            fontSize: `${18 / 16}rem`,
+            fontSize: `${ 18 / 16 }rem`,
           },
         }}
       >
@@ -102,16 +102,16 @@ export default function FieldWrapper({
 
       <ErrorBoundary FallbackComponent={InlineErrorFallback}>
         <Suspense fallback={<FieldSkeleton />}>
-          {children ??
-            (!debugValue && (
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ paddingLeft: 18 / 8 + 0.75 }}
-              >
-                This field cannot be edited here.
-              </Typography>
-            ))}
+          {children
+          ?? (!debugValue && (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ paddingLeft: 18 / 8 + 0.75 }}
+            >
+              This field cannot be edited here.
+            </Typography>
+          ))}
         </Suspense>
       </ErrorBoundary>
 
@@ -141,9 +141,9 @@ export default function FieldWrapper({
             <ContentCopyIcon />
           </IconButton>
           <IconButton
-            href={`https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${(
+            href={`https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ (
               debugValue as string
-            ).replace(/\//g, "~2F")}`}
+            ).replace(/\//g, "~2F") }`}
             target="_blank"
             rel="noopener"
             aria-label="Open in Firebase Console"

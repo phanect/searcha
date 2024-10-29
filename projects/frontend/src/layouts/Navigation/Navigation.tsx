@@ -5,12 +5,7 @@ import { useLocation, Outlet } from "react-router-dom";
 
 import { useMediaQuery, Stack, GlobalStyles } from "@mui/material";
 
-import TopBar, { TOP_BAR_HEIGHT } from "./TopBar";
-import NavDrawer from "./NavDrawer";
-import NavDrawerContents from "./NavDrawer/NavDrawerContents";
-import ErrorFallback, {
-  IErrorFallbackProps,
-} from "@src/components/ErrorFallback";
+import ErrorFallback from "@src/components/ErrorFallback";
 import Loading from "@src/components/Loading";
 import GetStartedChecklist from "@src/components/GetStartedChecklist";
 
@@ -21,20 +16,26 @@ import {
 } from "@src/atoms/projectScope";
 import { ROUTE_TITLES } from "@src/constants/routes";
 import { useDocumentTitle } from "@src/hooks/useDocumentTitle";
+import NavDrawerContents from "./NavDrawer/NavDrawerContents";
+import NavDrawer from "./NavDrawer";
+import TopBar, { TOP_BAR_HEIGHT } from "./TopBar";
+import type {
+  IErrorFallbackProps,
+} from "@src/components/ErrorFallback";
 
 export default function Navigation({ children }: PropsWithChildren<{}>) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
 
-  const [open, setOpen] = useAtom(navOpenAtom, { store: projectScopeStore });
+  const [ open, setOpen ] = useAtom(navOpenAtom, { store: projectScopeStore });
   const isPermanent = useMediaQuery((theme: any) => theme.breakpoints.up("md"));
 
   const { pathname } = useLocation();
   const basePath = ("/" + pathname.split("/")[1]) as keyof typeof ROUTE_TITLES;
-  const routeTitle =
-    ROUTE_TITLES[pathname as keyof typeof ROUTE_TITLES] ||
-    ROUTE_TITLES[basePath] ||
-    "";
+  const routeTitle
+    = ROUTE_TITLES[pathname as keyof typeof ROUTE_TITLES]
+    || ROUTE_TITLES[basePath]
+    || "";
   const title = typeof routeTitle === "string" ? routeTitle : routeTitle.title;
   useDocumentTitle(projectId, title);
 

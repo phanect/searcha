@@ -1,16 +1,14 @@
-import { IFieldComponentProps } from '../../types';
+import { FormControlLabel, Checkbox } from "@mui/material";
 
-import { FormControlLabel, Checkbox, CheckboxProps } from '@mui/material';
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { IFieldComponentProps } from "../../types";
+import type { CheckboxProps } from "@mui/material";
 
-import FieldErrorMessage from '../../FieldErrorMessage';
-import FieldAssistiveText from '../../FieldAssistiveText';
-
-export interface ICheckboxComponentProps
-  extends IFieldComponentProps,
-    Omit<
-      CheckboxProps,
-      'name' | 'onChange' | 'checked' | 'ref' | 'value' | 'onBlur'
-    > {}
+export type ICheckboxComponentProps = {} & IFieldComponentProps & Omit<
+  CheckboxProps,
+      "name" | "onChange" | "checked" | "ref" | "value" | "onBlur"
+>;
 
 export default function CheckboxComponent({
   field: { onChange, onBlur, value, ref },
@@ -30,7 +28,7 @@ export default function CheckboxComponent({
 }: ICheckboxComponentProps) {
   return (
     <FormControlLabel
-      control={
+      control={(
         <Checkbox
           {...props}
           checked={value}
@@ -40,27 +38,27 @@ export default function CheckboxComponent({
           }}
           inputProps={
             {
-              'data-type': 'checkbox',
-              'data-label': label ?? '',
+              "data-type": "checkbox",
+              "data-label": label ?? "",
             } as any
           }
           sx={[
             {
-              '.MuiFormControlLabel-root:not(.Mui-disabled):hover &': {
-                bgcolor: 'action.hover',
+              ".MuiFormControlLabel-root:not(.Mui-disabled):hover &": {
+                bgcolor: "action.hover",
               },
             },
             ...(Array.isArray(props.sx)
               ? props.sx
               : props.sx
-              ? [props.sx]
-              : []),
+                ? [ props.sx ]
+                : []),
           ]}
           inputRef={ref}
         />
-      }
+      )}
       onBlur={onBlur}
-      label={
+      label={(
         <>
           {label}
           {required && <>&nbsp;*</>}
@@ -70,8 +68,8 @@ export default function CheckboxComponent({
             {assistiveText}
           </FieldAssistiveText>
         </>
-      }
-      sx={{ mr: 0, display: 'flex' }}
+      )}
+      sx={{ mr: 0, display: "flex" }}
     />
   );
 }

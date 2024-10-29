@@ -1,23 +1,22 @@
-import { lazy } from 'react';
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { lazy } from "react";
+import FormTextbox from "mdi-material-ui/FormTextbox";
+import { FieldType } from "../../constants/fields";
 
-import FormTextbox from 'mdi-material-ui/FormTextbox';
-
-import Settings from './ShortTextSettings';
-import validation from './ShortTextValidation';
+import Settings from "./ShortTextSettings";
+import validation from "./ShortTextValidation";
+import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>
-    import('./ShortTextComponent')
+    import("./ShortTextComponent")
 );
 
 export const ShortTextConfig: IFieldConfig = {
   type: FieldType.shortText,
-  name: 'Short Text',
-  group: 'input',
+  name: "Short Text",
+  group: "input",
   icon: <FormTextbox />,
-  dataType: 'string',
-  defaultValue: '',
+  dataType: "string",
+  defaultValue: "",
   component: Component,
   settings: Settings,
   validation,

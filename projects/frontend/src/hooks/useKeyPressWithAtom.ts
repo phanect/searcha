@@ -17,16 +17,22 @@ export default function useKeyPressWithAtom(
 
   // Add event listeners
   useEffect(() => {
-    if (!setAtom) return undefined;
+    if (!setAtom) {
+      return undefined;
+    }
 
     // If pressed key is our target key then set to true
     const downHandler = ({ key }: KeyboardEvent) => {
-      if (key === targetKey) setAtom(true);
+      if (key === targetKey) {
+        setAtom(true);
+      }
     };
 
     // If released key is our target key then set to false
     const upHandler = ({ key }: KeyboardEvent) => {
-      if (key === targetKey) setAtom(false);
+      if (key === targetKey) {
+        setAtom(false);
+      }
     };
 
     window.addEventListener("keydown", downHandler);
@@ -36,5 +42,5 @@ export default function useKeyPressWithAtom(
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  }, [targetKey, setAtom]);
+  }, [ targetKey, setAtom ]);
 }

@@ -40,29 +40,29 @@ import {
   tablesViewAtom,
   tableSettingsDialogAtom,
 } from "@src/atoms/projectScope";
-import { TableSettings } from "@src/types/table";
 import { ROUTES } from "@src/constants/routes";
 import useBasicSearch from "@src/hooks/useBasicSearch";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
+import type { TableSettings } from "@src/types/table";
 
-const SEARCH_KEYS = ["id", "name", "section", "description"];
+const SEARCH_KEYS = [ "id", "name", "section", "description" ];
 
 export default function TablesPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
-  const [view, setView] = useAtom(tablesViewAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ view, setView ] = useAtom(tablesViewAtom, { store: projectScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
     { store: projectScopeStore },
   );
   useScrollToHash();
 
-  const [results, query, handleQuery] = useBasicSearch(
+  const [ results, query, handleQuery ] = useBasicSearch(
     tables ?? [],
     SEARCH_KEYS
   );
@@ -72,13 +72,14 @@ export default function TablesPage() {
     : [];
   const sections: Record<string, TableSettings[]> = {
     Favorites: favorites.map((id) => find(results, { id })) as TableSettings[],
-    ...groupBy(sortBy(results, ["section", "name"]), "section"),
+    ...groupBy(sortBy(results, [ "section", "name" ]), "section"),
   };
 
-  if (!Array.isArray(tables))
+  if (!Array.isArray(tables)) {
     throw new Error(
       "Project settings are not configured correctly. `tables` is not an array."
     );
+  }
 
   const createTableFab = (
     <Tooltip title="Create table">
@@ -91,12 +92,12 @@ export default function TablesPage() {
             zIndex: "speedDial",
             position: "fixed",
             bottom: (theme) => ({
-              xs: `max(${theme.spacing(2)}, env(safe-area-inset-bottom))`,
-              sm: `max(${theme.spacing(3)}, env(safe-area-inset-bottom))`,
+              xs: `max(${ theme.spacing(2) }, env(safe-area-inset-bottom))`,
+              sm: `max(${ theme.spacing(3) }, env(safe-area-inset-bottom))`,
             }),
             right: (theme) => ({
-              xs: `max(${theme.spacing(2)}, env(safe-area-inset-right))`,
-              sm: `max(${theme.spacing(3)}, env(safe-area-inset-right))`,
+              xs: `max(${ theme.spacing(2) }, env(safe-area-inset-right))`,
+              sm: `max(${ theme.spacing(3) }, env(safe-area-inset-right))`,
             }),
           }}
         >
@@ -107,13 +108,14 @@ export default function TablesPage() {
   );
 
   if (tables.length === 0) {
-    if (userRoles.includes("ADMIN"))
+    if (userRoles.includes("ADMIN")) {
       return (
         <>
           <HomeWelcomePrompt />
           {createTableFab}
         </>
       );
+    }
 
     return (
       <EmptyState
@@ -126,15 +128,17 @@ export default function TablesPage() {
   }
 
   const getLink = (table: TableSettings) =>
-    `${ROUTES.table}/${table.id.replace(/\//g, "~2F")}`;
+    `${ ROUTES.table }/${ table.id.replace(/\//g, "~2F") }`;
 
-  const handleFavorite =
-    (id: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFavorite
+    = (id: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const favoriteTables = e.target.checked
-        ? [...favorites, id]
+        ? [ ...favorites, id ]
         : favorites.filter((f) => f !== id);
 
-      if (updateUserSettings) updateUserSettings({ favoriteTables });
+      if (updateUserSettings) {
+        updateUserSettings({ favoriteTables });
+      }
     };
 
   const getActions = (table: TableSettings) => (
@@ -144,8 +148,7 @@ export default function TablesPage() {
           <IconButton
             aria-label="Edit table"
             onClick={() =>
-              openTableSettingsDialog({ mode: "update", data: table })
-            }
+              openTableSettingsDialog({ mode: "update", data: table })}
             size={view === "list" ? "large" : undefined}
           >
             <EditIcon />
@@ -157,12 +160,12 @@ export default function TablesPage() {
           onChange={handleFavorite(table.id)}
           checked={favorites.includes(table.id)}
           icon={<FavoriteBorderIcon />}
-          checkedIcon={
+          checkedIcon={(
             <Zoom in>
               <FavoriteIcon />
             </Zoom>
-          }
-          name={`favorite-${table.id}`}
+          )}
+          name={`favorite-${ table.id }`}
           inputProps={{ "aria-label": "Favorite" }}
           sx={view === "list" ? { p: 1.5 } : undefined}
           color="secondary"
@@ -173,7 +176,7 @@ export default function TablesPage() {
           aria-label="Table information"
           size={view === "list" ? "large" : undefined}
           component={Link}
-          to={`${getLink(table)}#sideDrawer="table-information"`}
+          to={`${ getLink(table) }#sideDrawer="table-information"`}
           style={{ marginLeft: 0 }}
         >
           <InfoIcon />
@@ -208,7 +211,7 @@ export default function TablesPage() {
             component="h1"
             sx={{ pl: 2, cursor: "default" }}
           >
-            {query ? `${results.length} of ${tables.length}` : tables.length}{" "}
+            {query ? `${ results.length } of ${ tables.length }` : tables.length}{" "}
             tables
           </Typography>
 
@@ -217,10 +220,12 @@ export default function TablesPage() {
             size="large"
             exclusive
             onChange={(_, v) => {
-              if (v !== null) setView(v);
+              if (v !== null) {
+                setView(v);
+              }
             }}
             aria-label="Table view"
-            sx={{ "& .MuiToggleButton-root": { borderRadius: 2 } }}
+            sx={{ "& .MuiToggleButton-root": { borderRadius: 2 }}}
           >
             <ToggleButton value="list" aria-label="List view">
               <ViewListIcon style={{ transform: "rotate(180deg)" }} />

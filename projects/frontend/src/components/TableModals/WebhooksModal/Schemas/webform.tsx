@@ -1,7 +1,7 @@
 import { Typography, Link, TextField } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { TableSettings } from "@src/types/table";
-import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
+import type { TableSettings } from "@src/types/table";
+import type { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import type { WebHook } from "./type.ts";
 
 export const webhook: WebHook = {
@@ -23,13 +23,13 @@ export const webhook: WebHook = {
   ${
     table.audit !== false
       ? `const ${
-          table.auditFieldCreatedBy ?? "_createdBy"
-        } = await rowy.metadata.serviceAccountUser()
+        table.auditFieldCreatedBy ?? "_createdBy"
+      } = await rowy.metadata.serviceAccountUser()
   return {
     ...body,
-    ${table.auditFieldCreatedBy ?? "_createdBy"}
+    ${ table.auditFieldCreatedBy ?? "_createdBy" }
   }`
-      : `return body;`
+      : "return body;"
   }
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
@@ -43,53 +43,51 @@ export const webhook: WebHook = {
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
   },
-  Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => {
-    return (
-      <>
-        <Typography gutterBottom>
-          Add your capture key
-          <Link
-            href=""
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="inherit"
-          >
-            these instructions
-            <InlineOpenInNewIcon />
-          </Link>
-          <br />
-          Then add the secret below.
-        </Typography>
+  Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => (
+    <>
+      <Typography gutterBottom>
+        Add your capture key
+        <Link
+          href=""
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="inherit"
+        >
+          these instructions
+          <InlineOpenInNewIcon />
+        </Link>
+        <br />
+        Then add the secret below.
+      </Typography>
 
-        <TextField
-          id="api-key"
-          label="API Key"
-          fullWidth
-          value={webhookObject.auth.secret}
-          onChange={(e) => {
-            setWebhookObject({
-              ...webhookObject,
-              auth: { ...webhookObject.auth, secret: e.target.value },
-            });
-          }}
-        />
+      <TextField
+        id="api-key"
+        label="API Key"
+        fullWidth
+        value={webhookObject.auth.secret}
+        onChange={(e) => {
+          setWebhookObject({
+            ...webhookObject,
+            auth: { ...webhookObject.auth, secret: e.target.value },
+          });
+        }}
+      />
 
-        <TextField
-          id="minimum-score"
-          label="Minimum score"
-          fullWidth
-          type="number"
-          value={webhookObject.auth.minimumScore}
-          onChange={(e) => {
-            setWebhookObject({
-              ...webhookObject,
-              auth: { ...webhookObject.auth, minimumScore: e.target.value },
-            });
-          }}
-        />
-      </>
-    );
-  },
+      <TextField
+        id="minimum-score"
+        label="Minimum score"
+        fullWidth
+        type="number"
+        value={webhookObject.auth.minimumScore}
+        onChange={(e) => {
+          setWebhookObject({
+            ...webhookObject,
+            auth: { ...webhookObject.auth, minimumScore: e.target.value },
+          });
+        }}
+      />
+    </>
+  ),
 };
 
 export default webhook;

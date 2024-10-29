@@ -19,7 +19,7 @@ export function useAuthUser() {
   const { showBoundary } = useErrorBoundary();
   const projectScopeStore = useContext(ProjectScopeContext);
   // Get current user and store in atoms
-  const [firebaseAuth] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
+  const [ firebaseAuth ] = useAtom(firebaseAuthAtom, { store: projectScopeStore });
   const setCurrentUser = useSetAtom(currentUserAtom, { store: projectScopeStore });
   const setUserRoles = useSetAtom(userRolesAtom, { store: projectScopeStore });
   // Must use `useAtomCallback`, otherwise `useAtom(updateUserSettingsAtom)`
@@ -45,7 +45,9 @@ export function useAuthUser() {
 
           // Update user settings doc with roles for User Management page
           const _updateUserSettings = await updateUserSettings();
-          if (_updateUserSettings) _updateUserSettings({ roles });
+          if (_updateUserSettings) {
+            _updateUserSettings({ roles });
+          }
         } else {
           setUserRoles([]);
         }

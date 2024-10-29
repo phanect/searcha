@@ -11,20 +11,20 @@ import {
 import FolderIcon from "@mui/icons-material/FolderOutlined";
 import FavoriteIcon from "@mui/icons-material/FavoriteBorder";
 import { ChevronDown } from "@src/assets/icons";
-import NavItem from "./NavItem";
 
-import { TableSettings } from "@src/types/table";
 import { ROUTES } from "@src/constants/routes";
+import NavItem from "./NavItem";
+import type { TableSettings } from "@src/types/table";
 
 const getTableRoute = (table: TableSettings) =>
-  `${ROUTES.table}/${table.id.replace(/\//g, "~2F")}`;
+  `${ ROUTES.table }/${ table.id.replace(/\//g, "~2F") }`;
 
-export interface INavTableSectionProps {
+export type INavTableSectionProps = {
   section: string;
   tables: TableSettings[];
   closeDrawer?: (e: {}) => void;
   collapsed?: boolean;
-}
+};
 
 export default function NavTableSection({
   section,
@@ -35,7 +35,7 @@ export default function NavTableSection({
   const { pathname } = useLocation();
   const hasMatch = tables.map(getTableRoute).includes(pathname);
 
-  const [open, setOpen] = useState(hasMatch);
+  const [ open, setOpen ] = useState(hasMatch);
   const isFavorites = section === "Favorites";
 
   return (

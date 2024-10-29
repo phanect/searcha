@@ -21,7 +21,6 @@ import LinkIcon from "@mui/icons-material/Link";
 
 import EmptyState from "@src/components/EmptyState";
 
-import { webhookNames, IWebhook } from "./utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { ProjectScopeContext, projectSettingsAtom } from "@src/atoms/projectScope";
 import {
@@ -30,13 +29,15 @@ import {
   tableModalAtom,
   cloudLogFiltersAtom,
 } from "@src/atoms/tableScope";
+import { webhookNames } from "./utils";
+import type { IWebhook } from "./utils";
 
-export interface IWebhookListProps {
+export type IWebhookListProps = {
   webhooks: IWebhook[];
   handleUpdateActive: (index: number, active: boolean) => void;
   handleEdit: (index: number) => void;
   handleDelete: (index: number) => void;
-}
+};
 
 export default function WebhookList({
   webhooks,
@@ -46,14 +47,14 @@ export default function WebhookList({
 }: IWebhookListProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const setModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const setCloudLogFilters = useSetAtom(cloudLogFiltersAtom, { store: tableScopeStore });
 
-  const baseUrl = `${projectSettings.services?.hooks}/wh/${tableSettings.collection}/`;
+  const baseUrl = `${ projectSettings.services?.hooks }/wh/${ tableSettings.collection }/`;
 
-  if (webhooks.length === 0)
+  if (webhooks.length === 0) {
     return (
       <EmptyState
         message="Add your first webhook above"
@@ -62,6 +63,7 @@ export default function WebhookList({
         style={{ height: 89 * 3 - 1 }}
       />
     );
+  }
 
   return (
     <List style={{ paddingTop: 0, minHeight: 89 * 3 - 1 }} disablePadding>
@@ -70,10 +72,10 @@ export default function WebhookList({
           disableGutters
           dense={false}
           divider={index !== webhooks.length - 1}
-          children={
+          children={(
             <ListItemText
               primary={webhook.name}
-              secondary={
+              secondary={(
                 <>
                   {webhookNames[webhook.type]}{" "}
                   <code
@@ -90,8 +92,7 @@ export default function WebhookList({
                         onClick={() =>
                           navigator.clipboard.writeText(
                             baseUrl + webhook.endpoint
-                          )
-                        }
+                          )}
                         size="small"
                         color="secondary"
                         sx={{ my: (20 - 32) / 2 / 8 }}
@@ -101,7 +102,7 @@ export default function WebhookList({
                     </Tooltip>
                   </code>
                 </>
-              }
+              )}
               primaryTypographyProps={{
                 style: {
                   minHeight: 40,
@@ -110,8 +111,8 @@ export default function WebhookList({
                 },
               }}
             />
-          }
-          secondaryAction={
+          )}
+          secondaryAction={(
             <Stack alignItems="flex-end">
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Tooltip title={webhook.active ? "Deactivate" : "Activate"}>
@@ -131,7 +132,7 @@ export default function WebhookList({
                       setCloudLogFilters({
                         type: "webhook",
                         timeRange: { type: "days", value: 7 },
-                        webhook: [webhook.endpoint],
+                        webhook: [ webhook.endpoint ],
                       });
                     }}
                   >
@@ -151,7 +152,7 @@ export default function WebhookList({
                     aria-label="Delete…"
                     color="error"
                     onClick={() => handleDelete(index)}
-                    sx={{ "&&": { mr: -1.5 } }}
+                    sx={{ "&&": { mr: -1.5 }}}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -159,7 +160,7 @@ export default function WebhookList({
               </Stack>
 
               <Tooltip
-                title={
+                title={(
                   <>
                     Last updated
                     <br />
@@ -167,21 +168,21 @@ export default function WebhookList({
                     <br />
                     at {format(webhook.lastEditor.lastUpdate, DATE_TIME_FORMAT)}
                   </>
-                }
+                )}
               >
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Typography variant="body2" sx={{ color: "text.disabled" }}>
                     {formatRelative(webhook.lastEditor.lastUpdate, new Date())}
                   </Typography>
                   <Avatar
-                    alt={`${webhook.lastEditor.displayName}’s profile photo`}
+                    alt={`${ webhook.lastEditor.displayName }’s profile photo`}
                     src={webhook.lastEditor.photoURL}
-                    sx={{ width: 24, height: 24, "&&": { mr: -0.5 } }}
+                    sx={{ width: 24, height: 24, "&&": { mr: -0.5 }}}
                   />
                 </Stack>
               </Tooltip>
             </Stack>
-          }
+          )}
           sx={{
             flexWrap: { xs: "wrap", sm: "nowrap" },
             "& .MuiListItemSecondaryAction-root": {

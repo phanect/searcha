@@ -1,9 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
-import { useAtom, PrimitiveAtom, useSetAtom, SetStateAction } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
 import {
-  Firestore,
   query,
   queryEqual,
   collection,
@@ -12,18 +11,13 @@ import {
   where,
   orderBy,
   onSnapshot,
-  FirestoreError,
   setDoc,
   doc,
   deleteDoc,
   updateDoc,
   deleteField,
-  CollectionReference,
-  Query,
-  WhereFilterOp,
   documentId,
   getCountFromServer,
-  DocumentData,
   or,
   QueryFieldFilterConstraint,
   Timestamp,
@@ -31,7 +25,10 @@ import {
 import { useErrorBoundary } from "react-error-boundary";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
-import {
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { COLLECTION_PAGE_SIZE } from "@src/config/db";
+import { getDateRange, getTimeRange } from "@src/utils/date";
+import type {
   UpdateCollectionDocFunction,
   DeleteCollectionDocFunction,
   NextPageState,
@@ -39,14 +36,20 @@ import {
   TableSort,
   TableRow,
 } from "@src/types/table";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { COLLECTION_PAGE_SIZE } from "@src/config/db";
-import { getDateRange, getTimeRange } from "@src/utils/date";
+import type {
+  Firestore,
+  FirestoreError,
+  CollectionReference,
+  Query,
+  WhereFilterOp,
+  DocumentData,
+  QueryFieldFilterConstraint } from "firebase/firestore";
+import type { PrimitiveAtom, SetStateAction } from "jotai";
 
 /** Options for {@link useFirestoreCollectionWithAtom} */
-interface IUseFirestoreCollectionWithAtomOptions<T> {
+type IUseFirestoreCollectionWithAtomOptions<T> = {
   /** Additional path segments appended to the path. If any are undefined, the listener isn’t created at all. */
-  pathSegments?: Array<string | undefined>;
+  pathSegments?: (string | undefined)[];
   /** Optionally use a collection group query get all documents from collections with the same name as the `path` prop */
   collectionGroup?: boolean;
   /** Attach filters to the query */
@@ -71,20 +74,19 @@ interface IUseFirestoreCollectionWithAtomOptions<T> {
   serverDocCountAtom?: PrimitiveAtom<number | undefined>;
 
   joinOperator?: "AND" | "OR";
-}
+};
 
 /**
  * Attaches a listener for a Firestore collection and unsubscribes on unmount.
  * Gets the Firestore instance initiated in projectScope.
  * Updates an atom and Suspends that atom until the first snapshot is received.
- *
  * @param dataAtom - Atom to store data in
  * @param dataScope - Atom scope
  * @param path - Collection path. If falsy, the listener isn’t created at all.
  * @param options - {@link IUseFirestoreCollectionWithAtomOptions}
  */
 export function useFirestoreCollectionWithAtom<
-  T extends DocumentData = TableRow
+  T extends DocumentData = TableRow,
 >(
   dataAtom: PrimitiveAtom<T[]>,
   dataScope: Parameters<typeof useAtom>[1] | undefined,
@@ -109,7 +111,7 @@ export function useFirestoreCollectionWithAtom<
   } = options || {};
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
   const { showBoundary } = useErrorBoundary();
 
@@ -136,7 +138,7 @@ export function useFirestoreCollectionWithAtom<
   );
 
   // Store if we’re at the last page to prevent a new query from being created
-  const [isLastPage, setIsLastPage] = useState(false);
+  const [ isLastPage, setIsLastPage ] = useState(false);
   // Create the query and memoize using Firestore’s queryEqual
   const memoizedQuery = useMemoValue(
     getQuery<T>(
@@ -155,18 +157,22 @@ export function useFirestoreCollectionWithAtom<
       // If filters are not equal, update the query
       // Firestore queryEqual does not detect when date filters change
       if (
-        JSON.stringify(next?.firestoreFilters) !==
-        JSON.stringify(prev?.firestoreFilters)
-      )
+        JSON.stringify(next?.firestoreFilters)
+        !== JSON.stringify(prev?.firestoreFilters)
+      ) {
         return false;
+      }
 
       // If joinOperator is not equal, update the query
-      if (next?.joinOperator !== prev?.joinOperator) return false;
+      if (next?.joinOperator !== prev?.joinOperator) {
+        return false;
+      }
 
       // If sorts are not equal, update the query
       // Overrides isLastPage check
-      if (JSON.stringify(next?.sorts) !== JSON.stringify(prev?.sorts))
+      if (JSON.stringify(next?.sorts) !== JSON.stringify(prev?.sorts)) {
         return false;
+      }
 
       return isLastPage || queryEqual(next?.query as any, prev?.query as any);
     }
@@ -175,7 +181,9 @@ export function useFirestoreCollectionWithAtom<
   // Create listener
   useEffect(() => {
     // If path is invalid and no memoizedQuery was created, don’t continue
-    if (!memoizedQuery) return undefined;
+    if (!memoizedQuery) {
+      return undefined;
+    }
 
     // Suspend data atom until we get the first snapshot
     // Don’t suspend if we’re getting the next page
@@ -201,9 +209,13 @@ export function useFirestoreCollectionWithAtom<
           }));
           setDataAtom(docs);
           // If the snapshot doesn’t fill the page, it’s the last page
-          if (docs.length < memoizedQuery.limit) setIsLastPage(true);
+          if (docs.length < memoizedQuery.limit) {
+            setIsLastPage(true);
+          }
           // Make sure to unset in case of mistake
-          else setIsLastPage(false);
+          else {
+            setIsLastPage(false);
+          }
           // Update nextPageAtom if provided
           if (nextPageAtom) {
             setNextPageAtom((s) => ({
@@ -219,8 +231,11 @@ export function useFirestoreCollectionWithAtom<
             });
           }
         } catch (error) {
-          if (onError) onError(error as FirestoreError);
-          else showBoundary(error);
+          if (onError) {
+            onError(error as FirestoreError);
+          } else {
+            showBoundary(error);
+          }
         }
         suspended = false;
       },
@@ -229,16 +244,23 @@ export function useFirestoreCollectionWithAtom<
           setDataAtom([]);
           suspended = false;
         }
-        if (nextPageAtom) setNextPageAtom({ loading: false, available: false });
-        if (onError) onError(error);
-        else showBoundary(error);
+        if (nextPageAtom) {
+          setNextPageAtom({ loading: false, available: false });
+        }
+        if (onError) {
+          onError(error);
+        } else {
+          showBoundary(error);
+        }
       }
     );
 
     // When the listener will change, unsubscribe
     return () => {
       unsubscribe();
-      if (nextPageAtom) setNextPageAtom({ loading: false, available: true });
+      if (nextPageAtom) {
+        setNextPageAtom({ loading: false, available: true });
+      }
     };
   }, [
     firebaseDb,
@@ -260,7 +282,9 @@ export function useFirestoreCollectionWithAtom<
   useEffect(() => {
     // If path is invalid and no collectionRef was created,
     // don’t set update and delete atoms
-    if (!queryValid) return undefined;
+    if (!queryValid) {
+      return undefined;
+    }
 
     // If `options?.updateDocAtom` was passed,
     // set the atom’s value to a function that updates a doc in the collection
@@ -311,10 +335,14 @@ export function useFirestoreCollectionWithAtom<
     return () => {
       // If `updateDocAtom` was passed,
       // reset the atom’s value to prevent writes
-      if (updateDocAtom) setUpdateDocAtom(undefined);
+      if (updateDocAtom) {
+        setUpdateDocAtom(undefined);
+      }
       // If `deleteDoc` was passed,
       // reset the atom’s value to prevent deletes
-      if (deleteDocAtom) setDeleteDocAtom(undefined);
+      if (deleteDocAtom) {
+        setDeleteDocAtom(undefined);
+      }
     };
   }, [
     firebaseDb,
@@ -331,6 +359,16 @@ export default useFirestoreCollectionWithAtom;
 /**
  * Create the Firestore query with page, filters, and sorts constraints.
  * Put code in a function so the results can be compared by useMemoValue.
+ * @param firebaseDb
+ * @param path
+ * @param pathSegments
+ * @param collectionGroup
+ * @param page
+ * @param pageSize
+ * @param filters
+ * @param joinOperator
+ * @param sorts
+ * @param onError
  */
 const getQuery = <T>(
   firebaseDb: Firestore,
@@ -344,8 +382,9 @@ const getQuery = <T>(
   sorts: IUseFirestoreCollectionWithAtomOptions<T>["sorts"],
   onError: IUseFirestoreCollectionWithAtomOptions<T>["onError"]
 ) => {
-  if (!path || (Array.isArray(pathSegments) && pathSegments.some((x) => !x)))
+  if (!path || (Array.isArray(pathSegments) && pathSegments.some((x) => !x))) {
     return null;
+  }
 
   try {
     let collectionRef: Query<T>;
@@ -353,7 +392,7 @@ const getQuery = <T>(
     if (collectionGroup) {
       collectionRef = queryCollectionGroup(
         firebaseDb,
-        [path, ...((pathSegments as string[]) || [])].join("/")
+        [ path, ...((pathSegments as string[]) || []) ].join("/")
       ) as Query<T>;
     } else {
       collectionRef = collection(
@@ -363,43 +402,47 @@ const getQuery = <T>(
       ) as CollectionReference<T>;
     }
 
-    if (!collectionRef) return null;
+    if (!collectionRef) {
+      return null;
+    }
     const limit = (page + 1) * pageSize;
     const firestoreFilters = tableFiltersToFirestoreFilters(filters || []);
 
     return joinOperator === "OR"
       ? {
-          query: query<T, DocumentData>(
-            collectionRef,
-            or(...firestoreFilters),
-            queryLimit(limit),
-            ...(sorts?.map((order) => orderBy(order.key, order.direction)) ||
-              [])
-          ),
-          page,
-          limit,
-          firestoreFilters,
-          sorts,
-          unlimitedQuery: query<T, DocumentData>(collectionRef, ...firestoreFilters),
-          joinOperator,
-        }
+        query: query<T, DocumentData>(
+          collectionRef,
+          or(...firestoreFilters),
+          queryLimit(limit),
+          ...(sorts?.map((order) => orderBy(order.key, order.direction))
+            || [])
+        ),
+        page,
+        limit,
+        firestoreFilters,
+        sorts,
+        unlimitedQuery: query<T, DocumentData>(collectionRef, ...firestoreFilters),
+        joinOperator,
+      }
       : {
-          query: query<T, DocumentData>(
-            collectionRef,
-            queryLimit(limit),
-            ...firestoreFilters,
-            ...(sorts?.map((order) => orderBy(order.key, order.direction)) ||
-              [])
-          ),
-          page,
-          limit,
-          firestoreFilters,
-          sorts,
-          unlimitedQuery: query<T, DocumentData>(collectionRef, ...firestoreFilters),
-          joinOperator,
-        };
+        query: query<T, DocumentData>(
+          collectionRef,
+          queryLimit(limit),
+          ...firestoreFilters,
+          ...(sorts?.map((order) => orderBy(order.key, order.direction))
+            || [])
+        ),
+        page,
+        limit,
+        firestoreFilters,
+        sorts,
+        unlimitedQuery: query<T, DocumentData>(collectionRef, ...firestoreFilters),
+        joinOperator,
+      };
   } catch (e) {
-    if (onError) onError(e as FirestoreError);
+    if (onError) {
+      onError(e as FirestoreError);
+    }
     return null;
   }
 };
@@ -480,7 +523,9 @@ export const tableFiltersToFirestoreFilters = (filters: TableFilter[]) => {
       firestoreFilters.push(where(filter.key, "!=", ""));
       continue;
     } else if (filter.operator === "array-contains") {
-      if (!filter.value || !filter.value.length) continue;
+      if (!filter.value?.length) {
+        continue;
+      }
       // make the value as a singular string
       firestoreFilters.push(
         where(filter.key, filter.operator as WhereFilterOp, filter.value[0])

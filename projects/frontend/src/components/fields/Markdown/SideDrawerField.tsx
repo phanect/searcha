@@ -1,10 +1,9 @@
-import { useTheme } from "@mui/material";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
+import { useTheme, Box } from "@mui/material";
 
-import { Box } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 
 import { fieldSx } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Markdown({
   value,
@@ -14,10 +13,10 @@ export default function Markdown({
 }: ISideDrawerFieldProps) {
   const theme = useTheme();
 
-  if (disabled)
+  if (disabled) {
     return (
       <Box
-        sx={[fieldSx, { display: "block", maxHeight: 300, overflow: "auto" }]}
+        sx={[ fieldSx, { display: "block", maxHeight: 300, overflow: "auto" }]}
         data-color-mode={theme.palette.mode}
       >
         <MDEditor.Markdown
@@ -26,6 +25,7 @@ export default function Markdown({
         />
       </Box>
     );
+  }
 
   return (
     <Box

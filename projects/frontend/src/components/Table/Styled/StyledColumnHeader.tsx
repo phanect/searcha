@@ -1,16 +1,17 @@
 import {
   styled,
   Tooltip,
-  TooltipProps,
   tooltipClasses,
   Stack,
 } from "@mui/material";
 import { COLUMN_HEADER_HEIGHT } from "@src/components/Table/Mock/Column";
+import type {
+  TooltipProps } from "@mui/material";
 
 export const StyledColumnHeader = styled(Stack)(({ theme }) => ({
   position: "relative",
   height: "100%",
-  border: `1px solid ${theme.palette.divider}`,
+  border: `1px solid ${ theme.palette.divider }`,
   "& + &": { borderLeftStyle: "none" },
 
   flexDirection: "row",
@@ -28,7 +29,7 @@ export const StyledColumnHeader = styled(Stack)(({ theme }) => ({
   "& .MuiIconButton-root": {
     color: theme.palette.text.disabled,
     transition: theme.transitions.create(
-      ["background-color", "opacity", "color"],
+      [ "background-color", "opacity", "color" ],
       { duration: theme.transitions.duration.short }
     ),
   },
@@ -47,11 +48,11 @@ export const StyledColumnHeaderNameTooltip = styled(
     <Tooltip {...props} classes={{ popper: className }} />
   )
 )(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
+  [`& .${ tooltipClasses.tooltip }`]: {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
 
-    margin: `-${COLUMN_HEADER_HEIGHT - 1 - 2}px 0 0 !important`,
+    margin: `-${ COLUMN_HEADER_HEIGHT - 1 - 2 }px 0 0 !important`,
     padding: 0,
     paddingRight: theme.spacing(1.5),
   },

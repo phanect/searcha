@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import { Control, useWatch } from "react-hook-form";
-import type { UseFormReturn, FieldValues } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import stringify from "json-stable-stringify-without-jsonify";
 import { merge, get } from "lodash-es";
 import { useSnackbar } from "notistack";
@@ -18,12 +17,13 @@ import {
   tableSettingsDialogAtom,
 } from "@src/atoms/projectScope";
 import { analytics, logEvent } from "@src/analytics";
+import type { UseFormReturn, FieldValues, Control } from "react-hook-form";
 
-export interface IImportSettingsProps {
+export type IImportSettingsProps = {
   closeMenu: () => void;
   control: Control;
   useFormMethods: UseFormReturn<FieldValues, object>;
-}
+};
 
 export default function ImportSettings({
   closeMenu,
@@ -31,13 +31,13 @@ export default function ImportSettings({
   useFormMethods,
 }: IImportSettingsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
 
-  const [newSettings, setNewSettings] = useState("");
-  const [valid, setValid] = useState(true);
+  const [ newSettings, setNewSettings ] = useState("");
+  const [ valid, setValid ] = useState(true);
 
   const { _suggestedRules, ...values } = useWatch({ control });
-  const [tableSchema] = useAtom(tableSettingsDialogSchemaAtom, { store: projectScopeStore });
+  const [ tableSchema ] = useAtom(tableSettingsDialogSchemaAtom, { store: projectScopeStore });
 
   const formattedJson = stringify(
     { ...values, _schema: merge(tableSchema, values._schema) },
@@ -49,8 +49,8 @@ export default function ImportSettings({
           ? 1
           : // Otherwise, sort alphabetically
           a.key > b.key
-          ? 1
-          : -1,
+            ? 1
+            : -1,
     }
   );
 
@@ -62,7 +62,7 @@ export default function ImportSettings({
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   const { setValue } = useFormMethods;
-  const [tableSettingsDialog] = useAtom(tableSettingsDialogAtom, { store: projectScopeStore });
+  const [ tableSettingsDialog ] = useAtom(tableSettingsDialogAtom, { store: projectScopeStore });
 
   const handleImport = () => {
     logEvent(analytics, "import_tableSettings");
@@ -90,13 +90,13 @@ export default function ImportSettings({
         <Modal
           onClose={handleClose}
           title="Import table settings"
-          header={
+          header={(
             <DialogContentText style={{ margin: "0 var(--dialog-spacing)" }}>
               Import table settings in JSON format. This will overwrite any
               existing settings, except for the table ID and collection.
             </DialogContentText>
-          }
-          body={
+          )}
+          body={(
             <div style={{ marginTop: "var(--dialog-contents-spacing)" }}>
               <DiffEditor
                 original={formattedJson}
@@ -110,7 +110,7 @@ export default function ImportSettings({
                       setValid(true);
                     }
                   } catch (e) {
-                    console.log(`Failed to parse JSON: ${e}`);
+                    console.log(`Failed to parse JSON: ${ e }`);
                     setValid(false);
                   }
                 }}
@@ -118,7 +118,7 @@ export default function ImportSettings({
                 minHeight={300}
               />
             </div>
-          }
+          )}
           footer={
             !valid && (
               <FormHelperText

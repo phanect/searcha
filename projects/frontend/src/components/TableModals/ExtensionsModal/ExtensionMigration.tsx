@@ -17,13 +17,13 @@ import {
   tableSchemaAtom,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
-import { sparkToExtensionObjects } from "./utils";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { sparkToExtensionObjects } from "./utils";
 
-export interface IExtensionMigrationProps {
+export type IExtensionMigrationProps = {
   handleClose: () => void;
   handleUpgradeComplete: () => void;
-}
+};
 
 export default function ExtensionMigration({
   handleClose,
@@ -31,13 +31,13 @@ export default function ExtensionMigration({
 }: IExtensionMigrationProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
-  const [isSaved, setIsSaved] = useState(false);
-  const [isUpgrading, setIsUpgrading] = useState(false);
+  const [ isSaved, setIsSaved ] = useState(false);
+  const [ isUpgrading, setIsUpgrading ] = useState(false);
 
   const currentEditor = () => ({
     displayName: currentUser?.displayName ?? "Unknown user",
@@ -46,20 +46,20 @@ export default function ExtensionMigration({
   });
 
   const downloadSparkFile = () => {
-    const tablePathTokens =
-      tableSettings.collection.split("/").filter(function (_, i) {
+    const tablePathTokens
+      = tableSettings.collection.split("/").filter((_, i) =>
         // replace IDs with dash that appears at even indexes
-        return i % 2 === 0;
-      }) ?? [];
+        i % 2 === 0
+      ) ?? [];
     const tablePath = tablePathTokens.join("-");
 
     // https://medium.com/front-end-weekly/text-file-download-in-react-a8b28a580c0d
     const element = document.createElement("a");
-    const file = new Blob([tableSchema.sparks ?? ""], {
+    const file = new Blob([ tableSchema.sparks ?? "" ], {
       type: "text/plain;charset=utf-8",
     });
     element.href = URL.createObjectURL(file);
-    element.download = `sparks-${tablePath}.ts`;
+    element.download = `sparks-${ tablePath }.ts`;
     document.body.appendChild(element);
     element.click();
     setIsSaved(true);
@@ -72,11 +72,12 @@ export default function ExtensionMigration({
       currentEditor()
     );
     console.log(extensionObjects);
-    if (updateTableSchema)
+    if (updateTableSchema) {
       await updateTableSchema({
         extensionObjects,
         sparks: deleteField() as any,
       });
+    }
     setTimeout(handleUpgradeComplete, 500);
   };
 
@@ -88,7 +89,7 @@ export default function ExtensionMigration({
       disableBackdropClick
       disableEscapeKeyDown
       title="Welcome to Extensions"
-      children={
+      children={(
         <>
           <div>
             <Typography paragraph>
@@ -154,7 +155,7 @@ export default function ExtensionMigration({
             </LoadingButton>
           </div>
         </>
-      }
+      )}
     />
   );
 }

@@ -1,20 +1,18 @@
-import type { ReactNode } from 'react';
-import { IFieldComponentProps } from '../../types';
+import { FormControl, Box, Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
 
-import { FormControl, Box, Typography } from '@mui/material';
-import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import FieldLabel from "../../FieldLabel";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { IFieldComponentProps } from "../../types";
+import type { ReactNode } from "react";
 
-import FieldLabel from '../../FieldLabel';
-import FieldErrorMessage from '../../FieldErrorMessage';
-import FieldAssistiveText from '../../FieldAssistiveText';
-
-export interface IScoreComponentProps extends IFieldComponentProps {
+export type IScoreComponentProps = {
   min?: number;
   max?: number;
   minLabel?: ReactNode;
   maxLabel?: ReactNode;
   step?: number;
-}
+} & IFieldComponentProps;
 
 export default function ScoreComponent({
   field: { onChange, value, ref },
@@ -33,29 +31,29 @@ export default function ScoreComponent({
   step = 1,
 }: IScoreComponentProps) {
   const buttons: ReactNode[] = [];
-  for (let i = min; i <= max; i += step)
+  for (let i = min; i <= max; i += step) {
     buttons.push(
       <ToggleButton
         key={i}
         value={i}
         disabled={disabled}
-        aria-label={`${i}${
+        aria-label={`${ i }${
           i === min && minLabel
-            ? ` (${minLabel})`
+            ? ` (${ minLabel })`
             : i === max && maxLabel
-            ? ` (${maxLabel})`
-            : ''
+              ? ` (${ maxLabel })`
+              : ""
         }`}
         sx={{
-          color: 'text.secondary',
+          color: "text.secondary",
 
           width: 32,
           height: 32,
           margin: { xs: 1, md: 0.5 },
 
-          '&:not(:last-child), &:not(:first-child)': { borderRadius: 1 },
-          '&:not(:first-child)': {
-            borderLeftColor: 'palette.divider',
+          "&:not(:last-child), &:not(:first-child)": { borderRadius: 1 },
+          "&:not(:first-child)": {
+            borderLeftColor: "palette.divider",
             marginLeft: { xs: 1, md: 0.5 },
           },
         }}
@@ -63,6 +61,7 @@ export default function ScoreComponent({
         {i}
       </ToggleButton>
     );
+  }
 
   return (
     <FormControl
@@ -77,9 +76,9 @@ export default function ScoreComponent({
         required={!!required}
         sx={[
           {
-            typography: 'body1',
+            typography: "body1",
             mb: 0,
-            textTransform: 'none',
+            textTransform: "none",
           },
           minLabel || maxLabel ? { mb: 2 } : {},
         ]}
@@ -89,12 +88,12 @@ export default function ScoreComponent({
 
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateRows: 'repeat(3, auto)',
+          display: "grid",
+          gridTemplateRows: "repeat(3, auto)",
           rowGap: 2,
           gridTemplateColumns: {
-            xs: 'repeat(2, 1fr)',
-            md: 'repeat(2, min-content)',
+            xs: "repeat(2, 1fr)",
+            md: "repeat(2, min-content)",
           },
         }}
       >
@@ -111,19 +110,21 @@ export default function ScoreComponent({
         <ToggleButtonGroup
           value={value}
           onChange={(_, v) => {
-            if (v !== null) onChange(v);
+            if (v !== null) {
+              onChange(v);
+            }
           }}
           exclusive
           aria-label="Score"
           sx={{
             gridRow: 2,
-            gridColumn: '1 / -1',
+            gridColumn: "1 / -1",
 
-            display: 'flex',
-            justifyContent: 'center',
+            display: "flex",
+            justifyContent: "center",
 
             m: { xs: -1, md: -0.5 },
-            flexWrap: { xs: 'wrap', md: 'nowrap' },
+            flexWrap: { xs: "wrap", md: "nowrap" },
           }}
         >
           {buttons}
@@ -134,7 +135,7 @@ export default function ScoreComponent({
             variant="overline"
             color="textSecondary"
             align="right"
-            sx={{ gridRow: 1, gridColumn: { xs: 3, md: 2 } }}
+            sx={{ gridRow: 1, gridColumn: { xs: 3, md: 2 }}}
           >
             {maxLabel}
           </Typography>

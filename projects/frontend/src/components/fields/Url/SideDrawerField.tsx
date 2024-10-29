@@ -1,9 +1,8 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Stack, TextField, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Url({
   column,
@@ -33,7 +32,7 @@ export default function Url({
         href={
           typeof value !== "string" || value.includes("http")
             ? value
-            : `https://${value}`
+            : `https://${ value }`
         }
         target="_blank"
         rel="noopener noreferrer"

@@ -1,19 +1,20 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
 import {
   Divider,
-  DividerProps,
   DialogContent,
-  DialogContentProps,
-} from '@mui/material';
+} from "@mui/material";
+import type {
+  DividerProps,
+  DialogContentProps } from "@mui/material";
 
-export interface IScrollableDialogContentProps extends DialogContentProps {
+export type IScrollableDialogContentProps = {
   disableTopDivider?: boolean;
   disableBottomDivider?: boolean;
-  dividerSx?: DividerProps['sx'];
-  topDividerSx?: DividerProps['sx'];
-  bottomDividerSx?: DividerProps['sx'];
-}
+  dividerSx?: DividerProps["sx"];
+  topDividerSx?: DividerProps["sx"];
+  bottomDividerSx?: DividerProps["sx"];
+} & DialogContentProps;
 
 export default function ScrollableDialogContent({
   disableTopDivider = false,
@@ -30,29 +31,29 @@ export default function ScrollableDialogContent({
       {!disableTopDivider && ref.current?.scrollTop !== undefined && (
         <Divider
           style={{
-            visibility: ref.current.scrollTop > 0 ? 'visible' : 'hidden',
+            visibility: ref.current.scrollTop > 0 ? "visible" : "hidden",
           }}
           sx={[
-            ...(Array.isArray(dividerSx) ? dividerSx : [dividerSx]),
-            ...(Array.isArray(topDividerSx) ? topDividerSx : [topDividerSx]),
+            ...(Array.isArray(dividerSx) ? dividerSx : [ dividerSx ]),
+            ...(Array.isArray(topDividerSx) ? topDividerSx : [ topDividerSx ]),
           ]}
         />
       )}
 
-      <DialogContent {...props} ref={ ref } />
+      <DialogContent {...props} ref={ref} />
 
       {!disableBottomDivider && ref.current?.scrollTop !== undefined && (
         <Divider
           style={{
             visibility: (ref.current.scrollTop < ref.current.scrollHeight - ref.current.clientHeight)
-              ? 'visible'
-              : 'hidden',
+              ? "visible"
+              : "hidden",
           }}
           sx={[
-            ...(Array.isArray(dividerSx) ? dividerSx : [dividerSx]),
+            ...(Array.isArray(dividerSx) ? dividerSx : [ dividerSx ]),
             ...(Array.isArray(bottomDividerSx)
               ? bottomDividerSx
-              : [bottomDividerSx]),
+              : [ bottomDividerSx ]),
           ]}
         />
       )}

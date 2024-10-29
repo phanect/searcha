@@ -10,11 +10,11 @@ import type {
   IEditorCellProps,
 } from "@src/components/fields/types";
 
-interface IEditorCellControllerProps extends IDisplayCellProps {
+type IEditorCellControllerProps = {
   EditorCellComponent: React.ComponentType<IEditorCellProps>;
   parentRef: IEditorCellProps["parentRef"];
   saveOnUnmount: boolean;
-}
+} & IDisplayCellProps;
 
 /**
  * Stores a local state for the cell’s value, so that `EditorCell` doesn’t
@@ -32,6 +32,10 @@ interface IEditorCellControllerProps extends IDisplayCellProps {
  *   from db and the field is not dirty. This is required to make inline
  *   `EditorCell` work when they haven’t been interacted with, but prevent the
  *   value changing while someone is editing a field, like Long Text.
+ * @param root0
+ * @param root0.EditorCellComponent
+ * @param root0.saveOnUnmount
+ * @param root0.value
  */
 export default function EditorCellController({
   EditorCellComponent,
@@ -43,9 +47,9 @@ export default function EditorCellController({
 
   // Store local value so we don’t immediately write to db when the user
   // types in a textbox, for example
-  const [localValue, setLocalValue, localValueRef] = useStateRef(value);
+  const [ localValue, setLocalValue, localValueRef ] = useStateRef(value);
   // Mark if the user has interacted with this cell and hasn’t saved yet
-  const [isDirty, setIsDirty, isDirtyRef] = useStateRef(false);
+  const [ isDirty, setIsDirty, isDirtyRef ] = useStateRef(false);
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
@@ -53,15 +57,18 @@ export default function EditorCellController({
   // When this cell’s data has updated, update the local value if
   // it’s not dirty and the value is different
   useEffect(() => {
-    if (!isDirty && !isEqual(value, localValueRef.current))
+    if (!isDirty && !isEqual(value, localValueRef.current)) {
       setLocalValue(value);
-  }, [isDirty, localValueRef, setLocalValue, value]);
+    }
+  }, [ isDirty, localValueRef, setLocalValue, value ]);
 
   // This is where we update the documents
   const handleSubmit = async () => {
     // props.disabled should always be false as withRenderTableCell would
     // render DisplayCell instead of EditorCell
-    if (props.disabled || !isDirtyRef.current) return;
+    if (props.disabled || !isDirtyRef.current) {
+      return;
+    }
     try {
       await updateField({
         path: props._rowy_ref.path,
@@ -75,14 +82,16 @@ export default function EditorCellController({
     }
   };
 
-  useLayoutEffect(() => {
-    return () => {
-      if (saveOnUnmount) handleSubmit();
-    };
+  useLayoutEffect(() =>
+    () => {
+      if (saveOnUnmount) {
+        handleSubmit();
+      }
+    }
     // Warns that `saveOnUnmount` and `handleSubmit` should be included, but
     // those don’t change across re-renders. We only want to run this on unmount
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  , []);
 
   return (
     <EditorCellComponent

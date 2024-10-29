@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useAtom } from "jotai";
-import { Control, useWatch } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import stringify from "json-stable-stringify-without-jsonify";
 import { merge } from "lodash-es";
 import { useSnackbar } from "notistack";
@@ -15,21 +15,22 @@ import {
   tableSettingsDialogSchemaAtom,
 } from "@src/atoms/projectScope";
 import { analytics, logEvent } from "@src/analytics";
+import type { Control } from "react-hook-form";
 
-export interface IExportSettingsProps {
+export type IExportSettingsProps = {
   closeMenu: () => void;
   control: Control;
-}
+};
 
 export default function ExportSettings({
   closeMenu,
   control,
 }: IExportSettingsProps) {
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   const projectScopeStore = useContext(ProjectScopeContext);
 
   const { _suggestedRules, ...values } = useWatch({ control });
-  const [tableSchema] = useAtom(tableSettingsDialogSchemaAtom, { store: projectScopeStore });
+  const [ tableSchema ] = useAtom(tableSettingsDialogSchemaAtom, { store: projectScopeStore });
 
   const formattedJson = stringify(
     { ...values, _schema: merge(tableSchema, values._schema) },
@@ -41,8 +42,8 @@ export default function ExportSettings({
           ? 1
           : // Otherwise, sort alphabetically
           a.key > b.key
-          ? 1
-          : -1,
+            ? 1
+            : -1,
     }
   );
 
@@ -67,12 +68,12 @@ export default function ExportSettings({
         <Modal
           onClose={handleClose}
           title="Export table settings"
-          header={
+          header={(
             <DialogContentText style={{ margin: "0 var(--dialog-spacing)" }}>
               Export table settings and columns in JSON format
             </DialogContentText>
-          }
-          body={
+          )}
+          body={(
             <div style={{ marginTop: "var(--dialog-contents-spacing)" }}>
               <CodeEditor
                 disabled
@@ -81,7 +82,7 @@ export default function ExportSettings({
                 minHeight={300}
               />
             </div>
-          }
+          )}
           actions={{
             primary: {
               children: "Copy to clipboard",

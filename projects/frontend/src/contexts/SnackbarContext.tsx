@@ -1,6 +1,5 @@
 import {
   SnackbarProvider as NotistackProvider,
-  SnackbarProviderProps,
 } from "notistack";
 
 import { makeStyles } from "tss-react/mui";
@@ -9,37 +8,39 @@ import ErrorIcon from "@mui/icons-material/ErrorOutline";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import SuccessIcon from "@mui/icons-material/Check";
 import WarningIcon from "@mui/icons-material/WarningAmber";
+import type {
+  SnackbarProviderProps } from "notistack";
 
 const useStyles = makeStyles()((theme) => ({
   containerRoot: {
     "&&": {
       [theme.breakpoints.down("sm")]: {
-        maxWidth: `calc(100% - ${theme.spacing(2)})`,
+        maxWidth: `calc(100% - ${ theme.spacing(2) })`,
       },
     },
 
     "&.SnackbarContainer-top": {
-      top: `max(env(safe-area-inset-top), ${theme.spacing(3)})`,
+      top: `max(env(safe-area-inset-top), ${ theme.spacing(3) })`,
       [theme.breakpoints.down("sm")]: {
-        top: `max(env(safe-area-inset-top), ${theme.spacing(1)})`,
+        top: `max(env(safe-area-inset-top), ${ theme.spacing(1) })`,
       },
     },
     "&.SnackbarContainer-bottom": {
-      bottom: `max(env(safe-area-inset-bottom), ${theme.spacing(3)})`,
+      bottom: `max(env(safe-area-inset-bottom), ${ theme.spacing(3) })`,
       [theme.breakpoints.down("sm")]: {
-        bottom: `max(env(safe-area-inset-bottom), ${theme.spacing(1)})`,
+        bottom: `max(env(safe-area-inset-bottom), ${ theme.spacing(1) })`,
       },
     },
     "&.SnackbarContainer-right": {
-      right: `max(env(safe-area-inset-right), ${theme.spacing(3)})`,
+      right: `max(env(safe-area-inset-right), ${ theme.spacing(3) })`,
       [theme.breakpoints.down("sm")]: {
-        right: `max(env(safe-area-inset-right), ${theme.spacing(1)})`,
+        right: `max(env(safe-area-inset-right), ${ theme.spacing(1) })`,
       },
     },
     "&.SnackbarContainer-left": {
-      left: `max(env(safe-area-inset-left), ${theme.spacing(3)})`,
+      left: `max(env(safe-area-inset-left), ${ theme.spacing(3) })`,
       [theme.breakpoints.down("sm")]: {
-        left: `max(env(safe-area-inset-left), ${theme.spacing(1)})`,
+        left: `max(env(safe-area-inset-left), ${ theme.spacing(1) })`,
       },
     },
   },

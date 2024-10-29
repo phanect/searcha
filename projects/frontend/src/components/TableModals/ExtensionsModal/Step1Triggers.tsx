@@ -1,6 +1,5 @@
 import { useAtom } from "jotai";
 import { useContext } from "react";
-import { IExtensionModalStepProps } from "./ExtensionModal";
 
 import {
   Typography,
@@ -19,13 +18,14 @@ import {
 } from "@src/atoms/projectScope";
 import { FieldType } from "@src/constants/fields";
 import { triggerTypes } from "./utils";
+import type { IExtensionModalStepProps } from "./ExtensionModal";
 
 export default function Step1Triggers({
   extensionObject,
   setExtensionObject,
 }: IExtensionModalStepProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
@@ -47,7 +47,7 @@ export default function Step1Triggers({
               <FormControlLabel
                 key={trigger}
                 label={trigger}
-                control={
+                control={(
                   <Checkbox
                     checked={extensionObject.triggers.includes(trigger)}
                     name={trigger}
@@ -63,48 +63,45 @@ export default function Step1Triggers({
                         } else {
                           return {
                             ...extensionObject,
-                            triggers: [...extensionObject.triggers, trigger],
+                            triggers: [ ...extensionObject.triggers, trigger ],
                           };
                         }
                       });
                     }}
                   />
-                }
-              />
-              {trigger === "update" &&
-                extensionObject.triggers.includes("update") &&
-                compatibleRowyRunVersion!({ minVersion: "1.2.4" }) && (
-                  <ColumnSelect
-                    multiple={true}
-                    label="Tracked fields (optional)"
-                    filterColumns={(column) =>
-                      column.type !== FieldType.subTable
-                    }
-                    showFieldNames
-                    value={extensionObject.trackedFields ?? []}
-                    onChange={(trackedFields: string[]) => {
-                      setExtensionObject((extensionObject) => {
-                        return {
-                          ...extensionObject,
-                          trackedFields,
-                        };
-                      });
-                    }}
-                    TextFieldProps={{
-                      helperText: (
-                        <>
-                          <FormHelperText error={false} style={{ margin: 0 }}>
-                            Only Changes to these fields will trigger the
-                            extension. If left blank, any update will trigger
-                            the extension.
-                          </FormHelperText>
-                        </>
-                      ),
-                      FormHelperTextProps: { component: "div" } as any,
-                      required: false,
-                    }}
-                  />
                 )}
+              />
+              {trigger === "update"
+              && extensionObject.triggers.includes("update")
+              && compatibleRowyRunVersion!({ minVersion: "1.2.4" }) && (
+                <ColumnSelect
+                  multiple={true}
+                  label="Tracked fields (optional)"
+                  filterColumns={(column) =>
+                    column.type !== FieldType.subTable}
+                  showFieldNames
+                  value={extensionObject.trackedFields ?? []}
+                  onChange={(trackedFields: string[]) => {
+                    setExtensionObject((extensionObject) => ({
+                      ...extensionObject,
+                      trackedFields,
+                    }));
+                  }}
+                  TextFieldProps={{
+                    helperText: (
+                      <>
+                        <FormHelperText error={false} style={{ margin: 0 }}>
+                          Only Changes to these fields will trigger the
+                          extension. If left blank, any update will trigger
+                          the extension.
+                        </FormHelperText>
+                      </>
+                    ),
+                    FormHelperTextProps: { component: "div" } as any,
+                    required: false,
+                  }}
+                />
+              )}
             </>
           ))}
         </FormGroup>

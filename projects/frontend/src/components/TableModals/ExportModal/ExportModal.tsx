@@ -1,9 +1,7 @@
 import { useState, useMemo, useContext } from "react";
 import { useAtom } from "jotai";
-import { ITableModalProps } from "@src/components/TableModals/TableModals";
 import {
   query as firestoreQuery,
-  Query,
   collection,
   collectionGroup,
   orderBy,
@@ -16,8 +14,6 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import Modal from "@src/components/Modal";
-import ExportDetails from "./ModalContentsExport";
-import DownloadDetails from "./ModalContentsDownload";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
@@ -28,29 +24,34 @@ import {
 } from "@src/atoms/tableScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { tableFiltersToFirestoreFilters } from "@src/hooks/useFirestoreCollectionWithAtom";
-import { TableRow } from "@src/types/table";
+import DownloadDetails from "./ModalContentsDownload";
+import ExportDetails from "./ModalContentsExport";
+import type { TableRow } from "@src/types/table";
+import type {
+  Query } from "firebase/firestore";
+import type { ITableModalProps } from "@src/components/TableModals/TableModals";
 
-export interface IExportModalContentsProps {
+export type IExportModalContentsProps = {
   query: Query<TableRow>;
   closeModal: () => void;
-}
+};
 
 // TODO: Generalize and remove Firestore dependencies
 export default function Export({ onClose }: ITableModalProps) {
-  const [mode, setMode] = useState<"Export" | "Download">("Export");
+  const [ mode, setMode ] = useState<"Export" | "Download">("Export");
 
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
-  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableFilters ] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [ tableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
 
   const tableCollection = tableSettings.collection;
   const isCollectionGroup = tableSettings.tableType === "collectionGroup";
   const query = useMemo(() => {
     const _path = tableCollection.replaceAll("~2F", "/") ?? "";
-    let collectionRef = isCollectionGroup
+    const collectionRef = isCollectionGroup
       ? (collectionGroup(firebaseDb, _path) as Query<TableRow>)
       : (collection(firebaseDb, _path) as Query<TableRow>);
     // add filters
@@ -80,7 +81,7 @@ export default function Export({ onClose }: ITableModalProps) {
           },
         }}
         title={mode}
-        header={
+        header={(
           <>
             <DialogContent style={{ flexGrow: 0, flexShrink: 0 }}>
               {tableFilters.length !== 0 || tableSorts.length !== 0
@@ -96,8 +97,7 @@ export default function Export({ onClose }: ITableModalProps) {
               variant="fullWidth"
               aria-label="Modal tabs"
               action={(actions) =>
-                setTimeout(() => actions?.updateIndicator(), 200)
-              }
+                setTimeout(() => actions?.updateIndicator(), 200)}
               sx={{ mt: 1 }}
             >
               <Tab style={{ minWidth: 0 }} label="Export" value="Export" />
@@ -109,7 +109,7 @@ export default function Export({ onClose }: ITableModalProps) {
             </TabList>
             <Divider style={{ marginTop: -1 }} />
           </>
-        }
+        )}
         ScrollableDialogContentProps={{
           disableTopDivider: true,
           disableBottomDivider: true,

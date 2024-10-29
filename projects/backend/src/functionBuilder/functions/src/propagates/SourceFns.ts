@@ -1,10 +1,10 @@
-//import { DocumentSnapshot } from "firebase-functions/lib/providers/firestore";
+// import { DocumentSnapshot } from "firebase-functions/lib/providers/firestore";
 import { rowReducer } from "../utils";
 import { db } from "../firebaseConfig";
-import { DocumentSnapshot } from "firebase-functions/v1/firestore";
+import type { DocumentSnapshot } from "firebase-functions/v1/firestore";
 const TARGET_SUB_COLLECTION = "_FT_BINDINGS";
 
-//sample binding document
+// sample binding document
 
 // /_FT_BINDINGS/{docId}
 // docId is encodeURIComponent of docPath
@@ -49,7 +49,9 @@ export const propagateChanges = (docSnapshot: DocumentSnapshot) =>
                   .collection(decodeURIComponent(cPath))
                   .doc(targetDocId);
                 const targetDoc = await targetRef.get();
-                if (!targetDoc.exists) return false;
+                if (!targetDoc.exists) {
+                  return false;
+                }
                 const targetFieldValue = targetDoc.get(targetFieldKey);
                 const indexOfCurrentTarget = targetFieldValue.findIndex(
                   (element) => element.docPath === docSnapshot.ref.path
@@ -63,7 +65,9 @@ export const propagateChanges = (docSnapshot: DocumentSnapshot) =>
                     [targetFieldKey]: targetFieldValue,
                   });
                   return true;
-                } else return false;
+                } else {
+                  return false;
+                }
               }
             );
             fieldPromises.forEach((p) => promises.push(p));
@@ -90,7 +94,7 @@ export const removeCopiesOfDeleteDoc = (
         const targetDoc = await targetRef.get();
         const currentTargetFieldValue = targetDoc.get(targetFieldKey);
         const newTargetFieldValue = currentTargetFieldValue.filter(
-          ({ docPath }: { docPath: string; snapshot: any }) =>
+          ({ docPath }: { docPath: string; snapshot: any; }) =>
             docPath !== sourceDocRef.path
         );
         await targetRef.update({ [targetFieldKey]: newTargetFieldValue });

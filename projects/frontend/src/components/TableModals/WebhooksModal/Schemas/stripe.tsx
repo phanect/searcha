@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { useAtom } from "jotai";
 import { Typography, Link, TextField, Alert, Box } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import {
   ProjectScopeContext,
   secretNamesAtom,
@@ -14,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import LoadingButton from "@mui/lab/LoadingButton";
+import type { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import type { WebHook } from "./type.ts";
 
 export const webhookStripe: WebHook = {
@@ -49,9 +49,9 @@ export const webhookStripe: WebHook = {
   },
   Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => {
     const projectScopeStore = useContext(ProjectScopeContext);
-    const [secretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
-    const [updateSecretNames] = useAtom(updateSecretNamesAtom, { store: projectScopeStore });
-    const [, setProjectSettingsDialog] = useAtom(
+    const [ secretNames ] = useAtom(secretNamesAtom, { store: projectScopeStore });
+    const [ updateSecretNames ] = useAtom(updateSecretNamesAtom, { store: projectScopeStore });
+    const [ , setProjectSettingsDialog ] = useAtom(
       projectSettingsDialogAtom,
       { store: projectScopeStore }
     );
@@ -61,7 +61,7 @@ export const webhookStripe: WebHook = {
         <Typography gutterBottom>
           Select or add your secret key in the format of{" "}
           <code>
-            {"{" + `"publicKey":"pk_...","secretKey": "sk_..."` + "}"}
+            {"{" + "\"publicKey\":\"pk_...\",\"secretKey\": \"sk_...\"" + "}"}
           </code>{" "}
           and get your{" "}
           <Link
@@ -78,16 +78,16 @@ export const webhookStripe: WebHook = {
           Then add the secret below.
         </Typography>
 
-        {webhookObject.auth.secretKey &&
-          !secretNames.loading &&
-          secretNames.secretNames &&
-          !secretNames.secretNames.includes(webhookObject.auth.secretKey) && (
-            <Alert severity="error" sx={{ height: "auto!important" }}>
-              Your previously selected key{" "}
-              <code>{webhookObject.auth.secretKey}</code> does not exist in
-              Secret Manager. Please select your key again.
-            </Alert>
-          )}
+        {webhookObject.auth.secretKey
+        && !secretNames.loading
+        && secretNames.secretNames
+        && !secretNames.secretNames.includes(webhookObject.auth.secretKey) && (
+          <Alert severity="error" sx={{ height: "auto!important" }}>
+            Your previously selected key{" "}
+            <code>{webhookObject.auth.secretKey}</code> does not exist in
+            Secret Manager. Please select your key again.
+          </Alert>
+        )}
 
         <Box
           sx={{
@@ -112,9 +112,7 @@ export const webhookStripe: WebHook = {
                 });
               }}
             >
-              {secretNames.secretNames?.map((secret) => {
-                return <MenuItem value={secret}>{secret}</MenuItem>;
-              })}
+              {secretNames.secretNames?.map((secret) => <MenuItem value={secret}>{secret}</MenuItem>)}
               <MenuItem
                 onClick={() => {
                   setProjectSettingsDialog({

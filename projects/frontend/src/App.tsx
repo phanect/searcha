@@ -21,8 +21,8 @@ import {
 import { ROUTES } from "@src/constants/routes";
 import useKeyPressWithAtom from "@src/hooks/useKeyPressWithAtom";
 
-import TableGroupRedirectPage from "./pages/TableGroupRedirectPage";
 import SignOutPage from "@src/pages/Auth/SignOutPage";
+import TableGroupRedirectPage from "./pages/TableGroupRedirectPage";
 import ProvidedArraySubTablePage from "./pages/Table/ProvidedArraySubTablePage";
 
 const AuthPage = lazy(() => import("@src/pages/Auth/AuthPage"));
@@ -54,8 +54,8 @@ const DebugPage = lazy(() => import("@src/pages/Settings/DebugPage"));
 export default function App() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
   useKeyPressWithAtom("Alt", altPressAtom, { store: projectScopeStore });
 
   return (
@@ -77,25 +77,25 @@ export default function App() {
           <Route path={ROUTES.jwtAuth} element={<JwtAuthPage />} />
           <Route
             path={ROUTES.impersonatorAuth}
-            element={
+            element={(
               <RequireAuth>
                 <ImpersonatorAuthPage />
               </RequireAuth>
-            }
+            )}
           />
 
           <Route path={ROUTES.setup} element={<SetupPage />} />
 
           <Route
             path="/"
-            element={
+            element={(
               <RequireAuth>
                 <Navigation>
                   <TableSettingsDialog />
                   <ProjectSettingsDialog />
                 </Navigation>
               </RequireAuth>
-            }
+            )}
           >
             <Route
               path={ROUTES.home}
@@ -110,9 +110,9 @@ export default function App() {
                   <Route index element={<NotFound />} />
                   <Route
                     path=":docPath/:subTableKey"
-                    element={
+                    element={(
                       <Suspense
-                        fallback={
+                        fallback={(
                           <Backdrop
                             key="sub-table-modal-backdrop"
                             open
@@ -120,20 +120,20 @@ export default function App() {
                           >
                             <Loading />
                           </Backdrop>
-                        }
+                        )}
                       >
                         <ProvidedSubTablePage />
                       </Suspense>
-                    }
+                    )}
                   />
                 </Route>
                 <Route path={ROUTES.arraySubTable}>
                   <Route index element={<NotFound />} />
                   <Route
                     path=":docPath/:subTableKey"
-                    element={
+                    element={(
                       <Suspense
-                        fallback={
+                        fallback={(
                           <Backdrop
                             key="sub-table-modal-backdrop"
                             open
@@ -141,11 +141,11 @@ export default function App() {
                           >
                             <Loading />
                           </Backdrop>
-                        }
+                        )}
                       >
                         <ProvidedArraySubTablePage />
                       </Suspense>
-                    }
+                    )}
                   />
                 </Route>
               </Route>
@@ -168,11 +168,11 @@ export default function App() {
             <Route path={ROUTES.userSettings} element={<UserSettingsPage />} />
             <Route
               path={ROUTES.projectSettings}
-              element={
+              element={(
                 <AdminRoute>
                   <ProjectSettingsPage />
                 </AdminRoute>
-              }
+              )}
             />
             <Route path={ROUTES.members} element={<MembersPage />} />
 

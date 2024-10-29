@@ -1,4 +1,4 @@
-import { IFieldComponentProps } from '../../types';
+import type { IFieldComponentProps } from "../../types";
 
 export default function HiddenComponent({
   field: { value, ref },

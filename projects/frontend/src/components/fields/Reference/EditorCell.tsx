@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { doc, deleteField } from "firebase/firestore";
 
-import type { IEditorCellProps } from "@src/components/fields/types";
 import EditorCellTextField from "@src/components/Table/TableCell/EditorCellTextField";
 
 import { InputAdornment, Tooltip } from "@mui/material";
@@ -10,20 +9,21 @@ import ErrorIcon from "@mui/icons-material/ErrorOutline";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Reference({
   value,
   ...props
 }: IEditorCellProps<ReturnType<typeof doc>>) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
-  const [localValue, setLocalValue] = useState(
+  const [ localValue, setLocalValue ] = useState(
     Boolean(value) && "path" in value && typeof value.path === "string"
       ? value.path
       : ""
   );
-  const [error, setError] = useState("");
+  const [ error, setError ] = useState("");
 
   return (
     <EditorCellTextField

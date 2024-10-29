@@ -4,13 +4,15 @@ import { isEqual } from "lodash-es";
 import { getIdTokenResult } from "firebase/auth";
 import { compare } from "compare-versions";
 
+import { runRoutes } from "@src/constants/runRoutes";
+import meta from "@root/package.json";
 import { projectSettingsAtom } from "./project";
 import { currentUserAtom } from "./auth";
-import { RunRoute, runRoutes } from "@src/constants/runRoutes";
-import meta from "@root/package.json";
+import type { RunRoute } from "@src/constants/runRoutes";
 
 /**
- * Get rowyRunUrl from projectSettings, but only update when this field changes */
+ * Get rowyRunUrl from projectSettings, but only update when this field changes
+ */
 const rowyRunUrlAtom = selectAtom(
   projectSettingsAtom,
   (projectSettings) => projectSettings.rowyRunUrl
@@ -24,7 +26,7 @@ const rowyRunServicesAtom = selectAtom(
   isEqual
 );
 
-export interface IRowyRunRequestProps {
+export type IRowyRunRequestProps = {
   /** Optionally force refresh the token */
   forceRefresh?: boolean;
   service?: "hooks" | "builder";
@@ -41,14 +43,13 @@ export interface IRowyRunRequestProps {
   signal?: AbortSignal;
   /** Optionally pass a callback that’s called if Rowy Run not set up */
   handleNotSetUp?: () => void;
-}
+};
 
 /**
  * An atom that returns a function to call Rowy Run endpoints using the URL
  * defined in project settings and retrieving a JWT token.
  *
  * Returns `false` if user not signed in or Rowy Run not set up.
- *
  * @example Basic usage:
  * ```
  * const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
@@ -73,7 +74,9 @@ export const rowyRunAtom = atom((get) => {
     handleNotSetUp,
   }: IRowyRunRequestProps): Promise<Response | any | false> => {
     if (!currentUser) {
-      if (handleNotSetUp) handleNotSetUp();
+      if (handleNotSetUp) {
+        handleNotSetUp();
+      }
       return false;
     }
     const authToken = await getIdTokenResult(currentUser!, forceRefresh);
@@ -81,16 +84,20 @@ export const rowyRunAtom = atom((get) => {
     const serviceUrl = localhost
       ? "http://localhost:8080"
       : service
-      ? rowyRunServices?.[service]
-      : rowyRunUrl;
+        ? rowyRunServices?.[service]
+        : rowyRunUrl;
     if (!serviceUrl) {
-      if (handleNotSetUp) handleNotSetUp();
+      if (handleNotSetUp) {
+        handleNotSetUp();
+      }
       return false;
     }
 
     const { method, path } = route;
     let url = serviceUrl + path;
-    if (params && params.length > 0) url = url + "/" + params.join("/");
+    if (params && params.length > 0) {
+      url = url + "/" + params.join("/");
+    }
     const response = await fetch(url, {
       method: method,
       mode: "cors",
@@ -107,7 +114,9 @@ export const rowyRunAtom = atom((get) => {
       signal,
     });
 
-    if (json) return await response.json();
+    if (json) {
+      return await response.json();
+    }
     return response;
   };
 });
@@ -138,9 +147,15 @@ export const compatibleRowyRunVersionAtom = atom(async (get) => {
     minVersion?: string;
     maxVersion?: string;
   }) => {
-    if (!deployedVersion) return false;
-    if (minVersion && compare(deployedVersion, minVersion, "<")) return false;
-    if (maxVersion && compare(deployedVersion, maxVersion, ">")) return false;
+    if (!deployedVersion) {
+      return false;
+    }
+    if (minVersion && compare(deployedVersion, minVersion, "<")) {
+      return false;
+    }
+    if (maxVersion && compare(deployedVersion, maxVersion, ">")) {
+      return false;
+    }
     return true;
   };
 });

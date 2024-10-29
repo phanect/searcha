@@ -12,7 +12,7 @@ export const RULES_END = `
 
 export const REQUIRED_RULES = `
     // Rowy: Allow signed in users to read Rowy configuration and admins to write
-    match /${CONFIG}/{docId} {
+    match /${ CONFIG }/{docId} {
       allow read: if request.auth != null;
       allow write: if hasAnyRole(["ADMIN", "OWNER"]);
     	match /{document=**} {
@@ -21,12 +21,12 @@ export const REQUIRED_RULES = `
       }
     }
     // Rowy: Allow users to edit their settings
-    match /${USERS}/{userId} {
+    match /${ USERS }/{userId} {
       allow get, update, delete: if isDocOwner(userId);
       allow create: if request.auth != null;
     }
     // Rowy: Allow public to read public Rowy configuration
-    match /${PUBLIC_SETTINGS} {
+    match /${ PUBLIC_SETTINGS } {
     	allow get: if true;
     }
 ` as const;

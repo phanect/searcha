@@ -1,6 +1,7 @@
 import { memo, useRef } from "react";
-import { styled, Divider, DividerProps } from "@mui/material";
+import { styled, Divider } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type { DividerProps } from "@mui/material";
 
 const MemoizedList = memo(
   styled("ul")(({ theme }) => ({
@@ -15,7 +16,7 @@ const MemoizedList = memo(
   }))
 );
 
-export interface IFadeListProps {
+export type IFadeListProps = {
   children?: React.ReactNode;
   disableTopDivider?: boolean;
   disableBottomDivider?: boolean;
@@ -23,7 +24,7 @@ export interface IFadeListProps {
   topDividerSx?: DividerProps["sx"];
   bottomDividerSx?: DividerProps["sx"];
   listSx?: DividerProps["sx"];
-}
+};
 
 export default function FadeList({
   children,
@@ -38,22 +39,22 @@ export default function FadeList({
 
   return (
     <>
-      {!disableTopDivider &&
-        (ref.current?.scrollTop ?? 0) > 0 && (
-          <Divider sx={[...spreadSx(dividerSx), ...spreadSx(topDividerSx)]} />
-        )}
+      {!disableTopDivider
+      && (ref.current?.scrollTop ?? 0) > 0 && (
+        <Divider sx={[ ...spreadSx(dividerSx), ...spreadSx(topDividerSx) ]} />
+      )}
 
-      <MemoizedList ref={ ref } sx={listSx}>
+      <MemoizedList ref={ref} sx={listSx}>
         {children}
       </MemoizedList>
 
-      {!disableBottomDivider &&
-        ref.current &&
-        (ref.current.scrollTop < ref.current.scrollHeight - ref.current.clientHeight) && (
-          <Divider
-            sx={[...spreadSx(dividerSx), ...spreadSx(bottomDividerSx)]}
-          />
-        )}
+      {!disableBottomDivider
+      && ref.current
+      && (ref.current.scrollTop < ref.current.scrollHeight - ref.current.clientHeight) && (
+        <Divider
+          sx={[ ...spreadSx(dividerSx), ...spreadSx(bottomDividerSx) ]}
+        />
+      )}
     </>
   );
 }

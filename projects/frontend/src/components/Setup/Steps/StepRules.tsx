@@ -1,10 +1,6 @@
 import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
-import type {
-  ISetupStep,
-  ISetupStepBodyProps,
-} from "@src/components/Setup/SetupStep";
 
 import {
   Typography,
@@ -28,6 +24,10 @@ import {
   ADMIN_RULES,
   RULES_UTILS,
 } from "@src/config/firestoreRules";
+import type {
+  ISetupStep,
+  ISetupStepBodyProps,
+} from "@src/components/Setup/SetupStep";
 
 export default {
   id: "rules",
@@ -45,17 +45,17 @@ export default {
 
 function StepRules({ isComplete, setComplete }: ISetupStepBodyProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
-  const [adminRule, setAdminRule] = useState(true);
+  const [ adminRule, setAdminRule ] = useState(true);
 
-  const rules =
-    RULES_START +
-    (adminRule ? ADMIN_RULES : "") +
-    REQUIRED_RULES +
-    RULES_UTILS +
-    RULES_END;
+  const rules
+    = RULES_START
+    + (adminRule ? ADMIN_RULES : "")
+    + REQUIRED_RULES
+    + RULES_UTILS
+    + RULES_END;
 
   return (
     <>
@@ -64,12 +64,12 @@ function StepRules({ isComplete, setComplete }: ISetupStepBodyProps) {
         title="Add the following rules to enable access to Rowy configuration:"
       >
         <FormControlLabel
-          control={
+          control={(
             <Checkbox
               checked={adminRule}
               onChange={(e) => setAdminRule(e.target.checked)}
             />
-          }
+          )}
           label="Allow admins to read and write all documents"
           sx={{ "&&": { ml: -11 / 8, mb: -11 / 8 }, width: "100%" }}
         />
@@ -87,7 +87,7 @@ function StepRules({ isComplete, setComplete }: ISetupStepBodyProps) {
           dangerouslySetInnerHTML={{
             __html: rules.replace(
               /(\/\/.*$)/gm,
-              `<span class="comment">$1</span>`
+              "<span class=\"comment\">$1</span>"
             ),
           }}
         />

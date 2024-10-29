@@ -20,7 +20,7 @@ export function useScrollToHash() {
          * Copyright (c) 2017 Rafael Pedicini, MIT License
          */
 
-        let originalTabIndex = element.getAttribute("tabindex");
+        const originalTabIndex = element.getAttribute("tabindex");
         if (originalTabIndex === null && !isInteractiveElement(element)) {
           element.setAttribute("tabindex", "-1");
         }
@@ -30,7 +30,7 @@ export function useScrollToHash() {
         }
       }
     }
-  }, [pathname, hash]);
+  }, [ pathname, hash ]);
 }
 
 export default useScrollToHash;
@@ -40,12 +40,13 @@ export default useScrollToHash;
  * https://github.com/rafgraph/react-router-hash-link/blob/2084a987b2f34479005ffbcb16ab7b9dc1fd6c93/src/HashLink.jsx
  *
  * Copyright (c) 2017 Rafael Pedicini, MIT License
+ * @param element
  */
 function isInteractiveElement(element: HTMLElement) {
-  const formTags = ["BUTTON", "INPUT", "SELECT", "TEXTAREA"];
-  const linkTags = ["A", "AREA"];
+  const formTags = [ "BUTTON", "INPUT", "SELECT", "TEXTAREA" ];
+  const linkTags = [ "A", "AREA" ];
   return (
-    (formTags.includes(element.tagName) && !element.hasAttribute("disabled")) ||
-    (linkTags.includes(element.tagName) && element.hasAttribute("href"))
+    (formTags.includes(element.tagName) && !element.hasAttribute("disabled"))
+    || (linkTags.includes(element.tagName) && element.hasAttribute("href"))
   );
 }

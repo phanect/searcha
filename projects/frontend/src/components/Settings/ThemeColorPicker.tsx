@@ -10,19 +10,19 @@ import FailIcon from "@mui/icons-material/Error";
 import { PRIMARY, DARK_PRIMARY } from "@src/theme/colors";
 import themes from "@src/theme/index.ts";
 
-export interface IThemeColorPickerProps {
+export type IThemeColorPickerProps = {
   currentLight?: string;
   currentDark?: string;
-  handleSave: ({ light, dark }: { light: string; dark: string }) => void;
-}
+  handleSave: ({ light, dark }: { light: string; dark: string; }) => void;
+};
 
 export default function ThemeColorPicker({
   currentLight = PRIMARY,
   currentDark = DARK_PRIMARY,
   handleSave,
 }: IThemeColorPickerProps) {
-  const [light, setLight] = useState(currentLight);
-  const [dark, setDark] = useState(currentDark);
+  const [ light, setLight ] = useState(currentLight);
+  const [ dark, setDark ] = useState(currentDark);
 
   const lightTheme = themes.light({});
   const darkTheme = themes.dark({});
@@ -52,8 +52,8 @@ export default function ThemeColorPicker({
               backgroundColor={colord(lightTheme.palette.background.paper)
                 .mix(
                   light,
-                  lightTheme.palette.action.selectedOpacity +
-                    lightTheme.palette.action.focusOpacity
+                  lightTheme.palette.action.selectedOpacity
+                  + lightTheme.palette.action.focusOpacity
                 )
                 .alpha(1)
                 .toHslString()}
@@ -100,8 +100,8 @@ export default function ThemeColorPicker({
                 .mix("#fff", 0.16)
                 .mix(
                   dark,
-                  darkTheme.palette.action.selectedOpacity +
-                    darkTheme.palette.action.focusOpacity
+                  darkTheme.palette.action.selectedOpacity
+                  + darkTheme.palette.action.focusOpacity
                 )
                 .alpha(1)
                 .toHslString()}
@@ -167,11 +167,12 @@ export default function ThemeColorPicker({
 }
 
 function Swatch({ backgroundColor, textColor }: Record<string, string>) {
-  if (colord(textColor).alpha() < 1)
+  if (colord(textColor).alpha() < 1) {
     textColor = colord(backgroundColor)
       .mix(textColor, colord(textColor).alpha())
       .alpha(1)
       .toHslString();
+  }
 
   const contrast = colord(backgroundColor).contrast(textColor);
   const AAA = colord(backgroundColor).isReadable(textColor, { level: "AAA" });

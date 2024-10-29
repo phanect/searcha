@@ -19,8 +19,6 @@ import {
 import ArrowIcon from "@mui/icons-material/ArrowForward";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
-import { IStepProps } from ".";
-import { AirtableConfig } from "@src/components/TableModals/ImportAirtableWizard";
 import FadeList from "@src/components/TableModals/ScrollableList";
 import Column, {
   COLUMN_HEADER_HEIGHT,
@@ -35,16 +33,18 @@ import {
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { suggestType } from "@src/components/TableModals/ImportAirtableWizard/utils";
+import type { AirtableConfig } from "@src/components/TableModals/ImportAirtableWizard";
+import type { IStepProps } from ".";
 
 function getFieldKeys(records: any[]) {
-  let fieldKeys = new Set<string>();
+  const fieldKeys = new Set<string>();
   for (let i = 0; i < records.length; i++) {
     const keys = Object.keys(records[i].fields);
     for (let j = 0; j < keys.length; j++) {
       fieldKeys.add(keys[j]);
     }
   }
-  return [...fieldKeys];
+  return [ ...fieldKeys ];
 }
 
 export default function Step1Columns({
@@ -55,8 +55,8 @@ export default function Step1Columns({
   isXs,
 }: IStepProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const tableColumns = useMemoValue(
     tableColumnsOrdered
@@ -65,22 +65,22 @@ export default function Step1Columns({
     isEqual
   );
 
-  const [selectedFields, setSelectedFields] = useState(
+  const [ selectedFields, setSelectedFields ] = useState(
     config.pairs.map((pair) => pair.fieldKey)
   );
 
   const fieldKeys = getFieldKeys(airtableData.records);
   // When a field is selected to be imported
-  const handleSelect =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelect
+    = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const checked = e.target.checked;
 
       if (checked) {
-        setSelectedFields((x) => [...x, field]);
+        setSelectedFields((x) => [ ...x, field ]);
 
         // Try to match the field to a column in the table
-        const match =
-          find(tableColumns, (column) =>
+        const match
+          = find(tableColumns, (column) =>
             column.label.toLowerCase().includes(field.toLowerCase())
           )?.value ?? null;
 
@@ -107,7 +107,7 @@ export default function Step1Columns({
         }
         updateConfig(columnConfig);
       } else {
-        const newValue = [...selectedFields];
+        const newValue = [ ...selectedFields ];
         newValue.splice(newValue.indexOf(field), 1);
         setSelectedFields(newValue);
 
@@ -121,7 +121,7 @@ export default function Step1Columns({
             key: configPair.columnKey,
           });
           if (newColumnIndex > -1) {
-            const newColumns = [...config.newColumns];
+            const newColumns = [ ...config.newColumns ];
             newColumns.splice(newColumnIndex, 1);
             setConfig((config) => ({ ...config, newColumns }));
           }
@@ -129,7 +129,7 @@ export default function Step1Columns({
 
         // Delete pair from main config
         if (configIndex > -1) {
-          const newConfig = [...config.pairs];
+          const newConfig = [ ...config.pairs ];
           newConfig.splice(configIndex, 1);
           setConfig((config) => ({ ...config, pairs: newConfig }));
         }
@@ -141,8 +141,8 @@ export default function Step1Columns({
       setSelectedFields(fieldKeys);
       fieldKeys.forEach((field) => {
         // Try to match each field to a column in the table
-        const match =
-          find(tableColumns, (column) =>
+        const match
+          = find(tableColumns, (column) =>
             column.label.toLowerCase().includes(field.toLowerCase())
           )?.value ?? null;
 
@@ -171,20 +171,24 @@ export default function Step1Columns({
       });
     } else {
       setSelectedFields([]);
-      setConfig((config) => ({ ...config, newColumns: [], pairs: [] }));
+      setConfig((config) => ({ ...config, newColumns: [], pairs: []}));
     }
   };
 
   // When a field is mapped to a new column
   const handleChange = (fieldKey: string) => (value: string) => {
-    if (!value) return;
-    const columnKey = !!tableSchema.columns?.[value] ? value : camelCase(value);
-    if (columnKey === "") return;
+    if (!value) {
+      return;
+    }
+    const columnKey = tableSchema.columns?.[value] ? value : camelCase(value);
+    if (columnKey === "") {
+      return;
+    }
     // Check if this pair already exists in config
     const configIndex = findIndex(config.pairs, { fieldKey });
     console.log(columnKey, configIndex);
     if (configIndex > -1) {
-      const pairs = [...config.pairs];
+      const pairs = [ ...config.pairs ];
       pairs[configIndex].columnKey = columnKey;
       setConfig((config) => ({ ...config, pairs }));
     } else {
@@ -201,8 +205,8 @@ export default function Step1Columns({
             fieldName: columnKey,
             key: columnKey,
             type:
-              suggestType(airtableData.records, fieldKey) ||
-              FieldType.shortText,
+              suggestType(airtableData.records, fieldKey)
+              || FieldType.shortText,
             index: -1,
             config: {},
           },
@@ -233,17 +237,17 @@ export default function Step1Columns({
       <FadeList>
         <li>
           <FormControlLabel
-            control={
+            control={(
               <Checkbox
                 checked={selectedFields.length === fieldKeys.length}
                 indeterminate={
-                  selectedFields.length !== 0 &&
-                  selectedFields.length !== fieldKeys.length
+                  selectedFields.length !== 0
+                  && selectedFields.length !== fieldKeys.length
                 }
                 onChange={handleSelectAll}
                 color="default"
               />
-            }
+            )}
             label={
               selectedFields.length === fieldKeys.length
                 ? "Clear all"
@@ -258,13 +262,13 @@ export default function Step1Columns({
           />
         </li>
         {fieldKeys.map((field) => {
-          const selected = selectedFields.indexOf(field) > -1;
-          const columnKey =
-            find(config.pairs, { fieldKey: field })?.columnKey ?? null;
+          const selected = selectedFields.includes(field);
+          const columnKey
+            = find(config.pairs, { fieldKey: field })?.columnKey ?? null;
           const matchingColumn = columnKey
-            ? tableSchema.columns?.[columnKey] ??
-              find(config.newColumns, { key: columnKey }) ??
-              null
+            ? tableSchema.columns?.[columnKey]
+            ?? find(config.newColumns, { key: columnKey })
+            ?? null
             : null;
           const isNewColumn = !!find(config.newColumns, { key: columnKey });
           return (
@@ -272,14 +276,14 @@ export default function Step1Columns({
               <Grid>
                 <FormControlLabel
                   key={field}
-                  control={
+                  control={(
                     <Checkbox
                       checked={selected}
-                      aria-label={`Select column ${field}`}
+                      aria-label={`Select column ${ field }`}
                       onChange={handleSelect(field)}
                       color="secondary"
                     />
-                  }
+                  )}
                   label={<Column label={field} />}
                   sx={{
                     marginRight: 0,
@@ -311,8 +315,9 @@ export default function Step1Columns({
                       hiddenLabel: true,
                       SelectProps: {
                         renderValue: () => {
-                          if (!columnKey) return "Select or add column";
-                          else
+                          if (!columnKey) {
+                            return "Select or add column";
+                          } else {
                             return (
                               <Stack
                                 direction="row"
@@ -343,12 +348,13 @@ export default function Step1Columns({
                                 )}
                               </Stack>
                             );
+                          }
                         },
                         sx: [
                           {
                             backgroundColor: "background.default",
                             border: (theme) =>
-                              `1px solid ${theme.palette.divider}`,
+                              `1px solid ${ theme.palette.divider }`,
                             borderRadius: 0,
                             boxShadow: "none",
                             "& .MuiSelect-select": {
@@ -372,7 +378,7 @@ export default function Step1Columns({
                           !columnKey && { color: "text.disabled" },
                         ],
                       },
-                      sx: { "& .MuiInputLabel-root": { display: "none" } },
+                      sx: { "& .MuiInputLabel-root": { display: "none" }},
                     }}
                     clearable={false}
                     displayEmpty

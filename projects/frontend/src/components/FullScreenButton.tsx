@@ -1,10 +1,11 @@
-import { Button, ButtonProps } from "@mui/material";
+import { Button } from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+import type { ButtonProps } from "@mui/material";
 
-export interface IFullScreenButtonProps extends ButtonProps {
+export type IFullScreenButtonProps = {
   active: boolean;
-}
+} & ButtonProps;
 
 export default function FullScreenButton({
   active,
@@ -12,7 +13,7 @@ export default function FullScreenButton({
 }: IFullScreenButtonProps) {
   return (
     <Button
-      aria-label={`${active ? "Exit" : "Enter"} full screen`}
+      aria-label={`${ active ? "Exit" : "Enter" } full screen`}
       variant={active ? "contained" : "outlined"}
       color={active ? "secondary" : undefined}
       {...props}

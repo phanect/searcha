@@ -1,10 +1,11 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import FileIcon from "@mui/icons-material/AttachFile";
 import DisplayCell from "./DisplayCell";
 import ContextMenuActions from "./ContextMenuActions";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 const EditorCell = lazy(
   () => import("./EditorCell")

@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 
 import {
   Popover,
-  PopoverProps as MuiPopoverProps,
   Divider,
 } from "@mui/material";
 import Tab from "@mui/material/Tab";
@@ -18,13 +17,15 @@ import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
 import ImportFromCsv from "@src/components/TableToolbar/ImportData/ImportFromCsv";
 import ImportFromAirtable from "@src/components/TableToolbar/ImportData/ImportFromAirtable";
+import type {
+  PopoverProps as MuiPopoverProps } from "@mui/material";
 
-export interface IImportDataProps {
+export type IImportDataProps = {
   render?: (
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   ) => React.ReactNode;
   PopoverProps?: Partial<MuiPopoverProps>;
-}
+};
 
 export enum ImportMethod {
   csv = "csv",
@@ -34,12 +35,12 @@ export enum ImportMethod {
 export default function ImportData({ render, PopoverProps }: IImportDataProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const importMethodRef = useRef(ImportMethod.csv);
-  const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-  const [tab, setTab] = useState("csv");
+  const [ open, setOpen ] = useState<HTMLButtonElement | null>(null);
+  const [ tab, setTab ] = useState("csv");
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) =>
     setOpen(event.currentTarget);
 
@@ -49,7 +50,9 @@ export default function ImportData({ render, PopoverProps }: IImportDataProps) {
   };
   const popoverId = open ? "import-popover" : undefined;
 
-  if (tableSettings.readOnly && !userRoles.includes("ADMIN")) return null;
+  if (tableSettings.readOnly && !userRoles.includes("ADMIN")) {
+    return null;
+  }
 
   return (
     <>
@@ -88,8 +91,7 @@ export default function ImportData({ render, PopoverProps }: IImportDataProps) {
             onChange={(_, v) => setTab(v)}
             aria-label="Import data method tabs"
             action={(actions) =>
-              setTimeout(() => actions?.updateIndicator(), 200)
-            }
+              setTimeout(() => actions?.updateIndicator(), 200)}
             variant="fullWidth"
           >
             <Tab

@@ -3,11 +3,11 @@ import { getProjectId } from "../metadataService";
 
 type FunctionType = "action" | "connector" | "derivative-script";
 
-interface RowyLogging {
+type RowyLogging = {
   log: (payload: any) => void;
   warn: (payload: any) => void;
   error: (payload: any) => void;
-}
+};
 
 class LoggingFactory {
   public static async createActionLogging(
@@ -101,7 +101,7 @@ class LoggingFieldAndRow extends LoggingAbstract implements RowyLogging {
   }
 
   async logWithSeverity(payload: any[], severity: string) {
-    const log = this.logging.log(`rowy-logging`);
+    const log = this.logging.log("rowy-logging");
     const metadata = {
       severity,
     };

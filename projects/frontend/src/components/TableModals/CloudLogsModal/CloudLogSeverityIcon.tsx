@@ -1,4 +1,4 @@
-import { SvgIcon, SvgIconProps, Tooltip } from "@mui/material";
+import { SvgIcon, Tooltip } from "@mui/material";
 import DebugIcon from "@mui/icons-material/BugReportOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import NoticeIcon from "@mui/icons-material/NotificationsOutlined";
@@ -7,6 +7,7 @@ import ErrorIcon from "@mui/icons-material/ErrorOutline";
 import { Critical as CriticalIcon } from "@src/assets/icons";
 import AlertIcon from "@mui/icons-material/Error";
 import EmergencyIcon from "@mui/icons-material/NewReleases";
+import type { SvgIconProps } from "@mui/material";
 
 // https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#LogSeverity
 export const SEVERITY_LEVELS = {
@@ -28,9 +29,9 @@ export const SEVERITY_LEVELS_ROWY = {
   ERROR: "Error events are likely to cause problems.",
 };
 
-export interface ICloudLogSeverityIconProps extends SvgIconProps {
+export type ICloudLogSeverityIconProps = {
   severity: keyof typeof SEVERITY_LEVELS;
-}
+} & SvgIconProps;
 
 export default function CloudLogSeverityIcon({
   severity,
@@ -39,7 +40,7 @@ export default function CloudLogSeverityIcon({
   const commonIconProps: SvgIconProps = {
     ...props,
     "aria-hidden": "false",
-    "aria-label": `Severity: ${severity.toLowerCase()}`,
+    "aria-label": `Severity: ${ severity.toLowerCase() }`,
   };
 
   let icon = (
@@ -87,13 +88,13 @@ export default function CloudLogSeverityIcon({
 
   return (
     <Tooltip
-      title={
+      title={(
         <>
           {severity}
           <br />
           {SEVERITY_LEVELS[severity]}
         </>
-      }
+      )}
       describeChild
     >
       {icon}

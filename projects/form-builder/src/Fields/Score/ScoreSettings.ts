@@ -1,43 +1,43 @@
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { FieldType } from "../../constants/fields";
+import type { IFieldConfig } from "../../types";
 
-export const ScoreSettings: IFieldConfig['settings'] = [
+export const ScoreSettings: IFieldConfig["settings"] = [
   {
     type: FieldType.shortText,
-    name: 'min',
-    label: 'Minimum Value',
+    name: "min",
+    label: "Minimum Value",
     defaultValue: 0,
-    format: 'number',
+    format: "number",
     gridCols: 6,
   },
   {
     type: FieldType.shortText,
-    name: 'max',
-    label: 'Maximum Value',
+    name: "max",
+    label: "Maximum Value",
     defaultValue: 10,
-    format: 'number',
+    format: "number",
     gridCols: 6,
   },
   {
     type: FieldType.shortText,
-    name: 'minLabel',
-    label: 'Minimum Label',
-    defaultValue: '',
+    name: "minLabel",
+    label: "Minimum Label",
+    defaultValue: "",
     gridCols: 6,
   },
   {
     type: FieldType.shortText,
-    name: 'maxLabel',
-    label: 'Maximum Label',
-    defaultValue: '',
+    name: "maxLabel",
+    label: "Maximum Label",
+    defaultValue: "",
     gridCols: 6,
   },
   {
     type: FieldType.shortText,
-    name: 'step',
-    label: 'Step Size',
+    name: "step",
+    label: "Step Size",
     defaultValue: 1,
-    format: 'number',
+    format: "number",
     gridCols: 6,
   },
 ];

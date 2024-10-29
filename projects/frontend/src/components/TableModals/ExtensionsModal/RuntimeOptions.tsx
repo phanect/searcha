@@ -20,7 +20,7 @@ import {
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
 
-import { IRuntimeOptions } from "./utils";
+import type { IRuntimeOptions } from "./utils";
 
 export default function RuntimeOptions({
   runtimeOptions,
@@ -29,16 +29,16 @@ export default function RuntimeOptions({
 }: {
   runtimeOptions: IRuntimeOptions;
   handleUpdate: (runtimeOptions: IRuntimeOptions) => void;
-  errors: { timeoutSeconds: boolean };
+  errors: { timeoutSeconds: boolean; };
 }) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore },
   );
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
 
-  const [expanded, setExpanded] = useState(false);
+  const [ expanded, setExpanded ] = useState(false);
 
   const isCompatibleRowyRun = compatibleRowyRunVersion({ minVersion: "1.6.4" });
 
@@ -65,10 +65,9 @@ export default function RuntimeOptions({
           isCompatibleRowyRun
             ? setExpanded(!expanded)
             : openRowyRunModal({
-                version: "1.6.4",
-                feature: "Runtime options",
-              })
-        }
+              version: "1.6.4",
+              feature: "Runtime options",
+            })}
       >
         <Typography variant="subtitle1">Runtime options</Typography>
       </AccordionSummary>
@@ -80,7 +79,7 @@ export default function RuntimeOptions({
               value={runtimeOptions.memory ?? "256MB"}
               onChange={(value) => handleUpdate({ memory: value ?? "256MB" })}
               multiple={false}
-              options={["128MB", "256MB", "512MB", "1GB", "2GB", "4GB", "8GB"]}
+              options={[ "128MB", "256MB", "512MB", "1GB", "2GB", "4GB", "8GB" ]}
             />
           </Grid>
 
@@ -95,11 +94,10 @@ export default function RuntimeOptions({
                 ),
               }}
               onChange={(e) =>
-                !Number.isNaN(Number(e.target.value)) &&
-                handleUpdate({
+                !Number.isNaN(Number(e.target.value))
+                && handleUpdate({
                   timeoutSeconds: Number(e.target.value),
-                })
-              }
+                })}
               inputProps={{
                 inputMode: "numeric",
               }}

@@ -1,11 +1,11 @@
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
 import { db, auth, storage } from "../firebaseConfig";
 import utilFns from "../utils";
-import { LoggingFactory, RowyLogging } from "../logging";
+import { LoggingFactory, type RowyLogging } from "../logging";
 import { tableSchema } from "../functionConfig";
-const derivative =
-  (
+import type * as admin from "firebase-admin";
+import type * as functions from "firebase-functions";
+const derivative
+  = (
     functionConfig: {
       fieldName: string;
       listenerFields: string[];
@@ -21,55 +21,55 @@ const derivative =
       }) => any;
     }[]
   ) =>
-  async (change: functions.Change<functions.firestore.DocumentSnapshot>) => {
-    try {
-      const row = change.after?.data();
-      const ref = change.after ? change.after.ref : change.before.ref;
-      const update = await functionConfig.reduce(
-        async (accUpdates: any, currDerivative) => {
-          const shouldEval = utilFns.hasChanged(change)([
-            ...currDerivative.listenerFields,
-            "_forcedUpdateAt",
-          ]);
-          if (shouldEval) {
-            try {
-              const logging = await LoggingFactory.createDerivativeLogging(
-                currDerivative.fieldName,
-                ref.id,
-                ref.path
-              );
-              const newValue = await (currDerivative as any).evaluate.default({
-                row,
-                ref,
-                db,
-                auth,
-                storage,
-                utilFns,
-                logging,
-                tableSchema: tableSchema,
-              });
-              if (
-                newValue !== undefined &&
-                newValue !== row[currDerivative.fieldName]
-              ) {
-                return {
-                  ...(await accUpdates),
-                  [currDerivative.fieldName]: newValue,
-                };
+    async (change: functions.Change<functions.firestore.DocumentSnapshot>) => {
+      try {
+        const row = change.after?.data();
+        const ref = change.after ? change.after.ref : change.before.ref;
+        const update = await functionConfig.reduce(
+          async (accUpdates: any, currDerivative) => {
+            const shouldEval = utilFns.hasChanged(change)([
+              ...currDerivative.listenerFields,
+              "_forcedUpdateAt",
+            ]);
+            if (shouldEval) {
+              try {
+                const logging = await LoggingFactory.createDerivativeLogging(
+                  currDerivative.fieldName,
+                  ref.id,
+                  ref.path
+                );
+                const newValue = await (currDerivative as any).evaluate.default({
+                  row,
+                  ref,
+                  db,
+                  auth,
+                  storage,
+                  utilFns,
+                  logging,
+                  tableSchema: tableSchema,
+                });
+                if (
+                  newValue !== undefined
+                  && newValue !== row[currDerivative.fieldName]
+                ) {
+                  return {
+                    ...(await accUpdates),
+                    [currDerivative.fieldName]: newValue,
+                  };
+                }
+              } catch (error) {
+                console.log(error);
               }
-            } catch (error) {
-              console.log(error);
             }
-          }
-          return await accUpdates;
-        },
-        {}
-      );
-      return update;
-    } catch (error) {
-      console.log(`Derivatives Error`, error);
-      return {};
-    }
-  };
+            return await accUpdates;
+          },
+          {}
+        );
+        return update;
+      } catch (error) {
+        console.log("Derivatives Error", error);
+        return {};
+      }
+    };
 
 export default derivative;

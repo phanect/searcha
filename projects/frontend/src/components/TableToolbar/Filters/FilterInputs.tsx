@@ -15,19 +15,18 @@ import {
 
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import IdFilterInput from "./IdFilterInput";
 import { InlineErrorFallback } from "@src/components/ErrorFallback";
 
 import { getFieldType, getFieldProp } from "@src/components/fields";
-import type { IFieldConfig } from "@src/components/fields/types";
-
-import { TableFilter } from "@src/types/table";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
-import { useFilterInputs } from "./useFilterInputs";
+import IdFilterInput from "./IdFilterInput";
+import type { TableFilter } from "@src/types/table";
+import type { useFilterInputs } from "./useFilterInputs";
+import type { IFieldConfig } from "@src/components/fields/types";
 
-export interface IFilterInputsProps {
+export type IFilterInputsProps = {
   filterColumns: ReturnType<typeof useFilterInputs>["filterColumns"];
   selectedColumn: ReturnType<typeof useFilterInputs>["filterColumns"][0];
   availableFilters: IFieldConfig["filter"];
@@ -40,7 +39,7 @@ export interface IFilterInputsProps {
   handleChangeColumn: (column: string) => void;
   joinOperator: "AND" | "OR";
   setJoinOperator: (operator: "AND" | "OR") => void;
-}
+};
 
 export default function FilterInputs({
   filterColumns,
@@ -77,7 +76,9 @@ export default function FilterInputs({
 
   // Insert ListSubheader components in between groups of operators
   for (let i = 0; i < operators.length; i++) {
-    if (!operators[i].group) continue;
+    if (!operators[i].group) {
+      continue;
+    }
 
     if (i === 0 || operators[i - 1].group !== operators[i].group) {
       renderedOperatorItems.splice(
@@ -88,12 +89,13 @@ export default function FilterInputs({
         </ListSubheader>
       );
 
-      if (i > 0)
+      if (i > 0) {
         renderedOperatorItems.splice(
           i + 1,
           0,
-          <Divider key={`divider-${operators[i].group}`} variant="middle" />
+          <Divider key={`divider-${ operators[i].group }`} variant="middle" />
         );
+      }
     }
   }
 
@@ -141,45 +143,45 @@ export default function FilterInputs({
       </Grid>
 
       <Grid size={{ xs: 3.5 }} key={query.key + query.operator}>
-        {query.key &&
-          query.operator &&
-          query.operator !== "is-empty" &&
-          query.operator != "is-not-empty" && (
-            <ErrorBoundary FallbackComponent={InlineErrorFallback}>
-              <InputLabel
-                variant="filled"
-                id={`filters-label-${query.key}`}
-                htmlFor={`sidedrawer-field-${query.key}`}
-              >
-                Value
-              </InputLabel>
+        {query.key
+        && query.operator
+        && query.operator !== "is-empty"
+        && query.operator != "is-not-empty" && (
+          <ErrorBoundary FallbackComponent={InlineErrorFallback}>
+            <InputLabel
+              variant="filled"
+              id={`filters-label-${ query.key }`}
+              htmlFor={`sidedrawer-field-${ query.key }`}
+            >
+              Value
+            </InputLabel>
 
-              <Suspense fallback={<FieldSkeleton />}>
-                {columnType &&
-                  createElement(
-                    query.key === "_rowy_ref.id"
-                      ? IdFilterInput
-                      : getFieldProp("filter.customInput" as any, columnType) ||
-                          getFieldProp("SideDrawerField", columnType),
-                    {
-                      column: selectedColumn,
-                      _rowy_ref: {},
-                      value: query.value,
-                      onSubmit: () => {},
-                      onChange: (value: any) => {
-                        const newQuery = {
-                          ...query,
-                          value,
-                        };
-                        setQuery(newQuery);
-                      },
-                      disabled,
-                      operator: query.operator,
-                    }
-                  )}
-              </Suspense>
-            </ErrorBoundary>
-          )}
+            <Suspense fallback={<FieldSkeleton />}>
+              {columnType
+              && createElement(
+                query.key === "_rowy_ref.id"
+                  ? IdFilterInput
+                  : getFieldProp("filter.customInput" as any, columnType)
+                    || getFieldProp("SideDrawerField", columnType),
+                {
+                  column: selectedColumn,
+                  _rowy_ref: {},
+                  value: query.value,
+                  onSubmit: () => {},
+                  onChange: (value: any) => {
+                    const newQuery = {
+                      ...query,
+                      value,
+                    };
+                    setQuery(newQuery);
+                  },
+                  disabled,
+                  operator: query.operator,
+                }
+              )}
+            </Suspense>
+          </ErrorBoundary>
+        )}
       </Grid>
 
       <Grid
@@ -196,7 +198,7 @@ export default function FilterInputs({
           sx={{ padding: 0 }}
           onClick={handleDelete}
         >
-          {<DeleteIcon />}
+          <DeleteIcon />
         </IconButton>
         <DragIndicatorOutlinedIcon
           color="disabled"
@@ -208,39 +210,38 @@ export default function FilterInputs({
         />
       </Grid>
 
-      {noOfQueries > 1 &&
-        index !== noOfQueries - 1 &&
-        (index === 0 ? (
-          <Grid size={{ xs: 12 }}>
-            <Grid container>
-              <Grid size={{ xs: 3.5 }}>
-                <TextField
-                  select
-                  variant="filled"
-                  fullWidth
-                  value={joinOperator}
-                  onChange={(e) =>
-                    setJoinOperator(e.target.value === "AND" ? "AND" : "OR")
-                  }
-                  sx={{
-                    "& .MuiSelect-select": {
-                      display: "flex",
-                    },
-                  }}
-                >
-                  <MenuItem value="AND">And</MenuItem>
-                  <MenuItem value="OR">Or</MenuItem>
-                </TextField>
-              </Grid>
+      {noOfQueries > 1
+      && index !== noOfQueries - 1
+      && (index === 0 ? (
+        <Grid size={{ xs: 12 }}>
+          <Grid container>
+            <Grid size={{ xs: 3.5 }}>
+              <TextField
+                select
+                variant="filled"
+                fullWidth
+                value={joinOperator}
+                onChange={(e) =>
+                  setJoinOperator(e.target.value === "AND" ? "AND" : "OR")}
+                sx={{
+                  "& .MuiSelect-select": {
+                    display: "flex",
+                  },
+                }}
+              >
+                <MenuItem value="AND">And</MenuItem>
+                <MenuItem value="OR">Or</MenuItem>
+              </TextField>
             </Grid>
           </Grid>
-        ) : (
-          <Grid size={{ xs: 12 }}>
-            <Typography paddingLeft={1}>
-              {joinOperator === "AND" ? "And" : "Or"}
-            </Typography>
-          </Grid>
-        ))}
+        </Grid>
+      ) : (
+        <Grid size={{ xs: 12 }}>
+          <Typography paddingLeft={1}>
+            {joinOperator === "AND" ? "And" : "Or"}
+          </Typography>
+        </Grid>
+      ))}
     </Grid>
   );
 }

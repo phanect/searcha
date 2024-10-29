@@ -18,16 +18,15 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { IConnectorSelectProps } from ".";
 import Loading from "@src/components/Loading";
 import { getLabel } from "@src/components/fields/Connector/utils";
 import { useSnackbar } from "notistack";
 import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import { getTableSchemaPath } from "@src/utils/table";
+import type { IConnectorSelectProps } from ".";
 
-export interface IPopupContentsProps
-  extends Omit<IConnectorSelectProps, "className" | "TextFieldProps"> {}
+export type IPopupContentsProps = {} & Omit<IConnectorSelectProps, "className" | "TextFieldProps">;
 
 // TODO: Implement infinite scroll here
 export default function PopupContents({
@@ -38,8 +37,8 @@ export default function PopupContents({
 }: IPopupContentsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
 
   const { enqueueSnackbar } = useSnackbar();
   // const url = config.url ;
@@ -48,10 +47,10 @@ export default function PopupContents({
   const multiple = Boolean(config.multiple);
 
   // Webservice search query
-  const [query, setQuery] = useState("");
+  const [ query, setQuery ] = useState("");
   // Webservice response
-  const [response, setResponse] = useState<any | null>(null);
-  const [hits, setHits] = useState<any[]>([]);
+  const [ response, setResponse ] = useState<any | null>(null);
+  const [ hits, setHits ] = useState<any[]>([]);
 
   useEffect(() => {
     console.log(response);
@@ -61,9 +60,9 @@ export default function PopupContents({
       setHits(response.hits);
     } else {
       setHits([]);
-      //enqueueSnackbar("response is not any array", { variant: "error" });
+      // enqueueSnackbar("response is not any array", { variant: "error" });
     }
-  }, [response]);
+  }, [ response ]);
   const search = useDebouncedCallback(
     async (query: string) => {
       const resp = await rowyRun!({
@@ -83,18 +82,25 @@ export default function PopupContents({
 
   useEffect(() => {
     search(query);
-  }, [query]);
+  }, [ query ]);
 
-  if (!response) return <Loading />;
+  if (!response) {
+    return <Loading />;
+  }
 
   const select = (hit: any) => () => {
-    if (multiple) onChange([...value, hit]);
-    else onChange([hit]);
+    if (multiple) {
+      onChange([ ...value, hit ]);
+    } else {
+      onChange([ hit ]);
+    }
   };
   const deselect = (hit: any) => () => {
-    if (multiple)
+    if (multiple) {
       onChange(value.filter((v) => v[elementId] !== hit[elementId]));
-    else onChange([]);
+    } else {
+      onChange([]);
+    }
   };
 
   const selectedValues = value?.map((item) => get(item, elementId));
@@ -149,7 +155,7 @@ export default function PopupContents({
                       color="secondary"
                       disableRipple
                       inputProps={{
-                        "aria-labelledby": `label-${get(hit, elementId)}`,
+                        "aria-labelledby": `label-${ get(hit, elementId) }`,
                       }}
                       sx={{ py: 0 }}
                     />
@@ -161,14 +167,14 @@ export default function PopupContents({
                       color="secondary"
                       disableRipple
                       inputProps={{
-                        "aria-labelledby": `label-${get(hit, elementId)}`,
+                        "aria-labelledby": `label-${ get(hit, elementId) }`,
                       }}
                       sx={{ py: 0 }}
                     />
                   )}
                 </ListItemIcon>
                 <ListItemText
-                  id={`label-${get(hit, elementId)}`}
+                  id={`label-${ get(hit, elementId) }`}
                   primary={getLabel(config, hit)}
                 />
               </MenuItem>

@@ -2,7 +2,7 @@ import { Zoom, Stack, Typography } from "@mui/material";
 
 export default function HomeWelcomePrompt() {
   return (
-    <Zoom in style={{ transformOrigin: `${320 - 52}px ${320 - 52}px` }}>
+    <Zoom in style={{ transformOrigin: `${ 320 - 52 }px ${ 320 - 52 }px` }}>
       <Stack
         justifyContent="center"
         sx={{

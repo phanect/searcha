@@ -1,25 +1,26 @@
-import { useState, type FocusEvent } from 'react';
+import { useState, type FocusEvent } from "react";
 
-import { makeStyles } from 'tss-react/mui';
-import { TextField, AutocompleteChangeReason } from '@mui/material';
+import { makeStyles } from "tss-react/mui";
+import { TextField } from "@mui/material";
 
-import PopupContents from './PopupContents';
-import FragmentWrapper from './FragmentWrapper';
+import PopupContents from "./PopupContents";
+import FragmentWrapper from "./FragmentWrapper";
 
-import { MultiSelectProps, Option } from './props';
 import {
   SEARCH_AREA_HEIGHT,
   LISTBOX_MIN_HEIGHT,
   FOOTER_HEIGHT,
-} from './constants/layout';
+} from "./constants/layout";
+import type { MultiSelectProps, Option } from "./props";
+import type { AutocompleteChangeReason } from "@mui/material";
 
 const useStyles = makeStyles()(() => ({
   paper: {
     minHeight: SEARCH_AREA_HEIGHT + LISTBOX_MIN_HEIGHT + FOOTER_HEIGHT,
 
-    '&$hideSearch': { minHeight: LISTBOX_MIN_HEIGHT + FOOTER_HEIGHT },
-    '&$noFooter': { minHeight: SEARCH_AREA_HEIGHT + LISTBOX_MIN_HEIGHT },
-    '&$hideSearch$noFooter': { minHeight: LISTBOX_MIN_HEIGHT },
+    "&$hideSearch": { minHeight: LISTBOX_MIN_HEIGHT + FOOTER_HEIGHT },
+    "&$noFooter": { minHeight: SEARCH_AREA_HEIGHT + LISTBOX_MIN_HEIGHT },
+    "&$hideSearch$noFooter": { minHeight: LISTBOX_MIN_HEIGHT },
   },
 
   hideSearch: {},
@@ -56,12 +57,29 @@ const useStyles = makeStyles()(() => ({
  * In single-select mode, it must be either `T` itself or `null`.
  *
  * The first parameter of `onChange` follows the same type as `value`.
+ * @param root0
+ * @param root0.options
+ * @param root0.value
+ * @param root0.onChange
+ * @param root0.label
+ * @param root0.max
+ * @param root0.disabled
+ * @param root0.multiple
+ * @param root0.searchable
+ * @param root0.selectAll
+ * @param root0.clearable
+ * @param root0.freeText
+ * @param root0.displayEmpty
+ * @param root0.backdrop
+ * @param root0.onOpen
+ * @param root0.onClose
+ * @param root0.TextFieldProps
  */
 export default function MultiSelect<T = string>({
   options: optionsProp,
   value: valueProp,
   onChange,
-  label = '',
+  label = "",
   max,
 
   disabled = false,
@@ -81,7 +99,7 @@ export default function MultiSelect<T = string>({
   const { classes, cx } = useStyles();
 
   // Must control popup open state here to programmatically close it
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   const handleOpen = () => {
     setOpen(true);
     onOpen?.();
@@ -93,11 +111,13 @@ export default function MultiSelect<T = string>({
 
   // Close the popup when tabbing out
   const handlePaperFocus = (e: FocusEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) handleClose();
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
   };
 
   // Transform `option` prop if it’s just strings
-  const options = (typeof optionsProp[0] === 'string'
+  const options = (typeof optionsProp[0] === "string"
     ? (optionsProp as string[]).map((item) => ({ label: item, value: item }))
     : optionsProp) as Option<T>[];
 
@@ -114,12 +134,14 @@ export default function MultiSelect<T = string>({
       )
       .filter((item) => item !== undefined) as Option<T>[];
   } else {
-    if (!valueProp || ((valueProp as unknown) as string) === '') value = null;
-    else
+    if (!valueProp || ((valueProp as unknown) as string) === "") {
+      value = null;
+    } else {
       value = options.find((option) => option.value === valueProp) ?? {
         label: (valueProp as unknown) as string,
         value: valueProp as T,
       };
+    }
   }
 
   // If `freeText` enabled, show the user’s custom values
@@ -129,16 +151,18 @@ export default function MultiSelect<T = string>({
       const valueArray = value as Option<T>[];
       for (let i = valueArray.length - 1; i >= 0; i--) {
         const item = valueArray[i];
-        if (options.findIndex((option) => option.value === item.value) <= -1)
+        if (options.findIndex((option) => option.value === item.value) <= -1) {
           options.unshift(item);
+        }
       }
     } else if (value !== null && !!(value as Option<T>).value) {
       if (
         options.findIndex(
           (option) => option.value === (value as Option<T>).value
         ) <= -1
-      )
+      ) {
         options.unshift(value as Option<T>);
+      }
     }
   }
 
@@ -159,9 +183,9 @@ export default function MultiSelect<T = string>({
   };
 
   const handleSelectAll = () =>
-    onChange(options.map((item) => item.value) as any, 'selectOption');
+    onChange(options.map((item) => item.value) as any, "selectOption");
   const handleClear = () =>
-    onChange((multiple ? [] : null) as any, 'removeOption');
+    onChange((multiple ? [] : null) as any, "removeOption");
 
   // Must declare props to pass to PopupContents here so they to use `as any`
   // keyword to appease TypeScript
@@ -189,8 +213,8 @@ export default function MultiSelect<T = string>({
       disabled={disabled}
       InputLabelProps={{
         shrink:
-          displayEmpty ||
-          (Array.isArray(valueProp) ? valueProp.length > 0 : !!valueProp),
+          displayEmpty
+          || (Array.isArray(valueProp) ? valueProp.length > 0 : !!valueProp),
         ...TextFieldProps.InputLabelProps,
       }}
       SelectProps={{
@@ -199,15 +223,24 @@ export default function MultiSelect<T = string>({
         onClose: handleClose,
         renderValue: (_) => {
           if (Array.isArray(value)) {
-            if (value.length === 1) return value[0].label;
-            if (value.length > 1)
-              return `${value.length} of ${options.length} selected`;
-            if (displayEmpty) return `0 of ${options.length} selected`;
-            return '';
+            if (value.length === 1) {
+              return value[0].label;
+            }
+            if (value.length > 1) {
+              return `${ value.length } of ${ options.length } selected`;
+            }
+            if (displayEmpty) {
+              return `0 of ${ options.length } selected`;
+            }
+            return "";
           } else {
-            if (value !== null) return value.label;
-            if (displayEmpty) return `0 of ${options.length} selected`;
-            return '';
+            if (value !== null) {
+              return value.label;
+            }
+            if (displayEmpty) {
+              return `0 of ${ options.length } selected`;
+            }
+            return "";
           }
         },
         displayEmpty: true,
@@ -218,13 +251,13 @@ export default function MultiSelect<T = string>({
               classes.paper,
               !searchable && classes.hideSearch,
               !multiple && !clearable && classes.noFooter,
-              'MultiSelect-Paper'
+              "MultiSelect-Paper"
             ),
           },
           // Always display the popup below the main select element.
           getContentAnchorEl: null,
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
-          transformOrigin: { vertical: 'top', horizontal: 'center' },
+          anchorOrigin: { vertical: "bottom", horizontal: "center" },
+          transformOrigin: { vertical: "top", horizontal: "center" },
           // Allow a backdrop to be rendered via prop
           ...TextFieldProps.SelectProps?.MenuProps,
           BackdropProps: {
@@ -235,12 +268,12 @@ export default function MultiSelect<T = string>({
           PaperProps: { onFocus: handlePaperFocus },
           MenuListProps: {
             disablePadding: true,
-            component: 'div',
+            component: "div",
             style: { padding: 0 },
             ...TextFieldProps?.SelectProps?.MenuProps?.MenuListProps,
             autoFocus: false,
             // Remove listbox role. This is created in the Autocomplete listbox.
-            role: '',
+            role: "",
             // Allow the user to click and tab between elements inside the
             // popup without closing the popup. Also fixes the “S” bug.
             onKeyDown: () => {},

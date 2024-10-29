@@ -7,7 +7,7 @@ import DocsIcon from "@mui/icons-material/DescriptionOutlined";
 
 import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 
-export interface ICodeEditorHelperProps {
+export type ICodeEditorHelperProps = {
   docLink: string;
   disableDefaultVariables?: boolean;
   disableSecretManagerLink?: boolean;
@@ -16,7 +16,7 @@ export interface ICodeEditorHelperProps {
     key: string;
     description: string;
   }[];
-}
+};
 
 export default function CodeEditorHelper({
   docLink,
@@ -26,32 +26,32 @@ export default function CodeEditorHelper({
   additionalVariables,
 }: ICodeEditorHelperProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   const availableVariables = disableDefaultVariables
     ? []
     : [
-        {
-          key: "db",
-          description: `db object provides access to firestore database instance of this project. giving you access to any collection or document in this firestore instance`,
-        },
-        {
-          key: "auth",
-          description: `auth provides access to a firebase auth instance, can be used to manage auth users or generate tokens.`,
-        },
-        {
-          key: "storage",
-          description: `firebase Storage can be accessed through this, storage.bucket() returns default storage bucket of the firebase project.`,
-        },
-        {
-          key: "rowy",
-          description: `rowy provides a set of functions that are commonly used, such as easy file uploads & access to GCP Secret Manager`,
-        },
-        {
-          key: "logging",
-          description: `logging.log is encouraged to replace console.log`,
-        },
-      ];
+      {
+        key: "db",
+        description: "db object provides access to firestore database instance of this project. giving you access to any collection or document in this firestore instance",
+      },
+      {
+        key: "auth",
+        description: "auth provides access to a firebase auth instance, can be used to manage auth users or generate tokens.",
+      },
+      {
+        key: "storage",
+        description: "firebase Storage can be accessed through this, storage.bucket() returns default storage bucket of the firebase project.",
+      },
+      {
+        key: "rowy",
+        description: "rowy provides a set of functions that are commonly used, such as easy file uploads & access to GCP Secret Manager",
+      },
+      {
+        key: "logging",
+        description: "logging.log is encouraged to replace console.log",
+      },
+    ];
 
   return (
     <Stack
@@ -93,7 +93,7 @@ export default function CodeEditorHelper({
               color="primary"
               target="_blank"
               rel="noopener noreferrer"
-              href={`https://console.cloud.google.com/security/secret-manager?project=${projectId}`}
+              href={`https://console.cloud.google.com/security/secret-manager?project=${ projectId }`}
             >
               <SecretsIcon fontSize="small" />
             </IconButton>
@@ -107,7 +107,7 @@ export default function CodeEditorHelper({
               color="primary"
               target="_blank"
               rel="noopener noreferrer"
-              href={`https://console.cloud.google.com/functions/list?project=${projectId}`}
+              href={`https://console.cloud.google.com/functions/list?project=${ projectId }`}
             >
               <FunctionsIcon fontSize="small" />
             </IconButton>

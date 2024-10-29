@@ -4,7 +4,6 @@ import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { useSnackbar } from "notistack";
 import { uniqBy, isEqual, find } from "lodash-es";
-import { ITableModalProps } from "@src/components/TableModals";
 import WizardDialog from "@src/components/TableModals/WizardDialog";
 
 import { useTheme, useMediaQuery, Typography, Button } from "@mui/material";
@@ -16,39 +15,42 @@ import {
   addColumnAtom,
   bulkAddRowsAtom,
   importAirtableAtom,
-  ImportAirtableData,
   tableModalAtom,
 } from "@src/atoms/tableScope";
-import { ColumnConfig } from "@src/types/table";
 
-import SnackbarProgress, {
-  ISnackbarProgressRef,
-} from "@src/components/SnackbarProgress";
+import SnackbarProgress from "@src/components/SnackbarProgress";
 import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
+import useConverter from "@src/components/TableModals/ImportCsvWizard/useConverter";
+import useUploadFileFromURL from "@src/components/TableModals/ImportCsvWizard/useUploadFileFromURL";
 import Step1Columns from "./Step1Columns";
 import Step2NewColumns from "./Step2NewColumns";
 import Step3Preview from "./Step3Preview";
-import useConverter from "@src/components/TableModals/ImportCsvWizard/useConverter";
-import useUploadFileFromURL from "@src/components/TableModals/ImportCsvWizard/useUploadFileFromURL";
+import type {
+  ISnackbarProgressRef,
+} from "@src/components/SnackbarProgress";
+import type { ColumnConfig } from "@src/types/table";
+import type {
+  ImportAirtableData } from "@src/atoms/tableScope";
+import type { ITableModalProps } from "@src/components/TableModals";
 
 export type AirtableConfig = {
-  pairs: { fieldKey: string; columnKey: string }[];
+  pairs: { fieldKey: string; columnKey: string; }[];
   newColumns: ColumnConfig[];
   documentId: "auto" | "recordId";
 };
 
-export interface IStepProps {
+export type IStepProps = {
   airtableData: NonNullable<ImportAirtableData>;
   config: AirtableConfig;
   setConfig: React.Dispatch<React.SetStateAction<AirtableConfig>>;
   updateConfig: (value: Partial<AirtableConfig>) => void;
   isXs: boolean;
-}
+};
 
 export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
   const bulkAddRows = useSetAtom(bulkAddRowsAtom, { store: tableScopeStore });
   const [{ airtableData, tableId, baseId, apiKey }] = useAtom(
@@ -63,7 +65,7 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
   const countRef = useRef(0);
   const columns = useMemoValue(tableSchema.columns ?? {}, isEqual);
 
-  const [config, setConfig] = useState<AirtableConfig>({
+  const [ config, setConfig ] = useState<AirtableConfig>({
     pairs: [],
     newColumns: [],
     documentId: "recordId",
@@ -73,9 +75,9 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
 
   const updateConfig: IStepProps["updateConfig"] = useCallback((value) => {
     setConfig((prev) => {
-      const pairs = uniqBy([...prev.pairs, ...(value.pairs ?? [])], "fieldKey");
+      const pairs = uniqBy([ ...prev.pairs, ...(value.pairs ?? []) ], "fieldKey");
       const newColumns = uniqBy(
-        [...prev.newColumns, ...(value.newColumns ?? [])],
+        [ ...prev.newColumns, ...(value.newColumns ?? []) ],
         "key"
       ).filter((col) => pairs?.some((pair) => pair.columnKey === col.key));
       return { ...prev, pairs, newColumns };
@@ -84,13 +86,13 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
 
   const fetchRecords = async (offset?: string) => {
     const url = offset
-      ? `https://api.airtable.com/v0/${baseId}/${tableId}?offset=${offset}`
-      : `https://api.airtable.com/v0/${baseId}/${tableId}`;
+      ? `https://api.airtable.com/v0/${ baseId }/${ tableId }?offset=${ offset }`
+      : `https://api.airtable.com/v0/${ baseId }/${ tableId }`;
 
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${ apiKey }`,
       },
     }).then((response) => response.json());
 
@@ -98,14 +100,16 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
   };
 
   const parseRecords = (records: any[]): any[] => {
-    if (!columns || !airtableData) return [];
+    if (!columns || !airtableData) {
+      return [];
+    }
     return records.map((record) =>
       config.pairs.reduce((a, pair) => {
-        const matchingColumn =
-          columns[pair.columnKey] ??
-          find(config.newColumns, { key: pair.columnKey });
-        const parser =
-          getConverter(matchingColumn.type) || fieldParser(matchingColumn.type);
+        const matchingColumn
+          = columns[pair.columnKey]
+          ?? find(config.newColumns, { key: pair.columnKey });
+        const parser
+          = getConverter(matchingColumn.type) || fieldParser(matchingColumn.type);
         const value = parser
           ? parser(record.fields[pair.fieldKey])
           : record.fields[pair.fieldKey];
@@ -114,7 +118,7 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
           if (value && value.length > 0) {
             addTask({
               docRef: {
-                path: `${tableSettings.collection}/${record.id}`,
+                path: `${ tableSettings.collection }/${ record.id }`,
                 id: record.id,
               },
               fieldName: pair.columnKey,
@@ -123,7 +127,7 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
           }
         }
         return config.documentId === "recordId"
-          ? { ...a, [pair.columnKey]: value, _rowy_ref: { id: record.id } }
+          ? { ...a, [pair.columnKey]: value, _rowy_ref: { id: record.id }}
           : { ...a, [pair.columnKey]: value };
       }, {})
     );
@@ -133,7 +137,7 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
     console.time("importAirtable");
     snackbarProgressRef.current?.setProgress(0);
     const loadingSnackbar = enqueueSnackbar(
-      `Importing records. This might take a while.`,
+      "Importing records. This might take a while.",
       {
         persist: true,
         action: (
@@ -205,14 +209,15 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
 
       onClose();
 
-      for (const col of config.newColumns)
+      for (const col of config.newColumns) {
         promises.push(addColumn({ config: col }));
+      }
 
       await fetcher();
       await resolveAll();
 
       enqueueSnackbar(
-        `Imported ${Number(countRef.current).toLocaleString()} rows`,
+        `Imported ${ Number(countRef.current).toLocaleString() } rows`,
         { variant: "success" }
       );
 
@@ -237,7 +242,7 @@ export default function ImportAirtableWizard({ onClose }: ITableModalProps) {
     <WizardDialog
       open
       onClose={onClose}
-      title={`Import from Airtable`}
+      title="Import from Airtable"
       steps={
         [
           {

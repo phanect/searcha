@@ -2,13 +2,13 @@ import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 import { Grid2 as Grid, Chip } from "@mui/material";
 
-import ConnectTableSelect from "./ConnectTableSelect";
 import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import ConnectTableSelect from "./ConnectTableSelect";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function ConnectTable({
   column,
@@ -19,15 +19,15 @@ export default function ConnectTable({
   disabled,
 }: ISideDrawerFieldProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [row] = useAtom(
+  const [ row ] = useAtom(
     useMemo(
       () =>
         selectAtom(
           tableRowsAtom,
-          (tableRows) => find(tableRows, ["_rowy_ref.path", _rowy_ref.path]),
+          (tableRows) => find(tableRows, [ "_rowy_ref.path", _rowy_ref.path ]),
           isEqual
         ),
-      [_rowy_ref.path]
+      [ _rowy_ref.path ]
     ),
     { store: tableScopeStore },
   );
@@ -35,8 +35,11 @@ export default function ConnectTable({
   const config = column.config ?? {};
 
   const handleDelete = (docPath: string) => () => {
-    if (column.config?.multiple === false) onChange(null);
-    else onChange(value.filter((v: any) => v.docPath !== docPath));
+    if (column.config?.multiple === false) {
+      onChange(null);
+    } else {
+      onChange(value.filter((v: any) => v.docPath !== docPath));
+    }
     onSubmit();
   };
 

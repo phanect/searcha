@@ -10,9 +10,9 @@ export const TUTORIAL_STEPS = [
   Step3Invite,
   Step4Code,
   Step5Finish,
-] as Array<ITableTutorialStepProps>;
+] as ITableTutorialStepProps[];
 
-export interface ITableTutorialStepProps {
+export type ITableTutorialStepProps = {
   onNext: () => void;
   isFinal: boolean;
 
@@ -21,9 +21,9 @@ export interface ITableTutorialStepProps {
   description: React.ReactNode;
   StepComponent: React.ComponentType<ITableTutorialStepComponentProps>;
   completeText?: React.ReactNode;
-}
+};
 
-export interface ITableTutorialStepComponentProps {
+export type ITableTutorialStepComponentProps = {
   complete: boolean;
   setComplete: (complete: boolean) => void;
-}
+};

@@ -5,19 +5,19 @@ import MultiSelect from "@phanect/datasheet-multiselect";
 import { Typography, Link } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 import { authOptions } from "@src/config/firebaseui";
+import type { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 
 export default function Authentication({
   publicSettings,
   updatePublicSettings,
 }: IProjectSettingsChildProps) {
-  const [signInOptions, setSignInOptions] = useState<
+  const [ signInOptions, setSignInOptions ] = useState<
     NonNullable<typeof publicSettings["signInOptions"]>
   >(
     Array.isArray(publicSettings?.signInOptions)
       ? publicSettings.signInOptions
-      : ["google"]
+      : [ "google" ]
   );
 
   return (
@@ -41,7 +41,7 @@ export default function Authentication({
         Before enabling a new sign-in option, make sure it’s configured in your
         Firebase project.{" "}
         <Link
-          href={`https://github.com/firebase/firebaseui-web#configuring-sign-in-providers`}
+          href="https://github.com/firebase/firebaseui-web#configuring-sign-in-providers"
           target="_blank"
           rel="noopener"
         >

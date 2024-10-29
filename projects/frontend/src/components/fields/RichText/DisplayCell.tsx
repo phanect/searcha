@@ -1,4 +1,3 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
 // import { useAtom } from "jotai";
 
 import {
@@ -10,6 +9,7 @@ import {
   // Fade,
 } from "@mui/material";
 import RenderedHtml from "@src/components/RenderedHtml";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 // import { tableScope, tableSchemaAtom } from "@src/atoms/tableScope";
 // import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
@@ -46,7 +46,9 @@ export default function RichText({ value, tabIndex }: IDisplayCellProps) {
 
   const theme = useTheme();
 
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
   const content = (
     <RenderedHtml

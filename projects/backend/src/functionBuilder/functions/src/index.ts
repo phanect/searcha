@@ -27,15 +27,15 @@ export const R = {
               functionConfig.tableSchema
             )(change, context);
           } catch (err) {
-            console.log(`caught error: ${err}`);
+            console.log(`caught error: ${ err }`);
           }
         });
       console.log(
         `#${
           extensionPromises.length
-        } extensions will be evaluated on ${triggerType} of ${changedDocPath(
+        } extensions will be evaluated on ${ triggerType } of ${ changedDocPath(
           change
-        )}`
+        ) }`
       );
       promises = extensionPromises;
       const propagatePromise = propagate(
@@ -52,7 +52,7 @@ export const R = {
               change
             );
           } catch (err) {
-            console.log(`caught error: ${err}`);
+            console.log(`caught error: ${ err }`);
           }
         } else if (triggerType === "create") {
           try {
@@ -64,7 +64,7 @@ export const R = {
             )(change);
             docUpdates = { ...initialData, ...derivativeData };
           } catch (err) {
-            console.log(`caught error: ${err}`);
+            console.log(`caught error: ${ err }`);
           }
         }
         if (Object.keys(docUpdates).length !== 0) {
@@ -72,7 +72,7 @@ export const R = {
         }
         await Promise.all(promises);
       } catch (err) {
-        console.log(`caught error: ${err}`);
+        console.log(`caught error: ${ err }`);
       }
     }),
 };

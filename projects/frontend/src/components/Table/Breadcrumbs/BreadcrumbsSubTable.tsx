@@ -9,13 +9,13 @@ import ReadOnlyIcon from "@mui/icons-material/EditOffOutlined";
 
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
-import { TableSettings } from "@src/types/table";
+import type { TableSettings } from "@src/types/table";
 
-export interface IBreadcrumbsSubTableProps {
+export type IBreadcrumbsSubTableProps = {
   rootTableSettings: TableSettings;
   subTableSettings: TableSettings;
   rootTableLink: string;
-}
+};
 
 export default function BreadcrumbsSubTable({
   rootTableSettings,
@@ -24,8 +24,8 @@ export default function BreadcrumbsSubTable({
 }: IBreadcrumbsSubTableProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [searchParams] = useSearchParams();
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ searchParams ] = useSearchParams();
   const splitSubTableId = subTableSettings.id.split("/");
 
   return (
@@ -47,7 +47,7 @@ export default function BreadcrumbsSubTable({
       >
         <Link
           component={RouterLink}
-          to={`${ROUTES.home}#${camelCase(rootTableSettings.section)}`}
+          to={`${ ROUTES.home }#${ camelCase(rootTableSettings.section) }`}
           color="text.secondary"
           underline="hover"
         >
@@ -68,8 +68,8 @@ export default function BreadcrumbsSubTable({
         )}
 
         <Typography variant="inherit" color="text.secondary">
-          {searchParams.get("parentLabel") ||
-            splitSubTableId[splitSubTableId.length - 2]}
+          {searchParams.get("parentLabel")
+          || splitSubTableId[splitSubTableId.length - 2]}
         </Typography>
 
         <Typography variant="inherit" color="text.primary">

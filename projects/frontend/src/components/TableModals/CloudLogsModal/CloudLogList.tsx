@@ -1,13 +1,14 @@
 import { get } from "lodash-es";
 import { differenceInCalendarDays } from "date-fns";
 
-import { List, ListProps } from "@mui/material";
+import { List } from "@mui/material";
 import CloudLogSubheader from "./CloudLogSubheader";
 import CloudLogItem from "./CloudLogItem";
+import type { ListProps } from "@mui/material";
 
-export interface ICloudLogListProps extends Partial<ListProps> {
+export type ICloudLogListProps = {
   items: Record<string, any>[];
-}
+} & Partial<ListProps>;
 
 export default function CloudLogList({ items, ...props }: ICloudLogListProps) {
   const renderedLogItems: React.ReactNode[] = [];
@@ -19,8 +20,8 @@ export default function CloudLogList({ items, ...props }: ICloudLogListProps) {
       // Group by function execution ID if available
       if (item.labels.execution_id) {
         if (
-          get(item, "labels.execution_id") !==
-          get(prevItem, "labels.execution_id")
+          get(item, "labels.execution_id")
+          !== get(prevItem, "labels.execution_id")
         ) {
           renderedLogItems.push(
             <CloudLogSubheader key={get(item, "labels.execution_id")}>
@@ -43,12 +44,12 @@ export default function CloudLogList({ items, ...props }: ICloudLogListProps) {
 
         if (diff !== prevDiff) {
           renderedLogItems.push(
-            <CloudLogSubheader key={`${diff} days ago`}>
+            <CloudLogSubheader key={`${ diff } days ago`}>
               {diff === 0
                 ? "Today"
                 : diff === 1
-                ? "Yesterday"
-                : `${diff} days ago`}
+                  ? "Yesterday"
+                  : `${ diff } days ago`}
             </CloudLogSubheader>
           );
         }

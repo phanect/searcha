@@ -14,8 +14,8 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import type { FileValue, TableRowRef } from "@src/types/table";
 import { generateId } from "@src/utils/table";
+import type { FileValue, TableRowRef } from "@src/types/table";
 
 export type UploadState = {
   progress: number;
@@ -23,15 +23,13 @@ export type UploadState = {
   error?: string;
 };
 
-export type UploaderState = {
-  [fileName: string]: UploadState;
-};
+export type UploaderState = Record<string, UploadState>;
 
 const uploadReducer = (
   prevState: UploaderState,
   action: {
     type: "reset" | "file_update";
-    data?: { fileName: string; newProps: Partial<UploadState> };
+    data?: { fileName: string; newProps: Partial<UploadState>; };
   }
 ) => {
   switch (action.type) {
@@ -64,10 +62,10 @@ export type UploadProps = {
 // TODO: GENERALIZE INTO ATOM
 const useFirebaseStorageUploader = () => {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseStorage] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
+  const [ firebaseStorage ] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
-  const [uploaderState, uploaderDispatch] = useReducer(uploadReducer, {});
+  const [ uploaderState, uploaderDispatch ] = useReducer(uploadReducer, {});
 
   const upload = async ({ docRef, fieldName, files }: UploadProps) => {
     const uploads = [] as FileValue[];
@@ -86,7 +84,7 @@ const useFirebaseStorageUploader = () => {
 
         const storageRef = ref(
           firebaseStorage,
-          `${docRef.path}/${fieldName}/${generateId()}-${file.name}`
+          `${ docRef.path }/${ fieldName }/${ generateId() }-${ file.name }`
         );
         const uploadTask = uploadBytesResumable(storageRef, file, {
           cacheControl: "public, max-age=31536000",
@@ -97,11 +95,11 @@ const useFirebaseStorageUploader = () => {
           // observer
           (snapshot) => {
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            const progress
+              = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             uploaderDispatch({
               type: "file_update",
-              data: { fileName: file.name, newProps: { progress } },
+              data: { fileName: file.name, newProps: { progress }},
             });
           },
 
@@ -148,7 +146,9 @@ const useFirebaseStorageUploader = () => {
             }
             failures.push(file.name);
             uploaderDispatch({ type: "file_update", data: errorAction });
-            if (isCompleted()) resolve(true);
+            if (isCompleted()) {
+              resolve(true);
+            }
           },
 
           // complete
@@ -178,7 +178,9 @@ const useFirebaseStorageUploader = () => {
                   lastModifiedTS: file.lastModified,
                 };
                 uploads.push(obj);
-                if (isCompleted()) resolve(true);
+                if (isCompleted()) {
+                  resolve(true);
+                }
               }
             );
           }
@@ -191,8 +193,9 @@ const useFirebaseStorageUploader = () => {
   };
 
   const deleteUpload = (fileValue: FileValue) => {
-    if (fileValue.ref) return deleteObject(ref(firebaseStorage, fileValue.ref));
-    else {
+    if (fileValue.ref) {
+      return deleteObject(ref(firebaseStorage, fileValue.ref));
+    } else {
       return true;
     }
   };

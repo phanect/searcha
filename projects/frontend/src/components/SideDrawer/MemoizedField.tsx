@@ -2,13 +2,13 @@ import { memo, useEffect, useCallback, createElement } from "react";
 import useStateRef from "react-usestateref";
 import { isEqual, isEmpty } from "lodash-es";
 
-import FieldWrapper from "./FieldWrapper";
-import { FieldType, IFieldConfig } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import { getFieldProp } from "@src/components/fields";
-import { ColumnConfig, TableRowRef } from "@src/types/table";
-import { TableRow } from "@src/types/table";
+import FieldWrapper from "./FieldWrapper";
+import type { ColumnConfig, TableRowRef, TableRow } from "@src/types/table";
+import type { IFieldConfig } from "@src/components/fields/types";
 
-export interface IMemoizedFieldProps {
+export type IMemoizedFieldProps = {
   field: ColumnConfig;
   disabled: boolean;
   hidden: boolean;
@@ -18,10 +18,10 @@ export interface IMemoizedFieldProps {
   onDirty: (fieldName: string) => void;
   onSubmit: (fieldName: string, value: any) => void;
   row: TableRow;
-}
+};
 
 export const MemoizedField = memo(
-  function MemoizedField({
+  ({
     field,
     disabled,
     hidden,
@@ -32,16 +32,18 @@ export const MemoizedField = memo(
     onSubmit,
     row,
     ...props
-  }: IMemoizedFieldProps) {
-    const [localValue, setLocalValue, localValueRef] = useStateRef(value);
+  }: IMemoizedFieldProps) => {
+    const [ localValue, setLocalValue, localValueRef ] = useStateRef(value);
     // Sync local value with document value if not dirty
     useEffect(() => {
-      if (!isDirty) setLocalValue(value);
-    }, [isDirty, setLocalValue, value]);
+      if (!isDirty) {
+        setLocalValue(value);
+      }
+    }, [ isDirty, setLocalValue, value ]);
 
     const handleSubmit = useCallback(() => {
       onSubmit(field.fieldName, localValueRef.current);
-    }, [field.fieldName, localValueRef, onSubmit]);
+    }, [ field.fieldName, localValueRef, onSubmit ]);
 
     let type = field.type;
     if (field.type !== FieldType.formula && field.config?.renderFieldType) {
@@ -92,11 +94,15 @@ export const MemoizedField = memo(
     }
 
     // Re-render if column config changes
-    if (!isEqual(prev.field, next.field)) return false;
+    if (!isEqual(prev.field, next.field)) {
+      return false;
+    }
 
     // If dirty, don’t re-render. This has the effect of the field only
     // being re-rendered if it’s not dirty.
-    if (prev.isDirty || next.isDirty) return true;
+    if (prev.isDirty || next.isDirty) {
+      return true;
+    }
 
     // Don’t render if values are deep equal
     return isEqual(prev.value, next.value);

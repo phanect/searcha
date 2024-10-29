@@ -26,122 +26,122 @@ import {
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { analytics, logEvent } from "@src/analytics";
-import { TableRow, ColumnConfig } from "@src/types/table";
-import { IExportModalContentsProps } from ".";
+import type { TableRow, ColumnConfig } from "@src/types/table";
+import type { IExportModalContentsProps } from ".";
 
-const selectedColumnsJsonReducer =
-  (doc: TableRow) =>
-  (accumulator: Record<string, any>, currentColumn: ColumnConfig) => {
-    const value = get(doc, currentColumn.key);
+const selectedColumnsJsonReducer
+  = (doc: TableRow) =>
+    (accumulator: Record<string, any>, currentColumn: ColumnConfig) => {
+      const value = get(doc, currentColumn.key);
 
-    if (
-      currentColumn.type === FieldType.file ||
-      currentColumn.type === FieldType.image
-    ) {
-      return {
-        ...accumulator,
-        [currentColumn.key]: value
-          ? value
-              .map((item: { downloadURL: string }) => item.downloadURL)
-              .join()
-          : "",
-      };
-    }
-
-    if (currentColumn.type === FieldType.reference) {
-      return {
-        ...accumulator,
-        [currentColumn.key]: value ? value.path : "",
-      };
-    }
-    return {
-      ...accumulator,
-      [currentColumn.key]: value,
-    };
-  };
-
-const selectedColumnsCsvReducer =
-  (doc: TableRow) =>
-  (accumulator: Record<string, string>, currentColumn: ColumnConfig) => {
-    const value = get(doc, currentColumn.key);
-    const formatter = getFieldProp("csvExportFormatter", currentColumn.type);
-    if (formatter) {
-      return {
-        ...accumulator,
-        [currentColumn.name]: value
-          ? formatter(value, currentColumn.config)
-          : "",
-      };
-    }
-    // TODO: move to field csvExportFormatter
-    switch (currentColumn.type) {
-      case FieldType.multiSelect:
+      if (
+        currentColumn.type === FieldType.file
+        || currentColumn.type === FieldType.image
+      ) {
         return {
           ...accumulator,
-          [currentColumn.name]: value ? value.join() : "",
+          [currentColumn.key]: value
+            ? value
+              .map((item: { downloadURL: string; }) => item.downloadURL)
+              .join()
+            : "",
         };
-      case FieldType.file:
-      case FieldType.image:
+      }
+
+      if (currentColumn.type === FieldType.reference) {
+        return {
+          ...accumulator,
+          [currentColumn.key]: value ? value.path : "",
+        };
+      }
+      return {
+        ...accumulator,
+        [currentColumn.key]: value,
+      };
+    };
+
+const selectedColumnsCsvReducer
+  = (doc: TableRow) =>
+    (accumulator: Record<string, string>, currentColumn: ColumnConfig) => {
+      const value = get(doc, currentColumn.key);
+      const formatter = getFieldProp("csvExportFormatter", currentColumn.type);
+      if (formatter) {
         return {
           ...accumulator,
           [currentColumn.name]: value
-            ? value
-                .map((item: { downloadURL: string }) => item.downloadURL)
-                .join()
+            ? formatter(value, currentColumn.config)
             : "",
         };
-      case FieldType.connectTable:
-        return {
-          ...accumulator,
-          [currentColumn.name]:
+      }
+      // TODO: move to field csvExportFormatter
+      switch (currentColumn.type) {
+        case FieldType.multiSelect:
+          return {
+            ...accumulator,
+            [currentColumn.name]: value ? value.join() : "",
+          };
+        case FieldType.file:
+        case FieldType.image:
+          return {
+            ...accumulator,
+            [currentColumn.name]: value
+              ? value
+                .map((item: { downloadURL: string; }) => item.downloadURL)
+                .join()
+              : "",
+          };
+        case FieldType.connectTable:
+          return {
+            ...accumulator,
+            [currentColumn.name]:
             value && Array.isArray(value)
               ? value
-                  .map((item: any) =>
-                    currentColumn.config?.primaryKeys?.reduce(
-                      (labelAccumulator: string, currentKey: any) =>
-                        `${labelAccumulator} ${item.snapshot[currentKey]}`,
-                      ""
-                    )
+                .map((item: any) =>
+                  currentColumn.config?.primaryKeys?.reduce(
+                    (labelAccumulator: string, currentKey: any) =>
+                      `${ labelAccumulator } ${ item.snapshot[currentKey] }`,
+                    ""
                   )
-                  .join()
+                )
+                .join()
               : "",
-        };
-      case FieldType.checkbox:
-        return {
-          ...accumulator,
-          [currentColumn.name]:
+          };
+        case FieldType.checkbox:
+          return {
+            ...accumulator,
+            [currentColumn.name]:
             typeof value === "boolean" ? (value ? "YES" : "NO") : "",
-        };
-      case FieldType.dateTime:
-      case FieldType.date:
-        return {
-          ...accumulator,
-          [currentColumn.name]: value && value["toDate"] ? value.toDate() : "",
-        };
-      case FieldType.action:
-        return {
-          ...accumulator,
-          [currentColumn.name]: value && value.status ? value.status : "",
-        };
-      default:
-        return {
-          ...accumulator,
-          [currentColumn.name]: value ? value : "",
-        };
-    }
-  };
+          };
+        case FieldType.dateTime:
+        case FieldType.date:
+          return {
+            ...accumulator,
+            [currentColumn.name]: value?.toDate ? value.toDate() : "",
+          };
+        case FieldType.action:
+          return {
+            ...accumulator,
+            [currentColumn.name]: value?.status ? value.status : "",
+          };
+        default:
+          return {
+            ...accumulator,
+            [currentColumn.name]: value ? value : "",
+          };
+      }
+    };
 
 export default function Export({
   query,
   closeModal,
 }: IExportModalContentsProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
-  const [columns, setColumns] = useState<any[]>([]);
-  const [exportType, setExportType] = useState<"csv" | "tsv" | "json">("csv");
+  const [ columns, setColumns ] = useState<any[]>([]);
+  const [ exportType, setExportType ] = useState<"csv" | "tsv" | "json">("csv");
 
   const handleClose = () => {
     closeModal();
@@ -151,7 +151,7 @@ export default function Export({
   const handleChange = (keys: string[]) =>
     setColumns(
       keys
-        .map((key) => find(tableColumnsOrdered, ["key", key]))
+        .map((key) => find(tableColumnsOrdered, [ "key", key ]))
         .filter((x) => !!x)
     );
 
@@ -159,13 +159,13 @@ export default function Export({
     handleClose();
     logEvent(analytics, "export_table", { type: exportType });
     enqueueSnackbar("Preparing file. Download will start shortly.");
-    let querySnapshot = await getDocs(query);
-    let docs = querySnapshot.docs.map((doc) => ({
+    const querySnapshot = await getDocs(query);
+    const docs = querySnapshot.docs.map((doc) => ({
       id: doc.ref.id,
       ...doc.data(),
     }));
 
-    const fileName = `${tableId}-${new Date().toISOString()}.${exportType}`;
+    const fileName = `${ tableId }-${ new Date().toISOString() }.${ exportType }`;
     switch (exportType) {
       case "csv":
       case "tsv":
@@ -176,8 +176,8 @@ export default function Export({
           exportType === "tsv" ? { delimiter: "\t" } : undefined
         );
         const csv = parser.parse(csvData);
-        const csvBlob = new Blob([csv], {
-          type: `text/${exportType};charset=utf-8`,
+        const csvBlob = new Blob([ csv ], {
+          type: `text/${ exportType };charset=utf-8`,
         });
         saveAs(csvBlob, fileName);
         break;
@@ -185,8 +185,8 @@ export default function Export({
         const jsonData = docs.map((doc: any) =>
           columns.reduce(selectedColumnsJsonReducer(doc), { id: doc.id })
         );
-        const jsonBlob = new Blob([JSON.stringify(jsonData)], {
-          type: `text/${exportType};charset=utf-8`,
+        const jsonBlob = new Blob([ JSON.stringify(jsonData) ], {
+          type: `text/${ exportType };charset=utf-8`,
         });
         saveAs(jsonBlob, fileName);
         break;
@@ -218,7 +218,9 @@ export default function Export({
             value={exportType}
             onChange={(e) => {
               const v = e.target.value;
-              if (v) setExportType(v as "csv" | "tsv" | "json");
+              if (v) {
+                setExportType(v as "csv" | "tsv" | "json");
+              }
             }}
           >
             <FormControlLabel value="csv" control={<Radio />} label=".csv" />

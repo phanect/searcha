@@ -3,16 +3,17 @@ import { useAtom } from "jotai";
 
 import MultiSelect from "@phanect/datasheet-multiselect";
 import {
-  AutocompleteProps,
   Avatar,
   Box,
-  PopoverProps,
   Stack,
 } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 
 import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
-import { ColumnConfig } from "@src/types/table";
+import type {
+  AutocompleteProps,
+  PopoverProps } from "@mui/material";
+import type { ColumnConfig } from "@src/types/table";
 
 export type UserDataType = {
   email: string;
@@ -27,7 +28,7 @@ type UserOptionType = {
   user: UserDataType;
 };
 
-interface IUserSelectProps<T = any> {
+type IUserSelectProps<T = any> = {
   open?: boolean;
   value: T;
   onChange: (value: T) => void;
@@ -36,7 +37,7 @@ interface IUserSelectProps<T = any> {
   column: ColumnConfig;
   disabled: boolean;
   showPopoverCell: (value: boolean) => void;
-}
+};
 
 export default function UserSelect({
   open,
@@ -49,13 +50,13 @@ export default function UserSelect({
   disabled,
 }: IUserSelectProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [users] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [ users ] = useAtom(allUsersAtom, { store: projectScopeStore });
 
   const options = useMemo(() => {
-    let options: UserOptionType[] = [];
-    let emails = new Set();
+    const options: UserOptionType[] = [];
+    const emails = new Set();
     for (const user of users) {
-      if (user.user && user.user?.email) {
+      if (user.user?.email) {
         if (!emails.has(user.user.email)) {
           emails.add(user.user.email);
           options.push({
@@ -67,7 +68,7 @@ export default function UserSelect({
       }
     }
     return options;
-  }, [users]);
+  }, [ users ]);
 
   const filterOptions = createFilterOptions({
     trim: true,
@@ -81,14 +82,12 @@ export default function UserSelect({
     false,
     false,
     false
-  >["renderOption"] = (props, option) => {
-    return <UserListItem user={option.user} {...props} />;
-  };
+  >["renderOption"] = (props, option) => <UserListItem user={option.user} {...props} />;
 
   if (value === undefined || value === null) {
     value = [];
   } else if (!Array.isArray(value)) {
-    value = [value.email];
+    value = [ value.email ];
   }
 
   return (
@@ -100,7 +99,7 @@ export default function UserSelect({
       multiple={column.config?.multiple || false}
       onChange={(v: any) => {
         if (typeof v === "string") {
-          v = [v];
+          v = [ v ];
         }
         onChange(v);
       }}
@@ -127,7 +126,7 @@ export default function UserSelect({
             anchorOrigin: { vertical: "bottom", horizontal: "center" },
             transformOrigin: { vertical: "top", horizontal: "center" },
             sx: {
-              "& .MuiPaper-root": { minWidth: `${column.width}px !important` },
+              "& .MuiPaper-root": { minWidth: `${ column.width }px !important` },
             },
           },
         },
@@ -136,31 +135,29 @@ export default function UserSelect({
   );
 }
 
-const UserListItem = ({ user, ...props }: { user: UserDataType }) => {
-  return (
-    <li {...props}>
-      <Box sx={[{ position: "relative" }]}>
-        <Stack
-          spacing={0.75}
-          direction="row"
-          alignItems="center"
-          style={{ width: "100%" }}
+const UserListItem = ({ user, ...props }: { user: UserDataType; }) => (
+  <li {...props}>
+    <Box sx={[{ position: "relative" }]}>
+      <Stack
+        spacing={0.75}
+        direction="row"
+        alignItems="center"
+        style={{ width: "100%" }}
+      >
+        <Avatar
+          alt="Avatar"
+          src={user.photoURL}
+          sx={{
+            width: 20,
+            height: 20,
+            fontSize: "inherit",
+            marginRight: "6px",
+          }}
         >
-          <Avatar
-            alt="Avatar"
-            src={user.photoURL}
-            sx={{
-              width: 20,
-              height: 20,
-              fontSize: "inherit",
-              marginRight: "6px",
-            }}
-          >
-            {user.displayName ? user.displayName[0] : ""}
-          </Avatar>
-          <span>{user.displayName}</span>
-        </Stack>
-      </Box>
-    </li>
-  );
-};
+          {user.displayName ? user.displayName[0] : ""}
+        </Avatar>
+        <span>{user.displayName}</span>
+      </Stack>
+    </Box>
+  </li>
+);

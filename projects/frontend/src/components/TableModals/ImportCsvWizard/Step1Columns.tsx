@@ -23,8 +23,6 @@ import {
 import ArrowIcon from "@mui/icons-material/ArrowForward";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
-import { IStepProps } from ".";
-import { CsvConfig } from "@src/components/TableModals/ImportCsvWizard";
 import FadeList from "@src/components/TableModals/ScrollableList";
 import Column, {
   COLUMN_HEADER_HEIGHT,
@@ -35,11 +33,14 @@ import {
   TableScopeContext,
   tableSchemaAtom,
   tableColumnsOrderedAtom,
-  ImportCsvData,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
 import { suggestType } from "@src/components/TableModals/ImportExistingWizard/utils";
+import type {
+  ImportCsvData } from "@src/atoms/tableScope";
+import type { CsvConfig } from "@src/components/TableModals/ImportCsvWizard";
+import type { IStepProps } from ".";
 
 export default function Step1Columns({
   csvData,
@@ -48,11 +49,11 @@ export default function Step1Columns({
   setConfig,
   isXs,
 }: IStepProps & {
-  csvData: NonNullable<ImportCsvData & { invalidRows: Record<string, any> }>;
+  csvData: NonNullable<ImportCsvData & { invalidRows: Record<string, any>; }>;
 }) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const tableColumns = useMemoValue(
     tableColumnsOrdered
@@ -61,7 +62,7 @@ export default function Step1Columns({
     isEqual
   );
 
-  const [selectedFields, setSelectedFields] = useState(
+  const [ selectedFields, setSelectedFields ] = useState(
     config.pairs.map((pair) => pair.csvKey)
   );
 
@@ -70,12 +71,12 @@ export default function Step1Columns({
       setSelectedFields(csvData.columns);
       csvData.columns.forEach((field) => {
         // Try to match each field to a column in the table
-        const match =
-          find(tableColumns, (column) =>
+        const match
+          = find(tableColumns, (column) =>
             column.label.toLowerCase().includes(field.toLowerCase())
           )?.value ?? null;
         const columnKey = camelCase(field);
-        const columnConfig: Partial<CsvConfig> = { pairs: [], newColumns: [] };
+        const columnConfig: Partial<CsvConfig> = { pairs: [], newColumns: []};
         columnConfig.pairs = [{ csvKey: field, columnKey: match ?? columnKey }];
         if (!match) {
           columnConfig.newColumns = [
@@ -93,26 +94,26 @@ export default function Step1Columns({
       });
     } else {
       setSelectedFields([]);
-      setConfig((config) => ({ ...config, newColumns: [], pairs: [] }));
+      setConfig((config) => ({ ...config, newColumns: [], pairs: []}));
     }
   };
 
   // When a field is selected to be imported
-  const handleSelect =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelect
+    = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const checked = e.target.checked;
 
       if (checked) {
-        setSelectedFields((x) => [...x, field]);
+        setSelectedFields((x) => [ ...x, field ]);
 
         // Try to match the field to a column in the table
-        const match =
-          find(tableColumns, (column) =>
+        const match
+          = find(tableColumns, (column) =>
             column.label.toLowerCase().includes(field.toLowerCase())
           )?.value ?? null;
 
         const columnKey = camelCase(field);
-        const columnConfig: Partial<CsvConfig> = { pairs: [], newColumns: [] };
+        const columnConfig: Partial<CsvConfig> = { pairs: [], newColumns: []};
         columnConfig.pairs = [{ csvKey: field, columnKey: match ?? columnKey }];
         if (!match) {
           columnConfig.newColumns = [
@@ -128,7 +129,7 @@ export default function Step1Columns({
         }
         updateConfig(columnConfig);
       } else {
-        const newValue = [...selectedFields];
+        const newValue = [ ...selectedFields ];
         newValue.splice(newValue.indexOf(field), 1);
         setSelectedFields(newValue);
 
@@ -142,7 +143,7 @@ export default function Step1Columns({
             key: configPair.columnKey,
           });
           if (newColumnIndex > -1) {
-            const newColumns = [...config.newColumns];
+            const newColumns = [ ...config.newColumns ];
             newColumns.splice(newColumnIndex, 1);
             setConfig((config) => ({ ...config, newColumns }));
           }
@@ -150,7 +151,7 @@ export default function Step1Columns({
 
         // Delete pair from main config
         if (configIndex > -1) {
-          const newConfig = [...config.pairs];
+          const newConfig = [ ...config.pairs ];
           newConfig.splice(configIndex, 1);
           setConfig((config) => ({ ...config, pairs: newConfig }));
         }
@@ -159,12 +160,14 @@ export default function Step1Columns({
 
   // When a field is mapped to a new column
   const handleChange = (csvKey: string) => (value: string) => {
-    const columnKey = !!tableSchema.columns?.[value] ? value : camelCase(value);
-    if (columnKey === "") return;
+    const columnKey = tableSchema.columns?.[value] ? value : camelCase(value);
+    if (columnKey === "") {
+      return;
+    }
     // Check if this pair already exists in config
     const configIndex = findIndex(config.pairs, { csvKey });
     if (configIndex > -1) {
-      const pairs = [...config.pairs];
+      const pairs = [ ...config.pairs ];
       pairs[configIndex].columnKey = columnKey;
       setConfig((config) => ({ ...config, pairs }));
     } else {
@@ -222,17 +225,17 @@ export default function Step1Columns({
       <FadeList>
         <li>
           <FormControlLabel
-            control={
+            control={(
               <Checkbox
                 checked={selectedFields.length === csvData.columns.length}
                 indeterminate={
-                  selectedFields.length !== 0 &&
-                  selectedFields.length !== csvData.columns.length
+                  selectedFields.length !== 0
+                  && selectedFields.length !== csvData.columns.length
                 }
                 onChange={handleSelectAll}
                 color="default"
               />
-            }
+            )}
             label={
               selectedFields.length === csvData.columns.length
                 ? "Clear all"
@@ -247,13 +250,13 @@ export default function Step1Columns({
           />
         </li>
         {csvData.columns.map((field) => {
-          const selected = selectedFields.indexOf(field) > -1;
-          const columnKey =
-            find(config.pairs, { csvKey: field })?.columnKey ?? null;
+          const selected = selectedFields.includes(field);
+          const columnKey
+            = find(config.pairs, { csvKey: field })?.columnKey ?? null;
           const matchingColumn = columnKey
-            ? tableSchema.columns?.[columnKey] ??
-              find(config.newColumns, { key: columnKey }) ??
-              null
+            ? tableSchema.columns?.[columnKey]
+            ?? find(config.newColumns, { key: columnKey })
+            ?? null
             : null;
           const isNewColumn = !!find(config.newColumns, { key: columnKey });
 
@@ -267,17 +270,17 @@ export default function Step1Columns({
                 marginTop: "36px !important",
               }}
             >
-              <Grid container alignItems={"center"}>
+              <Grid container alignItems="center">
                 <FormControlLabel
                   key={field}
-                  control={
+                  control={(
                     <Checkbox
                       checked={selected}
-                      aria-label={`Select column ${field}`}
+                      aria-label={`Select column ${ field }`}
                       onChange={handleSelect(field)}
                       color="secondary"
                     />
-                  }
+                  )}
                   label={<Column label={field} />}
                   sx={{
                     marginRight: 0,
@@ -299,7 +302,7 @@ export default function Step1Columns({
                 <ArrowIcon color="disabled" sx={{ color: "secondary.main" }} />
               </Grid>
 
-              <Grid container spacing={4} alignItems={"center"}>
+              <Grid container spacing={4} alignItems="center">
                 {selected && (
                   <>
                     <Grid>
@@ -311,8 +314,9 @@ export default function Step1Columns({
                           hiddenLabel: true,
                           SelectProps: {
                             renderValue: () => {
-                              if (!columnKey) return "Select or add column";
-                              else
+                              if (!columnKey) {
+                                return "Select or add column";
+                              } else {
                                 return (
                                   <Stack
                                     direction="row"
@@ -346,12 +350,13 @@ export default function Step1Columns({
                                     )}
                                   </Stack>
                                 );
+                              }
                             },
                             sx: [
                               {
                                 backgroundColor: "background.default",
                                 border: (theme) =>
-                                  `1px solid ${theme.palette.divider}`,
+                                  `1px solid ${ theme.palette.divider }`,
                                 borderRadius: 0,
                                 boxShadow: "none",
                                 "& .MuiSelect-select": {
@@ -375,7 +380,7 @@ export default function Step1Columns({
                               !columnKey && { color: "text.disabled" },
                             ],
                           },
-                          sx: { "& .MuiInputLabel-root": { display: "none" } },
+                          sx: { "& .MuiInputLabel-root": { display: "none" }},
                         }}
                         clearable={false}
                         displayEmpty
@@ -393,8 +398,8 @@ export default function Step1Columns({
                         value={
                           config.pairs.find(
                             (pair) => pair.columnKey === columnKey
-                          )?.columnKey ??
-                          config.newColumns.find(
+                          )?.columnKey
+                          ?? config.newColumns.find(
                             (pair) => pair.key === columnKey
                           )?.key
                         }
@@ -482,8 +487,7 @@ export default function Step1Columns({
                   setConfig((prev) => ({
                     ...prev,
                     documentIdCsvKey: e.target.value,
-                  }))
-                }
+                  }))}
                 sx={{ width: isXs ? "100%" : 200, margin: "auto" }}
                 SelectProps={{
                   displayEmpty: true,
@@ -497,9 +501,9 @@ export default function Step1Columns({
                   },
                 }}
                 helperText={
-                  config.documentId === "column" &&
-                  csvData.invalidRows &&
-                  `Invalid Rows: ${csvData.invalidRows.length}/${csvData.rows.length}`
+                  config.documentId === "column"
+                  && csvData.invalidRows
+                  && `Invalid Rows: ${ csvData.invalidRows.length }/${ csvData.rows.length }`
                 }
               >
                 {csvData.columns.map((column) => (

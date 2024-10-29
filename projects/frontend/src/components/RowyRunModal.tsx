@@ -31,9 +31,9 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
  */
 export default function RowyRunModal() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [rowyRunModal, setRowyRunModal] = useAtom(
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ rowyRunModal, setRowyRunModal ] = useAtom(
     rowyRunModalAtom,
     { store: projectScopeStore }
   );
@@ -46,17 +46,17 @@ export default function RowyRunModal() {
     <Modal
       open={rowyRunModal.open}
       onClose={handleClose}
-      title={
+      title={(
         <MemoizedText>
           {rowyRunModal.feature
             ? `${
-                showUpdateModal ? "Update" : "Set up"
-              } Cloud Functions to use ${rowyRunModal.feature}`
-            : `Your Cloud isn’t set up`}
+              showUpdateModal ? "Update" : "Set up"
+            } Cloud Functions to use ${ rowyRunModal.feature }`
+            : "Your Cloud isn’t set up"}
         </MemoizedText>
-      }
+      )}
       maxWidth="xs"
-      body={
+      body={(
         <>
           {showUpdateModal && (
             <DialogContentText variant="button" paragraph>
@@ -138,7 +138,7 @@ export default function RowyRunModal() {
             </Typography>
           )}
         </>
-      }
+      )}
     />
   );
 }

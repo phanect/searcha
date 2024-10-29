@@ -4,7 +4,6 @@ import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { useSnackbar } from "notistack";
 import { uniqBy, find, isEqual, groupBy } from "lodash-es";
-import { ITableModalProps } from "@src/components/TableModals";
 
 import {
   useTheme,
@@ -17,12 +16,7 @@ import {
 } from "@mui/material";
 
 import WizardDialog from "@src/components/TableModals/WizardDialog";
-import Step1Columns from "./Step1Columns";
-import Step2NewColumns from "./Step2NewColumns";
-import Step3Preview from "./Step3Preview";
-import SnackbarProgress, {
-  ISnackbarProgressRef,
-} from "@src/components/SnackbarProgress";
+import SnackbarProgress from "@src/components/SnackbarProgress";
 
 import {
   TableScopeContext,
@@ -31,36 +25,44 @@ import {
   addColumnAtom,
   bulkAddRowsAtom,
   importCsvAtom,
-  ImportCsvData,
   tableModalAtom,
 } from "@src/atoms/tableScope";
-import { ColumnConfig } from "@src/types/table";
 import { getFieldProp } from "@src/components/fields";
 import { analytics, logEvent } from "@src/analytics";
 import { generateId } from "@src/utils/table";
+import Step3Preview from "./Step3Preview";
+import Step2NewColumns from "./Step2NewColumns";
+import Step1Columns from "./Step1Columns";
 import { isValidDocId } from "./utils";
 import useUploadFileFromURL from "./useUploadFileFromURL";
 import useConverter from "./useConverter";
+import type { ColumnConfig } from "@src/types/table";
+import type {
+  ImportCsvData } from "@src/atoms/tableScope";
+import type {
+  ISnackbarProgressRef,
+} from "@src/components/SnackbarProgress";
+import type { ITableModalProps } from "@src/components/TableModals";
 
 export type CsvConfig = {
-  pairs: { csvKey: string; columnKey: string }[];
+  pairs: { csvKey: string; columnKey: string; }[];
   newColumns: ColumnConfig[];
   documentId: "auto" | "column";
   documentIdCsvKey: string | null;
 };
 
-export interface IStepProps {
+export type IStepProps = {
   csvData: NonNullable<ImportCsvData>;
   config: CsvConfig;
   setConfig: React.Dispatch<React.SetStateAction<CsvConfig>>;
   updateConfig: (value: Partial<CsvConfig>) => void;
   isXs: boolean;
-}
+};
 
 export default function ImportCsvWizard({ onClose }: ITableModalProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const addColumn = useSetAtom(addColumnAtom, { store: tableScopeStore });
   const bulkAddRows = useSetAtom(bulkAddRowsAtom, { store: tableScopeStore });
   const [{ importType, csvData }] = useAtom(importCsvAtom, { store: tableScopeStore });
@@ -74,7 +76,7 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
 
   const columns = useMemoValue(tableSchema.columns ?? {}, isEqual);
 
-  const [config, setConfig] = useState<CsvConfig>({
+  const [ config, setConfig ] = useState<CsvConfig>({
     pairs: [],
     newColumns: [],
     documentId: "auto",
@@ -83,9 +85,9 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
 
   const updateConfig: IStepProps["updateConfig"] = useCallback((value) => {
     setConfig((prev) => {
-      const pairs = uniqBy([...prev.pairs, ...(value.pairs ?? [])], "csvKey");
+      const pairs = uniqBy([ ...prev.pairs, ...(value.pairs ?? []) ], "csvKey");
       const newColumns = uniqBy(
-        [...prev.newColumns, ...(value.newColumns ?? [])],
+        [ ...prev.newColumns, ...(value.newColumns ?? []) ],
         "key"
       ).filter((col) => pairs?.some((pair) => pair.columnKey === col.key));
 
@@ -94,12 +96,14 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
   }, []);
 
   const parsedRows: any[] = useMemo(() => {
-    if (!columns || !csvData) return [];
+    if (!columns || !csvData) {
+      return [];
+    }
     return csvData.rows.map((row) =>
       config.pairs.reduce((a, pair) => {
-        const matchingColumn =
-          columns[pair.columnKey] ??
-          find(config.newColumns, { key: pair.columnKey });
+        const matchingColumn
+          = columns[pair.columnKey]
+          ?? find(config.newColumns, { key: pair.columnKey });
         const csvFieldParser = getFieldProp(
           "csvImportParser",
           matchingColumn.type
@@ -110,37 +114,37 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
 
         return config.documentId === "column"
           ? {
-              ...a,
-              [pair.columnKey]: value,
-              _rowy_ref: {
-                id: config.documentIdCsvKey
-                  ? row[config.documentIdCsvKey]
-                  : null,
-              },
-            }
+            ...a,
+            [pair.columnKey]: value,
+            _rowy_ref: {
+              id: config.documentIdCsvKey
+                ? row[config.documentIdCsvKey]
+                : null,
+            },
+          }
           : { ...a, [pair.columnKey]: value };
       }, {})
     );
-  }, [csvData, columns, config]);
+  }, [ csvData, columns, config ]);
 
-  const { validRows, invalidRows } =
-    config.documentId === "column"
+  const { validRows, invalidRows }
+    = config.documentId === "column"
       ? groupBy(parsedRows, (row) =>
-          isValidDocId(row._rowy_ref?.id) ? "validRows" : "invalidRows"
-        )
-      : { validRows: parsedRows, invalidRows: [] };
+        isValidDocId(row._rowy_ref?.id) ? "validRows" : "invalidRows"
+      )
+      : { validRows: parsedRows, invalidRows: []};
 
   const { requiredConverts, requiredUploads } = useMemo(() => {
     const columns = config.pairs.map(({ csvKey, columnKey }) => ({
       csvKey,
       columnKey,
-      ...(tableSchema.columns?.[columnKey] ??
-        find(config.newColumns, { key: columnKey }) ??
-        {}),
+      ...(tableSchema.columns?.[columnKey]
+        ?? find(config.newColumns, { key: columnKey })
+        ?? {}),
     }));
 
-    let requiredConverts: any = {};
-    let requiredUploads: any = {};
+    const requiredConverts: any = {};
+    const requiredUploads: any = {};
     columns.forEach((column) => {
       if (needsConverter(column.type)) {
         requiredConverts[column.columnKey] = getConverter(column.type);
@@ -161,13 +165,15 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
   ]);
 
   const handleFinish = async () => {
-    if (!parsedRows) return;
+    if (!parsedRows) {
+      return;
+    }
     console.time("importCsv");
     snackbarProgressRef.current?.setProgress(0);
     const loadingSnackbar = enqueueSnackbar(
-      `Importing ${Number(
+      `Importing ${ Number(
         validRows.length
-      ).toLocaleString()} rows. This might take a while.`,
+      ).toLocaleString() } rows. This might take a while.`,
       {
         persist: true,
         action: (
@@ -202,14 +208,15 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
 
     try {
       // Add any new columns to the end
-      for (const col of config.newColumns)
+      for (const col of config.newColumns) {
         promises.push(addColumn({ config: col }));
+      }
 
       if (validRows.length < parsedRows.length) {
         enqueueSnackbar(
-          `Invalid document ID! ${Number(
+          `Invalid document ID! ${ Number(
             parsedRows.length - validRows.length
-          ).toLocaleString()} invalid rows skipped!`,
+          ).toLocaleString() } invalid rows skipped!`,
           { variant: "warning" }
         );
       }
@@ -224,7 +231,7 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
         const id = generateId();
         const newRow = {
           _rowy_ref: {
-            path: `${tableSettings.collection}/${row?._rowy_ref?.id ?? id}`,
+            path: `${ tableSettings.collection }/${ row?._rowy_ref?.id ?? id }`,
             id,
           },
           ...row,
@@ -262,7 +269,7 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
       await Promise.all(promises);
       logEvent(analytics, "import_success", { type: importType });
       enqueueSnackbar(
-        `Imported ${Number(validRows.length).toLocaleString()} rows`,
+        `Imported ${ Number(validRows.length).toLocaleString() } rows`,
         { variant: "success" }
       );
       if (Object.keys(requiredUploads).length > 0) {
@@ -286,7 +293,7 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
     <WizardDialog
       open
       onClose={onClose}
-      title={`Import ${importType.toUpperCase()}`}
+      title={`Import ${ importType.toUpperCase() }`}
       steps={
         [
           {
@@ -322,11 +329,11 @@ export default function ImportCsvWizard({ onClose }: ITableModalProps) {
               />
             ),
             disableNext:
-              config.pairs.length === 0 ||
-              !validRows ||
-              (config.documentId === "column" && !config.documentIdCsvKey) ||
-              config.pairs.some((pair) => !pair.columnKey) ||
-              config.newColumns.some((col) => !col.key),
+              config.pairs.length === 0
+              || !validRows
+              || (config.documentId === "column" && !config.documentIdCsvKey)
+              || config.pairs.some((pair) => !pair.columnKey)
+              || config.newColumns.some((col) => !col.key),
           },
           config.newColumns.length > 0 && {
             title: "Set column types",

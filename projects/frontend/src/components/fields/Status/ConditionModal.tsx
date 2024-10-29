@@ -8,7 +8,7 @@ type ConditionModalProps = {
   modal: IConditionModal;
   setModal: Dispatch<SetStateAction<IConditionModal>>;
   conditions: IConditionModal["condition"][];
-  setConditions: Dispatch<SetStateAction<IConditionModal["condition"][]>>
+  setConditions: Dispatch<SetStateAction<IConditionModal["condition"][]>>;
 };
 
 export default function ConditionModal({
@@ -19,7 +19,7 @@ export default function ConditionModal({
 }: ConditionModalProps) {
   const handleClose = () => setModal(EMPTY_STATE);
   const handleSave = () => {
-    let _conditions: IConditionModal["condition"][] = [...conditions];
+    const _conditions: IConditionModal["condition"][] = [ ...conditions ];
     if (typeof modal.index === "number") {
       _conditions[modal.index] = modal.condition;
     }
@@ -29,9 +29,12 @@ export default function ConditionModal({
   const handleAdd = () => {
     function setConditionHack(type: any, condition: any) {
       let rCondition = condition;
-      if (type === "undefined") rCondition = { ...condition, value: undefined };
-      if (type === "boolean" && typeof condition.value === "object")
-        rCondition = { ...condition, value: false }; //Again 'rowy's multiselect does not accept default value'
+      if (type === "undefined") {
+        rCondition = { ...condition, value: undefined };
+      }
+      if (type === "boolean" && typeof condition.value === "object") {
+        rCondition = { ...condition, value: false };
+      } // Again 'rowy's multiselect does not accept default value'
       return rCondition;
     }
     const modalCondition = setConditionHack(
@@ -40,8 +43,8 @@ export default function ConditionModal({
     );
     const noConditions = Boolean(conditions?.length === 0 || !conditions);
     const arr = noConditions
-      ? [modalCondition]
-      : [...conditions, modalCondition];
+      ? [ modalCondition ]
+      : [ ...conditions, modalCondition ];
     setConditions(arr);
     setModal(EMPTY_STATE);
   };
@@ -59,40 +62,36 @@ export default function ConditionModal({
     };
     setModal(newState);
   };
-  const primaryAction = (index: any) => {
-    return index === null
-      ? {
-          children: "Add condition",
-          onClick: () => handleAdd(),
-          disabled: false,
-        }
-      : {
-          children: "Save changes",
-          onClick: () => handleSave(),
-          disabled: false,
-        };
-  };
-  const secondaryAction = (index: any) => {
-    return index === null
-      ? {
-          children: "Cancel",
-          onClick: () => setModal(EMPTY_STATE),
-        }
-      : {
-          startIcon: <DeleteIcon />,
-          children: "Remove condition",
-          onClick: () => handleRemove(),
-        };
-  };
+  const primaryAction = (index: any) => index === null
+    ? {
+      children: "Add condition",
+      onClick: () => handleAdd(),
+      disabled: false,
+    }
+    : {
+      children: "Save changes",
+      onClick: () => handleSave(),
+      disabled: false,
+    };
+  const secondaryAction = (index: any) => index === null
+    ? {
+      children: "Cancel",
+      onClick: () => setModal(EMPTY_STATE),
+    }
+    : {
+      startIcon: <DeleteIcon />,
+      children: "Remove condition",
+      onClick: () => handleRemove(),
+    };
 
   useEffect(() => {
     handleUpdate("operator")(modal.condition.operator ?? "==");
-  }, [modal.condition.type]);
+  }, [ modal.condition.type ]);
   return (
     <Modal
       open={modal.isOpen}
-      title={`${modal.index ? "Edit" : "Add"} condition`}
-      maxWidth={"xs"}
+      title={`${ modal.index ? "Edit" : "Add" } condition`}
+      maxWidth="xs"
       onClose={handleClose}
       actions={{
         primary: primaryAction(modal.index),

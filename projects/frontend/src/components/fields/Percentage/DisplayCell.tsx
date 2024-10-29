@@ -1,8 +1,7 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { useTheme } from "@mui/material";
 import { resultColorsScale } from "@src/utils/color";
 import { multiply100WithPrecision } from "./utils";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Percentage({ column, value }: IDisplayCellProps) {
   const theme = useTheme();

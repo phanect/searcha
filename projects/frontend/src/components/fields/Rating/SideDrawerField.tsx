@@ -1,9 +1,7 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
-import { Grid2 as Grid } from "@mui/material";
-import { Rating as MuiRating } from "@mui/material";
+import { Grid2 as Grid, Rating as MuiRating } from "@mui/material";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 import Icon from "./Icon";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Rating({
   column,
@@ -19,7 +17,7 @@ export default function Rating({
     <Grid container alignItems="center" sx={fieldSx}>
       <MuiRating
         name={column.key}
-        id={`sidedrawer-field-${column.key}`}
+        id={`sidedrawer-field-${ column.key }`}
         value={typeof value === "number" ? value : 0}
         disabled={disabled}
         onChange={(_, newValue) => {

@@ -7,7 +7,6 @@ import {
   writeBatch,
 } from "firebase/firestore";
 
-import TableToolbarButton from "./TableToolbarButton";
 import LoopIcon from "@mui/icons-material/Loop";
 import Modal from "@src/components/Modal";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
@@ -19,25 +18,28 @@ import {
 } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import TableToolbarButton from "./TableToolbarButton";
 
 /**
  * NOTE: This is Firestore-specific
  */
 export default function ReExecute() {
-  const [open, setOpen] = useState(false);
-  const [updating, setUpdating] = useState(false);
+  const [ open, setOpen ] = useState(false);
+  const [ updating, setUpdating ] = useState(false);
   const handleClose = () => setOpen(false);
 
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
-  if (!firebaseDb) return null;
+  if (!firebaseDb) {
+    return null;
+  }
 
-  if (!projectSettings.rowyRunUrl)
+  if (!projectSettings.rowyRunUrl) {
     return (
       <TableToolbarButton
         title="Force refresh"
@@ -45,9 +47,10 @@ export default function ReExecute() {
         icon={<LoopIcon />}
       />
     );
+  }
 
-  const query =
-    tableSettings.tableType === "collectionGroup"
+  const query
+    = tableSettings.tableType === "collectionGroup"
       ? collectionGroup(firebaseDb, tableSettings.collection!)
       : collection(firebaseDb, tableSettings.collection);
 
@@ -55,7 +58,7 @@ export default function ReExecute() {
     setUpdating(true);
     const _forcedUpdateAt = new Date();
     const querySnapshot = await getDocs(query);
-    const docs = [...querySnapshot.docs];
+    const docs = [ ...querySnapshot.docs ];
     while (docs.length) {
       const batch = writeBatch(firebaseDb);
       const temp = docs.splice(0, 499);

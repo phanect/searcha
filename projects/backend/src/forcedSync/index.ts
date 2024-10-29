@@ -13,8 +13,8 @@ export const forcedSync = async (req) => {
   const functionsSnapshot = functionsDoc.data();
   const { collectionType, collectionPath } = functionsSnapshot;
   const config = functionsSnapshot[type][index];
-  const collectionRef =
-    collectionType === "collectionGroup"
+  const collectionRef
+    = collectionType === "collectionGroup"
       ? db.collectionGroup(collectionPath)
       : db.collection(collectionPath);
 
@@ -25,20 +25,22 @@ export const forcedSync = async (req) => {
 
       const extensionContext = { db, auth };
 
-      if (!syncScript) throw new Error("No sync script available");
+      if (!syncScript) {
+        throw new Error("No sync script available");
+      }
       const requiredFields: string[] = config.requiredFields;
       const collectionQuery = await collectionRef.get();
       const collection = collectionQuery.docs;
       // filter only the documents that have the required fields
-      const filteredCollection =
-        requiredFields && requiredFields.length !== 0
+      const filteredCollection
+        = requiredFields && requiredFields.length !== 0
           ? collection.filter((doc) => {
-              const docFields = Object.keys(doc.data());
-              const missingFields = requiredFields.filter(
-                (field) => !docFields.includes(field)
-              );
-              return missingFields.length === 0;
-            })
+            const docFields = Object.keys(doc.data());
+            const missingFields = requiredFields.filter(
+              (field) => !docFields.includes(field)
+            );
+            return missingFields.length === 0;
+          })
           : collection;
       const extensionBodies = await filteredCollection.map((doc) => {
         const row = doc.data();
@@ -47,7 +49,7 @@ export const forcedSync = async (req) => {
       const syncScriptResult = await eval(syncScript)(filteredCollection);
       return {
         success: true,
-        message: `${collectionType} ${collectionPath} ${type} ${config.label} synced successfully`,
+        message: `${ collectionType } ${ collectionPath } ${ type } ${ config.label } synced successfully`,
       };
     case "derivative":
       const derivativeScript = "";
@@ -56,7 +58,7 @@ export const forcedSync = async (req) => {
     default:
       return {
         success: false,
-        message: `${type} is not a valid type`,
+        message: `${ type } is not a valid type`,
       };
   }
 };

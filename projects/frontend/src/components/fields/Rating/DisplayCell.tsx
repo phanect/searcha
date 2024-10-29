@@ -1,10 +1,11 @@
 import { forwardRef, type Ref } from "react";
-import { IDisplayCellProps } from "@src/components/fields/types";
-
-import MuiRating, { RatingProps as MuiRatingProps } from "@mui/material/Rating";
+import MuiRating from "@mui/material/Rating";
 import Icon from "./Icon";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
-export const Rating = forwardRef(function Rating(
+import type { RatingProps as MuiRatingProps } from "@mui/material/Rating";
+
+export const Rating = forwardRef((
   {
     _rowy_ref,
     column,
@@ -13,7 +14,7 @@ export const Rating = forwardRef(function Rating(
     onChange,
   }: IDisplayCellProps & Pick<MuiRatingProps, "onChange">,
   ref: Ref<HTMLElement>
-) {
+) => {
   // Set max and precision from config
   const {
     max,
@@ -31,12 +32,13 @@ export const Rating = forwardRef(function Rating(
     <MuiRating
       ref={ref}
       onChange={onChange}
-      name={`${_rowy_ref.path}-${column.key}`}
+      name={`${ _rowy_ref.path }-${ column.key }`}
       value={typeof value === "number" ? value : 0}
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => {
-        if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key))
+        if ([ "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown" ].includes(e.key)) {
           e.stopPropagation();
+        }
       }}
       icon={<Icon config={column.config} isEmpty={false} />}
       emptyIcon={<Icon config={column.config} isEmpty={true} />}

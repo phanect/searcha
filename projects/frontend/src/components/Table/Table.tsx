@@ -2,26 +2,13 @@ import { useMemo, useRef, useState, useEffect, useCallback, useContext } from "r
 import { useAtom, useSetAtom } from "jotai";
 import { useThrottledCallback } from "use-debounce";
 import {
-  RowSelectionState,
   createColumnHelper,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type {
-  ColumnPinningState,
-  DisplayColumnDef,
-  VisibilityState,
-} from "@tanstack/react-table";
-import { DropResult } from "react-beautiful-dnd";
 import { get } from "lodash-es";
 
-import StyledTable from "./Styled/StyledTable";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
-import FinalColumn from "./FinalColumn/FinalColumn";
-import ContextMenu from "./ContextMenu";
 import EmptyState from "@src/components/EmptyState";
-
 import {
   TableScopeContext,
   tableSchemaAtom,
@@ -38,13 +25,26 @@ import {
 } from "@src/atoms/tableScope";
 import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
 import { getFieldType, getFieldProp } from "@src/components/fields";
+import { Checkbox, FormControlLabel } from "@mui/material";
+import StyledTable from "./Styled/StyledTable";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import FinalColumn from "./FinalColumn/FinalColumn";
+import ContextMenu from "./ContextMenu";
+
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
 import { useMenuAction } from "./useMenuAction";
 import { useSaveColumnSizing } from "./useSaveColumnSizing";
 import useHotKeys from "./useHotKey";
-import type { TableRow, ColumnConfig } from "@src/types/table";
 import useStateWithRef from "./useStateWithRef"; // testing with useStateWithRef
-import { Checkbox, FormControlLabel } from "@mui/material";
+import type { DropResult } from "react-beautiful-dnd";
+import type { TableRow, ColumnConfig } from "@src/types/table";
+import type {
+  ColumnPinningState,
+  DisplayColumnDef,
+  VisibilityState,
+
+  RowSelectionState } from "@tanstack/react-table";
 
 export const DEFAULT_ROW_HEIGHT = 41;
 export const DEFAULT_COL_WIDTH = 150;
@@ -56,7 +56,7 @@ export const DEBOUNCE_DELAY = 500;
 const columnHelper = createColumnHelper<TableRow>();
 const getRowId = (row: TableRow) => row._rowy_ref.path || row._rowy_ref.id;
 
-export interface ITableProps {
+export type ITableProps = {
   /** Determines if “Add column” button is displayed */
   canAddColumns: boolean;
   /** Determines if columns can be rearranged */
@@ -87,7 +87,7 @@ export interface ITableProps {
     state: RowSelectionState;
     setState: React.Dispatch<React.SetStateAction<{}>>;
   };
-}
+};
 
 /**
  * Takes table schema and row data from `tableScope` and makes it compatible
@@ -98,6 +98,13 @@ export interface ITableProps {
  * - Handles infinite scrolling
  * - Stores local state for resizing columns, and asks admins if they want to
  *   save to table schema for all users
+ * @param root0
+ * @param root0.canAddColumns
+ * @param root0.canEditColumns
+ * @param root0.canEditCells
+ * @param root0.hiddenColumns
+ * @param root0.emptyState
+ * @param root0.selectedRows
  */
 export default function Table({
   canAddColumns,
@@ -110,28 +117,28 @@ export default function Table({
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [serverDocCount] = useAtom(serverDocCountAtom, { store: tableScopeStore });
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
-  const [tableNextPage] = useAtom(tableNextPageAtom, { store: tableScopeStore });
-  const [, setTablePage] = useAtom(tablePageAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ serverDocCount ] = useAtom(serverDocCountAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableNextPage ] = useAtom(tableNextPageAtom, { store: tableScopeStore });
+  const [ , setTablePage ] = useAtom(tablePageAtom, { store: tableScopeStore });
   const setReactTable = useSetAtom(reactTableAtom, { store: tableScopeStore });
 
   const setSelectedCell = useSetAtom(selectedCellAtom, { store: tableScopeStore });
   const updateColumn = useSetAtom(updateColumnAtom, { store: tableScopeStore });
 
   // Get user settings and tableId for applying sort sorting
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
   const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
 
   // Store a **state** and reference to the container element
   // so the state can re-render `TableBody`, preventing virtualization
   // not detecting scroll if the container element was initially `null`
-  const [containerEl, setContainerEl, containerRef] =
+  const [ containerEl, setContainerEl, containerRef ]
     // useStateRef<HTMLDivElement | null>(null); // <-- older approach with useStateRef
-    useStateWithRef<HTMLDivElement | null>(null); // <-- newer approach with custom hook
+    = useStateWithRef<HTMLDivElement | null>(null); // <-- newer approach with custom hook
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -162,25 +169,27 @@ export default function Table({
     }
 
     return _columns;
-  }, [tableColumnsOrdered, canAddColumns, canEditCells, selectedRows]);
+  }, [ tableColumnsOrdered, canAddColumns, canEditCells, selectedRows ]);
 
   columns.unshift(
     ...useMemo(() => {
-      if (!selectedRows) return [];
+      if (!selectedRows) {
+        return [];
+      }
 
       return [
         columnHelper.display({
           id: "_rowy_select",
           size: 41.8, // TODO: We shouldn't have to change this often
           header: ({ table }) => {
-            const checked =
-              Object.keys(selectedRows.state).length >= serverDocCount!;
+            const checked
+              = Object.keys(selectedRows.state).length >= serverDocCount!;
             const indeterminate = Object.keys(selectedRows.state).length > 0;
             return (
               <FormControlLabel
                 sx={{ margin: 0 }}
                 label=""
-                control={
+                control={(
                   <Checkbox
                     checked={checked}
                     indeterminate={indeterminate && !checked}
@@ -190,40 +199,40 @@ export default function Table({
                       );
                     }}
                   />
-                }
+                )}
               />
             );
           },
-          cell: ({ row }) => {
-            return (
-              <FormControlLabel
-                label=""
-                sx={{ margin: 0 }}
-                control={
-                  <Checkbox
-                    checked={row.getIsSelected()}
-                    disabled={!row.getCanSelect()}
-                    onChange={row.getToggleSelectedHandler()}
-                  />
-                }
-              />
-            );
-          },
+          cell: ({ row }) => (
+            <FormControlLabel
+              label=""
+              sx={{ margin: 0 }}
+              control={(
+                <Checkbox
+                  checked={row.getIsSelected()}
+                  disabled={!row.getCanSelect()}
+                  onChange={row.getToggleSelectedHandler()}
+                />
+              )}
+            />
+          ),
         }),
       ];
-    }, [selectedRows])
+    }, [ selectedRows ])
   );
 
   // Get user’s hidden columns from props and memoize into a `VisibilityState`
   const columnVisibility: VisibilityState = useMemo(() => {
-    if (!Array.isArray(hiddenColumns)) return {};
+    if (!Array.isArray(hiddenColumns)) {
+      return {};
+    }
     return hiddenColumns.reduce((a, c) => ({ ...a, [c]: false }), {});
-  }, [hiddenColumns]);
+  }, [ hiddenColumns ]);
 
   const columnPinning: ColumnPinningState = useMemo(
     () => ({
       left: [
-        ...(selectedRows ? ["_rowy_select"] : []),
+        ...(selectedRows ? [ "_rowy_select" ] : []),
         ...columns
           .filter(
             (c) => (c.meta as ColumnConfig)?.fixed && c.id && columnVisibility[c.id] !== false
@@ -231,10 +240,10 @@ export default function Table({
           .map((c) => c.id!),
       ],
     }),
-    [columns, columnVisibility]
+    [ columns, columnVisibility ]
   );
-  const lastFrozen: string | undefined =
-    columnPinning.left![columnPinning.left!.length - 1];
+  const lastFrozen: string | undefined
+    = columnPinning.left![columnPinning.left!.length - 1];
 
   // Call TanStack Table
   const table = useReactTable({
@@ -256,7 +265,7 @@ export default function Table({
   // Store local `columnSizing` state so we can save it to table schema
   // in `useSaveColumnSizing`. This could be generalized by storing the
   // entire table state.
-  const [columnSizing, setColumnSizing] = useState(
+  const [ columnSizing, setColumnSizing ] = useState(
     table.initialState.columnSizing
   );
   table.setOptions((prev) => ({
@@ -267,7 +276,7 @@ export default function Table({
   // Update the reactTable atom when table state changes.
   useMemo(() => {
     setReactTable(table);
-  }, [table, setReactTable]);
+  }, [ table, setReactTable ]);
   // Get rows and columns for virtualization
   const { rows } = table.getRowModel();
   const leafColumns = table.getVisibleLeafColumns();
@@ -278,12 +287,12 @@ export default function Table({
     tableRows,
     leafColumns,
   });
-  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ selectedCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
   const { handleCopy, handlePaste, handleCut } = useMenuAction(selectedCell);
   const { handler: hotKeysHandler } = useHotKeys([
-    ["mod+C", handleCopy],
-    ["mod+X", handleCut],
-    ["mod+V", () => handlePaste], // So the event isn't passed to the handler
+    [ "mod+C", handleCopy ],
+    [ "mod+X", handleCut ],
+    [ "mod+V", () => handlePaste ], // So the event isn't passed to the handler
   ]);
 
   // Handle prompt to save local column sizes if user `canEditColumns`
@@ -291,8 +300,9 @@ export default function Table({
 
   const handleDropColumn = useCallback(
     (result: DropResult) => {
-      if (result.destination?.index === undefined || !result.draggableId)
+      if (result.destination?.index === undefined || !result.draggableId) {
         return;
+      }
 
       updateColumn({
         key: result.draggableId,
@@ -302,12 +312,14 @@ export default function Table({
         config: {},
       });
     },
-    [updateColumn, selectedRows]
+    [ updateColumn, selectedRows ]
   );
 
   const fetchMoreOnBottomReached = useThrottledCallback(
     (containerElement?: HTMLDivElement | null) => {
-      if (!containerElement) return;
+      if (!containerElement) {
+        return;
+      }
 
       const { scrollHeight, scrollTop, clientHeight } = containerElement;
       if (scrollHeight - scrollTop - clientHeight < 300) {
@@ -322,7 +334,7 @@ export default function Table({
   // for large screen heights
   useEffect(() => {
     fetchMoreOnBottomReached(containerRef.current);
-  }, [fetchMoreOnBottomReached, tableNextPage.loading, containerRef]);
+  }, [ fetchMoreOnBottomReached, tableNextPage.loading, containerRef ]);
 
   useEffect(() => {
     document.addEventListener("paste", handlePaste);
@@ -330,10 +342,10 @@ export default function Table({
     return () => {
       document.removeEventListener("paste", handlePaste);
     };
-  }, [handlePaste]);
+  }, [ handlePaste ]);
 
   // apply user default sort on first render
-  const [applySort, setApplySort] = useState(true);
+  const [ applySort, setApplySort ] = useState(true);
   useEffect(() => {
     if (applySort && Object.keys(tableSchema).length) {
       const userDefaultSort = userSettings.tables?.[tableId]?.sorts || [];
@@ -342,12 +354,14 @@ export default function Table({
       );
       setApplySort(false);
     }
-  }, [tableSchema, userSettings, tableId, setTableSorts, applySort]);
+  }, [ tableSchema, userSettings, tableId, setTableSorts, applySort ]);
 
   return (
     <div
       ref={(el) => {
-        if (!el) return;
+        if (!el) {
+          return;
+        }
         setContainerEl(el);
       }}
       onScroll={(e) => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
@@ -363,7 +377,7 @@ export default function Table({
           {
             width: table.getTotalSize(),
             userSelect: "none",
-            "--row-height": `${tableSchema.rowHeight || DEFAULT_ROW_HEIGHT}px`,
+            "--row-height": `${ tableSchema.rowHeight || DEFAULT_ROW_HEIGHT }px`,
           } as any
         }
         onKeyDown={(e) => {
@@ -378,7 +392,7 @@ export default function Table({
             position: "sticky",
             top: 0,
             zIndex: 10,
-            padding: `0 ${TABLE_PADDING}px`,
+            padding: `0 ${ TABLE_PADDING }px`,
           }}
         >
           <TableHeader

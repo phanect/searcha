@@ -12,25 +12,25 @@ import {
 import MembersIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import { ChevronDown } from "@src/assets/icons";
-import NavItem from "./NavItem";
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import NavItem from "./NavItem";
 
-export interface ISettingsNavProps {
+export type ISettingsNavProps = {
   closeDrawer: () => void;
   collapsed: boolean;
-}
+};
 
 export default function SettingsNav({
   closeDrawer,
   collapsed,
 }: ISettingsNavProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
   const { pathname } = useLocation();
-  const [open, setOpen] = useState(pathname.includes(ROUTES.settings));
+  const [ open, setOpen ] = useState(pathname.includes(ROUTES.settings));
 
-  if (!userRoles.includes("ADMIN"))
+  if (!userRoles.includes("ADMIN")) {
     return (
       <li>
         <NavItem to={ROUTES.userSettings} onClick={closeDrawer}>
@@ -41,6 +41,7 @@ export default function SettingsNav({
         </NavItem>
       </li>
     );
+  }
 
   return (
     <>

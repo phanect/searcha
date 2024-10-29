@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
-import { IEditorCellProps } from "@src/components/fields/types";
 import DisplayCell from "./DisplayCell";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Rating({
   onChange,
@@ -11,11 +11,14 @@ export default function Rating({
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
     const inputs = el.querySelectorAll("input");
-    for (const input of Array.from(inputs))
+    for (const input of Array.from(inputs)) {
       input.setAttribute("tabindex", tabIndex.toString());
-  }, [tabIndex]);
+    }
+  }, [ tabIndex ]);
 
   return (
     <DisplayCell

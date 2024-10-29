@@ -13,8 +13,8 @@ import {
 
 export default function TableInformation() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [sideDrawer, setSideDrawer] = useAtom(sideDrawerAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ sideDrawer, setSideDrawer ] = useAtom(sideDrawerAtom, { store: tableScopeStore });
 
   return (
     <TableToolbarButton

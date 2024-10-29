@@ -1,5 +1,4 @@
 import { useDebouncedCallback } from "use-debounce";
-import { IEditorCellProps } from "@src/components/fields/types";
 import { setSeconds } from "date-fns";
 
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -10,6 +9,7 @@ import {
   sanitizeValue,
 } from "@src/components/fields/Date/utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function DateTime({
   column,
@@ -23,7 +23,9 @@ export default function DateTime({
 
   const handleDateChange = useDebouncedCallback((date: Date | null) => {
     const sanitized = sanitizeValue(date);
-    if (!sanitized) return; // Temp disable setting it to null
+    if (!sanitized) {
+      return;
+    } // Temp disable setting it to null
     onChange(sanitized);
     onSubmit();
   }, 500);

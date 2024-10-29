@@ -1,32 +1,31 @@
 import { useState, Suspense, useContext } from "react";
-import { Control } from "react-hook-form";
 import { useSetAtom } from "jotai";
-import type { UseFormReturn, FieldValues } from "react-hook-form";
 
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { Export as ExportIcon, Import as ImportIcon } from "@src/assets/icons";
 
-import ImportSettings from "./ImportSettings";
-import ExportSettings from "./ExportSettings";
-
 import {
   ProjectScopeContext,
   tableSettingsDialogIdAtom,
-  TableSettingsDialogState,
 } from "@src/atoms/projectScope";
+import ImportSettings from "./ImportSettings";
+import ExportSettings from "./ExportSettings";
+import type {
+  TableSettingsDialogState } from "@src/atoms/projectScope";
+import type { Control, UseFormReturn, FieldValues } from "react-hook-form";
 
-export interface IActionsMenuProps {
+export type IActionsMenuProps = {
   mode: TableSettingsDialogState["mode"];
   control: Control;
   useFormMethods: UseFormReturn<FieldValues, object>;
-}
+};
 
 export default function ActionsMenu({
   mode,
   control,
   useFormMethods,
 }: IActionsMenuProps) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const projectScopeStore = useContext(ProjectScopeContext);
@@ -75,12 +74,12 @@ export default function ActionsMenu({
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Suspense
-          fallback={
+          fallback={(
             <>
               <MenuItem disabled>Loading table settings…</MenuItem>
               <MenuItem disabled />
             </>
-          }
+          )}
         >
           <ImportSettings
             closeMenu={handleClose}

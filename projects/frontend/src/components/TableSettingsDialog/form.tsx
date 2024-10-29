@@ -2,11 +2,10 @@ import { useContext } from "react";
 import { find } from "lodash-es";
 import { useAtom } from "jotai";
 import { string } from "yup";
-import { Field, FieldType } from "@phanect/datasheet-form-builder";
+import { FieldType } from "@phanect/datasheet-form-builder";
 import {
   ProjectScopeContext,
   projectIdAtom,
-  TableSettingsDialogState,
 } from "@src/atoms/projectScope";
 
 import { Link, ListItemText, Typography } from "@mui/material";
@@ -15,14 +14,17 @@ import WarningIcon from "@mui/icons-material/WarningAmber";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { FieldType as TableFieldType } from "@src/constants/fields";
+import type {
+  TableSettingsDialogState } from "@src/atoms/projectScope";
+import type { Field } from "@phanect/datasheet-form-builder";
 
 function CollectionLink() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   return (
     <Link
-      href={`https://console.firebase.google.com/project/${projectId}/firestore/data`}
+      href={`https://console.firebase.google.com/project/${ projectId }/firestore/data`}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -37,7 +39,7 @@ export const tableSettings = (
   roles: string[] | undefined,
   sections: string[] | undefined,
   tables:
-    | { label: string; value: any; section: string; collection: string }[]
+    | { label: string; value: any; section: string; collection: string; }[]
     | undefined,
   collections: string[] | null
 ): Field[] =>
@@ -54,12 +56,12 @@ export const tableSettings = (
           label: (
             <ListItemText
               primary="Primary collection"
-              secondary={
+              secondary={(
                 <>
                   Connect this table to the <b>single collection</b> matching
                   the collection name entered below
                 </>
-              }
+              )}
               style={{ maxWidth: 470 }}
             />
           ),
@@ -69,13 +71,13 @@ export const tableSettings = (
           label: (
             <ListItemText
               primary="Collection group"
-              secondary={
+              secondary={(
                 <>
                   Connect this table to{" "}
                   <b>all collections and subcollections</b> matching the
                   collection name entered below
                 </>
-              }
+              )}
               style={{ maxWidth: 470 }}
             />
           ),
@@ -101,109 +103,109 @@ export const tableSettings = (
     },
     Array.isArray(collections)
       ? {
-          step: "collection",
-          type: FieldType.singleSelect,
-          name: "collection",
-          label: "Collection",
-          labelPlural: "collections",
-          options: collections,
-          itemRenderer: (option: any) => (
-            <code key={option.value}>{option.label}</code>
-          ),
-          freeText: true,
-          required: true,
-          assistiveText: (
-            <>
-              {mode === "update" ? (
-                <>
-                  <WarningIcon
-                    color="warning"
-                    aria-label="Warning"
-                    sx={{ fontSize: 16, mr: 0.5, verticalAlign: "middle" }}
-                  />
-                  You can change which Firestore collection to display. Data in
-                  the new collection must be compatible with the existing
-                  columns.
-                </>
-              ) : (
-                "Choose which Firestore collection to display."
-              )}{" "}
-              <CollectionLink />
-            </>
-          ),
-          AddButtonProps: {
-            children: "Create collection or use custom path…",
-          },
-          AddDialogProps: {
-            title: "Create collection or use custom path",
-            textFieldLabel: (
+        step: "collection",
+        type: FieldType.singleSelect,
+        name: "collection",
+        label: "Collection",
+        labelPlural: "collections",
+        options: collections,
+        itemRenderer: (option: any) => (
+          <code key={option.value}>{option.label}</code>
+        ),
+        freeText: true,
+        required: true,
+        assistiveText: (
+          <>
+            {mode === "update" ? (
               <>
-                Collection name
-                <Typography variant="caption" display="block">
-                  If this collection does not exist, it won’t be created until
-                  you add a row to the table
-                </Typography>
+                <WarningIcon
+                  color="warning"
+                  aria-label="Warning"
+                  sx={{ fontSize: 16, mr: 0.5, verticalAlign: "middle" }}
+                />
+                You can change which Firestore collection to display. Data in
+                the new collection must be compatible with the existing
+                columns.
               </>
-            ),
-          },
-          TextFieldProps: {
-            sx: { "& .MuiInputBase-input": { fontFamily: "mono" } },
-          },
-          // https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
-          validation: string()
-            .matches(/^[^\s]+$/, "Collection name cannot have spaces")
-            .matches(/^[^.]+$/, "Collection name cannot have dots")
-            .notOneOf([".", ".."], "Collection name cannot be . or ..")
-            .test(
-              "double-underscore",
-              "Collection name cannot begin and end with __",
-              (value) => !value?.startsWith("__") && !value?.endsWith("__"),
-            ),
-        }
-      : {
-          step: "collection",
-          type: FieldType.shortText,
-          name: "collection",
-          label: "Collection name",
-          required: true,
-          assistiveText: (
+            ) : (
+              "Choose which Firestore collection to display."
+            )}{" "}
+            <CollectionLink />
+          </>
+        ),
+        AddButtonProps: {
+          children: "Create collection or use custom path…",
+        },
+        AddDialogProps: {
+          title: "Create collection or use custom path",
+          textFieldLabel: (
             <>
-              {mode === "update" ? (
-                <>
-                  <WarningIcon
-                    color="warning"
-                    aria-label="Warning"
-                    sx={{ fontSize: 16, mr: 0.5, verticalAlign: "middle" }}
-                  />
-                  You can change which Firestore collection to display. Data in
-                  the new collection must be compatible with the existing
-                  columns.
-                </>
-              ) : (
-                "Type the name of the Firestore collection to display."
-              )}{" "}
-              <Link
-                href={`https://console.firebase.google.com/project/_/firestore/data`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Your collections
-                <OpenInNewIcon />
-              </Link>
+              Collection name
+              <Typography variant="caption" display="block">
+                If this collection does not exist, it won’t be created until
+                you add a row to the table
+              </Typography>
             </>
           ),
-          sx: { "& .MuiInputBase-input": { fontFamily: "mono" } },
-          // https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
-          validation: string()
-            .matches(/^[^\s]+$/, "Collection name cannot have spaces")
-            .matches(/^[^.]+$/, "Collection name cannot have dots")
-            .notOneOf([".", ".."], "Collection name cannot be . or ..")
-            .test(
-              "double-underscore",
-              "Collection name cannot begin and end with __",
-              (value) => !value?.startsWith("__") && !value?.endsWith("__"),
-            ),
         },
+        TextFieldProps: {
+          sx: { "& .MuiInputBase-input": { fontFamily: "mono" }},
+        },
+        // https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
+        validation: string()
+          .matches(/^[^\s]+$/, "Collection name cannot have spaces")
+          .matches(/^[^.]+$/, "Collection name cannot have dots")
+          .notOneOf([ ".", ".." ], "Collection name cannot be . or ..")
+          .test(
+            "double-underscore",
+            "Collection name cannot begin and end with __",
+            (value) => !value?.startsWith("__") && !value?.endsWith("__"),
+          ),
+      }
+      : {
+        step: "collection",
+        type: FieldType.shortText,
+        name: "collection",
+        label: "Collection name",
+        required: true,
+        assistiveText: (
+          <>
+            {mode === "update" ? (
+              <>
+                <WarningIcon
+                  color="warning"
+                  aria-label="Warning"
+                  sx={{ fontSize: 16, mr: 0.5, verticalAlign: "middle" }}
+                />
+                You can change which Firestore collection to display. Data in
+                the new collection must be compatible with the existing
+                columns.
+              </>
+            ) : (
+              "Type the name of the Firestore collection to display."
+            )}{" "}
+            <Link
+              href="https://console.firebase.google.com/project/_/firestore/data"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Your collections
+              <OpenInNewIcon />
+            </Link>
+          </>
+        ),
+        sx: { "& .MuiInputBase-input": { fontFamily: "mono" }},
+        // https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
+        validation: string()
+          .matches(/^[^\s]+$/, "Collection name cannot have spaces")
+          .matches(/^[^.]+$/, "Collection name cannot have dots")
+          .notOneOf([ ".", ".." ], "Collection name cannot be . or ..")
+          .test(
+            "double-underscore",
+            "Collection name cannot begin and end with __",
+            (value) => !value?.startsWith("__") && !value?.endsWith("__"),
+          ),
+      },
 
     // Step 2: Display
     {
@@ -238,7 +240,7 @@ export const tableSettings = (
               return true;
             }
 
-            return !find(tables, ["value", value]);
+            return !find(tables, [ "value", value ]);
           }
         ),
     },
@@ -284,7 +286,7 @@ export const tableSettings = (
       label: "Accessed by",
       labelPlural: "roles",
       options: roles ?? [],
-      defaultValue: ["ADMIN"],
+      defaultValue: [ "ADMIN" ],
       required: true,
       freeText: true,
     },
@@ -331,7 +333,7 @@ export const tableSettings = (
       label: "Modifiable by",
       labelPlural: "Modifier Roles",
       options: roles ?? [],
-      defaultValue: ["ADMIN"],
+      defaultValue: [ "ADMIN" ],
       required: true,
       freeText: true,
     },
@@ -368,7 +370,7 @@ export const tableSettings = (
           "Optionally, change the field key"
         ),
       gridCols: { xs: 12, sm: 6 },
-      sx: { "& .MuiInputBase-input": { fontFamily: "mono" } },
+      sx: { "& .MuiInputBase-input": { fontFamily: "mono" }},
     },
     {
       step: "auditing",
@@ -394,7 +396,7 @@ export const tableSettings = (
           "Optionally, change the field key"
         ),
       gridCols: { xs: 12, sm: 6 },
-      sx: { "& .MuiInputBase-input": { fontFamily: "mono" } },
+      sx: { "& .MuiInputBase-input": { fontFamily: "mono" }},
     },
     // Step 5:Cloud functions
     /*
@@ -528,7 +530,7 @@ export const tableSettings = (
       {
         step: "columns",
         type: FieldType.checkbox,
-        name: `_initialColumns.${TableFieldType.createdBy}`,
+        name: `_initialColumns.${ TableFieldType.createdBy }`,
         label: "Created By",
         displayCondition: "return values.audit",
         gridCols: 6,
@@ -537,7 +539,7 @@ export const tableSettings = (
       {
         step: "columns",
         type: FieldType.checkbox,
-        name: `_initialColumns.${TableFieldType.updatedBy}`,
+        name: `_initialColumns.${ TableFieldType.updatedBy }`,
         label: "Updated By",
         displayCondition: "return values.audit",
         gridCols: 6,
@@ -546,7 +548,7 @@ export const tableSettings = (
       {
         step: "columns",
         type: FieldType.checkbox,
-        name: `_initialColumns.${TableFieldType.createdAt}`,
+        name: `_initialColumns.${ TableFieldType.createdAt }`,
         label: "Created At",
         displayCondition: "return values.audit",
         gridCols: 6,
@@ -555,7 +557,7 @@ export const tableSettings = (
       {
         step: "columns",
         type: FieldType.checkbox,
-        name: `_initialColumns.${TableFieldType.updatedAt}`,
+        name: `_initialColumns.${ TableFieldType.updatedAt }`,
         label: "Updated At",
         displayCondition: "return values.audit",
         gridCols: 6,
@@ -564,7 +566,7 @@ export const tableSettings = (
       {
         step: "columns",
         type: FieldType.checkbox,
-        name: `_initialColumns.${TableFieldType.id}`,
+        name: `_initialColumns.${ TableFieldType.id }`,
         label: "Row ID",
         disablePaddingTop: true,
       },

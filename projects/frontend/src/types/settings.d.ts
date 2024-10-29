@@ -1,10 +1,9 @@
-import { ThemeOptions } from "@mui/material";
-import { TableSettings, TableFilter, TableRowRef, TableSort } from "./table";
+import type { ThemeOptions } from "@mui/material";
+import type { TableSettings, TableFilter, TableRowRef, TableSort } from "./table";
 
 /** Public settings are visible to unauthenticated users */
 export type PublicSettings = Partial<{
-  signInOptions: Array<
-    | "google"
+  signInOptions: ( | "google"
     | "twitter"
     | "facebook"
     | "github"
@@ -13,8 +12,7 @@ export type PublicSettings = Partial<{
     | "yahoo"
     | "email"
     | "phone"
-    | "anonymous"
-  >;
+    | "anonymous")[];
   theme: Record<"base" | "light" | "dark", ThemeOptions>;
 }>;
 

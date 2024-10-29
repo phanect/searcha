@@ -5,7 +5,6 @@ import { find, camelCase } from "lodash-es";
 
 import {
   Stack,
-  StackProps,
   Breadcrumbs,
   Link,
   Typography,
@@ -19,20 +18,25 @@ import {
   tablesAtom,
 } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import type {
+  StackProps } from "@mui/material";
 
 /**
  * Breadcrumbs is rendered by the Navigation component,
  * so it does not have access to tableScope
+ * @param props
  */
 export default function BreadcrumbsTableRoot(props: StackProps) {
   const { id } = useParams();
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
 
-  const tableSettings = find(tables, ["id", id]);
-  if (!tableSettings) return null;
+  const tableSettings = find(tables, [ "id", id ]);
+  if (!tableSettings) {
+    return null;
+  }
 
   return (
     <Stack direction="row" alignItems="center" spacing={1.5} {...props}>
@@ -54,7 +58,7 @@ export default function BreadcrumbsTableRoot(props: StackProps) {
       >
         <Link
           component={RouterLink}
-          to={`${ROUTES.home}#${camelCase(tableSettings.section)}`}
+          to={`${ ROUTES.home }#${ camelCase(tableSettings.section) }`}
           color="text.secondary"
           underline="hover"
         >

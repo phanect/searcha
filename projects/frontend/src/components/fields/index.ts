@@ -1,7 +1,6 @@
 import { find, get } from "lodash-es";
 
 import { FieldType } from "@src/constants/fields";
-import { IFieldConfig } from "./types";
 
 // Import field configs
 import ShortText from "./ShortText";
@@ -45,7 +44,8 @@ import CreatedAt from "./CreatedAt";
 import UpdatedAt from "./UpdatedAt";
 import User from "./User";
 import Id from "./Id";
-import { ColumnConfig } from "@src/types/table";
+import type { IFieldConfig } from "./types";
+import type { ColumnConfig } from "@src/types/table";
 
 // Export field configs in order for FieldsDropdown
 export const FIELDS: IFieldConfig[] = [

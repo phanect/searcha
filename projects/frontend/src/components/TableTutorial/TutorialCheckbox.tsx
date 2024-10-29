@@ -1,15 +1,16 @@
 import {
   FormControlLabel,
-  FormControlLabelProps,
   Checkbox,
-  CheckboxProps,
 } from "@mui/material";
+import type {
+  FormControlLabelProps,
+  CheckboxProps } from "@mui/material";
 
-export interface ITutorialCheckboxProps {
+export type ITutorialCheckboxProps = {
   label: FormControlLabelProps["label"];
   checked: CheckboxProps["checked"];
   onChange: CheckboxProps["onChange"];
-}
+};
 
 export default function TutorialCheckbox({
   checked,
@@ -28,7 +29,7 @@ export default function TutorialCheckbox({
           // typography: "body1",
         },
       }}
-      control={
+      control={(
         <Checkbox
           checked={checked}
           onChange={onChange}
@@ -57,13 +58,13 @@ export default function TutorialCheckbox({
               },
             },
 
-            '& .checkbox-icon, &.Mui-checked .checkbox-icon, &[aria-selected="true"] .checkbox-icon':
+            "& .checkbox-icon, &.Mui-checked .checkbox-icon, &[aria-selected=\"true\"] .checkbox-icon":
               {
                 backgroundColor: "transparent",
               },
           }}
         />
-      }
+      )}
     />
   );
 }

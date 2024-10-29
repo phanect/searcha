@@ -26,12 +26,12 @@ export default function EmptyTable() {
   const openColumnModal = useSetAtom(columnModalAtom, { store: tableScopeStore });
   const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
 
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   // const { tableState, importWizardRef, columnMenuRef } = useProjectContext();
   // check if theres any rows, and if rows include fields other than rowy_ref
-  const hasData =
-    tableRows.length > 0
+  const hasData
+    = tableRows.length > 0
       ? tableRows.some((row) => Object.keys(row).length > 1)
       : false;
   let contents = <></>;
@@ -50,8 +50,8 @@ export default function EmptyTable() {
             <br />
             <code>
               {tableSettings.collection}
-              {tableSettings.subTableKey?.length &&
-                `.${tableSettings.subTableKey}`}
+              {tableSettings.subTableKey?.length
+              && `.${ tableSettings.subTableKey }`}
             </code>
           </Typography>
         </div>
@@ -86,8 +86,8 @@ export default function EmptyTable() {
             <br />
             <code>
               {tableSettings.collection}
-              {tableSettings.subTableKey?.length &&
-                `.${tableSettings.subTableKey}`}
+              {tableSettings.subTableKey?.length
+              && `.${ tableSettings.subTableKey }`}
             </code>
           </Typography>
         </div>
@@ -157,7 +157,7 @@ export default function EmptyTable() {
         justifyContent="center"
         alignItems="center"
         sx={{
-          height: `calc(100vh - ${TOP_BAR_HEIGHT}px)`,
+          height: `calc(100vh - ${ TOP_BAR_HEIGHT }px)`,
           width: "100%",
           p: 2,
           maxWidth: 480,
@@ -176,7 +176,7 @@ export default function EmptyTable() {
         Icon={OfflineIcon}
         message="You’re offline"
         description="Go online to view this table’s data"
-        style={{ height: `calc(100vh - ${TOP_BAR_HEIGHT}px)` }}
+        style={{ height: `calc(100vh - ${ TOP_BAR_HEIGHT }px)` }}
       />
     );
   }

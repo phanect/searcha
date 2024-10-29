@@ -11,14 +11,14 @@ import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 import { FieldType } from "@src/constants/fields";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
-import defaultValueDefs from "./defaultValue.d.ts?raw";
 import {
   ProjectScopeContext,
   compatibleRowyRunVersionAtom,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
-import { ColumnConfig } from "@src/types/table";
+import defaultValueDefs from "./defaultValue.d.ts?raw";
+import type { ColumnConfig } from "@src/types/table";
 
 const CodeEditorComponent = lazy(
   () =>
@@ -31,15 +31,15 @@ const diagnosticsOptions = {
   noSuggestionDiagnostics: true,
 };
 
-interface ICodeEditorProps {
+type ICodeEditorProps = {
   type: FieldType;
   column: ColumnConfig;
   handleChange: (key: string) => (update: string | undefined) => void;
-}
+};
 
 function CodeEditor({ type, column, handleChange }: ICodeEditorProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
@@ -56,7 +56,7 @@ function CodeEditor({ type, column, handleChange }: ICodeEditorProps) {
     dynamicValueFn = `const dynamicValueFn: DefaultValue = async ({row,ref,db,storage,auth,logging})=>{
   logging.log("dynamicValueFn started")
 
-  ${column.config?.defaultValue.script}
+  ${ column.config?.defaultValue.script }
 }`;
   } else {
     dynamicValueFn = `// Import any NPM package needed
@@ -80,8 +80,8 @@ export default defaultValue;
       diagnosticsOptions={functionBodyOnly ? undefined : diagnosticsOptions}
       extraLibs={[
         defaultValueDefs.replace(
-          `"PLACEHOLDER_OUTPUT_TYPE"`,
-          `${returnType} | Promise<${returnType}>`
+          "\"PLACEHOLDER_OUTPUT_TYPE\"",
+          `${ returnType } | Promise<${ returnType }>`
         ),
       ]}
       onChange={handleChange(
@@ -91,24 +91,24 @@ export default defaultValue;
   );
 }
 
-export interface IDefaultValueInputProps {
+export type IDefaultValueInputProps = {
   handleChange: (key: string) => (update: any) => void;
   column: ColumnConfig;
-}
+};
 
 export default function DefaultValueInput({
   handleChange,
   column,
 }: IDefaultValueInputProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
 
-  const _type =
-    column.type !== FieldType.derivative
+  const _type
+    = column.type !== FieldType.derivative
       ? column.type
       : column.config?.renderFieldType ?? FieldType.shortText;
-  const [localValue, setLocalValue] = useState(
+  const [ localValue, setLocalValue ] = useState(
     column.config?.defaultValue?.value ?? getFieldProp("initialValue", _type)
   );
 
@@ -133,11 +133,11 @@ export default function DefaultValueInput({
         <MenuItem value="null">
           <ListItemText
             primary="Null"
-            secondary={
+            secondary={(
               <>
                 Initialise as <code>null</code>.
               </>
-            }
+            )}
           />
         </MenuItem>
         <MenuItem value="static">
@@ -187,12 +187,12 @@ export default function DefaultValueInput({
           />
         </MenuItem>
       </TextField>
-      {(!column.config?.defaultValue ||
-        column.config?.defaultValue.type === "undefined") && (
+      {(!column.config?.defaultValue
+        || column.config?.defaultValue.type === "undefined") && (
         <>
           <FormControlLabel
             value="required"
-            label={
+            label={(
               <>
                 Make this column required
                 <Typography
@@ -204,27 +204,27 @@ export default function DefaultValueInput({
                   values are set.
                 </Typography>
               </>
-            }
-            control={
+            )}
+            control={(
               <Checkbox
                 checked={column.config?.required}
                 onChange={(e) => handleChange("required")(e.target.checked)}
                 name="required"
               />
-            }
+            )}
           />
         </>
       )}
-      {column.config?.defaultValue?.type === "static" &&
-        customFieldInput &&
-        createElement(customFieldInput, {
-          column,
-          _rowy_ref: {},
-          value: localValue,
-          onChange: setLocalValue,
-          onSubmit: () => handleChange("defaultValue.value")(localValue),
-          disabled: false,
-        })}
+      {column.config?.defaultValue?.type === "static"
+      && customFieldInput
+      && createElement(customFieldInput, {
+        column,
+        _rowy_ref: {},
+        value: localValue,
+        onChange: setLocalValue,
+        onSubmit: () => handleChange("defaultValue.value")(localValue),
+        disabled: false,
+      })}
 
       {column.config?.defaultValue?.type === "dynamic" && (
         <>
@@ -233,11 +233,11 @@ export default function DefaultValueInput({
             additionalVariables={[
               {
                 key: "row",
-                description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
+                description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
               },
               {
                 key: "ref",
-                description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
+                description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
               },
             ]}
           />

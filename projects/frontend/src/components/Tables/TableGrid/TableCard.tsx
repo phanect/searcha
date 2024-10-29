@@ -10,12 +10,12 @@ import {
   Box,
 } from "@mui/material";
 import { Go as GoIcon } from "@src/assets/icons";
-import { TableSettings } from "@src/types/table";
+import type { TableSettings } from "@src/types/table";
 
-export interface ITableCardProps extends TableSettings {
+export type ITableCardProps = {
   link: string;
   actions?: React.ReactNode;
-}
+} & TableSettings;
 
 export default function TableCard({
   thumbnailURL,
@@ -58,7 +58,7 @@ export default function TableCard({
                 position: "absolute",
                 width: "100%",
                 height: "100%",
-                backgroundImage: `url("${thumbnailURL}")`,
+                backgroundImage: `url("${ thumbnailURL }")`,
                 backgroundSize: "cover",
                 backgroundPosition: "center center",
                 backgroundRepeat: "no-repeat",

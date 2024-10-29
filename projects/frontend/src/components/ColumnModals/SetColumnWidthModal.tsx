@@ -1,24 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import { IColumnModalProps } from ".";
-import { reactTableAtom } from "@src/atoms/tableScope";
-import { TableScopeContext } from "@src/atoms/tableScope";
+import { reactTableAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { useAtom } from "jotai";
 
 import { TextField } from "@mui/material";
 import Modal from "@src/components/Modal";
+import type { IColumnModalProps } from ".";
 
 export default function SetColumnWidthModal({
   onClose,
   column,
 }: IColumnModalProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [reactTable] = useAtom(reactTableAtom, { store: tableScopeStore });
-  const [newWidth, setWidth] = useState<number>(0);
+  const [ reactTable ] = useAtom(reactTableAtom, { store: tableScopeStore });
+  const [ newWidth, setWidth ] = useState<number>(0);
 
   useEffect(() => {
     // Set the initial width to the current column width once the table is fetched.
     setWidth(reactTable?.getAllColumns()[column.index].getSize() || 0);
-  }, [reactTable, column]);
+  }, [ reactTable, column ]);
 
   const handleUpdate = () => {
     reactTable?.setColumnSizing((old) => {
@@ -35,7 +34,7 @@ export default function SetColumnWidthModal({
       onClose={onClose}
       title="Set Column Width"
       maxWidth="xs"
-      children={
+      children={(
         <form
           id="column-width-modal"
           onSubmit={(e) => {
@@ -54,7 +53,7 @@ export default function SetColumnWidthModal({
             onChange={(e) => setWidth(Number(e.target.value))}
           />
         </form>
-      }
+      )}
       actions={{
         primary: {
           children: "Update",

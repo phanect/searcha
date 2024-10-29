@@ -12,15 +12,15 @@ import { useTableFunctions } from "./useTableFunctions";
  * When rendered, connects to a Firebase project and populates
  * all atoms in src/atoms/projectScope/project.
  */
-export const ProjectSourceFirebase = memo(function ProjectSourceFirebase() {
+export const ProjectSourceFirebase = memo(() => {
   const projectScopeStore = useContext(ProjectScopeContext);
 
   // Set projectId from Firebase project
-  const [firebaseConfig] = useAtom(firebaseConfigAtom, { store: projectScopeStore });
+  const [ firebaseConfig ] = useAtom(firebaseConfigAtom, { store: projectScopeStore });
   const setProjectId = useSetAtom(projectIdAtom, { store: projectScopeStore });
   useEffect(() => {
     setProjectId(firebaseConfig.projectId || "");
-  }, [firebaseConfig.projectId, setProjectId]);
+  }, [ firebaseConfig.projectId, setProjectId ]);
 
   // Sets currentUser and userRoles based on Firebase Auth user.
   useAuthUser();

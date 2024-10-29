@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
-import { IActionParams, CONFIRMATION_EMPTY_STATE } from "./props";
+import { CONFIRMATION_EMPTY_STATE } from "./props";
+import type { IActionParams } from "./props";
 const ActionParamsContext = createContext<IActionParams>(
   CONFIRMATION_EMPTY_STATE
 );

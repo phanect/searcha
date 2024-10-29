@@ -1,8 +1,8 @@
-import { customRender, signIn } from "./testUtils";
 import { screen, fireEvent } from "@testing-library/react";
 
 import App from "@src/App";
 import JotaiTestPage from "@src/pages/Test/JotaiTestPage";
+import { customRender, signIn } from "./testUtils";
 
 test("renders without crashing", async () => {
   customRender(<JotaiTestPage />);

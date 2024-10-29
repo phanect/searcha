@@ -1,8 +1,8 @@
 import { styled } from "@mui/material";
 
-export interface IColumnHeaderResizerProps {
+export type IColumnHeaderResizerProps = {
   isResizing: boolean;
-}
+};
 
 export const ColumnHeaderResizer = styled("div", {
   name: "ColumnHeaderResizer",

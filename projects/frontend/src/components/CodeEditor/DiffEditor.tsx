@@ -1,29 +1,30 @@
 import { useState } from "react";
 import {
   DiffEditor as MonacoDiffEditor,
-  DiffEditorProps,
-  EditorProps,
 } from "@monaco-editor/react";
 
-import { useTheme, Box, BoxProps } from "@mui/material";
+import { useTheme, Box } from "@mui/material";
 import TrapFocus from "@mui/material/Unstable_TrapFocus";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { ResizeBottomRight } from "@src/assets/icons";
 
-import useMonacoCustomizations, {
-  IUseMonacoCustomizationsProps,
-} from "./useMonacoCustomizations";
 import FullScreenButton from "@src/components/FullScreenButton";
 import { spreadSx } from "@src/utils/ui";
 import githubLightTheme from "@src/components/CodeEditor/github-light-default.json";
 import githubDarkTheme from "@src/components/CodeEditor/github-dark-default.json";
+import useMonacoCustomizations from "./useMonacoCustomizations";
+import type {
+  IUseMonacoCustomizationsProps,
+} from "./useMonacoCustomizations";
+import type { BoxProps } from "@mui/material";
+import type {
+  DiffEditorProps,
+  EditorProps } from "@monaco-editor/react";
 
-export interface IDiffEditorProps
-  extends Partial<DiffEditorProps>,
-    Omit<IUseMonacoCustomizationsProps, "fullScreen"> {
+export type IDiffEditorProps = {
   onChange?: EditorProps["onChange"];
   containerProps?: Partial<BoxProps>;
-}
+} & Partial<DiffEditorProps> & Omit<IUseMonacoCustomizationsProps, "fullScreen">;
 
 export default function DiffEditor({
   onChange,
@@ -40,7 +41,7 @@ export default function DiffEditor({
 }: IDiffEditorProps) {
   const theme = useTheme();
 
-  const [fullScreen, setFullScreen] = useState(false);
+  const [ fullScreen, setFullScreen ] = useState(false);
 
   const { boxSx } = useMonacoCustomizations({
     minHeight,
@@ -67,7 +68,7 @@ export default function DiffEditor({
     <TrapFocus open={fullScreen}>
       <Box
         component="div"
-        sx={[boxSx, ...spreadSx(containerProps?.sx)]}
+        sx={[ boxSx, ...spreadSx(containerProps?.sx) ]}
         style={fullScreen ? { height: "100%" } : {}}
       >
         <MonacoDiffEditor
@@ -80,12 +81,12 @@ export default function DiffEditor({
             monaco.editor.defineTheme("github-dark", githubDarkTheme as any);
           }}
           onMount={handleEditorMount}
-          theme={`github-${theme.palette.mode}`}
+          theme={`github-${ theme.palette.mode }`}
           options={
             {
               readOnly: disabled,
               fontFamily: theme.typography.fontFamilyMono,
-              rulers: [80],
+              rulers: [ 80 ],
               minimap: { enabled: false },
               lineNumbersMinChars: 4,
               lineDecorationsWidth: "18",

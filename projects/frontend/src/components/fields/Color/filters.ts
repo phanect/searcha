@@ -1,4 +1,4 @@
-import { IFilterOperator } from "@src/components/fields/types";
+import type { IFilterOperator } from "@src/components/fields/types";
 
 export const filterOperators: IFilterOperator[] = [
   {
@@ -14,7 +14,7 @@ export const filterOperators: IFilterOperator[] = [
 ];
 
 export const valueFormatter = (value: any) => {
-  if (value && value.hex) {
+  if (value?.hex) {
     return value.hex.toString();
   }
   return "";

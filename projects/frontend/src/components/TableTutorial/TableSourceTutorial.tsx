@@ -13,16 +13,16 @@ import {
   _bulkWriteDbAtom,
   addRowAtom,
 } from "@src/atoms/tableScope";
-import { TableSchema, TableRow, BulkWriteFunction } from "@src/types/table";
 import { updateRowData } from "@src/utils/table";
 import { TABLE_SCHEMAS } from "@src/config/dbPaths";
+import type { TableSchema, TableRow, BulkWriteFunction } from "@src/types/table";
 
 export const TUTORIAL_COLLECTION = "tutorial";
 export const TUTORIAL_TABLE_SETTINGS = {
   id: TUTORIAL_COLLECTION,
   name: "Tutorial",
   collection: TUTORIAL_COLLECTION,
-  roles: ["ADMIN"],
+  roles: [ "ADMIN" ],
   section: "",
   tableType: "primaryCollection",
   audit: false,
@@ -62,17 +62,17 @@ export function TableSourceTutorial() {
   const setUpdateRowDb = useSetAtom(_updateRowDbAtom, { store: tableScopeStore });
   setUpdateRowDb(() => (path: string, update: Partial<TableRow>) => {
     setRowsDb((_rows) => {
-      const rows = [..._rows];
-      const index = findIndex(rows, ["_rowy_ref.path", path]);
+      const rows = [ ..._rows ];
+      const index = findIndex(rows, [ "_rowy_ref.path", path ]);
 
       // Append if not found and sort by ID
       if (index === -1) {
         return sortBy(
           [
             ...rows,
-            { ...update, _rowy_ref: { id: path.split("/").pop()!, path } },
+            { ...update, _rowy_ref: { id: path.split("/").pop()!, path }},
           ],
-          ["_rowy_ref.id"]
+          [ "_rowy_ref.id" ]
         );
       }
 
@@ -85,8 +85,8 @@ export function TableSourceTutorial() {
   const setDeleteRowDb = useSetAtom(_deleteRowDbAtom, { store: tableScopeStore });
   setDeleteRowDb(() => async (path: string) => {
     const _rows = await readRowsDb();
-    const rows = [..._rows];
-    const index = findIndex(rows, ["_rowy_ref.path", path]);
+    const rows = [ ..._rows ];
+    const index = findIndex(rows, [ "_rowy_ref.path", path ]);
     if (index > -1) {
       rows.splice(index, 1);
       setRowsDb(rows);

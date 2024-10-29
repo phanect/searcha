@@ -7,14 +7,14 @@ export function useBasicSearch<T>(
   keys: string[],
   debounce: number = 400
 ) {
-  const [query, setQuery] = useState("");
+  const [ query, setQuery ] = useState("");
   const handleQuery = useDebouncedCallback(setQuery, debounce);
 
   const results = query
     ? matchSorter(list, query, { keys, threshold: rankings.ACRONYM })
     : list;
 
-  return [results, query, handleQuery] as const;
+  return [ results, query, handleQuery ] as const;
 }
 
 export default useBasicSearch;

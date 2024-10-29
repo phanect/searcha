@@ -2,10 +2,10 @@ import RatingIcon from "@mui/icons-material/Star";
 import RatingOutlineIcon from "@mui/icons-material/StarBorder";
 import { get } from "lodash-es";
 
-export interface IIconProps {
+export type IIconProps = {
   config: any;
   isEmpty: boolean;
-}
+};
 
 export default function Icon({ config, isEmpty }: IIconProps) {
   if (isEmpty) {

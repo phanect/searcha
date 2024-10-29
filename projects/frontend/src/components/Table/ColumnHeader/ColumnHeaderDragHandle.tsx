@@ -1,10 +1,10 @@
-import type { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import { DragVertical } from "@src/assets/icons";
+import type { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 
-export interface IColumnHeaderDragHandleProps {
+export type IColumnHeaderDragHandleProps = {
   dragHandleProps: DraggableProvidedDragHandleProps;
   tabIndex: number;
-}
+};
 
 export default function ColumnHeaderDragHandle({
   dragHandleProps,
@@ -31,7 +31,7 @@ export default function ColumnHeaderDragHandle({
         sx={{
           opacity: 0,
           borderRadius: 2,
-          transition: (theme) => theme.transitions.create(["opacity"]),
+          transition: (theme) => theme.transitions.create([ "opacity" ]),
           "[role='columnheader']:hover &, [role='columnheader']:focus-within &":
             {
               opacity: 0.5,

@@ -1,11 +1,11 @@
 import { lazy, Suspense } from "react";
-import { IExtensionModalStepProps } from "./ExtensionModal";
 import useStateRef from "react-usestateref";
 
 import { Typography } from "@mui/material";
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import type { IExtensionModalStepProps } from "./ExtensionModal";
 
 const CodeEditor = lazy(
   () =>
@@ -15,11 +15,11 @@ const CodeEditor = lazy(
 const additionalVariables = [
   {
     key: "row",
-    description: `row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.`,
+    description: "row has the value of doc.data() it has type definitions using this table's schema, but you can access any field in the document.",
   },
   {
     key: "ref",
-    description: `reference object that represents the reference to the current row in firestore db (ie: doc.ref).`,
+    description: "reference object that represents the reference to the current row in firestore db (ie: doc.ref).",
   },
   {
     key: "change",
@@ -53,8 +53,8 @@ export default function Step3Conditions({
   setValidation,
   validationRef,
 }: IExtensionModalStepProps) {
-  const [, setConditionEditorActive, conditionEditorActiveRef] =
-    useStateRef(false);
+  const [ , setConditionEditorActive, conditionEditorActiveRef ]
+    = useStateRef(false);
 
   return (
     <>
@@ -75,7 +75,9 @@ export default function Step3Conditions({
             });
           }}
           onValidStatusUpdate={({ isValid }) => {
-            if (!conditionEditorActiveRef.current) return;
+            if (!conditionEditorActiveRef.current) {
+              return;
+            }
             setValidation({ ...validationRef.current!, condition: isValid });
           }}
           diagnosticsOptions={diagnosticsOptions}

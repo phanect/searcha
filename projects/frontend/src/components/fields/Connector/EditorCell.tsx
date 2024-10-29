@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { IEditorCellProps } from "@src/components/fields/types";
 
-import PopupContents from "./Select/PopupContents";
 import Loading from "@src/components/Loading";
+import PopupContents from "./Select/PopupContents";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Connector({
   value,

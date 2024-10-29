@@ -1,8 +1,9 @@
 import seedrandom from "seedrandom";
 import { colord } from "colord";
 
-import { useTheme, Avatar, AvatarProps } from "@mui/material";
+import { useTheme, Avatar } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type { AvatarProps } from "@mui/material";
 
 // https://www.stefanjudis.com/snippets/how-to-detect-emojis-in-javascript-strings/
 const emojiRegex = /\p{Emoji}/u;
@@ -12,14 +13,14 @@ export const EMOJI_AVATAR_L_DARK = 30;
 export const EMOJI_AVATAR_C_LIGHT = 15;
 export const EMOJI_AVATAR_C_DARK = 20;
 
-export interface IEmojiAvatarProps extends Partial<AvatarProps> {
+export type IEmojiAvatarProps = {
   /** CSS color string or a number (as a string). If number, used as hue */
   bgColor?: string;
   emoji?: string;
   fallback: string;
   uid?: string;
   size?: number;
-}
+} & Partial<AvatarProps>;
 
 export default function EmojiAvatar({
   bgColor: bgColorProp,
@@ -43,7 +44,7 @@ export default function EmojiAvatar({
   } else if (bgColorProp) {
     bgcolor = bgColorProp;
   } else {
-    bgcolor = generateRandomColor(`${fallback}__${uid}`, darkMode);
+    bgcolor = generateRandomColor(`${ fallback }__${ uid }`, darkMode);
   }
 
   const bgcolorLch = colord(bgcolor).toLch();
@@ -71,13 +72,13 @@ export default function EmojiAvatar({
         ...spreadSx(props.sx),
       ]}
     >
-      {children ||
-        emoji ||
-        fallback
-          .split(" ")
-          .slice(0, 2)
-          .map((s) => s.slice(0, 1))
-          .join("")}
+      {children
+      || emoji
+      || fallback
+        .split(" ")
+        .slice(0, 2)
+        .map((s) => s.slice(0, 1))
+        .join("")}
     </Avatar>
   );
 }

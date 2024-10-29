@@ -1,6 +1,7 @@
 import Logo from "@src/assets/Logo";
 import BreadcrumbsTableRoot from "@src/components/Table/Breadcrumbs/BreadcrumbsTableRoot";
-import { FadeProps, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import type { FadeProps } from "@mui/material";
 
 export enum ROUTES {
   home = "/",
@@ -52,7 +53,7 @@ export const ROUTE_TITLES = {
   [ROUTES.table]: {
     title: "Table",
     titleComponent: (_open, _isPermanent) => <BreadcrumbsTableRoot />,
-    titleTransitionProps: { style: { transformOrigin: "0 50%" } },
+    titleTransitionProps: { style: { transformOrigin: "0 50%" }},
     leftAligned: true,
   },
 
@@ -70,16 +71,16 @@ export const ROUTE_TITLES = {
         Tutorial
       </Typography>
     ),
-    titleTransitionProps: { style: { transformOrigin: "0 50%" } },
+    titleTransitionProps: { style: { transformOrigin: "0 50%" }},
     leftAligned: true,
   },
 } as Record<
   ROUTES,
   | string
   | {
-      title: string;
-      titleComponent: (open: boolean, isPermanent: boolean) => React.ReactNode;
-      titleTransitionProps?: Partial<FadeProps>;
-      leftAligned?: boolean;
-    }
+    title: string;
+    titleComponent: (open: boolean, isPermanent: boolean) => React.ReactNode;
+    titleTransitionProps?: Partial<FadeProps>;
+    leftAligned?: boolean;
+  }
 >;

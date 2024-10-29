@@ -1,4 +1,4 @@
-import { SxProps, Theme } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material";
 
 export const isTargetInsideBox = (target: Element, box: Element) => {
   const targetRect = target.getBoundingClientRect();
@@ -7,7 +7,7 @@ export const isTargetInsideBox = (target: Element, box: Element) => {
 };
 
 export const spreadSx = (sx?: SxProps<Theme>) =>
-  Array.isArray(sx) ? sx : sx ? [sx] : [];
+  Array.isArray(sx) ? sx : sx ? [ sx ] : [];
 
 export const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text);

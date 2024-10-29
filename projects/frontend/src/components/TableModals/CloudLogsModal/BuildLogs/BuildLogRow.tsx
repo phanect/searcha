@@ -21,10 +21,10 @@ const Root = styled("div")(({ theme }) => ({
   "& .color-error": { color: theme.palette.error.light },
 }));
 
-export interface IBuildLogRowProps {
+export type IBuildLogRowProps = {
   logRecord: Record<string, any>;
   index: number;
-}
+};
 
 export default function BuildLogRow({ logRecord, index }: IBuildLogRowProps) {
   return (
@@ -52,7 +52,7 @@ export default function BuildLogRow({ logRecord, index }: IBuildLogRowProps) {
       >
         <AnsiHtml
           className={logRecord.level === "info" ? "color-nfo" : "color-error"}
-          text={ format(logRecord.timestamp, TIME_FORMAT + ":ss") }
+          text={format(logRecord.timestamp, TIME_FORMAT + ":ss")}
         />
         {"  "}
         <AnsiHtml

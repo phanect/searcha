@@ -1,8 +1,7 @@
-import { FirestoreError } from "firebase/firestore";
-import { useSnackbar } from "notistack";
-
 import { Button } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import type { FirestoreError } from "firebase/firestore";
+import type { useSnackbar } from "notistack";
 
 /**
  * Handles errors in Firestore listeners in the UI

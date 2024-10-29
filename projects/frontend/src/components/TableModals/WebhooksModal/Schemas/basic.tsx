@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
-import { TableSettings } from "@src/types/table";
+import type { TableSettings } from "@src/types/table";
 import type { AdditionalVariables, WebHook } from "./type.ts";
 
 const requestType = [
@@ -74,13 +74,13 @@ export const webhookBasic: WebHook = {
   ${
     table.audit !== false
       ? `const ${
-          table.auditFieldCreatedBy ?? "_createdBy"
-        } = await rowy.metadata.serviceAccountUser()
+        table.auditFieldCreatedBy ?? "_createdBy"
+      } = await rowy.metadata.serviceAccountUser()
   return {
     ...body,
-    ${table.auditFieldCreatedBy ?? "_createdBy"}
+    ${ table.auditFieldCreatedBy ?? "_createdBy" }
   }`
-      : `return body;`
+      : "return body;"
   }
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
@@ -96,16 +96,14 @@ export const webhookBasic: WebHook = {
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
   },
-  Auth: () => {
-    return (
-      <Typography color="text.disabled">
-        <WarningIcon aria-label="Warning" style={{ verticalAlign: "bottom" }} />
-        &nbsp; Specialized verification is not currently available for basic
-        webhooks, you can add your own verification logic in the conditions
-        section below.
-      </Typography>
-    );
-  },
+  Auth: () => (
+    <Typography color="text.disabled">
+      <WarningIcon aria-label="Warning" style={{ verticalAlign: "bottom" }} />
+      &nbsp; Specialized verification is not currently available for basic
+      webhooks, you can add your own verification logic in the conditions
+      section below.
+    </Typography>
+  ),
 };
 
 export default webhookBasic;

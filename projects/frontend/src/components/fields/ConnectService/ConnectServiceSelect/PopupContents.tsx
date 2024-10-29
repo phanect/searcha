@@ -20,12 +20,11 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { IConnectServiceSelectProps } from ".";
-import useStyles from "./styles";
 import Loading from "@src/components/Loading";
+import useStyles from "./styles";
+import type { IConnectServiceSelectProps } from ".";
 
-export interface IPopupContentsProps
-  extends Omit<IConnectServiceSelectProps, "className" | "TextFieldProps"> {}
+export type IPopupContentsProps = {} & Omit<IConnectServiceSelectProps, "className" | "TextFieldProps">;
 
 // TODO: Implement infinite scroll here
 export default function PopupContents({
@@ -44,11 +43,11 @@ export default function PopupContents({
   const { classes } = useStyles();
 
   // Webservice search query
-  const [query, setQuery] = useState("");
+  const [ query, setQuery ] = useState("");
   // Webservice response
-  const [response, setResponse] = useState<any | null>(null);
+  const [ response, setResponse ] = useState<any | null>(null);
 
-  const [docData, setDocData] = useState<any | null>(null);
+  const [ docData, setDocData ] = useState<any | null>(null);
   useEffect(() => {
     // TODO: GENERALIZE
     getDoc(docRef).then((d) => setDocData(d.data()));
@@ -57,8 +56,12 @@ export default function PopupContents({
   const hits: any["hits"] = get(response, resultsKey) ?? [];
   const search = useDebouncedCallback(
     async (query: string) => {
-      if (!docData) return;
-      if (!url) return;
+      if (!docData) {
+        return;
+      }
+      if (!url) {
+        return;
+      }
       const uri = new URL(url);
       const params: any = { q: query };
       Object.keys(params).forEach((key) =>
@@ -80,18 +83,25 @@ export default function PopupContents({
 
   useEffect(() => {
     search(query);
-  }, [query, docData]);
+  }, [ query, docData ]);
 
-  if (!response) return <Loading />;
+  if (!response) {
+    return <Loading />;
+  }
 
   const select = (hit: any) => () => {
-    if (multiple) onChange([...value, hit]);
-    else onChange([hit]);
+    if (multiple) {
+      onChange([ ...value, hit ]);
+    } else {
+      onChange([ hit ]);
+    }
   };
   const deselect = (hit: any) => () => {
-    if (multiple)
+    if (multiple) {
       onChange(value.filter((v) => v[primaryKey] !== hit[primaryKey]));
-    else onChange([]);
+    } else {
+      onChange([]);
+    }
   };
 
   const selectedValues = value?.map((item) => get(item, primaryKey));
@@ -124,8 +134,8 @@ export default function PopupContents({
       <Grid className={classes.listRow}>
         <List className={classes.list}>
           {hits.map((hit: any) => {
-            const isSelected =
-              selectedValues.indexOf(get(hit, primaryKey)) !== -1;
+            const isSelected
+              = selectedValues.includes(get(hit, primaryKey));
             return (
               <Fragment key={get(hit, primaryKey)}>
                 <MenuItem
@@ -142,7 +152,7 @@ export default function PopupContents({
                         className={classes.checkbox}
                         disableRipple
                         inputProps={{
-                          "aria-labelledby": `label-${get(hit, primaryKey)}`,
+                          "aria-labelledby": `label-${ get(hit, primaryKey) }`,
                         }}
                       />
                     ) : (
@@ -154,13 +164,13 @@ export default function PopupContents({
                         className={classes.checkbox}
                         disableRipple
                         inputProps={{
-                          "aria-labelledby": `label-${get(hit, primaryKey)}`,
+                          "aria-labelledby": `label-${ get(hit, primaryKey) }`,
                         }}
                       />
                     )}
                   </ListItemIcon>
                   <ListItemText
-                    id={`label-${get(hit, primaryKey)}`}
+                    id={`label-${ get(hit, primaryKey) }`}
                     primary={get(hit, titleKey)}
                     secondary={!subtitleKey ? "" : get(hit, subtitleKey)}
                   />

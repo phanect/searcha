@@ -1,4 +1,5 @@
-import { Skeleton, SkeletonProps } from '@mui/material';
+import { Skeleton } from "@mui/material";
+import type { SkeletonProps } from "@mui/material";
 
 export default function FieldSkeleton(props: SkeletonProps) {
   return (
@@ -6,7 +7,7 @@ export default function FieldSkeleton(props: SkeletonProps) {
       variant="rectangular"
       width="100%"
       height={56}
-      style={{ transform: 'none' }}
+      style={{ transform: "none" }}
       {...props}
     />
   );

@@ -29,21 +29,21 @@ import {
   tableSchemaAtom,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
-import { TableIdType } from "@src/types/table";
+import type { TableIdType } from "@src/types/table";
 
 export default function AddRow() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
-  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableFilters ] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [ tableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
   const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
   const anchorEl = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
-  const [openIdModal, setOpenIdModal] = useState(false);
+  const [ open, setOpen ] = useState(false);
+  const [ openIdModal, setOpenIdModal ] = useState(false);
 
   const idType = tableSchema.idType || "decrement";
   const forceRandomId = tableFilters.length > 0 || tableSorts.length > 0;
@@ -81,8 +81,9 @@ export default function AddRow() {
     }
   };
 
-  if (tableSettings.readOnly && !userRoles.includes("ADMIN"))
+  if (tableSettings.readOnly && !userRoles.includes("ADMIN")) {
     return <Box sx={{ mr: -2 }} />;
+  }
 
   return (
     <>
@@ -218,8 +219,7 @@ export default function AddRow() {
                   path: tableSettings.collection + "/" + v.id,
                 },
               },
-            })
-          }
+            })}
           onClose={() => setOpenIdModal(false)}
           DialogProps={{ maxWidth: "xs" }}
           SubmitButtonProps={{ children: "Add row" }}
@@ -231,24 +231,27 @@ export default function AddRow() {
 
 export function AddRowArraySubTable() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [updateRowDb] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
-  const [open, setOpen] = useState(false);
+  const [ updateRowDb ] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
+  const [ open, setOpen ] = useState(false);
 
   const anchorEl = useRef<HTMLDivElement>(null);
-  const [addRowAt, setAddNewRowAt] = useState<"top" | "bottom">("bottom");
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ addRowAt, setAddNewRowAt ] = useState<"top" | "bottom">("bottom");
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
-  if (!updateRowDb) return null;
+  if (!updateRowDb) {
+    return null;
+  }
 
   const handleClick = () => {
     const initialValues: Record<string, any> = {};
 
     // Set initial values based on default values
     for (const column of tableColumnsOrdered) {
-      if (column.config?.defaultValue?.type === "static")
+      if (column.config?.defaultValue?.type === "static") {
         initialValues[column.key] = column.config.defaultValue.value!;
-      else if (column.config?.defaultValue?.type === "null")
+      } else if (column.config?.defaultValue?.type === "null") {
         initialValues[column.key] = null;
+      }
     }
 
     updateRowDb("", initialValues, undefined, {
@@ -315,7 +318,7 @@ export function AddRowArraySubTable() {
         <MenuItem value="bottom">
           <ListItemText
             primary="To bottom"
-            secondary={"Adds a new row to the bottom of this table"}
+            secondary="Adds a new row to the bottom of this table"
             secondaryTypographyProps={{
               variant: "caption",
               whiteSpace: "pre-line",

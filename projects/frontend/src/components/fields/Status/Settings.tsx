@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { ISettingsProps } from "@src/components/fields/types";
 
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import ConditionModal from "./ConditionModal";
 import ConditionList from "./ConditionList";
+import type { ISettingsProps } from "@src/components/fields/types";
 
-export interface IConditionModal {
+export type IConditionModal = {
   isOpen: boolean;
   index: number | null;
   condition: {
@@ -15,7 +15,7 @@ export interface IConditionModal {
     label: string;
     operator: string | undefined;
   };
-}
+};
 
 export const EMPTY_STATE: IConditionModal = {
   index: null,
@@ -29,7 +29,7 @@ export const EMPTY_STATE: IConditionModal = {
 };
 
 export default function Settings({ onChange, config }: ISettingsProps) {
-  const [modal, setModal] = useState(EMPTY_STATE);
+  const [ modal, setModal ] = useState(EMPTY_STATE);
   return (
     <>
       <ConditionList config={config} setModal={setModal} />

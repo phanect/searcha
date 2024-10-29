@@ -1,24 +1,25 @@
-import { useRef, useState } from 'react';
-import { IFieldComponentProps } from '../../types';
-import { ColorPicker, ColorService } from 'react-color-palette';
-import 'react-color-palette/css';
+import { useRef, useState } from "react";
+import type { IFieldComponentProps } from "../../types";
+import { ColorPicker, ColorService } from "react-color-palette";
+import "react-color-palette/css";
 
 import {
   TextField,
-  TextFieldProps,
   InputAdornment,
   Box,
   IconButton,
   Popover,
-} from '@mui/material';
-import PaletteIcon from '@mui/icons-material/Palette';
+} from "@mui/material";
+import PaletteIcon from "@mui/icons-material/Palette";
 
-import FieldAssistiveText from '../../FieldAssistiveText';
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type {
+  TextFieldProps } from "@mui/material";
 
-export interface IColorComponentProps extends IFieldComponentProps {
+export type IColorComponentProps = {
   enableAlpha?: boolean;
   TextFieldProps?: Partial<TextFieldProps>;
-}
+} & IFieldComponentProps;
 
 export default function ColorComponent({
   field: { onChange, onBlur, value, ref },
@@ -34,7 +35,7 @@ export default function ColorComponent({
   TextFieldProps,
 }: IColorComponentProps) {
   const anchorEl = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   const handleOpen = () => setOpen(true);
 
   return (
@@ -50,8 +51,8 @@ export default function ColorComponent({
                   height: 20,
 
                   boxShadow: (theme) =>
-                    `0 0 0 1px ${theme.palette.action.disabled} inset`,
-                  borderRadius: '50%',
+                    `0 0 0 1px ${ theme.palette.action.disabled } inset`,
+                  borderRadius: "50%",
 
                   backgroundColor: value.hex,
                 }}
@@ -101,13 +102,13 @@ export default function ColorComponent({
             setOpen(false);
             onBlur();
           }}
-          PaperProps={{ 'data-type': 'color-picker' } as any}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+          PaperProps={{ "data-type": "color-picker" } as any}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
           <ColorPicker
             height={180}
-            color={value?.hex ? value : ColorService.convert('hex', '#fff')}
+            color={value?.hex ? value : ColorService.convert("hex", "#fff")}
             onChange={onChange}
             hideAlpha={!enableAlpha}
           />

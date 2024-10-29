@@ -1,14 +1,15 @@
-import { Paper, PaperProps } from "@mui/material";
+import { Paper } from "@mui/material";
 
 import SectionHeading from "@src/components/SectionHeading";
 import SlideTransition from "@src/components/Modal/SlideTransition";
+import type { PaperProps } from "@mui/material";
 
-export interface ISettingsSectionProps {
+export type ISettingsSectionProps = {
   children: React.ReactNode;
   title: string;
   paperSx?: PaperProps["sx"];
   transitionTimeout?: number;
-}
+};
 
 export default function SettingsSection({
   children,

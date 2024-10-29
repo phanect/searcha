@@ -10,7 +10,6 @@ import {
   LinearProgress,
   Stack,
   Link,
-  LinkProps,
 } from "@mui/material";
 import Logo from "@src/assets/Logo";
 import bgTableLight from "@src/assets/bg-table-light.webp";
@@ -18,8 +17,10 @@ import bgTableDark from "@src/assets/bg-table-dark.webp";
 
 import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
+import type {
+  LinkProps } from "@mui/material";
 
-export interface IAuthLayoutProps {
+export type IAuthLayoutProps = {
   hideLogo?: boolean;
   hideProject?: boolean;
   hideLinks?: boolean;
@@ -27,7 +28,7 @@ export interface IAuthLayoutProps {
   description?: React.ReactNode;
   children?: React.ReactNode;
   loading?: boolean;
-}
+};
 
 export default function AuthLayout({
   hideLogo,
@@ -39,7 +40,7 @@ export default function AuthLayout({
   loading,
 }: IAuthLayoutProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
   const fullScreenHeight = use100vh() ?? 0;
 
   const linkProps: LinkProps = {
@@ -55,9 +56,9 @@ export default function AuthLayout({
       sx={{
         backgroundImage: (theme) =>
           `linear-gradient(to bottom,
-            ${alpha(theme.palette.background.default, 0.75)},
-            ${alpha(theme.palette.background.default, 0.75)}),
-            url(${theme.palette.mode === "dark" ? bgTableDark : bgTableLight})`,
+            ${ alpha(theme.palette.background.default, 0.75) },
+            ${ alpha(theme.palette.background.default, 0.75) }),
+            url(${ theme.palette.mode === "dark" ? bgTableDark : bgTableLight })`,
         backgroundSize: { xs: "1920px 1080px", md: "cover" },
         backgroundRepeat: "no-repeat",
         backgroundPosition: "top left",
@@ -67,12 +68,12 @@ export default function AuthLayout({
         alignContent: "space-between",
         gap: 2,
         gridAutoRows: "max-content",
-        minHeight: fullScreenHeight > 0 ? `${fullScreenHeight}px` : "100vh",
+        minHeight: fullScreenHeight > 0 ? `${ fullScreenHeight }px` : "100vh",
 
-        pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(2)})`,
-        pb: (theme) => `max(env(safe-area-inset-bottom), ${theme.spacing(2)})`,
-        pr: (theme) => `max(env(safe-area-inset-right), ${theme.spacing(1)})`,
-        pl: (theme) => `max(env(safe-area-inset-left), ${theme.spacing(1)})`,
+        pt: (theme) => `max(env(safe-area-inset-top), ${ theme.spacing(2) })`,
+        pb: (theme) => `max(env(safe-area-inset-bottom), ${ theme.spacing(2) })`,
+        pr: (theme) => `max(env(safe-area-inset-right), ${ theme.spacing(1) })`,
+        pl: (theme) => `max(env(safe-area-inset-left), ${ theme.spacing(1) })`,
       }}
     >
       <div

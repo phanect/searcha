@@ -10,7 +10,7 @@ import { TableScopeContext, tableFiltersPopoverAtom } from "@src/atoms/tableScop
 import type { TableFilter } from "@src/types/table";
 import type { useFilterInputs } from "./useFilterInputs";
 
-export interface IFiltersPopoverProps {
+export type IFiltersPopoverProps = {
   appliedFilters: TableFilter[];
   hasAppliedFilters: boolean;
   hasTableFilters: boolean;
@@ -20,8 +20,8 @@ export interface IFiltersPopoverProps {
   >["availableFiltersForEachSelectedColumn"][0];
   setUserFilters: (filters: TableFilter[]) => void;
 
-  children: (props: { handleClose: () => void }) => React.ReactNode;
-}
+  children: (props: { handleClose: () => void; }) => React.ReactNode;
+};
 
 export default function FiltersPopover({
   appliedFilters,
@@ -33,7 +33,7 @@ export default function FiltersPopover({
   children,
 }: IFiltersPopoverProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [{ open }, setTableFiltersPopoverState] = useAtom(
+  const [{ open }, setTableFiltersPopoverState ] = useAtom(
     tableFiltersPopoverAtom,
     { store: tableScopeStore },
   );
@@ -55,70 +55,70 @@ export default function FiltersPopover({
           style={
             appliedFilters.length === 1
               ? {
-                  borderTopRightRadius: 0,
-                  borderBottomRightRadius: 0,
-                  position: "relative",
-                  zIndex: 1,
-                }
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+                position: "relative",
+                zIndex: 1,
+              }
               : {}
           }
           aria-describedby={popoverId}
         >
-          {hasAppliedFilters ? `Filtered: ${appliedFilters.length}` : "Filter"}
+          {hasAppliedFilters ? `Filtered: ${ appliedFilters.length }` : "Filter"}
         </ButtonWithStatus>
 
-        {appliedFilters.length === 1 &&
-          appliedFilters.map((filter) => {
-            const fieldName = filter.key === "_rowy_ref.id" ? "ID" : filter.key;
-            const operator = (availableFilters?.operators ?? []).find(
-              (f) => f.value === filter.operator
-            );
-            const operatorLabel = (operator?.label ?? filter.operator).replace(
-              "id-equal",
-              "is"
-            );
+        {appliedFilters.length === 1
+        && appliedFilters.map((filter) => {
+          const fieldName = filter.key === "_rowy_ref.id" ? "ID" : filter.key;
+          const operator = (availableFilters?.operators ?? []).find(
+            (f) => f.value === filter.operator
+          );
+          const operatorLabel = (operator?.label ?? filter.operator).replace(
+            "id-equal",
+            "is"
+          );
 
-            const formattedValue = availableFilters?.valueFormatter
-              ? availableFilters.valueFormatter(filter.value, filter.operator)
-              : filter.value.toString();
+          const formattedValue = availableFilters?.valueFormatter
+            ? availableFilters.valueFormatter(filter.value, filter.operator)
+            : filter.value.toString();
 
-            return (
-              <Chip
-                key={filter.key}
-                label={
-                  <Typography variant="inherit" component="span">
-                    {fieldName}{" "}
-                    <Typography
-                      variant="inherit"
-                      display="inline"
-                      color="text.secondary"
-                      fontWeight="normal"
-                    >
-                      {operatorLabel}
-                    </Typography>{" "}
-                    {formattedValue}
-                  </Typography>
-                }
-                onDelete={
-                  hasTableFilters && !tableFiltersOverridden
-                    ? undefined
-                    : () => setUserFilters([])
-                }
-                sx={{
-                  borderRadius: 1,
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                  borderLeft: "none",
+          return (
+            <Chip
+              key={filter.key}
+              label={(
+                <Typography variant="inherit" component="span">
+                  {fieldName}{" "}
+                  <Typography
+                    variant="inherit"
+                    display="inline"
+                    color="text.secondary"
+                    fontWeight="normal"
+                  >
+                    {operatorLabel}
+                  </Typography>{" "}
+                  {formattedValue}
+                </Typography>
+              )}
+              onDelete={
+                hasTableFilters && !tableFiltersOverridden
+                  ? undefined
+                  : () => setUserFilters([])
+              }
+              sx={{
+                borderRadius: 1,
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                borderLeft: "none",
 
-                  backgroundColor: "background.paper",
-                  height: 32,
+                backgroundColor: "background.paper",
+                height: 32,
 
-                  "& .MuiChip-label": { px: 1.5 },
-                }}
-                variant="outlined"
-              />
-            );
-          })}
+                "& .MuiChip-label": { px: 1.5 },
+              }}
+              variant="outlined"
+            />
+          );
+        })}
       </Stack>
 
       <Popover

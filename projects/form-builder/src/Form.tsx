@@ -1,16 +1,19 @@
-import { useForm, UseFormProps, FieldValues } from 'react-hook-form';
-import _isEmpty from 'lodash-es/isEmpty';
+import { useForm } from "react-hook-form";
+import _isEmpty from "lodash-es/isEmpty";
 
-import useFormSettings from './useFormSettings';
-import FormFields from './FormFields';
-import AutoSave from './AutoSave';
-import SubmitButton, { ISubmitButtonProps } from './SubmitButton';
-import SubmitError, { ISubmitErrorProps } from './SubmitError';
+import useFormSettings from "./useFormSettings";
+import FormFields from "./FormFields";
+import AutoSave from "./AutoSave";
+import SubmitButton from "./SubmitButton";
+import SubmitError from "./SubmitError";
+import type { ISubmitButtonProps } from "./SubmitButton";
+import type { ISubmitErrorProps } from "./SubmitError";
+import type { UseFormProps, FieldValues } from "react-hook-form";
 
-import { Fields, CustomComponents } from './types';
+import type { Fields, CustomComponents } from "./types";
 import type { BaseSyntheticEvent, ReactNode } from "react";
 
-export interface IFormProps {
+export type IFormProps = {
   fields: Fields;
   values?: FieldValues;
   onSubmit: (
@@ -28,7 +31,7 @@ export interface IFormProps {
 
   formHeader?: ReactNode;
   formFooter?: ReactNode;
-}
+};
 
 export default function Form({
   fields,
@@ -53,7 +56,7 @@ export default function Form({
   });
 
   const methods = useForm({
-    mode: autoSave ? 'all' : 'onBlur',
+    mode: autoSave ? "all" : "onBlur",
     defaultValues,
     resolver,
     shouldUnregister: true,
@@ -67,9 +70,9 @@ export default function Form({
 
   const hasErrors = errors
     ? (Object.values(errors).reduce(
-        (a, c) => !!(a || !_isEmpty(c)),
-        false
-      ) as boolean)
+      (a, c) => !!(a || !_isEmpty(c)),
+      false
+    ) as boolean)
     : false;
 
   return (

@@ -8,9 +8,8 @@ import CheckedIcon from "@mui/icons-material/CheckCircleOutline";
 import AddIcon from "@mui/icons-material/Add";
 import MembersIcon from "@mui/icons-material/AccountCircleOutlined";
 
-import Modal, { IModalProps } from "@src/components/Modal";
+import Modal from "@src/components/Modal";
 import SteppedAccordion from "@src/components/SteppedAccordion";
-import GetStartedProgress from "./GetStartedProgress";
 
 import {
   ProjectScopeContext,
@@ -21,13 +20,15 @@ import {
   NAV_DRAWER_WIDTH,
   NAV_DRAWER_COLLAPSED_WIDTH,
 } from "@src/layouts/Navigation/NavDrawer";
-import useGetStartedCompletion from "./useGetStartedCompletion";
 import { ROUTES } from "@src/constants/routes";
+import useGetStartedCompletion from "./useGetStartedCompletion";
+import GetStartedProgress from "./GetStartedProgress";
+import type { IModalProps } from "@src/components/Modal";
 
-export interface IGetStartedChecklistProps extends Partial<IModalProps> {
+export type IGetStartedChecklistProps = {
   navOpen: boolean;
   navPermanent: boolean;
-}
+} & Partial<IModalProps>;
 
 export default function GetStartedChecklist({
   navOpen,
@@ -35,15 +36,17 @@ export default function GetStartedChecklist({
   ...props
 }: IGetStartedChecklistProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [open, setOpen] = useAtom(getStartedChecklistAtom, { store: projectScopeStore });
+  const [ open, setOpen ] = useAtom(getStartedChecklistAtom, { store: projectScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
     { store: projectScopeStore }
   );
 
-  const [completedSteps] = useGetStartedCompletion();
+  const [ completedSteps ] = useGetStartedCompletion();
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
   const incompleteIcon = <UncheckedIcon color="action" />;
   const completeIcon = (
@@ -69,7 +72,7 @@ export default function GetStartedChecklist({
 
           "& .MuiDialog-paper": {
             marginLeft: {
-              xs: `max(env(safe-area-inset-left), 8px)`,
+              xs: "max(env(safe-area-inset-left), 8px)",
               sm: `max(env(safe-area-inset-left), ${
                 (navPermanent
                   ? navOpen
@@ -78,8 +81,8 @@ export default function GetStartedChecklist({
                   : 0) + 8
               }px)`,
             },
-            marginBottom: `max(env(safe-area-inset-bottom), 8px)`,
-            marginRight: `max(env(safe-area-inset-right), 8px)`,
+            marginBottom: "max(env(safe-area-inset-bottom), 8px)",
+            marginRight: "max(env(safe-area-inset-right), 8px)",
             width: 360,
           },
           ".MuiStepLabel-iconContainer.Mui-active svg": {

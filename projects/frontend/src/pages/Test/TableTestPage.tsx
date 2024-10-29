@@ -27,18 +27,18 @@ function TableTestPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const setTableFilters = useSetAtom(tableFiltersAtom, { store: tableScopeStore });
   const setTableSorts = useSetAtom(tableSortsAtom, { store: tableScopeStore });
 
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
 
   console.log(tableId, tableSettings, tableSchema);
 
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   return (
     <div>
@@ -88,8 +88,7 @@ function TableTestPage() {
               value: true,
               id: generateId(),
             },
-          ])
-        }
+          ])}
       >
         Set table filters
       </button>
@@ -118,25 +117,26 @@ export default function ProvidedTableTestPage() {
   const tableScopeStore = useContext(TableScopeContext);
 
   const { id } = useParams();
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   return (
     <Suspense
-      fallback={
+      fallback={(
         <>
           <TableToolbarSkeleton />
           <TableSkeleton />
         </>
-      }
+      )}
     >
       <TableScopeContext.Provider
         key={id}
-        value={ tableScopeStore }
+        value={tableScopeStore}
       >
         <HydrateAtoms initialValues={[
           [ tableIdAtom, id ],
           [ currentUserAtom, currentUser ],
-        ]}>
+        ]}
+        >
           <TableSourceFirestore />
           <TableTestPage />
         </HydrateAtoms>

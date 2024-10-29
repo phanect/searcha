@@ -11,33 +11,35 @@ import {
   tableRowsAtom,
   updateFieldAtom,
 } from "@src/atoms/tableScope";
-import { IFieldConfig } from "@src/components/fields/types";
+import type { IFieldConfig } from "@src/components/fields/types";
 
-export interface IContextMenuActions {
+export type IContextMenuActions = {
   label: string;
   icon: React.ReactNode;
   onClick: () => void;
-}
+};
 
 export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
 ) => {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
-  if (!selectedCol) return [];
+  if (!selectedCol) {
+    return [];
+  }
 
-  const selectedRow = find(tableRows, ["_rowy_ref.path", selectedCell.path]);
+  const selectedRow = find(tableRows, [ "_rowy_ref.path", selectedCell.path ]);
   const cellValue = get(selectedRow, selectedCol.fieldName) || [];
 
-  const isEmpty =
-    cellValue === "" ||
-    cellValue === null ||
-    cellValue === undefined ||
-    cellValue.length === 0;
+  const isEmpty
+    = cellValue === ""
+    || cellValue === null
+    || cellValue === undefined
+    || cellValue.length === 0;
 
   return [
     {
@@ -48,7 +50,7 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
           navigator.clipboard.writeText(JSON.stringify(cellValue));
           enqueueSnackbar("Copied");
         } catch (error) {
-          enqueueSnackbar(`Failed to copy: ${error}`, { variant: "error" });
+          enqueueSnackbar(`Failed to copy: ${ error }`, { variant: "error" });
         }
       },
       disabled: isEmpty,
@@ -66,7 +68,7 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
             value: parsed,
           });
         } catch (error) {
-          enqueueSnackbar(`Failed to paste: ${error}`, { variant: "error" });
+          enqueueSnackbar(`Failed to paste: ${ error }`, { variant: "error" });
         }
       },
     },

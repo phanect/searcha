@@ -4,8 +4,8 @@ import { generateServiceAccessToken, getProjectId } from "./metadataService";
 const meta = require("../package.json");
 
 const getAxiosInstance = async () => {
-  const baseURL =
-    process.env.DEV === "true"
+  const baseURL
+    = process.env.DEV === "true"
       ? "https://rowy-run-service-gkxqefhk3q-uc.a.run.app"
       : "https://rowy.run/";
   const authToken = await generateServiceAccessToken(baseURL);
@@ -22,12 +22,12 @@ const getAxiosInstance = async () => {
 export const getExtension = async (
   extensionId: string
 ): Promise<{
-  dependencies: { [key: string]: string };
+  dependencies: Record<string, string>;
   extension: string;
   syncScript?: string;
 }> => {
   const axiosInstance = await getAxiosInstance();
-  return (await axiosInstance.get(`extensions/${extensionId}`)).data;
+  return (await axiosInstance.get(`extensions/${ extensionId }`)).data;
 };
 
 let projectId;
@@ -48,7 +48,7 @@ export const telemetry = async (event) => {
     event,
     source: meta.name,
   };
-  return telemetryInstance.post(`monitor`, body);
+  return telemetryInstance.post("monitor", body);
 };
 
 export const telemetryError = async (event, error) => {
@@ -62,7 +62,7 @@ export const telemetryError = async (event, error) => {
     error: JSON.stringify(error),
   };
   console.log("error", body);
-  return telemetryInstance.post(`error`, body);
+  return telemetryInstance.post("error", body);
 };
 
 export const telemetryRuntimeDependencyPerformance = async ({
@@ -84,7 +84,7 @@ export const telemetryRuntimeDependencyPerformance = async ({
     yarnFinishTime,
     dependenciesString,
   };
-  return telemetryInstance.post(`runtime-dependency-performance`, body);
+  return telemetryInstance.post("runtime-dependency-performance", body);
 };
 
 export const inviteUserService = async (
@@ -100,13 +100,13 @@ export const inviteUserService = async (
     name: string;
   }
 ): Promise<{
-  dependencies: { [key: string]: string };
+  dependencies: Record<string, string>;
   extension: string;
   syncScript?: string;
 }> => {
   const axiosInstance = await getAxiosInstance();
   return (
-    await axiosInstance.post(`inviteUser`, {
+    await axiosInstance.post("inviteUser", {
       projectId,
       newUser,
       inviter,

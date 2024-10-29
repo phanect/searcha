@@ -1,10 +1,11 @@
-import { Box, BoxProps, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type { BoxProps } from "@mui/material";
 
-export interface IStepsProgressProps extends Partial<BoxProps> {
+export type IStepsProgressProps = {
   steps: number;
   value: number;
-}
+} & Partial<BoxProps>;
 
 export default function StepsProgress({
   steps,

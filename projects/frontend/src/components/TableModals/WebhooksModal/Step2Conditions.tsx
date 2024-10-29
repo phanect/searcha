@@ -1,4 +1,3 @@
-import { IWebhookModalStepProps } from "./WebhookModal";
 import useStateRef from "react-usestateref";
 
 import { Typography } from "@mui/material";
@@ -7,6 +6,7 @@ import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { webhookSchemas } from "./utils";
+import type { IWebhookModalStepProps } from "./WebhookModal";
 
 const diagnosticsOptions = {
   noSemanticValidation: false,
@@ -20,8 +20,8 @@ export default function Step3Conditions({
   setValidation,
   validationRef,
 }: IWebhookModalStepProps) {
-  const [, setConditionEditorActive, conditionEditorActiveRef] =
-    useStateRef(false);
+  const [ , setConditionEditorActive, conditionEditorActiveRef ]
+    = useStateRef(false);
 
   return (
     <>
@@ -42,15 +42,17 @@ export default function Step3Conditions({
             });
           }}
           onValidStatusUpdate={({ isValid }) => {
-            if (!conditionEditorActiveRef.current) return;
+            if (!conditionEditorActiveRef.current) {
+              return;
+            }
             setValidation({ ...validationRef.current!, condition: isValid });
           }}
           diagnosticsOptions={diagnosticsOptions}
           onMount={() => setConditionEditorActive(true)}
           onUnmount={() => setConditionEditorActive(false)}
           extraLibs={
-            webhookSchemas[webhookObject.type]?.condition?.extraLibs ??
-            webhookSchemas["basic"].condition.extraLibs
+            webhookSchemas[webhookObject.type]?.condition?.extraLibs
+            ?? webhookSchemas.basic.condition.extraLibs
           }
         />
       </div>
@@ -58,8 +60,8 @@ export default function Step3Conditions({
       <CodeEditorHelper
         docLink={WIKI_LINKS.webhooks}
         additionalVariables={
-          webhookSchemas[webhookObject.type].condition?.additionalVariables ??
-          webhookSchemas["basic"].condition.additionalVariables
+          webhookSchemas[webhookObject.type].condition?.additionalVariables
+          ?? webhookSchemas.basic.condition.additionalVariables
         }
       />
     </>

@@ -1,11 +1,12 @@
 import { lazy } from "react";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { MultiSelect as MultiSelectIcon } from "@src/assets/icons";
+import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import DisplayCell from "./DisplayCell";
 import { filterOperators } from "./Filter";
-import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 const EditorCell = lazy(
   () => import("./EditorCell")
@@ -42,8 +43,11 @@ export const config: IFieldConfig = {
   csvImportParser: (v) => {
     if (v.includes(",")) {
       return v.split(",").map((i) => i.trim());
-    } else if (v !== "") return [v];
-    else return v;
+    } else if (v !== "") {
+      return [ v ];
+    } else {
+      return v;
+    }
   },
   requireConfiguration: true,
   filter: {

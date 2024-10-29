@@ -11,7 +11,7 @@ import { USERS } from "@src/config/dbPaths";
 /**
  * When rendered, provides atom values for top-level tables
  */
-const MembersSourceFirebase = memo(function MembersSourceFirebase() {
+const MembersSourceFirebase = memo(() => {
   const projectScopeStore = useContext(ProjectScopeContext);
 
   useFirestoreCollectionWithAtom(allUsersAtom, { store: projectScopeStore }, USERS, {

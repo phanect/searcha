@@ -17,10 +17,10 @@ import Loading from "@src/components/Loading";
 
 export const muiCache = createCache({ key: "mui", prepend: true });
 
-export interface IProvidersProps {
+export type IProvidersProps = {
   children: React.ReactNode;
   initialAtomValues?: Parameters<typeof HydrateAtoms>[0]["initialValues"];
-}
+};
 
 export default function Providers({
   children,
@@ -45,9 +45,9 @@ export default function Providers({
         <HelmetProvider>
           <ProjectScopeContext.Provider
             key="projectScope"
-            value={ projectScopeStore }
+            value={projectScopeStore}
           >
-            <HydrateAtoms initialValues={ initialAtomValues }>
+            <HydrateAtoms initialValues={initialAtomValues}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <CacheProvider value={muiCache}>
                   <RowyThemeProvider>

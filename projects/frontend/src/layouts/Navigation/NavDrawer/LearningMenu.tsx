@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import {
   Menu,
-  MenuProps,
   MenuItem,
   ListItemSecondaryAction,
 } from "@mui/material";
@@ -13,6 +12,8 @@ import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
 import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
 import { ROUTES } from "@src/constants/routes";
 import { logEvent, analytics } from "@src/analytics";
+import type {
+  MenuProps } from "@mui/material";
 
 export default function LearningMenu({
   anchorEl,
@@ -20,8 +21,10 @@ export default function LearningMenu({
 }: Pick<MenuProps, "anchorEl" | "onClose">) {
   const open = Boolean(anchorEl);
   useEffect(() => {
-    if (open) logEvent(analytics, "open_learning_menu");
-  }, [open]);
+    if (open) {
+      logEvent(analytics, "open_learning_menu");
+    }
+  }, [ open ]);
 
   const externalLinkIcon = (
     <ListItemSecondaryAction
@@ -46,7 +49,7 @@ export default function LearningMenu({
       id="learning-menu"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       transformOrigin={{ vertical: "bottom", horizontal: "left" }}
-      sx={{ "& .MuiPaper-root": { mt: 1.5 } }}
+      sx={{ "& .MuiPaper-root": { mt: 1.5 }}}
       PaperProps={{ elevation: 12 }}
     >
       <MenuItem

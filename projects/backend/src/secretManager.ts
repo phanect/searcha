@@ -1,17 +1,15 @@
-import { Request, Response } from "express";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
 import { getProjectId } from "./metadataService";
+import type { Request, Response } from "express";
 
 const client = new SecretManagerServiceClient();
 
 export async function listSecrets() {
   const projectId = await getProjectId();
-  const [secrets] = await client.listSecrets({
+  const [ secrets ] = await client.listSecrets({
     parent: "projects/" + projectId,
   });
-  return secrets.map((secret) => {
-    return secret.name.split("/").pop();
-  });
+  return secrets.map((secret) => secret.name.split("/").pop());
 }
 
 export async function addSecret(req: Request, res: Response) {
@@ -29,13 +27,13 @@ export async function addSecret(req: Request, res: Response) {
 
   let hasSecret = false;
   try {
-    const [existingSecret] = await client.getSecret({
-      name: `projects/${projectId}/secrets/${name}`,
+    const [ existingSecret ] = await client.getSecret({
+      name: `projects/${ projectId }/secrets/${ name }`,
     });
     hasSecret = true;
   } catch (e: any) {
     console.log(
-      `secret ${name} does not exist, creating...`,
+      `secret ${ name } does not exist, creating...`,
       e.name,
       e.message
     );
@@ -47,7 +45,7 @@ export async function addSecret(req: Request, res: Response) {
     console.log("secrets.createSecret");
     try {
       await client.createSecret({
-        parent: `projects/${projectId}`,
+        parent: `projects/${ projectId }`,
         secretId: name,
         secret: {
           name,
@@ -64,8 +62,8 @@ export async function addSecret(req: Request, res: Response) {
 
   try {
     console.log("secrets.addSecretVersion");
-    const [version] = await client.addSecretVersion({
-      parent: `projects/${projectId}/secrets/${name}`,
+    const [ version ] = await client.addSecretVersion({
+      parent: `projects/${ projectId }/secrets/${ name }`,
       payload: {
         data: Buffer.from(value, "utf8"),
       },
@@ -104,8 +102,8 @@ export async function editSecret(req: Request, res: Response) {
 
   let hasSecret = false;
   try {
-    const [existingSecret] = await client.getSecret({
-      name: `projects/${projectId}/secrets/${name}`,
+    const [ existingSecret ] = await client.getSecret({
+      name: `projects/${ projectId }/secrets/${ name }`,
     });
     hasSecret = true;
   } catch (e: any) {
@@ -115,14 +113,14 @@ export async function editSecret(req: Request, res: Response) {
   if (hasSecret) {
     console.log("hasSecret true");
   } else {
-    console.log(`Secret ${name} does not exist`);
-    return res.status(400).send(`Secret ${name} does not exist`);
+    console.log(`Secret ${ name } does not exist`);
+    return res.status(400).send(`Secret ${ name } does not exist`);
   }
 
   try {
     console.log("secrets.addSecretVersion");
-    const [version] = await client.addSecretVersion({
-      parent: `projects/${projectId}/secrets/${name}`,
+    const [ version ] = await client.addSecretVersion({
+      parent: `projects/${ projectId }/secrets/${ name }`,
       payload: {
         data: Buffer.from(value, "utf8"),
       },
@@ -157,8 +155,8 @@ export async function deleteSecret(req: Request, res: Response) {
 
   let hasSecret = false;
   try {
-    const [existingSecret] = await client.getSecret({
-      name: `projects/${projectId}/secrets/${name}`,
+    const [ existingSecret ] = await client.getSecret({
+      name: `projects/${ projectId }/secrets/${ name }`,
     });
     hasSecret = true;
   } catch (e: any) {
@@ -168,13 +166,13 @@ export async function deleteSecret(req: Request, res: Response) {
   if (hasSecret) {
     console.log("hasSecret true");
   } else {
-    console.log(`Secret ${name} does not exist`);
-    throw new Error(`Secret ${name} does not exist`);
+    console.log(`Secret ${ name } does not exist`);
+    throw new Error(`Secret ${ name } does not exist`);
   }
 
   try {
     await client.deleteSecret({
-      name: `projects/${projectId}/secrets/${name}`,
+      name: `projects/${ projectId }/secrets/${ name }`,
     });
   } catch (e) {
     console.error("Failed to delete secret", e);

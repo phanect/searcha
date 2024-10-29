@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { db, auth } from "../firebaseConfig";
 import { securityRules } from "firebase-admin";
+import { db, auth } from "../firebaseConfig";
+import type { Request, Response } from "express";
 export const serviceAccountAccess = async (req: Request, res: Response) => {
   try {
     const access: any = {};
@@ -10,7 +10,9 @@ export const serviceAccountAccess = async (req: Request, res: Response) => {
       const testDocRef = db.doc("_rowy_/testingAccess");
       await testDocRef.set({ success: true });
       const testDoc = await testDocRef.get();
-      if (!testDoc.exists) access.firestore = false;
+      if (!testDoc.exists) {
+        access.firestore = false;
+      }
       await testDocRef.delete;
       access.firestore = true;
     } catch (error) {

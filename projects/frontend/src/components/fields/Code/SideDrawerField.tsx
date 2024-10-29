@@ -1,11 +1,10 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Typography, Tooltip } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LockIcon from "@mui/icons-material/LockOutlined";
 
 import CodeEditor from "@src/components/CodeEditor";
 import config from ".";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Code({
   column,
@@ -21,7 +20,7 @@ export default function Code({
       value={value}
       onChange={onChange}
       onBlur={onSubmit}
-      fullScreenTitle={
+      fullScreenTitle={(
         <>
           {config.icon}
 
@@ -40,7 +39,7 @@ export default function Code({
             </Tooltip>
           )}
         </>
-      }
+      )}
     />
   );
 }

@@ -7,7 +7,7 @@ export default function TableDetails({ ...props }) {
     field: { value, onChange },
   } = props;
   const theme = useTheme();
-  const [focused, setFocused] = useState(false);
+  const [ focused, setFocused ] = useState(false);
   return (
     <>
       <InputLabel htmlFor="table-details__md-text-area" focused={focused}>
@@ -19,10 +19,10 @@ export default function TableDetails({ ...props }) {
           color: "text.secondary",
           ...theme.typography.body2,
           "& .w-md-editor": {
-            backgroundColor: `${theme.palette.action.input} !important`,
+            backgroundColor: `${ theme.palette.action.input } !important`,
           },
           "& .w-md-editor-fullscreen": {
-            backgroundColor: `${theme.palette.background.paper} !important`,
+            backgroundColor: `${ theme.palette.background.paper } !important`,
           },
           "& .w-md-editor-toolbar": {
             display: "flex",
@@ -37,7 +37,7 @@ export default function TableDetails({ ...props }) {
             marginRight: theme.spacing(1),
           },
           "& :is(h1, h2, h3, h4, h5, h6)": {
-            marginY: `${theme.spacing(1.5)} !important`,
+            marginY: `${ theme.spacing(1.5) } !important`,
             borderBottom: "none !important",
           },
           "& details summary": {

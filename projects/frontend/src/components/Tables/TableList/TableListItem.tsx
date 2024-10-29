@@ -9,12 +9,12 @@ import {
 import GoIcon from "@mui/icons-material/ArrowForward";
 
 import RenderedMarkdown from "@src/components/RenderedMarkdown";
-import { TableSettings } from "@src/types/table";
+import type { TableSettings } from "@src/types/table";
 
-export interface ITableListItemProps extends TableSettings {
+export type ITableListItemProps = {
   link: string;
   actions?: React.ReactNode;
-}
+} & TableSettings;
 
 export default function TableListItem({
   // section,
@@ -53,7 +53,7 @@ export default function TableListItem({
         color="textSecondary"
         component="div"
         noWrap
-        sx={{ flexGrow: 1, "& *": { display: "inline" } }}
+        sx={{ flexGrow: 1, "& *": { display: "inline" }}}
       >
         {description && (
           <RenderedMarkdown
@@ -71,7 +71,7 @@ export default function TableListItem({
           color="primary"
           component={Link}
           to={link}
-          sx={{ display: { xs: "none", sm: "inline-flex" } }}
+          sx={{ display: { xs: "none", sm: "inline-flex" }}}
         >
           <GoIcon />
         </IconButton>

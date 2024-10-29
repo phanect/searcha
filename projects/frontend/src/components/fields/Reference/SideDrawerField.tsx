@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { useAtom } from "jotai";
 import { doc } from "firebase/firestore";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 import { Stack, TextField, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
@@ -9,6 +8,7 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Reference({
   column,
@@ -18,15 +18,15 @@ export default function Reference({
   disabled,
 }: ISideDrawerFieldProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
-  const [localValue, setLocalValue] = useState(
+  const [ localValue, setLocalValue ] = useState(
     Boolean(value) && "path" in value && typeof value.path === "string"
       ? value.path
       : ""
   );
-  const [error, setError] = useState("");
+  const [ error, setError ] = useState("");
 
   return (
     <Stack direction="row" alignItems="flex-start">
@@ -60,10 +60,10 @@ export default function Reference({
 
       <IconButton
         size="small"
-        href={`https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${localValue.replace(
+        href={`https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ localValue.replace(
           /\//g,
           "~2F"
-        )}`}
+        ) }`}
         target="_blank"
         rel="noopener"
         aria-label="Open in Firebase Console"

@@ -16,7 +16,7 @@ import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 
 export default function About() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
 
   return (
     <>
@@ -94,7 +94,7 @@ export default function About() {
 
           <Grid>
             <Link
-              href={`https://console.firebase.google.com/project/${projectId}`}
+              href={`https://console.firebase.google.com/project/${ projectId }`}
               target="_blank"
               rel="noopener noreferrer"
               variant="body2"

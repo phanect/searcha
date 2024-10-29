@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 type HotKeysAction = [
   string,
-  (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => void
+  (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => void,
 ];
 
 export default function useHotKeys(actions: HotKeysAction[]) {
@@ -10,13 +10,13 @@ export default function useHotKeys(actions: HotKeysAction[]) {
   const handler = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       const event_ = "nativeEvent" in event ? event.nativeEvent : event;
-      actions.forEach(([hotkey, handler_]) => {
+      actions.forEach(([ hotkey, handler_ ]) => {
         if (getHotkeyMatcher(hotkey)(event_)) {
           handler_(event_);
         }
       });
     },
-    [actions]
+    [ actions ]
   );
 
   return { handler } as const;
@@ -58,9 +58,9 @@ function isExactHotkey(hotkey: Hotkey, event: KeyboardEvent): boolean {
   }
 
   if (
-    key &&
-    (pressedKey.toLowerCase() === key.toLowerCase() ||
-      event.code.replace("Key", "").toLowerCase() === key.toLowerCase())
+    key
+    && (pressedKey.toLowerCase() === key.toLowerCase()
+      || event.code.replace("Key", "").toLowerCase() === key.toLowerCase())
   ) {
     return true;
   }
@@ -87,7 +87,7 @@ function parseHotkey(hotkey: string): Hotkey {
     shift: keys.includes("shift"),
   };
 
-  const reservedKeys = ["alt", "ctrl", "meta", "shift", "mod"];
+  const reservedKeys = [ "alt", "ctrl", "meta", "shift", "mod" ];
 
   const freeKey = keys.find((key) => !reservedKeys.includes(key));
 

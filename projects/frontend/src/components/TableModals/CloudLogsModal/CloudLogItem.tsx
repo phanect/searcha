@@ -12,14 +12,14 @@ import {
   AccordionDetails as MuiAccordionDetails,
   Stack,
   Chip as MuiChip,
-  ChipProps,
   Typography,
   Divider,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import CloudLogSeverityIcon from "./CloudLogSeverityIcon";
-
 import { DATE_FORMAT, TIME_FORMAT } from "@src/constants/dates";
+import CloudLogSeverityIcon from "./CloudLogSeverityIcon";
+import type {
+  ChipProps } from "@mui/material";
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   background: "none",
@@ -48,7 +48,7 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
     },
 
     "&::before": {
-      content: '""',
+      content: "\"\"",
       position: "absolute",
       zIndex: -1,
       top: 0,
@@ -57,7 +57,7 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
       left: 0,
       borderRadius: "inherit",
 
-      transition: theme.transitions.create(["background-color"], {
+      transition: theme.transitions.create([ "background-color" ], {
         duration: theme.transitions.duration.short,
       }),
       backgroundColor: theme.palette.action.hover,
@@ -113,11 +113,11 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   paddingRight: theme.spacing(18 / 8 + 2 + 1.5),
 }));
 
-export interface ICloudLogItemProps {
+export type ICloudLogItemProps = {
   // https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#FIELDS.insert_id
   data: Record<string, any>;
   chips?: string[];
-}
+};
 
 export default function CloudLogItem({
   data: dataProp,
@@ -126,8 +126,9 @@ export default function CloudLogItem({
   const theme = useTheme();
 
   const data = { ...dataProp };
-  if (dataProp.payload === "jsonPayload" && dataProp.jsonPayload)
+  if (dataProp.payload === "jsonPayload" && dataProp.jsonPayload) {
     data.jsonPayload = struct.decode(dataProp.jsonPayload ?? {});
+  }
 
   const timestamp = new Date(
     data.timestamp.seconds * 1000 + data.timestamp.nanos / 1_000_000
@@ -135,23 +136,25 @@ export default function CloudLogItem({
 
   const renderedChips = Array.isArray(chips)
     ? chips
-        .map((key) => {
-          const value = get(data, key);
-          if (!value) return null;
+      .map((key) => {
+        const value = get(data, key);
+        if (!value) {
+          return null;
+        }
 
-          return (
-            <Chip
-              key={key}
-              label={
-                typeof value === "string" || typeof value === "number"
-                  ? value
-                  : JSON.stringify(value)
-              }
-              aria-describedby={key}
-            />
-          );
-        })
-        .filter(Boolean)
+        return (
+          <Chip
+            key={key}
+            label={
+              typeof value === "string" || typeof value === "number"
+                ? value
+                : JSON.stringify(value)
+            }
+            aria-describedby={key}
+          />
+        );
+      })
+      .filter(Boolean)
     : [];
 
   return (
@@ -163,8 +166,8 @@ export default function CloudLogItem({
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls={`${data.insertId}-content`}
-        id={`${data.insertId}-header`}
+        aria-controls={`${ data.insertId }-content`}
+        id={`${ data.insertId }-header`}
       >
         <CloudLogSeverityIcon severity={data.severity} />
 
@@ -207,10 +210,10 @@ export default function CloudLogItem({
                   {data.jsonPayload.error}{" "}
                 </Typography>
               )}
-              {data.payload === "jsonPayload" &&
-                stringify(data.jsonPayload.body ?? data.jsonPayload, {
-                  space: 2,
-                })}
+              {data.payload === "jsonPayload"
+              && stringify(data.jsonPayload.body ?? data.jsonPayload, {
+                space: 2,
+              })}
             </>
           )}
         </Typography>

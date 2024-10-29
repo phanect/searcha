@@ -14,8 +14,6 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 import FilterIcon from "@mui/icons-material/FilterList";
 
-import ContextMenuItem, { IContextMenuItem } from "./ContextMenuItem";
-
 import {
   ProjectScopeContext,
   projectIdAtom,
@@ -37,53 +35,61 @@ import {
   tableIdAtom,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
-import { TableRow } from "@src/types/table";
 import { generateId } from "@src/utils/table";
+import ContextMenuItem from "./ContextMenuItem";
+import type { TableRow } from "@src/types/table";
+import type { IContextMenuItem } from "./ContextMenuItem";
 
-interface IMenuContentsProps {
+type IMenuContentsProps = {
   onClose: () => void;
-}
+};
 
 export default function MenuContents({ onClose }: IMenuContentsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [projectId] = useAtom(projectIdAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ projectId ] = useAtom(projectIdAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
-  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ selectedCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
   const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
   const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
-  const [updateRowDb] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
-  const [updateUserSettings] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
-  const [tableId] = useAtom(tableIdAtom, { store: tableScopeStore });
+  const [ updateRowDb ] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
+  const [ updateUserSettings ] = useAtom(updateUserSettingsAtom, { store: projectScopeStore });
+  const [ tableId ] = useAtom(tableIdAtom, { store: tableScopeStore });
 
   const addRowIdType = tableSchema.idType || "decrement";
 
-  if (!tableSchema.columns || !selectedCell) return null;
+  if (!tableSchema.columns || !selectedCell) {
+    return null;
+  }
 
   const selectedColumn = tableSchema.columns[selectedCell.columnKey];
   const row = find(
     tableRows,
     selectedCell?.arrayIndex === undefined
-      ? ["_rowy_ref.path", selectedCell.path]
+      ? [ "_rowy_ref.path", selectedCell.path ]
       : // if the table is an array table, we need to use the array index to find the row
-        ["_rowy_ref.arrayTableData.index", selectedCell.arrayIndex]
+      [ "_rowy_ref.arrayTableData.index", selectedCell.arrayIndex ]
   );
 
-  if (!row) return null;
+  if (!row) {
+    return null;
+  }
 
   const actionGroups: IContextMenuItem[][] = [];
 
   const handleDuplicate = () => {
     const _duplicate = async (): Promise<void> => {
       if (row._rowy_ref.arrayTableData !== undefined) {
-        if (!updateRowDb) return;
+        if (!updateRowDb) {
+          return;
+        }
 
         return updateRowDb("", {}, undefined, {
           index: row._rowy_ref.arrayTableData.index,
@@ -195,10 +201,10 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
       icon: <OpenIcon />,
       onClick: () => {
         window.open(
-          `https://console.firebase.google.com/project/${projectId}/firestore/data/~2F${row._rowy_ref.path.replace(
+          `https://console.firebase.google.com/project/${ projectId }/firestore/data/~2F${ row._rowy_ref.path.replace(
             /\//g,
             "~2F"
-          )}`
+          ) }`
         );
         onClose();
       },
@@ -208,8 +214,8 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
       label: "Duplicate",
       icon: <DuplicateIcon />,
       disabled:
-        tableSettings.tableType === "collectionGroup" ||
-        (!userRoles.includes("ADMIN") && tableSettings.readOnly),
+        tableSettings.tableType === "collectionGroup"
+        || (!userRoles.includes("ADMIN") && tableSettings.readOnly),
       onClick: handleDuplicate,
     },
     {
@@ -231,7 +237,9 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
     const fieldTypeActions = menuActions
       ? menuActions(selectedCell, onClose)
       : [];
-    if (fieldTypeActions.length > 0) actionGroups.push(fieldTypeActions);
+    if (fieldTypeActions.length > 0) {
+      actionGroups.push(fieldTypeActions);
+    }
 
     if (selectedColumn?.type === FieldType.derivative) {
       const renderedFieldMenuActions = getFieldProp(
@@ -285,7 +293,7 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
       ];
 
       if (updateUserSettings) {
-        updateUserSettings({ tables: { [`${tableId}`]: { filters } } });
+        updateUserSettings({ tables: { [`${ tableId }`]: { filters }}});
       }
       onClose();
     };
@@ -295,10 +303,10 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
         color: "error",
         icon: <ClearIcon />,
         disabled:
-          selectedColumn?.editable === false ||
-          !row ||
-          cellValue === undefined ||
-          getFieldProp("group", selectedColumn?.type) === "Auditing",
+          selectedColumn?.editable === false
+          || !row
+          || cellValue === undefined
+          || getFieldProp("group", selectedColumn?.type) === "Auditing",
         onClick: handleClearValue,
       },
       {
@@ -329,7 +337,7 @@ export default function MenuContents({ onClose }: IMenuContentsProps) {
           {groupIndex > 0 && <Divider variant="middle" />}
           {items.map((item, index: number) => (
             <ContextMenuItem
-              key={`contextMenu-${groupIndex}-${index}`}
+              key={`contextMenu-${ groupIndex }-${ index }`}
               {...item}
             />
           ))}

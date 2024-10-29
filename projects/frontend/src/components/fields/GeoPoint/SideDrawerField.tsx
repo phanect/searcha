@@ -1,8 +1,7 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Stack, TextField } from "@mui/material";
 import { getFieldId } from "@src/components/SideDrawer/utils";
 import { GeoPoint } from "firebase/firestore";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function GeoPointField({
   column,
@@ -18,8 +17,8 @@ export default function GeoPointField({
 
   const handleChange = (type: "latitude" | "longitude") => (e: any) => {
     const v = e.target.value;
-    const updatedValue =
-      type === "latitude"
+    const updatedValue
+      = type === "latitude"
         ? new GeoPoint(v ?? 0, longitude)
         : new GeoPoint(latitude, v ?? 0);
     onChange(updatedValue);
@@ -37,7 +36,7 @@ export default function GeoPointField({
           disabled={disabled}
           onBlur={onSubmit}
           fullWidth
-          InputProps={{ style: { fontVariantNumeric: "tabular-nums" } }}
+          InputProps={{ style: { fontVariantNumeric: "tabular-nums" }}}
           id={getFieldId(column.key)}
         />
         <TextField
@@ -49,7 +48,7 @@ export default function GeoPointField({
           disabled={disabled}
           onBlur={onSubmit}
           fullWidth
-          InputProps={{ style: { fontVariantNumeric: "tabular-nums" } }}
+          InputProps={{ style: { fontVariantNumeric: "tabular-nums" }}}
           id={getFieldId(column.key + "-long")}
         />
       </Stack>

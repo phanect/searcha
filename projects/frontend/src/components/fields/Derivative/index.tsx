@@ -1,9 +1,10 @@
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { Derivative as DerivativeIcon } from "@src/assets/icons";
 import Settings, { settingsValidator } from "./Settings";
 import ContextMenuActions from "./ContextMenuActions";
+import type { IFieldConfig } from "@src/components/fields/types";
 
 export const config: IFieldConfig = {
   type: FieldType.derivative,

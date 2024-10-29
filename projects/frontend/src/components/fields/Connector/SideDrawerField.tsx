@@ -1,11 +1,11 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { get } from "lodash-es";
 
 import { Grid2 as Grid, Chip } from "@mui/material";
 
+import { getFieldId } from "@src/components/SideDrawer/utils";
 import ConnectorSelect from "./Select";
 import { getLabel } from "./utils";
-import { getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Connector({
   column,
@@ -38,7 +38,7 @@ export default function Connector({
             fullWidth: true,
             onBlur: onSubmit,
             SelectProps: {
-              renderValue: () => `${value?.length ?? 0} selected`,
+              renderValue: () => `${ value?.length ?? 0 } selected`,
             },
             id: getFieldId(column.key),
           }}

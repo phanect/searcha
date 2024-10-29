@@ -9,10 +9,10 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "target": "ES2020",
-    "lib": ["ESNext"],
+    "lib": [ "ESNext" ],
     "strictNullChecks": false
   },
   "compileOnSave": true,
-  "include": ["src", "generateConfig.ts"],
-  "ignore": ["extensions"]
+  "include": [ "src", "generateConfig.ts" ],
+  "ignore": [ "extensions" ]
 }

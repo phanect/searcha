@@ -1,10 +1,11 @@
 import { lazy } from "react";
 import FormulaIcon from "@mui/icons-material/Functions";
-import { IFieldConfig, FieldType } from "@src/components/fields/types";
+import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 import DisplayCell from "./DisplayCell";
 
 import Settings, { settingsValidator } from "./Settings";
+import type { IFieldConfig } from "@src/components/fields/types";
 const SideDrawerField = lazy(
   () =>
     import(

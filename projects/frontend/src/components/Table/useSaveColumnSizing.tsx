@@ -11,18 +11,21 @@ import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import {
   TableScopeContext,
   updateColumnAtom,
-  IUpdateColumnOptions,
 } from "@src/atoms/tableScope";
 import {
   defaultTableSettingsAtom,
   ProjectScopeContext,
 } from "@src/atoms/projectScope";
 import { DEBOUNCE_DELAY } from "./Table";
-import { ColumnSizingState } from "@tanstack/react-table";
+import type { ColumnSizingState } from "@tanstack/react-table";
+import type {
+  IUpdateColumnOptions } from "@src/atoms/tableScope";
 
 /**
  * Debounces `columnSizing` and asks user if they want to save for all users,
  * if they have the `canEditColumns` permission
+ * @param columnSizing
+ * @param canEditColumns
  */
 export function useSaveColumnSizing(
   columnSizing: ColumnSizingState,
@@ -38,19 +41,21 @@ export function useSaveColumnSizing(
   );
 
   // Debounce for saving to schema
-  const [debouncedColumnSizing] = useDebounce<ColumnSizingState>(columnSizing, DEBOUNCE_DELAY, {
+  const [ debouncedColumnSizing ] = useDebounce<ColumnSizingState>(columnSizing, DEBOUNCE_DELAY, {
     equalityFn: isEqual,
   });
   // Offer to save when column sizing changes, depending on user settings
   useEffect(() => {
-    if (!canEditColumns || isEmpty(debouncedColumnSizing)) return undefined;
+    if (!canEditColumns || isEmpty(debouncedColumnSizing)) {
+      return undefined;
+    }
     // If the user has disabled the popup, return early
     if (defaultTableSettings?.saveColumnSizingPopupDisabled) {
       // If the user has `automaticallyApplyColumnSizing` set to true, apply the column width before returning
       if (defaultTableSettings?.automaticallyApplyColumnSizing) {
         const updateTable = async () => {
-          for (const [key, value] of Object.entries(debouncedColumnSizing)) {
-            await updateColumn({ key, config: { width: value } });
+          for (const [ key, value ] of Object.entries(debouncedColumnSizing)) {
+            await updateColumn({ key, config: { width: value }});
           }
         };
         updateTable();
@@ -81,28 +86,31 @@ export function useSaveColumnSizing(
   return null;
 }
 
-interface ISaveColumnSizingButtonProps {
+type ISaveColumnSizingButtonProps = {
   debouncedColumnSizing: ColumnSizingState;
   updateColumn: (update: IUpdateColumnOptions) => Promise<void>;
-}
+};
 
 /**
  * Make the button a component so it can have its own state,
  * so we can display the loading state without showing a new snackbar
+ * @param root0
+ * @param root0.debouncedColumnSizing
+ * @param root0.updateColumn
  */
 function SaveColumnSizingButton({
   debouncedColumnSizing,
   updateColumn,
 }: ISaveColumnSizingButtonProps) {
-  const [state, setState] = useState<"" | "loading" | "success">("");
+  const [ state, setState ] = useState<"" | "loading" | "success">("");
 
   const handleSaveToSchema = async () => {
     setState("loading");
     // Do this one by one for now to prevent race conditions.
     // Need to support updating multiple columns in updateColumnAtom
     // in the future.
-    for (const [key, value] of Object.entries(debouncedColumnSizing)) {
-      await updateColumn({ key, config: { width: value } });
+    for (const [ key, value ] of Object.entries(debouncedColumnSizing)) {
+      await updateColumn({ key, config: { width: value }});
     }
     setState("success");
   };

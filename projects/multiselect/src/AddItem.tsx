@@ -1,6 +1,6 @@
-import { forwardRef, useState, type ReactElement, type Ref } from 'react';
+import { forwardRef, useState, type ReactElement, type Ref } from "react";
 
-import { makeStyles } from 'tss-react/mui';
+import { makeStyles } from "tss-react/mui";
 import {
   useThemeProps,
   Button,
@@ -10,20 +10,18 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
+} from "@mui/material";
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import type { TransitionProps } from "@mui/material/transitions";
 
-import { AddItemProps } from './props';
+import type { AddItemProps } from "./props";
 
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children: ReactElement },
+const Transition = forwardRef((
+  props: TransitionProps & { children: ReactElement; },
   ref: Ref<unknown>
-) {
-  return <Grow ref={ref} {...props} />;
-});
+) => <Grow ref={ref} {...props} />);
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -35,7 +33,7 @@ const useStyles = makeStyles()((theme) => ({
     marginRight: theme.spacing(2),
   },
   iconSizeMedium: {
-    '& > *:first-child': { fontSize: 24 },
+    "& > *:first-child": { fontSize: 24 },
   },
 }));
 
@@ -49,34 +47,35 @@ export default function AddItem({
 }: AddItemProps): JSX.Element {
   const { classes } = useStyles();
 
-  const themeProps: any = useThemeProps({ props: {}, name: 'RowyMultiSelect' });
-  const addSingleIcon = AddButtonProps?.singleIcon ??
-    themeProps.AddButtonProps?.singleIcon ?? <AddCircleIcon />;
-  const addMultipleIcon = AddButtonProps?.multipleIcon ??
-    themeProps.AddButtonProps?.multipleIcon ?? <AddBoxIcon />;
+  const themeProps: any = useThemeProps({ props: {}, name: "RowyMultiSelect" });
+  const addSingleIcon = AddButtonProps?.singleIcon
+    ?? themeProps.AddButtonProps?.singleIcon ?? <AddCircleIcon />;
+  const addMultipleIcon = AddButtonProps?.multipleIcon
+    ?? themeProps.AddButtonProps?.multipleIcon ?? <AddBoxIcon />;
 
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   const handleClose = () => setOpen(false);
 
-  const [toAdd, setToAdd] = useState('');
+  const [ toAdd, setToAdd ] = useState("");
   const handleAdd = () => {
-    if (multiple)
+    if (multiple) {
       onChange(
         {} as any,
         [
           ...((Array.isArray(value) ? value : []) as any),
           { value: toAdd, label: toAdd },
         ] as any,
-        'createOption'
+        "createOption"
       );
-    else
+    } else {
       onChange(
         {} as any,
         { value: toAdd, label: toAdd } as any,
-        'createOption'
+        "createOption"
       );
+    }
 
-    setToAdd('');
+    setToAdd("");
     setTimeout(() => setOpen(false));
   };
 
@@ -90,10 +89,10 @@ export default function AddItem({
         onClick={() => setOpen(true)}
         disabled={disabled}
         {...(AddButtonProps as any)}
-        sx={{ '&:last-child': { mb: 1 }, ...AddButtonProps?.sx }}
+        sx={{ "&:last-child": { mb: 1 }, ...AddButtonProps?.sx }}
       >
-        {'\u200b'}
-        {AddButtonProps?.children || 'Add new…'}
+        {"\u200b"}
+        {AddButtonProps?.children || "Add new…"}
       </Button>
 
       <Dialog
@@ -105,27 +104,29 @@ export default function AddItem({
         maxWidth="xs"
       >
         <DialogTitle id="form-dialog-title">
-          {AddDialogProps?.title || 'Add item to list'}
+          {AddDialogProps?.title || "Add item to list"}
         </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
-            label={AddDialogProps?.textFieldLabel || 'New item'}
+            label={AddDialogProps?.textFieldLabel || "New item"}
             variant="filled"
             fullWidth
             value={toAdd}
             onChange={(e) => setToAdd(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') handleAdd();
+              if (e.key === "Enter") {
+                handleAdd();
+              }
             }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
-            {AddDialogProps?.cancelButtonLabel || 'Cancel'}
+            {AddDialogProps?.cancelButtonLabel || "Cancel"}
           </Button>
           <Button onClick={handleAdd} color="primary" variant="contained">
-            {AddDialogProps?.addButtonLabel || 'Add'}
+            {AddDialogProps?.addButtonLabel || "Add"}
           </Button>
         </DialogActions>
       </Dialog>

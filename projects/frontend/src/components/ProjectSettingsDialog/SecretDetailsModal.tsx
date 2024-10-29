@@ -4,7 +4,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { capitalize } from "lodash-es";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-export interface ISecretDetailsModalProps {
+export type ISecretDetailsModalProps = {
   open: boolean;
   loading?: boolean;
   mode?: "add" | "edit" | "delete";
@@ -14,7 +14,7 @@ export interface ISecretDetailsModalProps {
   handleAdd: (secretName: string, secretValue: string) => void;
   handleEdit: (secretName: string, secretValue: string) => void;
   handleDelete: (secretName: string) => void;
-}
+};
 
 export default function SecretDetailsModal({
   open,
@@ -27,8 +27,8 @@ export default function SecretDetailsModal({
   handleEdit,
   handleDelete,
 }: ISecretDetailsModalProps) {
-  const [newSecretName, setNewSecretName] = useState("");
-  const [secretValue, setSecretValue] = useState("");
+  const [ newSecretName, setNewSecretName ] = useState("");
+  const [ secretValue, setSecretValue ] = useState("");
 
   return (
     <Modal
@@ -36,7 +36,7 @@ export default function SecretDetailsModal({
       open={open}
       maxWidth="xs"
       fullWidth
-      title={`${capitalize(mode)} secret key`}
+      title={`${ capitalize(mode) } secret key`}
       sx={{
         ".MuiDialogContent-root": {
           display: "flex",
@@ -44,7 +44,7 @@ export default function SecretDetailsModal({
           height: "100%",
         },
       }}
-      children={
+      children={(
         <Box
           sx={{
             marginTop: 1,
@@ -67,9 +67,9 @@ export default function SecretDetailsModal({
                 onChange={(e) => setNewSecretName(e.target.value)}
               />
               <Typography
-                variant={"body2"}
-                color={"text.secondary"}
-                fontSize={"12px"}
+                variant="body2"
+                color="text.secondary"
+                fontSize="12px"
               >
                 This will create a secret key on Google Cloud.
               </Typography>
@@ -97,16 +97,16 @@ export default function SecretDetailsModal({
                 onChange={(e) => setSecretValue(e.target.value)}
               />
               <Typography
-                variant={"body2"}
-                color={"text.secondary"}
-                fontSize={"12px"}
+                variant="body2"
+                color="text.secondary"
+                fontSize="12px"
               >
                 Paste your secret key here.
               </Typography>
             </Box>
           )}
           {error?.length && (
-            <Typography color={"error"} marginTop={2}>
+            <Typography color="error" marginTop={2}>
               {error}
             </Typography>
           )}
@@ -127,11 +127,11 @@ export default function SecretDetailsModal({
             </Button>
             <LoadingButton
               variant="contained"
-              color={"primary"}
+              color="primary"
               loading={loading}
               disabled={
-                (mode === "add" && (!newSecretName || !secretValue)) ||
-                (mode === "edit" && !secretValue)
+                (mode === "add" && (!newSecretName || !secretValue))
+                || (mode === "edit" && !secretValue)
               }
               onClick={() => {
                 switch (mode) {
@@ -151,7 +151,7 @@ export default function SecretDetailsModal({
             </LoadingButton>
           </Box>
         </Box>
-      }
+      )}
     />
   );
 }

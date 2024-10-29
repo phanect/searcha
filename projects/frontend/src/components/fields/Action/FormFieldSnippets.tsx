@@ -16,10 +16,10 @@ const FORM_FIELD_SNIPPETS = [
       required: true,
       maxCharacters: 15,
       validation: [
-        ["min", 3, "Must be at least 3 characters"],
+        [ "min", 3, "Must be at least 3 characters" ],
         {
           0: "notOneOf",
-          1: ["admin", "administrator"],
+          1: [ "admin", "administrator" ],
           2: "Reserved username",
         },
       ],
@@ -32,7 +32,7 @@ const FORM_FIELD_SNIPPETS = [
       name: "team",
       label: "Team",
       required: true,
-      options: ["Blue", "Orange"],
+      options: [ "Blue", "Orange" ],
     },
   },
   {
@@ -42,7 +42,7 @@ const FORM_FIELD_SNIPPETS = [
       name: "roles",
       label: "Roles",
       required: true,
-      options: ["ADMIN", "EDITOR", "VIEWER"],
+      options: [ "ADMIN", "EDITOR", "VIEWER" ],
     },
   },
   {
@@ -69,7 +69,7 @@ const FORM_FIELD_SNIPPETS = [
 
 export default function FormFieldSnippets() {
   const { enqueueSnackbar } = useSnackbar();
-  const [snippetMenuAnchor, setSnippetMenuAnchor] = useState<any | null>(null);
+  const [ snippetMenuAnchor, setSnippetMenuAnchor ] = useState<any | null>(null);
 
   return (
     <>
@@ -80,7 +80,7 @@ export default function FormFieldSnippets() {
         id="snippet-button"
         aria-controls="snippet-menu"
         aria-haspopup="true"
-        aria-expanded={!!snippetMenuAnchor ? "true" : "false"}
+        aria-expanded={snippetMenuAnchor ? "true" : "false"}
       >
         Copy snippet
       </Button>
@@ -102,11 +102,12 @@ export default function FormFieldSnippets() {
               // to [ { 0: …, 1: …, … } ] since Firestore doesn't support
               // nested arrays
               const sanitized: any = snippet.value;
-              if (Array.isArray(snippet.value.validation))
+              if (Array.isArray(snippet.value.validation)) {
                 sanitized.validation = snippet.value.validation.reduce(
                   (a, c, i) => ({ ...a, [i]: c }),
                   {}
                 );
+              }
 
               navigator.clipboard.writeText(
                 JSON.stringify(sanitized, undefined, 2)

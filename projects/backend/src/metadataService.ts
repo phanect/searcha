@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { env } from "node:process";
 import axios from "axios";
-import { env } from "process";
+import type { Request, Response } from "express";
 
 const axiosInstance = axios.create({
   baseURL: "http://metadata.google.internal/",
@@ -9,9 +9,9 @@ const axiosInstance = axios.create({
 });
 
 export const metadataService = (req: Request, res: Response) => {
-  let path =
-    req.query.path ||
-    "computeMetadata/v1/instance/service-accounts/default/scopes";
+  const path
+    = req.query.path
+    || "computeMetadata/v1/instance/service-accounts/default/scopes";
   axiosInstance.get(path as string).then((response) => {
     res.send({ data: response.data });
   });
@@ -29,7 +29,7 @@ export const getNumericProjectId = async () =>
 export const generateServiceAccessToken = async (audience) =>
   (
     await axiosInstance.get(
-      `computeMetadata/v1/instance/service-accounts/default/identity?audience=${audience}`
+      `computeMetadata/v1/instance/service-accounts/default/identity?audience=${ audience }`
     )
   ).data;
-//https://www.googleapis.com/oauth2/v1/certs
+// https://www.googleapis.com/oauth2/v1/certs

@@ -1,14 +1,14 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Box, Stack, Typography, Avatar } from "@mui/material";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 
 import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function UpdatedBy({ column, value }: ISideDrawerFieldProps) {
-  if (!value || !value.displayName || !value.timestamp)
+  if (!value?.displayName || !value.timestamp) {
     return <Box sx={fieldSx} />;
+  }
 
   const dateLabel = format(
     value.timestamp.toDate ? value.timestamp.toDate() : value.timestamp,
@@ -16,7 +16,7 @@ export default function UpdatedBy({ column, value }: ISideDrawerFieldProps) {
   );
 
   return (
-    <Stack direction="row" sx={[fieldSx, { alignItems: "flex-start" }]}>
+    <Stack direction="row" sx={[ fieldSx, { alignItems: "flex-start" }]}>
       <Avatar
         alt="Avatar"
         src={value.photoURL}

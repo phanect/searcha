@@ -1,21 +1,20 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 import { number } from "yup";
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import Numeric10Box from "mdi-material-ui/Numeric10Box";
+import { FieldType } from "../../constants/fields";
 
-import Numeric10Box from 'mdi-material-ui/Numeric10Box';
-
-import Settings from './ScoreSettings';
+import Settings from "./ScoreSettings";
+import type { IFieldConfig } from "../../types";
 const Component = lazy(
-  () => import('./ScoreComponent')
+  () => import("./ScoreComponent")
 );
 
 export const ScoreConfig: IFieldConfig = {
   type: FieldType.score,
-  name: 'Score',
-  group: 'input',
+  name: "Score",
+  group: "input",
   icon: <Numeric10Box />,
-  dataType: 'number',
+  dataType: "number",
   defaultValue: undefined,
   component: Component,
   settings: Settings,

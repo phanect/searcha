@@ -1,11 +1,13 @@
 import { auth } from "../firebaseConfig";
 import { telemetry, telemetryError } from "../rowyService";
-import { Request } from "express";
+import type { Request } from "express";
 
 export const requireAuth = async (req: Request, res: any, next: any) => {
   try {
     const authHeader = req.get("Authorization");
-    if (!authHeader) return res.status(401).send("Unauthorized");
+    if (!authHeader) {
+      return res.status(401).send("Unauthorized");
+    }
     const authToken = authHeader.split(" ")[1];
     const decodedToken = await auth.verifyIdToken(authToken);
     res.locals.user = decodedToken;
@@ -17,8 +19,8 @@ export const requireAuth = async (req: Request, res: any, next: any) => {
   }
 };
 
-export const hasAnyRole =
-  (roles: string[]) => async (req: any, res: any, next: Function) => {
+export const hasAnyRole
+  = (roles: string[]) => async (req: any, res: any, next: Function) => {
     const user = res.locals.user;
     try {
       const userRoles: string[] = user.roles;

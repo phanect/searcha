@@ -1,16 +1,17 @@
 import { forwardRef } from "react";
-import { Tooltip, Button, ButtonProps } from "@mui/material";
+import { Tooltip, Button } from "@mui/material";
+import type { ButtonProps } from "@mui/material";
 
-export interface ITableToolbarButtonProps extends Partial<ButtonProps> {
+export type ITableToolbarButtonProps = {
   title: string;
   icon: React.ReactNode;
   tooltip?: string;
-}
+} & Partial<ButtonProps>;
 
-export const TableToolbarButton = forwardRef(function TableToolbarButton_(
+export const TableToolbarButton = forwardRef((
   { title, icon, tooltip, ...props }: ITableToolbarButtonProps,
   ref: React.Ref<HTMLButtonElement>
-) {
+) => {
   // https://mui.com/material-ui/react-tooltip/#accessibility
   const tooltipIsDescription = Boolean(tooltip);
 
@@ -23,9 +24,9 @@ export const TableToolbarButton = forwardRef(function TableToolbarButton_(
       {...props}
       {...(tooltipIsDescription
         ? {
-            "aria-label": title, // Actual button label
-            title: tooltip, // Tooltip text, used to describe button e.g. why it’s disabled
-          }
+          "aria-label": title, // Actual button label
+          title: tooltip, // Tooltip text, used to describe button e.g. why it’s disabled
+        }
         : {})}
       ref={ref}
     >

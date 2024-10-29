@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import {
   Menu,
-  MenuProps,
   MenuItem,
   ListItemSecondaryAction,
   Divider,
@@ -14,6 +13,8 @@ import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
 import { logEvent, analytics } from "@src/analytics";
 import meta from "@root/package.json";
+import type {
+  MenuProps } from "@mui/material";
 
 export default function HelpMenu({
   anchorEl,
@@ -21,8 +22,10 @@ export default function HelpMenu({
 }: Pick<MenuProps, "anchorEl" | "onClose">) {
   const open = Boolean(anchorEl);
   useEffect(() => {
-    if (open) logEvent(analytics, "open_help_menu");
-  }, [open]);
+    if (open) {
+      logEvent(analytics, "open_help_menu");
+    }
+  }, [ open ]);
 
   const externalLinkIcon = (
     <ListItemSecondaryAction
@@ -46,7 +49,7 @@ export default function HelpMenu({
       id="help-menu"
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       transformOrigin={{ vertical: "bottom", horizontal: "left" }}
-      sx={{ "& .MuiPaper-root": { mt: 1.5 } }}
+      sx={{ "& .MuiPaper-root": { mt: 1.5 }}}
       PaperProps={{ elevation: 12 }}
     >
       <MenuItem
@@ -86,7 +89,7 @@ export default function HelpMenu({
 
       <ListItem>
         <ListItemText
-          primary={`Rowy v${meta.version}`}
+          primary={`Rowy v${ meta.version }`}
           primaryTypographyProps={{ color: "text.disabled" }}
         />
       </ListItem>

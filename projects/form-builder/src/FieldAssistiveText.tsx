@@ -1,35 +1,38 @@
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
-import { FormHelperText, FormHelperTextProps } from '@mui/material';
+import { FormHelperText } from "@mui/material";
+import type { FormHelperTextProps } from "@mui/material";
 
-export interface IFieldAssistiveTextProps
-  extends Omit<FormHelperTextProps, 'error' | 'disabled'> {
+export type IFieldAssistiveTextProps = {
   disabled: boolean;
-}
+} & Omit<FormHelperTextProps, "error" | "disabled">;
 
 export default function FieldAssistiveText({
   children,
   ...props
 }: IFieldAssistiveTextProps) {
-  if (!children) return null;
+  if (!children) {
+    return null;
+  }
 
-  const sanitizedChildren =
-    typeof children === 'string' ? DOMPurify.sanitize(children) : null;
+  const sanitizedChildren
+    = typeof children === "string" ? DOMPurify.sanitize(children) : null;
 
-  if (sanitizedChildren)
+  if (sanitizedChildren) {
     return (
       <FormHelperText
         {...props}
-        style={{ whiteSpace: 'pre-line', ...props.style }}
+        style={{ whiteSpace: "pre-line", ...props.style }}
         error={false}
         dangerouslySetInnerHTML={{ __html: sanitizedChildren }}
       />
     );
+  }
 
   return (
     <FormHelperText
       {...props}
-      style={{ whiteSpace: 'pre-line', ...props.style }}
+      style={{ whiteSpace: "pre-line", ...props.style }}
       error={false}
       children={children}
     />

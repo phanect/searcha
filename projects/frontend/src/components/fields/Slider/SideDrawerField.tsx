@@ -1,7 +1,6 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Slider as MuiSlider, Stack, Typography } from "@mui/material";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Slider({
   column,
@@ -32,10 +31,10 @@ export default function Slider({
   };
 
   const getAriaValueText = (value: number) =>
-    `${value}${unit ? " " + unit : ""}`;
+    `${ value }${ unit ? " " + unit : "" }`;
 
   const getValueLabelFormat = (value: number) =>
-    `${value}${unit ? " " + unit : ""}`;
+    `${ value }${ unit ? " " + unit : "" }`;
 
   return (
     <Stack
@@ -46,7 +45,7 @@ export default function Slider({
       style={{ paddingTop: 0, paddingBottom: 0 }}
     >
       <Typography variant="button" component="span" color="textSecondary">
-        {minLabel ?? `${min}${unit ? " " + unit : ""}`}
+        {minLabel ?? `${ min }${ unit ? " " + unit : "" }`}
       </Typography>
 
       <MuiSlider
@@ -66,7 +65,7 @@ export default function Slider({
       />
 
       <Typography variant="button" component="span" color="textSecondary">
-        {maxLabel ?? `${max}${unit ? " " + unit : ""}`}
+        {maxLabel ?? `${ max }${ unit ? " " + unit : "" }`}
       </Typography>
     </Stack>
   );

@@ -2,7 +2,6 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { pick, zipObject } from "lodash-es";
 import { useAtom, useSetAtom } from "jotai";
 
-import { TableRow, TableRowRef, ColumnConfig } from "@src/types/table";
 import {
   tableColumnsOrderedAtom,
   TableScopeContext,
@@ -14,6 +13,7 @@ import {
   serializeRef,
   useDeepCompareMemoize,
 } from "./util";
+import type { TableRow, TableRowRef, ColumnConfig } from "@src/types/table";
 
 export const useFormula = ({
   column,
@@ -28,11 +28,11 @@ export const useFormula = ({
   listenerFields: string[];
   formulaFn: string;
 }) => {
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [ result, setResult ] = useState(null);
+  const [ error, setError ] = useState<any>(null);
+  const [ loading, setLoading ] = useState<boolean>(false);
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
 
   const availableColumns = tableColumnsOrdered
     .filter((c) => listenerFieldTypes.includes(c.type))
@@ -46,12 +46,12 @@ export const useFormula = ({
       ),
       ...pick(row, availableColumns),
     }),
-    [row, availableColumns]
+    [ row, availableColumns ]
   );
 
   const listeners = useMemo(
     () => pick(availableFields, listenerFields),
-    [availableFields, listenerFields]
+    [ availableFields, listenerFields ]
   );
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const useFormula = ({
     const worker = new Worker(new URL("./worker.ts", import.meta.url), {
       type: "module",
     });
-    worker.onmessage = ({ data: { result, error } }: any) => {
+    worker.onmessage = ({ data: { result, error }}: any) => {
       worker.terminate();
       if (error) {
         setError(error);
@@ -83,17 +83,17 @@ export const useFormula = ({
       worker.terminate();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [useDeepCompareMemoize(listeners), formulaFn]);
+  }, [ useDeepCompareMemoize(listeners), formulaFn ]);
 
   const updateField = useSetAtom(updateFieldAtom, { store: tableScopeStore });
 
   useEffect(() => {
     updateField({
       path: row._rowy_ref.path,
-      fieldName: `_rowy_formulaValue_${column.key}`,
+      fieldName: `_rowy_formulaValue_${ column.key }`,
       value: result,
     });
-  }, [result, column.key, row._rowy_ref.path, updateField]);
+  }, [ result, column.key, row._rowy_ref.path, updateField ]);
 
   return { result, error, loading };
 };

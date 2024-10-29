@@ -1,11 +1,10 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { FormControlLabel, Switch } from "@mui/material";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Checkbox({ column, value }: IDisplayCellProps) {
   return (
     <FormControlLabel
-      control={
+      control={(
         <Switch
           checked={!!value}
           color="success"
@@ -16,7 +15,7 @@ export default function Checkbox({ column, value }: IDisplayCellProps) {
             "& .MuiSwitch-thumb:active": { transform: "none" },
           }}
         />
-      }
+      )}
       label={column.name as string}
       labelPlacement="start"
       sx={{

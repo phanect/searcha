@@ -12,7 +12,7 @@ export const useStyles = makeStyles()((theme) => {
 
     paper: { overflow: "hidden", maxHeight: "calc(100% - 48px)" },
     menuChild: {
-      padding: `0 ${theme.spacing(2)}`,
+      padding: `0 ${ theme.spacing(2) }`,
       minWidth: 340,
       // Need to set fixed height here so popup is positioned correctly
       height: 340,
@@ -25,13 +25,13 @@ export const useStyles = makeStyles()((theme) => {
     searchRow: { marginTop: theme.spacing(2) },
 
     listRow: {
-      background: `${theme.palette.background.paper} no-repeat`,
+      background: `${ theme.palette.background.paper } no-repeat`,
       position: "relative",
       margin: theme.spacing(0, -2),
-      maxWidth: `calc(100% + ${theme.spacing(4)})`,
+      maxWidth: `calc(100% + ${ theme.spacing(4) })`,
 
       "&::before, &::after": {
-        content: '""',
+        content: "\"\"",
         position: "absolute",
         top: 0,
         left: 0,
@@ -41,18 +41,18 @@ export const useStyles = makeStyles()((theme) => {
         display: "block",
         height: 16,
 
-        background: `linear-gradient(to bottom, ${theme.palette.background.paper}, rgba(255, 255, 255, 0))`,
+        background: `linear-gradient(to bottom, ${ theme.palette.background.paper }, rgba(255, 255, 255, 0))`,
       },
 
       "&::after": {
         top: "auto",
         bottom: 0,
-        background: `linear-gradient(to top, ${theme.palette.background.paper}, rgba(255, 255, 255, 0))`,
+        background: `linear-gradient(to top, ${ theme.palette.background.paper }, rgba(255, 255, 255, 0))`,
       },
     },
     list: {
       padding: theme.spacing(2, 0),
-      overflowY: "auto" as "auto",
+      overflowY: "auto" as const,
       // height: `calc(340px - ${-maxHeightDeductions}px)`,
       height: 340 + maxHeightDeductions,
     },
@@ -74,7 +74,7 @@ export const useStyles = makeStyles()((theme) => {
       "& > div": { height: 48 },
     },
     selectAllButton: { marginRight: -theme.spacing(1) },
-    selectedNum: { fontFeatureSettings: '"tnum"' },
+    selectedNum: { fontFeatureSettings: "\"tnum\"" },
   };
 });
 

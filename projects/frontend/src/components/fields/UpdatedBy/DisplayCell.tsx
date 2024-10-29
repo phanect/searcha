@@ -1,12 +1,13 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { Tooltip, Stack, Avatar } from "@mui/material";
 
 import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function UpdatedBy({ column, value }: IDisplayCellProps) {
-  if (!value || !value.displayName || !value.timestamp) return null;
+  if (!value?.displayName || !value.timestamp) {
+    return null;
+  }
   const dateLabel = format(
     value.timestamp.toDate ? value.timestamp.toDate() : value.timestamp,
     column.config?.format || DATE_TIME_FORMAT
@@ -14,7 +15,7 @@ export default function UpdatedBy({ column, value }: IDisplayCellProps) {
 
   return (
     <Tooltip
-      title={
+      title={(
         <>
           Updated
           {value.updatedField && (
@@ -26,7 +27,7 @@ export default function UpdatedBy({ column, value }: IDisplayCellProps) {
           <br />
           at {dateLabel}
         </>
-      }
+      )}
     >
       <Stack spacing={0.75} direction="row" alignItems="center">
         <Avatar

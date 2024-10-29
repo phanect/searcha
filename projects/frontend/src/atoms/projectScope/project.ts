@@ -2,19 +2,19 @@ import { atom } from "jotai";
 import { sortBy } from "lodash-es";
 
 import { userRolesAtom } from "./auth";
-import {
+import type {
   PublicSettings,
   ProjectSettings,
   UserSettings,
 } from "@src/types/settings";
-import {
+import type {
   UpdateDocFunction,
   UpdateCollectionDocFunction,
   TableSettings,
   TableSchema,
 } from "@src/types/table";
-import { FieldType } from "@src/constants/fields";
-import { FunctionSettings } from "@src/types/function";
+import type { FieldType } from "@src/constants/fields";
+import type { FunctionSettings } from "@src/types/function";
 
 export const projectIdAtom = atom<string>("");
 
@@ -29,7 +29,6 @@ export const updatePublicSettingsAtom = atom<
 export const projectSettingsAtom = atom<ProjectSettings>({});
 /**
  * Stores a function that updates project settings
- *
  * @example Basic usage:
  * ```
  * const [updateProjectSettings] = useAtom(updateProjectSettingsAtom, { store: projectScopeStore });
@@ -74,9 +73,9 @@ export type AdditionalTableSettings = Partial<{
 /** Stores a function to create a table with schema doc */
 export const createTableAtom = atom<
   | ((
-      settings: TableSettings,
-      additionalSettings?: AdditionalTableSettings
-    ) => Promise<void>)
+    settings: TableSettings,
+    additionalSettings?: AdditionalTableSettings
+  ) => Promise<void>)
   | undefined
 >(undefined);
 
@@ -92,9 +91,9 @@ export type MinimumTableSettings = {
 /** Stores a function to update a table and its schema doc */
 export const updateTableAtom = atom<
   | ((
-      settings: MinimumTableSettings,
-      additionalSettings?: AdditionalTableSettings
-    ) => Promise<void>)
+    settings: MinimumTableSettings,
+    additionalSettings?: AdditionalTableSettings
+  ) => Promise<void>)
   | undefined
 >(undefined);
 
@@ -113,8 +112,8 @@ export const projectRolesAtom = atom((get) =>
   Array.from(
     new Set(
       get(tablesAtom).reduce(
-        (a, c) => [...a, ...c.roles],
-        ["ADMIN", "EDITOR", "VIEWER"]
+        (a, c) => [ ...a, ...c.roles ],
+        [ "ADMIN", "EDITOR", "VIEWER" ]
       )
     )
   )
@@ -134,10 +133,10 @@ export const updateFunctionAtom = atom<
   UpdateCollectionDocFunction<FunctionSettings> | undefined
 >(undefined);
 
-export interface ISecretNames {
+export type ISecretNames = {
   loading: boolean;
   secretNames: null | string[];
-}
+};
 
 export const secretNamesAtom = atom<ISecretNames>({
   loading: true,

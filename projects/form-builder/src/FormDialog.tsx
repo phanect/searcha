@@ -1,42 +1,44 @@
-import { useState, type BaseSyntheticEvent, type ReactNode } from 'react';
-import { useForm, UseFormProps } from 'react-hook-form';
-import type { FieldValues, Control, UseFormReturn } from 'react-hook-form';
-import _isEmpty from 'lodash-es/isEmpty';
-import _isFunction from 'lodash-es/isFunction';
+import { useState, type BaseSyntheticEvent, type ReactNode } from "react";
+import { useForm } from "react-hook-form";
+import _isEmpty from "lodash-es/isEmpty";
+import _isFunction from "lodash-es/isFunction";
 
 import {
   useTheme,
   useMediaQuery,
   Dialog,
-  DialogProps as MuiDialogProps,
   Stack,
   DialogTitle,
   IconButton,
   DialogContent,
   DialogActions,
   Button,
-  ButtonProps,
-} from '@mui/material';
-import Portal from '@mui/material/Portal';
-import CloseIcon from '@mui/icons-material/Close';
+} from "@mui/material";
+import Portal from "@mui/material/Portal";
+import CloseIcon from "@mui/icons-material/Close";
 
-import useFormSettings from './useFormSettings';
-import FormFields from './FormFields';
-import { Fields, CustomComponents } from './types';
-import SubmitError, { ISubmitErrorProps } from './SubmitError';
-import ScrollableDialogContent from './ScrollableDialogContent';
+import useFormSettings from "./useFormSettings";
+import FormFields from "./FormFields";
+import SubmitError from "./SubmitError";
+import ScrollableDialogContent from "./ScrollableDialogContent";
+import type { Fields, CustomComponents } from "./types";
+import type { ISubmitErrorProps } from "./SubmitError";
+import type {
+  DialogProps as MuiDialogProps,
+  ButtonProps } from "@mui/material";
+import type { FieldValues, Control, UseFormReturn, UseFormProps } from "react-hook-form";
 
-export interface IFormDialogProps {
+export type IFormDialogProps = {
   fields: Fields;
   values?: FieldValues;
   onSubmit: (
-      values: FieldValues,
-      event?: BaseSyntheticEvent<object, any, any>
-    ) => void;
+    values: FieldValues,
+    event?: BaseSyntheticEvent<object, any, any>
+  ) => void;
   customComponents?: CustomComponents;
   UseFormProps?: UseFormProps;
 
-  onClose?: (reason: 'submit' | 'cancel') => void;
+  onClose?: (reason: "submit" | "cancel") => void;
   title: ReactNode;
   formHeader?: ReactNode;
   formFooter?: ReactNode;
@@ -44,7 +46,7 @@ export interface IFormDialogProps {
   customBody?: (props: {
     control: Control<FieldValues>;
     useFormMethods: UseFormReturn<FieldValues>;
-    setOmittedFields: ReturnType<typeof useFormSettings>['setOmittedFields'];
+    setOmittedFields: ReturnType<typeof useFormSettings>["setOmittedFields"];
   }) => ReactNode;
   customActions?: ReactNode;
   SubmitButtonProps?: Partial<ButtonProps>;
@@ -59,7 +61,7 @@ export interface IFormDialogProps {
     confirmButtonProps: Partial<ButtonProps>;
     cancelButtonProps: Partial<ButtonProps>;
   }>;
-}
+};
 
 export default function FormDialog({
   fields,
@@ -84,7 +86,7 @@ export default function FormDialog({
   CloseConfirmProps = {},
 }: IFormDialogProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { defaultValues, resolver, setOmittedFields } = useFormSettings({
     fields,
@@ -93,7 +95,7 @@ export default function FormDialog({
   });
 
   const methods = useForm({
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues,
     resolver,
     shouldUnregister: true,
@@ -108,14 +110,14 @@ export default function FormDialog({
 
   const hasErrors = errors
     ? (Object.values(errors).reduce(
-        (a, c) => !!(a || !_isEmpty(c)),
-        false
-      ) as boolean)
+      (a, c) => !!(a || !_isEmpty(c)),
+      false
+    ) as boolean)
     : false;
 
-  const [open, setOpen] = useState(true);
-  const [closeConfirmation, setCloseConfirmation] = useState(false);
-  const handleClose = (reason: 'submit' | 'cancel') => {
+  const [ open, setOpen ] = useState(true);
+  const [ closeConfirmation, setCloseConfirmation ] = useState(false);
+  const handleClose = (reason: "submit" | "cancel") => {
     setCloseConfirmation(false);
     setOpen(false);
     setTimeout(() => {
@@ -126,8 +128,11 @@ export default function FormDialog({
     }, 300);
   };
   const confirmClose = () => {
-    if (isDirty) setCloseConfirmation(true);
-    else handleClose('cancel');
+    if (isDirty) {
+      setCloseConfirmation(true);
+    } else {
+      handleClose("cancel");
+    }
   };
 
   return (
@@ -135,7 +140,7 @@ export default function FormDialog({
       <form
         onSubmit={handleSubmit((values, event) => {
           onSubmit(values, event);
-          handleClose('submit');
+          handleClose("submit");
         })}
       >
         <Dialog
@@ -152,7 +157,7 @@ export default function FormDialog({
           <Stack direction="row" alignItems="flex-start">
             <DialogTitle
               id="form-dialog-title"
-              style={{ flexGrow: 1, userSelect: 'none' }}
+              style={{ flexGrow: 1, userSelect: "none" }}
             >
               {title}
             </DialogTitle>
@@ -190,14 +195,14 @@ export default function FormDialog({
             {formFooter}
           </ScrollableDialogContent>
 
-          <DialogActions style={{ flexWrap: 'wrap' }}>
+          <DialogActions style={{ flexWrap: "wrap" }}>
             {customActions ?? (
               <>
                 {!hideCancelButton && (
                   <Button
                     onClick={confirmClose}
                     {...(CancelButtonProps ?? {})}
-                    children={CancelButtonProps?.children || 'Cancel'}
+                    children={CancelButtonProps?.children || "Cancel"}
                   />
                 )}
 
@@ -206,7 +211,7 @@ export default function FormDialog({
                   variant="contained"
                   type="submit"
                   {...(SubmitButtonProps ?? {})}
-                  children={SubmitButtonProps?.children || 'Submit'}
+                  children={SubmitButtonProps?.children || "Submit"}
                 />
               </>
             )}
@@ -229,7 +234,7 @@ export default function FormDialog({
           </DialogTitle>
 
           <DialogContent id="alert-dialog-description">
-            {CloseConfirmProps.body || 'Discard changes?'}
+            {CloseConfirmProps.body || "Discard changes?"}
           </DialogContent>
 
           <DialogActions>
@@ -237,18 +242,18 @@ export default function FormDialog({
               onClick={() => setCloseConfirmation(false)}
               {...(CloseConfirmProps.cancelButtonProps ?? {})}
               children={
-                CloseConfirmProps.cancelButtonProps?.children || 'Cancel'
+                CloseConfirmProps.cancelButtonProps?.children || "Cancel"
               }
             />
 
             <Button
-              onClick={() => handleClose('cancel')}
+              onClick={() => handleClose("cancel")}
               color="primary"
               variant="contained"
               autoFocus
               {...(CloseConfirmProps.confirmButtonProps ?? {})}
               children={
-                CloseConfirmProps.confirmButtonProps?.children || 'Discard'
+                CloseConfirmProps.confirmButtonProps?.children || "Discard"
               }
             />
           </DialogActions>

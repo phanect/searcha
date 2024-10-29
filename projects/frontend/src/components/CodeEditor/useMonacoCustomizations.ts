@@ -7,21 +7,21 @@ import {
   tableColumnsOrderedAtom,
 } from "@src/atoms/tableScope";
 import { useMonaco } from "@monaco-editor/react";
-import type { languages } from "monaco-editor/esm/vs/editor/editor.api";
 
 import { useTheme } from "@mui/material";
-import type { SystemStyleObject, Theme } from "@mui/system";
 
+import { ProjectScopeContext, secretNamesAtom } from "@src/atoms/projectScope";
+import { getFieldProp } from "@src/components/fields";
 import firestoreDefs from "./firestore.d.ts?raw";
 import firebaseAuthDefs from "./firebaseAuth.d.ts?raw";
 import firebaseStorageDefs from "./firebaseStorage.d.ts?raw";
 import utilsDefs from "./utils.d.ts?raw";
 import rowyUtilsDefs from "./rowy.d.ts?raw";
 import extensionsDefs from "./extensions.d.ts?raw";
-import { ProjectScopeContext, secretNamesAtom } from "@src/atoms/projectScope";
-import { getFieldProp } from "@src/components/fields";
+import type { SystemStyleObject, Theme } from "@mui/system";
+import type { languages } from "monaco-editor/esm/vs/editor/editor.api";
 
-export interface IUseMonacoCustomizationsProps {
+export type IUseMonacoCustomizationsProps = {
   minHeight?: number;
   disabled?: boolean;
   error?: boolean;
@@ -32,7 +32,7 @@ export interface IUseMonacoCustomizationsProps {
 
   // Internal only
   fullScreen?: boolean;
-}
+};
 
 export default function useMonacoCustomizations({
   minHeight,
@@ -52,17 +52,17 @@ export default function useMonacoCustomizations({
   const monaco = useMonaco();
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
-  const [secretNames] = useAtom(secretNamesAtom, { store: projectScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ secretNames ] = useAtom(secretNamesAtom, { store: projectScopeStore });
 
-  useEffect(() => {
-    return () => {
-      onUnmount?.();
-    };
+  useEffect(() => () => {
+    onUnmount?.();
   }, []);
 
   useEffect(() => {
-    if (!monaco) return;
+    if (!monaco) {
+      return;
+    }
 
     try {
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
@@ -71,7 +71,7 @@ export default function useMonacoCustomizations({
         module: monaco.languages.typescript.ModuleKind.CommonJS,
         target: monaco.languages.typescript.ScriptTarget.ES2020,
         allowNonTsExtensions: true,
-        typeRoots: ["node_modules/@types"],
+        typeRoots: [ "node_modules/@types" ],
       });
       monaco.languages.typescript.typescriptDefaults.addExtraLib(firestoreDefs);
       monaco.languages.typescript.typescriptDefaults.addExtraLib(
@@ -91,12 +91,16 @@ export default function useMonacoCustomizations({
         error
       );
     }
-  }, [monaco]);
+  }, [ monaco ]);
 
   // Initialize extraLibs from props
   useEffect(() => {
-    if (!monaco) return;
-    if (!extraLibs) return;
+    if (!monaco) {
+      return;
+    }
+    if (!extraLibs) {
+      return;
+    }
     try {
       monaco.languages.typescript.typescriptDefaults.addExtraLib(
         extraLibs.join("\n"),
@@ -105,12 +109,14 @@ export default function useMonacoCustomizations({
     } catch (error) {
       console.error("Could not add extraLibs from props: ", error);
     }
-  }, [monaco, extraLibs]);
+  }, [ monaco, extraLibs ]);
 
   // Set diagnostics options
   const stringifiedDiagnosticsOptions = JSON.stringify(diagnosticsOptions);
   useEffect(() => {
-    if (!monaco) return;
+    if (!monaco) {
+      return;
+    }
 
     try {
       monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
@@ -123,25 +129,25 @@ export default function useMonacoCustomizations({
     } catch (error) {
       console.error("Could not set diagnostics options: ", error);
     }
-  }, [monaco, stringifiedDiagnosticsOptions]);
+  }, [ monaco, stringifiedDiagnosticsOptions ]);
 
   const setReplacementActions = () => {
-    if (!monaco) return;
+    if (!monaco) {
+      return;
+    }
     const { dispose } = monaco.languages.registerCodeActionProvider(
       "javascript",
       {
         provideCodeActions: (model, _, context, __) => {
           const consoleLogReplacements: languages.CodeAction[] = context.markers
-            .filter((error) => {
-              return error.message.includes("Rowy Cloud Logging");
-            })
+            .filter((error) => error.message.includes("Rowy Cloud Logging"))
             .map((error) => {
               // first sentence of the message is "Replace with logging.[log/warn/error]"
               const firstSentence = error.message.split(":")[0];
               const replacement = firstSentence.split("with ")[1];
               return {
                 title: firstSentence,
-                diagnostics: [error],
+                diagnostics: [ error ],
                 kind: "quickfix",
                 edit: {
                   edits: [
@@ -159,26 +165,24 @@ export default function useMonacoCustomizations({
               } satisfies languages.CodeAction;
             });
           const secretNameReplacements: languages.CodeAction[] = context.markers
-            .filter((error) => {
-              return error.message.includes(
-                "is not assignable to parameter of type 'SecretNames'"
-              );
-            })
+            .filter((error) => error.message.includes(
+              "is not assignable to parameter of type 'SecretNames'"
+            ))
             .map((error) => {
               const typoSecretName = model
                 .getLineContent(error.startLineNumber)
                 .slice(error.startColumn, error.endColumn - 2);
-              const similarSecretNames =
-                matchSorter(secretNames.secretNames ?? [], typoSecretName) ??
-                [];
-              const otherSecretNames =
-                secretNames.secretNames?.filter(
+              const similarSecretNames
+                = matchSorter(secretNames.secretNames ?? [], typoSecretName)
+                ?? [];
+              const otherSecretNames
+                = secretNames.secretNames?.filter(
                   (secretName) => !similarSecretNames.includes(secretName)
                 ) ?? [];
               return [
                 ...similarSecretNames.map((secretName) => ({
-                  title: `Replace with "${secretName}"`,
-                  diagnostics: [error],
+                  title: `Replace with "${ secretName }"`,
+                  diagnostics: [ error ],
                   kind: "quickfix",
                   edit: {
                     edits: [
@@ -186,7 +190,7 @@ export default function useMonacoCustomizations({
                         resource: model.uri,
                         textEdit: {
                           range: error,
-                          text: `"${secretName}"`,
+                          text: `"${ secretName }"`,
                         },
                         versionId: 0, // FIXME set appropriate versionId
                       },
@@ -195,8 +199,8 @@ export default function useMonacoCustomizations({
                   isPreferred: true,
                 } satisfies languages.CodeAction)),
                 ...otherSecretNames.map((secretName) => ({
-                  title: `Replace with "${secretName}"`,
-                  diagnostics: [error],
+                  title: `Replace with "${ secretName }"`,
+                  diagnostics: [ error ],
                   kind: "quickfix",
                   edit: {
                     edits: [
@@ -204,7 +208,7 @@ export default function useMonacoCustomizations({
                         resource: model.uri,
                         textEdit: {
                           range: error,
-                          text: `"${secretName}"`,
+                          text: `"${ secretName }"`,
                         },
                         versionId: 0, // FIXME set appropriate versionId
                       },
@@ -216,7 +220,7 @@ export default function useMonacoCustomizations({
             })
             .flat();
           return {
-            actions: [...consoleLogReplacements, ...secretNameReplacements],
+            actions: [ ...consoleLogReplacements, ...secretNameReplacements ],
             dispose: () => {},
           };
         },
@@ -233,7 +237,7 @@ export default function useMonacoCustomizations({
     interfaceName: string
   ) => {
     monaco?.languages.typescript.typescriptDefaults.addExtraLib(
-      `type ${interfaceName} = any;`
+      `type ${ interfaceName } = any;`
     );
     // if (!samples || samples.length === 0) {
     //   monaco?.languages.typescript.typescriptDefaults.addExtraLib(
@@ -255,30 +259,30 @@ export default function useMonacoCustomizations({
     //   });
     //   const newLib = result.lines.join("\n").replaceAll("export ", "");
     //  monaco?.languages.typescript.typescriptDefaults.addExtraLib(newLib);
-    //}
+    // }
   };
 
-  //TODO: types
+  // TODO: types
   const setBaseDefinitions = () => {
-    const rowDefinition =
-      tableColumnsOrdered
+    const rowDefinition
+      = tableColumnsOrdered
         .map((column) => {
           const { type, key } = column;
           if (type === "JSON") {
             const interfaceName = key[0].toUpperCase() + key.slice(1);
             addJsonFieldDefinition(key, interfaceName);
-            const def = `static "${key}": ${interfaceName}`;
+            const def = `static "${ key }": ${ interfaceName }`;
             return def;
           }
-          return `static "${key}": ${getFieldProp("dataType", type)}`;
+          return `static "${ key }": ${ getFieldProp("dataType", type) }`;
         })
         .join(";\n") + ";";
     const availableFields = tableColumnsOrdered
-      .map((key) => `"${key}"`)
+      .map((key) => `"${ key }"`)
       .join("|\n");
 
     monaco?.languages.typescript.typescriptDefaults.addExtraLib(
-      ["/**", " * extensions type configuration", " */", extensionsDefs].join(
+      [ "/**", " * extensions type configuration", " */", extensionsDefs ].join(
         "\n"
       ),
       "ts:filename/extensions.d.ts"
@@ -292,40 +296,48 @@ export default function useMonacoCustomizations({
         "const storage: firebasestorage.Storage;",
         "const db: FirebaseFirestore.Firestore;",
         "const auth: firebaseauth.BaseAuth;",
-        `type Row = {${rowDefinition}};`,
-        `type Field = ${availableFields} | string | object;`,
-        `type Fields = Field[];`,
+        `type Row = {${ rowDefinition }};`,
+        `type Field = ${ availableFields } | string | object;`,
+        "type Fields = Field[];",
       ].join("\n"),
       "ts:filename/rowFields.d.ts"
     );
   };
-  //TODO: Set row definitions
+  // TODO: Set row definitions
   useEffect(() => {
-    if (!monaco) return;
+    if (!monaco) {
+      return;
+    }
     try {
       setBaseDefinitions();
     } catch (error) {
       console.error("Could not set basic", error);
     }
-  }, [monaco, tableColumnsOrdered]);
+  }, [ monaco, tableColumnsOrdered ]);
 
   useEffect(() => {
-    if (!monaco) return;
-    if (secretNames.loading) return;
-    if (!secretNames.secretNames) return;
-    const secretsDef = `type SecretNames = ${secretNames.secretNames
-      .map((secret: string) => `"${secret}"`)
-      .join(" | ")} \n
+    if (!monaco) {
+      return;
+    }
+    if (secretNames.loading) {
+      return;
+    }
+    if (!secretNames.secretNames) {
+      return;
+    }
+    const secretsDef = `type SecretNames = ${ secretNames.secretNames
+      .map((secret: string) => `"${ secret }"`)
+      .join(" | ") } \n
         enum secrets {
-          ${secretNames.secretNames
-            .map((secret: string) => `"${secret}" = "${secret}"`)
-            .join("\n")}
+          ${ secretNames.secretNames
+            .map((secret: string) => `"${ secret }" = "${ secret }"`)
+            .join("\n") }
         }
        `;
     monaco?.languages.typescript.javascriptDefaults.addExtraLib(secretsDef);
 
     setReplacementActions();
-  }, [monaco, secretNames]);
+  }, [ monaco, secretNames ]);
 
   let boxSx: SystemStyleObject<Theme> = {
     minWidth: 400,
@@ -338,7 +350,7 @@ export default function useMonacoCustomizations({
     backgroundColor: disabled ? "transparent" : theme.palette.action.input,
 
     "&::after": {
-      content: '""',
+      content: "\"\"",
       position: "absolute",
       top: 0,
       left: 0,
@@ -347,29 +359,29 @@ export default function useMonacoCustomizations({
       pointerEvents: "none",
       borderRadius: "inherit",
 
-      boxShadow: `0 -1px 0 0 ${theme.palette.text.disabled} inset,
-                  0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+      boxShadow: `0 -1px 0 0 ${ theme.palette.text.disabled } inset,
+                  0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
       transition: theme.transitions.create("box-shadow", {
         duration: theme.transitions.duration.short,
       }),
     },
 
     "&:hover::after": {
-      boxShadow: `0 -1px 0 0 ${theme.palette.text.primary} inset,
-                  0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+      boxShadow: `0 -1px 0 0 ${ theme.palette.text.primary } inset,
+                  0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
     },
     "&:focus-within::after": {
-      boxShadow: `0 -2px 0 0 ${theme.palette.primary.main} inset,
-                  0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+      boxShadow: `0 -2px 0 0 ${ theme.palette.primary.main } inset,
+                  0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
     },
 
     ...(error
       ? {
-          "&::after, &:hover::after, &:focus-within::after": {
-            boxShadow: `0 -2px 0 0 ${theme.palette.error.main} inset,
-                        0 0 0 1px ${theme.palette.action.inputOutline} inset`,
-          },
-        }
+        "&::after, &:hover::after, &:focus-within::after": {
+          boxShadow: `0 -2px 0 0 ${ theme.palette.error.main } inset,
+                        0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
+        },
+      }
       : {}),
 
     "& .editor": {
@@ -384,7 +396,7 @@ export default function useMonacoCustomizations({
     },
   };
 
-  if (fullScreen)
+  if (fullScreen) {
     boxSx = {
       ...boxSx,
       position: "fixed",
@@ -400,6 +412,7 @@ export default function useMonacoCustomizations({
       borderRadius: 0,
       "&::after": { display: "none" },
     };
+  }
 
   return { boxSx };
 }

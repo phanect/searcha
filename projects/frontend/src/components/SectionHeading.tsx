@@ -2,19 +2,20 @@ import { forwardRef } from "react";
 import { camelCase } from "lodash-es";
 import { HashLink } from "react-router-hash-link";
 
-import { Stack, StackProps, Typography, IconButton } from "@mui/material";
+import { Stack, Typography, IconButton } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
 
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import type { StackProps } from "@mui/material";
 
-export interface ISectionHeadingProps extends StackProps {
+export type ISectionHeadingProps = {
   children: string;
-}
+} & StackProps;
 
-export const SectionHeading = forwardRef<typeof Stack, ISectionHeadingProps>(function SectionHeading_(
+export const SectionHeading = forwardRef<typeof Stack, ISectionHeadingProps>((
   { children, sx, component, ...props },
   ref
-) {
+) => {
   const sectionLink = camelCase(children);
 
   return (
@@ -23,7 +24,7 @@ export const SectionHeading = forwardRef<typeof Stack, ISectionHeadingProps>(fun
       direction="row"
       alignItems="flex-end"
       id={sectionLink}
-      component={ component ?? "div" }
+      component={component ?? "div"}
       {...props}
       sx={{
         pb: 0.5,
@@ -45,7 +46,7 @@ export const SectionHeading = forwardRef<typeof Stack, ISectionHeadingProps>(fun
       </Typography>
       <IconButton
         component={HashLink}
-        to={`#${sectionLink}`}
+        to={`#${ sectionLink }`}
         smooth
         size="small"
         className="sectionHeadingLink"

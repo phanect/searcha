@@ -2,15 +2,15 @@ import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 import { Box, Stack, Link } from "@mui/material";
-import ActionFab from "./ActionFab";
 
 import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import ActionFab from "./ActionFab";
 import { sanitiseCallableName, isUrl } from "./utils";
 import { getActionName } from "./DisplayCell";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Action({
   column,
@@ -19,20 +19,20 @@ export default function Action({
   disabled,
 }: ISideDrawerFieldProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [row] = useAtom(
+  const [ row ] = useAtom(
     useMemo(
       () =>
         selectAtom(
           tableRowsAtom,
-          (tableRows) => find(tableRows, ["_rowy_ref.path", _rowy_ref.path]),
+          (tableRows) => find(tableRows, [ "_rowy_ref.path", _rowy_ref.path ]),
           isEqual
         ),
-      [_rowy_ref.path]
+      [ _rowy_ref.path ]
     ),
     { store: tableScopeStore },
   );
 
-  const hasRan = value && value.status;
+  const hasRan = value?.status;
 
   return (
     <Stack direction="row" alignItems="center" spacing={1} sx={{ mr: -2 / 8 }}>

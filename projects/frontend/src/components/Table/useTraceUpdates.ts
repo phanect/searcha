@@ -2,15 +2,15 @@ import { useEffect, useRef } from "react";
 
 // This hook is used to log changes to props in a component.
 export default function useTraceUpdates(
-  props: { [key: string]: any },
+  props: Record<string, any>,
   printMessage: string = "Changed props:"
 ) {
   const prev = useRef(props);
   useEffect(() => {
-    const changedProps = Object.entries(props).reduce((ps, [k, v]) => {
+    const changedProps = Object.entries(props).reduce((ps, [ k, v ]) => {
       if (prev.current[k] !== v) {
         // @ts-ignore
-        ps[k] = [prev.current[k], v];
+        ps[k] = [ prev.current[k], v ];
       }
       return ps;
     }, {});

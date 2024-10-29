@@ -1,22 +1,23 @@
-import { arrayMoveImmutable } from 'array-move';
-import { IFieldComponentProps } from '../../types';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { arrayMoveImmutable } from "array-move";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { FormControl, Button, ButtonProps } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { FormControl, Button } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-import ListItem from './ListItem';
+import ListItem from "./ListItem";
 
-import FieldLabel from '../../FieldLabel';
-import FieldErrorMessage from '../../FieldErrorMessage';
-import FieldAssistiveText from '../../FieldAssistiveText';
+import FieldLabel from "../../FieldLabel";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { IFieldComponentProps } from "../../types";
+import type { ButtonProps } from "@mui/material";
 
-export interface IListComponentProps extends IFieldComponentProps {
+export type IListComponentProps = {
   itemLabel?: string;
   placeholder?: string;
   addButtonProps?: Partial<ButtonProps>;
-}
+} & IFieldComponentProps;
 
 export default function ListComponent({
   field: { onChange, value: valueProp, ref },
@@ -31,15 +32,15 @@ export default function ListComponent({
   required,
   disabled,
 
-  itemLabel = 'Item',
+  itemLabel = "Item",
   placeholder,
   addButtonProps = {},
 }: IListComponentProps) {
   const value: string[] = Array.isArray(valueProp) ? valueProp : [];
-  const add = () => onChange([...value, '']);
+  const add = () => onChange([ ...value, "" ]);
 
   const edit = (index: number) => (item: string) => {
-    const newValue = [...useFormMethods.getValues(name)];
+    const newValue = [ ...useFormMethods.getValues(name) ];
     newValue[index] = item;
     onChange(newValue);
   };
@@ -54,7 +55,7 @@ export default function ListComponent({
   };
 
   const remove = (index: number) => () => {
-    const newValue = [...useFormMethods.getValues(name)];
+    const newValue = [ ...useFormMethods.getValues(name) ];
     newValue.splice(index, 1);
     onChange(newValue);
   };
@@ -62,9 +63,9 @@ export default function ListComponent({
   return (
     <FormControl
       component="fieldset"
-      style={{ display: 'flex' }}
+      style={{ display: "flex" }}
       data-type="text-list"
-      data-label={label ?? ''}
+      data-label={label ?? ""}
       error={!!errorMessage}
       disabled={disabled}
       ref={ref as any}
@@ -97,11 +98,11 @@ export default function ListComponent({
 
       <div>
         <Button
-          startIcon={
+          startIcon={(
             <AddCircleIcon
-              sx={{ mr: 2, '&:first-child': { fontSize: '1.5rem' } }}
+              sx={{ mr: 2, "&:first-child": { fontSize: "1.5rem" }}}
             />
-          }
+          )}
           color="secondary"
           {...addButtonProps}
           onClick={add}
@@ -110,8 +111,8 @@ export default function ListComponent({
             ...(Array.isArray(addButtonProps.sx)
               ? addButtonProps.sx
               : addButtonProps.sx
-              ? [addButtonProps.sx]
-              : []),
+                ? [ addButtonProps.sx ]
+                : []),
           ]}
           disabled={disabled}
         >

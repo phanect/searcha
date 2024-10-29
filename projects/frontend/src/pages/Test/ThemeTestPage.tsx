@@ -70,10 +70,10 @@ export default function TestView() {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [tab, setTab] = useState(0);
+  const [ tab, setTab ] = useState(0);
   const handleTabChange = (_: any, newTab: any) => setTab(newTab);
 
-  const [alignment, setAlignment] = useState("left");
+  const [ alignment, setAlignment ] = useState("left");
   const handleChangeAlignment = (_: any, v: any) => setAlignment(v);
   const toggleButtonProps = {
     value: alignment,
@@ -158,7 +158,7 @@ export default function TestView() {
                           variant={variant as any}
                           noWrap
                           style={{
-                            width: `calc(100vw - 80px + 16px)`,
+                            width: "calc(100vw - 80px + 16px)",
                             textOverflow: "clip",
                             display: "block",
                           }}
@@ -170,7 +170,7 @@ export default function TestView() {
                           variant={variant as any}
                           noWrap
                           style={{
-                            width: `calc(100vw - 80px + 16px)`,
+                            width: "calc(100vw - 80px + 16px)",
                             textOverflow: "clip",
                             display: "block",
                           }}
@@ -612,13 +612,13 @@ export default function TestView() {
               clickable
               variant="filled"
               size="medium"
-              label={
+              label={(
                 <>
                   Main
                   <br />
                   Multiline
                 </>
-              }
+              )}
             />
             <Chip
               clickable
@@ -639,13 +639,13 @@ export default function TestView() {
               variant="filled"
               color="primary"
               size="medium"
-              label={
+              label={(
                 <>
                   Main
                   <br />
                   Multiline
                 </>
-              }
+              )}
             />
             <Chip
               clickable
@@ -666,13 +666,13 @@ export default function TestView() {
               variant="filled"
               color="secondary"
               size="medium"
-              label={
+              label={(
                 <>
                   Main
                   <br />
                   Multiline
                 </>
-              }
+              )}
             />
           </Stack>
 
@@ -683,13 +683,13 @@ export default function TestView() {
               clickable
               variant="outlined"
               size="medium"
-              label={
+              label={(
                 <>
                   Main
                   <br />
                   Multiline
                 </>
-              }
+              )}
             />
             <Chip
               clickable
@@ -710,13 +710,13 @@ export default function TestView() {
               variant="outlined"
               color="primary"
               size="medium"
-              label={
+              label={(
                 <>
                   Main
                   <br />
                   Multiline
                 </>
-              }
+              )}
             />
             <Chip
               clickable
@@ -737,13 +737,13 @@ export default function TestView() {
               variant="outlined"
               color="secondary"
               size="medium"
-              label={
+              label={(
                 <>
                   Main
                   <br />
                   Multiline
                 </>
-              }
+              )}
             />
           </Stack>
 
@@ -945,8 +945,7 @@ export default function TestView() {
                       </Button>
                     ),
                   }
-                )
-              }
+                )}
             >
               Error
             </Button>
@@ -1011,8 +1010,8 @@ export default function TestView() {
 
           <LinearProgress />
 
-          <CodeEditor value={`x\n`} />
-          <DiffEditor original={`x\n`} modified="y" />
+          <CodeEditor value={"x\n"} />
+          <DiffEditor original={"x\n"} modified="y" />
         </Stack>
       </Container>
     </Navigation>

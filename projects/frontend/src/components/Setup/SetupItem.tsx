@@ -3,11 +3,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import ArrowIcon from "@mui/icons-material/ArrowForward";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
-export interface ISetupItemProps {
+export type ISetupItemProps = {
   status: "complete" | "loading" | "incomplete";
   title: React.ReactNode;
   children?: React.ReactNode;
-}
+};
 
 export default function SetupItem({
   status,
@@ -38,7 +38,7 @@ export default function SetupItem({
       >
         <Typography
           variant="inherit"
-          sx={{ "& .MuiButton-root": { mt: -0.5 } }}
+          sx={{ "& .MuiButton-root": { mt: -0.5 }}}
         >
           {title}
         </Typography>

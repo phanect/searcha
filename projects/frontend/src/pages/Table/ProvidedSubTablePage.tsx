@@ -43,40 +43,40 @@ export default function ProvidedSubTablePage() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   // Get table settings and the source column from root table
-  const [rootTableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [sourceColumn] = useAtom(
+  const [ rootTableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ sourceColumn ] = useAtom(
     useMemo(
       () =>
         selectAtom(
           tableSchemaAtom,
-          (tableSchema) => find(tableSchema.columns, ["key", subTableKey]),
+          (tableSchema) => find(tableSchema.columns, [ "key", subTableKey ]),
           isEqual
         ),
-      [subTableKey]
+      [ subTableKey ]
     ),
     { store: tableScopeStore },
   );
 
   // Consumed by children as `tableSettings.collection`
-  const subTableCollection =
-    docPath + "/" + (sourceColumn?.fieldName || subTableKey);
+  const subTableCollection
+    = docPath + "/" + (sourceColumn?.fieldName || subTableKey);
 
   // Must be compatible with `getTableSchemaPath`: tableId/rowId/subTableKey
   // This is why we can’t have a sub-table column fieldName !== key
-  const subTableId =
-    docPath?.replace(rootTableSettings.collection, rootTableSettings.id) +
-    "/" +
-    subTableKey;
+  const subTableId
+    = docPath?.replace(rootTableSettings.collection, rootTableSettings.id)
+    + "/"
+    + subTableKey;
 
   // Write fake tableSettings
   const subTableSettings = {
     ...rootTableSettings,
     collection: subTableCollection,
     id: subTableId,
-    tableType: "primaryCollection" as "primaryCollection",
+    tableType: "primaryCollection" as const,
     name: sourceColumn?.name || subTableKey || "",
   };
 
@@ -84,13 +84,13 @@ export default function ProvidedSubTablePage() {
 
   return (
     <Modal
-      title={
+      title={(
         <BreadcrumbsSubTable
           rootTableSettings={rootTableSettings}
           subTableSettings={subTableSettings}
           rootTableLink={rootTableLink}
         />
-      }
+      )}
       onClose={() => navigate(rootTableLink)}
       disableBackdropClick
       disableEscapeKeyDown
@@ -109,7 +109,7 @@ export default function ProvidedSubTablePage() {
           "& .dialog-close": { m: (TOP_BAR_HEIGHT - 40) / 2 / 8, ml: -1 },
         },
         "& .table-container": {
-          height: `calc(100vh - ${TOP_BAR_HEIGHT}px - ${TABLE_TOOLBAR_HEIGHT}px - 16px)`,
+          height: `calc(100vh - ${ TOP_BAR_HEIGHT }px - ${ TABLE_TOOLBAR_HEIGHT }px - 16px)`,
         },
       }}
       ScrollableDialogContentProps={{
@@ -121,22 +121,23 @@ export default function ProvidedSubTablePage() {
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense
-          fallback={
+          fallback={(
             <>
               <TableToolbarSkeleton />
               <TableSkeleton />
             </>
-          }
+          )}
         >
           <TableScopeContext.Provider
             key={"tableScopeStore/subTable/" + subTableSettings.id}
-            value={ tableScopeStore }
+            value={tableScopeStore}
           >
             <HydrateAtoms initialValues={[
-              [currentUserAtom, currentUser],
-              [tableIdAtom, subTableSettings.id],
-              [tableSettingsAtom, subTableSettings],
-            ]}>
+              [ currentUserAtom, currentUser ],
+              [ tableIdAtom, subTableSettings.id ],
+              [ tableSettingsAtom, subTableSettings ],
+            ]}
+            >
               <TableSourceFirestore />
               <TablePage enableRowSelection />
             </HydrateAtoms>

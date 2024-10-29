@@ -3,9 +3,7 @@ import MultiSelect from "@phanect/datasheet-multiselect";
 import { ListItemIcon, Typography } from "@mui/material";
 import Fuse from 'fuse.js';
 
-import { FIELDS } from "@src/components/fields";
-import { FieldType } from "@src/constants/fields";
-import { getFieldProp } from "@src/components/fields";
+import { FIELDS, getFieldProp } from "@src/components/fields";
 
 import { useSetAtom, useAtom } from "jotai";
 import {
@@ -14,8 +12,9 @@ import {
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import type { FieldType } from "@src/constants/fields";
 
-export interface IFieldsDropdownProps {
+export type IFieldsDropdownProps = {
   value: FieldType | "";
   onChange: (value: FieldType) => void;
   hideLabel?: boolean;
@@ -23,7 +22,7 @@ export interface IFieldsDropdownProps {
   options?: FieldType[];
 
   [key: string]: any;
-}
+};
 
 export interface OptionsType {
   label: string;
@@ -36,6 +35,12 @@ export interface OptionsType {
 
 /**
  * Returns dropdown component of all available types
+ * @param root0
+ * @param root0.value
+ * @param root0.onChange
+ * @param root0.hideLabel
+ * @param root0.label
+ * @param root0.options
  */
 export default function FieldsDropdown({
   value,
@@ -47,18 +52,18 @@ export default function FieldsDropdown({
 }: IFieldsDropdownProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
   const fieldTypesToDisplay = optionsProp
-    ? FIELDS.filter((fieldConfig) => optionsProp.indexOf(fieldConfig.type) > -1)
+    ? FIELDS.filter((fieldConfig) => optionsProp.includes(fieldConfig.type))
     : FIELDS;
   const options = fieldTypesToDisplay.map((fieldConfig) => {
-    const requireCloudFunctionSetup =
-      fieldConfig.requireCloudFunction && !projectSettings.rowyRunUrl;
-    const requireCollectionTable =
-      tableSettings.isCollection === false &&
-      fieldConfig.requireCollectionTable === true;
+    const requireCloudFunctionSetup
+      = fieldConfig.requireCloudFunction && !projectSettings.rowyRunUrl;
+    const requireCollectionTable
+      = tableSettings.isCollection === false
+      && fieldConfig.requireCollectionTable === true;
     return {
       label: fieldConfig.name,
       value: fieldConfig.type,
@@ -93,13 +98,13 @@ export default function FieldsDropdown({
             getFieldProp("group", option.value),
           ListboxProps: {
             sx: {
-              '& li.MuiAutocomplete-option[aria-disabled="true"]': {
+              "& li.MuiAutocomplete-option[aria-disabled=\"true\"]": {
                 opacity: 1,
               },
-              '& li.MuiAutocomplete-option[aria-disabled="true"] > *': {
+              "& li.MuiAutocomplete-option[aria-disabled=\"true\"] > *": {
                 opacity: 0.4,
               },
-              '& li.MuiAutocomplete-option[aria-disabled="true"] > .require-cloud-function':
+              "& li.MuiAutocomplete-option[aria-disabled=\"true\"] > .require-cloud-function":
                 {
                   opacity: 1,
                 },
@@ -120,7 +125,7 @@ export default function FieldsDropdown({
               variant="inherit"
               component="span"
               marginLeft={1}
-              className={"require-cloud-function"}
+              className="require-cloud-function"
             >
               {" "}
               Unavailable
@@ -131,7 +136,7 @@ export default function FieldsDropdown({
               variant="inherit"
               component="span"
               marginLeft={1}
-              className={"require-cloud-function"}
+              className="require-cloud-function"
             >
               {" "}
               Requires

@@ -6,9 +6,9 @@ import { styled, Grid2 as Grid } from "@mui/material";
 import Column from "@src/components/Table/Mock/Column";
 import Cell from "@src/components/Table/Mock/Cell";
 
-import { IStepProps } from ".";
 import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
 import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
+import type { IStepProps } from ".";
 
 const Spacer = styled(Grid)(({ theme }) => ({
   width: theme.spacing(3),
@@ -25,14 +25,14 @@ const ColumnWrapper = styled(Grid)(() => ({
 
 export default function Step3Preview({ airtableData, config }: IStepProps) {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const columns = config.pairs.map(({ fieldKey, columnKey }) => ({
     fieldKey,
     columnKey,
-    ...(tableSchema.columns?.[columnKey] ??
-      find(config.newColumns, { key: columnKey }) ??
-      {}),
+    ...(tableSchema.columns?.[columnKey]
+      ?? find(config.newColumns, { key: columnKey })
+      ?? {}),
   }));
 
   return (

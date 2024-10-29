@@ -25,27 +25,25 @@ import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 export default function ImportFromAirtable() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [{ baseId, tableId, apiKey }, setImportAirtable] = useAtom(
+  const [{ baseId, tableId, apiKey }, setImportAirtable ] = useAtom(
     importAirtableAtom,
     { store: tableScopeStore },
   );
   const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>({});
-  const [tableUrl, setTableUrl] = useState("");
+  const [ loading, setLoading ] = useState(false);
+  const [ error, setError ] = useState<any>({});
+  const [ tableUrl, setTableUrl ] = useState("");
 
-  useEffect(() => {
-    return () => {
-      setImportAirtable({
-        airtableData: null,
-        apiKey: "",
-        baseId: "",
-        tableId: "",
-      });
-      setError(null);
-      setLoading(false);
-    };
-  }, [setImportAirtable]);
+  useEffect(() => () => {
+    setImportAirtable({
+      airtableData: null,
+      apiKey: "",
+      baseId: "",
+      tableId: "",
+    });
+    setError(null);
+    setLoading(false);
+  }, [ setImportAirtable ]);
 
   useEffect(() => {
     try {
@@ -55,18 +53,18 @@ export default function ImportFromAirtable() {
       const tableId = find(pathNames, (path) => /^tbl[\w]+$/.test(path)) ?? "";
       setImportAirtable((prev) => ({ ...prev, baseId, tableId }));
     } catch (error) {}
-  }, [tableUrl, setImportAirtable]);
+  }, [ tableUrl, setImportAirtable ]);
 
   const handleAirtableConnection = async () => {
     const errors = [];
     if (!apiKey) {
-      errors.push({ apiKey: { message: "API Key is missing!" } });
+      errors.push({ apiKey: { message: "API Key is missing!" }});
     }
     if (!baseId) {
-      errors.push({ baseId: { message: "Base ID is missing!" } });
+      errors.push({ baseId: { message: "Base ID is missing!" }});
     }
     if (!tableId) {
-      errors.push({ tableId: { message: "Table ID is missing!" } });
+      errors.push({ tableId: { message: "Table ID is missing!" }});
     }
     if (errors.length > 0) {
       setError(
@@ -77,10 +75,10 @@ export default function ImportFromAirtable() {
     setLoading(true);
 
     try {
-      const res = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}?maxRecords=20`, {
+      const res = await fetch(`https://api.airtable.com/v0/${ baseId }/${ tableId }?maxRecords=20`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${ apiKey }`,
         },
       });
       const body = await res.json();
@@ -88,16 +86,16 @@ export default function ImportFromAirtable() {
       const { error } = body;
       if (error) {
         if (error.type === "AUTHENTICATION_REQUIRED") {
-          setError({ apiKey: { message: "Invalid API Key!" } });
+          setError({ apiKey: { message: "Invalid API Key!" }});
         }
         if (error === "NOT_FOUND") {
-          setError({ baseId: { message: "Could not find base!" } });
+          setError({ baseId: { message: "Could not find base!" }});
         }
         if (
-          error.type === "TABLE_NOT_FOUND" ||
-          error.type === "MODEL_ID_NOT_FOUND"
+          error.type === "TABLE_NOT_FOUND"
+          || error.type === "MODEL_ID_NOT_FOUND"
         ) {
-          setError({ tableId: { message: "Could not find table!" } });
+          setError({ tableId: { message: "Could not find table!" }});
         }
         throw new Error(error);
       }
@@ -107,7 +105,7 @@ export default function ImportFromAirtable() {
 
       setLoading(false);
       setError(null);
-    } catch(err) {
+    } catch (err) {
       console.error(error);
       setLoading(false);
     }
@@ -152,8 +150,7 @@ export default function ImportFromAirtable() {
             setImportAirtable((prev) => ({
               ...prev,
               apiKey: e.currentTarget.value,
-            }))
-          }
+            }))}
           aria-describedby="import-airtable-api-key-error-text"
         />
         <FormHelperText id="import-airtable-api-key-error-text">
@@ -210,7 +207,7 @@ export default function ImportFromAirtable() {
         }}
         onClick={() => {
           handleAirtableConnection();
-          logEvent(analytics, `import_airtable`);
+          logEvent(analytics, "import_airtable");
         }}
       >
         Continue

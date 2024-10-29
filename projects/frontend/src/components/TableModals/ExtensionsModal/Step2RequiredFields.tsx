@@ -1,9 +1,8 @@
-import { IExtensionModalStepProps } from "./ExtensionModal";
-
 import { Typography } from "@mui/material";
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
 import { FieldType } from "@src/constants/fields";
+import type { IExtensionModalStepProps } from "./ExtensionModal";
 
 export default function Step2RequiredFields({
   extensionObject,
@@ -24,8 +23,7 @@ export default function Step2RequiredFields({
         filterColumns={(c) => c.type !== FieldType.id}
         showFieldNames
         onChange={(requiredFields: string[]) =>
-          setExtensionObject((e) => ({ ...e, requiredFields }))
-        }
+          setExtensionObject((e) => ({ ...e, requiredFields }))}
         TextFieldProps={{ autoFocus: true }}
         freeText
         AddButtonProps={{ children: "Add other field…" }}

@@ -11,8 +11,8 @@ export const fieldSx: SystemStyleObject<Theme> = {
     `0 0 0 1px ${
       theme.palette.mode === "dark"
         ? colord(theme.palette.divider)
-            .alpha(colord(theme.palette.divider).alpha() / 2)
-            .toHslString()
+          .alpha(colord(theme.palette.divider).alpha() / 2)
+          .toHslString()
         : theme.palette.divider
     } inset`,
 
@@ -35,5 +35,5 @@ export const fieldSx: SystemStyleObject<Theme> = {
   color: "text.primary",
 };
 
-export const getLabelId = (key: string) => `sidedrawer-label-${key}`;
-export const getFieldId = (key: string) => `sidedrawer-field-${key}`;
+export const getLabelId = (key: string) => `sidedrawer-label-${ key }`;
+export const getFieldId = (key: string) => `sidedrawer-field-${ key }`;

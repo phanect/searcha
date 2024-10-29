@@ -1,16 +1,15 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-
 import { Box, Stack } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { ChevronDown } from "@src/assets/icons";
 
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
-import { getDurationString } from "./utils";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import {
   transformValue,
   sanitizeValue,
 } from "@src/components/fields/Date/utils";
+import { getDurationString } from "./utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Duration({
   column,
@@ -26,14 +25,16 @@ export default function Duration({
 
   const handleChange = (pos: "start" | "end") => (date: Date | null) => {
     const sanitized = sanitizeValue(date);
-    if (sanitized === undefined) return;
+    if (sanitized === undefined) {
+      return;
+    }
     onChange({ start: startValue, end: endValue, [pos]: sanitized });
   };
 
   return (
     <>
       <Box
-        sx={[fieldSx, (!startValue || !endValue) && { color: "text.disabled" }]}
+        sx={[ fieldSx, (!startValue || !endValue) && { color: "text.disabled" } ]}
         id={getFieldId(column.key)}
       >
         {startValue && endValue

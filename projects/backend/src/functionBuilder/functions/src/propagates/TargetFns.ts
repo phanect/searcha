@@ -29,7 +29,7 @@ export const addTargetRef = (
   targetFieldKey: string,
   trackedFields
 ) =>
-  db.doc(`${TARGET_SUB_COLLECTION}/${encodeURIComponent(sourceDocPath)}`).set(
+  db.doc(`${ TARGET_SUB_COLLECTION }/${ encodeURIComponent(sourceDocPath) }`).set(
     {
       [encodeURIComponent(targetRef.parent.path)]: {
         [targetFieldKey]: {
@@ -47,7 +47,7 @@ export const removeTargetRef = (
   sourceDocPath: string,
   targetFieldKey: string
 ) =>
-  db.doc(`${TARGET_SUB_COLLECTION}/${encodeURIComponent(sourceDocPath)}`).set(
+  db.doc(`${ TARGET_SUB_COLLECTION }/${ encodeURIComponent(sourceDocPath) }`).set(
     {
       [encodeURIComponent(targetRef.parent.path)]: {
         [targetFieldKey]: {
@@ -77,7 +77,7 @@ export const removeRefsOnTargetDelete = (
     db
       .collection(TARGET_SUB_COLLECTION)
       .where(
-        `${targetRef.parent.path}.${targetFieldKey}.targets.${targetRef.id}`,
+        `${ targetRef.parent.path }.${ targetFieldKey }.targets.${ targetRef.id }`,
         "==",
         true
       )

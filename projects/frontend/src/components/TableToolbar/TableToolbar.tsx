@@ -10,16 +10,6 @@ import {
   Import as ImportIcon,
 } from "@src/assets/icons";
 
-import TableToolbarButton from "./TableToolbarButton";
-import { ButtonSkeleton } from "./TableToolbarSkeleton";
-
-import AddRow, { AddRowArraySubTable } from "./AddRow";
-import LoadedRowsStatus from "./LoadedRowsStatus";
-import TableSettings from "./TableSettings";
-import HiddenFields from "./HiddenFields";
-import RowHeight from "./RowHeight";
-import TableInformation from "./TableInformation";
-
 import {
   ProjectScopeContext,
   projectSettingsAtom,
@@ -39,10 +29,19 @@ import {
   deleteRowAtom,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
-import { TableToolsType } from "@src/types/table";
 import FilterIcon from "@mui/icons-material/FilterList";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { RowSelectionState } from "@tanstack/react-table";
+import TableToolbarButton from "./TableToolbarButton";
+import { ButtonSkeleton } from "./TableToolbarSkeleton";
+
+import AddRow, { AddRowArraySubTable } from "./AddRow";
+import LoadedRowsStatus from "./LoadedRowsStatus";
+import TableSettings from "./TableSettings";
+import HiddenFields from "./HiddenFields";
+import RowHeight from "./RowHeight";
+import TableInformation from "./TableInformation";
+import type { RowSelectionState } from "@tanstack/react-table";
+import type { TableToolsType } from "@src/types/table";
 
 const Sort = lazy(() => import("./Sort"));
 
@@ -59,7 +58,7 @@ const StyledStack = ({ children }: React.PropsWithChildren) => (
     alignItems="center"
     spacing={1}
     sx={{
-      pl: (theme) => `max(env(safe-area-inset-left), ${theme.spacing(2)})`,
+      pl: (theme) => `max(env(safe-area-inset-left), ${ theme.spacing(2) })`,
       pb: 1.5,
       height: TABLE_TOOLBAR_HEIGHT,
       scrollbarWidth: "thin",
@@ -70,7 +69,7 @@ const StyledStack = ({ children }: React.PropsWithChildren) => (
 
       "& > .end-spacer": {
         width: (theme) =>
-          `max(env(safe-area-inset-right), ${theme.spacing(2)})`,
+          `max(env(safe-area-inset-right), ${ theme.spacing(2) })`,
         height: "100%",
         ml: 0,
       },
@@ -89,9 +88,9 @@ function RowSelectedToolBar({
 }) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [serverDocCount] = useAtom(serverDocCountAtom, { store: tableScopeStore });
+  const [ serverDocCount ] = useAtom(serverDocCountAtom, { store: tableScopeStore });
   const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
 
   const handleDelete = async () => {
@@ -113,15 +112,15 @@ function RowSelectedToolBar({
             altPress
               ? handleDelete
               : () => {
-                  confirm({
-                    title: `Delete ${
-                      Object.values(selectedRows).length
-                    } of ${serverDocCount} selected rows?`,
-                    confirm: "Delete",
-                    confirmColor: "error",
-                    handleConfirm: handleDelete,
-                  });
-                }
+                confirm({
+                  title: `Delete ${
+                    Object.values(selectedRows).length
+                  } of ${ serverDocCount } selected rows?`,
+                  confirm: "Delete",
+                  confirmColor: "error",
+                  handleConfirm: handleDelete,
+                });
+              }
           }
         >
           Delete
@@ -142,35 +141,36 @@ export default function TableToolbar({
 }) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [compatibleRowyRunVersion] = useAtom(
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ compatibleRowyRunVersion ] = useAtom(
     compatibleRowyRunVersionAtom,
     { store: projectScopeStore }
   );
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
   const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
-  const [tableSorts] = useAtom(tableSortsAtom, { store: tableScopeStore });
-  const hasDerivatives =
-    Object.values(tableSchema.columns ?? {}).filter(
+  const [ tableSorts ] = useAtom(tableSortsAtom, { store: tableScopeStore });
+  const hasDerivatives
+    = Object.values(tableSchema.columns ?? {}).filter(
       (column) => column.type === FieldType.derivative
     ).length > 0;
 
-  const hasExtensions =
-    tableSchema.compiledExtension &&
-    tableSchema.compiledExtension.replace(/\W/g, "")?.length > 0;
+  const hasExtensions
+    = tableSchema.compiledExtension
+    && tableSchema.compiledExtension.replace(/\W/g, "")?.length > 0;
 
   disabledTools = disabledTools ?? [];
 
-  if (selectedRows && Object.keys(selectedRows).length > 0 && resetSelectedRows)
+  if (selectedRows && Object.keys(selectedRows).length > 0 && resetSelectedRows) {
     return (
       <RowSelectedToolBar
         selectedRows={selectedRows}
         resetSelectedRows={resetSelectedRows}
       />
     );
+  }
 
   return (
     <StyledStack>
@@ -218,9 +218,9 @@ export default function TableToolbar({
           </Suspense>
         )
       )}
-      {(!projectSettings.exporterRoles ||
-        projectSettings.exporterRoles.length === 0 ||
-        userRoles.some((role) =>
+      {(!projectSettings.exporterRoles
+        || projectSettings.exporterRoles.length === 0
+        || userRoles.some((role) =>
           projectSettings.exporterRoles?.includes(role)
         )) && (
         <Suspense fallback={<ButtonSkeleton />}>
@@ -250,8 +250,11 @@ export default function TableToolbar({
           <TableToolbarButton
             title="Extensions"
             onClick={() => {
-              if (projectSettings.rowyRunUrl) openTableModal("extensions");
-              else openRowyRunModal({ feature: "Extensions" });
+              if (projectSettings.rowyRunUrl) {
+                openTableModal("extensions");
+              } else {
+                openRowyRunModal({ feature: "Extensions" });
+              }
             }}
             icon={<ExtensionIcon />}
             disabled={disabledTools.includes("extensions")}
@@ -260,8 +263,11 @@ export default function TableToolbar({
             title="Cloud logs"
             icon={<CloudLogsIcon />}
             onClick={() => {
-              if (projectSettings.rowyRunUrl) openTableModal("cloudLogs");
-              else openRowyRunModal({ feature: "Cloud logs" });
+              if (projectSettings.rowyRunUrl) {
+                openTableModal("cloudLogs");
+              } else {
+                openRowyRunModal({ feature: "Cloud logs" });
+              }
             }}
             disabled={disabledTools.includes("cloud_logs")}
           />

@@ -1,13 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual, isUndefined } from "lodash-es";
-import { ITableModalProps } from "@src/components/TableModals";
 
 import Modal from "@src/components/Modal";
-import AddExtensionButton from "./AddExtensionButton";
-import ExtensionList from "./ExtensionList";
-import ExtensionModal from "./ExtensionModal";
-import ExtensionMigration from "./ExtensionMigration";
 
 import {
   ProjectScopeContext,
@@ -29,59 +24,67 @@ import {
   getTableSchemaPath,
   getTableBuildFunctionPathname,
 } from "@src/utils/table";
+import ExtensionMigration from "./ExtensionMigration";
+import ExtensionModal from "./ExtensionModal";
+import ExtensionList from "./ExtensionList";
+import AddExtensionButton from "./AddExtensionButton";
 
 import {
   emptyExtensionObject,
-  IExtension,
-  ExtensionType,
-  IRuntimeOptions,
 } from "./utils";
 import RuntimeOptions from "./RuntimeOptions";
+import type {
+  IExtension,
+  ExtensionType,
+  IRuntimeOptions } from "./utils";
+import type { ITableModalProps } from "@src/components/TableModals";
 
 export default function ExtensionsModal({ onClose }: ITableModalProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [updateTableSchema] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ updateTableSchema ] = useAtom(updateTableSchemaAtom, { store: tableScopeStore });
 
-  const [localExtensionsObjects, setLocalExtensionsObjects] = useState(
+  const [ localExtensionsObjects, setLocalExtensionsObjects ] = useState(
     tableSchema.extensionObjects ?? []
   );
 
-  const [localRuntimeOptions, setLocalRuntimeOptions] = useState(
+  const [ localRuntimeOptions, setLocalRuntimeOptions ] = useState(
     tableSchema.runtimeOptions ?? {}
   );
 
   const errors = {
     runtimeOptions: {
       timeoutSeconds:
-        !isUndefined(localRuntimeOptions.timeoutSeconds) &&
-        !(
-          localRuntimeOptions.timeoutSeconds! > 0 &&
-          localRuntimeOptions.timeoutSeconds! <= 540
+        !isUndefined(localRuntimeOptions.timeoutSeconds)
+        && !(
+          localRuntimeOptions.timeoutSeconds! > 0
+          && localRuntimeOptions.timeoutSeconds! <= 540
         ),
     },
   };
 
-  const [openMigrationGuide, setOpenMigrationGuide] = useState(false);
+  const [ openMigrationGuide, setOpenMigrationGuide ] = useState(false);
   useEffect(() => {
-    if (tableSchema.sparks) setOpenMigrationGuide(true);
-  }, [tableSchema.sparks]);
+    if (tableSchema.sparks) {
+      setOpenMigrationGuide(true);
+    }
+  }, [ tableSchema.sparks ]);
 
-  const [extensionModal, setExtensionModal] = useState<{
+  const [ extensionModal, setExtensionModal ] = useState<{
     mode: "add" | "update";
     extensionObject: IExtension;
     index?: number;
   } | null>(null);
 
   const snackLogContext = useSnackLogContext();
-  const edited =
-    !isEqual(tableSchema.extensionObjects ?? [], localExtensionsObjects) ||
-    !isEqual(tableSchema.runtimeOptions ?? {}, localRuntimeOptions);
+  const edited
+    = !isEqual(tableSchema.extensionObjects ?? [], localExtensionsObjects)
+    || !isEqual(tableSchema.runtimeOptions ?? {}, localRuntimeOptions);
 
   const handleClose = (
     _setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -105,12 +108,15 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
   };
 
   const handleSave = async (callback?: Function) => {
-    if (updateTableSchema)
+    if (updateTableSchema) {
       await updateTableSchema({
         extensionObjects: localExtensionsObjects,
         runtimeOptions: localRuntimeOptions,
       });
-    if (callback) callback();
+    }
+    if (callback) {
+      callback();
+    }
     onClose();
   };
 
@@ -138,7 +144,7 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
   };
 
   const handleAddExtension = (extensionObject: IExtension) => {
-    setLocalExtensionsObjects([...localExtensionsObjects, extensionObject]);
+    setLocalExtensionsObjects([ ...localExtensionsObjects, extensionObject ]);
     logEvent(analytics, "created_extension", { type: extensionObject.type });
     setExtensionModal(null);
   };
@@ -188,7 +194,7 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
       ...localExtensionsObjects,
       {
         ...localExtensionsObjects[index],
-        name: `${localExtensionsObjects[index].name} (duplicate)`,
+        name: `${ localExtensionsObjects[index].name } (duplicate)`,
         active: false,
         lastEditor: currentEditor(),
       },
@@ -208,7 +214,7 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
 
   const handleDelete = (index: number) => {
     confirm({
-      title: `Delete “${localExtensionsObjects[index].name}”?`,
+      title: `Delete “${ localExtensionsObjects[index].name }”?`,
       body: "This Extension will be permanently deleted when you save",
       confirm: "Confirm",
       handleConfirm: () => {
@@ -237,8 +243,8 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
         disableEscapeKeyDown={edited}
         maxWidth="sm"
         fullWidth
-        title={`Extensions (${activeExtensionCount}\u2009/\u2009${localExtensionsObjects.length})`}
-        header={
+        title={`Extensions (${ activeExtensionCount }\u2009/\u2009${ localExtensionsObjects.length })`}
+        header={(
           <AddExtensionButton
             handleAddExtension={(type: ExtensionType) => {
               setExtensionModal({
@@ -250,8 +256,8 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
               localExtensionsObjects.length === 0 ? "contained" : "outlined"
             }
           />
-        }
-        children={
+        )}
+        children={(
           <>
             <ExtensionList
               extensions={localExtensionsObjects}
@@ -266,7 +272,7 @@ export default function ExtensionsModal({ onClose }: ITableModalProps) {
               errors={errors.runtimeOptions}
             />
           </>
-        }
+        )}
         actions={{
           primary: {
             children: "Save & Deploy",

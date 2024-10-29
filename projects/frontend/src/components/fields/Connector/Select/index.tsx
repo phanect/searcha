@@ -2,20 +2,21 @@ import { Suspense } from "react";
 import clsx from "clsx";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField } from "@mui/material";
 
 import ErrorFallback from "@src/components/ErrorFallback";
-import useStyles from "./styles";
 import Loading from "@src/components/Loading";
+import useStyles from "./styles";
 import PopupContents from "./PopupContents";
-import { TableRowRef } from "@src/types/table";
+import type { TableRowRef } from "@src/types/table";
+import type { TextFieldProps } from "@mui/material";
 
 export type ServiceValue = {
   value: string;
   [prop: string]: any;
 };
 
-export interface IConnectorSelectProps {
+export type IConnectorSelectProps = {
   value: ServiceValue[];
   onChange: (value: ServiceValue[]) => void;
   column: any;
@@ -26,7 +27,7 @@ export interface IConnectorSelectProps {
   TextFieldProps?: Partial<TextFieldProps>;
   _rowy_ref: TableRowRef;
   disabled?: boolean;
-}
+};
 
 export default function ConnectorSelect({
   value = [],
@@ -48,7 +49,7 @@ export default function ConnectorSelect({
       className={clsx(classes.root, className)}
       {...TextFieldProps}
       SelectProps={{
-        renderValue: (value) => `${(value as any[]).length} selected`,
+        renderValue: (value) => `${ (value as any[]).length } selected`,
         displayEmpty: true,
         classes: { select: classes.selectRoot },
         ...TextFieldProps.SelectProps,

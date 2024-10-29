@@ -9,13 +9,7 @@ import { string } from "yup";
 import { DialogContentText, Stack, Typography } from "@mui/material";
 
 import { FormDialog, FormFields, type CustomComponents } from "@phanect/datasheet-form-builder";
-import { tableSettings } from "./form";
-import TableName from "./TableName";
-import TableId from "./TableId";
-import SuggestedRules from "./SuggestedRules";
 import SteppedAccordion from "@src/components/SteppedAccordion";
-import ActionsMenu from "./ActionsMenu";
-import DeleteMenu from "./DeleteMenu";
 
 import {
   ProjectScopeContext,
@@ -26,9 +20,7 @@ import {
   confirmDialogAtom,
   createTableAtom,
   updateTableAtom,
-  AdditionalTableSettings,
 } from "@src/atoms/projectScope";
-import { TableSettings } from "@src/types/table";
 import { analytics, logEvent } from "@src/analytics";
 
 import { runRoutes } from "@src/constants/runRoutes";
@@ -40,10 +32,19 @@ import {
   getTableBuildFunctionPathname,
 } from "@src/utils/table";
 import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
+import { useContext } from "react";
 import { uploadTableThumbnail } from "./utils";
 import TableThumbnail from "./TableThumbnail";
 import TableDetails from "./TableDetails";
-import { useContext } from "react";
+import DeleteMenu from "./DeleteMenu";
+import ActionsMenu from "./ActionsMenu";
+import SuggestedRules from "./SuggestedRules";
+import TableId from "./TableId";
+import TableName from "./TableName";
+import { tableSettings } from "./form";
+import type { TableSettings } from "@src/types/table";
+import type {
+  AdditionalTableSettings } from "@src/atoms/projectScope";
 
 const customComponents: CustomComponents = {
   tableName: {
@@ -71,16 +72,16 @@ const customComponents: CustomComponents = {
 
 export default function TableSettingsDialog() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [{ open, mode, data }, setTableSettingsDialog] = useAtom(
+  const [{ open, mode, data }, setTableSettingsDialog ] = useAtom(
     tableSettingsDialogAtom,
     { store: projectScopeStore }
   );
   const clearDialog = () => setTableSettingsDialog({ open: false });
 
-  const [projectRoles] = useAtom(projectRolesAtom, { store: projectScopeStore });
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
-  const [firebaseStorage] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
+  const [ projectRoles ] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ firebaseStorage ] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
 
   const navigate = useNavigate();
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
@@ -105,13 +106,15 @@ export default function TableSettingsDialog() {
     }
   );
 
-  const [createTable] = useAtom(createTableAtom, { store: projectScopeStore });
-  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
+  const [ createTable ] = useAtom(createTableAtom, { store: projectScopeStore });
+  const [ updateTable ] = useAtom(updateTableAtom, { store: projectScopeStore });
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
   const handleSubmit = async (
-    v: TableSettings & AdditionalTableSettings & { thumbnailFile: File }
+    v: TableSettings & AdditionalTableSettings & { thumbnailFile: File; }
   ) => {
     const {
       _schemaSource,
@@ -136,12 +139,12 @@ export default function TableSettingsDialog() {
     const deployExtensionsWebhooks = (onComplete?: () => void) => {
       if (rowyRun && (hasExtensions || hasWebhooks)) {
         confirm({
-          title: `Deploy ${[
+          title: `Deploy ${ [
             hasExtensions && "extensions",
             hasWebhooks && "webhooks",
           ]
             .filter(Boolean)
-            .join(" and ")}?`,
+            .join(" and ") }?`,
           body: "You can also deploy later from the table page",
           confirm: "Deploy",
           cancel: "Later",
@@ -182,10 +185,12 @@ export default function TableSettingsDialog() {
               logEvent(analytics, "published_webhooks");
             }
 
-            if (onComplete) onComplete();
+            if (onComplete) {
+              onComplete();
+            }
           },
           handleCancel: async () => {
-            let _schema: Record<string, any> = {};
+            const _schema: Record<string, any> = {};
             if (hasExtensions) {
               _schema.extensionObjects = (
                 get(
@@ -212,11 +217,15 @@ export default function TableSettingsDialog() {
               { id: data.id, tableType: data.tableType },
               { _schema }
             );
-            if (onComplete) onComplete();
+            if (onComplete) {
+              onComplete();
+            }
           },
         });
       } else {
-        if (onComplete) onComplete();
+        if (onComplete) {
+          onComplete();
+        }
       }
     };
 
@@ -239,7 +248,7 @@ export default function TableSettingsDialog() {
       });
       logEvent(analytics, "create_table", { type: values.tableType });
       deployExtensionsWebhooks(() => {
-        navigate(`${ROUTES.table}/${values.id}`);
+        navigate(`${ ROUTES.table }/${ values.id }`);
         clearDialog();
         closeSnackbar(creatingSnackbar);
       });
@@ -257,10 +266,10 @@ export default function TableSettingsDialog() {
         section: table.section,
         collection: table.collection,
       })),
-      ["section", "label"]
+      [ "section", "label" ]
     ),
-    Array.isArray(collections) &&
-      collections.filter((x) => x !== CONFIG).length > 0
+    Array.isArray(collections)
+    && collections.filter((x) => x !== CONFIG).length > 0
       ? collections.filter((x) => x !== CONFIG)
       : null
   );
@@ -274,9 +283,11 @@ export default function TableSettingsDialog() {
         const { errors } = formFieldsProps.useFormMethods.formState;
         const groupedErrors: Record<string, string> = Object.entries(
           errors
-        ).reduce((acc, [name, err]) => {
-          const match = find(fields, ["name", name])?.step;
-          if (!match) return acc;
+        ).reduce((acc, [ name, err ]) => {
+          const match = find(fields, [ "name", name ])?.step;
+          if (!match) {
+            return acc;
+          }
           acc[match] = (err?.message as string) ?? "";
           return acc;
         }, {} as Record<string, string>);
@@ -440,29 +451,29 @@ export default function TableSettingsDialog() {
                    */
                   mode === "create"
                     ? {
-                        id: "columns",
-                        title: "Columns",
-                        content: (
-                          <>
-                            <DialogContentText paragraph>
-                              Initialize table with columns
-                            </DialogContentText>
-                            <FormFields
-                              {...formFieldsProps}
-                              fields={fields.filter(
-                                (f) => f.step === "columns"
-                              )}
-                            />
-                          </>
-                        ),
-                        optional: true,
-                        error: Boolean(groupedErrors.columns),
-                        subtitle: groupedErrors.columns && (
-                          <Typography variant="caption" color="error">
-                            {groupedErrors.columns}
-                          </Typography>
-                        ),
-                      }
+                      id: "columns",
+                      title: "Columns",
+                      content: (
+                        <>
+                          <DialogContentText paragraph>
+                            Initialize table with columns
+                          </DialogContentText>
+                          <FormFields
+                            {...formFieldsProps}
+                            fields={fields.filter(
+                              (f) => f.step === "columns"
+                            )}
+                          />
+                        </>
+                      ),
+                      optional: true,
+                      error: Boolean(groupedErrors.columns),
+                      subtitle: groupedErrors.columns && (
+                        <Typography variant="caption" color="error">
+                          {groupedErrors.columns}
+                        </Typography>
+                      ),
+                    }
                     : null,
                 ].filter(Boolean) as any
               }
@@ -476,8 +487,8 @@ export default function TableSettingsDialog() {
       SubmitButtonProps={{
         children: mode === "create" ? "Create" : "Update",
         disabled:
-          (mode === "create" && !createTable) ||
-          (mode === "update" && !updateTable),
+          (mode === "create" && !createTable)
+          || (mode === "update" && !updateTable),
       }}
     />
   );

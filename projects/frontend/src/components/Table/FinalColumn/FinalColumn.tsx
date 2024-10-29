@@ -1,6 +1,5 @@
 import { memo, useContext } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import type { IRenderedTableCellProps } from "@src/components/Table/TableCell/withRenderTableCell";
 
 import { Stack, Tooltip, IconButton, alpha } from "@mui/material";
 import { CopyCells as CopyCellsIcon } from "@src/assets/icons";
@@ -22,24 +21,25 @@ import {
   _updateRowDbAtom,
   tableSchemaAtom,
 } from "@src/atoms/tableScope";
-export const FinalColumn = memo(function FinalColumn({
+import type { IRenderedTableCellProps } from "@src/components/Table/TableCell/withRenderTableCell";
+export const FinalColumn = memo(({
   row,
   focusInsideCell,
-}: IRenderedTableCellProps) {
+}: IRenderedTableCellProps) => {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [updateRowDb] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ updateRowDb ] = useAtom(_updateRowDbAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
 
   const addRow = useSetAtom(addRowAtom, { store: tableScopeStore });
   const deleteRow = useSetAtom(deleteRowAtom, { store: tableScopeStore });
   const setContextMenuTarget = useSetAtom(contextMenuTargetAtom, { store: tableScopeStore });
 
   const confirm = useSetAtom(confirmDialogAtom, { store: projectScopeStore });
-  const [altPress] = useAtom(altPressAtom, { store: projectScopeStore });
+  const [ altPress ] = useAtom(altPressAtom, { store: projectScopeStore });
 
   const handleDelete = () => {
     const _delete = () =>
@@ -73,7 +73,9 @@ export const FinalColumn = memo(function FinalColumn({
   const handleDuplicate = () => {
     const _duplicate = async (): Promise<void> => {
       if (row.original._rowy_ref.arrayTableData !== undefined) {
-        if (!updateRowDb) return;
+        if (!updateRowDb) {
+          return;
+        }
 
         return updateRowDb("", {}, undefined, {
           index: row.original._rowy_ref.arrayTableData.index,
@@ -108,8 +110,9 @@ export const FinalColumn = memo(function FinalColumn({
     }
   };
 
-  if (!userRoles.includes("ADMIN") && tableSettings.readOnly === true)
+  if (!userRoles.includes("ADMIN") && tableSettings.readOnly === true) {
     return null;
+  }
 
   return (
     <Stack
@@ -145,7 +148,7 @@ export const FinalColumn = memo(function FinalColumn({
         </IconButton>
       </Tooltip>
 
-      <Tooltip title={`Delete row${altPress ? "" : "…"}`}>
+      <Tooltip title={`Delete row${ altPress ? "" : "…" }`}>
         <IconButton
           size="small"
           color="inherit"

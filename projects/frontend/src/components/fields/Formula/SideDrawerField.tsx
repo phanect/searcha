@@ -1,8 +1,7 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
-import { IFieldConfig } from "@src/components/fields/types";
 import { getFieldProp } from "@src/components/fields";
 import { isEmpty } from "lodash-es";
 import { createElement } from "react";
+import type { ISideDrawerFieldProps, IFieldConfig } from "@src/components/fields/types";
 
 export default function Formula({
   column,
@@ -12,10 +11,10 @@ export default function Formula({
   onDirty,
   row,
 }: ISideDrawerFieldProps) {
-  const value = row[`_rowy_formulaValue_${column.key}`];
+  const value = row[`_rowy_formulaValue_${ column.key }`];
 
   let type = column.type;
-  if (column.config && column.config.renderFieldType) {
+  if (column.config?.renderFieldType) {
     type = column.config.renderFieldType;
   }
   const fieldComponent: IFieldConfig["SideDrawerField"] = getFieldProp(

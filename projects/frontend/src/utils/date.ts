@@ -13,7 +13,6 @@ import {
  * @example
  * Input: 2020-01-01T19:03:22.000Z
  * Output: [2020-01-01T00:00:00.000Z, 2020-01-01T23:59:59.000Z]
- *
  * @param dateTime - Source date time
  * @returns `[startDate, endDate]` array
  */
@@ -24,7 +23,7 @@ export const getDateRange = (dateTime: Date) => {
     getDate(dateTime)
   );
   const endDate = add(startDate, { days: 1, seconds: -1 });
-  return [startDate, endDate] as [Date, Date];
+  return [ startDate, endDate ] as [Date, Date];
 };
 
 /**
@@ -33,12 +32,11 @@ export const getDateRange = (dateTime: Date) => {
  * @example
  * Input: 2020-01-01T19:03:22.000Z
  * Output: [2020-01-01T19:03:00.000Z, 2020-01-01T19:03:59.000Z]
- *
  * @param dateTime - Source date time
  * @returns `[startDate, endDate]` array
  */
 export const getTimeRange = (dateTime: Date) => {
   const startDate = setSeconds(setMilliseconds(dateTime, 0), 0);
   const endDate = add(startDate, { minutes: 1, seconds: -1 });
-  return [startDate, endDate] as [Date, Date];
+  return [ startDate, endDate ] as [Date, Date];
 };

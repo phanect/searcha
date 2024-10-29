@@ -1,21 +1,22 @@
 import { Suspense } from "react";
 import clsx from "clsx";
-import { DocumentReference } from "firebase/firestore";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField } from "@mui/material";
 
-import useStyles from "./styles";
 import Loading from "@src/components/Loading";
 import ErrorFallback from "@src/components/ErrorFallback";
+import useStyles from "./styles";
 import PopupContents from "./PopupContents";
+import type { TextFieldProps } from "@mui/material";
+import type { DocumentReference } from "firebase/firestore";
 
 export type ServiceValue = {
   value: string;
   [prop: string]: any;
 };
 
-export interface IConnectServiceSelectProps {
+export type IConnectServiceSelectProps = {
   value: ServiceValue[];
   onChange: (value: ServiceValue[]) => void;
   config: {
@@ -29,7 +30,7 @@ export interface IConnectServiceSelectProps {
   TextFieldProps?: Partial<TextFieldProps>;
   docRef: DocumentReference;
   disabled?: boolean;
-}
+};
 
 export default function ConnectServiceSelect({
   value = [],
@@ -52,7 +53,7 @@ export default function ConnectServiceSelect({
       className={clsx(classes.root, className)}
       {...TextFieldProps}
       SelectProps={{
-        renderValue: (value) => `${(value as any[]).length} selected`,
+        renderValue: (value) => `${ (value as any[]).length } selected`,
         displayEmpty: true,
         classes: { select: classes.selectRoot },
         ...TextFieldProps.SelectProps,

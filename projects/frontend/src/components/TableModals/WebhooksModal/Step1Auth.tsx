@@ -1,8 +1,6 @@
-import { IWebhookModalStepProps } from "./WebhookModal";
-
 import { FormControlLabel, Checkbox, Typography } from "@mui/material";
-
 import { webhookSchemas } from "./utils";
+import type { IWebhookModalStepProps } from "./WebhookModal";
 
 export default function Step1Endpoint({
   webhookObject,
@@ -16,7 +14,7 @@ export default function Step1Endpoint({
       </Typography>
 
       <FormControlLabel
-        control={
+        control={(
           <Checkbox
             checked={webhookObject.auth?.enabled}
             onClick={() =>
@@ -26,19 +24,18 @@ export default function Step1Endpoint({
                   ...webhookObject.auth,
                   enabled: !webhookObject?.auth?.enabled,
                 },
-              })
-            }
+              })}
           />
-        }
+        )}
         label="Enable verification for this webhook"
         sx={{ mb: 2 }}
       />
 
-      {webhookObject.auth?.enabled &&
-        webhookSchemas[webhookObject.type].Auth(
-          webhookObject,
-          setWebhookObject
-        )}
+      {webhookObject.auth?.enabled
+      && webhookSchemas[webhookObject.type].Auth(
+        webhookObject,
+        setWebhookObject
+      )}
       {}
     </>
   );

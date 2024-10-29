@@ -1,28 +1,28 @@
-import { makeStyles } from 'tss-react/mui';
-import { Grid, Typography, Button } from '@mui/material';
+import { makeStyles } from "tss-react/mui";
+import { Grid, Typography, Button } from "@mui/material";
 
-import { PopupFooterProps } from './props';
-import { FOOTER_HEIGHT } from './constants/layout';
+import { FOOTER_HEIGHT } from "./constants/layout";
+import type { PopupFooterProps } from "./props";
 
 const useStyles = makeStyles()((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     height: FOOTER_HEIGHT,
     margin: 0,
 
-    '& > div': { padding: theme.spacing(0, 1) + ' !important' },
+    "& > div": { padding: theme.spacing(0, 1) + " !important" },
   },
 
   count: {
-    display: 'block',
+    display: "block",
     marginLeft: theme.spacing(1),
 
-    fontFeatureSettings: '"tnum"',
+    fontFeatureSettings: "\"tnum\"",
     color: theme.palette.text.disabled,
-    userSelect: 'none',
+    userSelect: "none",
   },
 
-  button: { display: 'flex' },
+  button: { display: "flex" },
 }));
 
 export default function PopupFooter({
@@ -54,7 +54,7 @@ export default function PopupFooter({
     </Button>
   );
 
-  if (multiple)
+  if (multiple) {
     return (
       <Grid
         container
@@ -65,10 +65,10 @@ export default function PopupFooter({
       >
         <Grid>
           <Typography variant="button" className={classes.count}>
-            {countText ??
-              `${value.length} of ${options.length}${
-                max ? ', max ' + max : ''
-              }`}
+            {countText
+            ?? `${ value.length } of ${ options.length }${
+              max ? ", max " + max : ""
+            }`}
           </Typography>
         </Grid>
         {selectAll ? (
@@ -107,8 +107,9 @@ export default function PopupFooter({
         </Grid>
       </Grid>
     );
+  }
 
-  if (clearable)
+  if (clearable) {
     return (
       <Grid
         container
@@ -131,6 +132,7 @@ export default function PopupFooter({
         </Grid>
       </Grid>
     );
+  }
 
   return <></>;
 }

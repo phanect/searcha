@@ -1,9 +1,10 @@
 import {
-  MutableRefObject,
   useCallback,
   useRef,
   useSyncExternalStore,
 } from "react";
+import type {
+  MutableRefObject } from "react";
 
 // NOTE: This is not the final solution. But is a potential solution for this problem.
 export default function useStateWithRef<T>(
@@ -25,5 +26,5 @@ export default function useStateWithRef<T>(
 
   const state = useSyncExternalStore(subscribe, get);
 
-  return [state, set, value];
+  return [ state, set, value ];
 }

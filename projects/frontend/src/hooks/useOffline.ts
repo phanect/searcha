@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function useOffline() {
-  const [isOffline, setIsOffline] = useState(false);
+  const [ isOffline, setIsOffline ] = useState(false);
   const handleOffline = () => setIsOffline(true);
   const handleOnline = () => setIsOffline(false);
 

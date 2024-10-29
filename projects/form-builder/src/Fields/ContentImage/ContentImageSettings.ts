@@ -1,22 +1,22 @@
-import { IFieldConfig } from '../../types';
-import { FieldType } from '../../constants/fields';
+import { FieldType } from "../../constants/fields";
+import type { IFieldConfig } from "../../types";
 
-export const ContentImageSettings: IFieldConfig['settings'] = [
+export const ContentImageSettings: IFieldConfig["settings"] = [
   {
-    name: 'src',
-    label: 'Image Source',
+    name: "src",
+    label: "Image Source",
     type: FieldType.image,
     required: true,
     defaultValue: undefined,
   },
   {
-    name: 'alt',
-    label: 'Alt Text',
+    name: "alt",
+    label: "Alt Text",
     type: FieldType.shortText,
     required: true,
-    defaultValue: '',
+    defaultValue: "",
     assistiveText:
-      '<a href="https://supercooldesign.co.uk/blog/how-to-write-good-alt-text" target="_blank" rel="noopener">Learn more about alt text</a>',
+      "<a href=\"https://supercooldesign.co.uk/blog/how-to-write-good-alt-text\" target=\"_blank\" rel=\"noopener\">Learn more about alt text</a>",
   },
 ];
 

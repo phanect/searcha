@@ -8,7 +8,7 @@ import FirebaseUi from "@src/components/FirebaseUi";
 import { ROUTES } from "@src/constants/routes";
 
 export default function AuthPage() {
-  const [searchParams] = useSearchParams();
+  const [ searchParams ] = useSearchParams();
 
   const uiConfig: firebaseui.auth.Config = {};
   const redirect = searchParams.get("redirect");
@@ -19,7 +19,7 @@ export default function AuthPage() {
   return (
     <AuthLayout
       title="Sign in"
-      description={
+      description={(
         <Typography
           color="text.secondary"
           align="right"
@@ -32,7 +32,7 @@ export default function AuthPage() {
             sign up
           </MuiLink>
         </Typography>
-      }
+      )}
     >
       <FirebaseUi uiConfig={uiConfig} />
     </AuthLayout>

@@ -1,12 +1,15 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
 import { Typography } from "@mui/material";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function GeoPoint({ value }: IDisplayCellProps) {
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
   const { latitude, longitude } = value;
 
-  if (latitude === undefined || longitude === undefined)
+  if (latitude === undefined || longitude === undefined) {
     return <>⚠️ Invalid Value</>;
+  }
   // direction
   const latDirection = latitude > 0 ? "N" : "S";
   const lat = Math.abs(latitude);

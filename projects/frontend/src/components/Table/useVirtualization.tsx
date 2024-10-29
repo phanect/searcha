@@ -13,15 +13,16 @@ import {
   DEFAULT_ROW_HEIGHT,
   OUT_OF_ORDER_MARGIN,
   DEFAULT_COL_WIDTH,
-} from "./Table";
+  MIN_COL_WIDTH } from "./Table";
 import type { TableRow } from "@src/types/table";
 import type { Column, ColumnSizingState } from "@tanstack/react-table";
-
-import { MIN_COL_WIDTH } from "./Table";
 
 /**
  * Virtualizes rows and columns,
  * and scrolls to selected cell
+ * @param containerRef
+ * @param leafColumns
+ * @param columnSizing
  */
 export function useVirtualization(
   containerRef: React.RefObject<HTMLDivElement>,
@@ -30,9 +31,9 @@ export function useVirtualization(
 ) {
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
-  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ selectedCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
 
   // Virtualize rows
   const {
@@ -46,9 +47,9 @@ export function useVirtualization(
     getScrollElement: () => containerRef.current,
     estimateSize: useCallback(
       (index: number) =>
-        (tableSchema.rowHeight || DEFAULT_ROW_HEIGHT) +
-        (tableRows[index]._rowy_outOfOrder ? OUT_OF_ORDER_MARGIN : 0),
-      [tableSchema.rowHeight, tableRows]
+        (tableSchema.rowHeight || DEFAULT_ROW_HEIGHT)
+        + (tableRows[index]._rowy_outOfOrder ? OUT_OF_ORDER_MARGIN : 0),
+      [ tableSchema.rowHeight, tableRows ]
     ),
   });
 
@@ -71,12 +72,15 @@ export function useVirtualization(
         const localWidth = columnSizing[columnDef.id || ""];
         const definedWidth = localWidth || schemaWidth;
 
-        if (definedWidth === undefined) return DEFAULT_COL_WIDTH;
-        if (definedWidth < MIN_COL_WIDTH && columnDef.id !== "_rowy_select")
+        if (definedWidth === undefined) {
+          return DEFAULT_COL_WIDTH;
+        }
+        if (definedWidth < MIN_COL_WIDTH && columnDef.id !== "_rowy_select") {
           return MIN_COL_WIDTH;
+        }
         return definedWidth;
       },
-      [leafColumns, columnSizing]
+      [ leafColumns, columnSizing ]
     ),
     rangeExtractor: useCallback(
       (range: Range) => {
@@ -86,12 +90,12 @@ export function useVirtualization(
           .map((c) => c.getPinnedIndex());
 
         const combinedRange = Array.from(
-          new Set([...defaultRange, ...frozenColumns])
+          new Set([ ...defaultRange, ...frozenColumns ])
         ).sort((a, b) => a - b);
 
         return combinedRange;
       },
-      [leafColumns]
+      [ leafColumns ]
     ),
   });
 
@@ -102,18 +106,24 @@ export function useVirtualization(
 
   // Scroll to selected cell
   useEffect(() => {
-    if (!selectedCell) return;
+    if (!selectedCell) {
+      return;
+    }
     if (selectedCell.path) {
       const rowIndex = tableRows.findIndex(
         (row) => row._rowy_ref.path === selectedCell.path
       );
-      if (rowIndex > -1) scrollToRowIndex(rowIndex);
+      if (rowIndex > -1) {
+        scrollToRowIndex(rowIndex);
+      }
     }
     if (selectedCell.columnKey) {
       const colIndex = leafColumns.findIndex(
         (col) => col.id === selectedCell.columnKey
       );
-      if (colIndex > -1) scrollToColIndex(colIndex);
+      if (colIndex > -1) {
+        scrollToColIndex(colIndex);
+      }
     }
   }, [
     selectedCell,
@@ -124,14 +134,14 @@ export function useVirtualization(
   ]);
 
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
-  const paddingBottom =
-    virtualRows.length > 0
+  const paddingBottom
+    = virtualRows.length > 0
       ? totalHeight - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0;
 
   const paddingLeft = virtualCols.length > 0 ? virtualCols?.[0]?.start || 0 : 0;
-  const paddingRight =
-    virtualCols.length > 0
+  const paddingRight
+    = virtualCols.length > 0
       ? totalWidth - (virtualCols?.[virtualCols.length - 1]?.end || 0)
       : 0;
 

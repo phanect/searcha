@@ -1,5 +1,5 @@
-type RowRef<T> = { id: string; path: string; parent: T };
-interface Ref extends RowRef<Ref> {}
+type RowRef<T> = { id: string; path: string; parent: T; };
+type Ref = {} & RowRef<Ref>;
 
 type FormulaContext = {
   row: Row;

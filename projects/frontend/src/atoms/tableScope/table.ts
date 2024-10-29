@@ -3,7 +3,8 @@ import { atomWithReducer } from "jotai/utils";
 import { atomWithHash } from "jotai-location";
 import { findIndex, cloneDeep, unset, orderBy } from "lodash-es";
 
-import {
+import { updateRowData } from "@src/utils/table";
+import type {
   TableSettings,
   TableSchema,
   ColumnConfig,
@@ -16,8 +17,7 @@ import {
   NextPageState,
   BulkWriteFunction,
 } from "@src/types/table";
-import { updateRowData } from "@src/utils/table";
-import { Table } from "@tanstack/react-table";
+import type { Table } from "@tanstack/react-table";
 
 /** Root atom from which others are derived */
 export const tableIdAtom = atom("");
@@ -42,16 +42,23 @@ export const updateTableSchemaAtom = atom<
  */
 export const tableColumnsOrderedAtom = atom<ColumnConfig[]>((get) => {
   const tableSchema = get(tableSchemaAtom);
-  if (!tableSchema || !tableSchema.columns) return [];
+  if (!tableSchema?.columns) {
+    return [];
+  }
   return orderBy(
     Object.values(tableSchema?.columns ?? {}),
-    [(c) => Boolean(c.fixed), "index"],
-    ["desc", "asc"]
+    [ (c) => Boolean(c.fixed), "index" ],
+    [ "desc", "asc" ]
   );
 });
 /** Store the table */
 export const reactTableAtom = atom<Table<TableRow> | null>(null);
-/** Reducer function to convert from array of columns to columns object */
+/**
+ * Reducer function to convert from array of columns to columns object
+ * @param a
+ * @param c
+ * @param index
+ */
 export const tableColumnsReducer = (
   a: Record<string, ColumnConfig>,
   c: ColumnConfig,
@@ -80,7 +87,9 @@ export const tablePageAtom = atom(
   (get, set, update: number | ((p: number) => number)) => {
     // If loading more or doesn’t have next page, don’t request another page
     const tableNextPage = get(tableNextPageAtom);
-    if (tableNextPage.loading || !tableNextPage.available) return;
+    if (tableNextPage.loading || !tableNextPage.available) {
+      return;
+    }
 
     const currentPage = get(tablePageHashAtom);
     set(
@@ -92,34 +101,36 @@ export const tablePageAtom = atom(
 
 type TableRowsLocalAction =
   /** Overwrite all rows */
-  | { type: "set"; rows: TableRow[] }
+  | { type: "set"; rows: TableRow[]; }
   /** Add a row or multiple rows */
-  | { type: "add"; row: TableRow | TableRow[] }
+  | { type: "add"; row: TableRow | TableRow[]; }
   /** Update a row */
   | {
-      type: "update";
-      path: string;
-      row: Partial<TableRow>;
-      deleteFields?: string[];
-    }
+    type: "update";
+    path: string;
+    row: Partial<TableRow>;
+    deleteFields?: string[];
+  }
   /** Delete a row or multiple rows */
-  | { type: "delete"; path: string | string[] };
+  | { type: "delete"; path: string | string[]; };
 const tableRowsLocalReducer = (
   prev: TableRow[],
   action: TableRowsLocalAction
 ): TableRow[] => {
   switch (action.type) {
     case "set":
-      return [...action.rows];
+      return [ ...action.rows ];
 
     case "add":
-      if (Array.isArray(action.row)) return [...action.row, ...prev];
-      return [action.row, ...prev];
+      if (Array.isArray(action.row)) {
+        return [ ...action.row, ...prev ];
+      }
+      return [ action.row, ...prev ];
 
     case "update":
-      const index = findIndex(prev, ["_rowy_ref.path", action.path]);
+      const index = findIndex(prev, [ "_rowy_ref.path", action.path ]);
       if (index > -1) {
-        const updatedRows = [...prev];
+        const updatedRows = [ ...prev ];
         updatedRows[index] = cloneDeep(prev[index]);
         if (Array.isArray(action.deleteFields)) {
           for (const field of action.deleteFields) {
@@ -209,21 +220,21 @@ export const tableNextPageAtom = atom({
  * @see
  * - {@link updateRowData} implementation
  * - https://stackoverflow.com/a/47554197/3572007
- * @internal Use {@link addRowAtom} or {@link updateRowAtom} instead
+ * @internal
  */
 export const _updateRowDbAtom = atom<UpdateCollectionDocFunction | undefined>(
   undefined
 );
 /**
  * Store function to delete row in db directly
- * @internal Use {@link deleteRowAtom} instead
+ * @internal
  */
 export const _deleteRowDbAtom = atom<DeleteCollectionDocFunction | undefined>(
   undefined
 );
 /**
  * Store function to bulk write to db
- * @internal Use {@link bulkAddRowsAtom} instead
+ * @internal
  */
 export const _bulkWriteDbAtom = atom<BulkWriteFunction | undefined>(undefined);
 
@@ -232,15 +243,14 @@ export type AuditChangeFunction = (
   rowId: string,
   data?:
     | {
-        updatedField?: string | undefined;
-      }
-    | undefined
+      updatedField?: string | undefined;
+    }
+
 ) => Promise<any>;
 /**
  * Store function to write auditing logs when user makes changes to the table.
  * Silently fails if auditing is disabled for the table or Rowy Run version
  * not compatible.
- *
  * @param type - Action type: "ADD_ROW" | "UPDATE_CELL" | "DELETE_ROW"
  * @param rowId - ID of row updated
  * @param data - Optional additional data to log

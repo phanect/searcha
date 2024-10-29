@@ -1,29 +1,31 @@
 import { useContext, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
-import { useAtom, PrimitiveAtom, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
 import { useSnackbar } from "notistack";
 
 import {
-  Firestore,
   doc,
   refEqual,
   onSnapshot,
-  FirestoreError,
   setDoc,
-  DocumentReference,
   deleteField,
 } from "firebase/firestore";
 import { useErrorBoundary } from "react-error-boundary";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { UpdateDocFunction, TableRow } from "@src/types/table";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import type { UpdateDocFunction, TableRow } from "@src/types/table";
+import type {
+  Firestore,
+  FirestoreError,
+  DocumentReference } from "firebase/firestore";
+import type { PrimitiveAtom } from "jotai";
 
 /** Options for {@link useFirestoreDocWithAtom} */
-interface IUseFirestoreDocWithAtomOptions<T> {
+type IUseFirestoreDocWithAtomOptions<T> = {
   /** Additional path segments appended to the path. If any are undefined, the listener isn’t created at all. */
-  pathSegments?: Array<string | undefined>;
+  pathSegments?: (string | undefined)[];
   /** Called when an error occurs. Make sure to wrap in useCallback! If not provided, errors trigger the nearest ErrorBoundary. */
   onError?: (error: FirestoreError) => void;
   /** Optionally disable Suspense */
@@ -32,13 +34,12 @@ interface IUseFirestoreDocWithAtomOptions<T> {
   createIfNonExistent?: T;
   /** Set this atom’s value to a function that updates the document. Uses same scope as `dataScope`. */
   updateDataAtom?: PrimitiveAtom<UpdateDocFunction<T> | undefined>;
-}
+};
 
 /**
  * Attaches a listener for a Firestore document and unsubscribes on unmount.
  * Gets the Firestore instance initiated in projectScope.
  * Updates an atom and Suspends that atom until the first snapshot is received.
- *
  * @param dataAtom - Atom to store data in
  * @param dataScope - Atom scope
  * @param path - Document path. If falsy, the listener isn’t created at all.
@@ -60,7 +61,7 @@ export function useFirestoreDocWithAtom<T = TableRow>(
   } = options || {};
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
   const setDataAtom = useSetAtom(dataAtom, dataScope);
   const setUpdateDataAtom = useSetAtom(
     options?.updateDataAtom || (dataAtom as any),
@@ -77,7 +78,9 @@ export function useFirestoreDocWithAtom<T = TableRow>(
 
   useEffect(() => {
     // If path is invalid and no memoizedDocRef was created, don’t continue
-    if (!memoizedDocRef) return undefined;
+    if (!memoizedDocRef) {
+      return undefined;
+    }
 
     // Suspend data atom until we get the first snapshot
     let suspended = false;
@@ -106,15 +109,23 @@ export function useFirestoreDocWithAtom<T = TableRow>(
             });
           }
         } catch (error) {
-          if (onError) onError(error as FirestoreError);
-          else showBoundary(error);
+          if (onError) {
+            onError(error as FirestoreError);
+          } else {
+            showBoundary(error);
+          }
         }
         suspended = false;
       },
       (error) => {
-        if (suspended) setDataAtom({} as T);
-        if (onError) onError(error);
-        else showBoundary(error);
+        if (suspended) {
+          setDataAtom({} as T);
+        }
+        if (onError) {
+          onError(error);
+        } else {
+          showBoundary(error);
+        }
       }
     );
 
@@ -135,7 +146,9 @@ export function useFirestoreDocWithAtom<T = TableRow>(
   useEffect(() => {
     // If path is invalid and no memoizedDocRef was created,
     // don’t set update and delete atoms
-    if (!memoizedDocRef) return undefined;
+    if (!memoizedDocRef) {
+      return undefined;
+    }
 
     // If `updateDataAtom` was passed,
     // set the atom’s value to a function that updates the document
@@ -160,9 +173,11 @@ export function useFirestoreDocWithAtom<T = TableRow>(
     return () => {
       // If `updateDataAtom` was passed,
       // reset the atom’s value to prevent writes
-      if (updateDataAtom) setUpdateDataAtom(undefined);
+      if (updateDataAtom) {
+        setUpdateDataAtom(undefined);
+      }
     };
-  }, [memoizedDocRef, updateDataAtom, setUpdateDataAtom, enqueueSnackbar]);
+  }, [ memoizedDocRef, updateDataAtom, setUpdateDataAtom, enqueueSnackbar ]);
 }
 
 export default useFirestoreDocWithAtom;
@@ -170,14 +185,18 @@ export default useFirestoreDocWithAtom;
 /**
  * Create the Firestore document reference.
  * Put code in a function so the results can be compared by useMemoValue.
+ * @param firebaseDb
+ * @param path
+ * @param pathSegments
  */
 export const getDocRef = <T>(
   firebaseDb: Firestore,
   path: string | undefined,
-  pathSegments?: Array<string | undefined>
+  pathSegments?: (string | undefined)[]
 ) => {
-  if (!path || (Array.isArray(pathSegments) && pathSegments?.some((x) => !x)))
+  if (!path || (Array.isArray(pathSegments) && pathSegments?.some((x) => !x))) {
     return null;
+  }
 
   return doc(
     firebaseDb,

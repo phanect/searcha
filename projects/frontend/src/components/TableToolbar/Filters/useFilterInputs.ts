@@ -3,9 +3,9 @@ import { find } from "lodash-es";
 
 import { getFieldType, getFieldProp } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";
+import { generateId } from "@src/utils/table";
 import type { ColumnConfig, TableFilter } from "@src/types/table";
 import type { IFieldConfig } from "@src/components/fields/types";
-import { generateId } from "@src/utils/table";
 
 export const useFilterInputs = (
   columns: ColumnConfig[],
@@ -33,99 +33,98 @@ export const useFilterInputs = (
     config: {},
   });
 
-  const INITIAL_QUERY: TableFilter[] =
-    filterColumns && filterColumns.length > 0
+  const INITIAL_QUERY: TableFilter[]
+    = filterColumns && filterColumns.length > 0
       ? [
-          {
-            key: filterColumns[0].key,
-            operator:
+        {
+          key: filterColumns[0].key,
+          operator:
               filterColumns[0].key === "_rowy_ref.id"
                 ? "id-equal"
                 : getFieldProp("filter", getFieldType(filterColumns[0]))
-                    .operators[0].value,
-            value:
+                  .operators[0].value,
+          value:
               filterColumns[0].key === "_rowy_ref.id"
                 ? ""
                 : getFieldProp("filter", getFieldType(filterColumns[0]))
-                    .defaultValue ?? "",
-            id: generateId(),
-          },
-        ]
+                  .defaultValue ?? "",
+          id: generateId(),
+        },
+      ]
       : [];
 
   // State for filter inputs
-  const [queries, setQueries] = useState<TableFilter[]>(
+  const [ queries, setQueries ] = useState<TableFilter[]>(
     defaultQuery ? [{ ...defaultQuery, id: generateId() }] : INITIAL_QUERY
   );
   const resetQuery = () => setQueries([]);
 
   // State for filter inputs joined by AND/OR
-  const [joinOperator, setJoinOperator] = useState<"AND" | "OR">("AND");
+  const [ joinOperator, setJoinOperator ] = useState<"AND" | "OR">("AND");
 
   // When the user sets a new column, automatically set the operator and value
   const handleColumnChange = (oldId: string, newKey: string) => {
     if (newKey === "_rowy_ref.id") {
-      setQueries((prevQueries) => {
-        return prevQueries.map((q) => {
-          if (q.id === oldId)
-            return {
-              key: newKey,
-              operator: "id-equal",
-              value: "",
-              id: q.id,
-            };
+      setQueries((prevQueries) => prevQueries.map((q) => {
+        if (q.id === oldId) {
+          return {
+            key: newKey,
+            operator: "id-equal",
+            value: "",
+            id: q.id,
+          };
+        }
 
-          return q;
-        });
-      });
+        return q;
+      }));
 
       return;
     }
 
-    const column = find(filterColumns, ["key", newKey]);
+    const column = find(filterColumns, [ "key", newKey ]);
     if (column) {
       const filter = getFieldProp("filter", getFieldType(column));
-      setQueries((prevQueries) => {
-        return prevQueries.map((q) => {
-          if (q.id === oldId)
-            return {
-              key: newKey,
-              operator: filter.operators[0].value,
-              value: filter.defaultValue ?? "",
-              id: q.id,
-            };
+      setQueries((prevQueries) => prevQueries.map((q) => {
+        if (q.id === oldId) {
+          return {
+            key: newKey,
+            operator: filter.operators[0].value,
+            value: filter.defaultValue ?? "",
+            id: q.id,
+          };
+        }
 
-          return q;
-        });
-      });
+        return q;
+      }));
     } else {
-      setQueries((prevQueries) => {
-        return prevQueries.map((q) => {
-          if (q.id === oldId)
-            return {
-              key: newKey,
-              operator: "is-not-empty",
-              value: "",
-              id: q.id,
-            };
+      setQueries((prevQueries) => prevQueries.map((q) => {
+        if (q.id === oldId) {
+          return {
+            key: newKey,
+            operator: "is-not-empty",
+            value: "",
+            id: q.id,
+          };
+        }
 
-          return q;
-        });
-      });
+        return q;
+      }));
     }
   };
 
   // Get the column config
   const selectedColumns = [];
   for (const query of queries) {
-    const column = find(filterColumns, ["key", query.key]);
-    if (column) selectedColumns.push(column);
+    const column = find(filterColumns, [ "key", query.key ]);
+    if (column) {
+      selectedColumns.push(column);
+    }
   }
 
-  const availableFiltersForEachSelectedColumn: IFieldConfig["filter"][] =
-    selectedColumns.map((column) => {
+  const availableFiltersForEachSelectedColumn: IFieldConfig["filter"][]
+    = selectedColumns.map((column) => {
       if (column.key === "_rowy_ref.id") {
-        return { operators: [{ value: "id-equal", label: "is" }] };
+        return { operators: [{ value: "id-equal", label: "is" }]};
       }
       return getFieldProp("filter", getFieldType(column));
     });

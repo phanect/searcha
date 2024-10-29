@@ -9,9 +9,9 @@ import { useContext } from "react";
 
 export default function useGetStartedCompletion() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
-  const [allUsers] = useAtom(allUsersAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ allUsers ] = useAtom(allUsersAtom, { store: projectScopeStore });
 
   const completedSteps = {
     project: true,

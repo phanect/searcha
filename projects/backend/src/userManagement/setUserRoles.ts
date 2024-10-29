@@ -1,6 +1,6 @@
 import { auth, db } from "../firebaseConfig";
-import { Request, Response } from "express";
 import { rowyUsers } from "../constants/Collections";
+import type { Request, Response } from "express";
 export const setUserRoles = async (req: Request, res: Response) => {
   try {
     const { email, roles } = req.body;

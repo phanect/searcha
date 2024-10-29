@@ -1,23 +1,24 @@
 import { memo, Fragment, useContext } from "react";
 import { useAtom } from "jotai";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import type { DropResult } from "react-beautiful-dnd";
 import {
-  ColumnSizingState,
-  HeaderGroup,
   flexRender,
 } from "@tanstack/react-table";
-import type { ColumnConfig, TableRow } from "@src/types/table";
 
+import { TableScopeContext, selectedCellAtom } from "@src/atoms/tableScope";
+import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import StyledRow from "./Styled/StyledRow";
 import ColumnHeader from "./ColumnHeader";
 import FinalColumnHeader from "./FinalColumn/FinalColumnHeader";
 
-import { TableScopeContext, selectedCellAtom } from "@src/atoms/tableScope";
-import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import StyledColumnHeader from "./Styled/StyledColumnHeader";
+import type {
+  ColumnSizingState,
+  HeaderGroup } from "@tanstack/react-table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
+import type { DropResult } from "react-beautiful-dnd";
 
-export interface ITableHeaderProps {
+export type ITableHeaderProps = {
   /** Headers with context from TanStack Table state */
   headerGroups: HeaderGroup<TableRow>[];
   /** Called when a header is dropped in a new position */
@@ -29,9 +30,10 @@ export interface ITableHeaderProps {
   /** If specified, renders a shadow in the last frozen column */
   lastFrozen?: string;
   /**
-   * Must pass this prop so that it re-renders when local column sizing changes */
+   * Must pass this prop so that it re-renders when local column sizing changes
+   */
   columnSizing: ColumnSizingState;
-}
+};
 
 /**
  * Renders table header row. Memoized to only re-render when column definitions
@@ -39,15 +41,15 @@ export interface ITableHeaderProps {
  *
  * - Renders drag & drop components
  */
-export const TableHeader = memo(function TableHeader({
+export const TableHeader = memo(({
   headerGroups,
   handleDropColumn,
   canAddColumns,
   canEditColumns,
   lastFrozen,
-}: ITableHeaderProps) {
+}: ITableHeaderProps) => {
   const tableScopeStore = useContext(TableScopeContext);
-  const [selectedCell] = useAtom(selectedCellAtom, { store: tableScopeStore });
+  const [ selectedCell ] = useAtom(selectedCellAtom, { store: tableScopeStore });
   const focusInside = selectedCell?.focusInside ?? false;
 
   return (
@@ -68,14 +70,14 @@ export const TableHeader = memo(function TableHeader({
               ref={provided.innerRef}
             >
               {headerGroup.headers.map((header, i) => {
-                const isSelectedCell =
-                  (!selectedCell && header.index === 0) ||
-                  (selectedCell?.path === "_rowy_header" &&
-                    selectedCell?.columnKey === header.id);
+                const isSelectedCell
+                  = (!selectedCell && header.index === 0)
+                  || (selectedCell?.path === "_rowy_header"
+                    && selectedCell?.columnKey === header.id);
 
                 const isLastHeader = i === headerGroup.headers.length - 1;
 
-                if (header.id === "_rowy_select")
+                if (header.id === "_rowy_select") {
                   return (
                     <StyledColumnHeader
                       key={header.id}
@@ -89,15 +91,16 @@ export const TableHeader = memo(function TableHeader({
                       )}
                     </StyledColumnHeader>
                   );
+                }
 
                 // Render later, after the drag & drop placeholder
-                if (header.id === "_rowy_column_actions")
+                if (header.id === "_rowy_column_actions") {
                   return (
                     <Fragment key={header.id}>
                       {provided.placeholder}
                       <FinalColumnHeader
                         key={header.id}
-                        data-row-id={"_rowy_header"}
+                        data-row-id="_rowy_header"
                         data-col-id={header.id}
                         tabIndex={isSelectedCell ? 0 : -1}
                         focusInsideCell={isSelectedCell && focusInside}
@@ -108,8 +111,11 @@ export const TableHeader = memo(function TableHeader({
                       />
                     </Fragment>
                   );
+                }
 
-                if (!header.column.columnDef.meta) return null;
+                if (!header.column.columnDef.meta) {
+                  return null;
+                }
 
                 const draggableHeader = (
                   <Draggable
@@ -135,14 +141,16 @@ export const TableHeader = memo(function TableHeader({
                   </Draggable>
                 );
 
-                if (isLastHeader)
+                if (isLastHeader) {
                   return (
                     <Fragment key={header.id}>
                       {draggableHeader}
                       {provided.placeholder}
                     </Fragment>
                   );
-                else return draggableHeader;
+                } else {
+                  return draggableHeader;
+                }
               })}
             </StyledRow>
           )}

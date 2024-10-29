@@ -1,16 +1,16 @@
-import { IDisplayCellProps } from "@src/components/fields/types";
-
 import { ButtonBase, Grid2 as Grid, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import { ChevronDown } from "@src/assets/icons";
 
-import { sanitiseValue } from "./utils";
 import ChipList from "@src/components/Table/TableCell/ChipList";
 import FormattedChip from "@src/components/FormattedChip";
 import {
   getColors,
-  IColors,
 } from "@src/components/fields/SingleSelect/Settings";
+import { sanitiseValue } from "./utils";
+import type {
+  IColors } from "@src/components/fields/SingleSelect/Settings";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function MultiSelect({
   value,
@@ -23,8 +23,8 @@ export default function MultiSelect({
   const colors: IColors[] = column?.config?.colors ?? [];
   const { mode } = useTheme().palette;
 
-  const rendered =
-    typeof value === "string" && value !== "" ? (
+  const rendered
+    = typeof value === "string" && value !== "" ? (
       <div style={{ flexGrow: 1, paddingLeft: "var(--cell-padding)" }}>
         <Tooltip title="This cell’s value is a string and needs to be converted to an array">
           <WarningIcon color="action" style={{ verticalAlign: "middle" }} />
@@ -50,7 +50,9 @@ export default function MultiSelect({
       </ChipList>
     );
 
-  if (disabled) return rendered;
+  if (disabled) {
+    return rendered;
+  }
 
   return (
     <ButtonBase

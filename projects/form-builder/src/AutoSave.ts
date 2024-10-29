@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
-import { Control, useWatch, useFormState } from 'react-hook-form';
-import { useDebounce } from 'use-debounce';
-import _isEqual from 'lodash-es/isEqual';
-import _omitBy from 'lodash-es/omitBy';
-import _isUndefined from 'lodash-es/isUndefined';
-import { diffChanges } from './utils';
+import { useEffect } from "react";
+import { useWatch, useFormState } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import _isEqual from "lodash-es/isEqual";
+import _omitBy from "lodash-es/omitBy";
+import _isUndefined from "lodash-es/isUndefined";
+import { diffChanges } from "./utils";
+import type { Control } from "react-hook-form";
 
-import { IFormProps } from './Form';
+import type { IFormProps } from "./Form";
 
-export interface IAutoSaveProps {
+export type IAutoSaveProps = {
   control: Control;
-  defaultValues: NonNullable<IFormProps['values']>;
-  onSubmit: IFormProps['onSubmit'];
-}
+  defaultValues: NonNullable<IFormProps["values"]>;
+  onSubmit: IFormProps["onSubmit"];
+};
 
 export default function AutoSave({
   control,
@@ -22,7 +23,7 @@ export default function AutoSave({
   const values = useWatch({ control });
   const { errors } = useFormState({ control });
 
-  const [debouncedValues] = useDebounce(values, 1000, {
+  const [ debouncedValues ] = useDebounce(values, 1000, {
     equalityFn: _isEqual,
   });
 
@@ -36,10 +37,10 @@ export default function AutoSave({
     );
 
     if (Object.keys(newValues).length > 0) {
-      console.log('SUBMIT', newValues, errors);
+      console.log("SUBMIT", newValues, errors);
       onSubmit(newValues);
     }
-  }, [debouncedValues]);
+  }, [ debouncedValues ]);
 
   return null;
 }

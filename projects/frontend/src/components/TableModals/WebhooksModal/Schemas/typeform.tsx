@@ -1,7 +1,7 @@
 import { Typography, Link, TextField } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { TableSettings } from "@src/types/table";
-import { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
+import type { TableSettings } from "@src/types/table";
+import type { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import type { WebHook } from "./type.ts";
 
 export const webhookTypeform: WebHook = {
@@ -55,13 +55,13 @@ export const webhookTypeform: WebHook = {
   ${
     table.audit !== false
       ? `const ${
-          table.auditFieldCreatedBy ?? "_createdBy"
-        } = await rowy.metadata.serviceAccountUser()
+        table.auditFieldCreatedBy ?? "_createdBy"
+      } = await rowy.metadata.serviceAccountUser()
   return {
     ...submission,
-    ${table.auditFieldCreatedBy ?? "_createdBy"}
+    ${ table.auditFieldCreatedBy ?? "_createdBy" }
   }`
-      : `return submission;`
+      : "return submission;"
   }
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 };`,
@@ -75,39 +75,37 @@ export const webhookTypeform: WebHook = {
   // WRITE YOUR CODE ONLY ABOVE THIS LINE. DO NOT WRITE CODE/COMMENTS OUTSIDE THE FUNCTION BODY
 }`,
   },
-  Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => {
-    return (
-      <>
-        <Typography gutterBottom>
-          Add a secret to your Typeform webhook config by following{" "}
-          <Link
-            href="https://developers.typeform.com/webhooks/secure-your-webhooks/"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="inherit"
-          >
-            these instructions
-            <InlineOpenInNewIcon />
-          </Link>
-          <br />
-          Then add the secret below.
-        </Typography>
+  Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => (
+    <>
+      <Typography gutterBottom>
+        Add a secret to your Typeform webhook config by following{" "}
+        <Link
+          href="https://developers.typeform.com/webhooks/secure-your-webhooks/"
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="inherit"
+        >
+          these instructions
+          <InlineOpenInNewIcon />
+        </Link>
+        <br />
+        Then add the secret below.
+      </Typography>
 
-        <TextField
-          id="typeform-secret"
-          label="Typeform secret"
-          fullWidth
-          value={webhookObject.auth.secret}
-          onChange={(e) => {
-            setWebhookObject({
-              ...webhookObject,
-              auth: { ...webhookObject.auth, secret: e.target.value },
-            });
-          }}
-        />
-      </>
-    );
-  },
+      <TextField
+        id="typeform-secret"
+        label="Typeform secret"
+        fullWidth
+        value={webhookObject.auth.secret}
+        onChange={(e) => {
+          setWebhookObject({
+            ...webhookObject,
+            auth: { ...webhookObject.auth, secret: e.target.value },
+          });
+        }}
+      />
+    </>
+  ),
 };
 
 export default webhookTypeform;

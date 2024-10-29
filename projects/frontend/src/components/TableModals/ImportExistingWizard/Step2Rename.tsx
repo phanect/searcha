@@ -12,21 +12,21 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done";
 
-import { IStepProps } from ".";
 import ScrollableList from "@src/components/TableModals/ScrollableList";
 import Column, {
   COLUMN_HEADER_HEIGHT,
 } from "@src/components/Table/Mock/Column";
+import type { IStepProps } from ".";
 
 export default function Step2Rename({
   config,
   updateConfig,
   isXs,
 }: IStepProps) {
-  const [fieldToRename, setFieldToRename] = useState("");
-  const [renameTextField, setRenameTextField] = useState("");
+  const [ fieldToRename, setFieldToRename ] = useState("");
+  const [ renameTextField, setRenameTextField ] = useState("");
   const handleRename = () => {
-    updateConfig({ [fieldToRename]: { name: renameTextField } });
+    updateConfig({ [fieldToRename]: { name: renameTextField }});
     setFieldToRename("");
     setRenameTextField("");
   };
@@ -51,7 +51,7 @@ export default function Step2Rename({
       <Divider />
 
       <ScrollableList>
-        {Object.entries(config).map(([field, { name }]) => (
+        {Object.entries(config).map(([ field, { name }]) => (
           <Grid container key={field} component="li" wrap="nowrap">
             {!isXs && (
               <Grid>
@@ -65,7 +65,9 @@ export default function Step2Rename({
                   value={renameTextField}
                   onChange={(e) => setRenameTextField(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") handleRename();
+                    if (e.key === "Enter") {
+                      handleRename();
+                    }
                   }}
                   InputProps={{
                     endAdornment: (
@@ -113,7 +115,7 @@ export default function Step2Rename({
                     setFieldToRename(field);
                     setRenameTextField(name);
                   }}
-                  aria-label={`Rename column ${field}`}
+                  aria-label={`Rename column ${ field }`}
                   focusRipple
                 >
                   <Column label={name} secondaryItem={<EditIcon />} />

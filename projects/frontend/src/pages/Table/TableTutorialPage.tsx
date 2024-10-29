@@ -6,7 +6,6 @@ import { Box, Typography, Button } from "@mui/material";
 import { Import as ImportIcon } from "@src/assets/icons";
 
 import ErrorFallback from "@src/components/ErrorFallback";
-import TablePage from "./TablePage";
 import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
 import TableTutorial from "@src/components/TableTutorial";
@@ -34,6 +33,7 @@ import {
 } from "@src/components/TableTutorial/TableSourceTutorial";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import * as csvData from "@src/components/TableTutorial/data";
+import TablePage from "./TablePage";
 
 const tableScopeStore = useContext(TableScopeContext);
 
@@ -43,42 +43,43 @@ const tableScopeStore = useContext(TableScopeContext);
 export default function TableTutorialPage() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [currentUser] = useAtom(currentUserAtom, { store: projectScopeStore });
+  const [ currentUser ] = useAtom(currentUserAtom, { store: projectScopeStore });
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense
-        fallback={
+        fallback={(
           <>
             <TableToolbarSkeleton />
             <TableSkeleton />
           </>
-        }
+        )}
       >
         <TableScopeContext.Provider
           key={"tableScopeStore/" + TUTORIAL_COLLECTION}
-          value={ tableScopeStore }
+          value={tableScopeStore}
         >
           <HydrateAtoms initialValues={[
             [ currentUserAtom, currentUser ],
             [ tableIdAtom, TUTORIAL_COLLECTION ],
             [ tableSettingsAtom, TUTORIAL_TABLE_SETTINGS ],
             [ tableSchemaAtom, TUTORIAL_TABLE_SCHEMA ],
-          ]}>
+          ]}
+          >
             <TableSourceTutorial />
             <Suspense
-              fallback={
+              fallback={(
                 <>
                   <TableToolbarSkeleton />
                   <TableSkeleton />
                 </>
-              }
+              )}
             >
               <Box
                 component="main"
                 sx={{
                   ".empty-state--full-screen, #empty-table": {
-                    height: `calc(100vh - ${TOP_BAR_HEIGHT}px - min(50vh, 440px)) !important`,
+                    height: `calc(100vh - ${ TOP_BAR_HEIGHT }px - min(50vh, 440px)) !important`,
                   },
                   ".table-container > .rdg": {
                     paddingBottom:
@@ -86,7 +87,7 @@ export default function TableTutorialPage() {
                     width: "100%",
 
                     ".rdg-row, .rdg-header-row": {
-                      marginRight: `env(safe-area-inset-right)`,
+                      marginRight: "env(safe-area-inset-right)",
                     },
                   },
                 }}
@@ -103,8 +104,8 @@ export default function TableTutorialPage() {
 }
 
 function Content() {
-  const [tableColumnsOrdered] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableColumnsOrdered ] = useAtom(tableColumnsOrderedAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const openTableModal = useSetAtom(tableModalAtom, { store: tableScopeStore });
   const setImportCsv = useSetAtom(importCsvAtom, { store: tableScopeStore });
 
@@ -113,7 +114,7 @@ function Content() {
       <EmptyState
         Icon={(() => null) as any}
         message="Get started"
-        description={
+        description={(
           <>
             <Typography>There is no data in this table.</Typography>
 
@@ -133,7 +134,7 @@ function Content() {
 
             <TableModals />
           </>
-        }
+        )}
       />
     );
   }

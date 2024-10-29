@@ -28,17 +28,17 @@ import { runRoutes } from "@src/constants/runRoutes";
 export default function InviteUser() {
   const projectScopeStore = useContext(ProjectScopeContext);
 
-  const [projectRoles] = useAtom(projectRolesAtom, { store: projectScopeStore });
-  const [projectSettings] = useAtom(projectSettingsAtom, { store: projectScopeStore });
-  const [rowyRun] = useAtom(rowyRunAtom, { store: projectScopeStore });
+  const [ projectRoles ] = useAtom(projectRolesAtom, { store: projectScopeStore });
+  const [ projectSettings ] = useAtom(projectSettingsAtom, { store: projectScopeStore });
+  const [ rowyRun ] = useAtom(rowyRunAtom, { store: projectScopeStore });
   const openRowyRunModal = useSetAtom(rowyRunModalAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
-  const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<"LOADING" | string>("");
+  const [ open, setOpen ] = useState(false);
+  const [ status, setStatus ] = useState<"LOADING" | string>("");
 
-  const [email, setEmail] = useState("");
-  const [roles, setRoles] = useState([]);
+  const [ email, setEmail ] = useState("");
+  const [ roles, setRoles ] = useState([]);
 
   const handleInvite = async () => {
     try {
@@ -47,10 +47,12 @@ export default function InviteUser() {
         route: runRoutes.inviteUser,
         body: { email, roles },
       });
-      if (!res.success) throw new Error(res.message);
+      if (!res.success) {
+        throw new Error(res.message);
+      }
       setStatus("");
       setOpen(false);
-      enqueueSnackbar(`Sent invite to: ${email}`);
+      enqueueSnackbar(`Sent invite to: ${ email }`);
     } catch (e: any) {
       console.error(e);
       setStatus("Failed to invite user: " + e.message);
@@ -69,7 +71,7 @@ export default function InviteUser() {
         variant="text"
         color="primary"
         startIcon={<AddIcon />}
-        sx={{ "&&": { mb: -0.5 } }}
+        sx={{ "&&": { mb: -0.5 }}}
       >
         Invite user
       </Button>
@@ -79,7 +81,7 @@ export default function InviteUser() {
           title="Invite user"
           onClose={() => setOpen(false)}
           maxWidth="xs"
-          body={
+          body={(
             <>
               <DialogContentText paragraph>
                 Invite a user to join your project via email.
@@ -108,7 +110,7 @@ export default function InviteUser() {
               <MultiSelect
                 label="Roles"
                 value={roles}
-                options={Array.isArray(projectRoles) ? projectRoles : ["ADMIN"]}
+                options={Array.isArray(projectRoles) ? projectRoles : [ "ADMIN" ]}
                 onChange={setRoles}
                 freeText
                 TextFieldProps={{
@@ -116,7 +118,9 @@ export default function InviteUser() {
                   SelectProps: {
                     renderValue: () => {
                       if (Array.isArray(roles)) {
-                        if (roles.length >= 1) return roles.join(", ");
+                        if (roles.length >= 1) {
+                          return roles.join(", ");
+                        }
                         return (
                           <Typography variant="inherit" color="text.disabled">
                             Set roles…
@@ -130,10 +134,10 @@ export default function InviteUser() {
                 }}
               />
             </>
-          }
+          )}
           footer={
-            status !== "LOADING" &&
-            typeof status === "string" && (
+            status !== "LOADING"
+            && typeof status === "string" && (
               <Typography
                 variant="caption"
                 color="error"

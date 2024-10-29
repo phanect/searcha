@@ -4,10 +4,11 @@ import { FieldType } from "@src/constants/fields";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import {
   doc,
-  DocumentReference as Reference,
   GeoPoint,
 } from "firebase/firestore";
 import { useAtom } from "jotai";
+import type {
+  DocumentReference as Reference } from "firebase/firestore";
 
 const needsConverter = (type: FieldType) =>
   [
@@ -18,15 +19,17 @@ const needsConverter = (type: FieldType) =>
   ].includes(type);
 
 const needsUploadTypes = (type: FieldType) =>
-  [FieldType.image, FieldType.file].includes(type);
+  [ FieldType.image, FieldType.file ].includes(type);
 
 export default function useConverter() {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseDb] = useAtom(firebaseDbAtom, { store: projectScopeStore });
+  const [ firebaseDb ] = useAtom(firebaseDbAtom, { store: projectScopeStore });
 
   const referenceConverter = (value: string): Reference | null => {
-    if (!value) return null;
-    if (value.charAt(value.length - 1) === "/") {
+    if (!value) {
+      return null;
+    }
+    if (value.endsWith("/")) {
       value = value.slice(0, -1);
     }
     if (value.split("/").length % 2 === 0) {
@@ -41,7 +44,9 @@ export default function useConverter() {
 
   const imageOrFileConverter = (urls: any): RowyFile[] => {
     try {
-      if (!urls) return [];
+      if (!urls) {
+        return [];
+      }
       if (Array.isArray(urls)) {
         return urls
           .map((url) => {
@@ -96,9 +101,11 @@ export default function useConverter() {
   };
 
   const geoPointConverter = (value: any) => {
-    if (!value) return null;
+    if (!value) {
+      return null;
+    }
     if (typeof value === "string") {
-      let latitude, longitude;
+      let latitude; let longitude;
       // covered cases:
       // [3.2, 32.3]
       // {latitude: 3.2, longitude: 32.3}
@@ -106,7 +113,7 @@ export default function useConverter() {
       try {
         const parsed = JSON.parse(value);
         if (Array.isArray(parsed)) {
-          [latitude, longitude] = parsed;
+          [ latitude, longitude ] = parsed;
         } else {
           latitude = parsed.latitude;
           longitude = parsed.longitude;
@@ -117,7 +124,7 @@ export default function useConverter() {
           longitude = parseFloat(longitude);
         }
       } catch (e) {
-        [latitude, longitude] = value
+        [ latitude, longitude ] = value
           .split(",")
           .map((val) => parseFloat(val.trim()));
       }
@@ -146,7 +153,9 @@ export default function useConverter() {
   const checkAndConvert = (value: any, type: FieldType) => {
     if (needsConverter(type)) {
       const converter = getConverter(type);
-      if (converter) return converter(value);
+      if (converter) {
+        return converter(value);
+      }
     }
     return value;
   };

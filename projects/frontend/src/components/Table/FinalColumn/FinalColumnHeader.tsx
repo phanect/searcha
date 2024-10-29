@@ -1,15 +1,16 @@
 import { useSetAtom } from "jotai";
 import { useContext } from "react";
-import { Box, BoxProps, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
 
 import { TableScopeContext, columnModalAtom } from "@src/atoms/tableScope";
 import { spreadSx } from "@src/utils/ui";
+import type { BoxProps } from "@mui/material";
 
-export interface IFinalColumnHeaderProps extends Partial<BoxProps> {
+export type IFinalColumnHeaderProps = {
   focusInsideCell: boolean;
   canAddColumns: boolean;
-}
+} & Partial<BoxProps>;
 
 export default function FinalColumnHeader({
   focusInsideCell,
@@ -19,7 +20,7 @@ export default function FinalColumnHeader({
   const tableScopeStore = useContext(TableScopeContext);
   const openColumnModal = useSetAtom(columnModalAtom, { store: tableScopeStore });
 
-  if (canAddColumns)
+  if (canAddColumns) {
     return (
       <Box
         role="columnheader"
@@ -27,7 +28,7 @@ export default function FinalColumnHeader({
         sx={[
           {
             backgroundColor: "background.default",
-            border: (theme) => `1px solid ${theme.palette.divider}`,
+            border: (theme) => `1px solid ${ theme.palette.divider }`,
             borderLeft: "none",
             borderTopRightRadius: (theme) => theme.shape.borderRadius,
             borderBottomRightRadius: (theme) => theme.shape.borderRadius,
@@ -53,7 +54,7 @@ export default function FinalColumnHeader({
         </Button>
       </Box>
     );
-  else
+  } else {
     return (
       <Box
         role="columnheader"
@@ -61,7 +62,7 @@ export default function FinalColumnHeader({
         sx={[
           {
             backgroundColor: "background.default",
-            border: (theme) => `1px solid ${theme.palette.divider}`,
+            border: (theme) => `1px solid ${ theme.palette.divider }`,
             borderLeft: "none",
             borderTopRightRadius: (theme) => theme.shape.borderRadius,
             borderBottomRightRadius: (theme) => theme.shape.borderRadius,
@@ -80,4 +81,5 @@ export default function FinalColumnHeader({
         Actions
       </Box>
     );
+  }
 }

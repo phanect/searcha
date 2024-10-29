@@ -16,7 +16,7 @@ export const SnackLogContext = createContext({
 export const useSnackLogContext = () => useContext(SnackLogContext);
 
 export function SnackLogProvider({ children }: React.PropsWithChildren<{}>) {
-  const [state, setState] = useState(DEFAULT_STATE);
+  const [ state, setState ] = useState(DEFAULT_STATE);
 
   const requestSnackLog: typeof DEFAULT_FUNCTIONS.requestSnackLog = () => {
     setTimeout(() => {

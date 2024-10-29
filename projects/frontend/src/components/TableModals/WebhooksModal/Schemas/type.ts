@@ -13,11 +13,11 @@ export type WebHook = {
     additionalVariables?: AdditionalVariables;
     extraLibs?: string[];
     template: (table: TableSettings) => string;
-  },
+  };
   condition: {
     additionalVariables?: AdditionalVariables;
     extraLibs?: string[];
-    template: () => string,
-  },
+    template: () => string;
+  };
   Auth: (webhookObject: IWebhook, setWebhookObject: (w: IWebhook) => void) => JSX.Element;
 };

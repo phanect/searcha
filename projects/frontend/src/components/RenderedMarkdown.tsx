@@ -3,7 +3,7 @@ import remarkGfm from "remark-gfm";
 import { Typography, Link } from "@mui/material";
 import type { Pluggable } from "unified";
 
-const remarkPlugins = [remarkGfm as Pluggable];
+const remarkPlugins = [ remarkGfm as Pluggable ];
 const components: Components = {
   // @ts-expect-error Material UI's bug: https://github.com/mui/material-ui/issues/41906
   a: (props) => <Link color="inherit" {...props} />,
@@ -16,12 +16,12 @@ const components: Components = {
 };
 
 const restrictionPresets = {
-  singleLine: ["p", "em", "strong", "a", "code", "del"],
+  singleLine: [ "p", "em", "strong", "a", "code", "del" ],
 };
 
-export interface IRenderedMarkdownProps extends ReactMarkdownProps {
+export type IRenderedMarkdownProps = {
   restrictionPreset?: keyof typeof restrictionPresets;
-}
+} & ReactMarkdownProps;
 
 export default function RenderedMarkdown({
   restrictionPreset,

@@ -32,13 +32,13 @@ export const extensionNames: Record<ExtensionType, string> = {
 
 export type ExtensionTrigger = "create" | "update" | "delete";
 
-export interface IExtensionEditor {
+export type IExtensionEditor = {
   displayName: string;
   photoURL: string;
   lastUpdate: number;
-}
+};
 
-export interface IExtension {
+export type IExtension = {
   // rowy meta fields
   name: string;
   active: boolean;
@@ -52,15 +52,15 @@ export interface IExtension {
   conditions: string;
 
   trackedFields?: string[];
-}
+};
 
 // https://firebase.google.com/docs/functions/manage-functions#set_runtime_options
-export interface IRuntimeOptions {
+export type IRuntimeOptions = {
   memory?: "128MB" | "256MB" | "512MB" | "1GB" | "2GB" | "4GB" | "8GB";
   timeoutSeconds?: number;
-}
+};
 
-export const triggerTypes: ExtensionTrigger[] = ["create", "update", "delete"];
+export const triggerTypes: ExtensionTrigger[] = [ "create", "update", "delete" ];
 
 const extensionBodyTemplate = {
   buildshipAuthenticatedTrigger: `const extensionBody: BuildshipTriggerBody = async({row, db, change, ref, logging}) => {
@@ -294,11 +294,11 @@ export function emptyExtensionObject(
   user: IExtensionEditor
 ): IExtension {
   return {
-    name: `${type} extension`,
+    name: `${ type } extension`,
     active: true,
     triggers: [],
     type,
-    extensionBody: extensionBodyTemplate[type] ?? extensionBodyTemplate["task"],
+    extensionBody: extensionBodyTemplate[type] ?? extensionBodyTemplate.task,
     requiredFields: [],
     trackedFields: [],
     conditions: `const condition: Condition = async({row, change, logging}) => {
@@ -316,27 +316,25 @@ export function sparkToExtensionObjects(
   sparkConfig: string,
   user: IExtensionEditor
 ): IExtension[] {
-  const parseString2Array = (str: string): string[] => {
-    return str
-      .trim()
-      .replace(/\[|\]/g, "")
-      .split(",")
-      .map((x) => x.trim().replace(/'/g, ""));
-  };
+  const parseString2Array = (str: string): string[] => str
+    .trim()
+    .replace(/\[|\]/g, "")
+    .split(",")
+    .map((x) => x.trim().replace(/'/g, ""));
   const oldSparks = sparkConfig.replace(/"/g, "'");
-  const sparkTypes = [...oldSparks.matchAll(/type:(.*),/g)].map((x) =>
+  const sparkTypes = [ ...oldSparks.matchAll(/type:(.*),/g) ].map((x) =>
     x[1].trim().replace(/'/g, "")
   );
-  const triggers = [...oldSparks.matchAll(/triggers:(.*),/g)].map((x) =>
+  const triggers = [ ...oldSparks.matchAll(/triggers:(.*),/g) ].map((x) =>
     parseString2Array(x[1])
   );
-  const shouldRun = [...oldSparks.matchAll(/shouldRun:(.*),/g)].map((x) =>
+  const shouldRun = [ ...oldSparks.matchAll(/shouldRun:(.*),/g) ].map((x) =>
     x[1].trim()
   );
-  const requiredFields = [...oldSparks.matchAll(/requiredFields:(.*),/g)].map(
+  const requiredFields = [ ...oldSparks.matchAll(/requiredFields:(.*),/g) ].map(
     (x) => parseString2Array(x[1])
   );
-  const splitSparks = oldSparks.split(`type:`);
+  const splitSparks = oldSparks.split("type:");
   const sparks = sparkTypes?.map((x, index) => {
     const sparkBody = splitSparks[index + 1]
       ?.split("sparkBody:")[1]
@@ -353,20 +351,18 @@ export function sparkToExtensionObjects(
       sparkBody,
     };
   });
-  const extensionObjects = sparks?.map((spark, index): IExtension => {
-    return {
-      // rowy meta fields
-      name: `Migrated spark ${index}`,
-      active: true,
-      lastEditor: user,
+  const extensionObjects = sparks?.map((spark, index): IExtension => ({
+    // rowy meta fields
+    name: `Migrated spark ${ index }`,
+    active: true,
+    lastEditor: user,
 
-      // ft build fields
-      triggers: (spark.triggers ?? []) as ExtensionTrigger[],
-      type: spark.type as ExtensionType,
-      requiredFields: spark.requiredFields ?? [],
-      extensionBody: spark.sparkBody,
-      conditions: spark.shouldRun ?? "",
-    };
-  });
+    // ft build fields
+    triggers: (spark.triggers ?? []) as ExtensionTrigger[],
+    type: spark.type as ExtensionType,
+    requiredFields: spark.requiredFields ?? [],
+    extensionBody: spark.sparkBody,
+    conditions: spark.shouldRun ?? "",
+  }));
   return extensionObjects ?? [];
 }

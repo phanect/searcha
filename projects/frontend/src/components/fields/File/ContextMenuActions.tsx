@@ -5,41 +5,43 @@ import { useSnackbar } from "notistack";
 
 import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 import { Copy } from "@src/assets/icons";
-import { FileIcon } from ".";
 
 import {
   TableScopeContext,
   tableSchemaAtom,
   tableRowsAtom,
 } from "@src/atoms/tableScope";
-import { IFieldConfig } from "@src/components/fields/types";
+import { FileIcon } from ".";
+import type { IFieldConfig } from "@src/components/fields/types";
 
-export interface IContextMenuActions {
+export type IContextMenuActions = {
   label: string;
   icon: React.ReactNode;
   onClick: () => void;
-}
+};
 
 export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
   selectedCell,
   reset
 ) => {
   const tableScopeStore = useContext(TableScopeContext);
-  const [tableSchema] = useAtom(tableSchemaAtom, { store: tableScopeStore });
-  const [tableRows] = useAtom(tableRowsAtom, { store: tableScopeStore });
+  const [ tableSchema ] = useAtom(tableSchemaAtom, { store: tableScopeStore });
+  const [ tableRows ] = useAtom(tableRowsAtom, { store: tableScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
   const selectedCol = tableSchema.columns?.[selectedCell.columnKey];
-  if (!selectedCol) return [];
+  if (!selectedCol) {
+    return [];
+  }
 
-  const selectedRow = find(tableRows, ["_rowy_ref.path", selectedCell.path]);
+  const selectedRow = find(tableRows, [ "_rowy_ref.path", selectedCell.path ]);
   const cellValue = get(selectedRow, selectedCol.fieldName) || [];
 
-  const isEmpty =
-    cellValue === "" ||
-    cellValue === null ||
-    cellValue === undefined ||
-    cellValue.length === 0;
+  const isEmpty
+    = cellValue === ""
+    || cellValue === null
+    || cellValue === undefined
+    || cellValue.length === 0;
   const isSingleValue = isEmpty || cellValue?.length === 1;
 
   const handleCopyFileURL = (fileObj: RowyFile) => () => {
@@ -61,10 +63,10 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
       subItems: isSingleValue
         ? []
         : cellValue.map((fileObj: RowyFile, index: number) => ({
-            label: fileObj.name || "File " + (index + 1),
-            icon: <FileIcon />,
-            onClick: handleCopyFileURL(fileObj),
-          })),
+          label: fileObj.name || "File " + (index + 1),
+          icon: <FileIcon />,
+          onClick: handleCopyFileURL(fileObj),
+        })),
     },
     {
       label: "View file",
@@ -74,10 +76,10 @@ export const ContextMenuActions: IFieldConfig["contextMenuActions"] = (
       subItems: isSingleValue
         ? []
         : cellValue.map((fileObj: RowyFile, index: number) => ({
-            label: fileObj.name || "File " + (index + 1),
-            icon: <FileIcon />,
-            onClick: handleViewFile(fileObj),
-          })),
+          label: fileObj.name || "File " + (index + 1),
+          icon: <FileIcon />,
+          onClick: handleViewFile(fileObj),
+        })),
     },
   ];
 };

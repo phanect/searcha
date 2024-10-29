@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { IEditorCellProps } from "@src/components/fields/types";
 import { useSetAtom } from "jotai";
 
 import { format } from "date-fns";
@@ -10,18 +9,20 @@ import ChipList from "@src/components/Table/TableCell/ChipList";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
-import { FileIcon } from ".";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
-import { FileValue } from "@src/types/table";
-import useFileUpload from "./useFileUpload";
 
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import {
   DragDropContext,
   Droppable,
   Draggable,
-  DropResult,
 } from "react-beautiful-dnd";
+import useFileUpload from "./useFileUpload";
+import { FileIcon } from ".";
+import type {
+  DropResult } from "react-beautiful-dnd";
+import type { FileValue } from "@src/types/table";
+import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function File_({
   column,
@@ -54,8 +55,8 @@ export default function File_({
     }
 
     if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
+      destination.droppableId === source.droppableId
+      && destination.index === source.index
     ) {
       return;
     }
@@ -65,7 +66,7 @@ export default function File_({
     newValue.splice(source.index, 1);
     newValue.splice(destination.index, 0, value[source.index]);
 
-    handleUpdate([...newValue]);
+    handleUpdate([ ...newValue ]);
   };
 
   return (
@@ -80,14 +81,14 @@ export default function File_({
 
         ...(isDragActive
           ? {
-              backgroundColor: (theme) =>
-                alpha(
-                  theme.palette.primary.main,
-                  theme.palette.action.hoverOpacity * 2
-                ),
+            backgroundColor: (theme) =>
+              alpha(
+                theme.palette.primary.main,
+                theme.palette.action.hoverOpacity * 2
+              ),
 
-              "& .row-hover-iconButton": { color: "primary.main" },
-            }
+            "& .row-hover-iconButton": { color: "primary.main" },
+          }
           : {}),
       }}
       {...dropzoneProps}
@@ -105,94 +106,94 @@ export default function File_({
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {Array.isArray(value) &&
-                  value.map((file: FileValue, i) => (
-                    <Draggable
-                      key={file.downloadURL}
-                      draggableId={file.downloadURL}
-                      index={i}
-                    >
-                      {(provided) => (
-                        <Grid
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            // Truncate so multiple files still visible
-                            maxWidth: `${
-                              value.length > 1 ? "calc(100% - 12px)" : "initial"
-                            }`,
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {value.length > 1 && (
-                            <div
-                              {...provided.dragHandleProps}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                              }}
-                            >
-                              <DragIndicatorIcon />
-                            </div>
-                          )}
-                          <Tooltip
-                            title={`File last modified ${format(
-                              file.lastModifiedTS,
-                              DATE_TIME_FORMAT
-                            )}`}
+                {Array.isArray(value)
+                && value.map((file: FileValue, i) => (
+                  <Draggable
+                    key={file.downloadURL}
+                    draggableId={file.downloadURL}
+                    index={i}
+                  >
+                    {(provided) => (
+                      <Grid
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          // Truncate so multiple files still visible
+                          maxWidth: `${
+                            value.length > 1 ? "calc(100% - 12px)" : "initial"
+                          }`,
+                          ...provided.draggableProps.style,
+                        }}
+                      >
+                        {value.length > 1 && (
+                          <div
+                            {...provided.dragHandleProps}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                            }}
                           >
-                            <Chip
-                              label={file.name}
-                              icon={<FileIcon />}
-                              sx={{
-                                "& .MuiChip-label": {
-                                  lineHeight: 5 / 3,
-                                },
-                              }}
-                              onClick={(e: any) => e.stopPropagation()}
-                              component="a"
-                              href={file.downloadURL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              clickable
-                              onDelete={
-                                disabled
-                                  ? undefined
-                                  : (e) => {
-                                      e.preventDefault();
-                                      confirm({
-                                        handleConfirm: () => handleDelete(file),
-                                        title: "Delete file?",
-                                        body: "This file cannot be recovered after",
-                                        confirm: "Delete",
-                                        confirmColor: "error",
-                                      });
-                                    }
-                              }
-                              tabIndex={tabIndex}
-                              style={{ width: "100%", cursor: "pointer" }}
-                            />
-                          </Tooltip>
-                        </Grid>
-                      )}
-                    </Draggable>
-                  ))}
+                            <DragIndicatorIcon />
+                          </div>
+                        )}
+                        <Tooltip
+                          title={`File last modified ${ format(
+                            file.lastModifiedTS,
+                            DATE_TIME_FORMAT
+                          ) }`}
+                        >
+                          <Chip
+                            label={file.name}
+                            icon={<FileIcon />}
+                            sx={{
+                              "& .MuiChip-label": {
+                                lineHeight: 5 / 3,
+                              },
+                            }}
+                            onClick={(e: any) => e.stopPropagation()}
+                            component="a"
+                            href={file.downloadURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            clickable
+                            onDelete={
+                              disabled
+                                ? undefined
+                                : (e) => {
+                                  e.preventDefault();
+                                  confirm({
+                                    handleConfirm: () => handleDelete(file),
+                                    title: "Delete file?",
+                                    body: "This file cannot be recovered after",
+                                    confirm: "Delete",
+                                    confirmColor: "error",
+                                  });
+                                }
+                            }
+                            tabIndex={tabIndex}
+                            style={{ width: "100%", cursor: "pointer" }}
+                          />
+                        </Tooltip>
+                      </Grid>
+                    )}
+                  </Draggable>
+                ))}
               </Grid>
 
-              {localFiles &&
-                localFiles.map((file) => (
-                  <Grid key={file.name}>
-                    <Chip
-                      icon={<FileIcon />}
-                      label={file.name}
-                      deleteIcon={
-                        <CircularProgressOptical size={20} color="inherit" />
-                      }
-                    />
-                  </Grid>
-                ))}
+              {localFiles
+              && localFiles.map((file) => (
+                <Grid key={file.name}>
+                  <Chip
+                    icon={<FileIcon />}
+                    label={file.name}
+                    deleteIcon={
+                      <CircularProgressOptical size={20} color="inherit" />
+                    }
+                  />
+                </Grid>
+              ))}
             </ChipList>
           )}
         </Droppable>

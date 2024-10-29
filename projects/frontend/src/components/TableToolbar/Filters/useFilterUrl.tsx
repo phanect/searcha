@@ -1,26 +1,36 @@
 import { TableScopeContext, tableFiltersAtom } from "@src/atoms/tableScope";
-import { TableFilter } from "@src/types/table";
 import { useAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import type { TableFilter } from "@src/types/table";
 
 function isTableFilter(filter: any): filter is TableFilter {
-  if (typeof filter !== "object") return false;
-  if ("key" in filter === false) return false;
-  if ("id" in filter === false) return false;
-  if ("value" in filter === false) return false;
-  if ("operator" in filter === false) return false;
+  if (typeof filter !== "object") {
+    return false;
+  }
+  if ("key" in filter === false) {
+    return false;
+  }
+  if ("id" in filter === false) {
+    return false;
+  }
+  if ("value" in filter === false) {
+    return false;
+  }
+  if ("operator" in filter === false) {
+    return false;
+  }
   return true;
 }
 
 /** Hook to manage filter as a query parameter */
 export function useFilterUrl() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [ searchParams, setSearchParams ] = useSearchParams();
   const { enqueueSnackbar } = useSnackbar();
   const tableScopeStore = useContext(TableScopeContext);
-  const [filters, setFilters] = useAtom(tableFiltersAtom, { store: tableScopeStore });
+  const [ filters, setFilters ] = useAtom(tableFiltersAtom, { store: tableScopeStore });
 
   // Fetch filter from URL and update user filter
   useEffect(() => {
@@ -30,20 +40,25 @@ export function useFilterUrl() {
       try {
         const _filters = JSON.parse(decodeURIComponent(filterParam));
 
-        if (!Array.isArray(_filters))
+        if (!Array.isArray(_filters)) {
           throw new Error("Filter should be an array");
+        }
 
         for (const _filter of _filters) {
-          if (!isTableFilter(_filter)) throw new Error("Invalid Filter");
+          if (!isTableFilter(_filter)) {
+            throw new Error("Invalid Filter");
+          }
         }
-        if (!isEqual(_filters, filters)) setFilters(_filters);
+        if (!isEqual(_filters, filters)) {
+          setFilters(_filters);
+        }
       } catch (err) {
         enqueueSnackbar("Oops, filter in URL is incorrect!!!", {
           variant: "error",
         });
       }
     }
-  }, [searchParams]);
+  }, [ searchParams ]);
 
   const updateFilterQueryParam = (filter: TableFilter[]) => {
     const searchParams = new URLSearchParams(window.location.search);

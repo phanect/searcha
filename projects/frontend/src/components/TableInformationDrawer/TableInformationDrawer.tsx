@@ -26,33 +26,33 @@ import Details from "./Details";
 export const DRAWER_WIDTH = 450;
 
 export const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  [`.${drawerClasses.root}`]: {
+  [`.${ drawerClasses.root }`]: {
     width: DRAWER_WIDTH,
     flexShrink: 0,
     whiteSpace: "nowrap",
   },
 
-  [`.${drawerClasses.paper}`]: {
+  [`.${ drawerClasses.paper }`]: {
     border: "none",
     boxShadow: theme.shadows[4].replace(/, 0 (\d+px)/g, ", -$1 0"),
-    borderTopLeftRadius: `${(theme.shape.borderRadius as number) * 3}px`,
-    borderBottomLeftRadius: `${(theme.shape.borderRadius as number) * 3}px`,
+    borderTopLeftRadius: `${ (theme.shape.borderRadius as number) * 3 }px`,
+    borderBottomLeftRadius: `${ (theme.shape.borderRadius as number) * 3 }px`,
 
     width: DRAWER_WIDTH,
-    maxWidth: `calc(100% - 28px - ${theme.spacing(1)})`,
+    maxWidth: `calc(100% - 28px - ${ theme.spacing(1) })`,
 
     boxSizing: "content-box",
 
     top: TOP_BAR_HEIGHT + TABLE_TOOLBAR_HEIGHT,
-    height: `calc(100% - ${TOP_BAR_HEIGHT + TABLE_TOOLBAR_HEIGHT}px)`,
+    height: `calc(100% - ${ TOP_BAR_HEIGHT + TABLE_TOOLBAR_HEIGHT }px)`,
     ".MuiDialog-paperFullScreen &": {
       top:
-        TOP_BAR_HEIGHT +
-        TABLE_TOOLBAR_HEIGHT +
-        Number(theme.spacing(2).replace("px", "")),
+        TOP_BAR_HEIGHT
+        + TABLE_TOOLBAR_HEIGHT
+        + Number(theme.spacing(2).replace("px", "")),
       height: `calc(100% - ${
         TOP_BAR_HEIGHT + TABLE_TOOLBAR_HEIGHT
-      }px - ${theme.spacing(2)})`,
+      }px - ${ theme.spacing(2) })`,
     },
 
     transition: theme.transitions.create("transform", {
@@ -62,15 +62,15 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
     zIndex: theme.zIndex.drawer - 1,
   },
-  [`:not(.sidedrawer-open) .${drawerClasses.paper}`]: {
-    transform: `translateX(calc(100% - env(safe-area-inset-right)))`,
+  [`:not(.sidedrawer-open) .${ drawerClasses.paper }`]: {
+    transform: "translateX(calc(100% - env(safe-area-inset-right)))",
   },
 
   ".sidedrawer-contents": {
     height: "100%",
     overflow: "hidden",
     marginLeft: theme.spacing(5),
-    marginRight: `max(env(safe-area-inset-right), ${theme.spacing(1)})`,
+    marginRight: `max(env(safe-area-inset-right), ${ theme.spacing(1) })`,
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(5),
   },
@@ -78,7 +78,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export default function SideDrawer() {
   const tableScopeStore = useContext(TableScopeContext);
-  const [sideDrawer, setSideDrawer] = useAtom(sideDrawerAtom, { store: tableScopeStore });
+  const [ sideDrawer, setSideDrawer ] = useAtom(sideDrawerAtom, { store: tableScopeStore });
 
   // const DetailsComponent =
   //   userRoles.includes("ADMIN") && tableSettings.templateSettings

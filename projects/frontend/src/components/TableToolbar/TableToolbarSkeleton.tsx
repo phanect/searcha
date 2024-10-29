@@ -4,11 +4,12 @@ import {
   ButtonGroup,
   Button,
   Skeleton,
-  SkeletonProps,
 } from "@mui/material";
 import { AddRow as AddRowIcon } from "@src/assets/icons";
 
 import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
+import type {
+  SkeletonProps } from "@mui/material";
 
 export const ButtonSkeleton = (props: Partial<SkeletonProps>) => (
   <Skeleton

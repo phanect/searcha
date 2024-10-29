@@ -6,9 +6,9 @@ export const StyledTable = styled("div")(({ theme }) => ({
     theme.palette.mode === "light"
       ? theme.palette.background.paper
       : colord(theme.palette.background.paper)
-          .mix("#fff", 0.04)
-          .alpha(1)
-          .toHslString(),
+        .mix("#fff", 0.04)
+        .alpha(1)
+        .toHslString(),
   "--row-hover-background-color": colord(theme.palette.background.paper)
     .mix(theme.palette.action.hover, theme.palette.action.hoverOpacity)
     .alpha(1)
@@ -19,7 +19,7 @@ export const StyledTable = styled("div")(({ theme }) => ({
 
   "& [role='columnheader'], & [role='gridcell']": {
     "&[aria-selected='true']": {
-      outline: `2px solid ${theme.palette.primary.main}`,
+      outline: `2px solid ${ theme.palette.primary.main }`,
       outlineOffset: "-2px",
     },
     "&:focus": {

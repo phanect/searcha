@@ -5,12 +5,12 @@ import { alpha, Fade, Paper, Chip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 export type SaveStates = "" | "unsaved" | "saving" | "saved";
-export interface ISaveStateProps {
+export type ISaveStateProps = {
   state: SaveStates;
-}
+};
 
 export default function SaveState({ state }: ISaveStateProps) {
-  const [showHelpMessage, setShowHelpMessage] = useState(false);
+  const [ showHelpMessage, setShowHelpMessage ] = useState(false);
   useEffect(() => {
     if (state !== "unsaved") {
       setShowHelpMessage(false);
@@ -22,7 +22,7 @@ export default function SaveState({ state }: ISaveStateProps) {
       setShowHelpMessage(false);
       clearTimeout(timeout);
     };
-  }, [state]);
+  }, [ state ]);
 
   return (
     <Fade in={Boolean(state)}>
@@ -51,8 +51,8 @@ export default function SaveState({ state }: ISaveStateProps) {
         {state === "unsaved" ? (
           <Chip
             label={
-              "You have unsaved changes" +
-              (showHelpMessage ? ". Click anywhere to save." : "")
+              "You have unsaved changes"
+              + (showHelpMessage ? ". Click anywhere to save." : "")
             }
             sx={{
               bgcolor: (theme) => alpha(theme.palette.warning.light, 0.15),

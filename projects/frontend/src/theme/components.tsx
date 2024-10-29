@@ -1,8 +1,5 @@
-import { Theme, ThemeOptions, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 import { colord } from "colord";
-import type {} from "@mui/lab/themeAugmentation";
-import { MultiSelectProps } from "@phanect/datasheet-multiselect";
-import { toRem } from "./typography";
 
 import ModalTransition from "@src/components/Modal/ModalTransition";
 import RadioIcon from "@src/theme/RadioIcon";
@@ -12,33 +9,37 @@ import AddCircleIcon from "@mui/icons-material/AddCircleOutline";
 import { ChevronDown as ChevronDownIcon } from "@src/assets/icons";
 import { SvgIcon } from "@mui/material";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import { toRem } from "./typography";
+import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
+import type { Theme, ThemeOptions } from "@mui/material/styles";
+import type {} from "@mui/lab/themeAugmentation";
 
 declare module "@mui/material/styles/createTransitions" {
-  interface Easing {
+  type Easing = {
     strong: string;
-  }
+  };
 }
 
 declare module "@mui/material/styles" {
-  interface Components {
+  type Components = {
     RowyMultiSelect?: {
       defaultProps?: Omit<
         MultiSelectProps<any>,
         "multiple" | "value" | "onChange" | "options"
       >;
     };
-  }
+  };
 }
 
 declare module "@mui/material/MenuItem" {
-  interface MenuItemPropsVariantOverrides {
+  type MenuItemPropsVariantOverrides = {
     error: true;
-  }
+  };
 }
 declare module "@mui/material/Badge" {
-  interface BadgePropsVariantOverrides {
+  type BadgePropsVariantOverrides = {
     inlineDot: true;
-  }
+  };
 }
 
 export const components = (theme: Theme): ThemeOptions => {
@@ -51,12 +52,12 @@ export const components = (theme: Theme): ThemeOptions => {
     .alpha(1)
     .toHslString();
 
-  const fabBackgroundColor =
-    theme.palette.mode === "dark"
+  const fabBackgroundColor
+    = theme.palette.mode === "dark"
       ? colord(theme.palette.background.default)
-          .mix(theme.palette.action.selected, 0.24)
-          .alpha(1)
-          .toHslString()
+        .mix(theme.palette.action.selected, 0.24)
+        .alpha(1)
+        .toHslString()
       : theme.palette.background.paper;
 
   const transitionEasingStrong = "cubic-bezier(0.85, 0, 0, 1)"; // https://docs.microsoft.com/en-us/windows/apps/design/signature-experiences/motion#animation-properties
@@ -106,10 +107,10 @@ export const components = (theme: Theme): ThemeOptions => {
 
             backgroundColor: theme.palette.action.hover,
             borderRadius: theme.shape.borderRadius,
-            padding: `${1 / 16}em ${4 / 16}em`,
+            padding: `${ 1 / 16 }em ${ 4 / 16 }em`,
           },
           "pre, pre.MuiTypography-root": {
-            padding: `${4 / 16}em ${8 / 16}em`,
+            padding: `${ 4 / 16 }em ${ 8 / 16 }em`,
           },
 
           ".visually-hidden": {
@@ -125,7 +126,7 @@ export const components = (theme: Theme): ThemeOptions => {
           ".rcp": {
             backgroundColor: "transparent",
             borderRadius: (theme.shape.borderRadius as number) * 2,
-            border: `1px solid ${theme.palette.divider}`,
+            border: `1px solid ${ theme.palette.divider }`,
             boxSizing: "border-box",
 
             "--rcp-background": "transparent",
@@ -142,9 +143,9 @@ export const components = (theme: Theme): ThemeOptions => {
               padding: theme.spacing(2),
             },
             "& .rcp-fields": {
-              gridTemplateColumns: `repeat(auto-fit, minmax(${theme.spacing(
+              gridTemplateColumns: `repeat(auto-fit, minmax(${ theme.spacing(
                 20
-              )}, 1fr))`,
+              ) }, 1fr))`,
             },
             "& .rcp-fields-element": {
               flexDirection: "column-reverse",
@@ -166,19 +167,19 @@ export const components = (theme: Theme): ThemeOptions => {
               },
 
               border: 0,
-              boxShadow: `0 -1px 0 0 ${theme.palette.text.disabled} inset,
-                        0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+              boxShadow: `0 -1px 0 0 ${ theme.palette.text.disabled } inset,
+                        0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
               transition: theme.transitions.create("box-shadow", {
                 duration: theme.transitions.duration.short,
               }),
 
               "&:hover": {
-                boxShadow: `0 -1px 0 0 ${theme.palette.text.primary} inset,
-                          0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+                boxShadow: `0 -1px 0 0 ${ theme.palette.text.primary } inset,
+                          0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
               },
               "&:focus, &:focus:hover": {
-                boxShadow: `0 -2px 0 0 ${theme.palette.primary.main} inset,
-                          0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+                boxShadow: `0 -2px 0 0 ${ theme.palette.primary.main } inset,
+                          0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
               },
 
               borderRadius: theme.shape.borderRadius,
@@ -215,20 +216,20 @@ export const components = (theme: Theme): ThemeOptions => {
         defaultProps: { maxWidth: "xl" },
         styleOverrides: {
           root: {
-            paddingLeft: `max(${theme.spacing(2)}, env(safe-area-inset-left))`,
-            paddingRight: `max(${theme.spacing(
+            paddingLeft: `max(${ theme.spacing(2) }, env(safe-area-inset-left))`,
+            paddingRight: `max(${ theme.spacing(
               2
-            )}, env(safe-area-inset-right))`,
+            ) }, env(safe-area-inset-right))`,
             [theme.breakpoints.up("sm")]: {
-              paddingLeft: `max(${theme.spacing(
+              paddingLeft: `max(${ theme.spacing(
                 3
-              )}, env(safe-area-inset-left))`,
-              paddingRight: `max(${theme.spacing(
+              ) }, env(safe-area-inset-left))`,
+              paddingRight: `max(${ theme.spacing(
                 3
-              )}, env(safe-area-inset-right))`,
+              ) }, env(safe-area-inset-right))`,
             },
 
-            marginBottom: `env(safe-area-inset-bottom)`,
+            marginBottom: "env(safe-area-inset-bottom)",
           },
         },
       },
@@ -275,8 +276,8 @@ export const components = (theme: Theme): ThemeOptions => {
           paperFullScreen: {
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
-            marginTop: `calc(env(safe-area-inset-top) + 10px)`,
-            maxHeight: `calc(100% - env(safe-area-inset-top) - 10px)`,
+            marginTop: "calc(env(safe-area-inset-top) + 10px)",
+            maxHeight: "calc(100% - env(safe-area-inset-top) - 10px)",
             maxWidth: "100% !important",
 
             paddingLeft: "env(safe-area-inset-left)",
@@ -312,7 +313,7 @@ export const components = (theme: Theme): ThemeOptions => {
         styleOverrides: {
           root: {
             ...(theme.typography.h5 as any),
-            padding: `calc((var(--dialog-title-height) - ${theme.typography.h5.lineHeight} * ${theme.typography.h5.fontSize}) / 2) var(--dialog-spacing)`,
+            padding: `calc((var(--dialog-title-height) - ${ theme.typography.h5.lineHeight } * ${ theme.typography.h5.fontSize }) / 2) var(--dialog-spacing)`,
           },
         },
       },
@@ -351,8 +352,8 @@ export const components = (theme: Theme): ThemeOptions => {
       MuiSnackbar: {
         styleOverrides: {
           root: {
-            left: `max(${theme.spacing(1)}, env(safe-area-inset-left))`,
-            bottom: `max(${theme.spacing(1)}, env(safe-area-inset-bottom))`,
+            left: `max(${ theme.spacing(1) }, env(safe-area-inset-left))`,
+            bottom: `max(${ theme.spacing(1) }, env(safe-area-inset-bottom))`,
           },
         },
       },
@@ -385,7 +386,7 @@ export const components = (theme: Theme): ThemeOptions => {
 
             "input[type='search']::-webkit-search-cancel-button": {
               appearance: "none",
-              mask: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z'/%3e%3c/svg%3e") no-repeat 50% 50%`,
+              mask: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z'/%3e%3c/svg%3e\") no-repeat 50% 50%",
               backgroundColor: "currentColor",
               opacity: 0.67,
 
@@ -408,7 +409,7 @@ export const components = (theme: Theme): ThemeOptions => {
             [theme.breakpoints.only("xs")]: {
               ...(theme.typography.body1 as any),
               "&, &.MuiSelect-select": {
-                minHeight: `${theme.typography.body1.lineHeight}em`,
+                minHeight: `${ theme.typography.body1.lineHeight }em`,
               },
               paddingTop: theme.spacing(0.5),
               paddingBottom: theme.spacing(0.5),
@@ -424,23 +425,23 @@ export const components = (theme: Theme): ThemeOptions => {
               backgroundColor: theme.palette.action.input,
             },
 
-            boxShadow: `0 -1px 0 0 ${theme.palette.text.disabled} inset,
-                        0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+            boxShadow: `0 -1px 0 0 ${ theme.palette.text.disabled } inset,
+                        0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
             transition: theme.transitions.create("box-shadow", {
               duration: theme.transitions.duration.short,
             }),
 
             "&:hover": {
-              boxShadow: `0 -1px 0 0 ${theme.palette.text.primary} inset,
-                          0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+              boxShadow: `0 -1px 0 0 ${ theme.palette.text.primary } inset,
+                          0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
             },
             "&.Mui-focused, &.Mui-focused:hover": {
-              boxShadow: `0 -2px 0 0 ${theme.palette.primary.main} inset,
-                          0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+              boxShadow: `0 -2px 0 0 ${ theme.palette.primary.main } inset,
+                          0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
             },
             "&.Mui-error, &.Mui-error:hover": {
-              boxShadow: `0 -2px 0 0 ${theme.palette.error.main} inset,
-                          0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+              boxShadow: `0 -2px 0 0 ${ theme.palette.error.main } inset,
+                          0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
             },
 
             borderRadius: theme.shape.borderRadius,
@@ -580,7 +581,7 @@ export const components = (theme: Theme): ThemeOptions => {
         defaultProps: { dense: true },
         styleOverrides: {
           root: {
-            width: `calc(100% - ${theme.spacing(1)})`,
+            width: `calc(100% - ${ theme.spacing(1) })`,
             margin: theme.spacing(0, 0.5),
             padding: theme.spacing(0.5, 1.5),
             minHeight: 32,
@@ -669,7 +670,7 @@ export const components = (theme: Theme): ThemeOptions => {
               minHeight: 32,
               borderRadius: theme.shape.borderRadius,
 
-              [`&[aria-selected="true"]`]: {
+              ["&[aria-selected=\"true\"]"]: {
                 backgroundColor: theme.palette.action.selected,
               },
             },
@@ -726,14 +727,14 @@ export const components = (theme: Theme): ThemeOptions => {
 
           outlined: {
             "&, &:hover, &.Mui-disabled": { border: "none" },
-            boxShadow: `0 0 0 1px ${theme.palette.action.inputOutline} inset,
-                 0 ${theme.palette.mode === "dark" ? "" : "-"}1px 0 0 ${
-              theme.palette.action.inputOutline
-            } inset`,
+            boxShadow: `0 0 0 1px ${ theme.palette.action.inputOutline } inset,
+                 0 ${ theme.palette.mode === "dark" ? "" : "-" }1px 0 0 ${
+                    theme.palette.action.inputOutline
+                  } inset`,
             backgroundColor: theme.palette.action.input,
 
             "&.Mui-disabled": {
-              boxShadow: `0 0 0 1px ${theme.palette.divider} inset`,
+              boxShadow: `0 0 0 1px ${ theme.palette.divider } inset`,
               backgroundColor: "transparent",
             },
           },
@@ -759,12 +760,12 @@ export const components = (theme: Theme): ThemeOptions => {
           },
 
           contained: {
-            boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 0 0 1px rgba(255, 255, 255, 0.08) inset, ${theme.shadows[2]}`,
+            boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 0 0 1px rgba(255, 255, 255, 0.08) inset, ${ theme.shadows[2] }`,
             "&:hover": {
-              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 0 0 1px rgba(255, 255, 255, 0.08) inset, ${theme.shadows[4]}`,
+              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 0 0 1px rgba(255, 255, 255, 0.08) inset, ${ theme.shadows[4] }`,
             },
             "&:active": {
-              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 0 0 1px rgba(255, 255, 255, 0.08) inset, ${theme.shadows[8]}`,
+              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 0 0 1px rgba(255, 255, 255, 0.08) inset, ${ theme.shadows[8] }`,
             },
           },
           containedPrimary: {
@@ -816,17 +817,17 @@ export const components = (theme: Theme): ThemeOptions => {
               backgroundColor: theme.palette.action.input,
             },
             transition: theme.transitions.create(
-              ["background-color", "color"],
+              [ "background-color", "color" ],
               { duration: theme.transitions.duration.short }
             ),
 
             border: 0,
-            boxShadow: `0 0 0 1px ${theme.palette.action.inputOutline} inset,
-            0 ${theme.palette.mode === "dark" ? "" : "-"}1px 0 0 ${
+            boxShadow: `0 0 0 1px ${ theme.palette.action.inputOutline } inset,
+            0 ${ theme.palette.mode === "dark" ? "" : "-" }1px 0 0 ${
               theme.palette.action.inputOutline
             } inset`,
             ".MuiToggleButtonGroup-vertical &:not(:last-of-type)": {
-              boxShadow: `0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+              boxShadow: `0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
             },
 
             "&:not(.Mui-disabled):hover": {
@@ -867,7 +868,7 @@ export const components = (theme: Theme): ThemeOptions => {
             },
 
             "&.Mui-disabled": {
-              boxShadow: `0 0 0 1px ${theme.palette.divider} inset`,
+              boxShadow: `0 0 0 1px ${ theme.palette.divider } inset`,
               backgroundColor: "transparent",
               border: 0,
             },
@@ -880,7 +881,7 @@ export const components = (theme: Theme): ThemeOptions => {
               left: "50%",
               transform: "translateX(-50%)",
               maxWidth: 32,
-              width: `calc(100% - 16px)`,
+              width: "calc(100% - 16px)",
 
               height: 3,
               borderRadius: 1.5,
@@ -891,7 +892,7 @@ export const components = (theme: Theme): ThemeOptions => {
                 top: "50%",
                 transform: "translateY(-50%)",
                 maxHeight: 32,
-                height: `calc(100% - 16px)`,
+                height: "calc(100% - 16px)",
 
                 width: 3,
               },
@@ -901,23 +902,23 @@ export const components = (theme: Theme): ThemeOptions => {
           sizeSmall: {
             minHeight: 24,
             minWidth: 24,
-            padding: `${(24 - 18) / 2}px 10px`,
+            padding: `${ (24 - 18) / 2 }px 10px`,
             "& .MuiSvgIcon-root": {
-              margin: `0 ${-(10 - (24 - 18) / 2)}px`,
+              margin: `0 ${ -(10 - (24 - 18) / 2) }px`,
               fontSize: 18,
             },
           },
           sizeMedium: {
             minHeight: 32,
             minWidth: 32,
-            padding: `${(32 - 24) / 2}px 16px`,
-            "& .MuiSvgIcon-root": { margin: `0 ${-(16 - (32 - 24) / 2)}px` },
+            padding: `${ (32 - 24) / 2 }px 16px`,
+            "& .MuiSvgIcon-root": { margin: `0 ${ -(16 - (32 - 24) / 2) }px` },
           },
           sizeLarge: {
             minHeight: 48,
             minWidth: 48,
-            padding: `${(48 - 24) / 2}px 22px`,
-            "& .MuiSvgIcon-root": { margin: `0 ${-(22 - (48 - 24) / 2)}px` },
+            padding: `${ (48 - 24) / 2 }px 22px`,
+            "& .MuiSvgIcon-root": { margin: `0 ${ -(22 - (48 - 24) / 2) }px` },
           },
         },
       },
@@ -963,17 +964,17 @@ export const components = (theme: Theme): ThemeOptions => {
             },
           },
           primary: {
-            boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[6]}`,
+            boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[6] }`,
             "&:hover": { backgroundColor: buttonPrimaryHover },
             "&:active": {
-              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[12]}`,
+              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[12] }`,
             },
           },
           secondary: {
-            boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[6]}`,
+            boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[6] }`,
             "&:hover": { backgroundColor: buttonSecondaryHover },
             "&:active": {
-              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${theme.shadows[12]}`,
+              boxShadow: `0 -1px 0 0 rgba(0, 0, 0, 0.12) inset, ${ theme.shadows[12] }`,
             },
           },
           sizeSmall: {
@@ -1050,7 +1051,7 @@ export const components = (theme: Theme): ThemeOptions => {
           track: {
             borderRadius: 32 / 2,
             backgroundColor: theme.palette.action.input,
-            boxShadow: `0 0 0 1px ${theme.palette.text.disabled} inset`,
+            boxShadow: `0 0 0 1px ${ theme.palette.text.disabled } inset`,
             ".Mui-disabled + &": {
               backgroundColor: theme.palette.text.disabled,
             },
@@ -1082,41 +1083,41 @@ export const components = (theme: Theme): ThemeOptions => {
               left: 0,
               top: 0,
 
-              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${encodeURIComponent(
+              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${ encodeURIComponent(
                 theme.palette.secondary.main
-              )}" /></svg>')`,
+              ) }" /></svg>')`,
               backgroundPosition: "center",
-              backgroundSize: `${(16 / 24) * 100}%`,
+              backgroundSize: `${ (16 / 24) * 100 }%`,
               backgroundRepeat: "no-repeat",
             },
             ".MuiSwitch-sizeSmall .Mui-checked &::before": {
-              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${encodeURIComponent(
+              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${ encodeURIComponent(
                 theme.palette.secondary.main
-              )}" /></svg>')`,
+              ) }" /></svg>')`,
             },
 
             transition: theme.transitions.create(
-              ["transform", "background-color"],
+              [ "transform", "background-color" ],
               { duration: theme.transitions.duration.shortest }
             ),
 
             ".MuiSwitch-root:active .MuiSwitch-switchBase:not(.Mui-disabled) &":
               {
-                transform: `scale(${28 / 18})`,
+                transform: `scale(${ 28 / 18 })`,
               },
             ".MuiSwitch-root.MuiSwitch-sizeSmall:active .MuiSwitch-switchBase:not(.Mui-disabled) &":
               {
-                transform: `scale(${16 / 10})`,
+                transform: `scale(${ 16 / 10 })`,
               },
             "& + .MuiTouchRipple-root": { zIndex: -1 },
 
             ".MuiSwitch-root:active .MuiSwitch-switchBase.Mui-checked:not(.Mui-disabled) &":
               {
-                transform: `scale(${28 / 24})`,
+                transform: `scale(${ 28 / 24 })`,
               },
             ".MuiSwitch-root.MuiSwitch-sizeSmall:active .MuiSwitch-switchBase.Mui-checked:not(.Mui-disabled) &":
               {
-                transform: `scale(${16 / 14})`,
+                transform: `scale(${ 16 / 14 })`,
               },
 
             ".MuiSwitch-switchBase.Mui-disabled &": {
@@ -1131,14 +1132,14 @@ export const components = (theme: Theme): ThemeOptions => {
           colorPrimary: {
             "&.Mui-checked ": {
               "& .MuiSwitch-thumb::before": {
-                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${encodeURIComponent(
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${ encodeURIComponent(
                   theme.palette.primary.main
-                )}" /></svg>')`,
+                ) }" /></svg>')`,
               },
               ".MuiSwitch-sizeSmall & .MuiSwitch-thumb::before": {
-                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${encodeURIComponent(
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${ encodeURIComponent(
                   theme.palette.primary.main
-                )}" /></svg>')`,
+                ) }" /></svg>')`,
               },
             },
           },
@@ -1151,14 +1152,14 @@ export const components = (theme: Theme): ThemeOptions => {
               },
 
               "& .MuiSwitch-thumb::before": {
-                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${encodeURIComponent(
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${ encodeURIComponent(
                   theme.palette.success.main
-                )}" /></svg>')`,
+                ) }" /></svg>')`,
               },
               ".MuiSwitch-sizeSmall & .MuiSwitch-thumb::before": {
-                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${encodeURIComponent(
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 18 18"><polyline stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="2.705 8.29 7 12.585 15.295 4.29" fill="none" stroke="${ encodeURIComponent(
                   theme.palette.success.main
-                )}" /></svg>')`,
+                ) }" /></svg>')`,
               },
             },
           },
@@ -1195,11 +1196,11 @@ export const components = (theme: Theme): ThemeOptions => {
               boxShadow:
                 theme.palette.mode === "dark"
                   ? theme.shadows[1].replace(")", ", 0.24)")
-                  : `${theme.shadows[1]}, 0 0 0 1px ${theme.palette.divider}`,
+                  : `${ theme.shadows[1] }, 0 0 0 1px ${ theme.palette.divider }`,
             },
 
             "&:hover": {
-              "& > input": { transform: `scale(${1 + 2 / 20})` },
+              "& > input": { transform: `scale(${ 1 + 2 / 20 })` },
             },
           },
 
@@ -1220,7 +1221,7 @@ export const components = (theme: Theme): ThemeOptions => {
 
       MuiFormControlLabel: {
         defaultProps: {
-          componentsProps: { typography: { variant: "body2" } },
+          componentsProps: { typography: { variant: "body2" }},
         },
         styleOverrides: {
           root: {
@@ -1262,7 +1263,7 @@ export const components = (theme: Theme): ThemeOptions => {
             backgroundColor: "transparent",
 
             transitionTimingFunction: transitionEasingStrong,
-            transitionDuration: `${theme.transitions.duration.complex}ms`,
+            transitionDuration: `${ theme.transitions.duration.complex }ms`,
 
             height: 3,
             ".MuiTabs-vertical &": { width: 3 },
@@ -1291,7 +1292,7 @@ export const components = (theme: Theme): ThemeOptions => {
             borderRadius: theme.shape.borderRadius,
 
             transition: theme.transitions.create(
-              ["background-color", "color"],
+              [ "background-color", "color" ],
               { duration: theme.transitions.duration.shortest }
             ),
             "&:hover": { backgroundColor: theme.palette.action.hover },

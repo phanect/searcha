@@ -1,8 +1,11 @@
-import { TableRow } from "@src/types/table";
 import { get } from "lodash-es";
+import type { TableRow } from "@src/types/table";
 export const sanitiseValue = (value: any) => {
-  if (value === undefined || value === null || value === "") return [];
-  else return value as string[];
+  if (value === undefined || value === null || value === "") {
+    return [];
+  } else {
+    return value as string[];
+  }
 };
 
 export const replacer = (data: any) => (_: string, key: string) => {
@@ -27,7 +30,7 @@ export default connector;
 
 export const getLabel = (config: any, row: TableRow) => {
   if (!config.labelFormatter) {
-    return `⚠️ needs configuration`;
+    return "⚠️ needs configuration";
   } else if (config.labelFormatter.includes("{{")) {
     return config.labelFormatter.replace(/\{\{(.*?)\}\}/g, replacer(row));
   } else {

@@ -1,6 +1,6 @@
-import { ISideDrawerFieldProps } from "@src/components/fields/types";
 import RichTextEditor from "@src/components/RichTextEditor";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function RichText({
   column,

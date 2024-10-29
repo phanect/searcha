@@ -1,3 +1,5 @@
+import { readFile, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { asyncExecute } from "../terminalUtils";
 import {
   getCollectionType,
@@ -8,11 +10,9 @@ import {
 } from "./utils";
 import generateConfig from "./compiler";
 import { commandErrorHandler, createStreamLogger } from "./logger";
-import type { auth } from "firebase-admin";
 import { getProjectId } from "../metadataService";
 import { db } from "../firebaseConfig";
-import { readFile, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import type { auth } from "firebase-admin";
 
 export const functionBuilder = async (
   req: any,
@@ -21,10 +21,11 @@ export const functionBuilder = async (
   try {
     const { tablePath, tableConfigPath } = req.body;
     const pathname = req.body.pathname.substring(1);
-    if (!pathname || !tablePath)
-      return { success: false, message: `missing pathname or tablePath` };
+    if (!pathname || !tablePath) {
+      return { success: false, message: "missing pathname or tablePath" };
+    }
     // get settings Document
-    const settings = await db.doc(`_rowy_/settings`).get();
+    const settings = await db.doc("_rowy_/settings").get();
     const tables = settings.get("tables");
     const collectionType = getCollectionType(pathname);
     const collectionPath = getCollectionPath(
@@ -40,14 +41,14 @@ export const functionBuilder = async (
       collectionPath,
       table?.triggerDepth
     );
-    const functionConfigPath = `_rowy_/settings/functions/${functionName}`;
+    const functionConfigPath = `_rowy_/settings/functions/${ functionName }`;
 
     const streamLogger = await createStreamLogger(functionConfigPath);
     await streamLogger.info(
-      `Build started. collectionType: ${collectionType}, tablePath: ${tablePath}, pathname: ${pathname}, functionName: ${functionName}`
+      `Build started. collectionType: ${ collectionType }, tablePath: ${ tablePath }, pathname: ${ pathname }, functionName: ${ functionName }`
     );
     const buildFolderTimestamp = Date.now();
-    const buildPath = `build/functionBuilder/builds/${buildFolderTimestamp}`;
+    const buildPath = `build/functionBuilder/builds/${ buildFolderTimestamp }`;
 
     try {
       const triggerPath = getTriggerPath(
@@ -74,9 +75,9 @@ export const functionBuilder = async (
       ]);
 
       // duplicate functions folder to build folder
-      await streamLogger.info(`Duplicating functions template to ${buildPath}`);
+      await streamLogger.info(`Duplicating functions template to ${ buildPath }`);
       await asyncExecute(
-        `mkdir -m 777 -p ${buildPath}; cp -Rp build/functionBuilder/functions/* ${buildPath}`,
+        `mkdir -m 777 -p ${ buildPath }; cp -Rp build/functionBuilder/functions/* ${ buildPath }`,
         commandErrorHandler({ user }, streamLogger)
       );
 
@@ -98,22 +99,22 @@ export const functionBuilder = async (
         await streamLogger.fail();
         return {
           success: false,
-          reason: `generateConfig failed to complete`,
+          reason: "generateConfig failed to complete",
         };
       }
 
       await streamLogger.info("Installing dependencies...");
       await asyncExecute(
-        `cd ${buildPath}; yarn install --mutex network`,
+        `cd ${ buildPath }; yarn install --mutex network`,
         commandErrorHandler({ user }, streamLogger)
       );
 
-      await streamLogger.info(`Deploying ${functionName} to ${projectId}`);
+      await streamLogger.info(`Deploying ${ functionName } to ${ projectId }`);
 
       const configFile = await readFile(
         resolve(
           __dirname,
-          `./builds/${buildFolderTimestamp}/src/functionConfig.js`
+          `./builds/${ buildFolderTimestamp }/src/functionConfig.js`
         ),
         "utf-8"
       );
@@ -137,14 +138,14 @@ export const functionBuilder = async (
       await writeFile(
         resolve(
           __dirname,
-          `./builds/${buildFolderTimestamp}/src/functionConfig.js`
+          `./builds/${ buildFolderTimestamp }/src/functionConfig.js`
         ),
         modifiedConfigFile,
         "utf-8"
       );
       await new Promise((resolve) => setTimeout(resolve, 100));
       await asyncExecute(
-        `cd ${buildPath}; yarn deploy --project ${projectId} --only functions`,
+        `cd ${ buildPath }; yarn deploy --project ${ projectId } --only functions`,
         commandErrorHandler({ user }, streamLogger),
         streamLogger
       );
@@ -158,14 +159,14 @@ export const functionBuilder = async (
       await streamLogger.fail();
       return {
         success: false,
-        reason: `generateConfig failed to complete`,
+        reason: "generateConfig failed to complete",
       };
     }
   } catch (error) {
     console.log(error);
     return {
       success: false,
-      reason: `function builder failed`,
+      reason: "function builder failed",
     };
   }
 };

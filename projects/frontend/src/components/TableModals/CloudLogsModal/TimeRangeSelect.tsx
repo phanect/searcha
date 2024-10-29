@@ -1,17 +1,17 @@
 import {
   TextField,
-  FilledTextFieldProps,
   InputAdornment,
   MenuItem,
 } from "@mui/material";
+import type {
+  FilledTextFieldProps } from "@mui/material";
 
 import type { CloudLogFilters } from "@src/atoms/tableScope";
 
-export interface ITimeRangeSelectProps
-  extends Partial<Omit<FilledTextFieldProps, "value" | "onChange">> {
+export type ITimeRangeSelectProps = {
   value: CloudLogFilters["timeRange"];
   onChange: (value: CloudLogFilters["timeRange"]) => void;
-}
+} & Partial<Omit<FilledTextFieldProps, "value" | "onChange">>;
 
 export default function TimeRangeSelect({
   value,
@@ -24,13 +24,12 @@ export default function TimeRangeSelect({
     >
       {value && value.type !== "range" && (
         <TextField
-          aria-label={`Custom ${value.type} value`}
+          aria-label={`Custom ${ value.type } value`}
           id="timeRangeSelect.value"
           type="number"
           value={value.value}
           onChange={(e) =>
-            onChange({ type: value.type, value: Number(e.target.value) })
-          }
+            onChange({ type: value.type, value: Number(e.target.value) })}
           sx={{
             mr: "-1px",
             "& .MuiInputBase-root": {
@@ -67,9 +66,9 @@ export default function TimeRangeSelect({
           "& .MuiInputBase-root":
             value?.type !== "range"
               ? {
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                }
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+              }
               : {},
 
           "& .MuiInputBase-input": { minHeight: 20 },
@@ -79,10 +78,15 @@ export default function TimeRangeSelect({
         onChange={(e) => {
           const newValue: any = { type: e.target.value };
 
-          if (e.target.value === "seconds") newValue.value = 30;
-          else if (e.target.value === "minutes") newValue.value = 15;
-          else if (e.target.value === "hours") newValue.value = 3;
-          else if (e.target.value === "days") newValue.value = 7;
+          if (e.target.value === "seconds") {
+            newValue.value = 30;
+          } else if (e.target.value === "minutes") {
+            newValue.value = 15;
+          } else if (e.target.value === "hours") {
+            newValue.value = 3;
+          } else if (e.target.value === "days") {
+            newValue.value = 7;
+          }
 
           onChange(newValue);
         }}

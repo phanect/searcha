@@ -31,26 +31,26 @@ export default function Details() {
   const projectScopeStore = useContext(ProjectScopeContext);
   const tableScopeStore = useContext(TableScopeContext);
 
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [tableSettings] = useAtom(tableSettingsAtom, { store: tableScopeStore });
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
-  const [updateTable] = useAtom(updateTableAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ tableSettings ] = useAtom(tableSettingsAtom, { store: tableScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ updateTable ] = useAtom(updateTableAtom, { store: projectScopeStore });
   const theme = useTheme();
 
   const settings = useMemo(
-    () => find(tables, ["id", tableSettings.id]),
-    [tables, tableSettings.id]
+    () => find(tables, [ "id", tableSettings.id ]),
+    [ tables, tableSettings.id ]
   );
 
   const { description, details, _createdBy } = settings ?? {};
 
-  const [editDescription, setEditDescription] = useState(false);
-  const [localDescription, setLocalDescription] = useState(description ?? "");
-  const [localDetails, setLocalDetails] = useState(details ?? "");
-  const [editDetails, setEditDetails] = useState(false);
-  const [mdFullScreen, setMdFullScreen] = useState(false);
+  const [ editDescription, setEditDescription ] = useState(false);
+  const [ localDescription, setLocalDescription ] = useState(description ?? "");
+  const [ localDetails, setLocalDetails ] = useState(details ?? "");
+  const [ editDetails, setEditDetails ] = useState(false);
+  const [ mdFullScreen, setMdFullScreen ] = useState(false);
 
-  const [saveState, setSaveState] = useState<
+  const [ saveState, setSaveState ] = useState<
     "" | "unsaved" | "saving" | "saved"
   >("");
 
@@ -129,8 +129,7 @@ export default function Details() {
               onBlur={() =>
                 isEqual(description, localDescription)
                   ? setSaveState("")
-                  : handleSave()
-              }
+                  : handleSave()}
               rows={2}
               minRows={2}
             />
@@ -170,10 +169,10 @@ export default function Details() {
               color: "text.secondary",
               ...theme.typography.body2,
               "& .w-md-editor": {
-                backgroundColor: `${theme.palette.action.input} !important`,
+                backgroundColor: `${ theme.palette.action.input } !important`,
               },
               "& .w-md-editor-fullscreen": {
-                backgroundColor: `${theme.palette.background.paper} !important`,
+                backgroundColor: `${ theme.palette.background.paper } !important`,
               },
               "& .w-md-editor-toolbar": {
                 display: "flex",
@@ -188,7 +187,7 @@ export default function Details() {
                 marginRight: theme.spacing(1),
               },
               "& :is(h1, h2, h3, h4, h5, h6)": {
-                marginY: `${theme.spacing(1.5)} !important`,
+                marginY: `${ theme.spacing(1.5) } !important`,
                 borderBottom: "none !important",
               },
               "& details summary": {

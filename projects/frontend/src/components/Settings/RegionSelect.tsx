@@ -6,13 +6,13 @@ import { Leaf as LeafIcon } from "@src/assets/icons";
 
 import { CLOUD_RUN_REGIONS } from "@src/constants/regions";
 
-const REGIONS = sortBy(CLOUD_RUN_REGIONS, ["group", "value"]);
+const REGIONS = sortBy(CLOUD_RUN_REGIONS, [ "group", "value" ]);
 
-export interface ICloudRunRegionSelectProps {
+export type ICloudRunRegionSelectProps = {
   value: string;
   onChange: (value: string) => void;
   [key: string]: any;
-}
+};
 
 export default function CloudRunRegionSelect({
   value,

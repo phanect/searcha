@@ -1,11 +1,11 @@
-import * as functions from "firebase-functions";
 import { propagateChanges, removeCopiesOfDeleteDoc } from "./SourceFns";
 import {
   addTargetRef,
   removeTargetRef,
   removeRefsOnTargetDelete,
 } from "./TargetFns";
-//import { asyncForEach} from '../utils'
+import type * as functions from "firebase-functions";
+// import { asyncForEach} from '../utils'
 const propagateChangesOnTrigger = (
   change: functions.Change<functions.firestore.DocumentSnapshot>,
   triggerType: "delete" | "create" | "update"
@@ -23,7 +23,7 @@ const propagateChangesOnTrigger = (
 
 const updateLinks = (
   change: functions.Change<functions.firestore.DocumentSnapshot>,
-  config: { fieldName: string; trackedFields: string[] }
+  config: { fieldName: string; trackedFields: string[]; }
 ) => {
   const beforeDocPaths = change.before.get(config.fieldName)
     ? change.before.get(config.fieldName).map((x) => x.docPath)
@@ -49,18 +49,18 @@ const updateLinks = (
     const removePromises = removedDocPaths.map((docPath) =>
       removeTargetRef(change.after.ref, docPath, config.fieldName)
     );
-    return Promise.all([...addPromises, ...removePromises]);
+    return Promise.all([ ...addPromises, ...removePromises ]);
   } else {
     return false;
   }
 };
 export default function propagate(
   change: functions.Change<functions.firestore.DocumentSnapshot>,
-  config: { fieldName: string; trackedFields: string[] }[],
+  config: { fieldName: string; trackedFields: string[]; }[],
   triggerType: "delete" | "create" | "update"
 ) {
   const promises = [];
-  if (["delete", "update"].includes(triggerType)) {
+  if ([ "delete", "update" ].includes(triggerType)) {
     const propagateChangesPromise = propagateChangesOnTrigger(
       change,
       triggerType

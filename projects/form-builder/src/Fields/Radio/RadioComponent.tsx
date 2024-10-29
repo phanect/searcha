@@ -1,25 +1,23 @@
-import { Fragment, type ReactNode } from 'react';
-import { IFieldComponentProps } from '../../types';
-
+import { Fragment, type ReactNode } from "react";
 import {
   FormControl,
   FormControlLabel,
   RadioGroup,
-  RadioGroupProps,
   Radio,
   Divider,
   Box,
-} from '@mui/material';
+} from "@mui/material";
 
-import FieldLabel from '../../FieldLabel';
-import FieldErrorMessage from '../../FieldErrorMessage';
-import FieldAssistiveText from '../../FieldAssistiveText';
+import FieldLabel from "../../FieldLabel";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldAssistiveText from "../../FieldAssistiveText";
+import type { IFieldComponentProps } from "../../types";
+import type {
+  RadioGroupProps } from "@mui/material";
 
-export interface IRadioComponentProps
-  extends IFieldComponentProps,
-    Omit<RadioGroupProps, 'name' | 'onChange' | 'value' | 'onBlur' | 'ref'> {
-  options: (string | { value: string; label: ReactNode })[];
-}
+export type IRadioComponentProps = {
+  options: (string | { value: string; label: ReactNode; })[];
+} & IFieldComponentProps & Omit<RadioGroupProps, "name" | "onChange" | "value" | "onBlur" | "ref">;
 
 export default function RadioComponent({
   field: { onChange, onBlur, value, ref },
@@ -43,10 +41,10 @@ export default function RadioComponent({
       component="fieldset"
       error={!!errorMessage}
       disabled={props.disabled}
-      style={{ display: 'flex' }}
+      style={{ display: "flex" }}
     >
       <FieldLabel
-        {...({ component: 'legend' } as any)}
+        {...({ component: "legend" } as any)}
         error={!!errorMessage}
         disabled={!!props.disabled}
         required={!!required}
@@ -56,12 +54,16 @@ export default function RadioComponent({
 
       <RadioGroup {...props} onChange={onChange} onBlur={onBlur} value={value}>
         {options.map((item) => {
-          let option: { label: ReactNode; value: string } = {
-            label: '',
-            value: '',
+          let option: { label: ReactNode; value: string; } = {
+            label: "",
+            value: "",
           };
-          if (typeof item === 'object') option = item;
-          if (typeof item === 'string') option = { label: item, value: item };
+          if (typeof item === "object") {
+            option = item;
+          }
+          if (typeof item === "string") {
+            option = { label: item, value: item };
+          }
 
           return (
             <Fragment key={option.value}>
@@ -69,13 +71,13 @@ export default function RadioComponent({
                 key={option.value}
                 value={option.value}
                 label={option.label as any}
-                control={
+                control={(
                   <Radio
                     inputProps={
                       {
-                        'data-type': 'radio',
-                        'data-label': label ?? '',
-                        'data-label-option': option.label ?? '',
+                        "data-type": "radio",
+                        "data-label": label ?? "",
+                        "data-label-option": option.label ?? "",
                       } as any
                     }
                     sx={{
@@ -84,19 +86,19 @@ export default function RadioComponent({
                       ml: -1.5,
                       mr: -0.5,
 
-                      '.MuiFormControlLabel-root:not(.Mui-disabled):hover &': {
-                        bgcolor: 'action.hover',
+                      ".MuiFormControlLabel-root:not(.Mui-disabled):hover &": {
+                        bgcolor: "action.hover",
                       },
                     }}
                     inputRef={ref}
                   />
-                }
+                )}
                 sx={{
                   mx: 0,
-                  '& .MuiFormControlLabel-label': {
+                  "& .MuiFormControlLabel-label": {
                     py: 14 / 8,
                     ml: 1,
-                    marginTop: '0 !important',
+                    marginTop: "0 !important",
                   },
                 }}
               />

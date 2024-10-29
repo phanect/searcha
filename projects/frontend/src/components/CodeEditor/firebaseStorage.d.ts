@@ -6,20 +6,17 @@ declare class Bucket {
   /**
    * The bucket's name.
    * @name Bucket#name
-   * @type {string}
    */
   name: string;
   /**
    * A reference to the {@link Storage} associated with this {@link Bucket}
    * instance.
    * @name Bucket#storage
-   * @type {Storage}
    */
   storage: Storage;
   /**
    * A user project to apply to each request from this bucket.
    * @name Bucket#userProject
-   * @type {string}
    */
   userProject?: string;
   /**
@@ -43,19 +40,16 @@ declare class Bucket {
    * objects added to the bucket will inherit by default. You can add, delete,
    * get, and update entities and permissions for these as well with
    * {@link Bucket#acl.default}.
-   *
    * @see [About Access Control Lists]{@link http://goo.gl/6qBBPO}
    * @see [Default ACLs]{@link https://cloud.google.com/storage/docs/access-control/lists#default}
-   *
    * @name Bucket#acl
    * @mixes Acl
-   * @property {Acl} default Cloud Storage Buckets have
+   * default Cloud Storage Buckets have
    * [default
    * ACLs](https://cloud.google.com/storage/docs/access-control/lists#default)
    * for all created files. You can add, delete, get, and update entities and
    * permissions for these as well. The method signatures and examples are all
    * the same, after only prefixing the method call with `default`.
-   *
    * @example
    * const {Storage} = require('@google-cloud/storage');
    * const storage = new Storage();
@@ -79,27 +73,21 @@ declare class Bucket {
    *   const aclObject = data[0];
    *   const apiResponse = data[1];
    * });
-   *
    * @example <caption>include:samples/acl.js</caption>
    * region_tag:storage_print_bucket_acl
    * Example of printing a bucket's ACL:
-   *
    * @example <caption>include:samples/acl.js</caption>
    * region_tag:storage_print_bucket_acl_for_user
    * Example of printing a bucket's ACL for a specific user:
-   *
    * @example <caption>include:samples/acl.js</caption>
    * region_tag:storage_add_bucket_owner
    * Example of adding an owner to a bucket:
-   *
    * @example <caption>include:samples/acl.js</caption>
    * region_tag:storage_remove_bucket_owner
    * Example of removing an owner from a bucket:
-   *
    * @example <caption>include:samples/acl.js</caption>
    * region_tag:storage_add_bucket_default_owner
    * Example of adding a default owner to a bucket:
-   *
    * @example <caption>include:samples/acl.js</caption>
    * region_tag:storage_remove_bucket_default_owner
    * Example of removing a default owner from a bucket:
@@ -107,14 +95,11 @@ declare class Bucket {
   acl: Acl;
   /**
    * Get and set IAM policies for your bucket.
-   *
    * @name Bucket#iam
    * @mixes Iam
-   *
    * @see [Cloud Storage IAM Management](https://cloud.google.com/storage/docs/access-control/iam#short_title_iam_management)
    * @see [Granting, Changing, and Revoking Access](https://cloud.google.com/iam/docs/granting-changing-revoking-access)
    * @see [IAM Roles](https://cloud.google.com/iam/docs/understanding-roles)
-   *
    * @example
    * const {Storage} = require('@google-cloud/storage');
    * const storage = new Storage();
@@ -134,15 +119,12 @@ declare class Bucket {
    *   const policy = data[0];
    *   const apiResponse = data[1];
    * });
-   *
    * @example <caption>include:samples/iam.js</caption>
    * region_tag:storage_view_bucket_iam_members
    * Example of retrieving a bucket's IAM policy:
-   *
    * @example <caption>include:samples/iam.js</caption>
    * region_tag:storage_add_bucket_iam_member
    * Example of adding to a bucket's IAM policy:
-   *
    * @example <caption>include:samples/iam.js</caption>
    * region_tag:storage_remove_bucket_iam_member
    * Example of removing from a bucket's IAM policy:
@@ -151,11 +133,9 @@ declare class Bucket {
   /**
    * Get {@link File} objects for the files currently in the bucket as a
    * readable object stream.
-   *
-   * @method Bucket#getFilesStream
-   * @param {GetFilesOptions} [query] Query object for listing files.
+   * @function Bucket#getFilesStream
+   * @param {GetFilesOptions} [query] - Query object for listing files.
    * @returns {ReadableStream} A readable stream that emits {@link File} instances.
-   *
    * @example
    * const {Storage} = require('@google-cloud/storage');
    * const storage = new Storage();
@@ -279,20 +259,18 @@ declare class Bucket {
   /**
    * Create a {@link File} object. See {@link File} to see how to handle
    * the different use cases you may have.
-   *
-   * @param {string} name The name of the file in this bucket.
-   * @param {object} [options] Configuration options.
-   * @param {string|number} [options.generation] Only use a specific revision of
+   * @param {string} name - The name of the file in this bucket.
+   * @param {object} [options] - Configuration options.
+   * @param {string|number} [options.generation] - Only use a specific revision of
    *     this file.
-   * @param {string} [options.encryptionKey] A custom encryption key. See
+   * @param {string} [options.encryptionKey] - A custom encryption key. See
    *     [Customer-supplied Encryption
    * Keys](https://cloud.google.com/storage/docs/encryption#customer-supplied).
-   * @param {string} [options.kmsKeyName] The name of the Cloud KMS key that will
+   * @param {string} [options.kmsKeyName] - The name of the Cloud KMS key that will
    *     be used to encrypt the object. Must be in the format:
    *     `projects/my-project/locations/location/keyRings/my-kr/cryptoKeys/my-key`.
    *     KMS key ring must use the same location as the bucket.
    * @returns {File}
-   *
    * @example
    * const {Storage} = require('@google-cloud/storage');
    * const storage = new Storage();
@@ -339,11 +317,9 @@ declare class Bucket {
   ): void;
   /**
    * Get a reference to a Cloud Pub/Sub Notification.
-   *
-   * @param {string} id ID of notification.
+   * @param {string} id - ID of notification.
    * @returns {Notification}
    * @see Notification
-   *
    * @example
    * const {Storage} = require('@google-cloud/storage');
    * const storage = new Storage();
@@ -396,9 +372,7 @@ declare class Bucket {
   /**
    * Set a user project to be billed for all requests made from this Bucket
    * object and any files referenced from this Bucket object.
-   *
-   * @param {string} userProject The user project.
-   *
+   * @param {string} userProject - The user project.
    * @example
    * const {Storage} = require('@google-cloud/storage');
    * const storage = new Storage();
@@ -425,7 +399,7 @@ declare class Bucket {
   getId(): string;
 }
 
-/*! firebase-admin v9.4.2 */
+/* ! firebase-admin v9.4.2 */
 declare namespace firebasestorage {
   /**
    * The default `Storage` service if no

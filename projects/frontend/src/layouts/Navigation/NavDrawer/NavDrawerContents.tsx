@@ -6,10 +6,6 @@ import { ListItemIcon, ListItemText, Divider } from "@mui/material";
 import { Tables as TablesIcon } from "@src/assets/icons";
 import AddIcon from "@mui/icons-material/Add";
 
-import NavItem from "./NavItem";
-import SettingsNav from "./SettingsNav";
-import NavTableSection from "./NavTableSection";
-
 import {
   ProjectScopeContext,
   userRolesAtom,
@@ -17,16 +13,19 @@ import {
   tablesAtom,
   tableSettingsDialogAtom,
 } from "@src/atoms/projectScope";
-import { TableSettings } from "@src/types/table";
 import { ROUTES } from "@src/constants/routes";
+import NavItem from "./NavItem";
+import SettingsNav from "./SettingsNav";
+import NavTableSection from "./NavTableSection";
+import type { TableSettings } from "@src/types/table";
 
-export interface INavDrawerContentsProps {
+export type INavDrawerContentsProps = {
   closeDrawer: ((e: {}) => void) | undefined;
   open: boolean;
   isPermanent: boolean;
   tempExpanded: boolean;
   setHover: React.Dispatch<React.SetStateAction<boolean | "persist">>;
-}
+};
 
 export default function NavDrawerContents({
   closeDrawer,
@@ -35,9 +34,9 @@ export default function NavDrawerContents({
   tempExpanded,
 }: INavDrawerContentsProps) {
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [tables] = useAtom(tablesAtom, { store: projectScopeStore });
-  const [userRoles] = useAtom(userRolesAtom, { store: projectScopeStore });
-  const [userSettings] = useAtom(userSettingsAtom, { store: projectScopeStore });
+  const [ tables ] = useAtom(tablesAtom, { store: projectScopeStore });
+  const [ userRoles ] = useAtom(userRolesAtom, { store: projectScopeStore });
+  const [ userSettings ] = useAtom(userSettingsAtom, { store: projectScopeStore });
   const openTableSettingsDialog = useSetAtom(
     tableSettingsDialogAtom,
     { store: projectScopeStore },
@@ -50,7 +49,7 @@ export default function NavDrawerContents({
     Favorites: favorites
       .map((id) => find(tables, { id }))
       .filter((x) => x !== undefined) as TableSettings[],
-    ...groupBy(sortBy(tables, ["section", "name"]), "section"),
+    ...groupBy(sortBy(tables, [ "section", "name" ]), "section"),
   };
 
   return (
@@ -71,25 +70,27 @@ export default function NavDrawerContents({
 
       <Divider variant="middle" sx={{ my: 1 }} />
 
-      {sections &&
-        Object.entries(sections)
-          .filter(([, tables]) => tables.length > 0)
-          .map(([section, tables]) => (
-            <NavTableSection
-              key={section}
-              section={section}
-              tables={tables}
-              closeDrawer={closeDrawer}
-              collapsed={isPermanent && !open && !tempExpanded}
-            />
-          ))}
+      {sections
+      && Object.entries(sections)
+        .filter(([ , tables ]) => tables.length > 0)
+        .map(([ section, tables ]) => (
+          <NavTableSection
+            key={section}
+            section={section}
+            tables={tables}
+            closeDrawer={closeDrawer}
+            collapsed={isPermanent && !open && !tempExpanded}
+          />
+        ))}
 
       {userRoles.includes("ADMIN") && (
         <li>
           <NavItem
             {...({ component: "button" } as any)}
             onClick={(e: any) => {
-              if (closeDrawer) closeDrawer(e);
+              if (closeDrawer) {
+                closeDrawer(e);
+              }
               openTableSettingsDialog({});
             }}
             sx={{ mb: 1 }}

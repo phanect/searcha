@@ -3,15 +3,16 @@ import clsx from "clsx";
 
 import {
   Grid2 as Grid,
-  GridProps,
   Stack,
   Typography,
-  SvgIconTypeMap,
 } from "@mui/material";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
 import ErrorIcon from "@mui/icons-material/ErrorOutline";
+import type {
+  GridProps,
+  SvgIconTypeMap } from "@mui/material";
+import type { OverridableComponent } from "@mui/material/OverridableComponent";
 
-export interface IEmptyStateProps extends Partial<GridProps> {
+export type IEmptyStateProps = {
   /** Primary message displayed under the icon */
   message?: React.ReactNode;
   /** Description text displayed under primary message */
@@ -22,12 +23,18 @@ export interface IEmptyStateProps extends Partial<GridProps> {
   fullScreen?: boolean;
   /** Basic inline presentation without padding. Default: `false` */
   basic?: boolean;
-}
+} & Partial<GridProps>;
 
 /**
  * Display an empty state message with sensible defaults.
  * By default, height is `100%`.
  * Override with props that are passed to the root MUI `Grid` component.
+ * @param root0
+ * @param root0.message
+ * @param root0.description
+ * @param root0.Icon
+ * @param root0.fullScreen
+ * @param root0.basic
  */
 export default function EmptyState({
   message = "Nothing here",
@@ -39,7 +46,7 @@ export default function EmptyState({
 }: IEmptyStateProps) {
   const fullScreenHeight = use100vh() ?? "100vh";
 
-  if (basic)
+  if (basic) {
     return (
       <Grid
         container
@@ -59,6 +66,7 @@ export default function EmptyState({
         </Grid>
       </Grid>
     );
+  }
 
   return (
     <Grid
@@ -82,7 +90,7 @@ export default function EmptyState({
       <Grid
         sx={{
           maxWidth: "25em !important",
-          width: (theme) => `calc(100% - ${theme.spacing(1 * 2)})`,
+          width: (theme) => `calc(100% - ${ theme.spacing(1 * 2) })`,
           px: 1,
           typography: "body2",
 

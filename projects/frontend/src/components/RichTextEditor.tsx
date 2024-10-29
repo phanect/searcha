@@ -35,27 +35,27 @@ import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { generateId } from "@src/utils/table";
 import { useSnackbar } from "notistack";
-import { ColumnConfig, TableRowRef } from "@src/types/table";
 import { imageMimeTypes } from "./fields/Image";
+import type { ColumnConfig, TableRowRef } from "@src/types/table";
 
 const Styles = styled("div", {
   shouldForwardProp: (prop) => prop !== "focus",
-})<{ focus?: boolean; disabled?: boolean }>(({ theme, focus, disabled }) => ({
+})<{ focus?: boolean; disabled?: boolean; }>(({ theme, focus, disabled }) => ({
   "& .tox": {
     "&.tox-tinymce": {
       borderRadius: theme.shape.borderRadius,
       border: "none",
 
       backgroundColor: theme.palette.action.input,
-      boxShadow: `0 -1px 0 0 ${theme.palette.text.disabled} inset,
-                  0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+      boxShadow: `0 -1px 0 0 ${ theme.palette.text.disabled } inset,
+                  0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
       transition: theme.transitions.create("box-shadow", {
         duration: theme.transitions.duration.short,
       }),
 
       "&:hover": {
-        boxShadow: `0 -1px 0 0 ${theme.palette.text.primary} inset,
-                    0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+        boxShadow: `0 -1px 0 0 ${ theme.palette.text.primary } inset,
+                    0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
       },
 
       "&.tox-fullscreen": {
@@ -104,7 +104,7 @@ const Styles = styled("div", {
       cursor: "pointer",
       margin: 0,
 
-      transition: theme.transitions.create(["color", "background-color"], {
+      transition: theme.transitions.create([ "color", "background-color" ], {
         duration: theme.transitions.duration.shortest,
       }),
 
@@ -123,21 +123,21 @@ const Styles = styled("div", {
 
     "& .tox.tox-tinymce, & .tox.tox-tinymce:hover": disabled
       ? {
-          backgroundColor:
+        backgroundColor:
             theme.palette.mode === "dark"
               ? "transparent"
               : theme.palette.action.disabledBackground,
-        }
+      }
       : focus
-      ? {
-          boxShadow: `0 -2px 0 0 ${theme.palette.primary.main} inset,
-                  0 0 0 1px ${theme.palette.action.inputOutline} inset`,
+        ? {
+          boxShadow: `0 -2px 0 0 ${ theme.palette.primary.main } inset,
+                  0 0 0 1px ${ theme.palette.action.inputOutline } inset`,
         }
-      : {},
+        : {},
   },
 }));
 
-export interface IRichTextEditorProps {
+export type IRichTextEditorProps = {
   value?: string;
   onChange: (value: string) => void;
   disabled?: boolean;
@@ -146,7 +146,7 @@ export interface IRichTextEditorProps {
   onBlur?: () => void;
   column: ColumnConfig;
   _rowy_ref: TableRowRef;
-}
+};
 
 export default function RichTextEditor({
   value,
@@ -159,39 +159,37 @@ export default function RichTextEditor({
   _rowy_ref,
 }: IRichTextEditorProps) {
   const theme = useTheme();
-  const [focus, setFocus] = useState(false);
+  const [ focus, setFocus ] = useState(false);
 
   const projectScopeStore = useContext(ProjectScopeContext);
-  const [firebaseStorage] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
+  const [ firebaseStorage ] = useAtom(firebaseStorageAtom, { store: projectScopeStore });
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleImageUpload = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const path = _rowy_ref.path;
-      const key = column.key;
-      const storageRef = ref(
-        firebaseStorage,
-        `${path}/${key}/${generateId()}-${file.name}`
-      );
-      const uploadTask = uploadBytesResumable(storageRef, file, {
-        cacheControl: "public, max-age=31536000",
-      });
-      uploadTask.on(
-        "state_changed",
-        null,
-        (error: any) => {
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(
-            (downloadURL: string) => {
-              resolve(downloadURL);
-            }
-          );
-        }
-      );
+  const handleImageUpload = (file: any) => new Promise((resolve, reject) => {
+    const path = _rowy_ref.path;
+    const key = column.key;
+    const storageRef = ref(
+      firebaseStorage,
+      `${ path }/${ key }/${ generateId() }-${ file.name }`
+    );
+    const uploadTask = uploadBytesResumable(storageRef, file, {
+      cacheControl: "public, max-age=31536000",
     });
-  };
+    uploadTask.on(
+      "state_changed",
+      null,
+      (error: any) => {
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(
+          (downloadURL: string) => {
+            resolve(downloadURL);
+          }
+        );
+      }
+    );
+  });
 
   return (
     <Styles focus={focus} disabled={disabled}>
@@ -226,7 +224,7 @@ export default function RichTextEditor({
                 backgroundColor: theme.palette.action.hover + " !important",
                 position: "relative",
                 "&::before": {
-                  content: '""',
+                  content: "\"\"",
                   display: "block",
                   position: "absolute",
                   top: theme.spacing(1),
@@ -279,15 +277,15 @@ export default function RichTextEditor({
 
               html, body { background-color: transparent; }
               body {
-                font-family: ${theme.typography.fontFamily};
-                color: ${theme.palette.text.primary};
-                caret-color: ${theme.palette.primary.main};
-                margin: ${theme.spacing(12 / 8)};
-                margin-top: ${theme.spacing(1)};
+                font-family: ${ theme.typography.fontFamily };
+                color: ${ theme.palette.text.primary };
+                caret-color: ${ theme.palette.primary.main };
+                margin: ${ theme.spacing(12 / 8) };
+                margin-top: ${ theme.spacing(1) };
                 padding: 0 !important;
               }
               body :first-child { margin-top: 0; }
-              a { color: ${theme.palette.primary.main}; }
+              a { color: ${ theme.palette.primary.main }; }
             `,
           ].join("\n"),
           minHeight: 300,
@@ -337,11 +335,15 @@ export default function RichTextEditor({
         onEditorChange={onChange}
         onFocus={() => {
           setFocus(true);
-          if (onFocus) onFocus();
+          if (onFocus) {
+            onFocus();
+          }
         }}
         onBlur={() => {
           setFocus(false);
-          if (onBlur) onBlur();
+          if (onBlur) {
+            onBlur();
+          }
         }}
       />
     </Styles>

@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 
-import { MenuItem, MenuItemProps } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import type { MenuItemProps } from "@mui/material";
 
 const linkProps = { target: "_blank", rel: "noopener noreferrer" };
 
@@ -15,8 +16,8 @@ export default function NavItem(props: MenuItemProps<NavItemComponent>) {
   if ("to" in props && props.to !== undefined) {
     component = Link;
     if (
-      (typeof props.to === "string" && props.to.includes("#")) ||
-      (typeof props.to === "object" && !!props.to.hash)
+      (typeof props.to === "string" && props.to.includes("#"))
+      || (typeof props.to === "object" && !!props.to.hash)
     ) {
       component = HashLink;
     }
