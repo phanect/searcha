@@ -1,11 +1,10 @@
-import { core, nodejs, unbundled } from "@phanect/lint";
+import { core, nodejs } from "@phanect/lint";
 import { react } from "@phanect/lint-react";
 import type { Linter } from "eslint";
 
 const configs: Linter.Config[] = [
   ...core,
   ...nodejs,
-  ...unbundled,
   ...react,
 
   {
