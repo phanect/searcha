@@ -23,5 +23,10 @@ export default [
         version: "18",
       },
     },
+
+    rules: {
+      // FIXME Temporarily allow relaxed type checking. Enable this rule again later.
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    },
   },
 ];
