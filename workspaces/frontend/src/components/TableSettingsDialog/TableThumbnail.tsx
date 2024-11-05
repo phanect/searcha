@@ -62,13 +62,13 @@ export default function TableThumbnail({ ...props }: IFieldComponentProps) {
             marginLeft: "auto",
             marginRight: expanded ? 0 : theme.spacing(0.5),
           }}
+          {...getInputProps()}
         >
           <UploadImageIcon />
           <input
             id="thumbnail-image__input"
             type="file"
             hidden
-            {...getInputProps()}
           />
         </IconButton>
       </Grid>
