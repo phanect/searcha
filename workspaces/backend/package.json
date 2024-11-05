@@ -12,7 +12,7 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": ":",
-    "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
+    "build": "tsc;cpy --cwd=src --parents '**/*.json' ../dist/",
     "deploy": "./deploy.sh --project"
   },
   "dependencies": {
