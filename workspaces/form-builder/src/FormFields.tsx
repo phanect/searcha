@@ -143,7 +143,7 @@ function ConditionalField({ conditional, ...props }: IFieldWrapperProps) {
         <FieldWrapper
           {...props}
           disabledConditional={!conditionalState}
-          gridCols={true}
+          gridCols="auto"
           value={undefined}
         />
       </Grid>

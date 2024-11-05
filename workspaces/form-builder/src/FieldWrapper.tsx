@@ -1,7 +1,7 @@
 import { createElement, Suspense } from "react";
 import { Controller } from "react-hook-form";
 
-import { Grid } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 import FieldSkeleton from "./FieldSkeleton";
 
 import { getFieldProp } from "./Fields";

@@ -1,5 +1,5 @@
 import type { UseFormReturn, UseControllerReturn } from "react-hook-form";
-import type { GridProps } from "@mui/material";
+import type { Grid2Props as GridProps } from "@mui/material";
 import type { FieldType } from "./constants/fields";
 import type { Flags, Schema } from "yup";
 
@@ -19,9 +19,7 @@ export type Field = {
   validation?: Schema;
 
   defaultValue?: any;
-  gridCols?:
-    | GridProps["xs"]
-    | Pick<GridProps, "xs" | "sm" | "md" | "lg" | "xl">;
+  gridCols?: GridProps["size"];
   disablePadding?: boolean;
   disablePaddingTop?: boolean;
 

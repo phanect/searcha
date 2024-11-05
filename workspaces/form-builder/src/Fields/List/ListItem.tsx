@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-import { Grid, TextField, IconButton } from "@mui/material";
+import { Grid2 as Grid, TextField, IconButton } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
