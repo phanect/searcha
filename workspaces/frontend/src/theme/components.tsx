@@ -1,7 +1,6 @@
 import { alpha } from "@mui/material/styles";
 import { colord } from "colord";
 
-import ModalTransition from "@src/components/Modal/ModalTransition";
 import RadioIcon from "@src/theme/RadioIcon";
 import CheckboxIcon from "@src/theme/CheckboxIcon";
 import CheckboxIndeterminateIcon from "@src/theme/CheckboxIndeterminateIcon";
@@ -250,9 +249,6 @@ export const components = (theme: Theme): ThemeOptions => {
       },
 
       MuiDialog: {
-        defaultProps: {
-          TransitionComponent: ModalTransition,
-        },
         styleOverrides: {
           root: {
             "--dialog-title-height": "64px",
