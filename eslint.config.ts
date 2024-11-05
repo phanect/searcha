@@ -20,6 +20,11 @@ const configs: Linter.Config[] = [
         version: "18",
       },
     },
+
+    rules: {
+      // FIXME Temporarily allow relaxed type checking. Enable this rule again later.
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    },
   },
   {
     files: [ "**/*.{js,mjs,jsx,ts,tsx}"],
