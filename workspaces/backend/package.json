@@ -11,7 +11,7 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "nodemon",
+    "dev": ":",
     "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
     "deploy": "./deploy.sh --project"
   },
