@@ -119,8 +119,9 @@ const formatPathRegex = /\/[^\/]+\/([^\/]+)/g;
 /**
  * Gets the path to the table’s schema doc, accounting for sub-tables
  * and collectionGroup tables
- * @param id - The table ID (could include sub-table ID)
- * @param tableType - primaryCollection (default) or collectionGroup
+ * @param tableSettings - Table settings object
+ * @param tableSettings.id - The table ID (could include sub-table ID)
+ * @param tableSettings.tableType - primaryCollection (default) or collectionGroup
  * @returns Path to the table’s schema doc
  */
 export const getTableSchemaPath = (
