@@ -93,7 +93,6 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "devDependencies": {
-    "@craco/craco": "^6.4.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^14.0.4",
@@ -114,8 +113,6 @@
     "@typescript-eslint/parser": "^5.45.0",
     "@vitejs/plugin-react": "^4.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
-    "craco-alias": "^3.0.1",
-    "craco-swc": "^0.5.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
