@@ -12,7 +12,7 @@
     "lint": "eslint '**/*.js'",
     "fix": "eslint --fix '**/*.js'",
     "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
-    "deploy": "./deploy.sh --project"
+    "deploy": "./.mise/tasks/deploy.sh --project"
   },
   "engines": {
     "node": "22"
