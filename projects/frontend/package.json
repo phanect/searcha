@@ -22,7 +22,7 @@
     "startWithEmulators": "VITE_APP_FIREBASE_EMULATORS=true vite",
     "emulators": "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit",
     "test": "vitest run",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "target": "firebase target:apply hosting rowy",
     "deploy": "firebase deploy --only hosting"
   },
@@ -113,7 +113,6 @@
     "@types/react-router-hash-link": "^2.4.5",
     "@types/seedrandom": "^3.0.2",
     "@vitejs/plugin-react": "^4.0.0",
-    "cross-env": "^7.0.3",
     "happy-dom": "^9.20.3",
     "monaco-editor": "^0.33.0",
     "typescript": "^5.6.2",
