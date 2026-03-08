@@ -17,8 +17,8 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "node generate-exports && git add src/index.ts && tsdx build",
-    "prepublishOnly": "node generate-exports && git add src/index.ts && tsdx build",
+    "build": "node ./.mise/tasks/build/barrel.ts && git add src/index.ts && tsdx build",
+    "prepublishOnly": "node ./.mise/tasks/build/barrel.ts && git add src/index.ts && tsdx build",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "storybook": "start-storybook -p 6006",
