@@ -90,7 +90,6 @@
     "preview": "vite preview --port 7699",
     "analyze": "source-map-explorer ./build/static/js/*.js",
     "prepare": "husky install",
-    "env": "node createDotEnv",
     "target": "firebase target:apply hosting rowy",
     "deploy": "firebase deploy --only hosting",
     "typedoc": "typedoc --options typedoc.json"
