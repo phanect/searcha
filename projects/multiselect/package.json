@@ -18,21 +18,9 @@
     "build": "tsdx build",
     "lint": "tsdx lint",
     "prepare": "tsdx build; build-storybook -c .storybook -o docs; git add docs",
-    "size": "size-limit",
-    "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "size-limit": [
-    {
-      "path": "dist/test.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/test.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@emotion/react": "^11.4.0",
