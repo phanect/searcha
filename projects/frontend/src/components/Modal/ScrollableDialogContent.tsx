@@ -1,6 +1,4 @@
-import { memo } from "react";
-import useScrollInfo from "react-element-scroll-hook";
-
+import { memo, useRef } from "react";
 import {
   Divider,
   DividerProps,
@@ -32,25 +30,27 @@ export default function ScrollableDialogContent({
   bottomDividerSx = [],
   ...props
 }: IScrollableDialogContentProps) {
-  const [scrollInfo, setRef] = useScrollInfo();
+  const ref = useRef<HTMLElement>(null);
 
   return (
     <>
-      {!disableTopDivider && scrollInfo.y.percentage !== null && (
+      {!disableTopDivider && ref.current?.scrollTop !== undefined && (
         <Divider
           style={{
-            visibility: scrollInfo.y.percentage > 0 ? "visible" : "hidden",
+            visibility: ref.current.scrollTop > 0 ? "visible" : "hidden",
           }}
           sx={[...spreadSx(dividerSx), ...spreadSx(topDividerSx)]}
         />
       )}
 
-      <MemoizedDialogContent {...props} setRef={setRef} />
+      <MemoizedDialogContent {...props} ref={ ref } />
 
-      {!disableBottomDivider && scrollInfo.y.percentage !== null && (
+      {!disableBottomDivider && ref.current?.scrollTop !== undefined && (
         <Divider
           style={{
-            visibility: scrollInfo.y.percentage < 1 ? "visible" : "hidden",
+            visibility: (ref.current.scrollTop < ref.current.scrollHeight - ref.current.clientHeight)
+              ? "visible"
+              : "hidden",
           }}
           sx={[...spreadSx(dividerSx), ...spreadSx(bottomDividerSx)]}
         />
