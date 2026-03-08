@@ -17,8 +17,7 @@
     "analyze": "source-map-explorer ./build/static/js/*.js",
     "prepare": "husky install",
     "target": "firebase target:apply hosting rowy",
-    "deploy": "firebase deploy --only hosting",
-    "typedoc": "typedoc --options typedoc.json"
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -133,7 +132,6 @@
     "raw-loader": "^4.0.2",
     "source-map-explorer": "^2.5.2",
     "ts-jest": "^28.0.2",
-    "typedoc": "^0.23.21",
     "vite": "^4.3.9",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
