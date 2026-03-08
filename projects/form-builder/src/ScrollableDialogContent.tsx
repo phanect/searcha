@@ -1,5 +1,4 @@
-import React, { memo } from 'react';
-import useScrollInfo from 'react-element-scroll-hook';
+import { useRef } from 'react';
 
 import {
   Divider,
@@ -7,13 +6,6 @@ import {
   DialogContent,
   DialogContentProps,
 } from '@mui/material';
-
-const MemoizedDialogContent = memo(function MemoizedDialogContent_({
-  setRef,
-  ...props
-}: DialogContentProps & { setRef: any }) {
-  return <DialogContent {...props} ref={setRef} />;
-});
 
 export interface IScrollableDialogContentProps extends DialogContentProps {
   disableTopDivider?: boolean;
@@ -31,14 +23,14 @@ export default function ScrollableDialogContent({
   bottomDividerSx = [],
   ...props
 }: IScrollableDialogContentProps) {
-  const [scrollInfo, setRef] = useScrollInfo();
+  const ref = useRef<HTMLElement>(null);
 
   return (
     <>
-      {!disableTopDivider && scrollInfo.y.percentage !== null && (
+      {!disableTopDivider && ref.current?.scrollTop !== undefined && (
         <Divider
           style={{
-            visibility: scrollInfo.y.percentage > 0 ? 'visible' : 'hidden',
+            visibility: ref.current.scrollTop > 0 ? 'visible' : 'hidden',
           }}
           sx={[
             ...(Array.isArray(dividerSx) ? dividerSx : [dividerSx]),
@@ -47,12 +39,14 @@ export default function ScrollableDialogContent({
         />
       )}
 
-      <MemoizedDialogContent {...props} setRef={setRef} />
+      <DialogContent {...props} ref={ ref } />
 
-      {!disableBottomDivider && scrollInfo.y.percentage !== null && (
+      {!disableBottomDivider && ref.current?.scrollTop !== undefined && (
         <Divider
           style={{
-            visibility: scrollInfo.y.percentage < 1 ? 'visible' : 'hidden',
+            visibility: (ref.current.scrollTop < ref.current.scrollHeight - ref.current.clientHeight)
+              ? 'visible'
+              : 'hidden',
           }}
           sx={[
             ...(Array.isArray(dividerSx) ? dividerSx : [dividerSx]),
