@@ -126,11 +126,9 @@ const formatPathRegex = /\/[^\/]+\/([^\/]+)/g;
 export const getTableSchemaPath = (
   tableSettings: Pick<TableSettings, "id" | "tableType">
 ) =>
-  (tableSettings.tableType === "collectionGroup"
-    ? TABLE_GROUP_SCHEMAS
-    : TABLE_SCHEMAS) +
-  "/" +
-  tableSettings.id.replace(formatPathRegex, "/subTables/$1");
+  (tableSettings.tableType === "collectionGroup" ? TABLE_GROUP_SCHEMAS : TABLE_SCHEMAS)
+  + "/"
+  + tableSettings.id.replace(formatPathRegex, "/subTables/$1");
 
 /**
  * Format sub-table name to store settings in user settings
