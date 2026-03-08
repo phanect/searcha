@@ -1,5 +1,55 @@
+experimental_monorepo_root = true
+
+[monorepo]
+config_roots = [ "projects/*" ]
+
 [tools]
 node = "24"
+
+[tasks]
+  [tasks.dev]
+  run =[{ task = "//projects/...:dev" }]
+
+  [tasks.build]
+  run =[{ task = "//projects/...:build" }]
+
+  [tasks.test]
+  run =[{ task = "//projects/...:test" }]
+
+  [tasks.lint]
+  depends = [ "//projects/...:lint" ]
+  run = [
+    "tsc --noEmit",
+    "eslint",
+  ]
+
+  [tasks.fix]
+  run = "eslint --fix"
+
+  [tasks.storybook]
+  run =[{ task = "//projects/...:storybook" }]
+
+  [tasks."build-storybook"]
+  run =[{ task = "//projects/...:build-storybook" }]
+
+  [tasks.target]
+  run =[{ task = "//projects/...:target" }]
+
+  [tasks.deploy]
+  run =[{ task = "//projects/...:deploy" }]
+
+  [tasks.clean]
+  run = "git clean -dX --exclude=\"!.env\" --exclude=\"!mise.local.toml\" --force"
+
+  [tasks.refresh]
+  depends = [ "clean" ]
+  run = [
+    "rm --force ./pnpm-lock.yaml",
+    "corepack enable",
+    "corepack up",
+    "pnpm install",
+  ]
+  depends_post = [ "build" ]
 
 [hooks]
 postinstall = [

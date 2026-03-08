@@ -1,0 +1,14 @@
+[tasks.dev]
+run = "tsdown --watch --no-clean"
+
+[tasks.build]
+run = "tsdown"
+
+[tasks.test]
+run = "vitest run"
+
+[tasks.lint]
+run = "tsc --noEmit"
+
+[env]
+_.path = "./node_modules/.bin"

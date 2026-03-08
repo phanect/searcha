@@ -16,12 +16,6 @@
   "main": "dist/useMemoValue.js",
   "module": "dist/useMemoValue.js",
   "types": "dist/useMemoValue.d.ts",
-  "scripts": {
-    "dev": "tsdown --watch --no-clean",
-    "build": "tsdown",
-    "lint": "tsc --noEmit",
-    "test": "vitest run"
-  },
   "dependencies": {
     "shallowequal": "^0.1.0 || ^0.2.0 || ^1.0.0"
   },

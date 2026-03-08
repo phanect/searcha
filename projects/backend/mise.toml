@@ -1,0 +1,17 @@
+[tasks.dev]
+run = "nodemon"
+
+[tasks.start]
+run = "node build/index.js"
+
+[tasks.build]
+run = [
+  "tsc",
+  "cpy --cwd=src --parents '**/*.json' ../build/"
+]
+
+[tasks.lint]
+run = "tsc --noEmit"
+
+[env]
+_.path = "./node_modules/.bin"

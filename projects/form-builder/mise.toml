@@ -1,0 +1,19 @@
+[tasks.dev]
+depends = [ "build:barrel" ]
+run = "tsdown --watch --no-clean"
+
+[tasks.build]
+depends = [ "build:barrel" ]
+run = "tsdown"
+
+[tasks.lint]
+run = "tsc --noEmit"
+
+[tasks.storybook]
+run = "start-storybook -p 6006"
+
+[tasks."build-storybook"]
+run = "build-storybook"
+
+[env]
+_.path = "./node_modules/.bin"

@@ -15,13 +15,6 @@
   "module": "dist/index.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "scripts": {
-    "dev": "jiti ./.mise/tasks/build/barrel.ts && tsdown --watch --no-clean",
-    "build": "jiti ./.mise/tasks/build/barrel.ts && tsdown",
-    "lint": "tsc --noEmit",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  },
   "dependencies": {
     "@hookform/resolvers": "^2.6.0",
     "@types/lodash-es": "^4.17.6",

@@ -1,0 +1,28 @@
+[tasks.dev]
+run = "vite"
+
+[tasks."startWithEmulators"]
+run = "vite"
+env = { VITE_APP_FIREBASE_EMULATORS = "true" }
+
+[tasks.emulators]
+run = "firebase emulators:start --only firestore,auth --import ./emulators/ --export-on-exit"
+
+[tasks.build]
+run = "vite build"
+env = { NODE_OPTIONS = "--max-old-space-size=8192" }
+
+[tasks.test]
+run = "vitest run"
+
+[tasks.lint]
+run = "tsc --noEmit"
+
+[tasks.target]
+run = "firebase target:apply hosting rowy"
+
+[tasks.deploy]
+run = "firebase deploy --only hosting"
+
+[env]
+_.path = "./node_modules/.bin"

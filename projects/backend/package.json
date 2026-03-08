@@ -13,13 +13,6 @@
   "license": "UNLICENSED",
   "private": true,
   "main": "build/index.js",
-  "scripts": {
-    "start": "node build/index.js",
-    "dev": "nodemon",
-    "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
-    "lint": "tsc --noEmit",
-    "deploy": "./.mise/tasks/deploy.sh"
-  },
   "dependencies": {
     "@google-cloud/logging": "^10.3.1",
     "@google-cloud/secret-manager": "^4.1.4",

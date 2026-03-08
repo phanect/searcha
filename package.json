@@ -9,12 +9,6 @@
   "license": "UNLICENSED",
   "private": true,
   "type": "module",
-  "scripts": {
-    "lint": "pnpm run --if-present lint && eslint",
-    "fix": "eslint --fix",
-    "clean": "git clean -dX --exclude=\"!.env\" --force",
-    "refresh": "pnpm clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm build"
-  },
   "devDependencies": {
     "@phanect/configs": "latest",
     "@phanect/lint": "latest",

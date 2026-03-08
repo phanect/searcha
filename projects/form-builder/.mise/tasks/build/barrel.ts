@@ -1,3 +1,5 @@
+#!/usr/bin/env -S pnpm exec jiti
+
 import fs from "node:fs";
 
 process.chdir('./src');
