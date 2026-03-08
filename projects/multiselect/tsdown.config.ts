@@ -1,7 +1,7 @@
-import type { Options } from "tsup";
+import { defineConfig } from "tsdown";
 
-const options: Options = {
-  entry: [ "src/useMemoValue.ts" ],
+const options = defineConfig({
+  entry: [ "src/index.tsx" ],
 
   platform: "browser",
   format: "esm",
@@ -12,6 +12,6 @@ const options: Options = {
   treeshake: false,
   minify: false,
   clean: true,
-};
+});
 
 export default options;

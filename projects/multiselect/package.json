@@ -16,8 +16,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "dev": "tsup --watch --no-clean",
-    "build": "tsup",
+    "dev": "tsdown --watch --no-clean",
+    "build": "tsdown",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -40,9 +40,9 @@
     "dompurify": "^3.1.7",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "tsdown": "^0.21.0",
     "tslib": "^2.3.0",
     "tss-react": "^4.9.13",
-    "tsup": "^8.3.0",
     "typescript": "^5.6.2"
   },
   "peerDependencies": {

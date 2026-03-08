@@ -17,8 +17,8 @@
   "module": "dist/useMemoValue.js",
   "types": "dist/useMemoValue.d.ts",
   "scripts": {
-    "dev": "tsup --watch --no-clean",
-    "build": "tsup",
+    "dev": "tsdown --watch --no-clean",
+    "build": "tsdown",
     "test": "vitest run"
   },
   "dependencies": {
@@ -32,7 +32,7 @@
     "react": "^19.2.4",
     "react-test-renderer": "^19.2.4",
     "ts-node": "^8.9.0",
-    "tsup": "^8.3.0",
+    "tsdown": "^0.21.0",
     "typescript": "^5.6.2",
     "vitest": "^2.1.3"
   },
