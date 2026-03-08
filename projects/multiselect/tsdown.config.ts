@@ -3,8 +3,8 @@ import { defineConfig } from "tsdown";
 const options = defineConfig({
   entry: [ "src/index.tsx" ],
 
-  platform: "browser",
-  format: "esm",
+  platform: "neutral",
+  // format: "esm",
 
   dts: true,
   sourcemap: true,
