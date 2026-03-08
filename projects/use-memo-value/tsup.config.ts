@@ -1,10 +1,17 @@
-import { frontendLib } from "@phanect/configs/tsup";
 import type { Options } from "tsup";
 
 const options: Options = {
-  ...frontendLib,
   entry: [ "src/useMemoValue.ts" ],
+
   platform: "browser",
+  format: "esm",
+
+  dts: true,
+  sourcemap: true,
+
+  treeshake: false,
+  minify: false,
+  clean: true,
 };
 
 export default options;
