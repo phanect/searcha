@@ -43,7 +43,6 @@
     "google-auth-library": "^8.8.0",
     "js-beautify": "^1.13.0",
     "nodemon": "^2.0.12",
-    "pretty-quick": "^3.1.1",
     "ts-node": "^9.1.1",
     "typescript": "^5.6.2"
   }
