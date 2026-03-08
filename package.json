@@ -12,20 +12,6 @@
   "workspaces": [
     "workspaces/*"
   ],
-  "scripts": {
-    "dev": "lerna exec --parallel -- pnpm run --if-present dev",
-    "build": "lerna exec -- pnpm run --if-present build",
-    "lint": "pnpm run --if-present lint:tsc && eslint",
-    "lint:tsc": "tsc --noEmit && lerna exec --no-prefix -- tsc --noEmit",
-    "fix": "eslint --fix && pnpm pkg fix",
-    "test": "lerna exec --parallel -- pnpm run --if-present test",
-    "storybook": "lerna exec --parallel -- pnpm run --if-present storybook",
-    "build-storybook": "lerna exec --parallel -- pnpm run --if-present build-storybook",
-    "target": "lerna exec --parallel -- pnpm run --if-present target",
-    "deploy": "lerna exec --parallel -- pnpm run --if-present deploy",
-    "clean": "git clean -dX --exclude=\"!.env\" --force",
-    "refresh": "pnpm clean && rm --force ./pnpm-lock.yaml && corepack up && pnpm install && pnpm build"
-  },
   "devDependencies": {
     "@lerna-lite/cli": "^3.9.1",
     "@lerna-lite/exec": "^3.9.1",

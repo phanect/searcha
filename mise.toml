@@ -1,6 +1,56 @@
 [tools]
 node = { version = "22" }
 
+[tasks]
+  [tasks.dev]
+  run = "lerna exec --parallel -- pnpm run --if-present dev"
+
+  [tasks.build]
+  run = "lerna exec -- pnpm run --if-present build"
+
+  [tasks.lint]
+  run = [
+    "pnpm run --if-present lint:tsc",
+    "eslint",
+  ]
+
+  [tasks."lint:tsc"]
+  run = "tsc --noEmit && lerna exec --no-prefix -- tsc --noEmit"
+
+  [tasks.fix]
+  run = [
+    "eslint --fix",
+    "pnpm pkg fix",
+  ]
+
+  [tasks.test]
+  run = "lerna exec --parallel -- pnpm run --if-present test"
+
+  [tasks.storybook]
+  run = "lerna exec --parallel -- pnpm run --if-present storybook"
+
+  [tasks."build-storybook"]
+  run = "lerna exec --parallel -- pnpm run --if-present build-storybook"
+
+  [tasks.target]
+  run = "lerna exec --parallel -- pnpm run --if-present target"
+
+  [tasks.deploy]
+  run = "lerna exec --parallel -- pnpm run --if-present deploy"
+
+  [tasks.clean]
+  run = "git clean -dX --exclude=\"!.env\" --exclude=\"!mise.local.toml\" --force"
+
+  [tasks.refresh]
+  depends = [ "clean" ]
+  run = [
+    "rm --force ./pnpm-lock.yaml",
+    "corepack enable",
+    "corepack up",
+    "pnpm install",
+    "pnpm run build",
+  ]
+
 [hooks]
 postinstall = [
   "corepack enable",
