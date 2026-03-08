@@ -3,25 +3,26 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      # Dependabot checks security updates daily regardless of this configuration
       interval: "weekly"
     assignees:
       - "phanect"
     groups:
-      security:
-        applies-to: "security-updates"
-        update-types:
-          - "minor"
-          - "patch"
-      security-breaking:
-        applies-to: "security-updates"
-        update-types:
-          - "major"
       compatible:
         applies-to: "version-updates"
         update-types:
           - "minor"
           - "patch"
+      # Better Auth frequently makes breaking changes in minor versions,
+      # so make different PRs from other version updates.
+      better-auth:
+        applies-to: "version-updates"
+        patterns:
+          - "@better-auth/cli"
+          - "better-auth"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major
 
   - package-ecosystem: "github-actions"
     directory: "/"
