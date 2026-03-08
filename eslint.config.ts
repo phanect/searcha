@@ -3,6 +3,12 @@ import { react } from "@phanect/lint-react";
 import type { Linter } from "eslint";
 
 const configs: Linter.Config[] = [
+  {
+    ignores: [
+      "./**/dist/**",
+    ],
+  },
+
   ...core,
   ...nodejs,
   ...react,
@@ -12,6 +18,7 @@ const configs: Linter.Config[] = [
 
     languageOptions: {
       parserOptions: {
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
