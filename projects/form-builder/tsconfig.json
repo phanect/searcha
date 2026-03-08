@@ -1,10 +1,13 @@
 {
   "extends": [
-    "@phanect/configs/ts/frontend",
-    "@phanect/configs/ts/addons/jsx",
+    "@phanect/configs/ts",
     "@phanect/configs/ts/addons/npm"
   ],
   "compilerOptions": {
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "importHelpers": true,
     "paths": {
       "@": [ "./*" ]
