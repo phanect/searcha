@@ -1,16 +1,16 @@
-import { useContext } from "react";
+import Paste from "@mui/icons-material/ContentPaste";
+import { Copy } from "@src/assets/icons";
+import {
+  tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  updateFieldAtom,
+} from "@src/atoms/tableScope";
 import { useAtom, useSetAtom } from "jotai";
 import { find, get } from "lodash-es";
 import { useSnackbar } from "notistack";
-import { Copy } from "@src/assets/icons";
-import Paste from "@mui/icons-material/ContentPaste";
 
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  tableRowsAtom,
-  updateFieldAtom,
-} from "@src/atoms/tableScope";
+import { useContext } from "react";
 import type { IFieldConfig } from "@src/components/fields/types";
 
 export type IContextMenuActions = {

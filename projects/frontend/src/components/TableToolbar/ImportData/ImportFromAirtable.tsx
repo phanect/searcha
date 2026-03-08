@@ -1,27 +1,26 @@
-import { useState, useEffect, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Button,
-  Typography,
-  FormControl,
-  InputLabel,
   FilledInput,
+  FormControl,
   FormHelperText,
+  InputLabel,
   Stack,
+  Typography,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
+import { analytics, logEvent } from "@src/analytics";
 import {
+  importAirtableAtom,
   tableModalAtom,
   TableScopeContext,
-  importAirtableAtom,
 } from "@src/atoms/tableScope";
-import { analytics, logEvent } from "@src/analytics";
-import { find } from "lodash-es";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { useAtom, useSetAtom } from "jotai";
+import { find } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
 
 export default function ImportFromAirtable() {
   const tableScopeStore = useContext(TableScopeContext);

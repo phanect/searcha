@@ -1,16 +1,14 @@
-import { useState, useRef, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { FieldType, FormDialog } from "@phanect/searcha-form-builder";
-
 import {
+  Box,
   Button,
   ButtonGroup,
-  Select,
-  MenuItem,
   ListItemText,
-  Box,
+  MenuItem,
+  Select,
   Tooltip,
 } from "@mui/material";
+import { FieldType, FormDialog } from "@phanect/searcha-form-builder";
+
 import {
   AddRow as AddRowIcon,
   AddRowTop as AddRowTopIcon,
@@ -19,16 +17,18 @@ import {
 
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import {
+  _updateRowDbAtom,
+  addRowAtom,
+  tableColumnsOrderedAtom,
+  tableFiltersAtom,
+  tableSchemaAtom,
   TableScopeContext,
   tableSettingsAtom,
-  tableFiltersAtom,
   tableSortsAtom,
-  addRowAtom,
-  _updateRowDbAtom,
-  tableColumnsOrderedAtom,
-  tableSchemaAtom,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext, useRef, useState } from "react";
 import type { TableIdType } from "@src/types/table";
 
 export default function AddRow() {

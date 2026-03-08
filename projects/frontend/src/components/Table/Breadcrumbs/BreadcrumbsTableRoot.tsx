@@ -1,23 +1,22 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-import { useParams, Link as RouterLink } from "react-router-dom";
-import { find, camelCase } from "lodash-es";
-
+import ReadOnlyIcon from "@mui/icons-material/EditOffOutlined";
 import {
-  Stack,
   Breadcrumbs,
   Link,
-  Typography,
+  Stack,
   Tooltip,
+  Typography,
 } from "@mui/material";
-import ReadOnlyIcon from "@mui/icons-material/EditOffOutlined";
-
 import {
   ProjectScopeContext,
-  userRolesAtom,
   tablesAtom,
+  userRolesAtom,
 } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import { useAtom } from "jotai";
+import { camelCase, find } from "lodash-es";
+import { useContext } from "react";
+import { Link as RouterLink, useParams } from "react-router-dom";
+
 import type {
   StackProps } from "@mui/material";
 

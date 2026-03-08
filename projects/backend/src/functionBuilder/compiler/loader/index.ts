@@ -1,12 +1,12 @@
-import { db } from "../../../firebaseConfig";
 import {
   serialiseDefaultValueColumns,
   serialiseDerivativeColumns,
   serialiseDocumentSelectColumns,
   serialiseExtension,
 } from "./serialisers";
-import { TableConfig } from "./types";
-const fs = require("fs");
+import { db } from "../../../firebaseConfig";
+import type { TableConfig } from "./types";
+const fs = require("node:fs");
 const beautify = require("js-beautify").js;
 
 export const getConfigFromTableSchema = async (
@@ -16,13 +16,15 @@ export const getConfigFromTableSchema = async (
   const schemaDoc = await db.doc(schemaDocPath).get();
   const schemaData = schemaDoc.data();
   try {
-    if (!schemaData) throw new Error("no schema found");
+    if (!schemaData) {
+      throw new Error("no schema found");
+    }
     const columnsArray = Object.values(schemaData.columns);
     const derivativeColumns = columnsArray.filter(
       (col: any) =>
-        col.type === "DERIVATIVE" &&
-        col.config?.listenerFields &&
-        col.config?.listenerFields.length > 0
+        col.type === "DERIVATIVE"
+        && col.config?.listenerFields
+        && col.config?.listenerFields.length > 0
     );
     const defaultValueColumns = columnsArray.filter((col: any) =>
       Boolean(col.config?.defaultValue)
@@ -66,7 +68,7 @@ export const getConfigFromTableSchema = async (
 
     await Promise.all(
       Object.keys(config).map(async (key) =>
-        streamLogger.info(`${key}: ${JSON.stringify(config[key])}`)
+        streamLogger.info(`${ key }: ${ JSON.stringify(config[key]) }`)
       )
     );
     return config;
@@ -90,7 +92,7 @@ export const combineConfigs = (configs: any[]) =>
         tableSchema,
       } = cur;
       return {
-        derivativeColumns: [...acc.derivativeColumns, ...derivativeColumns],
+        derivativeColumns: [ ...acc.derivativeColumns, ...derivativeColumns ],
         defaultValueColumns: [
           ...acc.defaultValueColumns,
           ...defaultValueColumns,
@@ -101,10 +103,10 @@ export const combineConfigs = (configs: any[]) =>
         ],
         fieldTypes: { ...acc.fieldTypes, ...fieldTypes },
         extensions: extensions
-          ? [...acc.extensions, ...extensions]
+          ? [ ...acc.extensions, ...extensions ]
           : acc.extensions,
         searchIndices: searchIndex
-          ? [...acc.searchIndices, searchIndex]
+          ? [ ...acc.searchIndices, searchIndex ]
           : acc.searchIndices,
         runtimeOptions,
         tableSchema,
@@ -151,7 +153,7 @@ export const generateFile = async (configData, buildFolderTimestamp) => {
     documentSelectConfig: serialiseDocumentSelectColumns(documentSelectColumns),
     extensionsConfig: serialiseExtension(extensions, buildFolderTimestamp),
     runtimeOptions: JSON.stringify({
-      serviceAccount: `rowy-functions@${projectId}.iam.gserviceaccount.com`,
+      serviceAccount: `rowy-functions@${ projectId }.iam.gserviceaccount.com`,
       ...runtimeOptions,
     }),
     tableSchema: JSON.stringify(tableSchema),
@@ -159,24 +161,24 @@ export const generateFile = async (configData, buildFolderTimestamp) => {
     searchHost: JSON.stringify(searchHost),
     searchIndices: JSON.stringify(searchIndices),
   };
-  const baseFile = `import fetch from "node-fetch";\n import rowy from "./rowy";\n`;
+  const baseFile = "import fetch from \"node-fetch\";\n import rowy from \"./rowy\";\n";
   const fileData = Object.keys(serializedConfigData).reduce((acc, currKey) => {
-    return `${acc}\nexport const ${currKey} = ${serializedConfigData[currKey]}`;
-  }, ``);
+    return `${ acc }\nexport const ${ currKey } = ${ serializedConfigData[currKey] }`;
+  }, "");
   const serializedConfig = beautify(baseFile + fileData, { indent_size: 2 });
-  const path = require("path");
+  const path = require("node:path");
   fs.writeFileSync(
     path.resolve(
       __dirname,
-      `../../builds/${buildFolderTimestamp}/src/functionConfig.ts`
+      `../../builds/${ buildFolderTimestamp }/src/functionConfig.ts`
     ),
     serializedConfig
   );
   return Promise.all([
     db
-      .doc(`_rowy_/settings/functions/${functionName}`)
+      .doc(`_rowy_/settings/functions/${ functionName }`)
       .update({ serializedConfig, configData }),
-    db.collection(`_rowy_/settings/functions/${functionName}/history`).add({
+    db.collection(`_rowy_/settings/functions/${ functionName }/history`).add({
       serializedConfig,
       configData,
     }),

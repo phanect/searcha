@@ -1,33 +1,31 @@
-import { useState, Suspense, useMemo, createElement, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { set } from "lodash-es";
-import { ErrorBoundary } from "react-error-boundary";
-
-import { Typography, Stack } from "@mui/material";
-
-import Modal from "@src/components/Modal";
-import { getFieldProp } from "@src/components/fields";
-import { InlineErrorFallback } from "@src/components/ErrorFallback";
-import Loading from "@src/components/Loading";
+import { Stack, Typography } from "@mui/material";
 
 import {
+  confirmDialogAtom,
   ProjectScopeContext,
   rowyRunAtom,
-  confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import {
   TableScopeContext,
   tableSettingsAtom,
   updateColumnAtom,
 } from "@src/atoms/tableScope";
-import { useSnackLogContext } from "@src/contexts/SnackLogContext";
+import { InlineErrorFallback } from "@src/components/ErrorFallback";
+import { getFieldProp } from "@src/components/fields";
+import Loading from "@src/components/Loading";
+import Modal from "@src/components/Modal";
 import { FieldType } from "@src/constants/fields";
 import { runRoutes } from "@src/constants/runRoutes";
-import { useSnackbar } from "notistack";
+import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import {
-  getTableSchemaPath,
   getTableBuildFunctionPathname,
+  getTableSchemaPath,
 } from "@src/utils/table";
+import { useAtom, useSetAtom } from "jotai";
+import { set } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { createElement, Suspense, useContext, useMemo, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import DefaultValueInput from "./DefaultValueInput";
 import type { IColumnModalProps } from "@src/components/ColumnModals";
 

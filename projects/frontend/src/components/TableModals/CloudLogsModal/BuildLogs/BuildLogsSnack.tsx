@@ -1,29 +1,27 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { throttle } from "lodash-es";
-import { useAtom, useSetAtom } from "jotai";
-
-import { Typography, Box, Tooltip, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import ExpandIcon from "@mui/icons-material/ExpandLess";
 import CollapseIcon from "@mui/icons-material/ExpandMore";
 import OpenIcon from "@mui/icons-material/Fullscreen";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
-
-import { isTargetInsideBox } from "@src/utils/ui";
-import { useSnackLogContext } from "@src/contexts/SnackLogContext";
-import { ProjectScopeContext, navOpenAtom } from "@src/atoms/projectScope";
+import { navOpenAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableModalAtom,
   cloudLogFiltersAtom,
+  tableModalAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import {
-  NAV_DRAWER_WIDTH,
   NAV_DRAWER_COLLAPSED_WIDTH,
+  NAV_DRAWER_WIDTH,
 } from "@src/layouts/Navigation/NavDrawer";
-import useBuildLogs from "./useBuildLogs";
+import { isTargetInsideBox } from "@src/utils/ui";
+import { useAtom, useSetAtom } from "jotai";
+import { throttle } from "lodash-es";
+import { useContext, useEffect, useRef, useState } from "react";
 import BuildLogRow from "./BuildLogRow";
+import useBuildLogs from "./useBuildLogs";
 
 export type IBuildLogsSnackProps = {
   onClose: () => void;

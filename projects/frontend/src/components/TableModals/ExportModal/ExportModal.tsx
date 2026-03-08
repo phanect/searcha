@@ -1,35 +1,33 @@
-import { useState, useMemo, useContext } from "react";
-import { useAtom } from "jotai";
-import {
-  query as firestoreQuery,
-  collection,
-  collectionGroup,
-  orderBy,
-  limit,
-} from "firebase/firestore";
-
-import { DialogContent, Tab, Divider } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
-import Modal from "@src/components/Modal";
+import { DialogContent, Divider, Tab } from "@mui/material";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
+  tableFiltersAtom,
   TableScopeContext,
   tableSettingsAtom,
-  tableFiltersAtom,
   tableSortsAtom,
 } from "@src/atoms/tableScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import Modal from "@src/components/Modal";
 import { tableFiltersToFirestoreFilters } from "@src/hooks/useFirestoreCollectionWithAtom";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import {
+  collection,
+  collectionGroup,
+  limit,
+  orderBy,
+  query as firestoreQuery,
+} from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useContext, useMemo, useState } from "react";
 import DownloadDetails from "./ModalContentsDownload";
 import ExportDetails from "./ModalContentsExport";
+import type { ITableModalProps } from "@src/components/TableModals/TableModals";
 import type { TableRow } from "@src/types/table";
 import type {
   Query } from "firebase/firestore";
-import type { ITableModalProps } from "@src/components/TableModals/TableModals";
 
 export type IExportModalContentsProps = {
   query: Query<TableRow>;

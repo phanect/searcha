@@ -1,18 +1,17 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-
+import FavoriteIcon from "@mui/icons-material/FavoriteBorder";
+import FolderIcon from "@mui/icons-material/FolderOutlined";
 import {
+  Collapse,
   List,
   ListItemIcon,
-  ListItemText,
   ListItemSecondaryAction,
-  Collapse,
+  ListItemText,
 } from "@mui/material";
-import FolderIcon from "@mui/icons-material/FolderOutlined";
-import FavoriteIcon from "@mui/icons-material/FavoriteBorder";
 import { ChevronDown } from "@src/assets/icons";
 
 import { ROUTES } from "@src/constants/routes";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import NavItem from "./NavItem";
 import type { TableSettings } from "@src/types/table";
 

@@ -3,7 +3,7 @@ import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 import { ColorPicker, ColorService } from "react-color-palette";
 import "react-color-palette/css";
 
-import { ButtonBase, Box, Collapse } from "@mui/material";
+import { Box, ButtonBase, Collapse } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";

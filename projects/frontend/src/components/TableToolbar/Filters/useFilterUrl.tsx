@@ -1,4 +1,4 @@
-import { TableScopeContext, tableFiltersAtom } from "@src/atoms/tableScope";
+import { tableFiltersAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { useAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";

@@ -1,11 +1,10 @@
-import { Suspense } from "react";
-import { useImage } from "react-image";
-import { ErrorBoundary } from "react-error-boundary";
-
-import { Box, Skeleton } from "@mui/material";
-
 import BrokenImageIcon from "@mui/icons-material/BrokenImageOutlined";
+import { Box, Skeleton } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { useImage } from "react-image";
+
 import EmptyState from "./EmptyState";
 import type { BoxProps } from "@mui/material";
 

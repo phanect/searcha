@@ -1,8 +1,7 @@
-import seedrandom from "seedrandom";
-import { colord } from "colord";
-
-import { useTheme, Avatar } from "@mui/material";
+import { Avatar, useTheme } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import { colord } from "colord";
+import seedrandom from "seedrandom";
 import type { AvatarProps } from "@mui/material";
 
 // https://www.stefanjudis.com/snippets/how-to-detect-emojis-in-javascript-strings/

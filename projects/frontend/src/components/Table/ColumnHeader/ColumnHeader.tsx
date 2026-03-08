@@ -1,42 +1,40 @@
-import { memo, useContext, useRef } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
+import LockIcon from "@mui/icons-material/LockOutlined";
+import DropdownIcon from "@mui/icons-material/MoreHoriz";
 import {
-  Tooltip,
   Fade,
   IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import DropdownIcon from "@mui/icons-material/MoreHoriz";
-import LockIcon from "@mui/icons-material/LockOutlined";
 
+import { altPressAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import {
+  columnMenuAtom,
+  selectedCellAtom,
+  TableScopeContext,
+  tableSortsAtom,
+} from "@src/atoms/tableScope";
+import { getFieldProp } from "@src/components/fields";
+import { COLUMN_HEADER_HEIGHT } from "@src/components/Table/Mock/Column";
 import {
   StyledColumnHeader,
   StyledColumnHeaderNameTooltip,
 } from "@src/components/Table/Styled/StyledColumnHeader";
-
-import { ProjectScopeContext, altPressAtom } from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  selectedCellAtom,
-  columnMenuAtom,
-  tableSortsAtom,
-} from "@src/atoms/tableScope";
-import { getFieldProp } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";
-import { COLUMN_HEADER_HEIGHT } from "@src/components/Table/Mock/Column";
-import ColumnHeaderResizer from "./ColumnHeaderResizer";
+import { useAtom, useSetAtom } from "jotai";
+import { memo, useContext, useRef } from "react";
 import ColumnHeaderDragHandle from "./ColumnHeaderDragHandle";
+import ColumnHeaderResizer from "./ColumnHeaderResizer";
 import ColumnHeaderSort from "./ColumnHeaderSort";
-import type { SORT_STATES } from "./ColumnHeaderSort";
 import type {
   StackProps } from "@mui/material";
+import type { ColumnConfig, TableRow } from "@src/types/table";
+import type { Header } from "@tanstack/react-table";
 import type {
   DraggableProvided,
   DraggableStateSnapshot,
 } from "react-beautiful-dnd";
-import type { Header } from "@tanstack/react-table";
-import type { ColumnConfig, TableRow } from "@src/types/table";
+import type { SORT_STATES } from "./ColumnHeaderSort";
 
 export { COLUMN_HEADER_HEIGHT };
 

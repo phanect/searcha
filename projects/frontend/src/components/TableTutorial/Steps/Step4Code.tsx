@@ -1,9 +1,9 @@
-import { useTheme, Link } from "@mui/material";
+import { Link, useTheme } from "@mui/material";
+import derivativeDark from "@src/assets/tutorial/derivative-dark.gif";
+import derivativeLight from "@src/assets/tutorial/derivative-light.gif";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import derivativeLight from "@src/assets/tutorial/derivative-light.gif";
-import derivativeDark from "@src/assets/tutorial/derivative-dark.gif";
 import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step4Code = {

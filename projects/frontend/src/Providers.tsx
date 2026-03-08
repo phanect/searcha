@@ -1,19 +1,19 @@
-import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallback from "@src/components/ErrorFallback";
-import { HydrateAtoms } from "@src/atoms/utils.ts";
-import { BrowserRouter } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import RowyThemeProvider from "@src/theme/RowyThemeProvider";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
+import ErrorFallback from "@src/components/ErrorFallback";
+
+import Loading from "@src/components/Loading";
 import SnackbarProvider from "@src/contexts/SnackbarContext";
 import { SnackLogProvider } from "@src/contexts/SnackLogContext";
-
+import RowyThemeProvider from "@src/theme/RowyThemeProvider";
 import { Suspense, useContext } from "react";
-import Loading from "@src/components/Loading";
+import { ErrorBoundary } from "react-error-boundary";
+import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter } from "react-router-dom";
 
 export const muiCache = createCache({ key: "mui", prepend: true });
 

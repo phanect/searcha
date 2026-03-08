@@ -1,7 +1,7 @@
-import { Box, SvgIcon } from "@mui/material";
-import { Discord as DiscordIcon } from "@src/assets/icons";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import { Box, SvgIcon } from "@mui/material";
+import { Discord as DiscordIcon } from "@src/assets/icons";
 
 import { spreadSx } from "@src/utils/ui";
 import type { BoxProps } from "@mui/material";

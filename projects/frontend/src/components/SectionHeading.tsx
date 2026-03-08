@@ -1,11 +1,10 @@
-import { forwardRef } from "react";
+import LinkIcon from "@mui/icons-material/Link";
+import { IconButton, Stack, Typography } from "@mui/material";
+import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { camelCase } from "lodash-es";
+import { forwardRef } from "react";
 import { HashLink } from "react-router-hash-link";
 
-import { Stack, Typography, IconButton } from "@mui/material";
-import LinkIcon from "@mui/icons-material/Link";
-
-import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import type { StackProps } from "@mui/material";
 
 export type ISectionHeadingProps = {

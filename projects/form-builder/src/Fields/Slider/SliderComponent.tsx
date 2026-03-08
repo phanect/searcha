@@ -1,17 +1,17 @@
 import {
   FormControl,
-  Stack,
   Slider,
+  Stack,
   Typography,
 } from "@mui/material";
 
-import FieldLabel from "../../FieldLabel";
-import FieldErrorMessage from "../../FieldErrorMessage";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldLabel from "../../FieldLabel";
 import type {
   SliderProps } from "@mui/material";
 import type { ReactNode } from "react";
+import type { IFieldComponentProps } from "../../types";
 
 export type ISliderComponentProps = {
   units?: string;

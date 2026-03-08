@@ -1,9 +1,9 @@
+import GestureSwipeHorizontal from "mdi-material-ui/GestureSwipeHorizontal";
 import { lazy } from "react";
 import { number } from "yup";
-import GestureSwipeHorizontal from "mdi-material-ui/GestureSwipeHorizontal";
+import Settings from "./SliderSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./SliderSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () => import("./SliderComponent")

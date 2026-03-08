@@ -1,11 +1,11 @@
-import { merge } from "lodash-es";
 import {
-  FormControl,
-  FormControlLabel,
-  Divider,
   Checkbox,
   Collapse,
+  Divider,
+  FormControl,
+  FormControlLabel,
 } from "@mui/material";
+import { merge } from "lodash-es";
 import type { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 export default function TableSettings({

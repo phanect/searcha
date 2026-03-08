@@ -1,12 +1,11 @@
-import { createElement } from "react";
-
-import StyledTable from "@src/components/Table/Styled/StyledTable";
-import StyledCell from "@src/components/Table/Styled/StyledCell";
 import EmptyState from "@src/components/EmptyState";
 
 import { getFieldProp } from "@src/components/fields";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
+import StyledCell from "@src/components/Table/Styled/StyledCell";
+import StyledTable from "@src/components/Table/Styled/StyledTable";
 import useConverter from "@src/components/TableModals/ImportCsvWizard/useConverter";
+import { createElement } from "react";
 import type { FieldType } from "@src/constants/fields";
 
 export type ICellProps = {

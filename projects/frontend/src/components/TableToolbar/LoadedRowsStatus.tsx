@@ -1,18 +1,17 @@
-import { Suspense, forwardRef, useContext } from "react";
-import { useAtom } from "jotai";
-
-import { Tooltip, Typography } from "@mui/material";
-import SyncIcon from "@mui/icons-material/Sync";
 import OfflineIcon from "@mui/icons-material/CloudOffOutlined";
+import SyncIcon from "@mui/icons-material/Sync";
+import { Tooltip, Typography } from "@mui/material";
 
 import {
-  TableScopeContext,
-  tableRowsAtom,
-  tableNextPageAtom,
   serverDocCountAtom,
+  tableNextPageAtom,
+  tableRowsAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
-import { spreadSx } from "@src/utils/ui";
 import useOffline from "@src/hooks/useOffline";
+import { spreadSx } from "@src/utils/ui";
+import { useAtom } from "jotai";
+import { forwardRef, Suspense, useContext } from "react";
 import type { TypographyProps } from "@mui/material";
 
 const StatusText = forwardRef((

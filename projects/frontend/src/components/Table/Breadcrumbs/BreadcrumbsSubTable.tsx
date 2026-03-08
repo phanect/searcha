@@ -1,14 +1,13 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
-import { camelCase } from "lodash-es";
-
-import { Stack, Breadcrumbs, Link, Typography, Tooltip } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ReadOnlyIcon from "@mui/icons-material/EditOffOutlined";
-
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Breadcrumbs, Link, Stack, Tooltip, Typography } from "@mui/material";
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import { useAtom } from "jotai";
+import { camelCase } from "lodash-es";
+import { useContext } from "react";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
+
 import type { TableSettings } from "@src/types/table";
 
 export type IBreadcrumbsSubTableProps = {

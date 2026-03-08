@@ -1,12 +1,11 @@
-import { useContext, useRef } from "react";
-import { useAtom } from "jotai";
-
-import { Popover, Stack, Chip, Typography } from "@mui/material";
 import FilterIcon from "@mui/icons-material/FilterList";
+import { Chip, Popover, Stack, Typography } from "@mui/material";
 
+import { tableFiltersPopoverAtom, TableScopeContext } from "@src/atoms/tableScope";
 import ButtonWithStatus from "@src/components/ButtonWithStatus";
 
-import { TableScopeContext, tableFiltersPopoverAtom } from "@src/atoms/tableScope";
+import { useAtom } from "jotai";
+import { useContext, useRef } from "react";
 import type { TableFilter } from "@src/types/table";
 import type { useFilterInputs } from "./useFilterInputs";
 

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { Chip, Typography } from "@mui/material";
-import Modal from "@src/components/Modal";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import ColorPickerInput from "@src/components/ColorPickerInput";
+import Modal from "@src/components/Modal";
+import { useEffect, useState } from "react";
 import { ColorService } from "react-color-palette";
 import type { FC } from "react";
 import type { SelectColorThemeOptions } from ".";

@@ -1,7 +1,7 @@
 import { useState, type FC, type ReactNode } from "react";
 
-import Dialog, { type ParamsDialogProps } from "./ParamsDialog";
 import ActionParamsContext from "./Context";
+import Dialog, { type ParamsDialogProps } from "./ParamsDialog";
 type IActionParamsProviderProps = {
   children: ReactNode;
 };

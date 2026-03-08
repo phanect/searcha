@@ -1,6 +1,5 @@
+import { Divider, ListItemIcon, ListSubheader, MenuItem } from "@mui/material";
 import { Fragment } from "react";
-
-import { MenuItem, ListItemIcon, ListSubheader, Divider } from "@mui/material";
 
 export type IMenuContentsProps = {
   menuItems: {

@@ -1,5 +1,5 @@
-import { auth, db } from "../firebaseConfig";
 import { rowyUsersImpersonationLogs } from "../constants/Collections";
+import { auth, db } from "../firebaseConfig";
 import type { Request, Response } from "express";
 export const impersonateUser = async (req: Request, res: Response) => {
   try {

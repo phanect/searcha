@@ -1,9 +1,9 @@
+import OrderBoolDescending from "mdi-material-ui/OrderBoolDescending";
 import { lazy } from "react";
 import { string } from "yup";
-import OrderBoolDescending from "mdi-material-ui/OrderBoolDescending";
+import Settings from "./SingleSelectSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./SingleSelectSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

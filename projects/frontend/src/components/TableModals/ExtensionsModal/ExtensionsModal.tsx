@@ -1,43 +1,41 @@
-import { useContext, useEffect, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { isEqual, isUndefined } from "lodash-es";
-
-import Modal from "@src/components/Modal";
-
-import {
-  ProjectScopeContext,
-  currentUserAtom,
-  rowyRunAtom,
-  confirmDialogAtom,
-} from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
-} from "@src/atoms/tableScope";
-import { useSnackLogContext } from "@src/contexts/SnackLogContext";
-
-import { runRoutes } from "@src/constants/runRoutes";
 import { analytics, logEvent } from "@src/analytics";
 import {
-  getTableSchemaPath,
+  confirmDialogAtom,
+  currentUserAtom,
+  ProjectScopeContext,
+  rowyRunAtom,
+} from "@src/atoms/projectScope";
+import {
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import Modal from "@src/components/Modal";
+import { runRoutes } from "@src/constants/runRoutes";
+import { useSnackLogContext } from "@src/contexts/SnackLogContext";
+import {
   getTableBuildFunctionPathname,
+  getTableSchemaPath,
 } from "@src/utils/table";
+import { useAtom, useSetAtom } from "jotai";
+import { isEqual, isUndefined } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
+
+import AddExtensionButton from "./AddExtensionButton";
+import ExtensionList from "./ExtensionList";
 import ExtensionMigration from "./ExtensionMigration";
 import ExtensionModal from "./ExtensionModal";
-import ExtensionList from "./ExtensionList";
-import AddExtensionButton from "./AddExtensionButton";
 
+import RuntimeOptions from "./RuntimeOptions";
 import {
   emptyExtensionObject,
 } from "./utils";
-import RuntimeOptions from "./RuntimeOptions";
-import type {
-  IExtension,
-  ExtensionType,
-  IRuntimeOptions } from "./utils";
 import type { ITableModalProps } from "@src/components/TableModals";
+import type {
+  ExtensionType,
+  IExtension,
+  IRuntimeOptions } from "./utils";
 
 export default function ExtensionsModal({ onClose }: ITableModalProps) {
   const projectScopeStore = useContext(ProjectScopeContext);

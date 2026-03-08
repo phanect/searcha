@@ -1,50 +1,49 @@
-import { useAtom, useSetAtom } from "jotai";
-import useSWR from "swr";
-import { useSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
-import { find, sortBy, get, isEmpty } from "lodash-es";
-import { Controller } from "react-hook-form";
-import { string } from "yup";
-
 import { DialogContentText, Stack, Typography } from "@mui/material";
 
 import { FormDialog, FormFields, type CustomComponents } from "@phanect/searcha-form-builder";
-import SteppedAccordion from "@src/components/SteppedAccordion";
 
+import { analytics, logEvent } from "@src/analytics";
 import {
+  projectRolesAtom,
   ProjectScopeContext,
   tableSettingsDialogAtom,
   tablesAtom,
-  projectRolesAtom,
   rowyRunAtom,
   confirmDialogAtom,
   createTableAtom,
   updateTableAtom,
 } from "@src/atoms/projectScope";
-import { analytics, logEvent } from "@src/analytics";
+import SteppedAccordion from "@src/components/SteppedAccordion";
 
-import { runRoutes } from "@src/constants/runRoutes";
 import { CONFIG } from "@src/config/dbPaths";
 import { ROUTES } from "@src/constants/routes";
+import { runRoutes } from "@src/constants/runRoutes";
 import { useSnackLogContext } from "@src/contexts/SnackLogContext";
-import {
-  getTableSchemaPath,
-  getTableBuildFunctionPathname,
-} from "@src/utils/table";
 import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
+import {
+  getTableBuildFunctionPathname,
+  getTableSchemaPath,
+} from "@src/utils/table";
+import { useAtom, useSetAtom } from "jotai";
+import { find, get, isEmpty, sortBy } from "lodash-es";
+import { useSnackbar } from "notistack";
 import { useContext } from "react";
-import { uploadTableThumbnail } from "./utils";
-import TableThumbnail from "./TableThumbnail";
-import TableDetails from "./TableDetails";
-import DeleteMenu from "./DeleteMenu";
+import { Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
+import { string } from "yup";
 import ActionsMenu from "./ActionsMenu";
+import DeleteMenu from "./DeleteMenu";
+import { tableSettings } from "./form";
 import SuggestedRules from "./SuggestedRules";
+import TableDetails from "./TableDetails";
 import TableId from "./TableId";
 import TableName from "./TableName";
-import { tableSettings } from "./form";
-import type { TableSettings } from "@src/types/table";
+import TableThumbnail from "./TableThumbnail";
+import { uploadTableThumbnail } from "./utils";
 import type {
   AdditionalTableSettings } from "@src/atoms/projectScope";
+import type { TableSettings } from "@src/types/table";
 
 const customComponents: CustomComponents = {
   tableName: {

@@ -1,5 +1,5 @@
-import { Stack, TextField, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { IconButton, Stack, TextField } from "@mui/material";
 
 import { getFieldId } from "@src/components/SideDrawer/utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";

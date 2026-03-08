@@ -1,48 +1,47 @@
-import { useState, useMemo, useCallback, useRef, useContext } from "react";
-import useMemoValue from "@phanect/use-memo-value";
-import { useAtom, useSetAtom } from "jotai";
-import { RESET } from "jotai/utils";
-import { useSnackbar } from "notistack";
-import { uniqBy, find, isEqual, groupBy } from "lodash-es";
-
 import {
-  useTheme,
-  useMediaQuery,
-  Typography,
-  Link,
   Alert,
   AlertTitle,
   Button,
+  Link,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import useMemoValue from "@phanect/use-memo-value";
 
-import WizardDialog from "@src/components/TableModals/WizardDialog";
-import SnackbarProgress from "@src/components/SnackbarProgress";
-
+import { analytics, logEvent } from "@src/analytics";
 import {
-  TableScopeContext,
-  tableSettingsAtom,
   tableSchemaAtom,
   addColumnAtom,
   bulkAddRowsAtom,
   importCsvAtom,
   tableModalAtom,
+  TableScopeContext,
+  tableSettingsAtom,
 } from "@src/atoms/tableScope";
 import { getFieldProp } from "@src/components/fields";
-import { analytics, logEvent } from "@src/analytics";
+import SnackbarProgress from "@src/components/SnackbarProgress";
+
+import WizardDialog from "@src/components/TableModals/WizardDialog";
 import { generateId } from "@src/utils/table";
-import Step3Preview from "./Step3Preview";
-import Step2NewColumns from "./Step2NewColumns";
+import { useAtom, useSetAtom } from "jotai";
+import { RESET } from "jotai/utils";
+import { find, groupBy, isEqual, uniqBy } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import Step1Columns from "./Step1Columns";
-import { isValidDocId } from "./utils";
-import useUploadFileFromURL from "./useUploadFileFromURL";
+import Step2NewColumns from "./Step2NewColumns";
+import Step3Preview from "./Step3Preview";
 import useConverter from "./useConverter";
-import type { ColumnConfig } from "@src/types/table";
+import useUploadFileFromURL from "./useUploadFileFromURL";
+import { isValidDocId } from "./utils";
 import type {
   ImportCsvData } from "@src/atoms/tableScope";
 import type {
   ISnackbarProgressRef,
 } from "@src/components/SnackbarProgress";
 import type { ITableModalProps } from "@src/components/TableModals";
+import type { ColumnConfig } from "@src/types/table";
 
 export type CsvConfig = {
   pairs: { csvKey: string; columnKey: string; }[];

@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-
-import { darken, lighten } from "@mui/system";
-import { alpha, Fade, Paper, Chip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import { alpha, Chip, Fade, Paper } from "@mui/material";
+import { darken, lighten } from "@mui/system";
+import { useEffect, useState } from "react";
 
 export type SaveStates = "" | "unsaved" | "saving" | "saved";
 export type ISaveStateProps = {

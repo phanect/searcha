@@ -1,6 +1,6 @@
 // import { DocumentSnapshot } from "firebase-functions/lib/providers/firestore";
-import { rowReducer } from "../utils";
 import { db } from "../firebaseConfig";
+import { rowReducer } from "../utils";
 import type { DocumentSnapshot } from "firebase-functions/v1/firestore";
 const TARGET_SUB_COLLECTION = "_FT_BINDINGS";
 
@@ -9,7 +9,7 @@ const TARGET_SUB_COLLECTION = "_FT_BINDINGS";
 // /_FT_BINDINGS/{docId}
 // docId is encodeURIComponent of docPath
 /**
- 
+
 {
     [targetCollectionName]:{
       [targetField]:{

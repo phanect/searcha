@@ -1,28 +1,27 @@
-import { useContext } from "react";
+import EvalIcon from "@mui/icons-material/PlayCircleOutline";
+import ReEvalIcon from "@mui/icons-material/ReplayOutlined";
+import { Button } from "@mui/material";
+
+import {
+  compatibleRowyRunVersionAtom,
+  projectIdAtom,
+  ProjectScopeContext,
+  projectSettingsAtom,
+  rowyRunAtom,
+} from "@src/atoms/projectScope";
+import {
+  tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+} from "@src/atoms/tableScope";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import { runRoutes } from "@src/constants/runRoutes";
+import { getTableSchemaPath } from "@src/utils/table";
 import { useAtom } from "jotai";
 import { find, get } from "lodash-es";
 import { useSnackbar } from "notistack";
-
-import { Button } from "@mui/material";
-import ReEvalIcon from "@mui/icons-material/ReplayOutlined";
-import EvalIcon from "@mui/icons-material/PlayCircleOutline";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-
-import {
-  ProjectScopeContext,
-  compatibleRowyRunVersionAtom,
-  rowyRunAtom,
-  projectIdAtom,
-  projectSettingsAtom,
-} from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  tableRowsAtom,
-} from "@src/atoms/tableScope";
-import { getTableSchemaPath } from "@src/utils/table";
-import { runRoutes } from "@src/constants/runRoutes";
+import { useContext } from "react";
 import type { IFieldConfig } from "@src/components/fields/types";
 
 export type IContextMenuActions = {

@@ -1,50 +1,50 @@
-import { useMemo, useRef, useState, useEffect, useCallback, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useThrottledCallback } from "use-debounce";
+import { Checkbox, FormControlLabel } from "@mui/material";
+import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
+import {
+  reactTableAtom,
+  selectedCellAtom,
+  tableSortsAtom,
+  tableIdAtom,
+  serverDocCountAtom,
+  tableColumnsOrderedAtom,
+  tableNextPageAtom,
+  tablePageAtom,
+  tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  updateColumnAtom,
+} from "@src/atoms/tableScope";
+import EmptyState from "@src/components/EmptyState";
+import { getFieldProp, getFieldType } from "@src/components/fields";
 import {
   createColumnHelper,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useAtom, useSetAtom } from "jotai";
 import { get } from "lodash-es";
+import { useCallback, useEffect, useMemo, useRef, useState, useContext } from "react";
+import { useThrottledCallback } from "use-debounce";
 
-import EmptyState from "@src/components/EmptyState";
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  reactTableAtom,
-  tableColumnsOrderedAtom,
-  tableRowsAtom,
-  tableNextPageAtom,
-  tablePageAtom,
-  updateColumnAtom,
-  selectedCellAtom,
-  tableSortsAtom,
-  tableIdAtom,
-  serverDocCountAtom,
-} from "@src/atoms/tableScope";
-import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
-import { getFieldType, getFieldProp } from "@src/components/fields";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import StyledTable from "./Styled/StyledTable";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
-import FinalColumn from "./FinalColumn/FinalColumn";
 import ContextMenu from "./ContextMenu";
+import FinalColumn from "./FinalColumn/FinalColumn";
+import StyledTable from "./Styled/StyledTable";
+import TableBody from "./TableBody";
+import TableHeader from "./TableHeader";
 
+import useHotKeys from "./useHotKey";
 import { useKeyboardNavigation } from "./useKeyboardNavigation";
 import { useMenuAction } from "./useMenuAction";
 import { useSaveColumnSizing } from "./useSaveColumnSizing";
-import useHotKeys from "./useHotKey";
 import useStateWithRef from "./useStateWithRef"; // testing with useStateWithRef
-import type { DropResult } from "react-beautiful-dnd";
-import type { TableRow, ColumnConfig } from "@src/types/table";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 import type {
   ColumnPinningState,
   DisplayColumnDef,
-  VisibilityState,
 
-  RowSelectionState } from "@tanstack/react-table";
+  RowSelectionState,
+  VisibilityState } from "@tanstack/react-table";
+import type { DropResult } from "react-beautiful-dnd";
 
 export const DEFAULT_ROW_HEIGHT = 41;
 export const DEFAULT_COL_WIDTH = 150;

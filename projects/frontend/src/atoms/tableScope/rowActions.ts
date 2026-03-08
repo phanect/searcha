@@ -1,39 +1,38 @@
-import { atom } from "jotai";
-import {
-  cloneDeep,
-  find,
-  get as _get,
-  set as _set,
-  isEqual,
-  unset,
-  filter,
-} from "lodash-es";
-
 import { currentUserAtom } from "@src/atoms/projectScope";
 
 import {
-  rowyUser,
-  generateId,
   decrementId,
-  updateRowData,
+  generateId,
   omitRowyFields,
+  rowyUser,
+  updateRowData,
 } from "@src/utils/table";
 import { arrayRemove, arrayUnion } from "firebase/firestore";
+import { atom } from "jotai";
 import {
+  cloneDeep,
+  filter,
+  find,
+  get as _get,
+  isEqual,
+  set as _set,
+  unset,
+} from "lodash-es";
+import {
+  _bulkWriteDbAtom,
+  _deleteRowDbAtom,
+  _updateRowDbAtom,
   auditChangeAtom,
-  tableSettingsAtom,
   tableColumnsOrderedAtom,
   tableFiltersAtom,
-  tableRowsLocalAtom,
   tableRowsAtom,
-  _updateRowDbAtom,
-  _deleteRowDbAtom,
-  _bulkWriteDbAtom,
+  tableRowsLocalAtom,
+  tableSettingsAtom,
 } from "./table";
 import type {
-  TableRow,
-  BulkWriteFunction,
   ArrayTableRowData,
+  BulkWriteFunction,
+  TableRow,
 } from "@src/types/table";
 
 export type IAddRowOptions = {

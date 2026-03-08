@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { FieldType } from "@src/constants/fields";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
@@ -7,6 +6,7 @@ import {
   GeoPoint,
 } from "firebase/firestore";
 import { useAtom } from "jotai";
+import { useContext } from "react";
 import type {
   DocumentReference as Reference } from "firebase/firestore";
 

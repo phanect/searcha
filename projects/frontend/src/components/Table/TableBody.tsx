@@ -1,29 +1,29 @@
-import { memo, useContext } from "react";
-import { useAtom } from "jotai";
+import {
+  selectedCellAtom,
+  tableNextPageAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
+import { getFieldProp } from "@src/components/fields";
 import {
   flexRender,
 } from "@tanstack/react-table";
+import { useAtom } from "jotai";
+import { memo, useContext } from "react";
 
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  selectedCellAtom,
-  tableNextPageAtom,
-} from "@src/atoms/tableScope";
-import { getFieldProp } from "@src/components/fields";
-import StyledRow from "./Styled/StyledRow";
 import OutOfOrderIndicator from "./OutOfOrderIndicator";
+import StyledCell from "./Styled/StyledCell";
+import StyledRow from "./Styled/StyledRow";
+import { DEFAULT_ROW_HEIGHT, OUT_OF_ORDER_MARGIN } from "./Table";
 import TableCell from "./TableCell";
 import { RowsSkeleton } from "./TableSkeleton";
 
 import useVirtualization from "./useVirtualization";
-import { DEFAULT_ROW_HEIGHT, OUT_OF_ORDER_MARGIN } from "./Table";
-import StyledCell from "./Styled/StyledCell";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 import type {
   Column,
-  Row,
-  ColumnSizingState } from "@tanstack/react-table";
-import type { ColumnConfig, TableRow } from "@src/types/table";
+  ColumnSizingState,
+  Row } from "@tanstack/react-table";
 
 export type ITableBodyProps = {
   /**

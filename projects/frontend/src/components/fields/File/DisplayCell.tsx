@@ -1,9 +1,9 @@
-import { Grid2 as Grid, Chip } from "@mui/material";
+import { Chip, Grid2 as Grid } from "@mui/material";
 import ChipList from "@src/components/Table/TableCell/ChipList";
 
 import { FileIcon } from ".";
-import type { FileValue } from "@src/types/table";
 import type { IDisplayCellProps } from "@src/components/fields/types";
+import type { FileValue } from "@src/types/table";
 
 export default function File_({
   value,

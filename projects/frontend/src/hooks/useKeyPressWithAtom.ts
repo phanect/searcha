@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useSetAtom, type SetStateAction, type WritableAtom } from "jotai";
+import { useEffect } from "react";
 
 /**
  * A hook that listens to when the target key is pressed

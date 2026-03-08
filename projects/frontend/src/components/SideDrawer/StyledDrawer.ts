@@ -1,7 +1,7 @@
-import { styled, Drawer, drawerClasses } from "@mui/material";
-import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import { Drawer, drawerClasses, styled } from "@mui/material";
 import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
-import { DRAWER_WIDTH, DRAWER_COLLAPSED_WIDTH } from "./index";
+import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import { DRAWER_COLLAPSED_WIDTH, DRAWER_WIDTH } from "./index";
 
 export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   ".sidedrawer-disabled": {

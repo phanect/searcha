@@ -1,23 +1,22 @@
-import { Suspense, useContext, type PropsWithChildren } from "react";
-import { useAtom } from "jotai";
-import { ErrorBoundary } from "react-error-boundary";
-import { useLocation, Outlet } from "react-router-dom";
-
-import { useMediaQuery, Stack, GlobalStyles } from "@mui/material";
-
-import ErrorFallback from "@src/components/ErrorFallback";
-import Loading from "@src/components/Loading";
-import GetStartedChecklist from "@src/components/GetStartedChecklist";
+import { GlobalStyles, Stack, useMediaQuery } from "@mui/material";
 
 import {
-  ProjectScopeContext,
-  projectIdAtom,
   navOpenAtom,
+  projectIdAtom,
+  ProjectScopeContext,
 } from "@src/atoms/projectScope";
+import ErrorFallback from "@src/components/ErrorFallback";
+import GetStartedChecklist from "@src/components/GetStartedChecklist";
+import Loading from "@src/components/Loading";
+
 import { ROUTE_TITLES } from "@src/constants/routes";
 import { useDocumentTitle } from "@src/hooks/useDocumentTitle";
-import NavDrawerContents from "./NavDrawer/NavDrawerContents";
+import { useAtom } from "jotai";
+import { Suspense, useContext, type PropsWithChildren } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { Outlet, useLocation } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
+import NavDrawerContents from "./NavDrawer/NavDrawerContents";
 import TopBar, { TOP_BAR_HEIGHT } from "./TopBar";
 import type {
   IErrorFallbackProps,

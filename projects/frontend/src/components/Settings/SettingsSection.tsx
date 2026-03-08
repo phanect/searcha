@@ -1,7 +1,7 @@
 import { Paper } from "@mui/material";
 
-import SectionHeading from "@src/components/SectionHeading";
 import SlideTransition from "@src/components/Modal/SlideTransition";
+import SectionHeading from "@src/components/SectionHeading";
 import type { PaperProps } from "@mui/material";
 
 export type ISettingsSectionProps = {

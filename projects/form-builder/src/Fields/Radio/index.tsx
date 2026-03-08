@@ -1,9 +1,9 @@
+import RadioboxMarked from "mdi-material-ui/RadioboxMarked";
 import { lazy } from "react";
 import { string } from "yup";
-import RadioboxMarked from "mdi-material-ui/RadioboxMarked";
+import Settings from "./RadioSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./RadioSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () => import("./RadioComponent")

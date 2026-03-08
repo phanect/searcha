@@ -3,7 +3,7 @@ import { ChevronDown } from "@src/assets/icons";
 
 import { getFieldId } from "@src/components/SideDrawer/utils";
 import { DATE_FORMAT } from "@src/constants/dates";
-import { transformValue, sanitizeValue } from "./utils";
+import { sanitizeValue, transformValue } from "./utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export type IDateProps = {} & ISideDrawerFieldProps;

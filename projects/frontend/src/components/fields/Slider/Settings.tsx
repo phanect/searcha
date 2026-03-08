@@ -1,24 +1,23 @@
-import { useState } from "react";
-
 import {
   Box,
-  TextField,
-  FormControlLabel,
-  Switch,
-  MenuItem,
   Checkbox,
+  FormControlLabel,
   Grid2 as Grid,
   InputLabel,
+  MenuItem,
+  Switch,
+  TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import ColorPickerInput from "@src/components/ColorPickerInput";
 
-import { ColorService } from "react-color-palette";
 import { fieldSx } from "@src/components/SideDrawer/utils";
-import { resultColorsScale, defaultColors } from "@src/utils/color";
-import type { IColor } from "react-color-palette";
+import { defaultColors, resultColorsScale } from "@src/utils/color";
+import { useState } from "react";
+import { ColorService } from "react-color-palette";
 import type { ISettingsProps } from "@src/components/fields/types";
+import type { IColor } from "react-color-palette";
 
 const colorLabels: Record<string, string> = {
   0: "Start",

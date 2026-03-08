@@ -1,4 +1,4 @@
-import { CONFIG, USERS, PUBLIC_SETTINGS } from "./dbPaths";
+import { CONFIG, PUBLIC_SETTINGS, USERS } from "./dbPaths";
 
 export const RULES_START = `rules_version = '2';
 

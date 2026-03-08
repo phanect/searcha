@@ -1,12 +1,12 @@
-import { SvgIcon, Tooltip } from "@mui/material";
 import DebugIcon from "@mui/icons-material/BugReportOutlined";
+import AlertIcon from "@mui/icons-material/Error";
+import ErrorIcon from "@mui/icons-material/ErrorOutline";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
+import EmergencyIcon from "@mui/icons-material/NewReleases";
 import NoticeIcon from "@mui/icons-material/NotificationsOutlined";
 import WarningIcon from "@mui/icons-material/WarningAmberOutlined";
-import ErrorIcon from "@mui/icons-material/ErrorOutline";
+import { SvgIcon, Tooltip } from "@mui/material";
 import { Critical as CriticalIcon } from "@src/assets/icons";
-import AlertIcon from "@mui/icons-material/Error";
-import EmergencyIcon from "@mui/icons-material/NewReleases";
 import type { SvgIconProps } from "@mui/material";
 
 // https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#LogSeverity

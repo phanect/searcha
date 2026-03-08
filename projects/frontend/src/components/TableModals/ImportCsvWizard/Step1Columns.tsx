@@ -1,42 +1,40 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import useMemoValue from "@phanect/use-memo-value";
-import { find, findIndex, camelCase, isEqual } from "lodash-es";
-
+import ArrowIcon from "@mui/icons-material/ArrowForward";
 import {
-  Grid2 as Grid,
-  Typography,
-  Divider,
-  FormControlLabel,
-  Checkbox,
-  Chip,
-  FormControl,
-  RadioGroup,
-  Radio,
-  TextField,
-  MenuItem,
   Alert,
   AlertTitle,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Chip,
+  FormControl,
+  Radio,
+  RadioGroup,
   Stack,
+  TextField,
+  MenuItem,
   Box,
+  Grid2 as Grid,
+  Typography,
 } from "@mui/material";
-import ArrowIcon from "@mui/icons-material/ArrowForward";
+import useMemoValue from "@phanect/use-memo-value";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
-import FadeList from "@src/components/TableModals/ScrollableList";
+import {
+  tableColumnsOrderedAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
+import { getFieldProp } from "@src/components/fields";
+import ColumnSelect from "@src/components/Table/ColumnSelect";
 import Column, {
   COLUMN_HEADER_HEIGHT,
 } from "@src/components/Table/Mock/Column";
-import ColumnSelect from "@src/components/Table/ColumnSelect";
-
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  tableColumnsOrderedAtom,
-} from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
-import { getFieldProp } from "@src/components/fields";
 import { suggestType } from "@src/components/TableModals/ImportExistingWizard/utils";
+import FadeList from "@src/components/TableModals/ScrollableList";
+import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { camelCase, find, findIndex, isEqual } from "lodash-es";
+import { useContext, useState } from "react";
 import type {
   ImportCsvData } from "@src/atoms/tableScope";
 import type { CsvConfig } from "@src/components/TableModals/ImportCsvWizard";

@@ -1,6 +1,3 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
 import {
   Accordion,
   AccordionDetails,
@@ -11,14 +8,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChevronDown } from "@src/assets/icons";
 import MultiSelect from "@phanect/searcha-multiselect";
+import { ChevronDown } from "@src/assets/icons";
 
 import {
-  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
+  ProjectScopeContext,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext, useState } from "react";
 
 import type { IRuntimeOptions } from "./utils";
 

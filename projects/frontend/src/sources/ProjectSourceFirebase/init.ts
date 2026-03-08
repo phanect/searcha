@@ -1,4 +1,3 @@
-import { atom } from "jotai";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
@@ -6,8 +5,9 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
 } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
+import { getStorage } from "firebase/storage";
+import { atom } from "jotai";
 import type { FirebaseOptions } from "firebase/app";
 
 if (

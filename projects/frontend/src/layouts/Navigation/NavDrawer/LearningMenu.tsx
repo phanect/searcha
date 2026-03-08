@@ -1,17 +1,16 @@
+import {
+  ListItemSecondaryAction,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { analytics, logEvent } from "@src/analytics";
+import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
+import { ROUTES } from "@src/constants/routes";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import {
-  Menu,
-  MenuItem,
-  ListItemSecondaryAction,
-} from "@mui/material";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
-
-import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
-import { ROUTES } from "@src/constants/routes";
-import { logEvent, analytics } from "@src/analytics";
 import type {
   MenuProps } from "@mui/material";
 

@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import { useWatch } from "react-hook-form";
-import { camelCase } from "lodash-es";
 import {
   ShortTextComponent,
 } from "@phanect/searcha-form-builder";
+import { camelCase } from "lodash-es";
+import { useEffect } from "react";
+import { useWatch } from "react-hook-form";
 import type {
   IShortTextComponentProps } from "@phanect/searcha-form-builder";
 

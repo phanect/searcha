@@ -1,14 +1,13 @@
-import { memo, useContext } from "react";
-import { useSetAtom } from "jotai";
-import { colord } from "colord";
-
-import { Tooltip, IconButton } from "@mui/material";
 import SortDescIcon from "@mui/icons-material/ArrowDownward";
+import { IconButton, Tooltip } from "@mui/material";
+import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
 import IconSlash, {
   ICON_SLASH_STROKE_DASHOFFSET,
 } from "@src/components/IconSlash";
 
-import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
+import { colord } from "colord";
+import { useSetAtom } from "jotai";
+import { memo, useContext } from "react";
 import useSaveTableSorts from "./useSaveTableSorts";
 
 export const SORT_STATES = [ "none", "desc", "asc" ] as const;

@@ -1,5 +1,5 @@
 import { FieldType } from "@src/constants/fields";
-import { GeoPoint, DocumentReference } from "firebase/firestore";
+import { DocumentReference, GeoPoint } from "firebase/firestore";
 import type { ColumnConfig } from "@src/types/table";
 import type { ArraySupportedFiledTypes } from "./SupportedTypes";
 export function getPseudoColumn(

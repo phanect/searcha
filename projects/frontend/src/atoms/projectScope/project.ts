@@ -2,19 +2,19 @@ import { atom } from "jotai";
 import { sortBy } from "lodash-es";
 
 import { userRolesAtom } from "./auth";
+import type { FieldType } from "@src/constants/fields";
+import type { FunctionSettings } from "@src/types/function";
 import type {
-  PublicSettings,
   ProjectSettings,
+  PublicSettings,
   UserSettings,
 } from "@src/types/settings";
 import type {
-  UpdateDocFunction,
-  UpdateCollectionDocFunction,
-  TableSettings,
   TableSchema,
+  TableSettings,
+  UpdateCollectionDocFunction,
+  UpdateDocFunction,
 } from "@src/types/table";
-import type { FieldType } from "@src/constants/fields";
-import type { FunctionSettings } from "@src/types/function";
 
 export const projectIdAtom = atom<string>("");
 

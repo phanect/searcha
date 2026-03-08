@@ -3,14 +3,14 @@ import type { IFieldComponentProps } from "../../types";
 import { ColorPicker, ColorService } from "react-color-palette";
 import "react-color-palette/css";
 
+import PaletteIcon from "@mui/icons-material/Palette";
 import {
-  TextField,
-  InputAdornment,
   Box,
   IconButton,
+  InputAdornment,
   Popover,
+  TextField,
 } from "@mui/material";
-import PaletteIcon from "@mui/icons-material/Palette";
 
 import FieldAssistiveText from "../../FieldAssistiveText";
 import type {

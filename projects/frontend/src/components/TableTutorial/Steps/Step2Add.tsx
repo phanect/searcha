@@ -1,16 +1,15 @@
-import { useState, useEffect, useContext } from "react";
-import { useAtom } from "jotai";
-import { isEmpty } from "lodash-es";
-
 import { Typography } from "@mui/material";
-import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
-
 import {
-  TableScopeContext,
   tableColumnsOrderedAtom,
   tableRowsAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
+import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
+
 import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { isEmpty } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
 import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step2Add = {

@@ -1,14 +1,13 @@
+import { Grid } from "@mui/material";
 import { createElement, Suspense } from "react";
 import { Controller } from "react-hook-form";
 
-import { Grid } from "@mui/material";
-import FieldSkeleton from "./FieldSkeleton";
-
 import { getFieldProp } from "./Fields";
+import FieldSkeleton from "./FieldSkeleton";
 
 import { controllerRenderPropsStub } from "./utils";
 import type { IFormFieldsProps } from "./FormFields";
-import type { Field, CustomComponent } from "./types";
+import type { CustomComponent, Field } from "./types";
 
 export type IFieldWrapperProps = {
   index: number;

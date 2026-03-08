@@ -1,10 +1,9 @@
-import { lazy } from "react";
-import { FieldType } from "@src/components/fields/types";
-import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
-
 import ShortTextIcon from "@mui/icons-material/ShortText";
 import DisplayCell from "@src/components/fields/ShortText/DisplayCell";
+import { FieldType } from "@src/components/fields/types";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 import EditorCell from "./EditorCell";
 
 import { filterOperators } from "./Filter";

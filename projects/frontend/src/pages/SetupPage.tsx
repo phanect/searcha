@@ -1,10 +1,9 @@
-import { useState } from "react";
-
 import SetupLayout from "@src/components/Setup/SetupLayout";
-import StepWelcome from "@src/components/Setup/Steps/StepWelcome";
+import StepFinish from "@src/components/Setup/Steps/StepFinish";
 import StepRules from "@src/components/Setup/Steps/StepRules";
 import StepStorageRules from "@src/components/Setup/Steps/StepStorageRules";
-import StepFinish from "@src/components/Setup/Steps/StepFinish";
+import StepWelcome from "@src/components/Setup/Steps/StepWelcome";
+import { useState } from "react";
 
 const steps = [ StepWelcome, StepRules, StepStorageRules, StepFinish ];
 

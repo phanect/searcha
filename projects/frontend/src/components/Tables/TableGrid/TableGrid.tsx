@@ -1,9 +1,8 @@
-import { TransitionGroup } from "react-transition-group";
+import { Box, Collapse, Grid2 as Grid } from "@mui/material";
 
-import { Box, Grid2 as Grid, Collapse } from "@mui/material";
-
-import SectionHeading from "@src/components/SectionHeading";
 import SlideTransition from "@src/components/Modal/SlideTransition";
+import SectionHeading from "@src/components/SectionHeading";
+import { TransitionGroup } from "react-transition-group";
 
 import TableCard from "./TableCard";
 import type { TableSettings } from "@src/types/table";

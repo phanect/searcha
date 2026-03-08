@@ -1,7 +1,7 @@
-import { lazy } from "react";
 import FormulaIcon from "@mui/icons-material/Functions";
 import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 import DisplayCell from "./DisplayCell";
 
 import Settings, { settingsValidator } from "./Settings";

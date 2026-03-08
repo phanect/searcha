@@ -1,5 +1,5 @@
 import { securityRules } from "firebase-admin";
-import { db, auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import type { Request, Response } from "express";
 export const serviceAccountAccess = async (req: Request, res: Response) => {
   try {

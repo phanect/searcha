@@ -1,38 +1,36 @@
-import { Suspense, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { ErrorBoundary } from "react-error-boundary";
-
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Import as ImportIcon } from "@src/assets/icons";
 
-import ErrorFallback from "@src/components/ErrorFallback";
-import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
-import TableSkeleton from "@src/components/Table/TableSkeleton";
-import TableTutorial from "@src/components/TableTutorial";
-import EmptyState from "@src/components/EmptyState";
-import TableModals from "@src/components/TableModals";
-import { HydrateAtoms } from "@src/atoms/utils.ts";
-
-import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableIdAtom,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  tableColumnsOrderedAtom,
-  tableRowsAtom,
-  tableModalAtom,
   importCsvAtom,
+  tableColumnsOrderedAtom,
+  tableIdAtom,
+  tableModalAtom,
+  tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
 } from "@src/atoms/tableScope";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
+import EmptyState from "@src/components/EmptyState";
+import ErrorFallback from "@src/components/ErrorFallback";
+import TableSkeleton from "@src/components/Table/TableSkeleton";
+import TableModals from "@src/components/TableModals";
+import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
+import TableTutorial from "@src/components/TableTutorial";
 
+import * as csvData from "@src/components/TableTutorial/data";
 import {
-  TUTORIAL_COLLECTION,
-  TUTORIAL_TABLE_SETTINGS,
-  TUTORIAL_TABLE_SCHEMA,
   TableSourceTutorial,
+  TUTORIAL_COLLECTION,
+  TUTORIAL_TABLE_SCHEMA,
+  TUTORIAL_TABLE_SETTINGS,
 } from "@src/components/TableTutorial/TableSourceTutorial";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
-import * as csvData from "@src/components/TableTutorial/data";
+import { useAtom, useSetAtom } from "jotai";
+import { Suspense, useContext } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import TablePage from "./TablePage";
 
 const tableScopeStore = useContext(TableScopeContext);

@@ -3,7 +3,7 @@ import * as admin from "firebase-admin";
 const fieldValue = admin.firestore.FieldValue;
 import { db } from "../firebaseConfig";
 const TARGET_SUB_COLLECTION = "_FT_BINDINGS";
-//sample bindings document
+// sample bindings document
 
 // /_FT_BINDINGS/{docId}
 // docId is encodeURIComponent of docPath
@@ -19,6 +19,10 @@ const TARGET_SUB_COLLECTION = "_FT_BINDINGS";
       }
     }
 }
+ * @param targetRef
+ * @param sourceDocPath
+ * @param targetFieldKey
+ * @param trackedFields
  */
 // Target changes Trigger
 

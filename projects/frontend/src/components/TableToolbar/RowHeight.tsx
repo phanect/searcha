@@ -1,15 +1,14 @@
-import { useContext, useRef, useState } from "react";
-import { useAtom } from "jotai";
-
-import { useTheme, TextField, ListSubheader, MenuItem } from "@mui/material";
+import { ListSubheader, MenuItem, TextField, useTheme } from "@mui/material";
 import { RowHeight as RowHeightIcon } from "@src/assets/icons";
 
 import {
-  TableScopeContext,
   tableSchemaAtom,
+  TableScopeContext,
   updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
+import { useAtom } from "jotai";
+import { useContext, useRef, useState } from "react";
 import TableToolbarButton from "./TableToolbarButton";
 
 const ROW_HEIGHTS = [ 32, 40, 64, 96, 128, 160 ].map((x) => x + 1);

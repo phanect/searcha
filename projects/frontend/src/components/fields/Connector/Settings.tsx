@@ -1,28 +1,27 @@
-import { lazy, Suspense, useContext, useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
 import {
-  Grid2 as Grid,
-  Switch,
-  TextField,
   FormControl,
-  Typography,
+  Grid2 as Grid,
   InputLabel,
   Link,
+  Switch,
+  TextField,
+  Typography,
 } from "@mui/material";
 
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-
-import { WIKI_LINKS } from "@src/constants/externalLinks";
 import {
   ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
-import { baseFunction } from "./utils";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+
+import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { useAtom, useSetAtom } from "jotai";
+import { lazy, Suspense, useContext, useEffect } from "react";
 import connectorDefs from "./connector.d.ts?raw";
+import { baseFunction } from "./utils";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 // import typeDefs from "./types.d.ts?raw";

@@ -1,16 +1,4 @@
-import { useMemo, useRef } from "react";
-import { isEqual } from "lodash-es";
-
-import { FieldType } from "@src/constants/fields";
-
-import ShortTextDisplayCell from "@src/components/fields/ShortText/DisplayCell";
-import LongTextDisplayCell from "@src/components/fields/LongText/DisplayCell";
-import RichTextDisplayCell from "@src/components/fields/RichText/DisplayCell";
-import UrlDisplayCell from "@src/components/fields/Url/DisplayCell";
-import NumberDisplayCell from "@src/components/fields/Number/DisplayCell";
 import CheckboxDisplayCell from "@src/components/fields/Checkbox/DisplayCell";
-import PercentageDisplayCell from "@src/components/fields/Percentage/DisplayCell";
-import RatingDisplayCell from "@src/components/fields/Rating/DisplayCell";
 import SliderDisplayCell from "@src/components/fields/Slider/DisplayCell";
 import SingleSelectDisplayCell from "@src/components/fields/SingleSelect/DisplayCell";
 import MultiSelectDisplayCell from "@src/components/fields/MultiSelect/DisplayCell";
@@ -24,6 +12,16 @@ import JsonDisplayCell from "@src/components/fields/Json/DisplayCell";
 import CodeDisplayCell from "@src/components/fields/Code/DisplayCell";
 import MarkdownDisplayCell from "@src/components/fields/Markdown/DisplayCell";
 import CreatedByDisplayCell from "@src/components/fields/CreatedBy/DisplayCell";
+import LongTextDisplayCell from "@src/components/fields/LongText/DisplayCell";
+import NumberDisplayCell from "@src/components/fields/Number/DisplayCell";
+import PercentageDisplayCell from "@src/components/fields/Percentage/DisplayCell";
+import RatingDisplayCell from "@src/components/fields/Rating/DisplayCell";
+import RichTextDisplayCell from "@src/components/fields/RichText/DisplayCell";
+import ShortTextDisplayCell from "@src/components/fields/ShortText/DisplayCell";
+import UrlDisplayCell from "@src/components/fields/Url/DisplayCell";
+import { FieldType } from "@src/constants/fields";
+import { isEqual } from "lodash-es";
+import { useMemo, useRef } from "react";
 import type { TableRowRef } from "@src/types/table";
 import type { DocumentData, DocumentReference } from "firebase/firestore";
 

@@ -1,17 +1,17 @@
-import { renderHook, act } from "@testing-library/react";
-import { useAtomValue, useSetAtom } from "jotai";
-import { cloneDeep, unset } from "lodash-es";
-
 import {
-  TableScopeContext,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
   addColumnAtom,
-  updateColumnAtom,
   deleteColumnAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  updateColumnAtom,
+  updateTableSchemaAtom,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
 import { updateRowData } from "@src/utils/table";
+import { act, renderHook } from "@testing-library/react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { cloneDeep, unset } from "lodash-es";
+
 import type { TableSchema } from "@src/types/table";
 
 const initUpdateTableSchemaAtom = (initialTableSchema?: TableSchema) =>

@@ -1,15 +1,14 @@
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import {
-  LocalizationProvider,
   DateTimePicker,
+  LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
-
 import type { TextFieldProps } from "@mui/material";
 import type {
   DateTimePickerProps } from "@mui/x-date-pickers";
+import type { IFieldComponentProps } from "../../types";
 
 export type IDateTimeComponentProps = {
   TextFieldProps: TextFieldProps;

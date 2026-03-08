@@ -1,22 +1,21 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-import { use100vh } from "react-div-100vh";
-
 import {
   alpha,
   Box,
-  Paper,
-  Typography,
   LinearProgress,
-  Stack,
   Link,
+  Paper,
+  Stack,
+  Typography,
 } from "@mui/material";
-import Logo from "@src/assets/Logo";
-import bgTableLight from "@src/assets/bg-table-light.webp";
 import bgTableDark from "@src/assets/bg-table-dark.webp";
+import bgTableLight from "@src/assets/bg-table-light.webp";
+import Logo from "@src/assets/Logo";
 
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
+import { useAtom } from "jotai";
+import { useContext } from "react";
+import { use100vh } from "react-div-100vh";
 import type {
   LinkProps } from "@mui/material";
 

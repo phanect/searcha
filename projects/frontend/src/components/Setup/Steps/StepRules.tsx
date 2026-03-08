@@ -1,29 +1,28 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-
+import DoneIcon from "@mui/icons-material/Done";
 import {
-  Typography,
-  FormControlLabel,
-  Checkbox,
   Button,
+  Checkbox,
+  FormControlLabel,
   Grid2 as Grid,
+  Typography,
 } from "@mui/material";
 import { Copy as CopyIcon } from "@src/assets/icons";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import DoneIcon from "@mui/icons-material/Done";
 
 import SetupItem from "@src/components/Setup/SetupItem";
 
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { CONFIG } from "@src/config/dbPaths";
 import {
-  RULES_START,
-  RULES_END,
-  REQUIRED_RULES,
   ADMIN_RULES,
+  REQUIRED_RULES,
+  RULES_END,
+  RULES_START,
   RULES_UTILS,
 } from "@src/config/firestoreRules";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
 import type {
   ISetupStep,
   ISetupStepBodyProps,

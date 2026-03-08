@@ -1,20 +1,19 @@
-import { useRef, useState } from "react";
-
-import {
-  Button,
-  Menu,
-  MenuItem,
-  Divider,
-  ListItemIcon,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
+import {
+  Button,
+  Divider,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 
 import { EMAIL_REQUEST } from "@src/constants/externalLinks";
-import { extensionTypes, extensionNames } from "./utils";
-import type { ExtensionType } from "./utils";
+import { useRef, useState } from "react";
+import { extensionNames, extensionTypes } from "./utils";
 import type {
   ButtonProps } from "@mui/material";
+import type { ExtensionType } from "./utils";
 
 export type IAddExtensionButtonProps = {
   handleAddExtension: (type: ExtensionType) => void;

@@ -8,7 +8,7 @@ import {
 } from "yup";
 import { getFieldProp } from "./Fields";
 import type { FieldValues } from "react-hook-form";
-import type { Fields, CustomComponents } from "./types";
+import type { CustomComponents, Fields } from "./types";
 
 /**
  * Creates a single object with all default values of the fields

@@ -1,24 +1,27 @@
-import { Fragment, useState } from "react";
-import { useSnackbar } from "notistack";
-
-import Navigation from "@src/layouts/Navigation";
+import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
+import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
+import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
+import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
+import SparkIcon from "@mui/icons-material/OfflineBoltOutlined";
 import {
-  useTheme,
+  Button,
+  Checkbox,
+  Chip,
+  CircularProgress,
   Container,
-  Stack,
   Grid2 as Grid,
+  Stack,
+  Switch,
   Table,
   TableHead,
   TableRow,
   TableBody,
   TableCell,
   Typography,
-  Button,
   ToggleButtonGroup,
   ToggleButton,
   IconButton,
   Fab,
-  Chip,
   Paper,
   MenuList,
   MenuItem,
@@ -29,26 +32,22 @@ import {
   Slider,
   Tooltip,
   FormControlLabel,
-  Checkbox,
   RadioGroup,
   Radio,
-  Switch,
   TextField,
   Tabs,
   Tab,
-  CircularProgress,
   LinearProgress,
+  useTheme,
 } from "@mui/material";
-import SparkIcon from "@mui/icons-material/OfflineBoltOutlined";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
-import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import CodeEditor from "@src/components/CodeEditor";
 import DiffEditor from "@src/components/CodeEditor/DiffEditor";
+import Navigation from "@src/layouts/Navigation";
+import { useSnackbar } from "notistack";
+import { Fragment, useState } from "react";
 
 const typographyVariants = [
   "h1",

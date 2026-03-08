@@ -1,6 +1,6 @@
+import Loading from "@src/components/Loading";
 import { Suspense } from "react";
 
-import Loading from "@src/components/Loading";
 import PopupContents from "./Select/PopupContents";
 import type { IEditorCellProps } from "@src/components/fields/types";
 

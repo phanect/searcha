@@ -1,32 +1,31 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useSnackbar } from "notistack";
-
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
+  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Tooltip,
-  IconButton,
   Typography,
 } from "@mui/material";
-import { Copy as CopyIcon } from "@src/assets/icons";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-
 import MultiSelect from "@phanect/searcha-multiselect";
-import EmojiAvatar from "@src/components/EmojiAvatar";
+import { Copy as CopyIcon } from "@src/assets/icons";
 
 import {
-  ProjectScopeContext,
+  confirmDialogAtom,
   projectRolesAtom,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunAtom,
   rowyRunModalAtom,
   updateUserAtom,
-  confirmDialogAtom,
 } from "@src/atoms/projectScope";
-import { runRoutes } from "@src/constants/runRoutes";
+import EmojiAvatar from "@src/components/EmojiAvatar";
+
 import { USERS } from "@src/config/dbPaths";
+import { runRoutes } from "@src/constants/runRoutes";
+import { useAtom, useSetAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
 import type { UserSettings } from "@src/types/settings";
 
 export default function UserItem({

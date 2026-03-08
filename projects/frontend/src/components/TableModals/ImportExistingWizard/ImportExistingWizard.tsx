@@ -1,25 +1,24 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  tableFiltersAtom,
+  tableModalAtom,
+  tableRowsAtom,
+  TableScopeContext,
+  tableSortsAtom,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import WizardDialog from "@src/components/TableModals/WizardDialog";
 import { useAtom, useSetAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { merge } from "lodash-es";
 
-import { useTheme, useMediaQuery, Typography } from "@mui/material";
-
-import WizardDialog from "@src/components/TableModals/WizardDialog";
-import {
-  TableScopeContext,
-  updateTableSchemaAtom,
-  tableFiltersAtom,
-  tableSortsAtom,
-  tableRowsAtom,
-  tableModalAtom,
-} from "@src/atoms/tableScope";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Step1Columns from "./Step1Columns";
 import Step2Rename from "./Step2Rename";
 import Step3Types from "./Step3Types";
 import Step4Preview from "./Step4Preview";
-import type { TableSchema, ColumnConfig } from "@src/types/table";
 import type { ITableModalProps } from "@src/components/TableModals";
+import type { ColumnConfig, TableSchema } from "@src/types/table";
 
 export type TableColumnsConfig = NonNullable<TableSchema["columns"]>;
 

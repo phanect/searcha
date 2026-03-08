@@ -1,5 +1,5 @@
+import { Button, Grid, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import { Grid, Typography, Button } from "@mui/material";
 
 import { FOOTER_HEIGHT } from "./constants/layout";
 import type { PopupFooterProps } from "./props";

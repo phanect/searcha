@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { merge } from "lodash-es";
-
-import { Tooltip, IconButton } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import InfoIcon from "@mui/icons-material/InfoOutlined";
 import CloseIcon from "@mui/icons-material/Close";
+import InfoIcon from "@mui/icons-material/InfoOutlined";
+import { IconButton, Tooltip } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import { merge } from "lodash-es";
+import { useState } from "react";
 
 export type IInfoTooltipProps = {
   description: React.ReactNode;

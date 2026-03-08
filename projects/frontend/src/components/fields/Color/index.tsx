@@ -1,10 +1,10 @@
-import { lazy } from "react";
+import ColorIcon from "@mui/icons-material/Colorize";
 import { FieldType } from "@src/components/fields/types";
+import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 import { ColorService } from "react-color-palette";
 
-import ColorIcon from "@mui/icons-material/Colorize";
-import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import DisplayCell from "./DisplayCell";
 import type { IFieldConfig } from "@src/components/fields/types";
 

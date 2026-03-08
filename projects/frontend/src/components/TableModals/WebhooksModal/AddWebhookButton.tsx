@@ -1,20 +1,19 @@
-import { useRef, useState } from "react";
-
-import {
-  Button,
-  Menu,
-  MenuItem,
-  Divider,
-  ListItemIcon,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
+import {
+  Button,
+  Divider,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 
 import { EMAIL_REQUEST } from "@src/constants/externalLinks";
-import { webhookTypes, webhookNames } from "./utils";
-import type { WebhookType } from "./utils";
+import { useRef, useState } from "react";
+import { webhookNames, webhookTypes } from "./utils";
 import type {
   ButtonProps } from "@mui/material";
+import type { WebhookType } from "./utils";
 
 export type IAddWebhookButtonProps = {
   handleAddWebhook: (type: WebhookType) => void;

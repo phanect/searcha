@@ -1,30 +1,30 @@
-import { useState, createElement, type Dispatch, type SetStateAction } from "react";
-import { use100vh } from "react-div-100vh";
-import { SwitchTransition } from "react-transition-group";
-
-import {
-  useMediaQuery,
-  Paper,
-  Stepper,
-  Step,
-  StepButton,
-  MobileStepper,
-  IconButton,
-  Typography,
-  Stack,
-  DialogActions,
-} from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import LoadingButton from "@mui/lab/LoadingButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
+import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  DialogActions,
+  IconButton,
+  MobileStepper,
+  Paper,
+  Step,
+  Stepper,
+  useMediaQuery,
+  StepButton,
+  Typography,
+  Stack,
+} from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import { analytics, logEvent } from "@src/analytics";
 import BrandedBackground, { Wrapper } from "@src/assets/BrandedBackground";
 import Logo from "@src/assets/Logo";
 import ScrollableDialogContent from "@src/components/Modal/ScrollableDialogContent";
 import { SlideTransition } from "@src/components/Modal/SlideTransition";
+import { useState, createElement, type Dispatch, type SetStateAction } from "react";
+import { use100vh } from "react-div-100vh";
+import { SwitchTransition } from "react-transition-group";
 
-import { analytics, logEvent } from "@src/analytics";
+
+
 import type { ISetupStep } from "./SetupStep";
 
 const BASE_WIDTH = 1024;

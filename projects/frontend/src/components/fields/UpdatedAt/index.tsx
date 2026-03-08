@@ -1,9 +1,9 @@
-import { lazy } from "react";
+import { UpdatedAt as UpdatedAtIcon } from "@src/assets/icons";
 import { FieldType } from "@src/components/fields/types";
+import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
-import { UpdatedAt as UpdatedAtIcon } from "@src/assets/icons";
-import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import { lazy } from "react";
 import DisplayCell from "./DisplayCell";
 import type { IFieldConfig } from "@src/components/fields/types";
 

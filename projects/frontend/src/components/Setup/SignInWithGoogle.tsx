@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-
-import { Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Typography } from "@mui/material";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
 import type { LoadingButtonProps } from "@mui/lab/LoadingButton";
 
 const googleProvider = new GoogleAuthProvider();

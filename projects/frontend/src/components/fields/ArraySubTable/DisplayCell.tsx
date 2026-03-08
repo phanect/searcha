@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
-
-import { Stack, IconButton } from "@mui/material";
 import OpenIcon from "@mui/icons-material/OpenInBrowser";
+import { IconButton, Stack } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import { useSubTableData } from "./utils";
 import type { IDisplayCellProps } from "@src/components/fields/types";

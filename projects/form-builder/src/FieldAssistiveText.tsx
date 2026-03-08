@@ -1,6 +1,6 @@
+import { FormHelperText } from "@mui/material";
 import DOMPurify from "dompurify";
 
-import { FormHelperText } from "@mui/material";
 import type { FormHelperTextProps } from "@mui/material";
 
 export type IFieldAssistiveTextProps = {

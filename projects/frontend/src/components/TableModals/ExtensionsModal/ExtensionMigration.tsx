@@ -1,23 +1,22 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { deleteField } from "firebase/firestore";
-
-import { Button, Link, Typography } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import DownloadIcon from "@mui/icons-material/FileDownloadOutlined";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import GoIcon from "@mui/icons-material/ChevronRight";
+import DownloadIcon from "@mui/icons-material/FileDownloadOutlined";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Button, Link, Typography } from "@mui/material";
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import {
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import Modal from "@src/components/Modal";
 
-import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
-} from "@src/atoms/tableScope";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { deleteField } from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
 import { sparkToExtensionObjects } from "./utils";
 
 export type IExtensionMigrationProps = {

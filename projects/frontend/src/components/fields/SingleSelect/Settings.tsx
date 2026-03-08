@@ -1,35 +1,34 @@
-import { useState, useRef } from "react";
-
-import {
-  InputLabel,
-  TextField,
-  Grid2 as Grid,
-  IconButton,
-  Typography,
-  Divider,
-  FormControlLabel,
-  Checkbox,
-  FormHelperText,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/AddCircle";
 import RemoveIcon from "@mui/icons-material/CancelRounded";
 import CheckIcon from "@mui/icons-material/CheckCircleRounded";
-import ColorSelect from "@src/components/SelectColors";
 
+import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
+import {
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormHelperText,
+  Grid2 as Grid,
+  IconButton,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import ColorSelect from "@src/components/SelectColors";
+import palette, { paletteToMui } from "@src/theme/palette";
+import { useRef, useState } from "react";
 import {
   DragDropContext,
   Draggable,
   Droppable,
 } from "react-beautiful-dnd";
-import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
-import palette, { paletteToMui } from "@src/theme/palette";
-import type {
-  DraggingStyle,
-  NotDraggingStyle } from "react-beautiful-dnd";
+import type { ISettingsProps } from "@src/components/fields/types";
 import type {
   SelectColorThemeOptions,
 } from "@src/components/SelectColors";
-import type { ISettingsProps } from "@src/components/fields/types";
+import type {
+  DraggingStyle,
+  NotDraggingStyle } from "react-beautiful-dnd";
 
 const getItemStyle = (
   isDragging: boolean,

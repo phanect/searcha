@@ -1,12 +1,12 @@
-import { sortBy } from "lodash-es";
-import { FieldType } from "@src/constants/fields";
 import {
   REGEX_EMAIL,
+  REGEX_HTML,
   REGEX_PHONE,
   REGEX_URL,
-  REGEX_HTML,
 } from "@src/components/TableModals/ImportExistingWizard/utils";
+import { FieldType } from "@src/constants/fields";
 import { isValid as isValidDate, parseISO } from "date-fns";
+import { sortBy } from "lodash-es";
 
 export const inferTypeFromValue = (value: any): FieldType | void => {
   if (Array.isArray(value) && typeof value[0] === "string") {

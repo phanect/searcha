@@ -1,6 +1,6 @@
-import { useEffect, type Dispatch, type SetStateAction } from "react";
-import Modal from "@src/components/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Modal from "@src/components/Modal";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 import { default as Content } from "./ConditionModalContent";
 import { EMPTY_STATE, type IConditionModal } from "./Settings";
 

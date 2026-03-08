@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useTheme } from "@mui/material";
+import { useEffect } from "react";
 
 export default function Favicon() {
   const theme = useTheme();

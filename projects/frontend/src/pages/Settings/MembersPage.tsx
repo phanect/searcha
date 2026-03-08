@@ -1,25 +1,24 @@
-import { Suspense, useContext } from "react";
-import { useAtom } from "jotai";
-import { TransitionGroup } from "react-transition-group";
-
 import {
+  Collapse,
   Container,
+  Fade,
+  List,
+  Paper,
   Stack,
   Typography,
-  Paper,
-  List,
-  Fade,
-  Collapse,
 } from "@mui/material";
 
+import { allUsersAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import FloatingSearch from "@src/components/FloatingSearch";
 import SlideTransition from "@src/components/Modal/SlideTransition";
+import InviteUser from "@src/components/Settings/UserManagement/InviteUser";
 import UserItem from "@src/components/Settings/UserManagement/UserItem";
 import UserSkeleton from "@src/components/Settings/UserManagement/UserSkeleton";
-import InviteUser from "@src/components/Settings/UserManagement/InviteUser";
 
-import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import useBasicSearch from "@src/hooks/useBasicSearch";
+import { useAtom } from "jotai";
+import { Suspense, useContext } from "react";
+import { TransitionGroup } from "react-transition-group";
 
 const SEARCH_KEYS = [ "id", "user.displayName", "user.email" ];
 

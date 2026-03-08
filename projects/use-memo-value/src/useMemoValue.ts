@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import shallowEqual from "shallowequal";
 
 const FIRST_RUN = {}; // an opaque value

@@ -1,13 +1,12 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { doc } from "firebase/firestore";
-
-import { Stack, TextField, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { IconButton, Stack, TextField } from "@mui/material";
 
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { doc } from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Reference({

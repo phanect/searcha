@@ -1,20 +1,18 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { useWatch } from "react-hook-form";
-import stringify from "json-stable-stringify-without-jsonify";
-import { merge } from "lodash-es";
-import { useSnackbar } from "notistack";
-
-import { MenuItem, DialogContentText } from "@mui/material";
-
-import Modal from "@src/components/Modal";
-import CodeEditor from "@src/components/CodeEditor";
-
+import { DialogContentText, MenuItem } from "@mui/material";
+import { analytics, logEvent } from "@src/analytics";
 import {
   ProjectScopeContext,
   tableSettingsDialogSchemaAtom,
 } from "@src/atoms/projectScope";
-import { analytics, logEvent } from "@src/analytics";
+import CodeEditor from "@src/components/CodeEditor";
+import Modal from "@src/components/Modal";
+import { useAtom } from "jotai";
+import stringify from "json-stable-stringify-without-jsonify";
+import { merge } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
+import { useWatch } from "react-hook-form";
+
 import type { Control } from "react-hook-form";
 
 export type IExportSettingsProps = {

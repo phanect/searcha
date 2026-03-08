@@ -1,22 +1,22 @@
-import { format } from "date-fns";
-import { get } from "lodash-es";
 import ReactJson from "@microlink/react-json-view";
-import { struct } from "pb-util";
-import stringify from "json-stable-stringify-without-jsonify";
-
-import {
-  styled,
-  useTheme,
-  Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
-  AccordionDetails as MuiAccordionDetails,
-  Stack,
-  Chip as MuiChip,
-  Typography,
-  Divider,
-} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Accordion as MuiAccordion,
+  AccordionDetails as MuiAccordionDetails,
+  AccordionSummary as MuiAccordionSummary,
+  Chip as MuiChip,
+  Divider,
+  Stack,
+  styled,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { DATE_FORMAT, TIME_FORMAT } from "@src/constants/dates";
+import { format } from "date-fns";
+import stringify from "json-stable-stringify-without-jsonify";
+import { get } from "lodash-es";
+import { struct } from "pb-util";
+
 import CloudLogSeverityIcon from "./CloudLogSeverityIcon";
 import type {
   ChipProps } from "@mui/material";

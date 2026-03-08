@@ -1,25 +1,24 @@
-import { useState } from "react";
-
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
 import {
-  useTheme,
-  useMediaQuery,
+  Button,
   Dialog,
-  Stack,
+  DialogActions,
   DialogTitle,
   Typography,
   IconButton,
   MobileStepper,
-  DialogActions,
-  Button,
   Slide,
+  Stack,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 import ScrollableDialogContent from "@src/components/Modal/ScrollableDialogContent";
 
 import { spreadSx } from "@src/utils/ui";
+import { useState } from "react";
 import type {
   DialogProps } from "@mui/material";
 

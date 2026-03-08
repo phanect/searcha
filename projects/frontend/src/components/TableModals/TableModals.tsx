@@ -1,7 +1,7 @@
-import { lazy, useContext } from "react";
+import { tableModalAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
-import { TableScopeContext, tableModalAtom } from "@src/atoms/tableScope";
+import { lazy, useContext } from "react";
 
 const CloudLogsModal = lazy(() => import("./CloudLogsModal"));
 const ExtensionsModal = lazy(() => import("./ExtensionsModal"));

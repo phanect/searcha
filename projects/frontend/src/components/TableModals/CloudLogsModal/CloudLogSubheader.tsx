@@ -1,4 +1,4 @@
-import { styled, ListSubheader } from "@mui/material";
+import { ListSubheader, styled } from "@mui/material";
 import type { ListSubheaderProps } from "@mui/material";
 
 export const CloudLogSubheader = styled((props: ListSubheaderProps) => (

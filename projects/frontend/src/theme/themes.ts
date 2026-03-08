@@ -2,9 +2,9 @@ import { createTheme } from "@mui/material/styles";
 import { merge } from "lodash-es";
 
 import { breakpoints } from "./breakpoints";
-import { typography } from "./typography";
-import { colorsLight, colorsDark } from "./colors";
+import { colorsDark, colorsLight } from "./colors";
 import { components } from "./components";
+import { typography } from "./typography";
 import type { ThemeOptions } from "@mui/material/styles";
 
 export const customizableLightTheme = (customization: ThemeOptions) => {

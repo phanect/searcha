@@ -1,13 +1,12 @@
+import { Checkbox, Grid2 as Grid, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";
-import { useTheme, Grid2 as Grid, Checkbox } from "@mui/material";
-import FieldWrapper from "./FieldWrapper";
 import { getFieldProp } from "./Fields";
+import FieldWrapper from "./FieldWrapper";
 import type { Control, UseFormReturn } from "react-hook-form";
-import type useFormSettings from "./useFormSettings";
-
-import type { Fields, CustomComponents } from "./types";
 import type { IFieldWrapperProps } from "./FieldWrapper";
+import type { CustomComponents, Fields } from "./types";
+import type useFormSettings from "./useFormSettings";
 
 export type IFormFieldsProps = {
   fields: Fields;
@@ -61,7 +60,6 @@ function DependentField({ displayCondition, ...props }: IFieldWrapperProps) {
   const [ display, setDisplay ] = useState(false);
   useEffect(() => {
     try {
-      // eslint-disable-next-line no-new-func
       const displayConditionFunction = new Function(
         "values",
         "\"use strict\";\n" + displayCondition!

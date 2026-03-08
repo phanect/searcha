@@ -1,27 +1,26 @@
-import { useAtom } from "jotai";
-import { colord } from "colord";
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
-
-import {
-  useScrollTrigger,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Button,
-  Box,
-  Typography,
-  Grow,
-  Fade,
-} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuCloseIcon from "@mui/icons-material/MenuOpen";
 import PersonAddIcon from "@mui/icons-material/PersonAddOutlined";
+import {
+  AppBar,
+  Box,
+  Button,
+  Grow,
+  IconButton,
+  Toolbar,
+  Typography,
+  Fade,
+  useScrollTrigger,
+} from "@mui/material";
 
 import Logo from "@src/assets/Logo";
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
-import { NAV_DRAWER_WIDTH, NAV_DRAWER_COLLAPSED_WIDTH } from "./NavDrawer";
+import { colord } from "colord";
+import { useAtom } from "jotai";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { NAV_DRAWER_COLLAPSED_WIDTH, NAV_DRAWER_WIDTH } from "./NavDrawer";
 import UserMenu from "./UserMenu";
 import type { ROUTE_TITLES } from "@src/constants/routes";
 

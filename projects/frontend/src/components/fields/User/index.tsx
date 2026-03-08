@@ -1,8 +1,8 @@
-import { lazy } from "react";
+import UserIcon from "@mui/icons-material/PersonOutlined";
 import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 
-import UserIcon from "@mui/icons-material/PersonOutlined";
 import DisplayCell from "./DisplayCell";
 import EditorCell from "./EditorCell";
 import type { IFieldConfig } from "@src/components/fields/types";

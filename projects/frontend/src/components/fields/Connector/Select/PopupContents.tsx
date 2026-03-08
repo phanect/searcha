@@ -1,8 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { get } from "lodash-es";
-import { useAtom } from "jotai";
-
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   Checkbox,
@@ -12,18 +8,21 @@ import {
   ListItemIcon,
   ListItemText,
   MenuItem,
+  Radio,
   TextField,
   Typography,
-  Radio,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 
-import Loading from "@src/components/Loading";
-import { getLabel } from "@src/components/fields/Connector/utils";
-import { useSnackbar } from "notistack";
 import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import { getLabel } from "@src/components/fields/Connector/utils";
+import Loading from "@src/components/Loading";
 import { getTableSchemaPath } from "@src/utils/table";
+import { useAtom } from "jotai";
+import { get } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useContext, useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import type { IConnectorSelectProps } from ".";
 
 export type IPopupContentsProps = {} & Omit<IConnectorSelectProps, "className" | "TextFieldProps">;

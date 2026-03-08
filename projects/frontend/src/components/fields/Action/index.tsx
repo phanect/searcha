@@ -1,8 +1,8 @@
-import { lazy } from "react";
+import ActionIcon from "@mui/icons-material/TouchAppOutlined";
 import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 
-import ActionIcon from "@mui/icons-material/TouchAppOutlined";
 import DisplayCell from "./DisplayCell";
 import type { IFieldConfig } from "@src/components/fields/types";
 

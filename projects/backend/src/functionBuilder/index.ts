@@ -1,17 +1,17 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { asyncExecute } from "../terminalUtils";
-import {
-  getCollectionType,
-  getCollectionPath,
-  getFunctionName,
-  getTriggerPath,
-  getSchemaPaths,
-} from "./utils";
 import generateConfig from "./compiler";
 import { commandErrorHandler, createStreamLogger } from "./logger";
-import { getProjectId } from "../metadataService";
+import {
+  getCollectionPath,
+  getCollectionType,
+  getFunctionName,
+  getSchemaPaths,
+  getTriggerPath,
+} from "./utils";
 import { db } from "../firebaseConfig";
+import { getProjectId } from "../metadataService";
 import type { auth } from "firebase-admin";
 
 export const functionBuilder = async (

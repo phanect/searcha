@@ -1,9 +1,9 @@
-import { FormControlLabel, Checkbox } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
-import FieldErrorMessage from "../../FieldErrorMessage";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
+import FieldErrorMessage from "../../FieldErrorMessage";
 import type { CheckboxProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
 export type ICheckboxComponentProps = {} & IFieldComponentProps & Omit<
   CheckboxProps,

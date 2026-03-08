@@ -1,8 +1,8 @@
 import { propagateChanges, removeCopiesOfDeleteDoc } from "./SourceFns";
 import {
   addTargetRef,
-  removeTargetRef,
   removeRefsOnTargetDelete,
+  removeTargetRef,
 } from "./TargetFns";
 import type * as functions from "firebase-functions";
 // import { asyncForEach} from '../utils'

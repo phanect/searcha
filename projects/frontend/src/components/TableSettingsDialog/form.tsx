@@ -1,22 +1,22 @@
-import { useContext } from "react";
-import { find } from "lodash-es";
-import { useAtom } from "jotai";
-import { string } from "yup";
+import WarningIcon from "@mui/icons-material/WarningAmber";
+import { Link, ListItemText, Typography } from "@mui/material";
 import { FieldType } from "@phanect/searcha-form-builder";
 import {
-  ProjectScopeContext,
   projectIdAtom,
+  ProjectScopeContext,
 } from "@src/atoms/projectScope";
 
-import { Link, ListItemText, Typography } from "@mui/material";
 import OpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import WarningIcon from "@mui/icons-material/WarningAmber";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { FieldType as TableFieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { find } from "lodash-es";
+import { useContext } from "react";
+import { string } from "yup";
+import type { Field } from "@phanect/searcha-form-builder";
 import type {
   TableSettingsDialogState } from "@src/atoms/projectScope";
-import type { Field } from "@phanect/searcha-form-builder";
 
 function CollectionLink() {
   const projectScopeStore = useContext(ProjectScopeContext);

@@ -1,5 +1,5 @@
-import { InputLabel, Grid2 as Grid, Divider } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { Divider, Grid2 as Grid, InputLabel } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 
 import { createValueLabel } from "./utils/conditionListHelper";

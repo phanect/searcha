@@ -1,12 +1,12 @@
+import { FieldType } from "@src/constants/fields";
 import { atom } from "jotai";
 import { findIndex } from "lodash-es";
-import { FieldType } from "@src/constants/fields";
 
 import {
   tableColumnsOrderedAtom,
   tableColumnsReducer,
-  updateTableSchemaAtom,
   tableSchemaAtom,
+  updateTableSchemaAtom,
 } from "./table";
 import type { ColumnConfig } from "@src/types/table";
 

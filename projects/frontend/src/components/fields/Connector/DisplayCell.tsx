@@ -1,4 +1,4 @@
-import { ButtonBase, Grid2 as Grid, Chip } from "@mui/material";
+import { ButtonBase, Chip, Grid2 as Grid } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
 import ChipList from "@src/components/Table/TableCell/ChipList";

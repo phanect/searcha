@@ -2,8 +2,8 @@ import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { atomWithHash } from "jotai-location";
 
-import type { SEVERITY_LEVELS } from "@src/components/TableModals/CloudLogsModal/CloudLogSeverityIcon";
 import type { PopoverProps } from "@mui/material";
+import type { SEVERITY_LEVELS } from "@src/components/TableModals/CloudLogsModal/CloudLogSeverityIcon";
 import type { ColumnConfig, TableFilter } from "@src/types/table";
 
 /**

@@ -1,10 +1,9 @@
-import { useState, useEffect, useContext } from "react";
-import { useAtom } from "jotai";
-
 import { Typography } from "@mui/material";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
 import TutorialCheckbox from "@src/components/TableTutorial/TutorialCheckbox";
 
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
+import { useAtom } from "jotai";
+import { useContext, useEffect, useState } from "react";
 import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step1Import = {

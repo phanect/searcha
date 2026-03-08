@@ -3,8 +3,8 @@ type Trigger = "create" | "update" | "delete";
 type Triggers = Trigger[];
 
 // function types that defines extension body and should run
-type Condition =
-  | boolean
+type Condition
+  = | boolean
   | ((data: ExtensionContext) => boolean | Promise<boolean>);
 
 // the argument that the extension body takes in

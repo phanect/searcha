@@ -1,12 +1,12 @@
+import {
+  DialogContent,
+  Divider,
+} from "@mui/material";
 import { useRef } from "react";
 
-import {
-  Divider,
-  DialogContent,
-} from "@mui/material";
 import type {
-  DividerProps,
-  DialogContentProps } from "@mui/material";
+  DialogContentProps,
+  DividerProps } from "@mui/material";
 
 export type IScrollableDialogContentProps = {
   disableTopDivider?: boolean;

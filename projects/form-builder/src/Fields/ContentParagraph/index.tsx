@@ -1,8 +1,8 @@
-import { lazy } from "react";
 import Text from "mdi-material-ui/Text";
+import { lazy } from "react";
+import Settings from "./ContentParagraphSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ContentParagraphSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

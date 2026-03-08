@@ -1,10 +1,10 @@
-import { useContext, useRef, useState } from "react";
-import { useAtom } from "jotai";
-import { Tooltip, Stack, AvatarGroup, Avatar } from "@mui/material";
+import { Avatar, AvatarGroup, Stack, Tooltip } from "@mui/material";
 
-import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
-import { fieldSx } from "@src/components/SideDrawer/utils";
 import { ChevronDown } from "@src/assets/icons/ChevronDown";
+import { allUsersAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { fieldSx } from "@src/components/SideDrawer/utils";
+import { useAtom } from "jotai";
+import { useContext, useRef, useState } from "react";
 import UserSelect from "./UserSelect";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 import type { UserDataType } from "./UserSelect";

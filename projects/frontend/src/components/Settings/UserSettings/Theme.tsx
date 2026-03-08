@@ -1,21 +1,20 @@
-import { useAtom } from "jotai";
-import { merge } from "lodash-es";
-import { useContext } from "react";
-
 import {
+  Checkbox,
+  Divider,
   FormControl,
-  RadioGroup,
   FormControlLabel,
   Radio,
-  Divider,
-  Checkbox,
+  RadioGroup,
 } from "@mui/material";
-
 import {
   ProjectScopeContext,
   themeAtom,
   themeOverriddenAtom,
 } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { merge } from "lodash-es";
+import { useContext } from "react";
+
 import type { IUserSettingsChildProps } from "@src/pages/Settings/UserSettingsPage";
 
 export default function Theme({

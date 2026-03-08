@@ -1,9 +1,8 @@
-import { TransitionGroup } from "react-transition-group";
+import { Box, Collapse, List, Paper } from "@mui/material";
 
-import { Box, Paper, Collapse, List } from "@mui/material";
-
-import SectionHeading from "@src/components/SectionHeading";
 import SlideTransition from "@src/components/Modal/SlideTransition";
+import SectionHeading from "@src/components/SectionHeading";
+import { TransitionGroup } from "react-transition-group";
 
 import TableListItem from "./TableListItem";
 import type { TableSettings } from "@src/types/table";

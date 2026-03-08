@@ -1,5 +1,5 @@
-import TablePage from "@src/pages/Table/TablePage";
 import { Box } from "@mui/material";
+import TablePage from "@src/pages/Table/TablePage";
 
 const PreviewTable = () => (
   <Box

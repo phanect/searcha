@@ -1,15 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
-
 import {
+  Box,
+  Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   Typography,
-  CardActions,
-  Button,
-  Box,
 } from "@mui/material";
 import { Go as GoIcon } from "@src/assets/icons";
+import { Link, useNavigate } from "react-router-dom";
 import type { TableSettings } from "@src/types/table";
 
 export type ITableCardProps = {

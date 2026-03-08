@@ -1,14 +1,12 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { doc, deleteField } from "firebase/firestore";
-
-import EditorCellTextField from "@src/components/Table/TableCell/EditorCellTextField";
-
-import { InputAdornment, Tooltip } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/ErrorOutline";
+import { InputAdornment, Tooltip } from "@mui/material";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
+import EditorCellTextField from "@src/components/Table/TableCell/EditorCellTextField";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { deleteField, doc } from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
 import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Reference({

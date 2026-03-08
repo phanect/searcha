@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 import type { Atom } from "jotai";
 
 function beforeUnloadHandler(event: BeforeUnloadEvent) {

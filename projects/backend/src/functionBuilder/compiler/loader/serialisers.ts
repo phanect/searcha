@@ -1,9 +1,9 @@
-import * as fs from "fs";
-import * as path from "path";
-import { IExtension } from "./types";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { getRequiredPackages } from "../../../utils";
 import { transpile } from "../../utils";
-const headerImports = `import rowy from '../rowy';\n import fetch from 'node-fetch';\n`;
+import type { IExtension } from "./types";
+const headerImports = "import rowy from '../rowy';\n import fetch from 'node-fetch';\n";
 const removeInlineVersioning = (code: string) =>
   code.replace(
     /(?:require\(.*)@\d+\.\d+\.\d+/g,
@@ -19,8 +19,8 @@ export const serialiseExtension = (
   extensions: IExtension[],
   buildFolderTimestamp
 ): string =>
-  "[" +
-  extensions
+  "["
+  + extensions
     .filter((extension) => extension.active)
     .map((extension, i) => {
       const extensionBody = transpile(
@@ -34,7 +34,7 @@ export const serialiseExtension = (
       fs.writeFileSync(
         path.resolve(
           __dirname,
-          `../../builds/${buildFolderTimestamp}/src/extensions/${extension.name}_${i}_extensionBody.js`
+          `../../builds/${ buildFolderTimestamp }/src/extensions/${ extension.name }_${ i }_extensionBody.js`
         ),
         extensionBody
       );
@@ -48,46 +48,46 @@ export const serialiseExtension = (
       fs.writeFileSync(
         path.resolve(
           __dirname,
-          `../../builds/${buildFolderTimestamp}/src/extensions/${extension.name}_${i}_conditions.js`
+          `../../builds/${ buildFolderTimestamp }/src/extensions/${ extension.name }_${ i }_conditions.js`
         ),
         conditions
       );
       return `{
-          name: "${extension.name}",
-          type: "${extension.type}",
-          triggers: [${extension.triggers
-            .map((trigger) => `"${trigger}"`)
-            .join(", ")}],
-          requiredFields: [${extension.requiredFields
-            ?.map((field) => `"${field}"`)
-            .join(", ")}],
-            trackedFields: [${extension.trackedFields
-              ?.map((field) => `"${field}"`)
-              .join(", ")}],
+          name: "${ extension.name }",
+          type: "${ extension.type }",
+          triggers: [${ extension.triggers
+            .map((trigger) => `"${ trigger }"`)
+            .join(", ") }],
+          requiredFields: [${ extension.requiredFields
+            ?.map((field) => `"${ field }"`)
+            .join(", ") }],
+            trackedFields: [${ extension.trackedFields
+              ?.map((field) => `"${ field }"`)
+              .join(", ") }],
           \/\/ extensionBody:require("./extensions/${
             extension.name
-          }_${i}_extensionBody"),
+          }_${ i }_extensionBody"),
           \/\/ conditions:require("./extensions/${
             extension.name
-          }_${i}_conditions"),
-          requiredPackages:${JSON.stringify(
+          }_${ i }_conditions"),
+          requiredPackages:${ JSON.stringify(
             getRequiredPackages(extension.extensionBody)
-          )}
+          ) }
         }`;
     })
-    .join(",") +
-  "]";
+    .join(",")
+  + "]";
 
 /* convert derivative columns into a readable string */
 export const serialiseDerivativeColumns = (
   derivativeColumns: any[],
   buildFolderTimestamp: string
 ): string =>
-  `[${derivativeColumns.reduce((acc, currColumn: any) => {
+  `[${ derivativeColumns.reduce((acc, currColumn: any) => {
     const { derivativeFn, script, listenerFields } = currColumn.config;
     if (listenerFields.includes(currColumn.key)) {
       throw new Error(
-        `${currColumn.key} derivative has its own key as a listener field`
+        `${ currColumn.key } derivative has its own key as a listener field`
       );
     }
 
@@ -102,32 +102,32 @@ export const serialiseDerivativeColumns = (
     fs.writeFileSync(
       path.resolve(
         __dirname,
-        `../../builds/${buildFolderTimestamp}/src/derivatives/${currColumn.key}.js`
+        `../../builds/${ buildFolderTimestamp }/src/derivatives/${ currColumn.key }.js`
       ),
       functionBody
     );
 
-    return `${acc}{\nfieldName:'${currColumn.key}'
-    ,requiredPackages:${JSON.stringify(getRequiredPackages(functionBody))},
-    \/\/ evaluate:require("./derivatives/${currColumn.key}"),
-    \nlistenerFields:[${listenerFields
-      .map((fieldKey: string) => `"${fieldKey}"`)
-      .join(",\n")}]},\n`;
-  }, "")}]`;
+    return `${ acc }{\nfieldName:'${ currColumn.key }'
+    ,requiredPackages:${ JSON.stringify(getRequiredPackages(functionBody)) },
+    \/\/ evaluate:require("./derivatives/${ currColumn.key }"),
+    \nlistenerFields:[${ listenerFields
+      .map((fieldKey: string) => `"${ fieldKey }"`)
+      .join(",\n") }]},\n`;
+  }, "") }]`;
 
 export const serialiseDefaultValueColumns = (
   defaultValueColumns: any[],
   buildFolderTimestamp: string
 ): string =>
-  `[${defaultValueColumns.reduce((acc, currColumn: any) => {
-    const { dynamicValueFn, script, type, value } =
-      currColumn.config.defaultValue;
+  `[${ defaultValueColumns.reduce((acc, currColumn: any) => {
+    const { dynamicValueFn, script, type, value }
+      = currColumn.config.defaultValue;
     if (type === "static") {
-      return `${acc}{\nfieldName:'${currColumn.key}',
-    type:"${type}",
+      return `${ acc }{\nfieldName:'${ currColumn.key }',
+    type:"${ type }",
     value:${
       typeof value === "string"
-        ? `"${value.replace(/"/g, `\\"`)}"`
+        ? `"${ value.replace(/"/g, "\\\"") }"`
         : JSON.stringify(value)
     },
    },\n`;
@@ -141,7 +141,7 @@ export const serialiseDefaultValueColumns = (
 
       const dir = path.resolve(
         __dirname,
-        `../../builds/${buildFolderTimestamp}/src/initialize`
+        `../../builds/${ buildFolderTimestamp }/src/initialize`
       );
 
       if (!fs.existsSync(dir)) {
@@ -152,30 +152,30 @@ export const serialiseDefaultValueColumns = (
       fs.writeFileSync(
         path.resolve(
           __dirname,
-          `../../builds/${buildFolderTimestamp}/src/initialize/${currColumn.key}.js`
+          `../../builds/${ buildFolderTimestamp }/src/initialize/${ currColumn.key }.js`
         ),
         removeInlineVersioning(functionBody)
       );
 
-      return `${acc}{\nfieldName:'${currColumn.key}',
-    type:"${type}",
-    \/\/ script:require("./initialize/${currColumn.key}"),
-    requiredPackages:${JSON.stringify(getRequiredPackages(functionBody))},
+      return `${ acc }{\nfieldName:'${ currColumn.key }',
+    type:"${ type }",
+    \/\/ script:require("./initialize/${ currColumn.key }"),
+    requiredPackages:${ JSON.stringify(getRequiredPackages(functionBody)) },
    },\n`;
     } else {
-      return `${acc}{\nfieldName:'${currColumn.key}',
-    type:"${type}"
+      return `${ acc }{\nfieldName:'${ currColumn.key }',
+    type:"${ type }"
    },\n`;
     }
-  }, "")}]`;
+  }, "") }]`;
 
 export const serialiseDocumentSelectColumns = (
   documentSelectColumns: any[]
 ): string =>
-  `[${documentSelectColumns.reduce((acc, currColumn: any) => {
-    return `${acc}{\nfieldName:'${
+  `[${ documentSelectColumns.reduce((acc, currColumn: any) => {
+    return `${ acc }{\nfieldName:'${
       currColumn.key
-    }',\ntrackedFields:[${currColumn.config.trackedFields
-      .map((fieldKey: string) => `"${fieldKey}"`)
-      .join(",\n")}]},\n`;
-  }, "")}]`;
+    }',\ntrackedFields:[${ currColumn.config.trackedFields
+      .map((fieldKey: string) => `"${ fieldKey }"`)
+      .join(",\n") }]},\n`;
+  }, "") }]`;

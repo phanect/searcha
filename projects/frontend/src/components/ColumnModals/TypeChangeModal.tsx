@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
-import { useSetAtom } from "jotai";
-
-import Modal from "@src/components/Modal";
 import { Alert, AlertTitle, Typography } from "@mui/material";
 
+import { analytics, logEvent } from "@src/analytics";
 import { TableScopeContext, updateColumnAtom } from "@src/atoms/tableScope";
 import { getFieldProp } from "@src/components/fields";
-import { analytics, logEvent } from "@src/analytics";
+import Modal from "@src/components/Modal";
+import { useSetAtom } from "jotai";
+import { useContext, useState } from "react";
 import FieldsDropdown from "./FieldsDropdown";
 import type { FieldType } from "@src/constants/fields";
 import type { IColumnModalProps } from ".";

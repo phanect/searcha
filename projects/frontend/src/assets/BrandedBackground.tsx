@@ -1,10 +1,9 @@
-import { use100vh } from "react-div-100vh";
-
-import { GlobalStyles, Box } from "@mui/material";
+import { Box, GlobalStyles } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
-import bgPattern from "@src/assets/bg-pattern.svg";
 import bgPatternDark from "@src/assets/bg-pattern-dark.svg";
+import bgPattern from "@src/assets/bg-pattern.svg";
+import { use100vh } from "react-div-100vh";
 import type { BoxProps } from "@mui/material";
 
 export default function BrandedBackground() {

@@ -1,28 +1,25 @@
-import { useContext } from "react";
-import { useSetAtom } from "jotai";
-
-import { format } from "date-fns";
-
-import { alpha, Stack, Grid2 as Grid, Tooltip, Chip, IconButton } from "@mui/material";
-import { Upload as UploadIcon } from "@src/assets/icons";
-import ChipList from "@src/components/Table/TableCell/ChipList";
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
-
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
-import { DATE_TIME_FORMAT } from "@src/constants/dates";
-
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { alpha, Chip, Grid2 as Grid, IconButton, Stack, Tooltip } from "@mui/material";
+import { Upload as UploadIcon } from "@src/assets/icons";
+import { confirmDialogAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import ChipList from "@src/components/Table/TableCell/ChipList";
+import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import { format } from "date-fns";
+import { useSetAtom } from "jotai";
+import { useContext } from "react";
+
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
 } from "react-beautiful-dnd";
-import useFileUpload from "./useFileUpload";
 import { FileIcon } from ".";
+import useFileUpload from "./useFileUpload";
+import type { IEditorCellProps } from "@src/components/fields/types";
+import type { FileValue } from "@src/types/table";
 import type {
   DropResult } from "react-beautiful-dnd";
-import type { FileValue } from "@src/types/table";
-import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function File_({
   column,

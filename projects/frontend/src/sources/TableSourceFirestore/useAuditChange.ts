@@ -1,19 +1,18 @@
-import { useContext, useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
 import {
-  ProjectScopeContext,
-  rowyRunAtom,
   compatibleRowyRunVersionAtom,
   currentUserAtom,
+  ProjectScopeContext,
+  rowyRunAtom,
 } from "@src/atoms/projectScope";
 import {
+  auditChangeAtom,
   TableScopeContext,
   tableSettingsAtom,
-  auditChangeAtom,
 } from "@src/atoms/tableScope";
 import { runRoutes } from "@src/constants/runRoutes";
 import { rowyUser } from "@src/utils/table";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext, useEffect } from "react";
 
 /**
  * Sets the value of auditChangeAtom

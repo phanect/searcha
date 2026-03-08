@@ -1,13 +1,12 @@
-import { Suspense } from "react";
+import { TextField } from "@mui/material";
+import ErrorFallback from "@src/components/ErrorFallback";
+import Loading from "@src/components/Loading";
 import clsx from "clsx";
+import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { TextField } from "@mui/material";
-
-import Loading from "@src/components/Loading";
-import ErrorFallback from "@src/components/ErrorFallback";
-import useStyles from "./styles";
 import PopupContents from "./PopupContents";
+import useStyles from "./styles";
 import type { TextFieldProps } from "@mui/material";
 import type { DocumentReference } from "firebase/firestore";
 

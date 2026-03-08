@@ -1,17 +1,17 @@
-import { useContext } from "react";
-import MultiSelect from "@phanect/searcha-multiselect";
 import { ListItemIcon, Typography } from "@mui/material";
 import Fuse from 'fuse.js';
+import MultiSelect from "@phanect/searcha-multiselect";
 
-import { FIELDS, getFieldProp } from "@src/components/fields";
-
-import { useSetAtom, useAtom } from "jotai";
 import {
   ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import { FIELDS, getFieldProp } from "@src/components/fields";
+
+import { useAtom, useSetAtom } from "jotai";
+import { useContext } from "react";
 import type { FieldType } from "@src/constants/fields";
 
 export type IFieldsDropdownProps = {

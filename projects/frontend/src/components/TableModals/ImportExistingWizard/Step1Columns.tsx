@@ -1,32 +1,31 @@
-import { useMemo, useState, useEffect, useContext } from "react";
-import { useAtom } from "jotai";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
 import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-} from "react-beautiful-dnd";
-import { sortBy, startCase } from "lodash-es";
-
-import {
-  Grid2 as Grid,
-  Typography,
+  Checkbox,
   Divider,
   FormControlLabel,
-  Checkbox,
+  Grid2 as Grid,
+  Typography,
 } from "@mui/material";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
 
-import ScrollableList from "@src/components/TableModals/ScrollableList";
-import Column from "@src/components/Table/Mock/Column";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
 import EmptyState from "@src/components/EmptyState";
+import Column from "@src/components/Table/Mock/Column";
+import ScrollableList from "@src/components/TableModals/ScrollableList";
 
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { sortBy, startCase } from "lodash-es";
+import { useContext, useEffect, useMemo, useState } from "react";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "react-beautiful-dnd";
 import { suggestType } from "./utils";
-import type { IStepProps } from ".";
 import type {
   DropResult } from "react-beautiful-dnd";
+import type { IStepProps } from ".";
 
 export default function Step1Columns({ config, setConfig }: IStepProps) {
   const tableScopeStore = useContext(TableScopeContext);

@@ -1,8 +1,8 @@
-import { useState } from "react";
-import Modal from "@src/components/Modal";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { capitalize } from "lodash-es";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import Modal from "@src/components/Modal";
+import { capitalize } from "lodash-es";
+import { useState } from "react";
 
 export type ISecretDetailsModalProps = {
   open: boolean;

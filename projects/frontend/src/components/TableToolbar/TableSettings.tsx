@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 
 import { ProjectScopeContext, tableSettingsDialogAtom } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext } from "react";
 import TableToolbarButton from "./TableToolbarButton";
 
 export default function TableSettings() {

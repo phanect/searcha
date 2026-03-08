@@ -1,8 +1,4 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { Link } from "react-router-dom";
-import { useSnackbar } from "notistack";
-
+import AddIcon from "@mui/icons-material/PersonAddOutlined";
 import {
   Button,
   DialogContentText,
@@ -10,20 +6,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/PersonAddOutlined";
 
 import MultiSelect from "@phanect/searcha-multiselect";
-import Modal from "@src/components/Modal";
-
 import {
-  ProjectScopeContext,
   projectRolesAtom,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
+import Modal from "@src/components/Modal";
+
 import { ROUTES } from "@src/constants/routes";
 import { runRoutes } from "@src/constants/runRoutes";
+import { useAtom, useSetAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function InviteUser() {
   const projectScopeStore = useContext(ProjectScopeContext);

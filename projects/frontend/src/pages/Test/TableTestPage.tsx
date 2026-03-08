@@ -1,27 +1,26 @@
-import { Suspense, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useParams } from "react-router-dom";
-
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableIdAtom,
-  tableSettingsAtom,
-  tableSchemaAtom,
   tableFiltersAtom,
-  tableSortsAtom,
+  tableIdAtom,
   tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  tableSortsAtom,
 } from "@src/atoms/tableScope";
 
-import TableSourceFirestore from "@src/sources/TableSourceFirestore";
-import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
-import TableSkeleton from "@src/components/Table/TableSkeleton";
 import { HydrateAtoms } from "@src/atoms/utils.ts";
-
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import TableSkeleton from "@src/components/Table/TableSkeleton";
+import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import { TABLE_SCHEMAS } from "@src/config/dbPaths";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import TableSourceFirestore from "@src/sources/TableSourceFirestore";
+
 import { generateId } from "@src/utils/table";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { useAtom, useSetAtom } from "jotai";
+import { Suspense, useContext } from "react";
+import { useParams } from "react-router-dom";
 
 function TableTestPage() {
   const projectScopeStore = useContext(ProjectScopeContext);

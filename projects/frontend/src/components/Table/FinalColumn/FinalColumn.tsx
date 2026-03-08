@@ -1,26 +1,25 @@
-import { memo, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
-import { Stack, Tooltip, IconButton, alpha } from "@mui/material";
-import { CopyCells as CopyCellsIcon } from "@src/assets/icons";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import MenuIcon from "@mui/icons-material/MoreHoriz";
+import { alpha, IconButton, Stack, Tooltip } from "@mui/material";
+import { CopyCells as CopyCellsIcon } from "@src/assets/icons";
 
 import {
-  ProjectScopeContext,
-  userRolesAtom,
   altPressAtom,
   confirmDialogAtom,
+  ProjectScopeContext,
+  userRolesAtom,
 } from "@src/atoms/projectScope";
 import {
+  _updateRowDbAtom,
+  addRowAtom,
+  contextMenuTargetAtom,
+  deleteRowAtom,
+  tableSchemaAtom,
   TableScopeContext,
   tableSettingsAtom,
-  addRowAtom,
-  deleteRowAtom,
-  contextMenuTargetAtom,
-  _updateRowDbAtom,
-  tableSchemaAtom,
 } from "@src/atoms/tableScope";
+import { useAtom, useSetAtom } from "jotai";
+import { memo, useContext } from "react";
 import type { IRenderedTableCellProps } from "@src/components/Table/TableCell/withRenderTableCell";
 export const FinalColumn = memo(({
   row,

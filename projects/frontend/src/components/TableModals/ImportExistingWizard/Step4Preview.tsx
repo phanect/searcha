@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-
-import { styled, Grid2 as Grid } from "@mui/material";
-import Column from "@src/components/Table/Mock/Column";
+import { Grid2 as Grid, styled } from "@mui/material";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
 import Cell from "@src/components/Table/Mock/Cell";
+import Column from "@src/components/Table/Mock/Column";
 
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import type { IStepProps } from ".";
 
 const Spacer = styled(Grid)(({ theme }) => ({

@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { useSnackbar } from "notistack";
-import { FieldType } from "@phanect/searcha-form-builder";
-
-import { Button, Menu, MenuItem } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Button, Menu, MenuItem } from "@mui/material";
+import { FieldType } from "@phanect/searcha-form-builder";
+import { useSnackbar } from "notistack";
+import { useState } from "react";
 
 const FORM_FIELD_SNIPPETS = [
   {

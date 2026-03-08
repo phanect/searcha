@@ -1,45 +1,44 @@
-import { useContext, useEffect, useCallback } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useAtomCallback } from "jotai/utils";
 import {
-  doc,
-  getDoc,
-  setDoc,
-  deleteDoc,
-  collection,
-  getDocs,
-  writeBatch,
-} from "firebase/firestore";
-import { camelCase, find, findIndex, isEmpty } from "lodash-es";
-
-import {
-  ProjectScopeContext,
-  projectSettingsAtom,
   createTableAtom,
-  updateTableAtom,
+  currentUserAtom,
   deleteTableAtom,
   getTableSchemaAtom,
-  currentUserAtom,
-  updateSecretNamesAtom,
   projectIdAtom,
+  ProjectScopeContext,
+  projectSettingsAtom,
   rowyRunAtom,
   secretNamesAtom,
+  updateSecretNamesAtom,
+  updateTableAtom,
 } from "@src/atoms/projectScope";
 
+import { getFieldProp } from "@src/components/fields";
 import {
   SETTINGS,
-  TABLE_SCHEMAS,
   TABLE_GROUP_SCHEMAS,
+  TABLE_SCHEMAS,
 } from "@src/config/dbPaths";
-import { rowyUser } from "@src/utils/table";
-import { getFieldProp } from "@src/components/fields";
 import { runRoutes } from "@src/constants/runRoutes";
+import { rowyUser } from "@src/utils/table";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
+import { useAtom, useSetAtom } from "jotai";
+import { useAtomCallback } from "jotai/utils";
+import { camelCase, find, findIndex, isEmpty } from "lodash-es";
+import { useCallback, useContext, useEffect } from "react";
 import { firebaseDbAtom } from "./init";
-import type { FieldType } from "@src/constants/fields";
-import type { TableSettings, TableSchema, SubTablesSchema } from "@src/types/table";
 import type {
   AdditionalTableSettings,
   MinimumTableSettings } from "@src/atoms/projectScope";
+import type { FieldType } from "@src/constants/fields";
+import type { SubTablesSchema, TableSchema, TableSettings } from "@src/types/table";
 
 export function useTableFunctions() {
   const projectScopeStore = useContext(ProjectScopeContext);

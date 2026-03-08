@@ -1,15 +1,14 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-import { RESET } from "jotai/utils";
-
-import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
-
 import {
   sideDrawerAtom,
   TableScopeContext,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
+import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
+import { useAtom } from "jotai";
+import { RESET } from "jotai/utils";
+
+import { useContext } from "react";
 
 export default function TableInformation() {
   const tableScopeStore = useContext(TableScopeContext);

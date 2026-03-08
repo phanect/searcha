@@ -1,9 +1,9 @@
-import { useReducer, useMemo } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMemo, useReducer } from "react";
 import { getDefaultValues, getValidationSchema } from "./utils";
 import type { FieldValues } from "react-hook-form";
 
-import type { Fields, CustomComponents } from "./types";
+import type { CustomComponents, Fields } from "./types";
 
 const reducer = (
   state: string[],

@@ -1,6 +1,6 @@
-import { memo, useRef } from "react";
-import { styled, Divider } from "@mui/material";
+import { Divider, styled } from "@mui/material";
 import { spreadSx } from "@src/utils/ui";
+import { memo, useRef } from "react";
 import type { DividerProps } from "@mui/material";
 
 const MemoizedList = memo(

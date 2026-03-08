@@ -1,9 +1,9 @@
-import { auth, db } from "../firebaseConfig";
 import { rowyUsers } from "../constants/Collections";
+import { auth, db } from "../firebaseConfig";
 import { getProjectId } from "../metadataService";
 import { inviteUserService } from "../rowyService";
-import type { User } from "../types/User";
 import type { Request, Response } from "express";
+import type { User } from "../types/User";
 
 const getFirebaseAuthUser = async (email: string) => {
   try {

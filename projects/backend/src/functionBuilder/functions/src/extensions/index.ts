@@ -1,7 +1,7 @@
-import utilFns, { hasRequiredFields, getTriggerType } from "../utils";
-import { db, auth, storage } from "../firebaseConfig";
+import { auth, db, storage } from "../firebaseConfig";
 import { LoggingFactory } from "../logging";
-import * as functions from "firebase-functions/v1";
+import utilFns, { hasRequiredFields, getTriggerType } from "../utils";
+import type * as functions from "firebase-functions/v1";
 
 const extension
   = (extensionConfig, fieldTypes, tableSchema) =>
@@ -15,7 +15,7 @@ const extension
       const triggerType = getTriggerType(change);
       try {
         const { name, type, triggers, requiredFields, trackedFields }
-        = extensionConfig;
+          = extensionConfig;
         const loggingCondition = await LoggingFactory.createExtensionLogging(
           type,
           "condition",

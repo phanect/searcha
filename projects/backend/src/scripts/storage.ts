@@ -1,7 +1,7 @@
 import { fromBuffer } from "file-type";
+import fetch from "node-fetch";
 import * as uuid from "uuid";
 
-import fetch from "node-fetch";
 import { storage } from "../firebaseConfig";
 import { getProjectId } from "../metadataService";
 export const url2storage = async (

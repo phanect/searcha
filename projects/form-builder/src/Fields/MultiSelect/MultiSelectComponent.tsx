@@ -1,8 +1,7 @@
 import MultiSelect, { type MultiSelectProps } from "@phanect/searcha-multiselect";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
-
 import type { ReactNode } from "react";
+import type { IFieldComponentProps } from "../../types";
 
 export type IMultiSelectComponentProps = {
   options: (string | { value: string; label: ReactNode; })[];

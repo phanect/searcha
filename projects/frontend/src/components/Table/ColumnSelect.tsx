@@ -1,17 +1,17 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
+import { Chip, Stack, Typography } from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
-import { Stack, Typography, Chip } from "@mui/material";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
-import { ProjectScopeContext, altPressAtom } from "@src/atoms/projectScope";
-import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
+import { altPressAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { tableColumnsOrderedAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { getFieldProp } from "@src/components/fields";
 import { spreadSx } from "@src/utils/ui";
-import type { ColumnConfig } from "@src/types/table";
-import type { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import type { StackProps } from "@mui/material";
 import type { MultiSelectProps } from "@phanect/searcha-multiselect";
+import type { FieldType } from "@src/constants/fields";
+import type { ColumnConfig } from "@src/types/table";
 
 export type ColumnOption = {
   value: string;

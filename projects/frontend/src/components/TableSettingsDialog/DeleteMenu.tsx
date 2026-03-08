@@ -1,25 +1,24 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
-
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
+  DialogContentText,
   IconButton,
   Menu,
   MenuItem,
-  DialogContentText,
   Tooltip,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-
+import { analytics, logEvent } from "@src/analytics";
 import {
-  ProjectScopeContext,
   confirmDialogAtom,
-  updateTableAtom,
   deleteTableAtom,
+  ProjectScopeContext,
+  updateTableAtom,
 } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
-import { analytics, logEvent } from "@src/analytics";
+import { useAtom, useSetAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import type { TableSettings } from "@src/types/table";
 
 export type IDeleteMenuProps = {

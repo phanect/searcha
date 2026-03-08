@@ -1,5 +1,5 @@
-import { Stack, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { IconButton, Stack } from "@mui/material";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Url({ value, tabIndex }: IDisplayCellProps) {

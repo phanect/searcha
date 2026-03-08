@@ -1,10 +1,10 @@
+import SearchIcon from "@mui/icons-material/Search";
 import {
-  useScrollTrigger,
+  InputAdornment,
   Paper,
   TextField,
-  InputAdornment,
+  useScrollTrigger,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 
 import SlideTransition from "@src/components/Modal/SlideTransition";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";

@@ -1,18 +1,17 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-
 import { Button } from "@mui/material";
 import { Go as GoIcon, Tables as TablesIcon } from "@src/assets/icons";
 
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import EmptyState from "@src/components/EmptyState";
+import { EXTERNAL_LINKS } from "@src/constants/externalLinks.ts";
+import { ROUTES } from "@src/constants/routes";
 import AuthLayout from "@src/layouts/AuthLayout";
 import Navigation from "@src/layouts/Navigation";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
-import EmptyState from "@src/components/EmptyState";
 
-import { ROUTES } from "@src/constants/routes";
-import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
-import { EXTERNAL_LINKS } from "@src/constants/externalLinks.ts";
+import { useAtom } from "jotai";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 export default function NotFound() {
   const projectScopeStore = useContext(ProjectScopeContext);

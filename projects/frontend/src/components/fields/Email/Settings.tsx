@@ -1,4 +1,4 @@
-import { TextField, Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {

@@ -1,12 +1,11 @@
-import { useContext, useMemo } from "react";
+import { Chip, Grid2 as Grid } from "@mui/material";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
+import { getFieldId } from "@src/components/SideDrawer/utils";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
 
-import { Grid2 as Grid, Chip } from "@mui/material";
-
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
-import { getFieldId } from "@src/components/SideDrawer/utils";
+import { useContext, useMemo } from "react";
 import ConnectTableSelect from "./ConnectTableSelect";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 

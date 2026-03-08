@@ -1,19 +1,18 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { useLocation } from "react-router-dom";
-
-import {
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
-  Collapse,
-  List,
-} from "@mui/material";
 import MembersIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
+import {
+  Collapse,
+  List,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+} from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
 import NavItem from "./NavItem";
 
 export type ISettingsNavProps = {

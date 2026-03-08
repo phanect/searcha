@@ -1,5 +1,5 @@
-import { format } from "date-fns";
 import { DATE_FORMAT } from "@src/constants/dates";
+import { format } from "date-fns";
 import type { IFilterOperator } from "@src/components/fields/types";
 
 export const filterOperators: IFilterOperator[] = [

@@ -1,25 +1,25 @@
-import { useState } from "react";
 import {
   DiffEditor as MonacoDiffEditor,
 } from "@monaco-editor/react";
 
-import { useTheme, Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import TrapFocus from "@mui/material/Unstable_TrapFocus";
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { ResizeBottomRight } from "@src/assets/icons";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
+import githubDarkTheme from "@src/components/CodeEditor/github-dark-default.json";
+import githubLightTheme from "@src/components/CodeEditor/github-light-default.json";
 import FullScreenButton from "@src/components/FullScreenButton";
 import { spreadSx } from "@src/utils/ui";
-import githubLightTheme from "@src/components/CodeEditor/github-light-default.json";
-import githubDarkTheme from "@src/components/CodeEditor/github-dark-default.json";
+import { useState } from "react";
 import useMonacoCustomizations from "./useMonacoCustomizations";
-import type {
-  IUseMonacoCustomizationsProps,
-} from "./useMonacoCustomizations";
-import type { BoxProps } from "@mui/material";
 import type {
   DiffEditorProps,
   EditorProps } from "@monaco-editor/react";
+import type { BoxProps } from "@mui/material";
+import type {
+  IUseMonacoCustomizationsProps,
+} from "./useMonacoCustomizations";
 
 export type IDiffEditorProps = {
   onChange?: EditorProps["onChange"];

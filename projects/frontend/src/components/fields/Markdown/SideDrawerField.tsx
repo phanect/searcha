@@ -1,8 +1,8 @@
-import { useTheme, Box } from "@mui/material";
-
-import MDEditor from "@uiw/react-md-editor";
+import { Box, useTheme } from "@mui/material";
 
 import { fieldSx } from "@src/components/SideDrawer/utils";
+import MDEditor from "@uiw/react-md-editor";
+
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Markdown({

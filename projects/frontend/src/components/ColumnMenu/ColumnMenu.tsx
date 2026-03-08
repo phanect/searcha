@@ -1,52 +1,47 @@
-import { useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useSnackbar } from "notistack";
-
-import {
-  Menu,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  Divider,
-} from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import EditIcon from "@mui/icons-material/EditOutlined";
 import FilterIcon from "@mui/icons-material/FilterList";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/LockOutlined";
+import SettingsIcon from "@mui/icons-material/SettingsOutlined";
+import EvalIcon from "@mui/icons-material/PlayCircleOutline";
+import StraightenIcon from "@mui/icons-material/Straighten";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import {
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  Typography,
+} from "@mui/material";
+
+import { analytics, logEvent } from "@src/analytics";
+import {
+  CellResize as CellResizeIcon,
   Freeze as FreezeIcon,
   Unfreeze as UnfreezeIcon,
-  CellResize as CellResizeIcon,
   ColumnPlusBefore as ColumnPlusBeforeIcon,
   ColumnPlusAfter as ColumnPlusAfterIcon,
   ColumnRemove as ColumnRemoveIcon,
   CloudLogs as LogsIcon,
 } from "@src/assets/icons";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import StraightenIcon from "@mui/icons-material/Straighten";
-import EditIcon from "@mui/icons-material/EditOutlined";
-import SettingsIcon from "@mui/icons-material/SettingsOutlined";
-import EvalIcon from "@mui/icons-material/PlayCircleOutline";
-
-import ColumnHeader from "@src/components/Table/Mock/Column";
-
 import {
+  altPressAtom,
+  confirmDialogAtom,
   ProjectScopeContext,
   userSettingsAtom,
   updateUserSettingsAtom,
-  confirmDialogAtom,
   rowyRunAtom,
-  altPressAtom,
 } from "@src/atoms/projectScope";
 import {
+  columnMenuAtom,
+  deleteColumnAtom,
   tableIdAtom,
   tableSettingsAtom,
   updateColumnAtom,
-  deleteColumnAtom,
   tableSortsAtom,
-  columnMenuAtom,
   columnModalAtom,
   tableFiltersPopoverAtom,
   tableNextPageAtom,
@@ -55,18 +50,21 @@ import {
   tableModalAtom,
   TableScopeContext,
 } from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
 import { getFieldProp } from "@src/components/fields";
-import { analytics, logEvent } from "@src/analytics";
+import useSaveTableSorts from "@src/components/Table/ColumnHeader/useSaveTableSorts";
+import ColumnHeader from "@src/components/Table/Mock/Column";
+import { FieldType } from "@src/constants/fields";
+import { runRoutes } from "@src/constants/runRoutes";
+import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import {
   formatSubTableName,
   generateId,
   getTableBuildFunctionPathname,
   getTableSchemaPath,
 } from "@src/utils/table";
-import { runRoutes } from "@src/constants/runRoutes";
-import { useSnackLogContext } from "@src/contexts/SnackLogContext";
-import useSaveTableSorts from "@src/components/Table/ColumnHeader/useSaveTableSorts";
+import { useAtom, useSetAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext } from "react";
 import MenuContents from "./MenuContents";
 import type { IMenuContentsProps } from "./MenuContents";
 

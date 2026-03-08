@@ -1,7 +1,6 @@
-import { screen, fireEvent } from "@testing-library/react";
-
 import App from "@src/App";
 import JotaiTestPage from "@src/pages/Test/JotaiTestPage";
+import { fireEvent, screen } from "@testing-library/react";
 import { customRender, signIn } from "./testUtils";
 
 test("renders without crashing", async () => {

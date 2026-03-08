@@ -1,14 +1,12 @@
-import { DocumentReference, GeoPoint, Timestamp } from "firebase/firestore";
-
-import { FieldType } from "@src/components/fields/types";
-
-import NumberValueSidebar from "@src/components/fields/Number/SideDrawerField";
-import ShortTextValueSidebar from "@src/components/fields/ShortText/SideDrawerField";
-import JsonValueSidebar from "@src/components/fields/Json/SideDrawerField";
 import CheckBoxValueSidebar from "@src/components/fields/Checkbox/SideDrawerField";
-import GeoPointValueSidebar from "@src/components/fields/GeoPoint/SideDrawerField";
 import DateTimeValueSidebar from "@src/components/fields/DateTime/SideDrawerField";
+import GeoPointValueSidebar from "@src/components/fields/GeoPoint/SideDrawerField";
+import JsonValueSidebar from "@src/components/fields/Json/SideDrawerField";
+import NumberValueSidebar from "@src/components/fields/Number/SideDrawerField";
 import ReferenceValueSidebar from "@src/components/fields/Reference/SideDrawerField";
+import ShortTextValueSidebar from "@src/components/fields/ShortText/SideDrawerField";
+import { FieldType } from "@src/components/fields/types";
+import { DocumentReference, GeoPoint, Timestamp } from "firebase/firestore";
 
 export const ArraySupportedFields = [
   FieldType.number,

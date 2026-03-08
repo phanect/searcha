@@ -1,17 +1,16 @@
-import { useMemo, useEffect, useContext } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useAtom } from "jotai";
 
-import { auth } from "firebaseui";
-import "firebaseui/dist/firebaseui.css";
-import { onAuthStateChanged } from "firebase/auth";
-
-import { makeStyles } from "tss-react/mui";
 import { Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 import { ProjectScopeContext, publicSettingsAtom } from "@src/atoms/projectScope";
-import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 import { defaultUiConfig, getSignInOptions } from "@src/config/firebaseui";
+import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
+import { makeStyles } from "tss-react/mui";
 
 const ELEMENT_ID = "firebaseui_container";
 

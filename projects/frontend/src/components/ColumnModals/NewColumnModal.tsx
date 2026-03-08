@@ -1,21 +1,19 @@
-import { useContext, useState } from "react";
+import { Button, TextField, Typography } from "@mui/material";
+import { analytics, logEvent } from "@src/analytics";
+import { ProjectScopeContext, updateTableAtom } from "@src/atoms/projectScope";
+import {
+  addColumnAtom,
+  columnModalAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+} from "@src/atoms/tableScope";
+import { getFieldProp } from "@src/components/fields";
+import Modal from "@src/components/Modal";
+import { FieldType } from "@src/constants/fields";
 import { useAtom, useSetAtom } from "jotai";
 import { camelCase } from "lodash-es";
 
-import { TextField, Typography, Button } from "@mui/material";
-
-import Modal from "@src/components/Modal";
-
-import { ProjectScopeContext, updateTableAtom } from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  addColumnAtom,
-  columnModalAtom,
-} from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
-import { getFieldProp } from "@src/components/fields";
-import { analytics, logEvent } from "@src/analytics";
+import { useContext, useState } from "react";
 import FieldsDropdown from "./FieldsDropdown";
 import type { IColumnModalProps } from ".";
 

@@ -1,6 +1,6 @@
-import { Button } from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+import { Button } from "@mui/material";
 import type { ButtonProps } from "@mui/material";
 
 export type IFullScreenButtonProps = {

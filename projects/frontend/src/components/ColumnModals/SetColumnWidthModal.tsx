@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { TextField } from "@mui/material";
 import { reactTableAtom, TableScopeContext } from "@src/atoms/tableScope";
+import Modal from "@src/components/Modal";
 import { useAtom } from "jotai";
 
-import { TextField } from "@mui/material";
-import Modal from "@src/components/Modal";
+import { useContext, useEffect, useState } from "react";
 import type { IColumnModalProps } from ".";
 
 export default function SetColumnWidthModal({

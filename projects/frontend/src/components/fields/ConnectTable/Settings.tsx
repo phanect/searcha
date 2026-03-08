@@ -1,29 +1,28 @@
-import { useContext, useEffect } from "react";
-import { useAsyncMemo } from "use-async-memo";
-import { sortBy } from "lodash-es";
-import { useAtom, useSetAtom } from "jotai";
-
+import WarningIcon from "@mui/icons-material/WarningAmberOutlined";
 import {
-  Typography,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
   Link,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  FormHelperText,
+  Typography,
 } from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import WarningIcon from "@mui/icons-material/WarningAmberOutlined";
-
 import {
-  ProjectScopeContext,
   getTableSchemaAtom,
-  tablesAtom,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
+  tablesAtom,
 } from "@src/atoms/projectScope";
-import { FieldType } from "@src/constants/fields";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { FieldType } from "@src/constants/fields";
+import { useAtom, useSetAtom } from "jotai";
+import { sortBy } from "lodash-es";
+import { useContext, useEffect } from "react";
+import { useAsyncMemo } from "use-async-memo";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {

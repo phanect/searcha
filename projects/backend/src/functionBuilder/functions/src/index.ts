@@ -3,9 +3,9 @@ import derivative from "./derivatives";
 import extension from "./extensions";
 import * as config from "./functionConfig";
 const functionConfig: any = config;
-import { getTriggerType, changedDocPath } from "./utils";
-import propagate from "./propagates";
 import initialize from "./initialize";
+import propagate from "./propagates";
+import { changedDocPath, getTriggerType } from "./utils";
 
 export const R = {
   [functionConfig.functionName]: functions

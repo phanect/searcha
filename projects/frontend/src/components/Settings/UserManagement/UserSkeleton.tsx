@@ -1,9 +1,9 @@
 import {
-  Skeleton,
+  Avatar,
   ListItem,
   ListItemAvatar,
-  Avatar,
   ListItemText,
+  Skeleton,
   Stack,
 } from "@mui/material";
 

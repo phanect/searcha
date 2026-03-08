@@ -1,6 +1,6 @@
-import { Typography, Tooltip } from "@mui/material";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LockIcon from "@mui/icons-material/LockOutlined";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { Tooltip, Typography } from "@mui/material";
 
 import CodeEditor from "@src/components/CodeEditor";
 import config from ".";

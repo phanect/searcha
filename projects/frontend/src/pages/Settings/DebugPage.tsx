@@ -1,31 +1,30 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
+import { Button, Container, Stack } from "@mui/material";
 import {
-  updateDoc,
-  doc,
-  terminate,
-  clearIndexedDbPersistence,
-} from "firebase/firestore";
-
-import { Container, Stack, Button } from "@mui/material";
+  allUsersAtom,
+  projectIdAtom,
+  ProjectScopeContext,
+  projectSettingsAtom,
+  updateUserAtom,
+  userRolesAtom,
+} from "@src/atoms/projectScope";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import SettingsSection from "@src/components/Settings/SettingsSection";
 
-import {
-  ProjectScopeContext,
-  projectIdAtom,
-  projectSettingsAtom,
-  userRolesAtom,
-  allUsersAtom,
-  updateUserAtom,
-} from "@src/atoms/projectScope";
+import { CONFIG, TABLE_SCHEMAS, USERS } from "@src/config/dbPaths";
+import { useScrollToHash } from "@src/hooks/useScrollToHash";
 import UserManagementSourceFirebase from "@src/sources/MembersSourceFirebase";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { CONFIG, TABLE_SCHEMAS, USERS } from "@src/config/dbPaths";
 import { getTableSchemaPath } from "@src/utils/table";
-import { useScrollToHash } from "@src/hooks/useScrollToHash";
+import {
+  clearIndexedDbPersistence,
+  doc,
+  terminate,
+  updateDoc,
+} from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext } from "react";
 
 export default function DebugPage() {
   const projectScopeStore = useContext(ProjectScopeContext);

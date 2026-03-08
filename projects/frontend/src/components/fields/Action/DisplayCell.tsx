@@ -1,5 +1,5 @@
 import { get } from "lodash-es";
-import { sanitiseCallableName, isUrl } from "./utils";
+import { isUrl, sanitiseCallableName } from "./utils";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export const getActionName = (column: IDisplayCellProps["column"]) => {

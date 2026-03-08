@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Box, useTheme } from "@mui/material";
+import { useState } from "react";
 
 import { ColorPicker } from "react-color-palette";
 import type { IColor } from "react-color-palette";

@@ -533,8 +533,8 @@ declare namespace firebaseauth {
     pageToken?: string;
   };
 
-  type HashAlgorithmType =
-    | "SCRYPT"
+  type HashAlgorithmType
+    = | "SCRYPT"
     | "STANDARD_SCRYPT"
     | "HMAC_SHA512"
     | "HMAC_SHA256"
@@ -1186,8 +1186,8 @@ declare namespace firebaseauth {
     pageToken?: string;
   };
 
-  type UpdateAuthProviderRequest =
-    | admin.auth.SAMLUpdateAuthProviderRequest
+  type UpdateAuthProviderRequest
+    = | admin.auth.SAMLUpdateAuthProviderRequest
     | admin.auth.OIDCUpdateAuthProviderRequest;
 
   type BaseAuth = {

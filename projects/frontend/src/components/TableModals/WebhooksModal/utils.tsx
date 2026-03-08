@@ -1,11 +1,11 @@
 import { generateId } from "@src/utils/table";
 import {
-  typeform,
   basic,
-  sendgrid,
-  webform,
-  stripe,
   firebaseAuth,
+  sendgrid,
+  stripe,
+  typeform,
+  webform,
 } from "./Schemas";
 import type { TableSettings } from "@src/types/table";
 

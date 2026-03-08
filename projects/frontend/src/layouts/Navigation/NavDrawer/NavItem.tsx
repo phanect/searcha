@@ -1,8 +1,8 @@
+import { MenuItem } from "@mui/material";
+import { spreadSx } from "@src/utils/ui";
 import { Link, useLocation } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 
-import { MenuItem } from "@mui/material";
-import { spreadSx } from "@src/utils/ui";
 import type { MenuItemProps } from "@mui/material";
 
 const linkProps = { target: "_blank", rel: "noopener noreferrer" };

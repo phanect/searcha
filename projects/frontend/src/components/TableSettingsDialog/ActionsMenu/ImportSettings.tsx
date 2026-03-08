@@ -1,23 +1,21 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useWatch } from "react-hook-form";
-import stringify from "json-stable-stringify-without-jsonify";
-import { merge, get } from "lodash-es";
-import { useSnackbar } from "notistack";
-
-import { MenuItem, DialogContentText, FormHelperText } from "@mui/material";
-
-import Modal from "@src/components/Modal";
-import DiffEditor from "@src/components/CodeEditor/DiffEditor";
-
-import {
-  ProjectScopeContext,
-  confirmDialogAtom,
-  tableSettingsDialogSchemaAtom,
-  tableSettingsDialogAtom,
-} from "@src/atoms/projectScope";
+import { DialogContentText, FormHelperText, MenuItem } from "@mui/material";
 import { analytics, logEvent } from "@src/analytics";
-import type { UseFormReturn, FieldValues, Control } from "react-hook-form";
+import {
+  confirmDialogAtom,
+  ProjectScopeContext,
+  tableSettingsDialogAtom,
+  tableSettingsDialogSchemaAtom,
+} from "@src/atoms/projectScope";
+import DiffEditor from "@src/components/CodeEditor/DiffEditor";
+import Modal from "@src/components/Modal";
+import { useAtom, useSetAtom } from "jotai";
+import stringify from "json-stable-stringify-without-jsonify";
+import { get, merge } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
+import { useWatch } from "react-hook-form";
+
+import type { Control, FieldValues, UseFormReturn } from "react-hook-form";
 
 export type IImportSettingsProps = {
   closeMenu: () => void;

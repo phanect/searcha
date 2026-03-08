@@ -1,35 +1,34 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { isEqual } from "lodash-es";
-import useStateRef from "react-usestateref";
-
 import {
-  Grid2 as Grid,
-  TextField,
   FormControlLabel,
-  Switch,
-  Stack,
+  Grid2 as Grid,
   IconButton,
+  Stack,
+  Switch,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { Copy as CopyIcon } from "@src/assets/icons";
 
-import Modal from "@src/components/Modal";
-import SteppedAccordion from "@src/components/SteppedAccordion";
 import {
+  confirmDialogAtom,
   ProjectScopeContext,
   projectSettingsAtom,
-  confirmDialogAtom,
 } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import Modal from "@src/components/Modal";
+import SteppedAccordion from "@src/components/SteppedAccordion";
+import { useAtom, useSetAtom } from "jotai";
+import { isEqual } from "lodash-es";
+import { useContext, useState } from "react";
+import useStateRef from "react-usestateref";
 import Step1Auth from "./Step1Auth";
 import Step2Conditions from "./Step2Conditions";
 import Step3Body from "./Step3Parser";
 
 import { webhookNames } from "./utils";
-import type { IWebhook } from "./utils";
 import type { IModalProps } from "@src/components/Modal";
+import type { IWebhook } from "./utils";
 
 type StepValidation = Record<"condition" | "parser", boolean>;
 

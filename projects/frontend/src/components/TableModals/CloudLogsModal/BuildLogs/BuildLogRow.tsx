@@ -1,9 +1,8 @@
+import { styled, Typography } from "@mui/material";
+import { TIME_FORMAT } from "@src/constants/dates";
 import { format } from "date-fns";
 
-import { styled, Typography } from "@mui/material";
 import { AnsiHtml } from "fancy-ansi/react";
-
-import { TIME_FORMAT } from "@src/constants/dates";
 
 const Root = styled("div")(({ theme }) => ({
   ...(theme.typography.caption as any),

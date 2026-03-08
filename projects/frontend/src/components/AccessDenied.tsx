@@ -1,27 +1,26 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-import { Link } from "react-router-dom";
-
+import LockIcon from "@mui/icons-material/LockOutlined";
 import {
-  Typography,
-  Stack,
-  Avatar,
   Alert,
+  Avatar,
+  Button,
   Divider,
   Link as MuiLink,
-  Button,
+  Stack,
+  Typography,
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/LockOutlined";
-
-import EmptyState from "@src/components/EmptyState";
 
 import {
   currentUserAtom,
   ProjectScopeContext,
   userRolesAtom,
 } from "@src/atoms/projectScope";
+import EmptyState from "@src/components/EmptyState";
+
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { ROUTES } from "@src/constants/routes";
+import { useAtom } from "jotai";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import type { FallbackProps } from "react-error-boundary";
 
 export default function AccessDenied({ resetErrorBoundary }: FallbackProps) {

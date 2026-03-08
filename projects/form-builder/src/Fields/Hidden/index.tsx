@@ -1,8 +1,8 @@
-import { lazy } from "react";
 import EyeOff from "mdi-material-ui/EyeOff";
+import { lazy } from "react";
+import Settings from "./HiddenSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./HiddenSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () => import("./HiddenComponent")

@@ -1,22 +1,21 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-
 import {
-  Typography,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-  FormHelperText,
   Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  FormLabel,
+  Typography,
 } from "@mui/material";
+import {
+  compatibleRowyRunVersionAtom,
+  ProjectScopeContext,
+} from "@src/atoms/projectScope";
 import ColumnSelect from "@src/components/Table/ColumnSelect";
 
-import {
-  ProjectScopeContext,
-  compatibleRowyRunVersionAtom,
-} from "@src/atoms/projectScope";
 import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import { triggerTypes } from "./utils";
 import type { IExtensionModalStepProps } from "./ExtensionModal";
 

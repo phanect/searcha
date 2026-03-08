@@ -1,24 +1,14 @@
 import { useContext, useState } from "react";
 import { GlobalStyles } from "tss-react";
 import { alpha, styled, useTheme } from "@mui/material";
-import { Editor } from "@tinymce/tinymce-react";
 
 // TinyMCE so the global var exists
-import "tinymce/tinymce.min.js";
 // Theme
-import "tinymce/themes/silver";
 // Toolbar icons
-import "tinymce/icons/default";
 // Editor styles
 /* eslint import/no-webpack-loader-syntax: off */
-import skinCss from "tinymce/skins/ui/oxide/skin.min.css?inline";
-import skinDarkCss from "tinymce/skins/ui/oxide-dark/skin.min.css?inline";
 // Content styles, including inline UI like fake cursors
 /* eslint import/no-webpack-loader-syntax: off */
-import contentCss from "tinymce/skins/content/default/content.min.css?inline";
-import contentUiCss from "tinymce/skins/ui/oxide/content.min.css?inline";
-import contentCssDark from "tinymce/skins/content/dark/content.min.css?inline";
-import contentUiCssDark from "tinymce/skins/ui/oxide-dark/content.min.css?inline";
 
 // Plugins
 import "tinymce/plugins/autoresize";
@@ -34,7 +24,17 @@ import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { generateId } from "@src/utils/table";
+import { Editor } from "@tinymce/tinymce-react";
 import { useSnackbar } from "notistack";
+import "tinymce/icons/default";
+import contentCssDark from "tinymce/skins/content/dark/content.min.css?inline";
+import contentCss from "tinymce/skins/content/default/content.min.css?inline";
+import contentUiCss from "tinymce/skins/ui/oxide/content.min.css?inline";
+import skinCss from "tinymce/skins/ui/oxide/skin.min.css?inline";
+import contentUiCssDark from "tinymce/skins/ui/oxide-dark/content.min.css?inline";
+import skinDarkCss from "tinymce/skins/ui/oxide-dark/skin.min.css?inline";
+import "tinymce/themes/silver";
+import "tinymce/tinymce.min.js";
 import { imageMimeTypes } from "./fields/Image";
 import type { ColumnConfig, TableRowRef } from "@src/types/table";
 
@@ -309,14 +309,14 @@ export default function RichTextEditor({
 
             // Handle file selection
             input.onchange = async () => {
-              const file = input && input.files && input.files[0];
+              const file = input?.files?.[0];
               try {
                 const imageUrl = await handleImageUpload(file); // Upload the image to Firebase Storage
 
                 // Create the image object to be inserted into the editor
                 const imageObj = {
                   src: imageUrl,
-                  alt: file && file.name,
+                  alt: file?.name,
                 };
 
                 // Pass the image object to the callback function

@@ -1,38 +1,36 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import useMemoValue from "@phanect/use-memo-value";
-import { find, findIndex, camelCase, isEqual } from "lodash-es";
-
-import {
-  Grid2 as Grid,
-  Typography,
-  Divider,
-  FormControlLabel,
-  Checkbox,
-  Chip,
-  FormControl,
-  RadioGroup,
-  Radio,
-  Stack,
-  Box,
-} from "@mui/material";
 import ArrowIcon from "@mui/icons-material/ArrowForward";
+import {
+  Box,
+  Checkbox,
+  Typography,
+  FormControlLabel,
+  Chip,
+  Divider,
+  FormControl,
+  Grid2 as Grid,
+  Radio,
+  RadioGroup,
+  Stack,
+} from "@mui/material";
+import useMemoValue from "@phanect/use-memo-value";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
-import FadeList from "@src/components/TableModals/ScrollableList";
+import {
+  tableColumnsOrderedAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
+import { getFieldProp } from "@src/components/fields";
+import ColumnSelect from "@src/components/Table/ColumnSelect";
 import Column, {
   COLUMN_HEADER_HEIGHT,
 } from "@src/components/Table/Mock/Column";
-import ColumnSelect from "@src/components/Table/ColumnSelect";
-
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  tableColumnsOrderedAtom,
-} from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
-import { getFieldProp } from "@src/components/fields";
 import { suggestType } from "@src/components/TableModals/ImportAirtableWizard/utils";
+import FadeList from "@src/components/TableModals/ScrollableList";
+import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { camelCase, find, findIndex, isEqual } from "lodash-es";
+import { useContext, useState } from "react";
 import type { AirtableConfig } from "@src/components/TableModals/ImportAirtableWizard";
 import type { IStepProps } from ".";
 

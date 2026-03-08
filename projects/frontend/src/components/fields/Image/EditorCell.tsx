@@ -1,28 +1,27 @@
-import { useContext, useMemo } from "react";
-import { useSetAtom } from "jotai";
-import { assignIn } from "lodash-es";
-
-import { alpha, Box, Stack, Grid2 as Grid, IconButton, ButtonBase } from "@mui/material";
 import AddIcon from "@mui/icons-material/AddAPhotoOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { alpha, Box, ButtonBase, Grid2 as Grid, IconButton, Stack } from "@mui/material";
 
-import Thumbnail from "@src/components/Thumbnail";
+import { confirmDialogAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
 import useFileUpload from "@src/components/fields/File/useFileUpload";
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import Thumbnail from "@src/components/Thumbnail";
+import { useSetAtom } from "jotai";
+import { assignIn } from "lodash-es";
+import { useContext, useMemo } from "react";
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
 } from "react-beautiful-dnd";
+import { deleteImgHoverSx, imgSx, thumbnailSx } from "./DisplayCell";
 import { imageMimeTypes } from "./index";
-import { imgSx, thumbnailSx, deleteImgHoverSx } from "./DisplayCell";
+import type { IEditorCellProps } from "@src/components/fields/types";
+import type { FileValue } from "@src/types/table";
 import type {
   DropResult } from "react-beautiful-dnd";
-import type { FileValue } from "@src/types/table";
-import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Image_({
   column,

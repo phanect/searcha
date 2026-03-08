@@ -1,10 +1,10 @@
-import { Grid2 as Grid, Button, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
+import { Button, Grid2 as Grid, Tooltip, useTheme } from "@mui/material";
 import MultiSelectComponent from "@phanect/searcha-multiselect";
+import { getColors } from "@src/components/fields/SingleSelect/Settings";
 import FormattedChip from "@src/components/FormattedChip";
 
 import { fieldSx } from "@src/components/SideDrawer/utils";
-import { getColors } from "@src/components/fields/SingleSelect/Settings";
 import palette, { paletteToMui } from "@src/theme/palette";
 import { sanitiseValue } from "./utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";

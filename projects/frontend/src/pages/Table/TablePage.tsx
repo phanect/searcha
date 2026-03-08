@@ -1,17 +1,4 @@
-import { Suspense, lazy, useContext, useMemo, useState } from "react";
-import { useAtom } from "jotai";
-import { ErrorBoundary } from "react-error-boundary";
-import { isEmpty, intersection } from "lodash-es";
-
 import { Box, Fade } from "@mui/material";
-import ErrorFallback, {
-  InlineErrorFallback,
-} from "@src/components/ErrorFallback";
-import TableInformationDrawer from "@src/components/TableInformationDrawer/TableInformationDrawer";
-import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
-import TableSkeleton from "@src/components/Table/TableSkeleton";
-import EmptyTable from "@src/components/Table/EmptyTable";
-import TableToolbar, { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
 import Table from "@src/components/Table";
 import SideDrawer, { DRAWER_WIDTH, DRAWER_COLLAPSED_WIDTH } from "@src/components/SideDrawer";
 import ColumnMenu from "@src/components/ColumnMenu";
@@ -34,11 +21,23 @@ import {
   columnModalAtom,
   tableModalAtom,
 } from "@src/atoms/tableScope";
+import ErrorFallback, {
+  InlineErrorFallback,
+} from "@src/components/ErrorFallback";
 import useBeforeUnload from "@src/hooks/useBeforeUnload";
 import ActionParamsProvider from "@src/components/fields/Action/FormDialog/Provider";
+import EmptyTable from "@src/components/Table/EmptyTable";
+import TableSkeleton from "@src/components/Table/TableSkeleton";
+import TableInformationDrawer from "@src/components/TableInformationDrawer/TableInformationDrawer";
+import TableToolbar, { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
+import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import { useSnackLogContext } from "@src/contexts/SnackLogContext";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { formatSubTableName } from "@src/utils/table";
+import { useAtom } from "jotai";
+import { intersection, isEmpty } from "lodash-es";
+import { lazy, Suspense, useContext, useMemo, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import type { TableToolsType } from "@src/types/table";
 import type { RowSelectionState } from "@tanstack/react-table";
 

@@ -1,17 +1,17 @@
-import { useForm } from "react-hook-form";
 import _isEmpty from "lodash-es/isEmpty";
+import { useForm } from "react-hook-form";
 
-import useFormSettings from "./useFormSettings";
-import FormFields from "./FormFields";
 import AutoSave from "./AutoSave";
+import FormFields from "./FormFields";
 import SubmitButton from "./SubmitButton";
 import SubmitError from "./SubmitError";
+import useFormSettings from "./useFormSettings";
+import type { BaseSyntheticEvent, ReactNode } from "react";
+import type { FieldValues, UseFormProps } from "react-hook-form";
 import type { ISubmitButtonProps } from "./SubmitButton";
 import type { ISubmitErrorProps } from "./SubmitError";
-import type { UseFormProps, FieldValues } from "react-hook-form";
 
-import type { Fields, CustomComponents } from "./types";
-import type { BaseSyntheticEvent, ReactNode } from "react";
+import type { CustomComponents, Fields } from "./types";
 
 export type IFormProps = {
   fields: Fields;

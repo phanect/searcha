@@ -1,25 +1,25 @@
-import { render } from "@testing-library/react";
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  connectAuthEmulator,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import {
-  initializeFirestore,
-  connectFirestoreEmulator,
-} from "firebase/firestore";
-
+import { currentUserAtom } from "@src/atoms/projectScope";
 import Providers from "@src/Providers";
 import ProjectSourceFirebase, {
   envConfig,
-  firebaseConfigAtom,
   firebaseAppAtom,
   firebaseAuthAtom,
+  firebaseConfigAtom,
   firebaseDbAtom,
 } from "@src/sources/ProjectSourceFirebase";
-import { currentUserAtom } from "@src/atoms/projectScope";
+import { render } from "@testing-library/react";
+import { initializeApp } from "firebase/app";
+import {
+  connectAuthEmulator,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import {
+  connectFirestoreEmulator,
+  initializeFirestore,
+} from "firebase/firestore";
+
 import type { IProvidersProps } from "@src/Providers";
 
 /** Initialize Firebase */

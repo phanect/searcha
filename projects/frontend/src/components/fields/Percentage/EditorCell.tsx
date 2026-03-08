@@ -1,5 +1,5 @@
 import EditorCellTextField from "@src/components/Table/TableCell/EditorCellTextField";
-import { multiply100WithPrecision, divide100WithPrecision } from "./utils";
+import { divide100WithPrecision, multiply100WithPrecision } from "./utils";
 import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Percentage(props: IEditorCellProps<number | string>) {

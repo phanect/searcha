@@ -1,32 +1,32 @@
-import { useState, type BaseSyntheticEvent, type ReactNode } from "react";
-import { useForm } from "react-hook-form";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  useMediaQuery,
+  useTheme,
+  IconButton,
+  DialogActions,
+} from "@mui/material";
+import Portal from "@mui/material/Portal";
 import _isEmpty from "lodash-es/isEmpty";
 import _isFunction from "lodash-es/isFunction";
 
-import {
-  useTheme,
-  useMediaQuery,
-  Dialog,
-  Stack,
-  DialogTitle,
-  IconButton,
-  DialogContent,
-  DialogActions,
-  Button,
-} from "@mui/material";
-import Portal from "@mui/material/Portal";
-import CloseIcon from "@mui/icons-material/Close";
+import { useState, type BaseSyntheticEvent, type ReactNode } from "react";
+import { useForm } from "react-hook-form";
 
-import useFormSettings from "./useFormSettings";
 import FormFields from "./FormFields";
-import SubmitError from "./SubmitError";
 import ScrollableDialogContent from "./ScrollableDialogContent";
-import type { Fields, CustomComponents } from "./types";
-import type { ISubmitErrorProps } from "./SubmitError";
+import SubmitError from "./SubmitError";
+import useFormSettings from "./useFormSettings";
 import type {
-  DialogProps as MuiDialogProps,
-  ButtonProps } from "@mui/material";
-import type { FieldValues, Control, UseFormReturn, UseFormProps } from "react-hook-form";
+  ButtonProps,
+  DialogProps as MuiDialogProps } from "@mui/material";
+import type { Control, FieldValues, UseFormProps, UseFormReturn } from "react-hook-form";
+import type { ISubmitErrorProps } from "./SubmitError";
+import type { CustomComponents, Fields } from "./types";
 
 export type IFormDialogProps = {
   fields: Fields;

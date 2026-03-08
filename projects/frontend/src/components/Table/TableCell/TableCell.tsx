@@ -1,24 +1,23 @@
-import { memo, useContext } from "react";
-import { useSetAtom } from "jotai";
-import { ErrorBoundary } from "react-error-boundary";
-import { flexRender } from "@tanstack/react-table";
-
 import ErrorIcon from "@mui/icons-material/ErrorOutline";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 
-import StyledCell from "@src/components/Table/Styled/StyledCell";
+import {
+  contextMenuTargetAtom,
+  selectedCellAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
 import { InlineErrorFallback } from "@src/components/ErrorFallback";
 import RichTooltip from "@src/components/RichTooltip";
+import { TABLE_PADDING } from "@src/components/Table";
+import StyledCell from "@src/components/Table/Styled/StyledCell";
 import StyledDot from "@src/components/Table/Styled/StyledDot";
 
-import {
-  TableScopeContext,
-  selectedCellAtom,
-  contextMenuTargetAtom,
-} from "@src/atoms/tableScope";
-import { TABLE_PADDING } from "@src/components/Table";
-import type { Row, Cell } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
+import { useSetAtom } from "jotai";
+import { memo, useContext } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import type { ColumnConfig, TableRow } from "@src/types/table";
+import type { Cell, Row } from "@tanstack/react-table";
 import type { IRenderedTableCellProps } from "./withRenderTableCell";
 
 export type ITableCellProps = {

@@ -1,17 +1,16 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { Button, FormControl } from "@mui/material";
 import { arrayMoveImmutable } from "array-move";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { FormControl, Button } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-
 import ListItem from "./ListItem";
 
-import FieldLabel from "../../FieldLabel";
-import FieldErrorMessage from "../../FieldErrorMessage";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldLabel from "../../FieldLabel";
 import type { ButtonProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
 export type IListComponentProps = {
   itemLabel?: string;

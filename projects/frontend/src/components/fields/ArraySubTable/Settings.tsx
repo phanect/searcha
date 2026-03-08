@@ -1,10 +1,9 @@
+import MultiSelect from "@phanect/searcha-multiselect";
+import { tableColumnsOrderedAtom, TableScopeContext } from "@src/atoms/tableScope";
+import { FieldType } from "@src/constants/fields";
 import { useAtom } from "jotai";
 import { useContext } from "react";
 
-import MultiSelect from "@phanect/searcha-multiselect";
-import { FieldType } from "@src/constants/fields";
-
-import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 const Settings = ({ config, onChange }: ISettingsProps) => {

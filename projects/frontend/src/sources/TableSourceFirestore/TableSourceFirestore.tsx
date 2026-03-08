@@ -1,42 +1,40 @@
-import { memo, useCallback, useContext, useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
-import { cloneDeep, set } from "lodash-es";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import {
+  _deleteRowDbAtom,
+  _updateRowDbAtom,
+  serverDocCountAtom,
+  tableFiltersAtom,
+  tableFiltersJoinAtom,
+  tableNextPageAtom,
+  tablePageAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  tableSortsAtom,
+  updateTableSchemaAtom,
+  tableRowsDbAtom,
+} from "@src/atoms/tableScope";
+import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
+import useFirestoreDocWithAtom, {
+  getDocRef,
+} from "@src/hooks/useFirestoreDocWithAtom";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { getTableSchemaPath } from "@src/utils/table";
 import {
   deleteField,
   refEqual,
   setDoc,
 } from "firebase/firestore";
+import { useAtom, useSetAtom } from "jotai";
+import { cloneDeep, set } from "lodash-es";
 import { useSnackbar } from "notistack";
+import { memo, useCallback, useContext, useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
-  tableFiltersAtom,
-  tableSortsAtom,
-  tablePageAtom,
-  tableRowsDbAtom,
-  _updateRowDbAtom,
-  _deleteRowDbAtom,
-  tableNextPageAtom,
-  serverDocCountAtom,
-  tableFiltersJoinAtom,
-} from "@src/atoms/tableScope";
-
-import useFirestoreDocWithAtom, {
-  getDocRef,
-} from "@src/hooks/useFirestoreDocWithAtom";
-import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
-
-import { getTableSchemaPath } from "@src/utils/table";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { ProjectScopeContext } from "@src/atoms/projectScope";
 import { handleFirestoreError } from "./handleFirestoreError";
-import useBulkWriteDb from "./useBulkWriteDb";
 import useAuditChange from "./useAuditChange";
+import useBulkWriteDb from "./useBulkWriteDb";
 import type { TableSchema } from "@src/types/table";
 import type {
   FirestoreError } from "firebase/firestore";

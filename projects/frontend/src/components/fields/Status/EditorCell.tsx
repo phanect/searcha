@@ -26,7 +26,7 @@ export default function StatusSingleSelect({
     return rValue;
   });
   return (
-    // eslint-disable-next-line react/jsx-pascal-case
+
     <MultiSelectComponent
       value={value}
       onChange={(v) => onChange(v)}

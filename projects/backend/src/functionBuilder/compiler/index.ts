@@ -1,19 +1,19 @@
-import { addPackages } from "./terminal";
-import { addExtensionLib } from "./extensions";
-import { asyncExecute } from "../../terminalUtils";
 import * as _ from "lodash";
-const fs = require("fs");
-import {
-  getConfigFromTableSchema,
-  generateFile,
-  combineConfigs,
-} from "./loader";
+import { addExtensionLib } from "./extensions";
+import { addPackages } from "./terminal";
+import { asyncExecute } from "../../terminalUtils";
 import { commandErrorHandler } from "../logger";
+import {
+  combineConfigs,
+  generateFile,
+  getConfigFromTableSchema,
+} from "./loader";
 import { db } from "../../firebaseConfig";
-const path = require("path");
-import admin from "firebase-admin";
 import { getProjectId } from "../../metadataService";
-import { DocumentData } from "firebase-admin/firestore";
+import type admin from "firebase-admin";
+import type { DocumentData } from "firebase-admin/firestore";
+const fs = require("node:fs");
+const path = require("node:path");
 
 export default async function generateConfig(
   data: {
@@ -30,35 +30,35 @@ export default async function generateConfig(
 ) {
   const projectId = await getProjectId();
   await asyncExecute(
-    `cd ${buildPath};pwd;ls -al`,
+    `cd ${ buildPath };pwd;ls -al`,
     () => {
       streamLogger.info("1");
     },
     streamLogger
   );
   await asyncExecute(
-    `cd ${buildPath};less package.json`,
+    `cd ${ buildPath };less package.json`,
     () => {
       streamLogger.info("2");
     },
     streamLogger
   );
   await asyncExecute(
-    `cd ${buildPath}/src;pwd;ls -al`,
+    `cd ${ buildPath }/src;pwd;ls -al`,
     () => {
       streamLogger.info("3");
     },
     streamLogger
   );
   await asyncExecute(
-    `cd ${buildPath};yarn install --mutex network`,
+    `cd ${ buildPath };yarn install --mutex network`,
     () => {
       streamLogger.info("Base dependencies installed successfully");
     },
     streamLogger
   );
 
-  await streamLogger.info(`Generating schema...`);
+  await streamLogger.info("Generating schema...");
   const {
     functionConfigPath,
     tableSchemaPaths,
@@ -83,7 +83,7 @@ export default async function generateConfig(
     { merge: true }
   );
 
-  await streamLogger.info(`Generating config file...`);
+  await streamLogger.info("Generating config file...");
   const region = rowySettings.cloudFunctionsRegion ?? "us-central1";
   const searchHost = rowySettings.services?.search ?? null;
   await generateFile(
@@ -98,23 +98,23 @@ export default async function generateConfig(
     buildFolderTimestamp
   );
 
-  await streamLogger.info(`Retrieving config file...`);
+  await streamLogger.info("Retrieving config file...");
   const configFile = fs.readFileSync(
     path.resolve(
       __dirname,
-      `../builds/${buildFolderTimestamp}/src/functionConfig.ts`
+      `../builds/${ buildFolderTimestamp }/src/functionConfig.ts`
     ),
     "utf-8"
   );
 
-  await streamLogger.info(`Validating config file...`);
+  await streamLogger.info("Validating config file...");
   const isFunctionConfigValid = await asyncExecute(
-    `cd ${buildPath}/src;tsc --skipLibCheck functionConfig.ts`,
+    `cd ${ buildPath }/src;tsc --skipLibCheck functionConfig.ts`,
     commandErrorHandler(
       {
         user,
         functionConfigTs: configFile,
-        description: `Invalid compiled functionConfig.ts`,
+        description: "Invalid compiled functionConfig.ts",
       },
       streamLogger
     ),
@@ -123,13 +123,13 @@ export default async function generateConfig(
   if (!isFunctionConfigValid) {
     throw new Error("Invalid compiled functionConfig.ts");
   }
-  await streamLogger.info(`Config file: ${JSON.stringify(configFile)}`);
+  await streamLogger.info(`Config file: ${ JSON.stringify(configFile) }`);
 
   const {
     derivativesConfig,
     defaultValueConfig,
     extensionsConfig,
-  } = require(`../builds/${buildFolderTimestamp}/src/functionConfig`);
+  } = require(`../builds/${ buildFolderTimestamp }/src/functionConfig`);
   const requiredDepsReducer = (acc, curr) => {
     if (curr.requiredPackages && curr.requiredPackages.length > 0) {
       return acc.concat(curr.requiredPackages);
@@ -158,7 +158,7 @@ export default async function generateConfig(
     _.isEqual
   );
   // remove all dependencies that are already installed
-  const packageJson = require(`../builds/${buildFolderTimestamp}/package.json`);
+  const packageJson = require(`../builds/${ buildFolderTimestamp }/package.json`);
   const installedDependencies = Object.keys(packageJson.dependencies);
 
   const requiredDependenciesToInstall = requiredDependencies?.filter(
@@ -166,11 +166,11 @@ export default async function generateConfig(
   );
 
   await streamLogger.info(
-    `Installing dependencies: ${JSON.stringify(requiredDependenciesToInstall)}`
+    `Installing dependencies: ${ JSON.stringify(requiredDependenciesToInstall) }`
   );
   if (
-    requiredDependenciesToInstall &&
-    requiredDependenciesToInstall.length > 0
+    requiredDependenciesToInstall
+    && requiredDependenciesToInstall.length > 0
   ) {
     const packagesAdded = await addPackages(
       requiredDependenciesToInstall,
@@ -185,7 +185,7 @@ export default async function generateConfig(
 
   const requiredExtensions = extensionsConfig.map((s: any) => s.type);
   await streamLogger.info(
-    `Installing extensions: ${JSON.stringify(requiredExtensions)}`
+    `Installing extensions: ${ JSON.stringify(requiredExtensions) }`
   );
   for (const lib of requiredExtensions) {
     const success = await addExtensionLib(

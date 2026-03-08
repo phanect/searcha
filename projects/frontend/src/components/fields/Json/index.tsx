@@ -1,10 +1,10 @@
-import { lazy } from "react";
+import { Json as JsonIcon } from "@src/assets/icons";
 import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 
-import { Json as JsonIcon } from "@src/assets/icons";
-import DisplayCell from "./DisplayCell";
 import ContextMenuActions from "./ContextMenuActions";
+import DisplayCell from "./DisplayCell";
 import type { IFieldConfig } from "@src/components/fields/types";
 
 const SideDrawerField = lazy(

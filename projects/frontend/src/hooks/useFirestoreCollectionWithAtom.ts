@@ -1,15 +1,12 @@
-import { useContext, useState, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
-import { useAtom, useSetAtom } from "jotai";
-import { set } from "lodash-es";
+
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { COLLECTION_PAGE_SIZE } from "@src/config/db";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { getDateRange, getTimeRange } from "@src/utils/date";
 import {
-  query,
-  queryEqual,
   collection,
   collectionGroup as queryCollectionGroup,
-  limit as queryLimit,
-  where,
-  orderBy,
   onSnapshot,
   setDoc,
   doc,
@@ -18,32 +15,35 @@ import {
   deleteField,
   documentId,
   getCountFromServer,
+  limit as queryLimit,
   or,
   QueryFieldFilterConstraint,
   Timestamp,
+  orderBy,
+  query,
+  queryEqual,
+  where,
 } from "firebase/firestore";
+import { useAtom, useSetAtom } from "jotai";
+import { set } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { COLLECTION_PAGE_SIZE } from "@src/config/db";
-import { getDateRange, getTimeRange } from "@src/utils/date";
 import type {
-  UpdateCollectionDocFunction,
   DeleteCollectionDocFunction,
   NextPageState,
   TableFilter,
-  TableSort,
   TableRow,
+  TableSort,
+  UpdateCollectionDocFunction,
 } from "@src/types/table";
 import type {
+  CollectionReference,
+  DocumentData,
   Firestore,
   FirestoreError,
-  CollectionReference,
   Query,
-  WhereFilterOp,
-  DocumentData,
-  QueryFieldFilterConstraint } from "firebase/firestore";
+  QueryFieldFilterConstraint,
+  WhereFilterOp } from "firebase/firestore";
 import type { PrimitiveAtom, SetStateAction } from "jotai";
 
 /** Options for {@link useFirestoreCollectionWithAtom} */

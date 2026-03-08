@@ -1,13 +1,9 @@
-import { useContext, useRef, useState } from "react";
-import { useAtom } from "jotai";
-
-import { Popover } from "@mui/material";
-
-import ButtonWithStatus from "@src/components/ButtonWithStatus";
-
-import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
-
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Popover } from "@mui/material";
+import { TableScopeContext, tableSortsAtom } from "@src/atoms/tableScope";
+import ButtonWithStatus from "@src/components/ButtonWithStatus";
+import { useAtom } from "jotai";
+import { useContext, useRef, useState } from "react";
 
 export type ISortPopoverProps = {
   children: (props: { handleClose: () => void; }) => React.ReactNode;

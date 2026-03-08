@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { find } from "lodash-es";
-import { parseJSON } from "date-fns";
-
-import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { ButtonBase, Divider, Grid2 as Grid, Typography } from "@mui/material";
 
-import ScrollableList from "@src/components/TableModals/ScrollableList";
-import Column from "@src/components/Table/Mock/Column";
-import Cell from "@src/components/Table/Mock/Cell";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
+import Cell from "@src/components/Table/Mock/Cell";
+import Column from "@src/components/Table/Mock/Column";
+import { SELECTABLE_TYPES } from "@src/components/TableModals/ImportExistingWizard/utils";
+import ScrollableList from "@src/components/TableModals/ScrollableList";
 
 import { FieldType } from "@src/constants/fields";
-import { SELECTABLE_TYPES } from "@src/components/TableModals/ImportExistingWizard/utils";
+import { parseJSON } from "date-fns";
+import { find } from "lodash-es";
+import { useState } from "react";
 import type { IStepProps } from ".";
 
 export default function Step2NewColumns({

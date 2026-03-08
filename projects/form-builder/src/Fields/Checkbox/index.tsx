@@ -1,6 +1,6 @@
+import CheckboxMarked from "mdi-material-ui/CheckboxMarked";
 import { lazy } from "react";
 import { boolean } from "yup";
-import CheckboxMarked from "mdi-material-ui/CheckboxMarked";
 import { FieldType } from "../../constants/fields";
 import type { IFieldConfig } from "../../types";
 

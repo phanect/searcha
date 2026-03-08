@@ -1,5 +1,5 @@
-export type IExtensionType =
-  | "task"
+export type IExtensionType
+  = | "task"
   | "docSync"
   | "historySnapshot"
   | "algoliaIndex"
@@ -12,13 +12,13 @@ export type IExtensionType =
 
 export type IExtensionTrigger = "create" | "update" | "delete";
 
-export interface IExtensionEditor {
+export type IExtensionEditor = {
   displayName: string;
   photoURL: string;
   lastUpdate: number;
-}
+};
 
-export interface IExtension {
+export type IExtension = {
   name: string;
   active: boolean;
   lastEditor: IExtensionEditor;
@@ -28,18 +28,18 @@ export interface IExtension {
   trackedFields?: string[];
   extensionBody: string;
   conditions: string;
-}
+};
 
-export interface IRuntimeOptions {
+export type IRuntimeOptions = {
   memory?: "128MB" | "256MB" | "512MB" | "1GB" | "2GB" | "4GB" | "8GB";
   timeoutSeconds?: number;
-}
+};
 
-export type TriggerPathType =
-  | "collection"
+export type TriggerPathType
+  = | "collection"
   | "collectionGroup"
   | "subCollection";
-export interface TableConfig {
+export type TableConfig = {
   derivativeColumns: any[];
   defaultValueColumns: any[];
   documentSelectColumns: any[];
@@ -51,4 +51,4 @@ export interface TableConfig {
   };
   runtimeOptions: IRuntimeOptions;
   tableSchema: any;
-}
+};

@@ -1,14 +1,13 @@
-import { useContext, useMemo } from "react";
+import OpenIcon from "@mui/icons-material/OpenInBrowser";
+import { Box, IconButton, Stack } from "@mui/material";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
+import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
+import { useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 
-import { Box, Stack, IconButton } from "@mui/material";
-import OpenIcon from "@mui/icons-material/OpenInBrowser";
-
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
-import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import { useSubTableData } from "./utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 

@@ -1,19 +1,19 @@
-import { Fragment, type ReactNode } from "react";
 import {
+  Box,
+  Divider,
   FormControl,
   FormControlLabel,
-  RadioGroup,
   Radio,
-  Divider,
-  Box,
+  RadioGroup,
 } from "@mui/material";
+import { Fragment, type ReactNode } from "react";
 
-import FieldLabel from "../../FieldLabel";
-import FieldErrorMessage from "../../FieldErrorMessage";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldLabel from "../../FieldLabel";
 import type {
   RadioGroupProps } from "@mui/material";
+import type { IFieldComponentProps } from "../../types";
 
 export type IRadioComponentProps = {
   options: (string | { value: string; label: ReactNode; })[];

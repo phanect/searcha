@@ -1,7 +1,7 @@
-import { db, auth, storage } from "../firebaseConfig";
-import utilFns from "../utils";
-import { LoggingFactory, type RowyLogging } from "../logging";
+import { auth, db, storage } from "../firebaseConfig";
 import { tableSchema } from "../functionConfig";
+import { LoggingFactory, type RowyLogging } from "../logging";
+import utilFns from "../utils";
 import type * as admin from "firebase-admin";
 import type * as functions from "firebase-functions";
 const derivative

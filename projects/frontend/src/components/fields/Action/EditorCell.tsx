@@ -1,8 +1,8 @@
 import { Stack } from "@mui/material";
 
 import ActionFab from "./ActionFab";
-import { sanitiseCallableName, isUrl } from "./utils";
 import { getActionName } from "./DisplayCell";
+import { isUrl, sanitiseCallableName } from "./utils";
 import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function Action({

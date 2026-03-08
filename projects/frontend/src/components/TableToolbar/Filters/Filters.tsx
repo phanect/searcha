@@ -1,44 +1,43 @@
-import { useState, useEffect, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import useMemoValue from "@phanect/use-memo-value";
-import { isEmpty, isDate, isEqual } from "lodash-es";
-
-import {
-  Tab,
-  Badge,
-  Button,
-  Stack,
-  Divider,
-  FormControlLabel,
-  Checkbox,
-  Alert,
-} from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import {
+  Alert,
+  Badge,
+  Button,
+  Checkbox,
+  Divider,
+  Stack,
+  FormControlLabel,
+  Tab,
+} from "@mui/material";
+import useMemoValue from "@phanect/use-memo-value";
 
+import { analytics, logEvent } from "@src/analytics";
 import {
   ProjectScopeContext,
-  userSettingsAtom,
   updateUserSettingsAtom,
   userRolesAtom,
+  userSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableIdAtom,
-  tableSchemaAtom,
   tableColumnsOrderedAtom,
   tableFiltersAtom,
+  tableFiltersJoinAtom,
+  tableFiltersPopoverAtom,
+  tableIdAtom,
+  TableScopeContext,
+  tableSchemaAtom,
   tableSortsAtom,
   updateTableSchemaAtom,
-  tableFiltersPopoverAtom,
-  tableFiltersJoinAtom,
 } from "@src/atoms/tableScope";
-import { analytics, logEvent } from "@src/analytics";
 import { generateId } from "@src/utils/table";
-import { useFilterInputs } from "./useFilterInputs";
+import { useAtom, useSetAtom } from "jotai";
+import { isDate, isEmpty, isEqual } from "lodash-es";
+import { useContext, useEffect, useState } from "react";
 import FilterInputsCollection from "./FilterInputsCollection";
 import FiltersPopover from "./FiltersPopover";
+import { useFilterInputs } from "./useFilterInputs";
 import { useFilterUrl } from "./useFilterUrl";
 import type { TableFilter } from "@src/types/table";
 

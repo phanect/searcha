@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import { fieldSx } from "@src/components/SideDrawer/utils";
 
-import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import { format } from "date-fns";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function UpdatedAt({ column, value }: ISideDrawerFieldProps) {

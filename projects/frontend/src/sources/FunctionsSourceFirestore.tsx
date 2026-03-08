@@ -1,12 +1,11 @@
-import { memo, useContext } from "react";
-
-import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
 import {
-  ProjectScopeContext,
   FunctionsIndexAtom,
+  ProjectScopeContext,
   updateFunctionAtom,
 } from "@src/atoms/projectScope";
 import { FUNCTION_SCHEMAS } from "@src/config/dbPaths";
+import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
+import { memo, useContext } from "react";
 
 const FunctionsSource = memo(() => {
   const projectScopeStore = useContext(ProjectScopeContext);

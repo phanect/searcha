@@ -1,22 +1,21 @@
-import { lazy, Suspense, createElement, useState, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
+import { ListItemText, MenuItem, TextField, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Typography, TextField, MenuItem, ListItemText } from "@mui/material";
-
-import { getFieldProp } from "@src/components/fields";
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-import { FieldType } from "@src/constants/fields";
-import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 import {
-  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import { getFieldProp } from "@src/components/fields";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { FieldType } from "@src/constants/fields";
+
+import { useAtom, useSetAtom } from "jotai";
+import { createElement, lazy, Suspense, useContext, useState } from "react";
 import defaultValueDefs from "./defaultValue.d.ts?raw";
 import type { ColumnConfig } from "@src/types/table";
 

@@ -1,18 +1,18 @@
+import { TextField } from "@mui/material";
 import { useState, type FocusEvent } from "react";
 
 import { makeStyles } from "tss-react/mui";
-import { TextField } from "@mui/material";
-
-import PopupContents from "./PopupContents";
-import FragmentWrapper from "./FragmentWrapper";
 
 import {
-  SEARCH_AREA_HEIGHT,
-  LISTBOX_MIN_HEIGHT,
   FOOTER_HEIGHT,
+  LISTBOX_MIN_HEIGHT,
+  SEARCH_AREA_HEIGHT,
 } from "./constants/layout";
-import type { MultiSelectProps, Option } from "./props";
+import FragmentWrapper from "./FragmentWrapper";
+import PopupContents from "./PopupContents";
+
 import type { AutocompleteChangeReason } from "@mui/material";
+import type { MultiSelectProps, Option } from "./props";
 
 const useStyles = makeStyles()(() => ({
   paper: {

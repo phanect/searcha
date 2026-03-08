@@ -1,18 +1,17 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-
-import { Grid2 as Grid, Typography, Button, Link, Divider } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Discord as DiscordIcon } from "@src/assets/icons";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Button, Divider, Grid2 as Grid, Link, Typography } from "@mui/material";
+import meta from "@root/package.json";
+import { Discord as DiscordIcon } from "@src/assets/icons";
 
 import Logo from "@src/assets/Logo";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import meta from "@root/package.json";
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 
 export default function About() {
   const projectScopeStore = useContext(ProjectScopeContext);

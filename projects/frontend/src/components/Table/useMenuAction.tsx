@@ -3,10 +3,11 @@ import { useAtom, useSetAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { find, get, isDate, isFunction } from "lodash-es";
 
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableSchemaAtom,
   tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
   updateFieldAtom,
   SelectedCell,
   tableRowsAtom,
@@ -15,6 +16,8 @@ import {
 } from "@src/atoms/tableScope";
 import { getFieldProp, getFieldType } from "@src/components/fields";
 
+import { getDurationString } from "@src/components/fields/Duration/utils";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "@src/constants/dates";
 import { FieldType } from "@src/constants/fields";
 
 import { format, parse, isValid } from "date-fns";
@@ -22,10 +25,14 @@ import { DATE_FORMAT, DATE_TIME_FORMAT } from "@src/constants/dates";
 import { getDurationString } from "@src/components/fields/Duration/utils";
 import { doc } from "firebase/firestore";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { format } from "date-fns";
+import { doc } from "firebase/firestore";
+import { useAtom, useSetAtom } from "jotai";
+import { find, get, isDate, isFunction } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useCallback, useContext, useEffect, useState } from "react";
+import type { SelectedCell } from "@src/atoms/tableScope";
 import type { ColumnConfig } from "@src/types/table";
-import type {
-  SelectedCell } from "@src/atoms/tableScope";
 
 export const SUPPORTED_TYPES_COPY = new Set<FieldType>([
   // TEXT

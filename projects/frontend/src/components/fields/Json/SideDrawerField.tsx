@@ -1,19 +1,18 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import stringify from "json-stable-stringify-without-jsonify";
-
 import ReactJson from "@microlink/react-json-view";
-import CodeEditor from "@src/components/CodeEditor";
-import { Typography, Tooltip, useTheme, Box, Tab, FormHelperText } from "@mui/material";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LockIcon from "@mui/icons-material/LockOutlined";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { Box, FormHelperText, Tab, Tooltip, Typography, useTheme } from "@mui/material";
 
+import { jsonEditorAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import CodeEditor from "@src/components/CodeEditor";
 import { fieldSx } from "@src/components/SideDrawer/utils";
-import { ProjectScopeContext, jsonEditorAtom } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import stringify from "json-stable-stringify-without-jsonify";
+import { useContext, useState } from "react";
 import config from ".";
 import type { InteractionProps } from "@microlink/react-json-view";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";

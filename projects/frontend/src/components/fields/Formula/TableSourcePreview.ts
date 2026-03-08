@@ -1,7 +1,3 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { cloneDeep, findIndex, isEqual, sortBy } from "lodash-es";
-
 import {
   _deleteRowDbAtom,
   _updateRowDbAtom,
@@ -10,8 +6,11 @@ import {
   TableScopeContext,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
-
 import { generateId, updateRowData } from "@src/utils/table";
+import { useAtom, useSetAtom } from "jotai";
+import { cloneDeep, findIndex, isEqual, sortBy } from "lodash-es";
+
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { serializeRef } from "./util";
 import type { TableRow } from "@src/types/table";
 

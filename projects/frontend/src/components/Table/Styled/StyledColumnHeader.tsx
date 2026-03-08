@@ -1,8 +1,8 @@
 import {
+  Stack,
   styled,
   Tooltip,
   tooltipClasses,
-  Stack,
 } from "@mui/material";
 import { COLUMN_HEADER_HEIGHT } from "@src/components/Table/Mock/Column";
 import type {

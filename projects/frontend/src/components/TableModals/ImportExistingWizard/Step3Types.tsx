@@ -1,16 +1,15 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-
-import { Grid2 as Grid, Typography, Divider, ButtonBase } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { ButtonBase, Divider, Grid2 as Grid, Typography } from "@mui/material";
 
-import ScrollableList from "@src/components/TableModals/ScrollableList";
-import Column from "@src/components/Table/Mock/Column";
-import Cell from "@src/components/Table/Mock/Cell";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
+import Cell from "@src/components/Table/Mock/Cell";
+import Column from "@src/components/Table/Mock/Column";
+import ScrollableList from "@src/components/TableModals/ScrollableList";
 
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
 import { SELECTABLE_TYPES } from "./utils";
 import type { IStepProps } from ".";
 

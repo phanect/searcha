@@ -1,30 +1,27 @@
-import { Suspense, createElement } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-
-import {
-  Grid2 as Grid,
-  MenuItem,
-  ListItemText,
-  Divider,
-  ListSubheader,
-  Typography,
-  TextField,
-  InputLabel,
-  IconButton,
-} from "@mui/material";
-
-import ColumnSelect from "@src/components/Table/ColumnSelect";
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import { InlineErrorFallback } from "@src/components/ErrorFallback";
-
-import { getFieldType, getFieldProp } from "@src/components/fields";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
+import {
+  Divider,
+  Grid2 as Grid,
+  IconButton,
+  InputLabel,
+  ListItemText,
+  ListSubheader,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { InlineErrorFallback } from "@src/components/ErrorFallback";
+import { getFieldProp, getFieldType } from "@src/components/fields";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import ColumnSelect from "@src/components/Table/ColumnSelect";
+import { createElement, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import IdFilterInput from "./IdFilterInput";
+import type { IFieldConfig } from "@src/components/fields/types";
 import type { TableFilter } from "@src/types/table";
 import type { useFilterInputs } from "./useFilterInputs";
-import type { IFieldConfig } from "@src/components/fields/types";
 
 export type IFilterInputsProps = {
   filterColumns: ReturnType<typeof useFilterInputs>["filterColumns"];

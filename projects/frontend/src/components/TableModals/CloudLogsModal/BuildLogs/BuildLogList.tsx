@@ -1,12 +1,11 @@
-import { useEffect, useRef } from "react";
-import useStateRef from "react-usestateref";
-import { throttle } from "lodash-es";
-
 import { Box } from "@mui/material";
 
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 import { isTargetInsideBox } from "@src/utils/ui";
+import { throttle } from "lodash-es";
+import { useEffect, useRef } from "react";
+import useStateRef from "react-usestateref";
 import BuildLogRow from "./BuildLogRow";
 
 export type IBuildLogListProps = {

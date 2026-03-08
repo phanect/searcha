@@ -1,25 +1,24 @@
-import { useContext, useEffect } from "react";
+import ChevronDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ChevronIcon from "@mui/icons-material/KeyboardArrowLeft";
+import ChevronUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Fab, Fade } from "@mui/material";
+import { analytics, logEvent } from "@src/analytics";
+import {
+  selectedCellAtom,
+  sideDrawerOpenAtom,
+  tableRowsAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
+import ErrorFallback from "@src/components/ErrorFallback";
 import clsx from "clsx";
 import { useAtom } from "jotai";
 import { find, findIndex } from "lodash-es";
+import { useContext, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { TransitionGroup } from "react-transition-group";
 
-import { Fab, Fade } from "@mui/material";
-import ChevronIcon from "@mui/icons-material/KeyboardArrowLeft";
-import ChevronUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import ChevronDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import ErrorFallback from "@src/components/ErrorFallback";
-import {
-  TableScopeContext,
-  tableRowsAtom,
-  sideDrawerOpenAtom,
-  selectedCellAtom,
-} from "@src/atoms/tableScope";
-import { analytics, logEvent } from "@src/analytics";
-import StyledDrawer from "./StyledDrawer";
 import SideDrawerFields from "./SideDrawerFields";
+import StyledDrawer from "./StyledDrawer";
 
 export const DRAWER_WIDTH = 512;
 export const DRAWER_COLLAPSED_WIDTH = 36;

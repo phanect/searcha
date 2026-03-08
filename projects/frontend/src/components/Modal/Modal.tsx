@@ -1,26 +1,25 @@
-import { useState } from "react";
-
+import CloseIcon from "@mui/icons-material/Close";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
-  useTheme,
-  useMediaQuery,
+  Button,
   Dialog,
-  Stack,
+  DialogActions,
   DialogTitle,
   IconButton,
-  DialogActions,
-  Button,
+  Stack,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { useState } from "react";
 
 import ScrollableDialogContent from "./ScrollableDialogContent";
+import type { LoadingButtonProps } from "@mui/lab/LoadingButton";
+import type {
+  ButtonProps,
+  DialogProps } from "@mui/material";
 import type {
   IScrollableDialogContentProps,
 } from "./ScrollableDialogContent";
-import type { LoadingButtonProps } from "@mui/lab/LoadingButton";
-import type {
-  DialogProps,
-  ButtonProps } from "@mui/material";
 
 export type IModalProps = {
   onClose: (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => void;

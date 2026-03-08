@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { Box } from "@mui/material";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import { useEffect, useState } from "react";
+
 import type {
   ICircularProgressOpticalProps,
 } from "@src/components/CircularProgressOptical";

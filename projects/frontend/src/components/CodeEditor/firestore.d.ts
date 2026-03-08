@@ -836,8 +836,8 @@ declare namespace FirebaseFirestore {
    * strings '<', '<=', '==', '>=', '>', 'array-contains', 'in', and
    * 'array-contains-any'.
    */
-  export type WhereFilterOp =
-    | "<"
+  export type WhereFilterOp
+    = | "<"
     | "<="
     | "=="
     | ">="

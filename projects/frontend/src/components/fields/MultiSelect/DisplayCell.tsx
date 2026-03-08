@@ -1,12 +1,12 @@
-import { ButtonBase, Grid2 as Grid, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
+import { ButtonBase, Grid2 as Grid, Tooltip, useTheme } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 
-import ChipList from "@src/components/Table/TableCell/ChipList";
-import FormattedChip from "@src/components/FormattedChip";
 import {
   getColors,
 } from "@src/components/fields/SingleSelect/Settings";
+import FormattedChip from "@src/components/FormattedChip";
+import ChipList from "@src/components/Table/TableCell/ChipList";
 import { sanitiseValue } from "./utils";
 import type {
   IColors } from "@src/components/fields/SingleSelect/Settings";

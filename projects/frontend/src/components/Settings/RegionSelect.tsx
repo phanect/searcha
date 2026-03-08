@@ -1,10 +1,9 @@
-import { sortBy } from "lodash-es";
-
-import MultiSelect from "@phanect/searcha-multiselect";
 import { Grid2 as Grid } from "@mui/material";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { Leaf as LeafIcon } from "@src/assets/icons";
 
 import { CLOUD_RUN_REGIONS } from "@src/constants/regions";
+import { sortBy } from "lodash-es";
 
 const REGIONS = sortBy(CLOUD_RUN_REGIONS, [ "group", "value" ]);
 

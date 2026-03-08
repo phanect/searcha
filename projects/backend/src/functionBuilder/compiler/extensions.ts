@@ -1,8 +1,8 @@
-import admin from "firebase-admin";
 import { commandErrorHandler, logErrorToDB } from "../logger";
 import { addPackages } from "./terminal";
-import { asyncExecute } from "../../terminalUtils";
 import { getExtension } from "../../rowyService";
+import { asyncExecute } from "../../terminalUtils";
+import type admin from "firebase-admin";
 
 export const addExtensionLib = async (
   name: string,
@@ -22,17 +22,17 @@ export const addExtensionLib = async (
     if (!success) {
       return false;
     }
-    const fs = require("fs");
-    const path = require("path");
+    const fs = require("node:fs");
+    const path = require("node:path");
     fs.writeFileSync(
       path.resolve(
         __dirname,
-        `../builds/${buildFolderTimestamp}/src/extensions/${name}.ts`
+        `../builds/${ buildFolderTimestamp }/src/extensions/${ name }.ts`
       ),
       extension
     );
     await asyncExecute(
-      `cd ${buildPath}/src/extensions;tsc ${name}.ts`,
+      `cd ${ buildPath }/src/extensions;tsc ${ name }.ts`,
       commandErrorHandler(
         {
           user,
@@ -46,7 +46,7 @@ export const addExtensionLib = async (
     logErrorToDB(
       {
         user,
-        errorDescription: `Error installing extension ${name}`,
+        errorDescription: `Error installing extension ${ name }`,
       },
       streamLogger
     );

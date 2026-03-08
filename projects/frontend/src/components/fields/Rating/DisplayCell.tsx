@@ -1,9 +1,8 @@
-import { forwardRef, type Ref } from "react";
 import MuiRating from "@mui/material/Rating";
+import { forwardRef, type Ref } from "react";
 import Icon from "./Icon";
-import type { IDisplayCellProps } from "@src/components/fields/types";
-
 import type { RatingProps as MuiRatingProps } from "@mui/material/Rating";
+import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export const Rating = forwardRef((
   {

@@ -1,23 +1,22 @@
-import { useContext, useEffect } from "react";
-import { useAtom } from "jotai";
-import { matchSorter } from "match-sorter";
-
-import {
-  TableScopeContext,
-  tableColumnsOrderedAtom,
-} from "@src/atoms/tableScope";
 import { useMonaco } from "@monaco-editor/react";
 
 import { useTheme } from "@mui/material";
 
 import { ProjectScopeContext, secretNamesAtom } from "@src/atoms/projectScope";
+import {
+  tableColumnsOrderedAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
 import { getFieldProp } from "@src/components/fields";
-import firestoreDefs from "./firestore.d.ts?raw";
+import { useAtom } from "jotai";
+import { matchSorter } from "match-sorter";
+import { useContext, useEffect } from "react";
+import extensionsDefs from "./extensions.d.ts?raw";
 import firebaseAuthDefs from "./firebaseAuth.d.ts?raw";
 import firebaseStorageDefs from "./firebaseStorage.d.ts?raw";
-import utilsDefs from "./utils.d.ts?raw";
+import firestoreDefs from "./firestore.d.ts?raw";
 import rowyUtilsDefs from "./rowy.d.ts?raw";
-import extensionsDefs from "./extensions.d.ts?raw";
+import utilsDefs from "./utils.d.ts?raw";
 import type { SystemStyleObject, Theme } from "@mui/system";
 import type { languages } from "monaco-editor/esm/vs/editor/editor.api";
 

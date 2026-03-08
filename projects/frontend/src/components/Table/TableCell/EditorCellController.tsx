@@ -1,10 +1,10 @@
-import { useContext, useEffect, useLayoutEffect } from "react";
-import useStateRef from "react-usestateref";
+import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
 import { useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
+import { useContext, useEffect, useLayoutEffect } from "react";
+import useStateRef from "react-usestateref";
 
-import { TableScopeContext, updateFieldAtom } from "@src/atoms/tableScope";
 import type {
   IDisplayCellProps,
   IEditorCellProps,
@@ -87,11 +87,11 @@ export default function EditorCellController({
       if (saveOnUnmount) {
         handleSubmit();
       }
-    }
-    // Warns that `saveOnUnmount` and `handleSubmit` should be included, but
-    // those don’t change across re-renders. We only want to run this on unmount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  , []);
+    },
+  // Warns that `saveOnUnmount` and `handleSubmit` should be included, but
+  // those don’t change across re-renders. We only want to run this on unmount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  []);
 
   return (
     <EditorCellComponent

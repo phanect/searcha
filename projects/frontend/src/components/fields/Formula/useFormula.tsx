@@ -1,19 +1,18 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { pick, zipObject } from "lodash-es";
-import { useAtom, useSetAtom } from "jotai";
-
 import {
   tableColumnsOrderedAtom,
   TableScopeContext,
   updateFieldAtom,
 } from "@src/atoms/tableScope";
+import { useAtom, useSetAtom } from "jotai";
+import { pick, zipObject } from "lodash-es";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import {
   listenerFieldTypes,
   serializeRef,
   useDeepCompareMemoize,
 } from "./util";
-import type { TableRow, TableRowRef, ColumnConfig } from "@src/types/table";
+import type { ColumnConfig, TableRow, TableRowRef } from "@src/types/table";
 
 export const useFormula = ({
   column,

@@ -3,11 +3,11 @@ import { colord } from "colord";
 import { ColorPicker, ColorService } from "react-color-palette";
 import "react-color-palette/css";
 
-import { Grid2 as Grid, Typography, Stack, Box, Button } from "@mui/material";
 import PassIcon from "@mui/icons-material/Check";
 import FailIcon from "@mui/icons-material/Error";
+import { Box, Button, Grid2 as Grid, Stack, Typography } from "@mui/material";
 
-import { PRIMARY, DARK_PRIMARY } from "@src/theme/colors";
+import { DARK_PRIMARY, PRIMARY } from "@src/theme/colors";
 import themes from "@src/theme/index.ts";
 
 export type IThemeColorPickerProps = {

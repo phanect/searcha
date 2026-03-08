@@ -1,20 +1,20 @@
-import { useState } from "react";
-
+import ExpandIcon from "@mui/icons-material/KeyboardArrowDown";
 import {
-  Stepper,
   Step,
   StepButton,
-  StepLabel,
-  Typography,
   StepContent,
+  StepLabel,
+  Stepper,
+  Typography,
 } from "@mui/material";
-import ExpandIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useState } from "react";
+
 import type {
-  StepperProps,
-  StepProps,
   StepButtonProps,
+  StepContentProps,
   StepLabelProps,
-  StepContentProps } from "@mui/material";
+  StepperProps,
+  StepProps } from "@mui/material";
 
 export type ISteppedAccordionProps = {
   steps: {

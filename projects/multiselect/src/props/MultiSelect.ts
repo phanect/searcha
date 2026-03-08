@@ -1,4 +1,4 @@
-import type { TextFieldProps, AutocompleteChangeReason } from "@mui/material";
+import type { AutocompleteChangeReason, TextFieldProps } from "@mui/material";
 import type { Option } from "./Option";
 import type { PopupContentsCommonProps } from "./PopupContents";
 
@@ -35,8 +35,8 @@ type MultiSelectCommonProps<T> = {
 >;
 
 // Explicitly separate type intersections based off `multiple` prop
-export type MultiSelectProps<T> =
-  | ({
+export type MultiSelectProps<T>
+  = | ({
     /**
      * **⚠️ Important:** This prop dictates the type of the
      * `value` and `onChange` props
@@ -71,8 +71,8 @@ export type MultiSelectProps<T> =
     onChange: (value: T | null, reason: AutocompleteChangeReason) => void;
   } & MultiSelectCommonProps<T>);
 
-type PrivatePopupContentsProps =
-  | "multiple"
+type PrivatePopupContentsProps
+  = | "multiple"
   | "options"
   | "value"
   | "onChange"

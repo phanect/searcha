@@ -1,4 +1,4 @@
-import { Grid2 as Grid, Box, useTheme } from "@mui/material";
+import { Box, Grid2 as Grid, useTheme } from "@mui/material";
 
 import { resultColorsScale } from "@src/utils/color";
 import type { IDisplayCellProps } from "@src/components/fields/types";

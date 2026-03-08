@@ -1,15 +1,14 @@
-import { Suspense } from "react";
-import clsx from "clsx";
-import { ErrorBoundary } from "react-error-boundary";
-
 import { TextField } from "@mui/material";
 
 import ErrorFallback from "@src/components/ErrorFallback";
 import Loading from "@src/components/Loading";
-import useStyles from "./styles";
+import clsx from "clsx";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import PopupContents from "./PopupContents";
-import type { TableRowRef } from "@src/types/table";
+import useStyles from "./styles";
 import type { TextFieldProps } from "@mui/material";
+import type { TableRowRef } from "@src/types/table";
 
 export type ServiceValue = {
   value: string;

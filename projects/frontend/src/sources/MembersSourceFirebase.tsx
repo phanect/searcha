@@ -1,12 +1,11 @@
-import { memo, useContext } from "react";
-
-import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
 import {
-  ProjectScopeContext,
   allUsersAtom,
+  ProjectScopeContext,
   updateUserAtom,
 } from "@src/atoms/projectScope";
 import { USERS } from "@src/config/dbPaths";
+import useFirestoreCollectionWithAtom from "@src/hooks/useFirestoreCollectionWithAtom";
+import { memo, useContext } from "react";
 
 /**
  * When rendered, provides atom values for top-level tables

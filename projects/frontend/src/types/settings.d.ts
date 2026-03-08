@@ -1,9 +1,9 @@
 import type { ThemeOptions } from "@mui/material";
-import type { TableSettings, TableFilter, TableRowRef, TableSort } from "./table";
+import type { TableFilter, TableRowRef, TableSettings, TableSort } from "./table";
 
 /** Public settings are visible to unauthenticated users */
 export type PublicSettings = Partial<{
-  signInOptions: ( | "google"
+  signInOptions: (| "google"
     | "twitter"
     | "facebook"
     | "github"

@@ -1,9 +1,9 @@
-import { lazy } from "react";
+import LongTextIcon from "@mui/icons-material/Notes";
 import { FieldType } from "@src/components/fields/types";
+import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
-import LongTextIcon from "@mui/icons-material/Notes";
-import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import { lazy } from "react";
 import DisplayCell from "./DisplayCell";
 import EditorCell from "./EditorCell";
 

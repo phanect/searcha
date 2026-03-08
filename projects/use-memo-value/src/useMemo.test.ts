@@ -1,6 +1,6 @@
-import { expect, test } from "vitest";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react-hooks";
 import { useState } from "react";
+import { expect, test } from "vitest";
 import useMemoValue from "./useMemoValue";
 
 test("basics", () => {

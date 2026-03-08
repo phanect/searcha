@@ -1,17 +1,15 @@
-import { useContext, useEffect } from "react";
-import { useAtom } from "jotai";
-import { Helmet } from "react-helmet-async";
-import { Outlet } from "react-router-dom";
-
-import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
 import Favicon from "@src/assets/Favicon";
-
 import {
+  customizedThemesAtom,
   ProjectScopeContext,
   themeAtom,
   themeOverriddenAtom,
-  customizedThemesAtom,
 } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { useContext, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { Outlet } from "react-router-dom";
 
 /**
  * Injects the MUI theme with customizations from project and user settings.

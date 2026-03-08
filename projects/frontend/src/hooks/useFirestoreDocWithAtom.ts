@@ -1,25 +1,25 @@
-import { useContext, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import {
+  deleteField,
+  doc,
+  onSnapshot,
+  refEqual,
+  setDoc,
+} from "firebase/firestore";
 import { useAtom, useSetAtom } from "jotai";
 import { set } from "lodash-es";
 import { useSnackbar } from "notistack";
 
-import {
-  doc,
-  refEqual,
-  onSnapshot,
-  setDoc,
-  deleteField,
-} from "firebase/firestore";
+import { useContext, useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import type { UpdateDocFunction, TableRow } from "@src/types/table";
+import type { TableRow, UpdateDocFunction } from "@src/types/table";
 import type {
+  DocumentReference,
   Firestore,
-  FirestoreError,
-  DocumentReference } from "firebase/firestore";
+  FirestoreError } from "firebase/firestore";
 import type { PrimitiveAtom } from "jotai";
 
 /** Options for {@link useFirestoreDocWithAtom} */

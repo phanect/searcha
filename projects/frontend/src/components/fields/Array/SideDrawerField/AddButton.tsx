@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
 import {
   Button,
   ButtonGroup,
@@ -6,11 +6,11 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 
 import { ChevronDown as ArrowDropDownIcon } from "@src/assets/icons";
-import { FieldType } from "@src/components/fields/types";
 import { getFieldProp } from "@src/components/fields";
+import { FieldType } from "@src/components/fields/types";
+import { useRef, useState } from "react";
 
 import {
   ArraySupportedFields,

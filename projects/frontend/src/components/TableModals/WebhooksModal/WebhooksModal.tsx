@@ -1,35 +1,34 @@
-import { useContext, useState } from "react";
+import WebhookIcon from "@mui/icons-material/Webhook";
+import { analytics, logEvent } from "@src/analytics";
+import {
+  compatibleRowyRunVersionAtom,
+  confirmDialogAtom,
+  currentUserAtom,
+  ProjectScopeContext,
+  rowyRunAtom,
+  rowyRunModalAtom,
+} from "@src/atoms/projectScope";
+import {
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import Modal from "@src/components/Modal";
+import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
+import { runRoutes } from "@src/constants/runRoutes";
+import { getTableSchemaPath } from "@src/utils/table";
 import { useAtom, useSetAtom } from "jotai";
 import { isEqual } from "lodash-es";
 import { useSnackbar } from "notistack";
 
-import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
-import WebhookIcon from "@mui/icons-material/Webhook";
-import Modal from "@src/components/Modal";
-
-import {
-  ProjectScopeContext,
-  currentUserAtom,
-  rowyRunAtom,
-  compatibleRowyRunVersionAtom,
-  rowyRunModalAtom,
-  confirmDialogAtom,
-} from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
-} from "@src/atoms/tableScope";
-import { runRoutes } from "@src/constants/runRoutes";
-import { analytics, logEvent } from "@src/analytics";
-import { getTableSchemaPath } from "@src/utils/table";
-import { emptyWebhookObject } from "./utils";
-import WebhookModal from "./WebhookModal";
-import WebhookList from "./WebhookList";
+import { useContext, useState } from "react";
 import AddWebhookButton from "./AddWebhookButton";
-import type { IWebhook, WebhookType } from "./utils";
+import { emptyWebhookObject } from "./utils";
+import WebhookList from "./WebhookList";
+import WebhookModal from "./WebhookModal";
 import type { ITableModalProps } from "@src/components/TableModals";
+import type { IWebhook, WebhookType } from "./utils";
 
 export default function WebhooksModal({ onClose }: ITableModalProps) {
   const projectScopeStore = useContext(ProjectScopeContext);

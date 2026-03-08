@@ -1,10 +1,10 @@
-import { useCallback, useContext } from "react";
-import { useSetAtom } from "jotai";
-import { TableScopeContext, selectedCellAtom } from "@src/atoms/tableScope";
+import { selectedCellAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { COLLECTION_PAGE_SIZE } from "@src/config/db";
-import type { Column } from "@tanstack/react-table";
+import { useSetAtom } from "jotai";
+import { useCallback, useContext } from "react";
 
 import type { TableRow } from "@src/types/table";
+import type { Column } from "@tanstack/react-table";
 
 export type IUseKeyboardNavigationProps = {
   gridRef: React.RefObject<HTMLDivElement>;

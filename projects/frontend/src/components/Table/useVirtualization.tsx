@@ -1,19 +1,19 @@
-import { useEffect, useCallback, useContext } from "react";
+import {
+  selectedCellAtom,
+  tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
+import { defaultRangeExtractor, useVirtualizer, type Range } from "@tanstack/react-virtual";
 import { useAtom } from "jotai";
-import { useVirtualizer, defaultRangeExtractor, type Range } from "@tanstack/react-virtual";
+import { useCallback, useContext, useEffect } from "react";
 
 import {
-  TableScopeContext,
-  tableSchemaAtom,
-  tableRowsAtom,
-  selectedCellAtom,
-} from "@src/atoms/tableScope";
-import {
-  TABLE_PADDING,
-  DEFAULT_ROW_HEIGHT,
-  OUT_OF_ORDER_MARGIN,
   DEFAULT_COL_WIDTH,
-  MIN_COL_WIDTH } from "./Table";
+  DEFAULT_ROW_HEIGHT,
+  MIN_COL_WIDTH,
+  OUT_OF_ORDER_MARGIN,
+  TABLE_PADDING } from "./Table";
 import type { TableRow } from "@src/types/table";
 import type { Column, ColumnSizingState } from "@tanstack/react-table";
 

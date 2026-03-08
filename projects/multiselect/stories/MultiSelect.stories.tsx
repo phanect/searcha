@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { action } from "@storybook/addon-actions";
-
 import {
-  StyledEngineProvider,
   createTheme,
+  StyledEngineProvider,
   ThemeProvider,
   type AutocompleteChangeReason,
 } from "@mui/material";
+import { action } from "@storybook/addon-actions";
+import { useState } from "react";
 
 import MultiSelect, { type MultiSelectProps } from "../src";
 import { top100Films } from "./data";

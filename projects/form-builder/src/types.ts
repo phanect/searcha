@@ -1,7 +1,7 @@
-import type { UseFormReturn, UseControllerReturn } from "react-hook-form";
 import type { GridProps } from "@mui/material";
-import type { FieldType } from "./constants/fields";
+import type { UseControllerReturn, UseFormReturn } from "react-hook-form";
 import type { Flags, Schema } from "yup";
+import type { FieldType } from "./constants/fields";
 
 export type SchemaFunction = (config: Record<string, unknown>) => Schema<unknown, unknown, unknown, Flags>;
 

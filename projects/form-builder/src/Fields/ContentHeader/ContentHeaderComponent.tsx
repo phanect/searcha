@@ -1,4 +1,4 @@
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import type { TypographyProps } from "@mui/material";
 import type { IFieldComponentProps } from "../../types";
 

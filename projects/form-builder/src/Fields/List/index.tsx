@@ -1,10 +1,10 @@
+import FormatListNumbered from "mdi-material-ui/FormatListNumbered";
 import { lazy } from "react";
 import { array, string } from "yup";
 
-import FormatListNumbered from "mdi-material-ui/FormatListNumbered";
+import Settings from "./ListSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ListSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () => import("./ListComponent")

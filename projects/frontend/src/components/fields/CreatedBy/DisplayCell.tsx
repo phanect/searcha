@@ -1,7 +1,7 @@
-import { Tooltip, Stack, Avatar } from "@mui/material";
+import { Avatar, Stack, Tooltip } from "@mui/material";
 
-import { format } from "date-fns";
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import { format } from "date-fns";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function CreatedBy({ column, value }: IDisplayCellProps) {

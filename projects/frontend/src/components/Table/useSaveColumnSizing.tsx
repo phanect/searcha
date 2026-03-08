@@ -1,25 +1,24 @@
-import { useContext, useEffect, useState } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import { useDebounce } from "use-debounce";
-import { isEqual, isEmpty } from "lodash-es";
-
-import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from "@mui/icons-material/Check";
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
-
-import {
-  TableScopeContext,
-  updateColumnAtom,
-} from "@src/atoms/tableScope";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   defaultTableSettingsAtom,
   ProjectScopeContext,
 } from "@src/atoms/projectScope";
+import {
+  TableScopeContext,
+  updateColumnAtom,
+} from "@src/atoms/tableScope";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import { useAtomValue, useSetAtom } from "jotai";
+import { isEmpty, isEqual } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useContext, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+
 import { DEBOUNCE_DELAY } from "./Table";
-import type { ColumnSizingState } from "@tanstack/react-table";
 import type {
   IUpdateColumnOptions } from "@src/atoms/tableScope";
+import type { ColumnSizingState } from "@tanstack/react-table";
 
 /**
  * Debounces `columnSizing` and asks user if they want to save for all users,

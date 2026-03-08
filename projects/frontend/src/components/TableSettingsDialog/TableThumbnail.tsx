@@ -1,16 +1,14 @@
+import {
+  AddPhotoAlternateOutlined as NoImageIcon,
+  CloseFullscreen as CollapseIcon,
+  OpenInFull as ExpandIcon,
+} from "@mui/icons-material";
+import { Button, Grid2 as Grid, IconButton, InputLabel, useTheme } from "@mui/material";
+import { Upload as UploadImageIcon } from "@src/assets/icons";
+import { imageMimeTypes } from "@src/components/fields/Image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-import { Button, Grid2 as Grid, IconButton, InputLabel, useTheme } from "@mui/material";
-
-import { Upload as UploadImageIcon } from "@src/assets/icons";
-import {
-  OpenInFull as ExpandIcon,
-  CloseFullscreen as CollapseIcon,
-  AddPhotoAlternateOutlined as NoImageIcon,
-} from "@mui/icons-material";
-
-import { imageMimeTypes } from "@src/components/fields/Image";
 import type { IFieldComponentProps } from "@phanect/searcha-form-builder";
 
 export default function TableThumbnail({ ...props }: IFieldComponentProps) {

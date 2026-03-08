@@ -1,36 +1,34 @@
-import { lazy, Suspense, useContext } from "react";
-import { useAtom } from "jotai";
-import { useParams, useOutlet, Link } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
-import { find, isEmpty } from "lodash-es";
-import useOffline from "@src/hooks/useOffline";
-
-import { Typography, Button } from "@mui/material";
-
-import ErrorFallback from "@src/components/ErrorFallback";
-import TableSourceFirestore from "@src/sources/TableSourceFirestore";
-import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import TableSkeleton from "@src/components/Table/TableSkeleton";
 import EmptyState from "@src/components/EmptyState";
 import { HydrateAtoms } from "@src/atoms/utils.ts";
 import OfflineIcon from "@mui/icons-material/CloudOff";
+import { Button, Typography } from "@mui/material";
 import { Tables as TablesIcon } from "@src/assets/icons";
 
 import {
-  ProjectScopeContext,
   projectIdAtom,
+  ProjectScopeContext,
   currentUserAtom,
   projectSettingsAtom,
   tablesAtom,
 } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
   tableIdAtom,
+  TableScopeContext,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
 import { SyncAtomValue } from "@src/atoms/utils";
+import ErrorFallback from "@src/components/ErrorFallback";
+import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
 import { ROUTES } from "@src/constants/routes";
 import useDocumentTitle from "@src/hooks/useDocumentTitle";
+import useOffline from "@src/hooks/useOffline";
+import TableSourceFirestore from "@src/sources/TableSourceFirestore";
+import { useAtom } from "jotai";
+import { find, isEmpty } from "lodash-es";
+import { lazy, Suspense, useContext } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { Link, useOutlet, useParams } from "react-router-dom";
 
 const TablePage = lazy(() => import("./TablePage"));
 

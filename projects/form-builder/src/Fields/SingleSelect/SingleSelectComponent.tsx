@@ -1,11 +1,10 @@
-import { TextField, MenuItem } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import MultiSelect, { type MultiSelectProps } from "@phanect/searcha-multiselect";
 import FieldAssistiveText from "../../FieldAssistiveText";
 
 import type { FilledTextFieldProps } from "@mui/material";
-import type { IFieldComponentProps } from "../../types";
-
 import type { ReactNode } from "react";
+import type { IFieldComponentProps } from "../../types";
 
 export type ISingleSelectComponentProps = {
   options: (string | { value: string; label: ReactNode; })[];

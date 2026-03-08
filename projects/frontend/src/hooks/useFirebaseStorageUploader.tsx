@@ -1,20 +1,19 @@
-import { useContext, useReducer } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import {
-  ref,
-  uploadBytesResumable,
-  deleteObject,
-  getDownloadURL,
-} from "firebase/storage";
-
-import { Paper, Button } from "@mui/material";
+import { Button, Paper } from "@mui/material";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { firebaseStorageAtom } from "@src/sources/ProjectSourceFirebase";
 import { generateId } from "@src/utils/table";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useReducer } from "react";
 import type { FileValue, TableRowRef } from "@src/types/table";
 
 export type UploadState = {

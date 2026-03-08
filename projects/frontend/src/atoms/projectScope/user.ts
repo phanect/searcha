@@ -1,8 +1,8 @@
+import themes from "@src/theme";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { merge } from "lodash-es";
 
-import themes from "@src/theme";
 import { publicSettingsAtom } from "./project";
 import type { UserSettings } from "@src/types/settings";
 import type { UpdateDocFunction } from "@src/types/table";

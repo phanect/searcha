@@ -1,13 +1,12 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-import { styled } from "@mui/material/styles";
-import RichTooltip from "@src/components/RichTooltip";
 import WarningIcon from "@mui/icons-material/WarningAmber";
-
+import { styled } from "@mui/material/styles";
 import {
   ProjectScopeContext,
   tableOutOfOrderDismissedAtom,
 } from "@src/atoms/projectScope";
+import RichTooltip from "@src/components/RichTooltip";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 
 const Dot = styled("div")(({ theme }) => ({
   position: "absolute",

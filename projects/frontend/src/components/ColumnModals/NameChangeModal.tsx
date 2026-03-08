@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
-import { useSetAtom } from "jotai";
-
 import { TextField } from "@mui/material";
+import { TableScopeContext, updateColumnAtom } from "@src/atoms/tableScope";
 import Modal from "@src/components/Modal";
 
-import { TableScopeContext, updateColumnAtom } from "@src/atoms/tableScope";
+import { useSetAtom } from "jotai";
+import { useContext, useState } from "react";
 import type { IColumnModalProps } from ".";
 
 export default function NameChangeModal({

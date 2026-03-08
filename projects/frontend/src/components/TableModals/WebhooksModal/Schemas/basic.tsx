@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
+import { Typography } from "@mui/material";
 import type { TableSettings } from "@src/types/table";
 import type { AdditionalVariables, WebHook } from "./type.ts";
 

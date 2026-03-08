@@ -1,31 +1,30 @@
-import { useState, useRef, useContext } from "react";
-import { useAtom } from "jotai";
-import { Link } from "react-router-dom";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircleOutlined";
 import {
-  IconButton,
   Avatar,
-  Menu,
-  MenuItem,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Typography,
-  ListItemSecondaryAction,
   Divider,
   Grow,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
 } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircleOutlined";
 import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
 
 import {
-  ProjectScopeContext,
   projectIdAtom,
-  userSettingsAtom,
+  ProjectScopeContext,
   themeAtom,
   themeOverriddenAtom,
+  userSettingsAtom,
 } from "@src/atoms/projectScope";
 import { ROUTES } from "@src/constants/routes";
+import { useAtom } from "jotai";
+import { useContext, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import type {
   IconButtonProps } from "@mui/material";
 

@@ -1,6 +1,6 @@
+import { Typography } from "@mui/material";
 import DOMPurify from "dompurify";
 
-import { Typography } from "@mui/material";
 import type { TypographyProps } from "@mui/material";
 import type { IFieldComponentProps } from "../../types";
 

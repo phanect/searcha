@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { startCase } from "lodash-es";
-
+import { Link, Typography } from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
-import { Typography, Link } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { authOptions } from "@src/config/firebaseui";
+import { startCase } from "lodash-es";
+import { useState } from "react";
 import type { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 
 export default function Authentication({

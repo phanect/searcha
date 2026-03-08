@@ -1,26 +1,25 @@
-import { useContext, useState, useEffect } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import { Link } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
-
-import {
-  Typography,
-  Stack,
-  RadioGroup,
-  Radio,
-  Button,
-} from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUpAlt";
-import ThumbUpOffIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbDownOffIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffIcon from "@mui/icons-material/ThumbUpOffAlt";
+import {
+  Button,
+  Radio,
+  RadioGroup,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 import { analytics, logEvent } from "@src/analytics";
 import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { ROUTES } from "@src/constants/routes";
 import { SETTINGS } from "@src/config/dbPaths.ts";
+import { ROUTES } from "@src/constants/routes";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { doc, updateDoc } from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import type {
   RadioGroupProps } from "@mui/material";
 import type { ISetupStep } from "@src/components/Setup/SetupStep";

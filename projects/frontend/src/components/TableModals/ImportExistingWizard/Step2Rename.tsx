@@ -1,21 +1,20 @@
-import { useState } from "react";
-
-import {
-  Grid2 as Grid,
-  Typography,
-  Divider,
-  IconButton,
-  ButtonBase,
-  TextField,
-  InputAdornment,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import DoneIcon from "@mui/icons-material/Done";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  ButtonBase,
+  Divider,
+  Grid2 as Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 
-import ScrollableList from "@src/components/TableModals/ScrollableList";
 import Column, {
   COLUMN_HEADER_HEIGHT,
 } from "@src/components/Table/Mock/Column";
+import ScrollableList from "@src/components/TableModals/ScrollableList";
+import { useState } from "react";
 import type { IStepProps } from ".";
 
 export default function Step2Rename({

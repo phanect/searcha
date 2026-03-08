@@ -1,16 +1,15 @@
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Typography,
+} from "@mui/material";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { useAtom } from "jotai";
 import { useContext } from "react";
 
-import {
-  FormControlLabel,
-  Checkbox,
-  Typography,
-  Link,
-  Button,
-} from "@mui/material";
-
-import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import type {
   ISetupStep,
   ISetupStepBodyProps,

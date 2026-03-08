@@ -1,39 +1,38 @@
+import { FieldType } from "@src/constants/fields";
 import { find, get } from "lodash-es";
 
-import { FieldType } from "@src/constants/fields";
-
 // Import field configs
-import ShortText from "./ShortText";
-import LongText from "./LongText";
-import RichText from "./RichText";
+import Action from "./Action";
+import Array from "./Array";
+import ArraySubTable from "./ArraySubTable";
+import Checkbox from "./Checkbox";
+import Code from "./Code";
+import Color from "./Color";
+import Connector from "./Connector";
+import Date_ from "./Date";
 import Email from "./Email";
+import LongText from "./LongText";
+import ShortText from "./ShortText";
+import RichText from "./RichText";
 import Phone from "./Phone";
-import Url from "./Url";
 import SingleSelect from "./SingleSelect";
+import Slider from "./Slider";
+import Url from "./Url";
 import MultiSelect from "./MultiSelect";
 import Number_ from "./Number";
-import Checkbox from "./Checkbox";
 import Percentage from "./Percentage";
 import Rating from "./Rating";
-import Slider from "./Slider";
-import Color from "./Color";
 import GeoPoint from "./GeoPoint";
-import Date_ from "./Date";
 import DateTime from "./DateTime";
 import Duration from "./Duration";
 import Image_ from "./Image";
 import File_ from "./File";
-import Connector from "./Connector";
 import SubTable from "./SubTable";
-import ArraySubTable from "./ArraySubTable";
 import Reference from "./Reference";
 // TODO Temporarily disabled until I remove no-longer-maintained `use-algolia`
 // import ConnectTable from "./ConnectTable";
 import ConnectService from "./ConnectService";
 import Json from "./Json";
-import Code from "./Code";
-import Array from "./Array";
-import Action from "./Action";
 import Derivative from "./Derivative";
 import Formula from "./Formula";
 import Markdown from "./Markdown";
@@ -44,8 +43,8 @@ import CreatedAt from "./CreatedAt";
 import UpdatedAt from "./UpdatedAt";
 import User from "./User";
 import Id from "./Id";
-import type { IFieldConfig } from "./types";
 import type { ColumnConfig } from "@src/types/table";
+import type { IFieldConfig } from "./types";
 
 // Export field configs in order for FieldsDropdown
 export const FIELDS: IFieldConfig[] = [

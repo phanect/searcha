@@ -1,15 +1,15 @@
-import { useEffect, useCallback, useContext } from "react";
+import {
+  currentUserAtom,
+  ProjectScopeContext,
+  updateUserSettingsAtom,
+  userRolesAtom,
+} from "@src/atoms/projectScope";
+import { getIdTokenResult } from "firebase/auth";
 import { useAtom, useSetAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
+import { useCallback, useContext, useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
-import { getIdTokenResult } from "firebase/auth";
 
-import {
-  ProjectScopeContext,
-  currentUserAtom,
-  userRolesAtom,
-  updateUserSettingsAtom,
-} from "@src/atoms/projectScope";
 import { firebaseAuthAtom } from "./init";
 
 /**

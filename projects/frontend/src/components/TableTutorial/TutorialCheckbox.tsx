@@ -1,10 +1,10 @@
 import {
-  FormControlLabel,
   Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import type {
-  FormControlLabelProps,
-  CheckboxProps } from "@mui/material";
+  CheckboxProps,
+  FormControlLabelProps } from "@mui/material";
 
 export type ITutorialCheckboxProps = {
   label: FormControlLabelProps["label"];

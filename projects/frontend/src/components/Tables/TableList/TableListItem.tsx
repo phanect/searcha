@@ -1,14 +1,13 @@
-import { Link } from "react-router-dom";
-
+import GoIcon from "@mui/icons-material/ArrowForward";
 import {
+  IconButton,
   ListItem,
   ListItemButton,
   Typography,
-  IconButton,
 } from "@mui/material";
-import GoIcon from "@mui/icons-material/ArrowForward";
 
 import RenderedMarkdown from "@src/components/RenderedMarkdown";
+import { Link } from "react-router-dom";
 import type { TableSettings } from "@src/types/table";
 
 export type ITableListItemProps = {

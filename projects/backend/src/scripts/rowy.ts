@@ -1,5 +1,5 @@
+import { data2storage, url2storage } from "./storage";
 import { getSecret, getServiceAccountUser } from "./utils";
-import { url2storage, data2storage } from "./storage";
 import {
   getNumericProjectId,
   getProjectId,

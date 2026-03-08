@@ -1,37 +1,36 @@
-import { lazy, Suspense, useContext, useMemo } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { useAtom } from "jotai";
+import { Box, FormHelperText, Grid2 as Grid, InputLabel, Stack } from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
 
-import { Grid2 as Grid, InputLabel, Stack, FormHelperText, Box } from "@mui/material";
-
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
   tableColumnsOrderedAtom,
   tableSchemaAtom,
+  TableScopeContext,
   tableSettingsAtom,
 } from "@src/atoms/tableScope";
 
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
-import { DEFAULT_COL_WIDTH, DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import { HydrateAtoms } from "@src/atoms/utils.ts";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import { DEFAULT_COL_WIDTH, DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { lazy, Suspense, useContext, useMemo } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { getFieldProp } from "..";
+
+import formulaDefs from "./formula.d.ts?raw";
+import PreviewTable from "./PreviewTable";
+import TableSourcePreview from "./TableSourcePreview";
 import {
   defaultFn,
   listenerFieldTypes,
   outputFieldTypes,
 } from "./util";
-import PreviewTable from "./PreviewTable";
-import { getFieldProp } from "..";
-
-import formulaDefs from "./formula.d.ts?raw";
-import TableSourcePreview from "./TableSourcePreview";
-import type { ColumnConfig } from "@src/types/table";
 import type { ISettingsProps } from "@src/components/fields/types";
+import type { ColumnConfig } from "@src/types/table";
 
 const CodeEditor = lazy(
   () =>

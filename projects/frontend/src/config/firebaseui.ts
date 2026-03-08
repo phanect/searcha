@@ -1,20 +1,19 @@
-import {
-  GoogleAuthProvider,
-  TwitterAuthProvider,
-  FacebookAuthProvider,
-  GithubAuthProvider,
-  EmailAuthProvider,
-  PhoneAuthProvider,
-} from "firebase/auth";
-import { auth } from "firebaseui";
-
-import twitterLogo from "@src/assets/logos/twitter.svg";
+import appleLogo from "@src/assets/logos/apple.svg";
 import facebookLogo from "@src/assets/logos/facebook.svg";
 import githubLogo from "@src/assets/logos/github.svg";
-import appleLogo from "@src/assets/logos/apple.svg";
+import twitterLogo from "@src/assets/logos/twitter.svg";
 import yahooLogo from "@src/assets/logos/yahoo.svg";
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
+import {
+  EmailAuthProvider,
+  FacebookAuthProvider,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  PhoneAuthProvider,
+  TwitterAuthProvider,
+} from "firebase/auth";
+import { auth } from "firebaseui";
 
 export const authOptions = {
   google: {

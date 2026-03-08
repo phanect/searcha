@@ -1,14 +1,13 @@
-import { lazy, Suspense, useState, useEffect, useContext } from "react";
-import { get } from "lodash-es";
-import stringify from "json-stable-stringify-without-jsonify";
-import { Link } from "react-router-dom";
-import { useAtom, useSetAtom } from "jotai";
-
+import RunIcon from "@mui/icons-material/PlayArrow";
+import RedoIcon from "@mui/icons-material/Refresh";
+import UndoIcon from "@mui/icons-material/Undo";
 import {
-  Stack,
-  Grid2 as Grid,
-  TextField,
+  Checkbox,
+  Fab,
   FormControl,
+  Grid2 as Grid,
+  Stack,
+  TextField,
   FormLabel,
   FormControlLabel,
   RadioGroup,
@@ -16,35 +15,35 @@ import {
   Typography,
   InputLabel,
   Link as MuiLink,
-  Checkbox,
   FormHelperText,
-  Fab,
 } from "@mui/material";
-import RunIcon from "@mui/icons-material/PlayArrow";
-import RedoIcon from "@mui/icons-material/Refresh";
-import UndoIcon from "@mui/icons-material/Undo";
 
-import SteppedAccordion from "@src/components/SteppedAccordion";
 import MultiSelect from "@phanect/searcha-multiselect";
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import {
+  compatibleRowyRunVersionAtom,
+  projectIdAtom,
+  ProjectScopeContext,
+  projectRolesAtom,
+  projectSettingsAtom,
+  rowyRunModalAtom,
+} from "@src/atoms/projectScope";
+import { tableColumnsOrderedAtom, TableScopeContext } from "@src/atoms/tableScope";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import {
-  ProjectScopeContext,
-  projectIdAtom,
-  projectRolesAtom,
-  projectSettingsAtom,
-  compatibleRowyRunVersionAtom,
-  rowyRunModalAtom,
-} from "@src/atoms/projectScope";
-import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import SteppedAccordion from "@src/components/SteppedAccordion";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
 
 import { ROUTES } from "@src/constants/routes";
+import { useAtom, useSetAtom } from "jotai";
+import stringify from "json-stable-stringify-without-jsonify";
+import { get } from "lodash-es";
+import { lazy, Suspense, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import actionDefs from "./action.d.ts?raw";
-import { RUN_ACTION_TEMPLATE, UNDO_ACTION_TEMPLATE } from "./templates";
 import FormFieldSnippets from "./FormFieldSnippets";
+import { RUN_ACTION_TEMPLATE, UNDO_ACTION_TEMPLATE } from "./templates";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 const diagnosticsOptions = {

@@ -1,24 +1,23 @@
-import { useContext, useEffect } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import { useDebouncedCallback } from "use-debounce";
-
 import { Container, Stack } from "@mui/material";
-
-import SettingsSection from "@src/components/Settings/SettingsSection";
-import About from "@src/components/Settings/ProjectSettings/About";
-import RowyRun from "@src/components/Settings/ProjectSettings/RowyRun";
-import Authentication from "@src/components/Settings/ProjectSettings/Authentication";
-import Customization from "@src/components/Settings/ProjectSettings/Customization";
 
 import {
   ProjectScopeContext,
   projectSettingsAtom,
-  updateProjectSettingsAtom,
   publicSettingsAtom,
+  updateProjectSettingsAtom,
   updatePublicSettingsAtom,
 } from "@src/atoms/projectScope";
+import About from "@src/components/Settings/ProjectSettings/About";
+import Authentication from "@src/components/Settings/ProjectSettings/Authentication";
+import Customization from "@src/components/Settings/ProjectSettings/Customization";
+import RowyRun from "@src/components/Settings/ProjectSettings/RowyRun";
+import SettingsSection from "@src/components/Settings/SettingsSection";
+
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import type { ProjectSettings, PublicSettings } from "@src/types/settings";
 
 export type IProjectSettingsChildProps = {

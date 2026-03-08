@@ -1,25 +1,25 @@
-import { lazy, Suspense, useContext, useMemo } from "react";
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import {
+  tableIdAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+} from "@src/atoms/tableScope";
+import { HydrateAtoms } from "@src/atoms/utils.ts";
+import ErrorFallback from "@src/components/ErrorFallback";
+import Modal from "@src/components/Modal";
+import BreadcrumbsSubTable from "@src/components/Table/Breadcrumbs/BreadcrumbsSubTable";
+import TableSkeleton from "@src/components/Table/TableSkeleton";
+import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
+import TableSourceFirestore from "@src/sources/TableSourceFirestore";
 import { useAtom } from "jotai";
+import { lazy, Suspense, useContext, useMemo } from "react";
 import { selectAtom } from "jotai/utils";
 import { ErrorBoundary } from "react-error-boundary";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { find, isEqual } from "lodash-es";
 
-import Modal from "@src/components/Modal";
-import BreadcrumbsSubTable from "@src/components/Table/Breadcrumbs/BreadcrumbsSubTable";
-import ErrorFallback from "@src/components/ErrorFallback";
-import TableSourceFirestore from "@src/sources/TableSourceFirestore";
-import TableToolbarSkeleton from "@src/components/TableToolbar/TableToolbarSkeleton";
-import TableSkeleton from "@src/components/Table/TableSkeleton";
-import { HydrateAtoms } from "@src/atoms/utils.ts";
 
-import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableIdAtom,
-  tableSettingsAtom,
-  tableSchemaAtom,
-} from "@src/atoms/tableScope";
 import { ROUTES } from "@src/constants/routes";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";

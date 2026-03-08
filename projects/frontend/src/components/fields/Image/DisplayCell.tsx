@@ -1,13 +1,11 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-
-import { alpha, Stack, Grid2 as Grid, ButtonBase } from "@mui/material";
 import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
-
-import Thumbnail from "@src/components/Thumbnail";
+import { alpha, ButtonBase, Grid2 as Grid, Stack } from "@mui/material";
 
 import { tableSchemaAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
+import Thumbnail from "@src/components/Thumbnail";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import type { Theme } from "@mui/material";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 import type { FileValue } from "@src/types/table";

@@ -1,24 +1,23 @@
-import { useContext, useEffect } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import { useDebouncedCallback } from "use-debounce";
-
-import { Container, Stack, Fade } from "@mui/material";
-
-import SettingsSkeleton from "@src/components/Settings/SettingsSkeleton";
-import SettingsSection from "@src/components/Settings/SettingsSection";
-import Account from "@src/components/Settings/UserSettings/Account";
-import Theme from "@src/components/Settings/UserSettings/Theme";
-import TableSettings from "@src/components/Settings/UserSettings/TableSettings";
-import Personalization from "@src/components/Settings/UserSettings/Personalization";
+import { Container, Fade, Stack } from "@mui/material";
 
 import {
-  ProjectScopeContext,
   currentUserAtom,
-  userSettingsAtom,
+  ProjectScopeContext,
   updateUserSettingsAtom,
+  userSettingsAtom,
 } from "@src/atoms/projectScope";
+import SettingsSection from "@src/components/Settings/SettingsSection";
+import SettingsSkeleton from "@src/components/Settings/SettingsSkeleton";
+import Account from "@src/components/Settings/UserSettings/Account";
+import Personalization from "@src/components/Settings/UserSettings/Personalization";
+import TableSettings from "@src/components/Settings/UserSettings/TableSettings";
+import Theme from "@src/components/Settings/UserSettings/Theme";
+
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import type { UserSettings } from "@src/types/settings";
 
 export type IUserSettingsChildProps = {

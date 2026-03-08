@@ -1,24 +1,23 @@
-import { useAtom, useSetAtom } from "jotai";
-import { useContext } from "react";
-
-import { Grid2 as Grid, Stack, Typography, Button, Divider } from "@mui/material";
-import {
-  Import as ImportIcon,
-  AddColumn as AddColumnIcon,
-} from "@src/assets/icons";
 import OfflineIcon from "@mui/icons-material/CloudOff";
+import { Button, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
+import {
+  AddColumn as AddColumnIcon,
+  Import as ImportIcon,
+} from "@src/assets/icons";
 
+import {
+  columnModalAtom,
+  tableModalAtom,
+  tableRowsAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+} from "@src/atoms/tableScope";
 import EmptyState from "@src/components/EmptyState";
 import ImportData from "@src/components/TableToolbar/ImportData/ImportData";
 
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableRowsAtom,
-  columnModalAtom,
-  tableModalAtom,
-} from "@src/atoms/tableScope";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext } from "react";
 
 export default function EmptyTable() {
   const tableScopeStore = useContext(TableScopeContext);

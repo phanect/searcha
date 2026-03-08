@@ -1,8 +1,8 @@
-import { lazy } from "react";
 import Image from "mdi-material-ui/Image";
+import { lazy } from "react";
+import Settings from "./ContentImageSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ContentImageSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

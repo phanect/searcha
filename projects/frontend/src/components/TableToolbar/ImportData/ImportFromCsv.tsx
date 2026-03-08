@@ -1,31 +1,31 @@
-import { useState, useCallback, useRef, useEffect, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { parse } from "csv-parse/browser/esm";
 import { Parser } from "@json2csv/plainjs";
+import CheckIcon from "@mui/icons-material/CheckCircle";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import {
+  Button,
+  Divider,
+  FormHelperText,
+  Grid2 as Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Tab from "@mui/material/Tab";
+import { Upload as FileUploadIcon } from "@src/assets/icons";
+import { parse } from "csv-parse/browser/esm";
+import { useAtom, useSetAtom } from "jotai";
+import { useState, useCallback, useRef, useEffect, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDebouncedCallback } from "use-debounce";
 import { useSnackbar } from "notistack";
 
-import {
-  Button,
-  Grid2 as Grid,
-  Typography,
-  TextField,
-  FormHelperText,
-  Divider,
-} from "@mui/material";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 
-import { Upload as FileUploadIcon } from "@src/assets/icons";
-import CheckIcon from "@mui/icons-material/CheckCircle";
 
 import {
+  importCsvAtom,
   tableModalAtom,
   TableScopeContext,
-  importCsvAtom,
 } from "@src/atoms/tableScope";
 import { analytics, logEvent } from "@src/analytics";
 import type { ParserOptions } from "@json2csv/plainjs";

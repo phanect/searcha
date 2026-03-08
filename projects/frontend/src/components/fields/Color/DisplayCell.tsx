@@ -1,4 +1,4 @@
-import { ButtonBase, Box } from "@mui/material";
+import { Box, ButtonBase } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 

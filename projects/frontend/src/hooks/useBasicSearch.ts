@@ -1,6 +1,6 @@
+import { matchSorter, rankings } from "match-sorter";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { matchSorter, rankings } from "match-sorter";
 
 export function useBasicSearch<T>(
   list: T[],

@@ -1,6 +1,6 @@
+import { ROUTES } from "@src/constants/routes";
 import { useLocation } from "react-router-dom";
 
-import { ROUTES } from "@src/constants/routes";
 import type { ColumnConfig, TableRow, TableRowRef } from "@src/types/table";
 
 export const useSubTableData = (

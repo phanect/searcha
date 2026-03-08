@@ -1,9 +1,9 @@
+import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import AddIcon from "@mui/icons-material/Add";
-import { find } from "lodash-es";
 import { generateId } from "@src/utils/table";
+import { find } from "lodash-es";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import FilterInputs from "./FilterInputs";
 import type { TableFilter } from "@src/types/table";
 import type { useFilterInputs } from "./useFilterInputs";

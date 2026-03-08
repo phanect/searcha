@@ -1,5 +1,5 @@
-import type { IEditorCellProps } from "@src/components/fields/types";
 import { ColorPicker, ColorService } from "react-color-palette";
+import type { IEditorCellProps } from "@src/components/fields/types";
 import "react-color-palette/css";
 
 import { Box } from "@mui/material";

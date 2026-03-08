@@ -1,23 +1,23 @@
-import { useState } from "react";
 import Editor from "@monaco-editor/react";
 
-import { useTheme, Box, AppBar, Toolbar } from "@mui/material";
+import { AppBar, Box, Toolbar, useTheme } from "@mui/material";
 import TrapFocus from "@mui/material/Unstable_TrapFocus";
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { ResizeBottomRight } from "@src/assets/icons";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
+import githubDarkTheme from "@src/components/CodeEditor/github-dark-default.json";
+import githubLightTheme from "@src/components/CodeEditor/github-light-default.json";
 import FullScreenButton from "@src/components/FullScreenButton";
 import { spreadSx } from "@src/utils/ui";
-import githubLightTheme from "@src/components/CodeEditor/github-light-default.json";
-import githubDarkTheme from "@src/components/CodeEditor/github-dark-default.json";
 import { AutoTypings, LocalStorageCache } from "monaco-editor-auto-typings";
+import { useState } from "react";
 import useMonacoCustomizations from "./useMonacoCustomizations";
+import type { EditorProps, Monaco } from "@monaco-editor/react";
+import type { BoxProps } from "@mui/material";
+import type { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import type {
   IUseMonacoCustomizationsProps,
 } from "./useMonacoCustomizations";
-import type { BoxProps } from "@mui/material";
-import type { EditorProps, Monaco } from "@monaco-editor/react";
-import type { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
 export type ICodeEditorProps = {
   value: string;

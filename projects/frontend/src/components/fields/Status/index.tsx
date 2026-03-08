@@ -1,8 +1,8 @@
-import { lazy } from "react";
+import { Status as StatusIcon } from "@src/assets/icons";
 import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 
-import { Status as StatusIcon } from "@src/assets/icons";
 import { StatusDisplayCell } from "./DisplayCell";
 import EditorCell from "./EditorCell";
 import { filterOperators } from "./Filter";

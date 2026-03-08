@@ -1,33 +1,32 @@
-import { format, formatRelative } from "date-fns";
-import { useContext } from "react";
-
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/EditOutlined";
 import {
-  Stack,
+  Avatar,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  Avatar,
-  IconButton,
+  Stack,
   Switch,
   Tooltip,
   Typography,
 } from "@mui/material";
 import {
-  Extension as ExtensionIcon,
-  Copy as DuplicateIcon,
   CloudLogs as LogsIcon,
+  Copy as DuplicateIcon,
+  Extension as ExtensionIcon,
 } from "@src/assets/icons";
-import EditIcon from "@mui/icons-material/EditOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-
-import EmptyState from "@src/components/EmptyState";
-import { DATE_TIME_FORMAT } from "@src/constants/dates";
-import { useSetAtom } from "jotai";
 import {
-  TableScopeContext,
   cloudLogFiltersAtom,
   tableModalAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
+import EmptyState from "@src/components/EmptyState";
+import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import { format, formatRelative } from "date-fns";
+import { useSetAtom } from "jotai";
+import { useContext } from "react";
+
 import { extensionNames } from "./utils";
 import type { IExtension } from "./utils";
 

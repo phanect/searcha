@@ -1,15 +1,14 @@
-import { useContext, useMemo } from "react";
+import { Box, Link, Stack } from "@mui/material";
+import { tableRowsAtom, TableScopeContext } from "@src/atoms/tableScope";
+import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
 import { useAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { find, isEqual } from "lodash-es";
 
-import { Box, Stack, Link } from "@mui/material";
-
-import { TableScopeContext, tableRowsAtom } from "@src/atoms/tableScope";
-import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import { useContext, useMemo } from "react";
 import ActionFab from "./ActionFab";
-import { sanitiseCallableName, isUrl } from "./utils";
 import { getActionName } from "./DisplayCell";
+import { isUrl, sanitiseCallableName } from "./utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Action({

@@ -1,22 +1,21 @@
+import AddIcon from "@mui/icons-material/Add";
+import { Divider, ListItemIcon, ListItemText } from "@mui/material";
+import { Tables as TablesIcon } from "@src/assets/icons";
+import {
+  ProjectScopeContext,
+  tablesAtom,
+  tableSettingsDialogAtom,
+  userRolesAtom,
+  userSettingsAtom,
+} from "@src/atoms/projectScope";
+import { ROUTES } from "@src/constants/routes";
 import { useAtom, useSetAtom } from "jotai";
 import { find, groupBy, sortBy } from "lodash-es";
 import { useContext } from "react";
 
-import { ListItemIcon, ListItemText, Divider } from "@mui/material";
-import { Tables as TablesIcon } from "@src/assets/icons";
-import AddIcon from "@mui/icons-material/Add";
-
-import {
-  ProjectScopeContext,
-  userRolesAtom,
-  userSettingsAtom,
-  tablesAtom,
-  tableSettingsDialogAtom,
-} from "@src/atoms/projectScope";
-import { ROUTES } from "@src/constants/routes";
 import NavItem from "./NavItem";
-import SettingsNav from "./SettingsNav";
 import NavTableSection from "./NavTableSection";
+import SettingsNav from "./SettingsNav";
 import type { TableSettings } from "@src/types/table";
 
 export type INavDrawerContentsProps = {

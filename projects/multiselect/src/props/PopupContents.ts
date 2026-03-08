@@ -1,11 +1,11 @@
 import type {
-  TextFieldProps,
-  StandardProps,
-  AutocompleteProps,
   AutocompleteClassKey,
+  AutocompleteProps,
+  StandardProps,
+  TextFieldProps,
 } from "@mui/material";
-import type { Option } from "./Option";
 import type { AddItemProps } from "./AddItem";
+import type { Option } from "./Option";
 
 export type PopupContentsCommonProps<T> = {
   onClose: () => void;
@@ -131,6 +131,6 @@ export type PopupContentsSingleProps<T> = {
 } & PopupContentsCommonProps<T>;
 
 // Explicitly separate type intersections based off `multiple` prop
-export type PopupContentsProps<T> =
-  | PopupContentsMultipleProps<T>
+export type PopupContentsProps<T>
+  = | PopupContentsMultipleProps<T>
   | PopupContentsSingleProps<T>;

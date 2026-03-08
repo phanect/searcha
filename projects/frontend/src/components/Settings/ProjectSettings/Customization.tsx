@@ -1,8 +1,7 @@
-import { lazy, Suspense, useState } from "react";
-import { merge, unset } from "lodash-es";
-
-import { FormControlLabel, Checkbox, Collapse } from "@mui/material";
+import { Checkbox, Collapse, FormControlLabel } from "@mui/material";
 import Loading from "@src/components/Loading";
+import { merge, unset } from "lodash-es";
+import { lazy, Suspense, useState } from "react";
 import type { IProjectSettingsChildProps } from "@src/pages/Settings/ProjectSettingsPage";
 
 const ThemeColorPicker = lazy(() => import("@src/components/Settings/ThemeColorPicker"));

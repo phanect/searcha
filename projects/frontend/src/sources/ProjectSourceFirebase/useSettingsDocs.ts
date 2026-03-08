@@ -1,19 +1,18 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-
 import {
+  currentUserAtom,
   ProjectScopeContext,
   projectSettingsAtom,
-  updateProjectSettingsAtom,
   publicSettingsAtom,
+  updateProjectSettingsAtom,
   updatePublicSettingsAtom,
-  currentUserAtom,
-  userSettingsAtom,
   updateUserSettingsAtom,
+  userSettingsAtom,
 } from "@src/atoms/projectScope";
 
+import { PUBLIC_SETTINGS, SETTINGS, USERS } from "@src/config/dbPaths";
 import useFirestoreDocWithAtom from "@src/hooks/useFirestoreDocWithAtom";
-import { SETTINGS, PUBLIC_SETTINGS, USERS } from "@src/config/dbPaths";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 
 /**
  * Sets listeners to public settings, project settings, and user settings.

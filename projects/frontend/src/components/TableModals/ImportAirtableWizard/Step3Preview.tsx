@@ -1,13 +1,12 @@
-import { useContext } from "react";
+import { Grid2 as Grid, styled } from "@mui/material";
+import { tableSchemaAtom, TableScopeContext } from "@src/atoms/tableScope";
+import Cell from "@src/components/Table/Mock/Cell";
+import Column from "@src/components/Table/Mock/Column";
+
+import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
 import { useAtom } from "jotai";
 import { find } from "lodash-es";
-
-import { styled, Grid2 as Grid } from "@mui/material";
-import Column from "@src/components/Table/Mock/Column";
-import Cell from "@src/components/Table/Mock/Cell";
-
-import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
-import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
+import { useContext } from "react";
 import type { IStepProps } from ".";
 
 const Spacer = styled(Grid)(({ theme }) => ({

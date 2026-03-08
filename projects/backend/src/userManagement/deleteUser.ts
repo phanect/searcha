@@ -1,5 +1,5 @@
-import { auth, db } from "../firebaseConfig";
 import { rowyUsers } from "../constants/Collections";
+import { auth, db } from "../firebaseConfig";
 import type { Request, Response } from "express";
 export const deleteUser = async (req: Request, res: Response) => {
   try {

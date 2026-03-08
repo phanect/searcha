@@ -1,10 +1,10 @@
-import { useSetAtom } from "jotai";
-import { useContext } from "react";
 import { Box, Button } from "@mui/material";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
 
-import { TableScopeContext, columnModalAtom } from "@src/atoms/tableScope";
+import { columnModalAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { spreadSx } from "@src/utils/ui";
+import { useSetAtom } from "jotai";
+import { useContext } from "react";
 import type { BoxProps } from "@mui/material";
 
 export type IFinalColumnHeaderProps = {

@@ -1,7 +1,7 @@
-import { memo, useContext, useEffect } from "react";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import { useAtom, useSetAtom } from "jotai";
+import { memo, useContext, useEffect } from "react";
 
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
 import { firebaseConfigAtom } from "./init";
 
 import { useAuthUser } from "./useAuthUser";

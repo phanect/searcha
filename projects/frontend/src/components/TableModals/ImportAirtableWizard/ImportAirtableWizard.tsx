@@ -1,37 +1,36 @@
-import { useState, useCallback, useRef, useContext } from "react";
+import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import useMemoValue from "@phanect/use-memo-value";
-import { useAtom, useSetAtom } from "jotai";
-import { RESET } from "jotai/utils";
-import { useSnackbar } from "notistack";
-import { uniqBy, isEqual, find } from "lodash-es";
-import WizardDialog from "@src/components/TableModals/WizardDialog";
-
-import { useTheme, useMediaQuery, Typography, Button } from "@mui/material";
 
 import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
   addColumnAtom,
   bulkAddRowsAtom,
   importAirtableAtom,
   tableModalAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
 } from "@src/atoms/tableScope";
 
 import SnackbarProgress from "@src/components/SnackbarProgress";
 import { fieldParser } from "@src/components/TableModals/ImportAirtableWizard/utils";
 import useConverter from "@src/components/TableModals/ImportCsvWizard/useConverter";
 import useUploadFileFromURL from "@src/components/TableModals/ImportCsvWizard/useUploadFileFromURL";
+import WizardDialog from "@src/components/TableModals/WizardDialog";
+import { useAtom, useSetAtom } from "jotai";
+import { RESET } from "jotai/utils";
+import { find, isEqual, uniqBy } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useCallback, useContext, useRef, useState } from "react";
 import Step1Columns from "./Step1Columns";
 import Step2NewColumns from "./Step2NewColumns";
 import Step3Preview from "./Step3Preview";
 import type {
+  ImportAirtableData } from "@src/atoms/tableScope";
+import type {
   ISnackbarProgressRef,
 } from "@src/components/SnackbarProgress";
-import type { ColumnConfig } from "@src/types/table";
-import type {
-  ImportAirtableData } from "@src/atoms/tableScope";
 import type { ITableModalProps } from "@src/components/TableModals";
+import type { ColumnConfig } from "@src/types/table";
 
 export type AirtableConfig = {
   pairs: { fieldKey: string; columnKey: string; }[];

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Box,
   Checkbox,
@@ -12,12 +10,13 @@ import {
 } from "@mui/material";
 import ColorPickerInput from "@src/components/ColorPickerInput";
 
-import { ColorService } from "react-color-palette";
 import { fieldSx } from "@src/components/SideDrawer/utils";
-import { resultColorsScale, defaultColors } from "@src/utils/color";
+import { defaultColors, resultColorsScale } from "@src/utils/color";
+import { useState } from "react";
+import { ColorService } from "react-color-palette";
 import { multiply100WithPrecision } from "./utils";
-import type { IColor } from "react-color-palette";
 import type { ISettingsProps } from "@src/components/fields/types";
+import type { IColor } from "react-color-palette";
 
 const colorLabels: Record<string, string> = {
   0: "Start",

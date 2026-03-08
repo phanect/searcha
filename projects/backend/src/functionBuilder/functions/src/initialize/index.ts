@@ -1,6 +1,6 @@
-import utilFns from "../utils";
-import { db, auth, storage } from "../firebaseConfig";
+import { auth, db, storage } from "../firebaseConfig";
 import { LoggingFactory } from "../logging";
+import utilFns from "../utils";
 import type * as functions from "firebase-functions";
 
 const initializedDoc = (

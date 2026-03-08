@@ -1,12 +1,12 @@
-import { useTheme, Grid2 as Grid, Typography, Link } from "@mui/material";
+import { Grid2 as Grid, Link, Typography, useTheme } from "@mui/material";
+import communityDark from "@src/assets/tutorial/community-dark.svg";
+import communityLight from "@src/assets/tutorial/community-light.svg";
+import playgroundDark from "@src/assets/tutorial/playground-dark.svg";
+import playgroundLight from "@src/assets/tutorial/playground-light.svg";
+import templatesDark from "@src/assets/tutorial/templates-dark.svg";
+import templatesLight from "@src/assets/tutorial/templates-light.svg";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 
-import playgroundLight from "@src/assets/tutorial/playground-light.svg";
-import playgroundDark from "@src/assets/tutorial/playground-dark.svg";
-import templatesLight from "@src/assets/tutorial/templates-light.svg";
-import templatesDark from "@src/assets/tutorial/templates-dark.svg";
-import communityLight from "@src/assets/tutorial/community-light.svg";
-import communityDark from "@src/assets/tutorial/community-dark.svg";
 import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step5Finish = {

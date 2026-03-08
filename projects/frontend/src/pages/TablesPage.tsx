@@ -1,9 +1,10 @@
-import { useAtom, useSetAtom } from "jotai";
-import { find, groupBy, sortBy } from "lodash-es";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/EditOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ViewListIcon from "@mui/icons-material/ViewListOutlined";
 import {
+  Checkbox,
   Container,
   Stack,
   Typography,
@@ -11,39 +12,37 @@ import {
   ToggleButton,
   Tooltip,
   Fab,
-  Checkbox,
   IconButton,
   Zoom,
 } from "@mui/material";
 
-import ViewListIcon from "@mui/icons-material/ViewListOutlined";
 import ViewGridIcon from "@mui/icons-material/ViewModuleOutlined";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import EditIcon from "@mui/icons-material/EditOutlined";
-import AddIcon from "@mui/icons-material/Add";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
-
-import FloatingSearch from "@src/components/FloatingSearch";
-import SlideTransition from "@src/components/Modal/SlideTransition";
-import TableGrid from "@src/components/Tables/TableGrid";
-import TableList from "@src/components/Tables/TableList";
-import HomeWelcomePrompt from "@src/components/Tables/HomeWelcomePrompt";
-import EmptyState from "@src/components/EmptyState";
 
 import {
   ProjectScopeContext,
+  tablesAtom,
+  tableSettingsDialogAtom,
+  tablesViewAtom,
+  updateUserSettingsAtom,
   userRolesAtom,
   userSettingsAtom,
-  updateUserSettingsAtom,
-  tablesAtom,
-  tablesViewAtom,
-  tableSettingsDialogAtom,
 } from "@src/atoms/projectScope";
+import EmptyState from "@src/components/EmptyState";
+import FloatingSearch from "@src/components/FloatingSearch";
+import SlideTransition from "@src/components/Modal/SlideTransition";
+import HomeWelcomePrompt from "@src/components/Tables/HomeWelcomePrompt";
+import TableGrid from "@src/components/Tables/TableGrid";
+import TableList from "@src/components/Tables/TableList";
+
 import { ROUTES } from "@src/constants/routes";
 import useBasicSearch from "@src/hooks/useBasicSearch";
-import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
 import { useScrollToHash } from "@src/hooks/useScrollToHash";
+import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import { useAtom, useSetAtom } from "jotai";
+import { find, groupBy, sortBy } from "lodash-es";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import type { TableSettings } from "@src/types/table";
 
 const SEARCH_KEYS = [ "id", "name", "section", "description" ];

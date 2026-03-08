@@ -1,10 +1,9 @@
+import { Typography } from "@mui/material";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { lazy, Suspense } from "react";
 import useStateRef from "react-usestateref";
-
-import { Typography } from "@mui/material";
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-import { WIKI_LINKS } from "@src/constants/externalLinks";
 import type { IExtensionModalStepProps } from "./ExtensionModal";
 
 const CodeEditor = lazy(

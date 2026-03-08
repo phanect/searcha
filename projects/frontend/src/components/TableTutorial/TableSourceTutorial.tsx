@@ -1,21 +1,21 @@
-import { useCallback, useContext } from "react";
+import {
+  _bulkWriteDbAtom,
+  _deleteRowDbAtom,
+  _updateRowDbAtom,
+  addRowAtom,
+  tableRowsDbAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import { TABLE_SCHEMAS } from "@src/config/dbPaths";
+import { updateRowData } from "@src/utils/table";
 import { useSetAtom } from "jotai";
 import { useAtomCallback } from "jotai/utils";
-import { cloneDeep, unset, findIndex, sortBy } from "lodash-es";
+import { cloneDeep, findIndex, sortBy, unset } from "lodash-es";
 
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
-  tableRowsDbAtom,
-  _updateRowDbAtom,
-  _deleteRowDbAtom,
-  _bulkWriteDbAtom,
-  addRowAtom,
-} from "@src/atoms/tableScope";
-import { updateRowData } from "@src/utils/table";
-import { TABLE_SCHEMAS } from "@src/config/dbPaths";
-import type { TableSchema, TableRow, BulkWriteFunction } from "@src/types/table";
+import { useCallback, useContext } from "react";
+import type { BulkWriteFunction, TableRow, TableSchema } from "@src/types/table";
 
 export const TUTORIAL_COLLECTION = "tutorial";
 export const TUTORIAL_TABLE_SETTINGS = {

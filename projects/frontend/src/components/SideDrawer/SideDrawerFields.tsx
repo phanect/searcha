@@ -1,9 +1,4 @@
-import { useEffect, useState, useCallback, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { get, isEqual } from "lodash-es";
-import { useSnackbar } from "notistack";
-
-import { Stack, FormControlLabel, Switch } from "@mui/material";
+import { FormControlLabel, Stack, Switch } from "@mui/material";
 
 import {
   ProjectScopeContext,
@@ -11,18 +6,22 @@ import {
   userSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableIdAtom,
-  tableSettingsAtom,
-  tableColumnsOrderedAtom,
-  updateFieldAtom,
   selectedCellAtom,
   sideDrawerShowHiddenFieldsAtom,
+  tableColumnsOrderedAtom,
+  tableIdAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  updateFieldAtom,
 } from "@src/atoms/tableScope";
 import { formatSubTableName } from "@src/utils/table";
-import SaveState from "./SaveState";
-import MemoizedField from "./MemoizedField";
+import { useAtom, useSetAtom } from "jotai";
+import { get, isEqual } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useCallback, useContext, useEffect, useState } from "react";
 import FieldWrapper from "./FieldWrapper";
+import MemoizedField from "./MemoizedField";
+import SaveState from "./SaveState";
 import type { TableRow } from "@src/types/table";
 
 export type ISideDrawerFieldsProps = {

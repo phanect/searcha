@@ -1,9 +1,4 @@
-import { useAtom } from "jotai";
-import { RESET } from "jotai/utils";
-import { useContext } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import clsx from "clsx";
-
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Drawer,
@@ -14,13 +9,16 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-
-import { TableScopeContext, sideDrawerAtom } from "@src/atoms/tableScope";
-
-import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
-import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
+import { sideDrawerAtom, TableScopeContext } from "@src/atoms/tableScope";
 import ErrorFallback from "@src/components/ErrorFallback";
+import { TABLE_TOOLBAR_HEIGHT } from "@src/components/TableToolbar";
+import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import clsx from "clsx";
+import { useAtom } from "jotai";
+import { RESET } from "jotai/utils";
+import { useContext } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import Details from "./Details";
 
 export const DRAWER_WIDTH = 450;

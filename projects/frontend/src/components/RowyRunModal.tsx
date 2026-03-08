@@ -1,28 +1,27 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { useAtom } from "jotai";
-
+import CheckIcon from "@mui/icons-material/CheckCircle";
 import {
-  Typography,
+  Box,
   Button,
   DialogContentText,
   Link as MuiLink,
-  Box,
+  Typography,
 } from "@mui/material";
-import CheckIcon from "@mui/icons-material/CheckCircle";
-
-import Modal from "@src/components/Modal";
-import MemoizedText from "@src/components/Modal/MemoizedText";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import {
   ProjectScopeContext,
-  userRolesAtom,
   projectSettingsAtom,
   rowyRunModalAtom,
+  userRolesAtom,
 } from "@src/atoms/projectScope";
-import { ROUTES } from "@src/constants/routes";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import Modal from "@src/components/Modal";
+import MemoizedText from "@src/components/Modal/MemoizedText";
+
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { ROUTES } from "@src/constants/routes";
+import { useAtom } from "jotai";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 /**
  * Display a modal asking the user to deploy or upgrade Rowy Run

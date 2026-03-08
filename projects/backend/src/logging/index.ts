@@ -1,5 +1,5 @@
-import * as _ from "lodash";
 import { Logging } from "@google-cloud/logging";
+import * as _ from "lodash";
 import { getProjectId } from "../metadataService";
 import type { Request } from "express";
 

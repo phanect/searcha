@@ -1,23 +1,22 @@
-import { useCallback, useContext, useState } from "react";
-import { useAtom, useAtomValue } from "jotai";
-import { useSnackbar } from "notistack";
-
-import LoadingButton from "@mui/lab/LoadingButton";
 import CheckIcon from "@mui/icons-material/Check";
-
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
-import {
-  tableIdAtom,
-  TableScopeContext,
-  updateTableSchemaAtom,
-} from "@src/atoms/tableScope";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   defaultTableSettingsAtom,
   ProjectScopeContext,
   updateUserSettingsAtom,
 } from "@src/atoms/projectScope";
-import type { SnackbarKey } from "notistack";
+import {
+  tableIdAtom,
+  TableScopeContext,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import { useAtom, useAtomValue } from "jotai";
+import { useSnackbar } from "notistack";
+
+import { useCallback, useContext, useState } from "react";
 import type { TableSort } from "@src/types/table";
+import type { SnackbarKey } from "notistack";
 
 function useSaveTableSorts(canEditColumns: boolean) {
   const projectScopeStore = useContext(ProjectScopeContext);

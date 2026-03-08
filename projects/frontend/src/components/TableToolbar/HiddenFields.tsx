@@ -1,46 +1,45 @@
-import {
-  useEffect,
-  useRef,
-  useMemo,
-  useState,
-  forwardRef,
-  useContext,
-} from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { isEqual } from "lodash-es";
-import { colord } from "colord";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-} from "react-beautiful-dnd";
-
-import { Box } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
-import IconSlash from "@src/components/IconSlash";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
-
-import ColumnSelect, { ColumnItem } from "@src/components/Table/ColumnSelect";
-import ButtonWithStatus from "@src/components/ButtonWithStatus";
-
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import { Box } from "@mui/material";
 import {
   ProjectScopeContext,
-  userSettingsAtom,
   updateUserSettingsAtom,
   userRolesAtom,
+  userSettingsAtom,
 } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
   tableIdAtom,
+  TableScopeContext,
   updateColumnAtom,
 } from "@src/atoms/tableScope";
+import ButtonWithStatus from "@src/components/ButtonWithStatus";
+import IconSlash from "@src/components/IconSlash";
+
+import ColumnSelect, { ColumnItem } from "@src/components/Table/ColumnSelect";
+
 import { formatSubTableName } from "@src/utils/table";
+import { colord } from "colord";
+import { useAtom, useSetAtom } from "jotai";
+import { isEqual } from "lodash-es";
+import {
+  forwardRef,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "react-beautiful-dnd";
 import type { AutocompleteProps, Theme } from "@mui/material";
 import type {
-  DropResult } from "react-beautiful-dnd";
-import type {
   ChangeEvent } from "react";
+import type {
+  DropResult } from "react-beautiful-dnd";
 
 export default function HiddenFields() {
   const buttonRef = useRef<HTMLButtonElement>(null);

@@ -1,34 +1,33 @@
-import { useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { format, formatRelative } from "date-fns";
-
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/EditOutlined";
+import LinkIcon from "@mui/icons-material/Link";
+import WebhookIcon from "@mui/icons-material/Webhook";
 import {
-  Stack,
+  Avatar,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  Avatar,
-  IconButton,
+  Stack,
   Switch,
   Tooltip,
   Typography,
 } from "@mui/material";
-import WebhookIcon from "@mui/icons-material/Webhook";
 import { CloudLogs as LogsIcon } from "@src/assets/icons";
-import EditIcon from "@mui/icons-material/EditOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import LinkIcon from "@mui/icons-material/Link";
 
+import { ProjectScopeContext, projectSettingsAtom } from "@src/atoms/projectScope";
+import {
+  cloudLogFiltersAtom,
+  tableModalAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+} from "@src/atoms/tableScope";
 import EmptyState from "@src/components/EmptyState";
 
 import { DATE_TIME_FORMAT } from "@src/constants/dates";
-import { ProjectScopeContext, projectSettingsAtom } from "@src/atoms/projectScope";
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableModalAtom,
-  cloudLogFiltersAtom,
-} from "@src/atoms/tableScope";
+import { format, formatRelative } from "date-fns";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext } from "react";
 import { webhookNames } from "./utils";
 import type { IWebhook } from "./utils";
 

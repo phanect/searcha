@@ -1,9 +1,9 @@
-import { useTheme, Link } from "@mui/material";
+import { Link, useTheme } from "@mui/material";
+import inviteUsersDark from "@src/assets/tutorial/invite-users-dark.gif";
+import inviteUsersLight from "@src/assets/tutorial/invite-users-light.gif";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import inviteUsersLight from "@src/assets/tutorial/invite-users-light.gif";
-import inviteUsersDark from "@src/assets/tutorial/invite-users-dark.gif";
 import type { ITableTutorialStepComponentProps } from ".";
 
 export const Step3Invite = {

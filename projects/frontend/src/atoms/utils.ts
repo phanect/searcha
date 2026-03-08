@@ -1,8 +1,8 @@
-import { useEffect, type ReactElement } from "react";
+import useMemoValue from "@phanect/use-memo-value";
 import { useSetAtom, type createStore, type SetStateAction, type WritableAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/react/utils";
-import useMemoValue from "@phanect/use-memo-value";
 import { isEqual } from "lodash-es";
+import { useEffect, type ReactElement } from "react";
 
 export const HydrateAtoms = (options: {
   readonly initialValues?: Iterable<[ WritableAtom<unknown, never[], unknown>, unknown ]>;

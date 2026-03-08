@@ -1,10 +1,10 @@
-import { FormControl, Box, Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { Box, FormControl, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 
-import FieldLabel from "../../FieldLabel";
-import FieldErrorMessage from "../../FieldErrorMessage";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { IFieldComponentProps } from "../../types";
+import FieldErrorMessage from "../../FieldErrorMessage";
+import FieldLabel from "../../FieldLabel";
 import type { ReactNode } from "react";
+import type { IFieldComponentProps } from "../../types";
 
 export type IScoreComponentProps = {
   min?: number;

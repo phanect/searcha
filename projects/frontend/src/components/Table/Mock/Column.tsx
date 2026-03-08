@@ -1,11 +1,11 @@
-import { forwardRef } from "react";
 import { Grid2 as Grid, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 import { getFieldProp } from "@src/components/fields";
 import { spreadSx } from "@src/utils/ui";
-import type { FieldType } from "@src/constants/fields";
+import { forwardRef } from "react";
 import type { GridProps } from "@mui/material";
+import type { FieldType } from "@src/constants/fields";
 
 export const COLUMN_HEADER_HEIGHT = 42;
 

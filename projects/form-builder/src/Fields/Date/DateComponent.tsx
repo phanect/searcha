@@ -1,12 +1,12 @@
 import {
-  LocalizationProvider,
   DatePicker,
+  LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import FieldAssistiveText from "../../FieldAssistiveText";
+import type { TextFieldProps } from "@mui/material";
 import type {
   DatePickerProps } from "@mui/x-date-pickers";
-import type { TextFieldProps } from "@mui/material";
 import type { IFieldComponentProps } from "../../types";
 
 export type IDateComponentProps = {

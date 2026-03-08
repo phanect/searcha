@@ -1,23 +1,22 @@
-import { lazy, Suspense, useContext, useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
-import { Grid2 as Grid, InputLabel, FormHelperText } from "@mui/material";
+import { FormHelperText, Grid2 as Grid, InputLabel } from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 
 import {
-  ProjectScopeContext,
   compatibleRowyRunVersionAtom,
+  ProjectScopeContext,
   projectSettingsAtom,
   rowyRunModalAtom,
 } from "@src/atoms/projectScope";
-import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
-import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { tableColumnsOrderedAtom, TableScopeContext } from "@src/atoms/tableScope";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 
 import { getFieldProp } from "@src/components/fields";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { FieldType } from "@src/constants/fields";
+import { useAtom, useSetAtom } from "jotai";
+import { lazy, Suspense, useContext, useEffect } from "react";
 import derivativeDefs from "./derivative.d.ts?raw";
 import type { ISettingsProps } from "@src/components/fields/types";
 

@@ -1,23 +1,22 @@
-import { useContext, useState } from "react";
-import { useAtom, useSetAtom } from "jotai";
+import LoopIcon from "@mui/icons-material/Loop";
+import {
+  ProjectScopeContext,
+  projectSettingsAtom,
+  rowyRunModalAtom,
+} from "@src/atoms/projectScope";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
+import Modal from "@src/components/Modal";
+
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
 import {
   collection,
   collectionGroup,
   getDocs,
   writeBatch,
 } from "firebase/firestore";
-
-import LoopIcon from "@mui/icons-material/Loop";
-import Modal from "@src/components/Modal";
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
-
-import {
-  ProjectScopeContext,
-  projectSettingsAtom,
-  rowyRunModalAtom,
-} from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext, useState } from "react";
 import TableToolbarButton from "./TableToolbarButton";
 
 /**

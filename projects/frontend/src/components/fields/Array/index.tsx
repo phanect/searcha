@@ -1,10 +1,10 @@
-import { lazy } from "react";
 import DataArrayIcon from "@mui/icons-material/DataArray";
 
 import { FieldType } from "@src/components/fields/types";
+import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
 
-import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import { lazy } from "react";
 import DisplayCell from "./DisplayCell";
 import { operators } from "./Filter";
 import type { IFieldConfig } from "@src/components/fields/types";

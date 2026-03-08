@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-
-import { Stack, IconButton } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { IconButton, Stack } from "@mui/material";
 
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Reference({ value, tabIndex }: IDisplayCellProps) {

@@ -1,11 +1,10 @@
-import { lazy, Suspense } from "react";
+import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
+import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
+import { WIKI_LINKS } from "@src/constants/externalLinks";
 import { upperFirst } from "lodash-es";
+import { lazy, Suspense } from "react";
 import useStateRef from "react-usestateref";
 
-import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
-import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
-
-import { WIKI_LINKS } from "@src/constants/externalLinks";
 import type { IExtensionModalStepProps } from "./ExtensionModal";
 
 const CodeEditor = lazy(

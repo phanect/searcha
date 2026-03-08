@@ -1,4 +1,4 @@
-import { Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 export default function Settings({ onChange, config }: ISettingsProps) {

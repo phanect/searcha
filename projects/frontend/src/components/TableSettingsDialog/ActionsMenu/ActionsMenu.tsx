@@ -1,6 +1,3 @@
-import { useState, Suspense, useContext } from "react";
-import { useSetAtom } from "jotai";
-
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { Export as ExportIcon, Import as ImportIcon } from "@src/assets/icons";
 
@@ -8,11 +5,13 @@ import {
   ProjectScopeContext,
   tableSettingsDialogIdAtom,
 } from "@src/atoms/projectScope";
-import ImportSettings from "./ImportSettings";
+import { useSetAtom } from "jotai";
+import { Suspense, useContext, useState } from "react";
 import ExportSettings from "./ExportSettings";
+import ImportSettings from "./ImportSettings";
 import type {
   TableSettingsDialogState } from "@src/atoms/projectScope";
-import type { Control, UseFormReturn, FieldValues } from "react-hook-form";
+import type { Control, FieldValues, UseFormReturn } from "react-hook-form";
 
 export type IActionsMenuProps = {
   mode: TableSettingsDialogState["mode"];

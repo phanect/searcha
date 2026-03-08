@@ -1,38 +1,36 @@
-import { memo, useCallback, useContext, useEffect } from "react";
-import { useAtom, useSetAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
-import { cloneDeep, set } from "lodash-es";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import {
+  _deleteRowDbAtom,
+  _updateRowDbAtom,
+  tableNextPageAtom,
+  tableRowsDbAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
+  tableSortsAtom,
+  updateTableSchemaAtom,
+} from "@src/atoms/tableScope";
+import useFirestoreDocAsCollectionWithAtom from "@src/hooks/useFirestoreDocAsCollectionWithAtom";
+import useFirestoreDocWithAtom, {
+  getDocRef,
+} from "@src/hooks/useFirestoreDocWithAtom";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { getTableSchemaPath } from "@src/utils/table";
 import {
   deleteField,
   refEqual,
   setDoc,
 } from "firebase/firestore";
+import { useAtom, useSetAtom } from "jotai";
+import { cloneDeep, set } from "lodash-es";
 import { useSnackbar } from "notistack";
+import { memo, useCallback, useContext, useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 
-import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  updateTableSchemaAtom,
-  tableSortsAtom,
-  tableRowsDbAtom,
-  _updateRowDbAtom,
-  _deleteRowDbAtom,
-  tableNextPageAtom,
-} from "@src/atoms/tableScope";
-
-import useFirestoreDocWithAtom, {
-  getDocRef,
-} from "@src/hooks/useFirestoreDocWithAtom";
-
-import { getTableSchemaPath } from "@src/utils/table";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import useFirestoreDocAsCollectionWithAtom from "@src/hooks/useFirestoreDocAsCollectionWithAtom";
 import { handleFirestoreError } from "./handleFirestoreError";
-import useBulkWriteDb from "./useBulkWriteDb";
 import useAuditChange from "./useAuditChange";
+import useBulkWriteDb from "./useBulkWriteDb";
 import type { TableRow, TableSchema } from "@src/types/table";
 import type {
   FirestoreError } from "firebase/firestore";

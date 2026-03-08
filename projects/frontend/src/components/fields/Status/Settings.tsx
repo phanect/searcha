@@ -1,9 +1,8 @@
-import { useState } from "react";
-
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
-import ConditionModal from "./ConditionModal";
+import { useState } from "react";
 import ConditionList from "./ConditionList";
+import ConditionModal from "./ConditionModal";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 export type IConditionModal = {

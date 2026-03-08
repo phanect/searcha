@@ -1,6 +1,6 @@
-import { Stack, Typography } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
 import ArrowIcon from "@mui/icons-material/ArrowForward";
+import CheckIcon from "@mui/icons-material/Check";
+import { Stack, Typography } from "@mui/material";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 
 export type ISetupItemProps = {

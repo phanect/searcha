@@ -1,18 +1,18 @@
-import { useState, useEffect, useContext } from "react";
-import { useAtom } from "jotai";
 import useMemoValue from "@phanect/use-memo-value";
-import {
-  query,
-  collection,
-  orderBy,
-  limit,
-  queryEqual,
-  onSnapshot,
-} from "firebase/firestore";
 
 import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { tableSchemaAtom, TableScopeContext } from "@src/atoms/tableScope";
 import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { TableScopeContext, tableSchemaAtom } from "@src/atoms/tableScope";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  queryEqual,
+} from "firebase/firestore";
+import { useAtom } from "jotai";
+import { useContext, useEffect, useState } from "react";
 import type {
   DocumentData } from "firebase/firestore";
 

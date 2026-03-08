@@ -1,13 +1,13 @@
-import { atom } from "jotai";
-import { selectAtom, atomWithStorage } from "jotai/utils";
-import { isEqual } from "lodash-es";
-import { getIdTokenResult } from "firebase/auth";
-import { compare } from "compare-versions";
-
-import { runRoutes } from "@src/constants/runRoutes";
 import meta from "@root/package.json";
-import { projectSettingsAtom } from "./project";
+import { runRoutes } from "@src/constants/runRoutes";
+import { compare } from "compare-versions";
+import { getIdTokenResult } from "firebase/auth";
+import { atom } from "jotai";
+import { atomWithStorage, selectAtom } from "jotai/utils";
+import { isEqual } from "lodash-es";
+
 import { currentUserAtom } from "./auth";
+import { projectSettingsAtom } from "./project";
 import type { RunRoute } from "@src/constants/runRoutes";
 
 /**

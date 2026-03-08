@@ -1,17 +1,17 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import { useWatch } from "react-hook-form";
-
 import {
-  InputLabel,
+  Button,
+  Checkbox,
   Collapse,
   FormControlLabel,
-  Checkbox,
   Grid2 as Grid,
-  Button,
+  InputLabel,
 } from "@mui/material";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { useContext, useState } from "react";
+import { useWatch } from "react-hook-form";
+
 import type { IFieldComponentProps } from "@phanect/searcha-form-builder";
 
 type customizationOptions = "allRead" | "authRead" | "subcollections" | "user";

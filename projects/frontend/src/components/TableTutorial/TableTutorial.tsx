@@ -1,32 +1,31 @@
-import { useState, Fragment, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { useNavigate } from "react-router-dom";
-
-import {
-  Slide,
-  Drawer,
-  Typography,
-  IconButton,
-  Box,
-  Stack,
-  Button,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-
-import StepsProgress from "@src/components/StepsProgress";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  Slide,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 import {
-  ProjectScopeContext,
   confirmDialogAtom,
   navOpenAtom,
+  ProjectScopeContext,
   updateUserSettingsAtom,
 } from "@src/atoms/projectScope";
+import StepsProgress from "@src/components/StepsProgress";
+
 import { ROUTES } from "@src/constants/routes";
 import {
   NAV_DRAWER_COLLAPSED_WIDTH,
   NAV_DRAWER_WIDTH,
 } from "@src/layouts/Navigation/NavDrawer";
+import { useAtom, useSetAtom } from "jotai";
+import { Fragment, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TUTORIAL_STEPS } from "./Steps";
 
 export default function TableTutorial() {

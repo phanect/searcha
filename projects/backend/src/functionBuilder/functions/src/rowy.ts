@@ -1,6 +1,6 @@
 import { GoogleAuth } from "google-auth-library";
 import { getSecret } from "./utils";
-import { url2storage, data2storage } from "./utils/storage";
+import { data2storage, url2storage } from "./utils/storage";
 async function generateAccessToken() {
   const auth = new GoogleAuth({
     scopes: [ "https://www.googleapis.com/auth/cloud-platform" ],

@@ -1,4 +1,4 @@
-import { FormControlLabel, Checkbox, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { webhookSchemas } from "./utils";
 import type { IWebhookModalStepProps } from "./WebhookModal";
 

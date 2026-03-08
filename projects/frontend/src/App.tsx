@@ -1,15 +1,4 @@
-import { lazy, Suspense, useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useAtom } from "jotai";
-
 import { Backdrop } from "@mui/material";
-import Loading from "@src/components/Loading";
-import ProjectSourceFirebase from "@src/sources/ProjectSourceFirebase";
-import MembersSourceFirebase from "@src/sources/MembersSourceFirebase";
-import ConfirmDialog from "@src/components/ConfirmDialog";
-import RowyRunModal from "@src/components/RowyRunModal";
-import NotFound from "@src/pages/NotFoundPage";
-import RequireAuth from "@src/layouts/RequireAuth";
 import AdminRoute from "@src/layouts/AdminRoute";
 
 import {
@@ -18,12 +7,22 @@ import {
   userRolesAtom,
   altPressAtom,
 } from "@src/atoms/projectScope";
+import ConfirmDialog from "@src/components/ConfirmDialog";
+import Loading from "@src/components/Loading";
+import RowyRunModal from "@src/components/RowyRunModal";
 import { ROUTES } from "@src/constants/routes";
 import useKeyPressWithAtom from "@src/hooks/useKeyPressWithAtom";
+import RequireAuth from "@src/layouts/RequireAuth";
 
 import SignOutPage from "@src/pages/Auth/SignOutPage";
-import TableGroupRedirectPage from "./pages/TableGroupRedirectPage";
+import NotFound from "@src/pages/NotFoundPage";
+import MembersSourceFirebase from "@src/sources/MembersSourceFirebase";
+import ProjectSourceFirebase from "@src/sources/ProjectSourceFirebase";
+import { useAtom } from "jotai";
+import { lazy, Suspense, useContext } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ProvidedArraySubTablePage from "./pages/Table/ProvidedArraySubTablePage";
+import TableGroupRedirectPage from "./pages/TableGroupRedirectPage";
 
 const AuthPage = lazy(() => import("@src/pages/Auth/AuthPage"));
 const SignUpPage = lazy(() => import("@src/pages/Auth/SignUpPage"));

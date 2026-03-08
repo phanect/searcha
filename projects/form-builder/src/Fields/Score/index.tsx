@@ -1,9 +1,9 @@
+import Numeric10Box from "mdi-material-ui/Numeric10Box";
 import { lazy } from "react";
 import { number } from "yup";
-import Numeric10Box from "mdi-material-ui/Numeric10Box";
+import Settings from "./ScoreSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ScoreSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () => import("./ScoreComponent")

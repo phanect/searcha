@@ -1,15 +1,14 @@
-import { useState } from "react";
-
-import {
-  FormControl,
-  FormLabel,
-  FormGroup,
-  Stack,
-  TextField,
-  Button,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/DeleteOutline";
+import {
+  Button,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { useState } from "react";
 
 export type IKeyValueInputProps = {
   value: Record<string, string>;

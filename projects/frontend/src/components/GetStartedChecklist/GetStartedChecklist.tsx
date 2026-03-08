@@ -1,28 +1,28 @@
+import MembersIcon from "@mui/icons-material/AccountCircleOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import CheckedIcon from "@mui/icons-material/CheckCircleOutline";
+import UncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import { Button, Typography } from "@mui/material";
+import {
+  getStartedChecklistAtom,
+  ProjectScopeContext,
+  tableSettingsDialogAtom,
+} from "@src/atoms/projectScope";
+import Modal from "@src/components/Modal";
+import SteppedAccordion from "@src/components/SteppedAccordion";
+import { ROUTES } from "@src/constants/routes";
+import {
+  NAV_DRAWER_COLLAPSED_WIDTH,
+  NAV_DRAWER_WIDTH,
+} from "@src/layouts/Navigation/NavDrawer";
 import { useAtom, useSetAtom } from "jotai";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { Typography, Button } from "@mui/material";
-import UncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import CheckedIcon from "@mui/icons-material/CheckCircleOutline";
-import AddIcon from "@mui/icons-material/Add";
-import MembersIcon from "@mui/icons-material/AccountCircleOutlined";
 
-import Modal from "@src/components/Modal";
-import SteppedAccordion from "@src/components/SteppedAccordion";
 
-import {
-  ProjectScopeContext,
-  getStartedChecklistAtom,
-  tableSettingsDialogAtom,
-} from "@src/atoms/projectScope";
-import {
-  NAV_DRAWER_WIDTH,
-  NAV_DRAWER_COLLAPSED_WIDTH,
-} from "@src/layouts/Navigation/NavDrawer";
-import { ROUTES } from "@src/constants/routes";
-import useGetStartedCompletion from "./useGetStartedCompletion";
 import GetStartedProgress from "./GetStartedProgress";
+import useGetStartedCompletion from "./useGetStartedCompletion";
 import type { IModalProps } from "@src/components/Modal";
 
 export type IGetStartedChecklistProps = {

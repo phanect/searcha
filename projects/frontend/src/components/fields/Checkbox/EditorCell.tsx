@@ -1,9 +1,9 @@
-import { useContext } from "react";
+import { FormControlLabel, Switch } from "@mui/material";
+import { confirmDialogAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import { useSetAtom } from "jotai";
 import { get } from "lodash-es";
 
-import { FormControlLabel, Switch } from "@mui/material";
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
+import { useContext } from "react";
 import type { IEditorCellProps } from "@src/components/fields/types";
 
 const replacer = (data: any) => (_: string, key: string) => {

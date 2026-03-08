@@ -1,18 +1,17 @@
-import { useContext, useEffect, useState } from "react";
-import { useAtom, type createStore } from "jotai";
-
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   TextField,
-  Button,
 } from "@mui/material";
+import { confirmDialogAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import MemoizedText from "@src/components/Modal/MemoizedText";
 
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
+import { useAtom, type createStore } from "jotai";
+import { useContext, useEffect, useState } from "react";
 
 export type IConfirmDialogProps = {
   store?: ReturnType<typeof createStore>;

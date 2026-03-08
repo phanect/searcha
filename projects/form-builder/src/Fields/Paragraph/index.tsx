@@ -1,9 +1,9 @@
-import { lazy } from "react";
 import FormTextarea from "mdi-material-ui/FormTextarea";
+import { lazy } from "react";
 import { string } from "yup";
+import Settings from "./ParagraphSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ParagraphSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

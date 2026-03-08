@@ -1,42 +1,42 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
+import { getAlgoliaSearchKey } from "./connectTable/algolia";
+import {
+  getFirestoreRules,
+  listCollections,
+  setFirestoreRules,
+} from "./firestore";
+import { functionBuilder } from "./functionBuilder";
+import { getLogs } from "./logging";
+import { auditChange } from "./logging/auditChange";
+import { getProjectId, metadataService } from "./metadataService";
 import { hasAnyRole, requireAuth } from "./middleware/auth";
+import { telemetryError } from "./rowyService";
+import { triggerJob } from "./runJobs";
+import { actionScript } from "./scripts/action";
+import { connector } from "./scripts/connector";
+import { evaluateDerivative } from "./scripts/derivative";
+import {
+  addSecret,
+  deleteSecret,
+  editSecret,
+  listSecrets,
+} from "./secretManager";
+import {
+  region,
+  version,
+  serviceAccountAccess,
+  setOwnerRoles,
+  getOwner,
+} from "./setup";
+import { checkIfFTMigrationRequired, migrateFT2Rowy } from "./setup/ft2rowy";
+
 import {
   deleteUser,
   impersonateUser,
   inviteUser,
   setUserRoles,
 } from "./userManagement";
-import {
-  getFirestoreRules,
-  listCollections,
-  setFirestoreRules,
-} from "./firestore";
-import { actionScript } from "./scripts/action";
-import { evaluateDerivative } from "./scripts/derivative";
-import { functionBuilder } from "./functionBuilder";
-import {
-  version,
-  region,
-  serviceAccountAccess,
-  setOwnerRoles,
-  getOwner,
-} from "./setup";
-import { checkIfFTMigrationRequired, migrateFT2Rowy } from "./setup/ft2rowy";
-import { getAlgoliaSearchKey } from "./connectTable/algolia";
-
-import { metadataService, getProjectId } from "./metadataService";
-import { getLogs } from "./logging";
-import { auditChange } from "./logging/auditChange";
-import { telemetryError } from "./rowyService";
-import {
-  listSecrets,
-  addSecret,
-  editSecret,
-  deleteSecret,
-} from "./secretManager";
-import { connector } from "./scripts/connector";
-import { triggerJob } from "./runJobs";
 import type firebase from "firebase-admin";
 
 const app = express();

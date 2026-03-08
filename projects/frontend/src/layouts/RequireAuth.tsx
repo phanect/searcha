@@ -1,11 +1,9 @@
+import { currentUserAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import Loading from "@src/components/Loading";
+import { ROUTES } from "@src/constants/routes";
 import { useAtom, type Atom, type createStore } from "jotai";
 import { useContext } from "react";
-import { useLocation, Navigate } from "react-router-dom";
-
-import Loading from "@src/components/Loading";
-
-import { ProjectScopeContext, currentUserAtom } from "@src/atoms/projectScope";
-import { ROUTES } from "@src/constants/routes";
+import { Navigate, useLocation } from "react-router-dom";
 
 export type IRequireAuthProps = {
   children: React.ReactElement;

@@ -1,15 +1,14 @@
-import { useState } from "react";
-
 import {
+  Divider,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
+  Menu,
   MenuItem,
   Typography,
-  Menu,
-  Divider,
 } from "@mui/material";
 import { ChevronRight as ChevronRightIcon } from "@src/assets/icons";
+import { useState } from "react";
 import type {
   MenuItemProps } from "@mui/material";
 

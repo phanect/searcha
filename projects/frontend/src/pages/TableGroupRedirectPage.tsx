@@ -1,5 +1,5 @@
-import { useParams, useLocation, Navigate } from "react-router-dom";
 import { ROUTES } from "@src/constants/routes";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 
 /**
  * Redirect /tableGroups/:id links to /table/:id

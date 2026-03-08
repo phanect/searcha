@@ -1,21 +1,20 @@
-import { Suspense, useContext } from "react";
-import { useAtom } from "jotai";
-import { colord } from "colord";
-
-import { Fade, Stack, Skeleton, Button } from "@mui/material";
+import { Button, Fade, Skeleton, Stack } from "@mui/material";
 import { AddColumn as AddColumnIcon } from "@src/assets/icons";
 
 import { ProjectScopeContext, userSettingsAtom } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
+  tableColumnsOrderedAtom,
   tableIdAtom,
   tableSchemaAtom,
-  tableColumnsOrderedAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
 import { COLLECTION_PAGE_SIZE } from "@src/config/db";
 import { formatSubTableName } from "@src/utils/table";
-import { DEFAULT_ROW_HEIGHT, DEFAULT_COL_WIDTH, TABLE_PADDING } from "./Table";
+import { colord } from "colord";
+import { useAtom } from "jotai";
+import { Suspense, useContext } from "react";
 import Column from "./Mock/Column";
+import { DEFAULT_COL_WIDTH, DEFAULT_ROW_HEIGHT, TABLE_PADDING } from "./Table";
 
 const NUM_COLS = 5;
 const NUM_ROWS = COLLECTION_PAGE_SIZE;

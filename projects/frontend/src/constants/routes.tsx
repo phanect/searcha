@@ -1,6 +1,6 @@
+import { Typography } from "@mui/material";
 import Logo from "@src/assets/Logo";
 import BreadcrumbsTableRoot from "@src/components/Table/Breadcrumbs/BreadcrumbsTableRoot";
-import { Typography } from "@mui/material";
 import type { FadeProps } from "@mui/material";
 
 export enum ROUTES {

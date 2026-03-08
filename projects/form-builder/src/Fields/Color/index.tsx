@@ -1,9 +1,9 @@
+import Palette from "mdi-material-ui/Palette";
 import { lazy } from "react";
 import { object } from "yup";
-import Palette from "mdi-material-ui/Palette";
+import Settings from "./ColorSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ColorSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () => import("./ColorComponent")

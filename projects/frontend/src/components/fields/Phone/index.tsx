@@ -1,11 +1,10 @@
-import { lazy } from "react";
-import { FieldType } from "@src/components/fields/types";
-import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
-
 import PhoneIcon from "@mui/icons-material/PhoneOutlined";
 import DisplayCell from "@src/components/fields/ShortText/DisplayCell";
 import { filterOperators } from "@src/components/fields/ShortText/Filter";
+import { FieldType } from "@src/components/fields/types";
 import BasicContextMenuActions from "@src/components/Table/ContextMenu/BasicCellContextMenuActions";
+import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 import EditorCell from "./EditorCell";
 import type { IFieldConfig } from "@src/components/fields/types";
 

@@ -1,15 +1,14 @@
-import { useContext, useMemo } from "react";
-import { useAtom } from "jotai";
-
-import MultiSelect from "@phanect/searcha-multiselect";
 import {
   Avatar,
   Box,
   Stack,
 } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
+import MultiSelect from "@phanect/searcha-multiselect";
 
-import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
+import { allUsersAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { useContext, useMemo } from "react";
 import type {
   AutocompleteProps,
   PopoverProps } from "@mui/material";

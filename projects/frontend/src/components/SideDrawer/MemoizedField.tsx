@@ -1,12 +1,12 @@
-import { memo, useEffect, useCallback, createElement } from "react";
-import useStateRef from "react-usestateref";
-import { isEqual, isEmpty } from "lodash-es";
-
-import { FieldType } from "@src/components/fields/types";
 import { getFieldProp } from "@src/components/fields";
+import { FieldType } from "@src/components/fields/types";
+import { isEmpty, isEqual } from "lodash-es";
+import { createElement, memo, useCallback, useEffect } from "react";
+import useStateRef from "react-usestateref";
+
 import FieldWrapper from "./FieldWrapper";
-import type { ColumnConfig, TableRowRef, TableRow } from "@src/types/table";
 import type { IFieldConfig } from "@src/components/fields/types";
+import type { ColumnConfig, TableRow, TableRowRef } from "@src/types/table";
 
 export type IMemoizedFieldProps = {
   field: ColumnConfig;

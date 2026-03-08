@@ -1,47 +1,46 @@
-import { lazy, Suspense, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-
-import { Button, Stack, Tooltip, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import FilterIcon from "@mui/icons-material/FilterList";
 import WebhookIcon from "@mui/icons-material/Webhook";
+import { Button, Stack, Tooltip, Typography } from "@mui/material";
 import {
+  CloudLogs as CloudLogsIcon,
   Export as ExportIcon,
   Extension as ExtensionIcon,
-  CloudLogs as CloudLogsIcon,
   Import as ImportIcon,
 } from "@src/assets/icons";
 
 import {
+  altPressAtom,
+  compatibleRowyRunVersionAtom,
+  confirmDialogAtom,
   ProjectScopeContext,
   projectSettingsAtom,
-  userRolesAtom,
-  compatibleRowyRunVersionAtom,
   rowyRunModalAtom,
-  altPressAtom,
-  confirmDialogAtom,
+  userRolesAtom,
 } from "@src/atoms/projectScope";
 import {
+  deleteRowAtom,
+  serverDocCountAtom,
+  tableModalAtom,
+  tableSchemaAtom,
   TableScopeContext,
   tableSettingsAtom,
-  tableSchemaAtom,
-  tableModalAtom,
   tableSortsAtom,
-  serverDocCountAtom,
-  deleteRowAtom,
 } from "@src/atoms/tableScope";
 import { FieldType } from "@src/constants/fields";
-import FilterIcon from "@mui/icons-material/FilterList";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import TableToolbarButton from "./TableToolbarButton";
-import { ButtonSkeleton } from "./TableToolbarSkeleton";
+import { useAtom, useSetAtom } from "jotai";
+import { lazy, Suspense, useContext } from "react";
 
 import AddRow, { AddRowArraySubTable } from "./AddRow";
-import LoadedRowsStatus from "./LoadedRowsStatus";
-import TableSettings from "./TableSettings";
 import HiddenFields from "./HiddenFields";
+import LoadedRowsStatus from "./LoadedRowsStatus";
 import RowHeight from "./RowHeight";
 import TableInformation from "./TableInformation";
-import type { RowSelectionState } from "@tanstack/react-table";
+import TableSettings from "./TableSettings";
+import TableToolbarButton from "./TableToolbarButton";
+import { ButtonSkeleton } from "./TableToolbarSkeleton";
 import type { TableToolsType } from "@src/types/table";
+import type { RowSelectionState } from "@tanstack/react-table";
 
 const Sort = lazy(() => import("./Sort"));
 

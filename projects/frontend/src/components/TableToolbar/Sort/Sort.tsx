@@ -1,29 +1,26 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
+  alpha,
   Grid2 as Grid,
   IconButton,
   MenuItem,
   Stack,
   TextField,
   Typography,
-  alpha,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-
+import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import {
   tableColumnsOrderedAtom,
   TableScopeContext,
   tableSettingsAtom,
   tableSortsAtom,
 } from "@src/atoms/tableScope";
-import ColumnSelect from "@src/components/Table/ColumnSelect";
-
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import useSaveTableSorts from "@src/components/Table/ColumnHeader/useSaveTableSorts";
+import ColumnSelect from "@src/components/Table/ColumnSelect";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import SortPopover from "./SortPopover";
 
 export default function Sort() {

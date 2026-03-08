@@ -1,7 +1,7 @@
 import { getFieldProp } from "@src/components/fields";
 import { isEmpty } from "lodash-es";
 import { createElement } from "react";
-import type { ISideDrawerFieldProps, IFieldConfig } from "@src/components/fields/types";
+import type { IFieldConfig, ISideDrawerFieldProps } from "@src/components/fields/types";
 
 export default function Formula({
   column,

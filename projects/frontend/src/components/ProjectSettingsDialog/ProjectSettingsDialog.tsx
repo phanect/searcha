@@ -1,5 +1,7 @@
-import { useContext, useState, type SyntheticEvent } from "react";
-import { useAtom } from "jotai";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Box, Button, Paper, Tab, Tooltip, Typography } from "@mui/material";
 import {
   ProjectScopeContext,
   projectSettingsDialogAtom,
@@ -7,11 +9,9 @@ import {
   secretNamesAtom,
 } from "@src/atoms/projectScope";
 import Modal from "@src/components/Modal";
-import { Box, Button, Paper, Tab, Tooltip, Typography } from "@mui/material";
-import { TabContext, TabPanel, TabList } from "@mui/lab";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
 import { runRoutes } from "@src/constants/runRoutes";
+import { useAtom } from "jotai";
+import { useContext, useState, type SyntheticEvent } from "react";
 import SecretDetailsModal from "./SecretDetailsModal";
 import type {
   ProjectSettingsDialogTab } from "@src/atoms/projectScope";

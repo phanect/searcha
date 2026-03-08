@@ -1,18 +1,17 @@
-import { useEffect } from "react";
-
 import {
-  Menu,
-  MenuItem,
-  ListItemSecondaryAction,
   Divider,
   ListItem,
+  ListItemSecondaryAction,
   ListItemText,
+  Menu,
+  MenuItem,
 } from "@mui/material";
+import meta from "@root/package.json";
+import { analytics, logEvent } from "@src/analytics";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { EXTERNAL_LINKS, WIKI_LINKS } from "@src/constants/externalLinks";
-import { logEvent, analytics } from "@src/analytics";
-import meta from "@root/package.json";
+import { useEffect } from "react";
 import type {
   MenuProps } from "@mui/material";
 

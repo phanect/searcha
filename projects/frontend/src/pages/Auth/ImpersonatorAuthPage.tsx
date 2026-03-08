@@ -1,20 +1,19 @@
-import { useContext, useEffect, useState } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import {
-  getIdTokenResult,
-  signOut,
-  signInWithCustomToken,
-} from "firebase/auth";
-
-import { Typography, Button, TextField } from "@mui/material";
-
-import AuthLayout from "@src/layouts/AuthLayout";
-import FirebaseUi from "@src/components/FirebaseUi";
+import { Button, TextField, Typography } from "@mui/material";
 
 import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
-import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
+import FirebaseUi from "@src/components/FirebaseUi";
 import { runRoutes } from "@src/constants/runRoutes";
+import AuthLayout from "@src/layouts/AuthLayout";
+
+import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
+import {
+  getIdTokenResult,
+  signInWithCustomToken,
+  signOut,
+} from "firebase/auth";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useEffect, useState } from "react";
 
 export default function ImpersonatorAuthPage() {
   const projectScopeStore = useContext(ProjectScopeContext);

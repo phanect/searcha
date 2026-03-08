@@ -1,12 +1,12 @@
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Menu from "@mui/material/Menu";
-import Grid from "@mui/material/Grid";
-import { Chip, Divider, Typography, useTheme } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FormatColorResetIcon from "@mui/icons-material/FormatColorReset";
-import { paletteToMui, palette } from "@src/theme/palette";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Chip, Divider, Typography, useTheme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Menu from "@mui/material/Menu";
+import { palette, paletteToMui } from "@src/theme/palette";
+import { useState } from "react";
 import CustomizeColorModal from "./CustomizeColorModal";
 import type { FC } from "react";
 

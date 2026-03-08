@@ -1,4 +1,4 @@
-import { styled, alpha } from "@mui/material";
+import { alpha, styled } from "@mui/material";
 
 export const StyledRow = styled("div")(({ theme }) => ({
   display: "flex",

@@ -1,20 +1,18 @@
+import DoneIcon from "@mui/icons-material/Done";
+import { Button, Grid2 as Grid, Typography } from "@mui/material";
+import { Copy as CopyIcon } from "@src/assets/icons";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import SetupItem from "@src/components/Setup/SetupItem";
+import {
+  REQUIRED_RULES,
+  RULES_END,
+  RULES_START,
+} from "@src/config/storageRules";
 import { useAtom } from "jotai";
 import { useSnackbar } from "notistack";
 import { useContext } from "react";
 
-import { Typography, Button, Grid2 as Grid } from "@mui/material";
-import { Copy as CopyIcon } from "@src/assets/icons";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import DoneIcon from "@mui/icons-material/Done";
-
-import SetupItem from "@src/components/Setup/SetupItem";
-
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
-import {
-  RULES_START,
-  RULES_END,
-  REQUIRED_RULES,
-} from "@src/config/storageRules";
 import type {
   ISetupStep,
   ISetupStepBodyProps,

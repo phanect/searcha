@@ -28,7 +28,7 @@ onmessage = async ({ data }) => {
     const codeToRun = transpile(formulaFn);
     // @ts-expect-error FIXME
     const exports = {}; // eslint-disable-line @typescript-eslint/no-unused-vars
-    // eslint-disable-next-line no-eval
+
     const formulaScript = eval(codeToRun);
     const result = await formulaScript({ row, ref });
     postMessage({ result });
@@ -38,7 +38,6 @@ onmessage = async ({ data }) => {
       error,
     });
   } finally {
-    // eslint-disable-next-line no-restricted-globals
     self.close();
   }
 };

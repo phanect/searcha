@@ -1,40 +1,38 @@
-import { useContext, useMemo } from "react";
-import { useSetAtom } from "jotai";
-import { assignIn } from "lodash-es";
+import AddIcon from "@mui/icons-material/AddAPhotoOutlined";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
+
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 import {
   alpha,
+  Box,
   ButtonBase,
   Typography,
   Grid2 as Grid,
   Tooltip,
   IconButton,
-  Box,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/AddAPhotoOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
-
-import Thumbnail from "@src/components/Thumbnail";
-import CircularProgressOptical from "@src/components/CircularProgressOptical";
-
 import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
-import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import useFileUpload from "@src/components/fields/File/useFileUpload";
-
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
+import Thumbnail from "@src/components/Thumbnail";
+import { useSetAtom } from "jotai";
+import { assignIn } from "lodash-es";
+import { useContext, useMemo } from "react";
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
 } from "react-beautiful-dnd";
 import { imageMimeTypes } from "./index.tsx";
 import type {
-  DropResult } from "react-beautiful-dnd";
-import type { FileValue } from "@src/types/table";
-import type {
   Theme } from "@mui/material";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
+import type { FileValue } from "@src/types/table";
+import type {
+  DropResult } from "react-beautiful-dnd";
 
 const imgSx = {
   position: "relative",

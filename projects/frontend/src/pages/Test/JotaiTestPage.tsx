@@ -1,28 +1,28 @@
-import { useContext, useState } from "react";
-import { useAtom } from "jotai";
-import {
-  ProjectScopeContext,
-  projectIdAtom,
-  currentUserAtom,
-  userRolesAtom,
-  userSettingsAtom,
-  publicSettingsAtom,
-  projectSettingsAtom,
-  rowyRunAtom,
-} from "@src/atoms/projectScope";
-import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
 import { Button } from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
-import { useSnackbar } from "notistack";
-import { useFirestoreDocWithAtom } from "@src/hooks/useFirestoreDocWithAtom";
-
 import {
+  currentUserAtom,
+  projectIdAtom,
+  ProjectScopeContext,
+  projectSettingsAtom,
+  publicSettingsAtom,
+  rowyRunAtom,
+  userRolesAtom,
+  userSettingsAtom,
+} from "@src/atoms/projectScope";
+
+import { runRoutes } from "@src/constants/runRoutes";
+import { useFirestoreDocWithAtom } from "@src/hooks/useFirestoreDocWithAtom";
+import { firebaseAuthAtom } from "@src/sources/ProjectSourceFirebase";
+import {
+  getIdTokenResult,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  getIdTokenResult,
 } from "firebase/auth";
-import { runRoutes } from "@src/constants/runRoutes";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { useContext, useState } from "react";
 import type {
   User } from "firebase/auth";
 

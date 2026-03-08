@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
 import { Avatar, AvatarGroup, ButtonBase, Stack, Tooltip } from "@mui/material";
-import { ProjectScopeContext, allUsersAtom } from "@src/atoms/projectScope";
 import { ChevronDown } from "@src/assets/icons/ChevronDown";
+import { allUsersAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 import type { UserDataType } from "./UserSelect";
 

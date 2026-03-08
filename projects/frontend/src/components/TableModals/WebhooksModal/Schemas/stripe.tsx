@@ -1,18 +1,18 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-import { Typography, Link, TextField, Alert, Box } from "@mui/material";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
-import {
-  ProjectScopeContext,
-  secretNamesAtom,
-  updateSecretNamesAtom,
-  projectSettingsDialogAtom,
-} from "@src/atoms/projectScope";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Alert, Box, Link, TextField, Typography } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  ProjectScopeContext,
+  projectSettingsDialogAtom,
+  secretNamesAtom,
+  updateSecretNamesAtom,
+} from "@src/atoms/projectScope";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 import type { IWebhook } from "@src/components/TableModals/WebhooksModal/utils";
 import type { WebHook } from "./type.ts";
 

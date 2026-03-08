@@ -1,20 +1,20 @@
-import { useCallback, useContext, useEffect } from "react";
 import useMemoValue from "@phanect/use-memo-value";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { omitRowyFields } from "@src/utils/table";
+import {
+  doc,
+  onSnapshot,
+  refEqual,
+  runTransaction,
+} from "firebase/firestore";
 import { useAtom, useSetAtom } from "jotai";
 import { orderBy } from "lodash-es";
 import { useSnackbar } from "notistack";
 
-import {
-  doc,
-  refEqual,
-  onSnapshot,
-  runTransaction,
-} from "firebase/firestore";
+import { useCallback, useContext, useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
-import { omitRowyFields } from "@src/utils/table";
 import type {
   ArrayTableRowData,
   DeleteCollectionDocFunction,
@@ -23,9 +23,9 @@ import type {
   UpdateCollectionDocFunction,
 } from "@src/types/table";
 import type {
+  DocumentReference,
   Firestore,
-  FirestoreError,
-  DocumentReference } from "firebase/firestore";
+  FirestoreError } from "firebase/firestore";
 import type { PrimitiveAtom } from "jotai";
 
 type UpdateFunction<T> = (rows: T[]) => T[];

@@ -1,41 +1,40 @@
-import { useState, Suspense, useContext } from "react";
-import { useSetAtom } from "jotai";
-import { colord } from "colord";
-
-import {
-  alpha,
-  Drawer,
-  Stack,
-  IconButton,
-  List,
-  Box,
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
-  Divider,
-  Skeleton,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/MenuOpen";
+import HelpIcon from "@mui/icons-material/HelpOutline";
 import DocsIcon from "@mui/icons-material/LibraryBooksOutlined";
 import LearningIcon from "@mui/icons-material/LocalLibraryOutlined";
-import HelpIcon from "@mui/icons-material/HelpOutline";
+import CloseIcon from "@mui/icons-material/MenuOpen";
 import CommunityIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import {
-  ChevronRight as ChevronRightIcon,
+  alpha,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  Skeleton,
+  Stack,
+} from "@mui/material";
+import {
   Checklist as ChecklistIcon,
+  ChevronRight as ChevronRightIcon,
 } from "@src/assets/icons";
 
 import Logo from "@src/assets/Logo";
+import { getStartedChecklistAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import GetStartedProgress from "@src/components/GetStartedChecklist/GetStartedProgress";
-import { ProjectScopeContext, getStartedChecklistAtom } from "@src/atoms/projectScope";
+import useGetStartedCompletion from "@src/components/GetStartedChecklist/useGetStartedCompletion";
+import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
-import useGetStartedCompletion from "@src/components/GetStartedChecklist/useGetStartedCompletion";
-import NavItem from "./NavItem";
-import LearningMenu from "./LearningMenu";
+import { colord } from "colord";
+import { useSetAtom } from "jotai";
+import { Suspense, useContext, useState } from "react";
 import CommunityMenu from "./CommunityMenu";
 import HelpMenu from "./HelpMenu";
+import LearningMenu from "./LearningMenu";
+import NavItem from "./NavItem";
 import type {
   DrawerProps } from "@mui/material";
 import type { INavDrawerContentsProps } from "./NavDrawerContents";

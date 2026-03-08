@@ -1,4 +1,4 @@
-import { db, auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { getExtension } from "../rowyService";
 
 type ForcedSyncRequest = {

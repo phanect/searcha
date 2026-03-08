@@ -1,22 +1,21 @@
-import { useState, useRef, useContext } from "react";
-import { useAtom } from "jotai";
-
-import {
-  Popover,
-  Divider,
-} from "@mui/material";
-import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import {
+  Divider,
+  Popover,
+} from "@mui/material";
+import Tab from "@mui/material/Tab";
 
 import { Import as ImportIcon } from "@src/assets/icons";
 
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
 import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
-import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
-import ImportFromCsv from "@src/components/TableToolbar/ImportData/ImportFromCsv";
 import ImportFromAirtable from "@src/components/TableToolbar/ImportData/ImportFromAirtable";
+import ImportFromCsv from "@src/components/TableToolbar/ImportData/ImportFromCsv";
+import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
+import { useAtom } from "jotai";
+import { useContext, useRef, useState } from "react";
 import type {
   PopoverProps as MuiPopoverProps } from "@mui/material";
 

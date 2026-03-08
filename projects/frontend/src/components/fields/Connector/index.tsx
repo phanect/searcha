@@ -1,8 +1,8 @@
-import { lazy } from "react";
+import ConnectorIcon from "@mui/icons-material/Cable";
 import { FieldType } from "@src/components/fields/types";
 import withRenderTableCell from "@src/components/Table/TableCell/withRenderTableCell";
+import { lazy } from "react";
 
-import ConnectorIcon from "@mui/icons-material/Cable";
 import DisplayCell from "./DisplayCell";
 import type { IFieldConfig } from "@src/components/fields/types";
 

@@ -1,4 +1,4 @@
-import { Typography, Paper, Skeleton, Stack, Divider } from "@mui/material";
+import { Divider, Paper, Skeleton, Stack, Typography } from "@mui/material";
 
 export default function SettingsSkeleton() {
   return (

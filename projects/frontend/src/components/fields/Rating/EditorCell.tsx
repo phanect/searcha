@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import DisplayCell from "./DisplayCell";
 import type { IEditorCellProps } from "@src/components/fields/types";
 

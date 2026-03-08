@@ -1,12 +1,11 @@
-import { upperFirst } from "lodash-es";
-import useStateRef from "react-usestateref";
-
-import { Typography, Link } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import CodeEditor from "@src/components/CodeEditor";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import { upperFirst } from "lodash-es";
+import useStateRef from "react-usestateref";
 import { parserExtraLibs } from "./utils";
 import type { IWebhookModalStepProps } from "./WebhookModal";
 

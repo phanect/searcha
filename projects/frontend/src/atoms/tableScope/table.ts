@@ -1,21 +1,21 @@
+import { updateRowData } from "@src/utils/table";
 import { atom } from "jotai";
 import { atomWithReducer } from "jotai/utils";
 import { atomWithHash } from "jotai-location";
-import { findIndex, cloneDeep, unset, orderBy } from "lodash-es";
+import { cloneDeep, findIndex, orderBy, unset } from "lodash-es";
 
-import { updateRowData } from "@src/utils/table";
 import type {
-  TableSettings,
-  TableSchema,
+  BulkWriteFunction,
   ColumnConfig,
-  TableFilter,
-  TableSort,
-  TableRow,
-  UpdateDocFunction,
-  UpdateCollectionDocFunction,
   DeleteCollectionDocFunction,
   NextPageState,
-  BulkWriteFunction,
+  TableFilter,
+  TableRow,
+  TableSchema,
+  TableSettings,
+  TableSort,
+  UpdateCollectionDocFunction,
+  UpdateDocFunction,
 } from "@src/types/table";
 import type { Table } from "@tanstack/react-table";
 
@@ -99,9 +99,9 @@ export const tablePageAtom = atom(
   }
 );
 
-type TableRowsLocalAction =
+type TableRowsLocalAction
   /** Overwrite all rows */
-  | { type: "set"; rows: TableRow[]; }
+  = | { type: "set"; rows: TableRow[]; }
   /** Add a row or multiple rows */
   | { type: "add"; row: TableRow | TableRow[]; }
   /** Update a row */

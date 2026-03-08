@@ -1,11 +1,11 @@
 import _get from "lodash/get";
 import fetch from "node-fetch";
 import rowy from "./rowy";
-import { db, auth, storage } from "../firebaseConfig";
+import { auth, db, storage } from "../firebaseConfig";
 import type { Request, Response } from "express";
-import type { CollectionGroup, CollectionReference } from "firebase-admin/firestore";
-import type { Auth } from "firebase-admin/auth";
 import type * as admin from "firebase-admin";
+import type { Auth } from "firebase-admin/auth";
+import type { CollectionGroup, CollectionReference } from "firebase-admin/firestore";
 import type { Rowy } from "./rowy";
 import type { User } from "../types/User";
 

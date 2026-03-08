@@ -1,6 +1,6 @@
-import { TextField, InputAdornment, Box, useTheme } from "@mui/material";
-import { resultColorsScale } from "@src/utils/color";
+import { Box, InputAdornment, TextField, useTheme } from "@mui/material";
 import { getFieldId } from "@src/components/SideDrawer/utils";
+import { resultColorsScale } from "@src/utils/color";
 import { multiply100WithPrecision } from "./utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
 

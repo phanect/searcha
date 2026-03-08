@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { find } from "lodash-es";
-
-import { getFieldType, getFieldProp } from "@src/components/fields";
+import { getFieldProp, getFieldType } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";
 import { generateId } from "@src/utils/table";
-import type { ColumnConfig, TableFilter } from "@src/types/table";
+import { find } from "lodash-es";
+import { useState } from "react";
 import type { IFieldConfig } from "@src/components/fields/types";
+import type { ColumnConfig, TableFilter } from "@src/types/table";
 
 export const useFilterInputs = (
   columns: ColumnConfig[],

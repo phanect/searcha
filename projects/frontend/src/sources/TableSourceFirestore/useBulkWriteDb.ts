@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "react";
+import { ProjectScopeContext } from "@src/atoms/projectScope";
+import { _bulkWriteDbAtom, TableScopeContext } from "@src/atoms/tableScope";
+import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { deleteField, doc, writeBatch } from "firebase/firestore";
 import { useAtom, useSetAtom } from "jotai";
 import { chunk, set } from "lodash-es";
-import { doc, writeBatch, deleteField } from "firebase/firestore";
-
-import { ProjectScopeContext } from "@src/atoms/projectScope";
-import { TableScopeContext, _bulkWriteDbAtom } from "@src/atoms/tableScope";
-import { firebaseDbAtom } from "@src/sources/ProjectSourceFirebase";
+import { useContext, useEffect } from "react";
 import type { BulkWriteFunction } from "@src/types/table";
 
 /**

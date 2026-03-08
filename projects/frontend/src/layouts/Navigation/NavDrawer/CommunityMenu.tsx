@@ -1,17 +1,16 @@
-import { useEffect } from "react";
-
 import {
-  Menu,
-  ListSubheader,
-  MenuItem,
   ListItemIcon,
   ListItemSecondaryAction,
+  ListSubheader,
+  Menu,
+  MenuItem,
 } from "@mui/material";
+import { analytics, logEvent } from "@src/analytics";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import SocialLogo from "@src/components/SocialLogo";
 
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
-import { logEvent, analytics } from "@src/analytics";
+import { useEffect } from "react";
 import type {
   MenuProps } from "@mui/material";
 

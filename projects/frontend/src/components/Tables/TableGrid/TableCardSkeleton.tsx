@@ -1,9 +1,9 @@
 import {
   Card,
-  CardContent,
-  Typography,
   CardActions,
+  CardContent,
   Skeleton,
+  Typography,
 } from "@mui/material";
 
 export default function TableCardSkeleton() {

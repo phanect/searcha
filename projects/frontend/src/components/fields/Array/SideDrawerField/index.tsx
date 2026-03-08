@@ -1,28 +1,27 @@
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-} from "react-beautiful-dnd";
-
-import { Stack, Box, Button, ListItem, List } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
+import { Box, Button, List, ListItem, Stack } from "@mui/material";
 
 import { FieldType } from "@src/components/fields/types";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "react-beautiful-dnd";
 
 import AddButton from "./AddButton";
-import { getPseudoColumn } from "./utils";
 import {
   detectType,
   SupportedTypes,
 } from "./SupportedTypes";
-import type {
-  ArraySupportedFiledTypes } from "./SupportedTypes";
-import type { TableRow, TableRowRef } from "@src/types/table";
+import { getPseudoColumn } from "./utils";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
+import type { TableRow, TableRowRef } from "@src/types/table";
 import type {
   DropResult } from "react-beautiful-dnd";
+import type {
+  ArraySupportedFiledTypes } from "./SupportedTypes";
 
 function ArrayFieldInput({
   onChange,

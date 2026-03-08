@@ -2,8 +2,8 @@ import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 import { getTableSchemaAtom } from "./project";
-import type { DialogProps, ButtonProps } from "@mui/material";
-import type { TableSettings, TableSchema } from "@src/types/table";
+import type { ButtonProps, DialogProps } from "@mui/material";
+import type { TableSchema, TableSettings } from "@src/types/table";
 
 /**
  * Global state when the Alt key is pressed,
@@ -126,8 +126,8 @@ export const tableSettingsDialogAtom = atom(
   }
 );
 
-export type ProjectSettingsDialogTab =
-  | "general"
+export type ProjectSettingsDialogTab
+  = | "general"
   | "rowy-run"
   | "services"
   | "secrets";

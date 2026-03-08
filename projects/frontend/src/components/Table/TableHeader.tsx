@@ -1,21 +1,20 @@
-import { memo, Fragment, useContext } from "react";
-import { useAtom } from "jotai";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { selectedCellAtom, TableScopeContext } from "@src/atoms/tableScope";
+import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
 import {
   flexRender,
 } from "@tanstack/react-table";
-
-import { TableScopeContext, selectedCellAtom } from "@src/atoms/tableScope";
-import { DEFAULT_ROW_HEIGHT } from "@src/components/Table";
-import StyledRow from "./Styled/StyledRow";
+import { useAtom } from "jotai";
+import { Fragment, memo, useContext } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import ColumnHeader from "./ColumnHeader";
 import FinalColumnHeader from "./FinalColumn/FinalColumnHeader";
 
 import StyledColumnHeader from "./Styled/StyledColumnHeader";
+import StyledRow from "./Styled/StyledRow";
+import type { ColumnConfig, TableRow } from "@src/types/table";
 import type {
   ColumnSizingState,
   HeaderGroup } from "@tanstack/react-table";
-import type { ColumnConfig, TableRow } from "@src/types/table";
 import type { DropResult } from "react-beautiful-dnd";
 
 export type ITableHeaderProps = {

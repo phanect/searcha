@@ -1,14 +1,14 @@
 import {
-  InputLabel,
-  TextField,
-  Grid2 as Grid,
-  FormControlLabel,
   Checkbox,
+  FormControlLabel,
+  Grid2 as Grid,
+  InputLabel,
   Stack,
+  TextField,
 } from "@mui/material";
+import MuiRating from "@mui/material/Rating";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import MuiRating from "@mui/material/Rating";
 import { get } from "lodash-es";
 import Icon from "./Icon";
 import type { ISettingsProps } from "@src/components/fields/types";

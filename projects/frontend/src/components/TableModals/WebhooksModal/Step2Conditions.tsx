@@ -1,10 +1,9 @@
-import useStateRef from "react-usestateref";
-
 import { Typography } from "@mui/material";
 import CodeEditor from "@src/components/CodeEditor";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";
 
 import { WIKI_LINKS } from "@src/constants/externalLinks";
+import useStateRef from "react-usestateref";
 import { webhookSchemas } from "./utils";
 import type { IWebhookModalStepProps } from "./WebhookModal";
 

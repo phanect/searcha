@@ -1,7 +1,6 @@
-import { useLocation } from "react-router-dom";
-
 import { ROUTES } from "@src/constants/routes";
 import get from "lodash-es/get";
+import { useLocation } from "react-router-dom";
 import type { ColumnConfig, TableRow, TableRowRef } from "@src/types/table";
 
 export const useSubTableData = (

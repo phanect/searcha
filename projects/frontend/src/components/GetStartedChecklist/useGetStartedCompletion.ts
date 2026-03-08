@@ -1,10 +1,10 @@
-import { useAtom } from "jotai";
 import {
+  allUsersAtom,
   ProjectScopeContext,
   tablesAtom,
   userSettingsAtom,
-  allUsersAtom,
 } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
 import { useContext } from "react";
 
 export default function useGetStartedCompletion() {

@@ -1,49 +1,48 @@
-import useSWR from "swr";
-import { useAtom } from "jotai";
-import { startCase } from "lodash-es";
-import { useContext } from "react";
-
+import ClearIcon from "@mui/icons-material/Clear";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import {
-  ToggleButtonGroup,
-  ToggleButton,
+  Button,
+  InputAdornment,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
   TextField,
-  InputAdornment,
-  Button,
   Box,
   CircularProgress,
   Alert,
   Link,
 } from "@mui/material";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { CloudLogs as LogsIcon } from "@src/assets/icons";
-import ClearIcon from "@mui/icons-material/Clear";
-
-import Modal from "@src/components/Modal";
-import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
 import MultiSelect from "@phanect/searcha-multiselect";
-import EmptyState from "@src/components/EmptyState";
+import { CloudLogs as LogsIcon } from "@src/assets/icons";
+
 import {
-  ProjectScopeContext,
-  projectIdAtom,
-  rowyRunAtom,
   compatibleRowyRunVersionAtom,
+  projectIdAtom,
+  ProjectScopeContext,
+  rowyRunAtom,
 } from "@src/atoms/projectScope";
 import {
+  cloudLogFiltersAtom,
+  tableSchemaAtom,
   TableScopeContext,
   tableSettingsAtom,
-  tableSchemaAtom,
-  cloudLogFiltersAtom,
 } from "@src/atoms/tableScope";
-import { FieldType } from "@src/constants/fields";
+import EmptyState from "@src/components/EmptyState";
+import Modal from "@src/components/Modal";
+import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import TimeRangeSelect from "./TimeRangeSelect";
-import CloudLogList from "./CloudLogList";
+import { FieldType } from "@src/constants/fields";
+import { useAtom } from "jotai";
+import { startCase } from "lodash-es";
+import { useContext } from "react";
+import useSWR from "swr";
 import BuildLogs from "./BuildLogs";
+import CloudLogList from "./CloudLogList";
 import CloudLogSeverityIcon, {
   SEVERITY_LEVELS_ROWY,
 } from "./CloudLogSeverityIcon";
+import TimeRangeSelect from "./TimeRangeSelect";
 
 import { cloudLogFetcher } from "./utils";
 import type { ITableModalProps } from "@src/components/TableModals";

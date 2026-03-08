@@ -1,11 +1,11 @@
-import { useAtom } from "jotai";
-import { useContext } from "react";
-import { Stack, Typography, Grid2 as Grid, Tooltip, IconButton } from "@mui/material";
-import SecretsIcon from "@mui/icons-material/VpnKeyOutlined";
 import FunctionsIcon from "@mui/icons-material/CloudOutlined";
 import DocsIcon from "@mui/icons-material/DescriptionOutlined";
+import SecretsIcon from "@mui/icons-material/VpnKeyOutlined";
+import { Grid2 as Grid, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 
-import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
+import { projectIdAtom, ProjectScopeContext } from "@src/atoms/projectScope";
+import { useAtom } from "jotai";
+import { useContext } from "react";
 
 export type ICodeEditorHelperProps = {
   docLink: string;

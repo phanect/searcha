@@ -1,8 +1,5 @@
-import { useContext, useMemo, useState } from "react";
-import { format } from "date-fns";
-import { find, isEqual } from "lodash-es";
-import MDEditor from "@uiw/react-md-editor";
-
+import EditOffIcon from "@mui/icons-material/EditOffOutlined";
+import EditIcon from "@mui/icons-material/EditOutlined";
 import {
   Box,
   IconButton,
@@ -13,19 +10,20 @@ import {
   useTheme,
 } from "@mui/material";
 
-import EditIcon from "@mui/icons-material/EditOutlined";
-import EditOffIcon from "@mui/icons-material/EditOffOutlined";
-
-import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
-import { useAtom } from "jotai";
 import {
   ProjectScopeContext,
   tablesAtom,
   updateTableAtom,
   userRolesAtom,
 } from "@src/atoms/projectScope";
-import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import { TableScopeContext, tableSettingsAtom } from "@src/atoms/tableScope";
 import SaveState from "@src/components/SideDrawer/SaveState";
+import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import MDEditor from "@uiw/react-md-editor";
+import { format } from "date-fns";
+import { useAtom } from "jotai";
+import { find, isEqual } from "lodash-es";
+import { useContext, useMemo, useState } from "react";
 
 export default function Details() {
   const projectScopeStore = useContext(ProjectScopeContext);

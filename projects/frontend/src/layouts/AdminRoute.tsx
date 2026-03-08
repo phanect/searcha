@@ -1,16 +1,15 @@
-import { useContext } from "react";
-import { useAtom } from "jotai";
-import { Link } from "react-router-dom";
-
-import { Typography, Button } from "@mui/material";
-import LockIcon from "@mui/icons-material/LockOutlined";
 import HomeIcon from "@mui/icons-material/HomeOutlined";
-
-import EmptyState from "@src/components/EmptyState";
+import LockIcon from "@mui/icons-material/LockOutlined";
+import { Button, Typography } from "@mui/material";
 
 import { ProjectScopeContext, userRolesAtom } from "@src/atoms/projectScope";
+import EmptyState from "@src/components/EmptyState";
+
 import { ROUTES } from "@src/constants/routes";
 import { TOP_BAR_HEIGHT } from "@src/layouts/Navigation/TopBar";
+import { useAtom } from "jotai";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import type { PropsWithChildren } from "react";
 
 /**

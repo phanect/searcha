@@ -1,7 +1,6 @@
-import { useMemo } from "react";
-
 import { ButtonBase } from "@mui/material";
 import { ChevronDown } from "@src/assets/icons";
+import { useMemo } from "react";
 import getLabel from "./utils/getLabelHelper";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 

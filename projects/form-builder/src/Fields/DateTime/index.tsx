@@ -1,6 +1,6 @@
+import CalendarClock from "mdi-material-ui/CalendarClock";
 import { lazy } from "react";
 import { date } from "yup";
-import CalendarClock from "mdi-material-ui/CalendarClock";
 import { FieldType } from "../../constants/fields";
 import type { IFieldConfig } from "../../types";
 

@@ -1,32 +1,31 @@
+import CheckSelectedIcon from "@mui/icons-material/CheckBox";
+import CheckUnselectedIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import RadioSelectedIcon from "@mui/icons-material/RadioButtonChecked";
+import RadioUnselectedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Autocomplete,
+  InputAdornment,
+  TextField,
+  useThemeProps,
+} from "@mui/material";
 import { useState, type ReactNode } from "react";
 
 import { makeStyles } from "tss-react/mui";
-import {
-  useThemeProps,
-  TextField,
-  InputAdornment,
-  Autocomplete,
-} from "@mui/material";
 
-import SearchIcon from "@mui/icons-material/Search";
-import CheckUnselectedIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckSelectedIcon from "@mui/icons-material/CheckBox";
-import RadioUnselectedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import RadioSelectedIcon from "@mui/icons-material/RadioButtonChecked";
-
-import FragmentWrapper from "./FragmentWrapper";
 import AddItem from "./AddItem";
-import PopupFooter from "./PopupFooter";
-
 import {
-  SEARCH_AREA_HEIGHT,
+  FOOTER_HEIGHT,
   LISTBOX_MIN_HEIGHT,
   LISTBOX_MIN_WIDTH,
-  FOOTER_HEIGHT,
+  SEARCH_AREA_HEIGHT,
 } from "./constants/layout";
-import type { PopupContentsProps, Option } from "./props";
+import FragmentWrapper from "./FragmentWrapper";
+import PopupFooter from "./PopupFooter";
+
 import type {
   AutocompleteChangeReason } from "@mui/material";
+import type { Option, PopupContentsProps } from "./props";
 
 const useStyles = makeStyles()((theme) => ({
   root: {

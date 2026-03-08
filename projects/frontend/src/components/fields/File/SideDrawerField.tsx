@@ -1,31 +1,30 @@
-import { useContext } from "react";
-import { useSetAtom } from "jotai";
-import { format } from "date-fns";
-
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import {
   alpha,
   ButtonBase,
-  Typography,
+  Chip,
   Grid2 as Grid,
   Tooltip,
-  Chip,
+  Typography,
 } from "@mui/material";
 import { Upload as UploadIcon } from "@src/assets/icons";
-
+import { confirmDialogAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
-import { DATE_TIME_FORMAT } from "@src/constants/dates";
 import { fieldSx, getFieldId } from "@src/components/SideDrawer/utils";
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { DATE_TIME_FORMAT } from "@src/constants/dates";
+import { format } from "date-fns";
+import { useSetAtom } from "jotai";
+import { useContext } from "react";
+
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
 } from "react-beautiful-dnd";
-import useFileUpload from "./useFileUpload";
 import { FileIcon } from ".";
-import type { FileValue } from "@src/types/table";
+import useFileUpload from "./useFileUpload";
 import type { ISideDrawerFieldProps } from "@src/components/fields/types";
+import type { FileValue } from "@src/types/table";
 
 export default function File_({
   column,

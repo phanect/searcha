@@ -1,6 +1,6 @@
+import Calendar from "mdi-material-ui/Calendar";
 import { lazy } from "react";
 import { date } from "yup";
-import Calendar from "mdi-material-ui/Calendar";
 import { FieldType } from "../../constants/fields";
 import type { IFieldConfig } from "../../types";
 

@@ -1,5 +1,5 @@
-import type { IFieldComponentProps } from "../../types";
 import type { ImgHTMLAttributes } from "react";
+import type { IFieldComponentProps } from "../../types";
 
 export type IContentImageComponentProps = {
   src: string | { downloadURL: string; }[];

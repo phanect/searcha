@@ -1,30 +1,28 @@
-import { useState, useRef, useContext } from "react";
-import { useAtom } from "jotai";
-import { useSnackbar } from "notistack";
-import { get, find, isString } from "lodash-es";
-import { saveAs } from "file-saver";
-import { getDocs } from "firebase/firestore";
-import JSZip from "jszip";
-
+import {
+  Button,
+  Checkbox,
+  DialogActions,
+  FormControlLabel,
+  TextField,
+} from "@mui/material";
 import MultiSelect from "@phanect/searcha-multiselect";
 
 import {
-  DialogActions,
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-} from "@mui/material";
-import ColumnSelect from "@src/components/Table/ColumnSelect";
-
-import {
-  TableScopeContext,
-  tableIdAtom,
   tableColumnsOrderedAtom,
+  tableIdAtom,
+  TableScopeContext,
 } from "@src/atoms/tableScope";
-import SnackbarProgress from "@src/components/SnackbarProgress";
 import { hasDataTypes } from "@src/components/fields";
+import SnackbarProgress from "@src/components/SnackbarProgress";
+import ColumnSelect from "@src/components/Table/ColumnSelect";
 import { FieldType } from "@src/constants/fields";
+import { saveAs } from "file-saver";
+import { getDocs } from "firebase/firestore";
+import { useAtom } from "jotai";
+import JSZip from "jszip";
+import { find, get, isString } from "lodash-es";
+import { useSnackbar } from "notistack";
+import { useContext, useRef, useState } from "react";
 import type {
   ISnackbarProgressRef,
 } from "@src/components/SnackbarProgress";

@@ -1,8 +1,8 @@
-import { lazy } from "react";
 import FormatHeader2 from "mdi-material-ui/FormatHeader2";
+import { lazy } from "react";
+import Settings from "./ContentSubHeaderSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./ContentSubHeaderSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

@@ -1,18 +1,17 @@
-import { memo, Suspense, useState, useEffect, useRef } from "react";
-import { isEqual } from "lodash-es";
-
 import { Popover } from "@mui/material";
 
 import { spreadSx } from "@src/utils/ui";
+import { isEqual } from "lodash-es";
+import { memo, Suspense, useEffect, useRef, useState } from "react";
 import EditorCellController from "./EditorCellController";
 import type { PopoverProps } from "@mui/material";
 
-import type { CellContext } from "@tanstack/react-table";
-import type { ColumnConfig, TableRow } from "@src/types/table";
 import type {
   IDisplayCellProps,
   IEditorCellProps,
 } from "@src/components/fields/types";
+import type { ColumnConfig, TableRow } from "@src/types/table";
+import type { CellContext } from "@tanstack/react-table";
 
 export type ICellOptions = {
   /** If the rest of the row’s data is used, set this to true for memoization */

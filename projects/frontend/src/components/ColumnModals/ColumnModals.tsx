@@ -1,17 +1,17 @@
-import { useContext } from "react";
+import {
+  columnModalAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+} from "@src/atoms/tableScope";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
+import { useContext } from "react";
 
-import {
-  TableScopeContext,
-  tableSchemaAtom,
-  columnModalAtom,
-} from "@src/atoms/tableScope";
-import NewColumnModal from "./NewColumnModal";
-import NameChangeModal from "./NameChangeModal";
-import TypeChangeModal from "./TypeChangeModal";
 import ColumnConfigModal from "./ColumnConfigModal";
+import NameChangeModal from "./NameChangeModal";
+import NewColumnModal from "./NewColumnModal";
 import SetColumnWidthModal from "./SetColumnWidthModal";
+import TypeChangeModal from "./TypeChangeModal";
 import type { ColumnConfig } from "@src/types/table";
 
 export type IColumnModalProps = {

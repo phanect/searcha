@@ -1,32 +1,30 @@
-import { Suspense, useContext } from "react";
-import { useAtom } from "jotai";
-import { ErrorBoundary } from "react-error-boundary";
-
-import {
-  Stack,
-  InputLabel,
-  Tooltip,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import { DocumentPath as DocumentPathIcon } from "@src/assets/icons";
-import LaunchIcon from "@mui/icons-material/Launch";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import LaunchIcon from "@mui/icons-material/Launch";
 import LockIcon from "@mui/icons-material/LockOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
-
-import { InlineErrorFallback } from "@src/components/ErrorFallback";
+import {
+  IconButton,
+  InputLabel,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { DocumentPath as DocumentPathIcon } from "@src/assets/icons";
 
 import {
-  ProjectScopeContext,
-  projectIdAtom,
   altPressAtom,
+  projectIdAtom,
+  ProjectScopeContext,
 } from "@src/atoms/projectScope";
+import { InlineErrorFallback } from "@src/components/ErrorFallback";
 import { getFieldProp } from "@src/components/fields";
-import { useSnackbar } from "notistack";
 import { copyToClipboard } from "@src/utils/ui";
-import { getLabelId, getFieldId } from "./utils";
+import { useAtom } from "jotai";
+import { useSnackbar } from "notistack";
+import { Suspense, useContext } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import FieldSkeleton from "./FieldSkeleton";
+import { getFieldId, getLabelId } from "./utils";
 import type { FieldType } from "@src/constants/fields";
 
 export type IFieldWrapperProps = {

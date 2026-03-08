@@ -1,10 +1,10 @@
+import OrderBoolAscendingVariant from "mdi-material-ui/OrderBoolAscendingVariant";
 import { lazy } from "react";
 import { array, string } from "yup";
 
-import OrderBoolAscendingVariant from "mdi-material-ui/OrderBoolAscendingVariant";
+import Settings from "./MultiSelectSettings";
 import { FieldType } from "../../constants/fields";
 
-import Settings from "./MultiSelectSettings";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

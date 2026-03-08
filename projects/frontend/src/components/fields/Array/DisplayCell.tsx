@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material";
 import { isArray } from "lodash-es";
-import { SupportedTypes, detectType } from "./SideDrawerField/SupportedTypes";
+import { detectType, SupportedTypes } from "./SideDrawerField/SupportedTypes";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Array({ value }: IDisplayCellProps) {

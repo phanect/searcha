@@ -1,11 +1,10 @@
-import { useSearchParams, Link } from "react-router-dom";
+import { Link as MuiLink, Typography } from "@mui/material";
 
-import { Typography, Link as MuiLink } from "@mui/material";
-
-import AuthLayout from "@src/layouts/AuthLayout";
 import FirebaseUi from "@src/components/FirebaseUi";
 
 import { ROUTES } from "@src/constants/routes";
+import AuthLayout from "@src/layouts/AuthLayout";
+import { Link, useSearchParams } from "react-router-dom";
 import type { auth } from "firebaseui";
 
 export default function SignUpPage() {

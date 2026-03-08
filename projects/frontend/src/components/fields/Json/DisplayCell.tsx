@@ -1,5 +1,5 @@
-import stringify from "json-stable-stringify-without-jsonify";
 import { useTheme } from "@mui/material";
+import stringify from "json-stable-stringify-without-jsonify";
 import type { IDisplayCellProps } from "@src/components/fields/types";
 
 export default function Json({ value }: IDisplayCellProps) {

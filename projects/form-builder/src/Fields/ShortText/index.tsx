@@ -1,9 +1,9 @@
-import { lazy } from "react";
 import FormTextbox from "mdi-material-ui/FormTextbox";
-import { FieldType } from "../../constants/fields";
+import { lazy } from "react";
 
 import Settings from "./ShortTextSettings";
 import validation from "./ShortTextValidation";
+import { FieldType } from "../../constants/fields";
 import type { IFieldConfig } from "../../types";
 const Component = lazy(
   () =>

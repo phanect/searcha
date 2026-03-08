@@ -1,5 +1,5 @@
-import DOMPurify from "dompurify";
 import { styled } from "@mui/material";
+import DOMPurify from "dompurify";
 
 const StyledHtml = styled("div")(({ theme }) => ({
   maxWidth: "33em",

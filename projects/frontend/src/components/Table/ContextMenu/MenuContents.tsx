@@ -1,41 +1,40 @@
-import { Fragment, useContext } from "react";
-import { useAtom, useSetAtom } from "jotai";
-import { getFieldProp } from "@src/components/fields";
-import { find } from "lodash-es";
-
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import FilterIcon from "@mui/icons-material/FilterList";
+import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
 import { Divider } from "@mui/material";
 import {
+  Clear as ClearIcon,
   Copy as CopyIcon,
   CopyCells as DuplicateIcon,
-  Clear as ClearIcon,
   Row as RowIcon,
 } from "@src/assets/icons";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import OpenIcon from "@mui/icons-material/OpenInNewOutlined";
-import FilterIcon from "@mui/icons-material/FilterList";
 
 import {
-  ProjectScopeContext,
-  projectIdAtom,
-  userRolesAtom,
   altPressAtom,
   confirmDialogAtom,
+  projectIdAtom,
+  ProjectScopeContext,
   updateUserSettingsAtom,
+  userRolesAtom,
 } from "@src/atoms/projectScope";
 import {
-  TableScopeContext,
-  tableSettingsAtom,
-  tableSchemaAtom,
-  tableRowsAtom,
-  selectedCellAtom,
+  _updateRowDbAtom,
   addRowAtom,
   deleteRowAtom,
+  selectedCellAtom,
+  tableRowsAtom,
+  tableSchemaAtom,
+  TableScopeContext,
+  tableSettingsAtom,
   updateFieldAtom,
-  _updateRowDbAtom,
   tableIdAtom,
 } from "@src/atoms/tableScope";
+import { getFieldProp } from "@src/components/fields";
 import { FieldType } from "@src/constants/fields";
 import { generateId } from "@src/utils/table";
+import { useAtom, useSetAtom } from "jotai";
+import { find } from "lodash-es";
+import { Fragment, useContext } from "react";
 import ContextMenuItem from "./ContextMenuItem";
 import type { TableRow } from "@src/types/table";
 import type { IContextMenuItem } from "./ContextMenuItem";

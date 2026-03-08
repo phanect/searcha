@@ -1,21 +1,20 @@
-import { useContext, useState } from "react";
-import { useSetAtom } from "jotai";
-import { isEqual } from "lodash-es";
-import useStateRef from "react-usestateref";
-
-import { Grid2 as Grid, TextField, FormControlLabel, Switch } from "@mui/material";
-
+import { FormControlLabel, Grid2 as Grid, Switch, TextField } from "@mui/material";
+import { confirmDialogAtom, ProjectScopeContext } from "@src/atoms/projectScope";
 import Modal from "@src/components/Modal";
 import SteppedAccordion from "@src/components/SteppedAccordion";
-import { ProjectScopeContext, confirmDialogAtom } from "@src/atoms/projectScope";
+import { useSetAtom } from "jotai";
+import { isEqual } from "lodash-es";
+import { useContext, useState } from "react";
+import useStateRef from "react-usestateref";
+
 import Step1Triggers from "./Step1Triggers";
 import Step2RequiredFields from "./Step2RequiredFields";
 import Step3Conditions from "./Step3Conditions";
 import Step4Body from "./Step4Body";
 
 import { extensionNames } from "./utils";
-import type { IExtension } from "./utils";
 import type { IModalProps } from "@src/components/Modal";
+import type { IExtension } from "./utils";
 
 type StepValidation = Record<"condition" | "extensionBody", boolean>;
 export type IExtensionModalStepProps = {
