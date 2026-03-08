@@ -3,9 +3,9 @@ import { useWatch } from "react-hook-form";
 import { startCase } from "lodash-es";
 import {
   ShortTextComponent,
-} from "@phanect/datasheet-form-builder";
+} from "@phanect/searcha-form-builder";
 import type {
-  IShortTextComponentProps } from "@phanect/datasheet-form-builder";
+  IShortTextComponentProps } from "@phanect/searcha-form-builder";
 
 export type ITableNameProps = {
   watchedField?: string;

@@ -1,6 +1,6 @@
 import { mapValues } from "lodash-es";
 
-const homepage = "https://datasheet.phanective.org";
+const homepage = "https://searcha.phanective.org";
 const rowyRun = "https://github.com/phanect/rowy-backend";
 
 export const EXTERNAL_LINKS = {

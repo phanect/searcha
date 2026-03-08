@@ -1,7 +1,7 @@
 import { Typography, Link } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { DATE_FORMAT } from "@src/constants/dates";
 import { EXTERNAL_LINKS } from "@src/constants/externalLinks";
 import type { ISettingsProps } from "@src/components/fields/types";

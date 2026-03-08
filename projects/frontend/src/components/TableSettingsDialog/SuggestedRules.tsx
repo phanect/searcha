@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 import { ProjectScopeContext, projectIdAtom } from "@src/atoms/projectScope";
-import type { IFieldComponentProps } from "@phanect/datasheet-form-builder";
+import type { IFieldComponentProps } from "@phanect/searcha-form-builder";
 
 type customizationOptions = "allRead" | "authRead" | "subcollections" | "user";
 

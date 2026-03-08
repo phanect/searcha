@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { startCase } from "lodash-es";
 
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { Typography, Link } from "@mui/material";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 

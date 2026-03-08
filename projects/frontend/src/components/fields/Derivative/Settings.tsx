@@ -2,7 +2,7 @@ import { lazy, Suspense, useContext, useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 
 import { Grid2 as Grid, InputLabel, FormHelperText } from "@mui/material";
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import FieldSkeleton from "@src/components/SideDrawer/FieldSkeleton";
 import FieldsDropdown from "@src/components/ColumnModals/FieldsDropdown";
 import CodeEditorHelper from "@src/components/CodeEditor/CodeEditorHelper";

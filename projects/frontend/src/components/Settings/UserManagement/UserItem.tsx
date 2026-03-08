@@ -13,7 +13,7 @@ import {
 import { Copy as CopyIcon } from "@src/assets/icons";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import EmojiAvatar from "@src/components/EmojiAvatar";
 
 import {

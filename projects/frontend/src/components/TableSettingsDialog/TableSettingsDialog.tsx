@@ -8,7 +8,7 @@ import { string } from "yup";
 
 import { DialogContentText, Stack, Typography } from "@mui/material";
 
-import { FormDialog, FormFields, type CustomComponents } from "@phanect/datasheet-form-builder";
+import { FormDialog, FormFields, type CustomComponents } from "@phanect/searcha-form-builder";
 import SteppedAccordion from "@src/components/SteppedAccordion";
 
 import {

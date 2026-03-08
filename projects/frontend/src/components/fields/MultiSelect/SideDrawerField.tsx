@@ -1,6 +1,6 @@
 import { Grid2 as Grid, Button, Tooltip, useTheme } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
-import MultiSelectComponent from "@phanect/datasheet-multiselect";
+import MultiSelectComponent from "@phanect/searcha-multiselect";
 import FormattedChip from "@src/components/FormattedChip";
 
 import { fieldSx } from "@src/components/SideDrawer/utils";

@@ -1,4 +1,4 @@
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import type { ISettingsProps } from "@src/components/fields/types";
 
 const languages = [

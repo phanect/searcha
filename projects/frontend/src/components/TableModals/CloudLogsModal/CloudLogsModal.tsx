@@ -22,7 +22,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 import Modal from "@src/components/Modal";
 import TableToolbarButton from "@src/components/TableToolbar/TableToolbarButton";
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import EmptyState from "@src/components/EmptyState";
 import {
   ProjectScopeContext,

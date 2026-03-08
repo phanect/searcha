@@ -1,4 +1,4 @@
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 
 import { getFieldId } from "@src/components/SideDrawer/utils";
 import getLabel from "./utils/getLabelHelper";

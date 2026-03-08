@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useContext } from "react";
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { Stack, Typography, Chip } from "@mui/material";
 import { TableColumn as TableColumnIcon } from "@src/assets/icons";
 
@@ -11,7 +11,7 @@ import { spreadSx } from "@src/utils/ui";
 import type { ColumnConfig } from "@src/types/table";
 import type { FieldType } from "@src/constants/fields";
 import type { StackProps } from "@mui/material";
-import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
+import type { MultiSelectProps } from "@phanect/searcha-multiselect";
 
 export type ColumnOption = {
   value: string;

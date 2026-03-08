@@ -1,4 +1,4 @@
-import { FormDialog, type IFormDialogProps } from "@phanect/datasheet-form-builder";
+import { FormDialog, type IFormDialogProps } from "@phanect/searcha-form-builder";
 import type { ColumnConfig } from "@src/types/table.d.ts";
 
 export type ParamsDialogProps = {

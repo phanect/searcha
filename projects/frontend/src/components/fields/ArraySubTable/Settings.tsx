@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useContext } from "react";
 
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { FieldType } from "@src/constants/fields";
 
 import { TableScopeContext, tableColumnsOrderedAtom } from "@src/atoms/tableScope";

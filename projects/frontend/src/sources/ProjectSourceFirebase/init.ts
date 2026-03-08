@@ -18,7 +18,7 @@ if (
   throw new Error(`Unexpected VITE_ENV value: "${ import.meta.env.VITE_ENV }"`);
 }
 
-const projectId = `phanect-datasheet-${ import.meta.env.VITE_ENV }`;
+const projectId = `phanect-searcha-${ import.meta.env.VITE_ENV }`;
 
 export const envConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_PROJECT_WEB_API_KEY,

@@ -7,7 +7,7 @@ import { atomWithStorage } from "jotai/utils";
 import { useSnackbar } from "notistack";
 
 import { Button } from "@mui/material";
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import Loading from "@src/components/Loading";
 import InlineOpenInNewIcon from "@src/components/InlineOpenInNewIcon";
 
@@ -15,7 +15,7 @@ import { ProjectScopeContext, rowyRunAtom } from "@src/atoms/projectScope";
 import { TableScopeContext } from "@src/atoms/tableScope";
 import { runRoutes } from "@src/constants/runRoutes";
 import { WIKI_LINKS } from "@src/constants/externalLinks";
-import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
+import type { MultiSelectProps } from "@phanect/searcha-multiselect";
 
 const algoliaSearchKeysAtom = atomWithStorage(
   "__ROWY__ALGOLIA_SEARCH_KEYS",

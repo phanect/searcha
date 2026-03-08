@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import { ListItemIcon, Typography } from "@mui/material";
 import Fuse from 'fuse.js';
 

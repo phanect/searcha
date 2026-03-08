@@ -1,7 +1,7 @@
 import { lazy, Suspense, useContext, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useAtom } from "jotai";
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 
 import { Grid2 as Grid, InputLabel, Stack, FormHelperText, Box } from "@mui/material";
 

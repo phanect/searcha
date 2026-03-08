@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
 import { useAtom } from "jotai";
 
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect from "@phanect/searcha-multiselect";
 import {
   Avatar,
   Box,

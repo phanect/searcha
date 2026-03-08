@@ -1,6 +1,5 @@
-import MultiSelect from "@phanect/datasheet-multiselect";
+import MultiSelect, { type MultiSelectProps } from "@phanect/searcha-multiselect";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
 import type { IFieldComponentProps } from "../../types";
 
 import type { ReactNode } from "react";

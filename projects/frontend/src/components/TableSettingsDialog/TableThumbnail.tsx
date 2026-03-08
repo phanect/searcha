@@ -11,7 +11,7 @@ import {
 } from "@mui/icons-material";
 
 import { imageMimeTypes } from "@src/components/fields/Image";
-import type { IFieldComponentProps } from "@phanect/datasheet-form-builder";
+import type { IFieldComponentProps } from "@phanect/searcha-form-builder";
 
 export default function TableThumbnail({ ...props }: IFieldComponentProps) {
   const {

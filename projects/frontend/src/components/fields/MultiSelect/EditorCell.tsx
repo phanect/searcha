@@ -1,6 +1,6 @@
 import { Typography, Button } from "@mui/material";
 import WarningIcon from "@mui/icons-material/WarningAmber";
-import MultiSelectComponent from "@phanect/datasheet-multiselect";
+import MultiSelectComponent from "@phanect/searcha-multiselect";
 import EmptyState from "@src/components/EmptyState";
 
 import { sanitiseValue } from "./utils";

@@ -1,7 +1,6 @@
-import MultiSelect from "@phanect/datasheet-multiselect";
 import { TextField, MenuItem } from "@mui/material";
+import MultiSelect, { type MultiSelectProps } from "@phanect/searcha-multiselect";
 import FieldAssistiveText from "../../FieldAssistiveText";
-import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
 
 import type { FilledTextFieldProps } from "@mui/material";
 import type { IFieldComponentProps } from "../../types";

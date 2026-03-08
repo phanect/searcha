@@ -10,7 +10,7 @@ import { ChevronDown as ChevronDownIcon } from "@src/assets/icons";
 import { SvgIcon } from "@mui/material";
 import CircularProgressOptical from "@src/components/CircularProgressOptical";
 import { toRem } from "./typography";
-import type { MultiSelectProps } from "@phanect/datasheet-multiselect";
+import type { MultiSelectProps } from "@phanect/searcha-multiselect";
 import type { Theme, ThemeOptions } from "@mui/material/styles";
 import type {} from "@mui/lab/themeAugmentation";
 

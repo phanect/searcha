@@ -1,4 +1,4 @@
-import MultiSelectComponent from "@phanect/datasheet-multiselect";
+import MultiSelectComponent from "@phanect/searcha-multiselect";
 import type { IEditorCellProps } from "@src/components/fields/types";
 
 export default function StatusSingleSelect({
