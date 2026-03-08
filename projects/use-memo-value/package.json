@@ -51,12 +51,6 @@
   "peerDependencies": {
     "react": "^16.8.0"
   },
-  "lint-staged": {
-    "*": [
-      "prettier --write",
-      "git add"
-    ]
-  },
   "ava": {
     "extensions": [
       "ts",
