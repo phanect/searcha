@@ -18,7 +18,7 @@
     "dev": "nodemon",
     "build": "tsc;cpy --cwd=src --parents '**/*.json' ../build/",
     "lint": "tsc --noEmit",
-    "deploy": "./.mise/tasks/deploy.sh --project"
+    "deploy": "./.mise/tasks/deploy.sh"
   },
   "dependencies": {
     "@google-cloud/logging": "^10.3.1",
