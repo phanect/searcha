@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/env/bin bash
 name=rowy-backend
 project_id=rowy-run
 yarn
