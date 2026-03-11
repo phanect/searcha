@@ -26,7 +26,7 @@ then
    helpFunction
 fi
 
-npm run build
+pnpm run build
 gcloud config set project $project_id
 gcloud builds submit --tag gcr.io/$project_id/$name
 gcloud run deploy $name --image gcr.io/$project_id/$name --platform managed --cpu 1000m --memory 2Gi --allow-unauthenticated --region $region
