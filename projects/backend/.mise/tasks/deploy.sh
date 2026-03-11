@@ -1,4 +1,7 @@
 #!/usr/env/bin bash
+
+set -eu
+
 name=rowy-backend
 region=us-central1
 helpFunction()
